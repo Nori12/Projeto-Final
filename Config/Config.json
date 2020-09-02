@@ -1,0 +1,16 @@
+{
+    "log_path":"/Users/atcha/Github/Projeto-Final/Logs",
+    "log_file":"Log",
+    "stock_targets": [
+        {
+            "name":"MGLU3",
+            "initial_date":"13/08/2020",
+            "final_date":"13/08/2020"
+        },
+        {
+            "name":"PETR3",
+            "initial_date":"14/08/2020",
+            "final_date":"15/08/2020"
+        }
+    ]
+}

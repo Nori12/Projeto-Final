@@ -1,4 +1,78 @@
 # %%
+
+# Read variables from Config file
+
+import json
+import logging
+from datetime import datetime
+import os
+
+config_filename = 'Config.json'
+
+logging.info('\n')
+logging.info('Preprocessing started')
+
+logging.debug('Opening '+config_filename+' file')
+
+try:
+    cfg_file = open('../Config/Config.json', 'r')
+except:
+    logging.error('Couldn''t open configuration file: '+config_filename)
+
+try:
+    config_json = json.load(cfg_file)
+except ValueError:
+    logging.error('Expected config file in JSON format. Is it corrupted?')
+
+# Get configuration variables
+stock_targets = config_json['stock_targets']
+log_file = config_json['log_file']
+log_path = config_json['log_path']
+cfg_file.close()
+
+# Configure logging
+log_filename = datetime.now().strftime(log_file+'_%d-%m-%Y.txt')
+
+logger = logging.getLogger()
+
+while logger.hasHandlers():
+    logger.removeHandler(logger.handlers[0])
+
+fhandler = logging.FileHandler(filename=os.path.join(log_path, log_filename), mode='a')
+formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+fhandler.setFormatter(formatter)
+logger.addHandler(fhandler)
+logger.setLevel(logging.DEBUG)
+
+# Store on local variables
+stock_names = [item['name'] for item in stock_targets]
+initial_days = [item['initial_date'] for item in stock_targets]
+final_days = [item['final_date'] for item in stock_targets]
+
+if (stock_names is None) or (initial_days is None) or (initial_days is None):
+    logging.error('Config file does not contain any valid stock')
+else:
+    for target in stock_targets:
+        logging.info('Stock: '+target['name']+'\tInital date: '+target['initial_date']+'\tFinal date: '+target['final_date'])
+
+# %%
+
+# Find all files available
+
+# import os
+# from datetime import datetime
+
+# initial_dates = [datetime.strptime(day, '%d/%m/%Y') for day in initial_days]
+# print(initial_dates)
+# final_dates = [datetime.strptime(day, '%d/%m/%Y') for day in final_days]
+
+# # final_dates = datetime.strptime(final_day, '%Y/%m/%d')
+
+# dirname = os.path.dirname(__file__)
+# filename = os.path.join(dirname, os.pardir, 'Raw Data Files', stock_name)
+
+
+# %%
 # Create Dataframe from CSV file
 
 import pandas as pd
