@@ -6,32 +6,14 @@ import json
 import logging
 from datetime import datetime
 import os
+import sys
 
 config_filename = 'Config.json'
-
-logging.info('\n')
-logging.info('Preprocessing started')
-
-logging.debug('Opening '+config_filename+' file')
-
-try:
-    cfg_file = open('../Config/Config.json', 'r')
-except:
-    logging.error('Couldn''t open configuration file: '+config_filename)
-
-try:
-    config_json = json.load(cfg_file)
-except ValueError:
-    logging.error('Expected config file in JSON format. Is it corrupted?')
-
-# Get configuration variables
-stock_targets = config_json['stock_targets']
-log_file = config_json['log_file']
-log_path = config_json['log_path']
-cfg_file.close()
+log_path = '/Users/atcha/Github/Projeto-Final/Logs'
+log_filename = 'Log'
 
 # Configure logging
-log_filename = datetime.now().strftime(log_file+'_%d-%m-%Y.txt')
+log_filename = datetime.now().strftime(log_filename+'_%d-%m-%Y.txt')
 
 logger = logging.getLogger()
 
@@ -44,33 +26,104 @@ fhandler.setFormatter(formatter)
 logger.addHandler(fhandler)
 logger.setLevel(logging.DEBUG)
 
-# Store on local variables
-stock_names = [item['name'] for item in stock_targets]
-initial_days = [item['initial_date'] for item in stock_targets]
-final_days = [item['final_date'] for item in stock_targets]
+logging.info('\n')
+logging.info('Preprocessing started')
 
-if (stock_names is None) or (initial_days is None) or (initial_days is None):
-    logging.error('Config file does not contain any valid stock')
-else:
-    for target in stock_targets:
-        logging.info('Stock: '+target['name']+'\tInital date: '+target['initial_date']+'\tFinal date: '+target['final_date'])
+logging.info('Reading '+config_filename+' file in path: '+log_path)
+
+try:
+    cfg_file = open('../Config/Config.json', 'r')
+except:
+    logging.error('Program aborted: Couldn''t open configuration file: '+config_filename)
+
+try:
+    config_json = json.load(cfg_file)
+except ValueError:
+    logging.error('Program aborted: Expected config file in JSON format. Is it corrupted?')
+
+# Get configuration variables
+stock_targets = config_json['stock_targets']
+ticks_files_path = config_json['ticks_files_path']
+cfg_file.close()
+
+# Store on local variables
+stock_names = [item['name'] for item in stock_targets if "name" in item.keys()]
+initial_days_str = [item['initial_date'] for item in stock_targets if "initial_date" in item.keys()]
+final_days_str = [item['final_date'] for item in stock_targets if "final_date" in item.keys()]
+
+if (stock_names is None) or (initial_days_str is None) or (final_days_str is None):
+    logging.error('Program aborted: Config file does not contain any valid stock.')
+    sys.exit()
+
+if not(len(stock_names) == len(initial_days_str) == len(final_days_str)):
+    logging.error('Program aborted: Missing values in parameter "stock_targets" of the config file.')
+    sys.exit()
+
+if len(stock_names) != len(set(stock_names)):
+    print("Program aborted: Can't handle duplicate stocks for now.")
+
+initial_days = [datetime.strptime(day, '%d/%m/%Y') for day in initial_days_str]
+final_days = [datetime.strptime(day, '%d/%m/%Y') for day in final_days_str]
+
+for index, (start, end) in enumerate(zip(initial_days, final_days)):
+    if start > end:
+        logging.error('Program aborted: Final date greater than initial date for the stock "'+stock_names[index]+'".')
+        sys.exit()
+
+logging.info('Stocks parsed:')
+for target in stock_targets:
+    logging.info('Stock: '+target['name']+'\t\tInital date: '+target['initial_date']+'\t\tFinal date: '+target['final_date'])
 
 # %%
 
-# Find all files available
+# Look for stock ticks files
 
-# import os
-# from datetime import datetime
+from os import listdir
+from os.path import dirname, join, isfile, pardir
+from datetime import datetime
+import re
+import pandas as pd
 
-# initial_dates = [datetime.strptime(day, '%d/%m/%Y') for day in initial_days]
-# print(initial_dates)
-# final_dates = [datetime.strptime(day, '%d/%m/%Y') for day in final_days]
+logging.info('Checking existence of stock files')
 
-# # final_dates = datetime.strptime(final_day, '%Y/%m/%d')
+project_directory = dirname(__file__)
+ticks_files = join(project_directory, pardir, ticks_files_path)
+files_in_folder = [f for f in listdir(ticks_files) if isfile(join(ticks_files, f))]
 
-# dirname = os.path.dirname(__file__)
-# filename = os.path.join(dirname, os.pardir, 'Raw Data Files', stock_name)
+stock_valid_days = []
 
+for i, (stock, start_day, end_day) in enumerate(zip(stock_names, initial_days, final_days)):
+    days_list = pd.date_range(start_day, end_day, freq='d').to_pydatetime().tolist()
+    stock_valid_days.append([item for item in days_list if item.isoweekday() < 6])
+
+file_existence_flag = []
+
+for stock_index, days_given_stock in enumerate(stock_valid_days):
+    for day_index, days_in_stock in enumerate(days_given_stock):
+        filename_re = re.compile("^"+stock_names[stock_index]+"_"+str(days_in_stock.year)+str(days_in_stock.month)+str(days_in_stock.day)+r"[012]\d[0-5]\d_"+str(days_in_stock.year)+str(days_in_stock.month)+str(days_in_stock.day)+r"[012]\d[0-5]\d.csv$")
+        print(filename_re)
+        # Parei aqui:
+        # -Retornar lista bidimensional de dias_validos x ação do tipo bool;
+        # -Se houver mais de um arquivo por dia, gerar erro;
+        # -Atualizar log
+        results = [bool(re.match(filenames_re, item)) for item in files_in_folder]
+        
+
+    # filename_re = re.compile("^"+stock+"_"+str(day.year)+str(day.month)+str(day.day)+r"[012]\d[0-5]\d_"+str(day.year)+str(day.month)+str(day.day)+r"[012]\d[0-5]\d.csv$")
+    # results = [bool(re.match(filenames_re, item)) for item in files_in_folder]
+
+
+# filenames_re = re.compile(r"^([A-Z]{4}\d{1,2})_(20\d{2})(\d{2})(\d{2})(\d{2})(\d{2})_(20\d{2})(\d{2})(\d{2})(\d{2})(\d{2})\.csv$")
+# result = re.match(filenames_re, files_in_folder[0])
+# results = [bool(re.match(filenames_re, item)) for item in files_in_folder]
+# print(files_in_folder)
+# print(results)
+# is_matched = bool(result)
+
+# print(is_matched)
+
+datelist = pd.date_range(datetime.today(), periods=10).to_pydatetime().tolist()
+# print(datelist)
 
 # %%
 # Create Dataframe from CSV file

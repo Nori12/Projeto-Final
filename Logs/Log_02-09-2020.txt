@@ -1,6 +1,0 @@
-2020-09-02 01:30:12,980 - INFO - 
-
-2020-09-02 01:30:12,980 - INFO - Preprocessing started
-2020-09-02 01:30:12,980 - DEBUG - Opening Config.json file
-2020-09-02 01:30:12,987 - INFO - Stock: MGLU3	Inital date: 13/08/2020	Final date: 13/08/2020
-2020-09-02 01:30:12,988 - INFO - Stock: PETR3	Inital date: 14/08/2020	Final date: 15/08/2020

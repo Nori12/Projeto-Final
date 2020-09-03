@@ -1,16 +1,15 @@
 {
-    "log_path":"/Users/atcha/Github/Projeto-Final/Logs",
-    "log_file":"Log",
+    "ticks_files_path":"Raw Files",
     "stock_targets": [
         {
             "name":"MGLU3",
-            "initial_date":"13/08/2020",
-            "final_date":"13/08/2020"
+            "initial_date":"10/08/2020",
+            "final_date":"14/08/2020"
         },
         {
-            "name":"PETR3",
-            "initial_date":"14/08/2020",
-            "final_date":"15/08/2020"
+            "name":"BOVA11",
+            "initial_date":"10/08/2020",
+            "final_date":"14/08/2020"
         }
     ]
 }
