@@ -96,34 +96,33 @@ for i, (stock, start_day, end_day) in enumerate(zip(stock_names, initial_days, f
     days_list = pd.date_range(start_day, end_day, freq='d').to_pydatetime().tolist()
     stock_valid_days.append([item for item in days_list if item.isoweekday() < 6])
 
-file_existence_flag = []
+found_files = []
+found_files.append([])
+found_files.append([])
 
 for stock_index, days_given_stock in enumerate(stock_valid_days):
     for day_index, days_in_stock in enumerate(days_given_stock):
-        filename_re = re.compile("^"+stock_names[stock_index]+"_"+str(days_in_stock.year)+str(days_in_stock.month)+str(days_in_stock.day)+r"[012]\d[0-5]\d_"+str(days_in_stock.year)+str(days_in_stock.month)+str(days_in_stock.day)+r"[012]\d[0-5]\d.csv$")
-        print(filename_re)
-        # Parei aqui:
-        # -Retornar lista bidimensional de dias_validos x ação do tipo bool;
-        # -Se houver mais de um arquivo por dia, gerar erro;
-        # -Atualizar log
-        results = [bool(re.match(filenames_re, item)) for item in files_in_folder]
+        filename_re = re.compile(r"^"+stock_names[stock_index]+"_"+str(days_in_stock.year)+str(days_in_stock.month).zfill(2)+str(days_in_stock.day).zfill(2)+r"\d\d\d\d_"+str(days_in_stock.year)+str(days_in_stock.month).zfill(2)+str(days_in_stock.day).zfill(2)+r"[012]\d\d\d\.csv$")
+        results = [bool(re.match(filename_re, item)) for item in files_in_folder]
         
+        if sum(results) > 1:
+            logging.error('Program aborted: Only one file per day is allowed. Found '+str(sum(results))+' files for the stock "'+stock_names[stock_index]+'" on the date "'+days_in_stock.strftime('%d-%m-%Y')+'". Which one should be used?')
+            sys.exit()
 
-    # filename_re = re.compile("^"+stock+"_"+str(day.year)+str(day.month)+str(day.day)+r"[012]\d[0-5]\d_"+str(day.year)+str(day.month)+str(day.day)+r"[012]\d[0-5]\d.csv$")
-    # results = [bool(re.match(filenames_re, item)) for item in files_in_folder]
+        found_files[stock_index].append(any(results))
 
+number_of_files_found = sum(map(sum, found_files))
+total_files_searched = sum(map(len, found_files))
 
-# filenames_re = re.compile(r"^([A-Z]{4}\d{1,2})_(20\d{2})(\d{2})(\d{2})(\d{2})(\d{2})_(20\d{2})(\d{2})(\d{2})(\d{2})(\d{2})\.csv$")
-# result = re.match(filenames_re, files_in_folder[0])
-# results = [bool(re.match(filenames_re, item)) for item in files_in_folder]
-# print(files_in_folder)
-# print(results)
-# is_matched = bool(result)
-
-# print(is_matched)
-
-datelist = pd.date_range(datetime.today(), periods=10).to_pydatetime().tolist()
-# print(datelist)
+if number_of_files_found == total_files_searched:
+    logging.info('All files were found.')    
+else:
+    logging.error('Missing '+str(total_files_searched-number_of_files_found)+' file(s): ')
+    for stock_index, days_given_stock in enumerate(stock_valid_days):
+        for day_index, days_in_stock in enumerate(days_given_stock):
+            if found_files[stock_index][day_index] == False:
+                logging.error(stock_names[stock_index]+': '+days_in_stock.strftime('%d-%m-%Y'))
+    sys.exit()                
 
 # %%
 # Create Dataframe from CSV file
