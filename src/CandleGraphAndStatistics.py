@@ -44,6 +44,7 @@ except ValueError:
 # Get configuration variables
 stock_targets = config_json['stock_targets']
 ticks_files_path = config_json['ticks_files_path']
+holidays = config_json['holidays']
 cfg_file.close()
 
 # Store on local variables
@@ -74,9 +75,12 @@ logging.info('Stocks parsed:')
 for target in stock_targets:
     logging.info('Stock: '+target['name']+'\t\tInital date: '+target['initial_date']+'\t\tFinal date: '+target['final_date'])
 
+# Output important variables:
+# stock_names, initial_days, final_days
+
 # %%
 
-# Look for stock ticks files
+# Validate stock ticks files
 
 from os import listdir
 from os.path import dirname, join, isfile, pardir
@@ -84,33 +88,54 @@ from datetime import datetime
 import re
 import pandas as pd
 
-logging.info('Checking existence of stock files')
+logging.info('Checking existence of stock files.')
 
-project_directory = dirname(__file__)
-ticks_files = join(project_directory, pardir, ticks_files_path)
-files_in_folder = [f for f in listdir(ticks_files) if isfile(join(ticks_files, f))]
+# Get all file names in the folder
+ticks_files_path_abs = join(dirname(__file__), pardir, ticks_files_path)
+files_in_folder = [f for f in listdir(ticks_files_path_abs) if isfile(join(ticks_files_path_abs, f))]
 
+# Generate list of all expected days for each stock
 stock_valid_days = []
-
+holidays_datetime = [datetime.strptime(item, '%d/%m/%Y') for item in holidays]
 for i, (stock, start_day, end_day) in enumerate(zip(stock_names, initial_days, final_days)):
+    
     days_list = pd.date_range(start_day, end_day, freq='d').to_pydatetime().tolist()
-    stock_valid_days.append([item for item in days_list if item.isoweekday() < 6])
+    stock_valid_days.append([item for item in days_list if (item.isoweekday() < 6) and (holidays_datetime.count(item) == 0)])
 
-found_files = []
-found_files.append([])
-found_files.append([])
+    if not stock_valid_days[i]:
+        logging.error('Program aborted: No valid day for the stock "'+stock+'". Did you consider weekends and holidays?')
+        sys.exit()
 
+# Check if the expected days have their ticks files
+
+found_files = []    # Auxiliary for data manipulation only
+stock_valid_files = []
+# For each stock
 for stock_index, days_given_stock in enumerate(stock_valid_days):
+    cumulative_files_flags = []
+    cumulative_filenames = []
+    
+    # For each day
     for day_index, days_in_stock in enumerate(days_given_stock):
-        filename_re = re.compile(r"^"+stock_names[stock_index]+"_"+str(days_in_stock.year)+str(days_in_stock.month).zfill(2)+str(days_in_stock.day).zfill(2)+r"\d\d\d\d_"+str(days_in_stock.year)+str(days_in_stock.month).zfill(2)+str(days_in_stock.day).zfill(2)+r"[012]\d\d\d\.csv$")
-        results = [bool(re.match(filename_re, item)) for item in files_in_folder]
         
-        if sum(results) > 1:
+        filename_re = re.compile(r"^"+stock_names[stock_index]+"_"+str(days_in_stock.year)+str(days_in_stock.month).zfill(2)+str(days_in_stock.day).zfill(2)+r"\d\d\d\d_"+str(days_in_stock.year)+str(days_in_stock.month).zfill(2)+str(days_in_stock.day).zfill(2)+r"[012]\d\d\d\.csv$")
+        results = [re.match(filename_re, item) for item in files_in_folder]
+
+        files_per_date = 0
+        for results_index, regex_match in enumerate(results):
+            if regex_match:
+                cumulative_filenames.append(regex_match.group(0))
+                files_per_date = files_per_date + 1
+        
+        if files_per_date > 1:
             logging.error('Program aborted: Only one file per day is allowed. Found '+str(sum(results))+' files for the stock "'+stock_names[stock_index]+'" on the date "'+days_in_stock.strftime('%d-%m-%Y')+'". Which one should be used?')
             sys.exit()
 
-        found_files[stock_index].append(any(results))
+        cumulative_files_flags.append(any(results))
+    found_files.append(cumulative_files_flags)
+    stock_valid_files.append(cumulative_filenames)
 
+# Analyse if the number of files found is the same as the expected
 number_of_files_found = sum(map(sum, found_files))
 total_files_searched = sum(map(len, found_files))
 
@@ -124,12 +149,19 @@ else:
                 logging.error(stock_names[stock_index]+': '+days_in_stock.strftime('%d-%m-%Y'))
     sys.exit()                
 
+# Output important variables:
+# stock_valid_files
+
+# %%
+
+import pandas as pd
+
 # %%
 # Create Dataframe from CSV file
 
 import pandas as pd
 
-filename = "MGLU3_202008130600_202008131945.csv"
+filename = "MGLU3_202008130600_202008131945.csv" 
 
 df_raw = pd.read_csv(filename, sep='\t')
 
