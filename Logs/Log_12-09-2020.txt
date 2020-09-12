@@ -1,0 +1,105 @@
+2020-09-12 02:01:20,988 - INFO - 
+
+2020-09-12 02:01:20,989 - INFO - Preprocessing started
+2020-09-12 02:01:20,989 - INFO - Reading Config.json file in path: /Users/atcha/Github/Projeto-Final/Logs
+2020-09-12 02:01:20,992 - INFO - Stocks which will be processed:
+2020-09-12 02:01:20,992 - INFO - Stock: MGLU3		Inital date: 10/08/2020		Final date: 12/08/2020
+2020-09-12 02:01:30,442 - INFO - Checking existence of stock files.
+2020-09-12 02:01:30,445 - INFO - All files were found.
+2020-09-12 02:08:18,244 - INFO - 
+
+2020-09-12 02:08:18,244 - INFO - Preprocessing started
+2020-09-12 02:08:18,245 - INFO - Reading Config.json file in path: /Users/atcha/Github/Projeto-Final/Logs
+2020-09-12 02:08:18,246 - INFO - Stocks which will be processed:
+2020-09-12 02:08:18,246 - INFO - Stock: MGLU3		Inital date: 10/08/2020		Final date: 12/08/2020
+2020-09-12 02:08:24,317 - INFO - Checking existence of stock files.
+2020-09-12 02:08:24,321 - INFO - All files were found.
+2020-09-12 02:16:05,666 - INFO - 
+
+2020-09-12 02:16:05,667 - INFO - Preprocessing started
+2020-09-12 02:16:05,667 - INFO - Reading Config.json file in path: /Users/atcha/Github/Projeto-Final/Logs
+2020-09-12 02:16:05,669 - INFO - Stocks which will be processed:
+2020-09-12 02:16:05,669 - INFO - Stock: MGLU3		Inital date: 10/08/2020		Final date: 12/08/2020
+2020-09-12 02:16:11,455 - INFO - Checking existence of stock files.
+2020-09-12 02:16:11,459 - INFO - All files were found.
+2020-09-12 02:18:13,444 - INFO - 
+
+2020-09-12 02:18:13,444 - INFO - Preprocessing started
+2020-09-12 02:18:13,445 - INFO - Reading Config.json file in path: /Users/atcha/Github/Projeto-Final/Logs
+2020-09-12 02:18:13,446 - INFO - Stocks which will be processed:
+2020-09-12 02:18:13,446 - INFO - Stock: MGLU3		Inital date: 10/08/2020		Final date: 12/08/2020
+2020-09-12 02:18:15,624 - INFO - 
+
+2020-09-12 02:18:15,624 - INFO - Preprocessing started
+2020-09-12 02:18:15,625 - INFO - Reading Config.json file in path: /Users/atcha/Github/Projeto-Final/Logs
+2020-09-12 02:18:15,627 - INFO - Stocks which will be processed:
+2020-09-12 02:18:15,627 - INFO - Stock: MGLU3		Inital date: 10/08/2020		Final date: 12/08/2020
+2020-09-12 02:18:17,355 - INFO - Checking existence of stock files.
+2020-09-12 02:18:38,271 - INFO - 
+
+2020-09-12 02:18:38,271 - INFO - Preprocessing started
+2020-09-12 02:18:38,271 - INFO - Reading Config.json file in path: /Users/atcha/Github/Projeto-Final/Logs
+2020-09-12 02:18:38,273 - INFO - Stocks which will be processed:
+2020-09-12 02:18:38,274 - INFO - Stock: MGLU3		Inital date: 10/08/2020		Final date: 12/08/2020
+2020-09-12 02:18:39,308 - INFO - Checking existence of stock files.
+2020-09-12 02:18:39,310 - INFO - All files were found.
+2020-09-12 02:22:07,392 - INFO - 
+
+2020-09-12 02:22:07,392 - INFO - Preprocessing started
+2020-09-12 02:22:07,392 - INFO - Reading Config.json file in path: /Users/atcha/Github/Projeto-Final/Logs
+2020-09-12 02:22:07,394 - INFO - Stocks which will be processed:
+2020-09-12 02:22:07,395 - INFO - Stock: MGLU3		Inital date: 10/08/2020		Final date: 10/08/2020
+2020-09-12 02:22:08,622 - INFO - Checking existence of stock files.
+2020-09-12 02:22:08,625 - INFO - All files were found.
+2020-09-12 02:35:51,536 - INFO - 
+
+2020-09-12 02:35:51,536 - INFO - Preprocessing started
+2020-09-12 02:35:51,536 - INFO - Reading Config.json file in path: /Users/atcha/Github/Projeto-Final/Logs
+2020-09-12 02:35:51,538 - INFO - Stocks which will be processed:
+2020-09-12 02:35:51,539 - INFO - Stock: MGLU3		Inital date: 10/08/2020		Final date: 10/08/2020
+2020-09-12 02:35:56,737 - INFO - Checking existence of stock files.
+2020-09-12 02:35:56,739 - INFO - All files were found.
+2020-09-12 02:52:14,029 - INFO - 
+
+2020-09-12 02:52:14,031 - INFO - Preprocessing started
+2020-09-12 02:52:14,031 - INFO - Reading Config.json file in path: /Users/atcha/Github/Projeto-Final/Logs
+2020-09-12 02:52:14,034 - INFO - Stocks which will be processed:
+2020-09-12 02:52:14,034 - INFO - Stock: MGLU3		Inital date: 10/08/2020		Final date: 10/08/2020
+2020-09-12 02:52:16,864 - INFO - Checking existence of stock files.
+2020-09-12 02:52:46,726 - INFO - 
+
+2020-09-12 02:52:46,727 - INFO - Preprocessing started
+2020-09-12 02:52:46,727 - INFO - Reading Config.json file in path: /Users/atcha/Github/Projeto-Final/Logs
+2020-09-12 02:52:46,729 - INFO - Stocks which will be processed:
+2020-09-12 02:52:46,730 - INFO - Stock: MGLU3		Inital date: 10/08/2020		Final date: 10/08/2020
+2020-09-12 02:52:53,399 - INFO - Checking existence of stock files.
+2020-09-12 02:53:33,715 - INFO - 
+
+2020-09-12 02:53:33,715 - INFO - Preprocessing started
+2020-09-12 02:53:33,715 - INFO - Reading Config.json file in path: /Users/atcha/Github/Projeto-Final/Logs
+2020-09-12 02:53:33,716 - INFO - Stocks which will be processed:
+2020-09-12 02:53:33,716 - INFO - Stock: MGLU3		Inital date: 10/08/2020		Final date: 10/08/2020
+2020-09-12 02:53:36,584 - INFO - Checking existence of stock files.
+2020-09-12 02:53:36,591 - INFO - All files were found.
+2020-09-12 03:06:10,797 - INFO - 
+
+2020-09-12 03:06:10,797 - INFO - Preprocessing started
+2020-09-12 03:06:10,797 - INFO - Reading Config.json file in path: /Users/atcha/Github/Projeto-Final/Logs
+2020-09-12 03:06:10,800 - INFO - Stocks which will be processed:
+2020-09-12 03:06:10,800 - INFO - Stock: MGLU3		Inital date: 10/08/2020		Final date: 10/08/2020
+2020-09-12 03:06:19,295 - INFO - 
+
+2020-09-12 03:06:19,296 - INFO - Preprocessing started
+2020-09-12 03:06:19,296 - INFO - Reading Config.json file in path: /Users/atcha/Github/Projeto-Final/Logs
+2020-09-12 03:06:19,298 - INFO - Stocks which will be processed:
+2020-09-12 03:06:19,298 - INFO - Stock: MGLU3		Inital date: 10/08/2020		Final date: 10/08/2020
+2020-09-12 03:06:23,158 - INFO - Checking existence of stock files.
+2020-09-12 03:06:23,160 - INFO - All files were found.
+2020-09-12 04:29:09,763 - INFO - 
+
+2020-09-12 04:29:09,763 - INFO - Preprocessing started
+2020-09-12 04:29:09,763 - INFO - Reading Config.json file in path: /Users/atcha/Github/Projeto-Final/Logs
+2020-09-12 04:29:09,764 - INFO - Stocks which will be processed:
+2020-09-12 04:29:09,765 - INFO - Stock: MGLU3		Inital date: 10/08/2020		Final date: 10/08/2020
+2020-09-12 04:29:13,004 - INFO - Checking existence of stock files.
+2020-09-12 04:29:13,007 - INFO - All files were found.

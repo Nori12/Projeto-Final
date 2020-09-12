@@ -20,12 +20,7 @@
     {
         "name":"MGLU3",
         "initial_date":"10/08/2020",
-        "final_date":"11/08/2020"
-    },
-    {
-        "name":"BOVA11",
-        "initial_date":"10/08/2020",
-        "final_date":"11/08/2020"
+        "final_date":"10/08/2020"
     }
     ]
 }

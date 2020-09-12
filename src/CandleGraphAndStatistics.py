@@ -71,7 +71,7 @@ for index, (start, end) in enumerate(zip(initial_days, final_days)):
         logging.error('Program aborted: Final date greater than initial date for the stock "'+stock_names[index]+'".')
         sys.exit()
 
-logging.info('Stocks parsed:')
+logging.info('Stocks which will be processed:')
 for target in stock_targets:
     logging.info('Stock: '+target['name']+'\t\tInital date: '+target['initial_date']+'\t\tFinal date: '+target['final_date'])
 
@@ -121,13 +121,13 @@ for stock_index, days_given_stock in enumerate(stock_valid_days):
         filename_re = re.compile(r"^"+stock_names[stock_index]+"_"+str(days_in_stock.year)+str(days_in_stock.month).zfill(2)+str(days_in_stock.day).zfill(2)+r"\d\d\d\d_"+str(days_in_stock.year)+str(days_in_stock.month).zfill(2)+str(days_in_stock.day).zfill(2)+r"[012]\d\d\d\.csv$")
         results = [re.match(filename_re, item) for item in files_in_folder]
 
-        files_per_date = 0
+        files_per_day = 0
         for results_index, regex_match in enumerate(results):
             if regex_match:
                 cumulative_filenames.append(regex_match.group(0))
-                files_per_date = files_per_date + 1
+                files_per_day = files_per_day + 1
         
-        if files_per_date > 1:
+        if files_per_day > 1:
             logging.error('Program aborted: Only one file per day is allowed. Found '+str(sum(results))+' files for the stock "'+stock_names[stock_index]+'" on the date "'+days_in_stock.strftime('%d-%m-%Y')+'". Which one should be used?')
             sys.exit()
 
@@ -154,44 +154,47 @@ else:
 
 # %%
 
-import pandas as pd
-
-# %%
-# Create Dataframe from CSV file
+# Create Dataframes from the files
+# Implemented only for stock_names[0]
 
 import pandas as pd
+from os.path import join
 
-filename = "MGLU3_202008130600_202008131945.csv" 
+for f in stock_valid_files[0]:
+    # df_raw = pd.concat(pd.read_csv(join(ticks_files_path_abs, f), sep='\t'))
+    df_raw = pd.read_csv(join(ticks_files_path_abs, f), sep='\t')
 
-df_raw = pd.read_csv(filename, sep='\t')
-
-# Change column names
 df_raw.columns = ['Date', 'Time', 'Bid', 'Ask', 'Last', 'Volume', 'Flags']
-
-# Combine Date and Time columns together and drop Time
 df_raw['Datetime'] = pd.to_datetime(df_raw['Date'] + " " + df_raw['Time'])
 df_raw = df_raw.drop(columns=['Time', 'Date'])
-df_raw.fillna(method='ffill', inplace=True)
-df_raw.dropna(inplace=True)
+df_raw['Bid'].fillna(method='ffill', inplace=True)
+df_raw['Ask'].fillna(method='ffill', inplace=True)
+df_raw['Last'].fillna(method='ffill', inplace=True)
+df_raw['Volume'].fillna(value=0, inplace=True)
 df_raw.set_index('Datetime', inplace=True)
 
 print(df_raw)
 
+# Output important variables:
+# df_raw
 # %%
 
-# Gerar Dataframe de Candles
+# Create Dataframe of candles
+# TODO:
+# Check if flag 96 alter volume for candle
+
 from datetime import datetime
 import numpy as np
 
-# Variáveis de entrada
-candle_min = 1
-start_frame = datetime(2020, 8, 13, 10, 0, 0)
-end_frame = datetime(2020, 8, 13, 17, 0, 0)
+# Input variables
+candle_sec = 300
+start_frame = datetime(2020, 8, 10, 10, 0, 0)
+end_frame = datetime(2020, 8, 10, 17, 0, 0)
 
-# Cria sequencia de candles
-candles_index = pd.date_range(start=start_frame, end=end_frame, freq=str(candle_min)+"min") # 'min' or 'T'
+# Sequence of candles
+candles_index = pd.date_range(start=start_frame, end=end_frame, freq=str(candle_sec)+"S") # 'min' or 'T'
 
-# Limpa candles sem dados
+# Clean empty candles
 while (len(df_raw.loc[candles_index[0]:candles_index[1]]) == 0):
     # print("Candle {} vazio removido".format(candles_index[0]))
     candles_index = candles_index.delete(0)
@@ -200,46 +203,50 @@ while (len(df_raw.loc[candles_index[-1]:end_frame]) == 0):
     # print("Candle {} vazio removido".format(candles_index[-1]))
     candles_index = candles_index.delete(-1)
 
-# Gera lista de preços máximos para cada candle
+# Create list of maximum prices for each candle
 max_prices = [df_raw.loc[candles_index[i]:candles_index[i+1]]['Last'].max() for i in range(len(candles_index)-1)]
 
-# Último candle precisa se inserido
+# Insert last candle
 if (df_raw.loc[candles_index[-1]:end_frame]['Last'].max() != np.nan):  
     max_prices.append(df_raw.loc[candles_index[-1]:end_frame]['Last'].max())
 
-# Gera lista de preços mínimos para cada candle
+# Create list of minimum prices for each candle
 min_prices = [df_raw.loc[candles_index[i]:candles_index[i+1]]['Last'].min() for i in range(len(candles_index)-1)]
 
-# Último candle precisa se inserido
+# Insert last candle
 if (df_raw.loc[candles_index[-1]:end_frame]['Last'].min() != np.nan):
     min_prices.append(df_raw.loc[candles_index[-1]:end_frame]['Last'].min())
 
-# Lista de índices do preço de fechamento em cada candle
+# Index list for closing prices of each candles
 close_prices_index = [df_raw.loc[df_raw.index <= candles_index[i+1], ['Last']].tail(1).index.values[0] for i in range(len(candles_index)-1)]
-# Último índice precisa se inserido manualmente
+# Insert last candle
 close_prices_index.append(df_raw.loc[df_raw.index < end_frame, ['Last']].tail(1).index.values[0])
-# Gera lista de valores e remove duplicatas
+# Get values list and remove duplicates
 close_prices = df_raw.loc[close_prices_index, ['Last']]
 close_prices = close_prices[~close_prices.index.duplicated(keep='last')]['Last'].to_list()
 
-# Lista de índices do preço de abertura em cada candle
+# Index price list of opening prices for each candle
 open_prices_index = [df_raw.loc[(df_raw.index >= candles_index[i]) & (df_raw['Last'] != close_prices[i-1]), ['Last']].head(1).index.values[0] for i in range(1, len(candles_index))]
-# Primeiro índice precisa se inserido manualmente
-open_prices_index.insert(0, df_raw.index.values[0])
-# Gera lista de valores e remove duplicatas
+# Insert first candle
+open_prices_index.insert(0, df_raw.loc[df_raw.index >= candles_index[0]].head(1).index.values[0])
+# Get values list and remove duplicates
 open_prices = df_raw.loc[open_prices_index, ['Last']]
 open_prices = open_prices[~open_prices.index.duplicated(keep='first')]['Last'].to_list()
 
-# Calcular volumes
-# volumes = [df_raw.loc[candles_index[i]:candles_index[i+1]]['Volume'].sum() for i in range(len(candles_index)-1)]
-# if (df_raw.loc[candles_index[-1]:end_frame]['Last'].min() != np.nan):
-# volumes.append(df_raw.loc[candles_index[-1]:end_frame]['Volume'].sum())
+# Calculate volumes
+volumes = [df_raw.loc[candles_index[i]:candles_index[i+1]]['Volume'].sum() for i in range(len(candles_index)-1)]
+if (df_raw.loc[candles_index[-1]:end_frame]['Last'].min() != np.nan):   #min here is just a way to check for null
+    volumes.append(df_raw.loc[candles_index[-1]:end_frame]['Volume'].sum())
 
 # Output: DataFrame de candles
 candles = pd.DataFrame({'Open':open_prices, 'Max':max_prices, 'Min':min_prices, 'Close':close_prices, 'Volume':volumes}, index=[candles_index])
 
+# Save to file
+candles.to_csv(r'/Users/atcha/Github/Projeto-Final/Processed Files/teste.csv', header=True)
 print(candles)
 
+# Output important variables:
+# candles
 # %%
 
 # Flags
