@@ -98,7 +98,7 @@ files_in_folder = [f for f in listdir(ticks_files_path_abs) if isfile(join(ticks
 stock_valid_days = []
 holidays_datetime = [datetime.strptime(item, '%d/%m/%Y') for item in holidays]
 for i, (stock, start_day, end_day) in enumerate(zip(stock_names, initial_days, final_days)):
-    
+
     days_list = pd.date_range(start_day, end_day, freq='d').to_pydatetime().tolist()
     stock_valid_days.append([item for item in days_list if (item.isoweekday() < 6) and (holidays_datetime.count(item) == 0)])
 
@@ -114,10 +114,10 @@ stock_valid_files = []
 for stock_index, days_given_stock in enumerate(stock_valid_days):
     cumulative_files_flags = []
     cumulative_filenames = []
-    
+
     # For each day
     for day_index, days_in_stock in enumerate(days_given_stock):
-        
+
         filename_re = re.compile(r"^"+stock_names[stock_index]+"_"+str(days_in_stock.year)+str(days_in_stock.month).zfill(2)+str(days_in_stock.day).zfill(2)+r"\d\d\d\d_"+str(days_in_stock.year)+str(days_in_stock.month).zfill(2)+str(days_in_stock.day).zfill(2)+r"[012]\d\d\d\.csv$")
         results = [re.match(filename_re, item) for item in files_in_folder]
 
@@ -126,7 +126,7 @@ for stock_index, days_given_stock in enumerate(stock_valid_days):
             if regex_match:
                 cumulative_filenames.append(regex_match.group(0))
                 files_per_day = files_per_day + 1
-        
+
         if files_per_day > 1:
             logging.error('Program aborted: Only one file per day is allowed. Found '+str(sum(results))+' files for the stock "'+stock_names[stock_index]+'" on the date "'+days_in_stock.strftime('%d-%m-%Y')+'". Which one should be used?')
             sys.exit()
@@ -140,14 +140,14 @@ number_of_files_found = sum(map(sum, found_files))
 total_files_searched = sum(map(len, found_files))
 
 if number_of_files_found == total_files_searched:
-    logging.info('All files were found.')    
+    logging.info('All files were found.')
 else:
     logging.error('Missing '+str(total_files_searched-number_of_files_found)+' file(s): ')
     for stock_index, days_given_stock in enumerate(stock_valid_days):
         for day_index, days_in_stock in enumerate(days_given_stock):
             if found_files[stock_index][day_index] == False:
                 logging.error(stock_names[stock_index]+': '+days_in_stock.strftime('%d-%m-%Y'))
-    sys.exit()                
+    sys.exit()
 
 # Output important variables:
 # stock_valid_files
@@ -177,45 +177,56 @@ print(df_raw)
 
 # Output important variables:
 # df_raw
+
 # %%
 
 # Create Dataframe of candles
 # TODO:
-# Check if flag 96 alter volume for candle
+# Maximum and minimum values must exclude last closing price
+# Volume has little error: Check if flag 96 alter volume for candle
 
-from datetime import datetime
+from datetime import datetime, timedelta
 import numpy as np
 
 # Input variables
-candle_sec = 300
+
+time_division = timedelta(days=1, seconds=0, microseconds=0, milliseconds=0, minutes=0, hours=0, weeks=0)
 start_frame = datetime(2020, 8, 10, 10, 0, 0)
-end_frame = datetime(2020, 8, 10, 17, 0, 0)
+end_frame = datetime(2020, 8, 10, 18, 0, 0)
 
 # Sequence of candles
+candle_sec = time_division.total_seconds()
+
 candles_index = pd.date_range(start=start_frame, end=end_frame, freq=str(candle_sec)+"S") # 'min' or 'T'
 
 # Clean empty candles
-while (len(df_raw.loc[candles_index[0]:candles_index[1]]) == 0):
-    # print("Candle {} vazio removido".format(candles_index[0]))
-    candles_index = candles_index.delete(0)
+indexes_to_remove = []
+for i in range(len(candles_index)-1):
+    if len(df_raw.loc[candles_index[i]:candles_index[i+1]]) == 0:
+        indexes_to_remove.append(i)
+    elif len(df_raw.loc[(df_raw.index >= candles_index[i]) & (df_raw.index < candles_index[i+1]) & (df_raw['Volume'] != 0.0)]) == 0:
+        indexes_to_remove.append(i)
 
-while (len(df_raw.loc[candles_index[-1]:end_frame]) == 0):
-    # print("Candle {} vazio removido".format(candles_index[-1]))
-    candles_index = candles_index.delete(-1)
+# Special verification for the last one
+if (end_frame-start_frame).total_seconds() % candle_sec == 0:
+    indexes_to_remove.append(len(candles_index)-1)
+
+candles_index = candles_index.delete(indexes_to_remove)
+
 
 # Create list of maximum prices for each candle
 max_prices = [df_raw.loc[candles_index[i]:candles_index[i+1]]['Last'].max() for i in range(len(candles_index)-1)]
-
 # Insert last candle
-if (df_raw.loc[candles_index[-1]:end_frame]['Last'].max() != np.nan):  
+if (df_raw.loc[candles_index[-1]:end_frame]['Last'].max() != np.nan):
     max_prices.append(df_raw.loc[candles_index[-1]:end_frame]['Last'].max())
+
 
 # Create list of minimum prices for each candle
 min_prices = [df_raw.loc[candles_index[i]:candles_index[i+1]]['Last'].min() for i in range(len(candles_index)-1)]
-
 # Insert last candle
 if (df_raw.loc[candles_index[-1]:end_frame]['Last'].min() != np.nan):
     min_prices.append(df_raw.loc[candles_index[-1]:end_frame]['Last'].min())
+
 
 # Index list for closing prices of each candles
 close_prices_index = [df_raw.loc[df_raw.index <= candles_index[i+1], ['Last']].tail(1).index.values[0] for i in range(len(candles_index)-1)]
@@ -225,18 +236,21 @@ close_prices_index.append(df_raw.loc[df_raw.index < end_frame, ['Last']].tail(1)
 close_prices = df_raw.loc[close_prices_index, ['Last']]
 close_prices = close_prices[~close_prices.index.duplicated(keep='last')]['Last'].to_list()
 
+
 # Index price list of opening prices for each candle
-open_prices_index = [df_raw.loc[(df_raw.index >= candles_index[i]) & (df_raw['Last'] != close_prices[i-1]), ['Last']].head(1).index.values[0] for i in range(1, len(candles_index))]
+open_prices_index = [df_raw.loc[(df_raw.index >= candles_index[i]) & (df_raw.index < candles_index[i]+time_division) & (df_raw['Last'] != close_prices[i-1]), ['Last']].head(1).index.values[0] if len(df_raw.loc[(df_raw.index >= candles_index[i]) & (df_raw.index < candles_index[i]+time_division) & (df_raw['Last'] != close_prices[i-1]), ['Last']]) != 0 else df_raw.loc[(df_raw.index >= candles_index[i]), ['Last']].head(1).index.values[0] for i in range(1, len(candles_index))]
 # Insert first candle
-open_prices_index.insert(0, df_raw.loc[df_raw.index >= candles_index[0]].head(1).index.values[0])
+open_prices_index.insert(0, df_raw.loc[df_raw.index >= start_frame].head(1).index.values[0])
 # Get values list and remove duplicates
 open_prices = df_raw.loc[open_prices_index, ['Last']]
 open_prices = open_prices[~open_prices.index.duplicated(keep='first')]['Last'].to_list()
+
 
 # Calculate volumes
 volumes = [df_raw.loc[candles_index[i]:candles_index[i+1]]['Volume'].sum() for i in range(len(candles_index)-1)]
 if (df_raw.loc[candles_index[-1]:end_frame]['Last'].min() != np.nan):   #min here is just a way to check for null
     volumes.append(df_raw.loc[candles_index[-1]:end_frame]['Volume'].sum())
+
 
 # Output: DataFrame de candles
 candles = pd.DataFrame({'Open':open_prices, 'Max':max_prices, 'Min':min_prices, 'Close':close_prices, 'Volume':volumes}, index=[candles_index])
@@ -247,14 +261,4 @@ print(candles)
 
 # Output important variables:
 # candles
-# %%
-
-# Flags
-TICK_FLAG_BID = 0b00000010  # Tick has changed a bid price
-TICK_FLAG_ASK = 0b00000100 # Tick has changed a ask price
-TICK_FLAG_LAST = 0b00001000 # Tick has changed the last deal price
-TICK_FLAG_VOLUME = 0b00010000   # Tick has changed a volume
-TICK_FLAG_BUY = 0b00100000  # Tick is a result of a buy deal
-TICK_FLAG_SELL = 0b01000000 # Tick is a result of a sell deal
-
 # %%
