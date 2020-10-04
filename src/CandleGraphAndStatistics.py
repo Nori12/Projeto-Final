@@ -84,9 +84,13 @@ for target in stock_targets:
 
 from os import listdir
 from os.path import dirname, join, isfile, pardir
-from datetime import datetime
+import glob
+import datetime
 import re
 import pandas as pd
+
+market_open_time = datetime.time(hour=10, minute=0, second=0)
+market_close_time = datetime.time(hour=17, minute=0, second=0)
 
 logging.info('Checking existence of stock files.')
 
@@ -96,7 +100,7 @@ files_in_folder = [f for f in listdir(ticks_files_path_abs) if isfile(join(ticks
 
 # Generate list of all expected days for each stock
 stock_valid_days = []
-holidays_datetime = [datetime.strptime(item, '%d/%m/%Y') for item in holidays]
+holidays_datetime = [datetime.datetime.strptime(item, '%d/%m/%Y') for item in holidays]
 for i, (stock, start_day, end_day) in enumerate(zip(stock_names, initial_days, final_days)):
 
     days_list = pd.date_range(start_day, end_day, freq='d').to_pydatetime().tolist()
@@ -106,51 +110,39 @@ for i, (stock, start_day, end_day) in enumerate(zip(stock_names, initial_days, f
         logging.error('Program aborted: No valid day for the stock "'+stock+'". Did you consider weekends and holidays?')
         sys.exit()
 
-# Check if the expected days have their ticks files
+stock_days_file_pointer = []
 
-found_files = []    # Auxiliary for data manipulation only
-stock_valid_files = []
-# For each stock
-for stock_index, days_given_stock in enumerate(stock_valid_days):
-    cumulative_files_flags = []
-    cumulative_filenames = []
+for stock_index, stock_name in enumerate(stock_names):
+    all_files_found_per_stock = glob.glob(join(ticks_files_path_abs, stock_name+'_*.csv'))
+    
+    filename_re = re.compile(r"^"+stock_names[stock_index]+"_"+r"(\d\d\d\d)(1[0-2]|0[1-9])(3[01]|[12][0-9]|0[1-9])([0-1]\d|2[0-3])([0-5]\d)_(\d\d\d\d)(1[0-2]|0[1-9])(3[01]|[12][0-9]|0[1-9])([0-1]\d|2[0-3])([0-5]\d)\.csv$")
+    results = [re.match(filename_re, item) for item in files_in_folder]
 
-    # For each day
-    for day_index, days_in_stock in enumerate(days_given_stock):
+    stock_days_file_pointer.append([None for i in range(len(stock_valid_days[stock_index]))])
 
-        filename_re = re.compile(r"^"+stock_names[stock_index]+"_"+str(days_in_stock.year)+str(days_in_stock.month).zfill(2)+str(days_in_stock.day).zfill(2)+r"\d\d\d\d_"+str(days_in_stock.year)+str(days_in_stock.month).zfill(2)+str(days_in_stock.day).zfill(2)+r"[012]\d\d\d\.csv$")
-        results = [re.match(filename_re, item) for item in files_in_folder]
+    for index, item in enumerate(results):
+        if item != None:
+            file_first_day = datetime.date(year=int(item.group(1)), month=int(item.group(2)), day=int(item.group(3)))
+            file_last_day = datetime.date(year=int(item.group(6)), month=int(item.group(7)), day=int(item.group(8)))
 
-        files_per_day = 0
-        for results_index, regex_match in enumerate(results):
-            if regex_match:
-                cumulative_filenames.append(regex_match.group(0))
-                files_per_day = files_per_day + 1
+            for day_index, day in enumerate(stock_valid_days[stock_index]):
+                if day.date() >= file_first_day and day.date() <= file_last_day:
+                    if stock_days_file_pointer[stock_index][day_index] is None:
+                        stock_days_file_pointer[stock_index][day_index] = item.group(0)
+                    else:
+                        logging.error('Program aborted: Day "'+str(day.date().strftime('%d/%m/%Y'))+'" overlapped for stock "'+stock_name+'". Please remove ambiguity.')
+                        sys.exit()                        
 
-        if files_per_day > 1:
-            logging.error('Program aborted: Only one file per day is allowed. Found '+str(sum(results))+' files for the stock "'+stock_names[stock_index]+'" on the date "'+days_in_stock.strftime('%d-%m-%Y')+'". Which one should be used?')
-            sys.exit()
+for stock_index, stock_name in enumerate(stock_names):
+    for day_index, file_pointer in enumerate(stock_days_file_pointer[stock_index]):
+        if file_pointer is None:
+            logging.error('Program aborted: "'+stock_name+'" -> Missing data for day "'+str(stock_valid_days[stock_index][day_index].date().strftime('%d/%m/%Y'))+'".')
+            sys.exit()                        
 
-        cumulative_files_flags.append(any(results))
-    found_files.append(cumulative_files_flags)
-    stock_valid_files.append(cumulative_filenames)
-
-# Analyse if the number of files found is the same as the expected
-number_of_files_found = sum(map(sum, found_files))
-total_files_searched = sum(map(len, found_files))
-
-if number_of_files_found == total_files_searched:
-    logging.info('All files were found.')
-else:
-    logging.error('Missing '+str(total_files_searched-number_of_files_found)+' file(s): ')
-    for stock_index, days_given_stock in enumerate(stock_valid_days):
-        for day_index, days_in_stock in enumerate(days_given_stock):
-            if found_files[stock_index][day_index] == False:
-                logging.error(stock_names[stock_index]+': '+days_in_stock.strftime('%d-%m-%Y'))
-    sys.exit()
+logging.info('All files found.')
 
 # Output important variables:
-# stock_valid_files
+# stock_valid_days, stock_days_file_pointer
 
 # %%
 
@@ -190,7 +182,7 @@ import numpy as np
 
 # Input variables
 
-time_division = timedelta(days=1, seconds=0, microseconds=0, milliseconds=0, minutes=0, hours=0, weeks=0)
+time_division = timedelta(days=0, seconds=30, microseconds=0, milliseconds=0, minutes=0, hours=0, weeks=0)
 start_frame = datetime(2020, 8, 10, 10, 0, 0)
 end_frame = datetime(2020, 8, 10, 18, 0, 0)
 
@@ -261,4 +253,28 @@ print(candles)
 
 # Output important variables:
 # candles
+# %%
+
+from sklearn.linear_model import Ridge
+from sklearn.model_selection import train_test_split
+
+X = candles.values.tolist()
+X.pop(-1)
+
+y = candles['Close'].values.tolist()
+y.pop(0)
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, random_state=0)
+
+ridge = Ridge(alpha=10).fit(X_train, y_train)
+
+print("Test set score: {:.2f}".format(ridge.score(X_test, y_test)))
+
+print(ridge.predict([X_test[2]]))
+
+print(X_test[2])
+
+
+
 # %%
