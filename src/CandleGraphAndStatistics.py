@@ -44,6 +44,7 @@ except ValueError:
 # Get configuration variables
 stock_targets = config_json['stock_targets']
 ticks_files_path = config_json['ticks_files_path']
+processed_files_path = config_json['processed_files_path']
 holidays = config_json['holidays']
 cfg_file.close()
 
@@ -83,7 +84,8 @@ for target in stock_targets:
 # Validate stock ticks files
 
 from os import listdir
-from os.path import dirname, join, isfile, pardir
+from os.path import dirname, join, isfile, pardir # delete later
+from pathlib import Path
 import glob
 import datetime
 import re
@@ -95,8 +97,8 @@ market_close_time = datetime.time(hour=17, minute=0, second=0)
 logging.info('Checking existence of stock files.')
 
 # Get all file names in the folder
-ticks_files_path_abs = join(dirname(__file__), pardir, ticks_files_path)
-files_in_folder = [f for f in listdir(ticks_files_path_abs) if isfile(join(ticks_files_path_abs, f))]
+data_folder = Path(__file__).parents[1] / ticks_files_path
+files_in_data_folder = [[f for f in data_folder.glob(stock+'*.csv')] for stock in stock_names]
 
 # Generate list of all expected days for each stock
 stock_valid_days = []
@@ -113,10 +115,8 @@ for i, (stock, start_day, end_day) in enumerate(zip(stock_names, initial_days, f
 stock_days_file_pointer = []
 
 for stock_index, stock_name in enumerate(stock_names):
-    all_files_found_per_stock = glob.glob(join(ticks_files_path_abs, stock_name+'_*.csv'))
-    
     filename_re = re.compile(r"^"+stock_names[stock_index]+"_"+r"(\d\d\d\d)(1[0-2]|0[1-9])(3[01]|[12][0-9]|0[1-9])([0-1]\d|2[0-3])([0-5]\d)_(\d\d\d\d)(1[0-2]|0[1-9])(3[01]|[12][0-9]|0[1-9])([0-1]\d|2[0-3])([0-5]\d)\.csv$")
-    results = [re.match(filename_re, item) for item in files_in_folder]
+    results = [re.match(filename_re, item.name) for item in files_in_data_folder[stock_index]]
 
     stock_days_file_pointer.append([None for i in range(len(stock_valid_days[stock_index]))])
 
@@ -139,10 +139,45 @@ for stock_index, stock_name in enumerate(stock_names):
             logging.error('Program aborted: "'+stock_name+'" -> Missing data for day "'+str(stock_valid_days[stock_index][day_index].date().strftime('%d/%m/%Y'))+'".')
             sys.exit()                        
 
-logging.info('All files found.')
+logging.info('Input ticks files found.')
 
 # Output important variables:
 # stock_valid_days, stock_days_file_pointer
+
+# %%
+
+# Verify if files were already processed
+
+# from os.path import dirname, join, isfile, pardir
+from pathlib import Path
+
+stocks_ok = [False]*len(stock_names)
+
+# Get all file names in the folder
+data_folder = Path(__file__).parents[1] / processed_files_path
+processed_files = [[f for f in (data_folder / stock).glob(stock+'*.csv')] for stock in stock_names]
+
+for stock_index, stock_name in enumerate(stock_names):
+    filename_week_re = re.compile(r"^"+stock_names[stock_index]+"_CANDLES_W_"+r"(\d\d\d\d)(1[0-2]|0[1-9])(3[01]|[12][0-9]|0[1-9])_(\d\d\d\d)(1[0-2]|0[1-9])(3[01]|[12][0-9]|0[1-9])\.csv$")
+    filename_day_re = re.compile(r"^"+stock_names[stock_index]+"_CANDLES_D_"+r"(\d\d\d\d)(1[0-2]|0[1-9])(3[01]|[12][0-9]|0[1-9])_(\d\d\d\d)(1[0-2]|0[1-9])(3[01]|[12][0-9]|0[1-9])\.csv$")
+    filename_60m_re = re.compile(r"^"+stock_names[stock_index]+"_CANDLES_60m_"+r"(\d\d\d\d)(1[0-2]|0[1-9])(3[01]|[12][0-9]|0[1-9])_(\d\d\d\d)(1[0-2]|0[1-9])(3[01]|[12][0-9]|0[1-9])\.csv$")
+ 
+    results_week = [re.match(filename_week_re, item.name) for item in processed_files[stock_index]]
+    results_day = [re.match(filename_day_re, item.name) for item in processed_files[stock_index]]
+    results_60m = [re.match(filename_60m_re, item.name) for item in processed_files[stock_index]]
+
+    if (results_week.count(None) != len(results_week) and
+            results_day.count(None) != len(results_day) and
+            results_60m.count(None) != len(results_60m)):
+        stocks_ok[stock_index] = True
+
+    if stocks_ok[stock_index] == True:
+        logging.info('Could not find processed files for stock "'+stock_name+'".')
+    else:
+        logging.info('Processed files found for stock "'+stock_name+'".')
+
+# Output important variables:
+# stocks_ok
 
 # %%
 
