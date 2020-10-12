@@ -1,5 +1,6 @@
 {
     "ticks_files_path":"Raw Files",
+    "processed_files_path":"Processed Files",
     "holidays": [
         "01/01/2020",
         "24/02/2020",
@@ -19,8 +20,13 @@
     "stock_targets": [
     {
         "name":"MGLU3",
-        "initial_date":"10/08/2020",
-        "final_date":"10/08/2020"
-    }
+        "initial_date":"03/08/2020",
+        "final_date":"25/09/2020"
+    },
+    {
+        "name":"BOVA11",
+        "initial_date":"03/08/2020",
+        "final_date":"25/09/2020"
+    } 
     ]
 }

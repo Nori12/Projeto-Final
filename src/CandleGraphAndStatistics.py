@@ -190,44 +190,57 @@ print('stock_names:\n\t'+str(stock_names))
 print('stocks_ok:\n\t'+str(stocks_ok))
 
 # %%
+
+# Generate all candle graphs
+
 import pandas as pd
 from pathlib import Path
 from datetime import datetime, time, timedelta
 import numpy as np
 
-# Input variables
-
+# ************************************* Input variables *************************************
 greater_time_division = timedelta(weeks=1, days=0, hours=0, minutes=0, seconds=0, microseconds=0, milliseconds=0)
 middle_time_division = timedelta(weeks=0, days=1, hours=0, minutes=0, seconds=0, microseconds=0, milliseconds=0)
 smaller_time_division = timedelta(weeks=0, days=0, hours=1, minutes=0, seconds=0, microseconds=0, milliseconds=0)
 market_open_time = time(hour=10, minute=0, second=0)
-market_close_time = time(hour=17, minute=0, second=0)
+market_close_time = time(hour=19, minute=0, second=0)
+# *******************************************************************************************
 
 all_time_divisions = [smaller_time_division, middle_time_division, greater_time_division]
 
-data_file_path = Path(__file__).parents[1] / ticks_files_path
+in_data_file_path = Path(__file__).parents[1] / ticks_files_path
+out_candles_path = [Path(__file__).parents[1] / processed_files_path/ stock 
+    if stocks_ok[index] == False else None for index, stock in enumerate(stock_names)]
 
-for index, (stock, status) in enumerate(zip(stock_names, stocks_ok)):
-    if status == True:
+for stock_index, (stock, status) in enumerate(zip(stock_names, stocks_ok)):
+    if status == False:
 
+        # Create folder if doesn't exist
+        out_candles_path[stock_index].mkdir(exist_ok=True)
+
+        # Delete previous candle graphs
+        files_to_delete = list(out_candles_path[stock_index].glob(stock+'_CANDLES_*.csv'))
+        for file_to_delete in files_to_delete:
+            file_to_delete.unlink()
+
+        # Prepare auxliary variables
         last_file_pointer= None
+        header_first_write_flag = [True]*len(all_time_divisions)
 
-        for day, file_pointer in zip(stock_valid_days[index], stock_days_file_pointer[index]):
+        for day, file_pointer in zip(stock_valid_days[stock_index], stock_days_file_pointer[stock_index]):
 
             start_frame = datetime.combine(day, market_open_time)
             end_frame = datetime.combine(day, market_close_time)
 
             # If file change, needs to reload dataframe
             if last_file_pointer != file_pointer:
-                if data_file_path.name != ticks_files_path:
-                    data_file_path = data_file_path.parent / file_pointer
-                    # print("Change:"+str(data_file_path))
+                if in_data_file_path.name != ticks_files_path:
+                    in_data_file_path = in_data_file_path.parent / file_pointer
                 else: # When it enters in this loop
-                    data_file_path = data_file_path / file_pointer
-                    # print("First:"+str(data_file_path))
+                    in_data_file_path = in_data_file_path / file_pointer
 
                 last_file_pointer = file_pointer
-                df_raw = pd.read_csv(data_file_path, sep='\t')
+                df_raw = pd.read_csv(in_data_file_path, sep='\t')
 
                 df_raw.columns = ['Date', 'Time', 'Bid', 'Ask', 'Last', 'Volume', 'Flags']
                 df_raw['Datetime'] = pd.to_datetime(df_raw['Date'] + " " + df_raw['Time'])
@@ -239,7 +252,7 @@ for index, (stock, status) in enumerate(zip(stock_names, stocks_ok)):
                 df_raw.set_index('Datetime', inplace=True)
             
             # Create and store candle data for each time division
-            for time_division in all_time_divisions:
+            for time_division_index, time_division in enumerate(all_time_divisions):
 
                 # Sequence of candles
                 candles_index = pd.date_range(start=start_frame, end=end_frame, freq=str(time_division.total_seconds())+"S")
@@ -282,7 +295,9 @@ for index, (stock, status) in enumerate(zip(stock_names, stocks_ok)):
                 # Index price list of opening prices for each candle
                 open_prices_index = [df_raw.loc[(df_raw.index >= candles_index[i]) & (df_raw.index < candles_index[i]+time_division) 
                     & (df_raw['Last'] != close_prices[i-1]), ['Last']].head(1).index.values[0] 
-                    if len(df_raw.loc[(df_raw.index >= candles_index[i]) & (df_raw.index < candles_index[i]+time_division) & (df_raw['Last'] != close_prices[i-1]), ['Last']]) != 0 else df_raw.loc[(df_raw.index >= candles_index[i]), ['Last']].head(1).index.values[0] for i in range(1, len(candles_index))]
+                    if len(df_raw.loc[(df_raw.index >= candles_index[i]) & (df_raw.index < candles_index[i]+time_division) 
+                        & (df_raw['Last'] != close_prices[i-1]), ['Last']]) != 0 else df_raw.loc[(df_raw.index >= candles_index[i]), ['Last']]
+                        .head(1).index.values[0] for i in range(1, len(candles_index))]
                 # Insert first candle
                 open_prices_index.insert(0, df_raw.loc[df_raw.index >= start_frame].head(1).index.values[0])
                 # Get values list and remove duplicates
@@ -296,147 +311,65 @@ for index, (stock, status) in enumerate(zip(stock_names, stocks_ok)):
 
                 candles = pd.DataFrame({'Open':open_prices, 'Max':max_prices, 'Min':min_prices, 'Close':close_prices, 'Volume':volumes}, index=[candles_index])
 
-                # Continue here -> save dataframes
-
-                # Save to file
-                candles.to_csv(r'/Users/atcha/Github/Projeto-Final/Processed Files/teste.csv', header=True)
-
-                
-
-
-
-
-# %%
-
-
-# Create Dataframes from the files
-# Implemented only for stock_names[0]
-
-import pandas as pd
-from os.path import join
-
-for f in stock_valid_files[0]:
-    df_raw = pd.concat(pd.read_csv(join(ticks_files_path_abs, f), sep='\t'))
-
-df_raw.columns = ['Date', 'Time', 'Bid', 'Ask', 'Last', 'Volume', 'Flags']
-df_raw['Datetime'] = pd.to_datetime(df_raw['Date'] + " " + df_raw['Time'])
-df_raw = df_raw.drop(columns=['Time', 'Date'])
-df_raw['Bid'].fillna(method='ffill', inplace=True)
-df_raw['Ask'].fillna(method='ffill', inplace=True)
-df_raw['Last'].fillna(method='ffill', inplace=True)
-df_raw['Volume'].fillna(value=0, inplace=True)
-df_raw.set_index('Datetime', inplace=True)
-
-print(df_raw)
-
-# Output important variables:
-# df_raw
-
-# %%
-
-# Create Dataframe of candles
-# TODO:
-# Maximum and minimum values must exclude last closing price
-# Volume has little error: Check if flag 96 alter volume for candle
-
-from datetime import datetime, timedelta
-import numpy as np
-
-# Input variables
-
-time_division = timedelta(days=0, seconds=30, microseconds=0, milliseconds=0, minutes=0, hours=0, weeks=0)
-start_frame = datetime(2020, 8, 10, 10, 0, 0)
-end_frame = datetime(2020, 8, 10, 18, 0, 0)
-
-# Sequence of candles
-candle_sec = time_division.total_seconds()
-
-candles_index = pd.date_range(start=start_frame, end=end_frame, freq=str(candle_sec)+"S") # 'min' or 'T'
-
-# Clean empty candles
-indexes_to_remove = []
-for i in range(len(candles_index)-1):
-    if len(df_raw.loc[candles_index[i]:candles_index[i+1]]) == 0:
-        indexes_to_remove.append(i)
-    elif len(df_raw.loc[(df_raw.index >= candles_index[i]) & (df_raw.index < candles_index[i+1]) & (df_raw['Volume'] != 0.0)]) == 0:
-        indexes_to_remove.append(i)
-
-# Special verification for the last one
-if (end_frame-start_frame).total_seconds() % candle_sec == 0:
-    indexes_to_remove.append(len(candles_index)-1)
-
-candles_index = candles_index.delete(indexes_to_remove)
+                # Save dataframes
+                time_scale = int(time_division.total_seconds())
+                if time_scale == 0 :
+                    logging.error('Output candle graph interval can not be less than 1 second.')
+                elif time_scale == 3600: # 1 Hour
+                    candles.to_csv(out_candles_path[stock_index] / (stock+'_CANDLES_1H_'+"{:4d}{:02d}{:02d}"
+                        .format(stock_valid_days[stock_index][0].year, stock_valid_days[stock_index][0].month, 
+                        stock_valid_days[stock_index][0].day)+'_'+"{:4d}{:02d}{:02d}"
+                        .format(stock_valid_days[stock_index][-1].year, stock_valid_days[stock_index][-1].month, 
+                        stock_valid_days[stock_index][-1].day)+'.csv'), 
+                        header=header_first_write_flag[time_division_index], mode='a')
 
 
-# Create list of maximum prices for each candle
-max_prices = [df_raw.loc[candles_index[i]:candles_index[i+1]]['Last'].max() for i in range(len(candles_index)-1)]
-# Insert last candle
-if (df_raw.loc[candles_index[-1]:end_frame]['Last'].max() != np.nan):
-    max_prices.append(df_raw.loc[candles_index[-1]:end_frame]['Last'].max())
+                    header_first_write_flag[time_division_index] = False
 
+                elif time_scale == 86400: # 1 Day
+                    candles.to_csv(out_candles_path[stock_index] / (stock+'_CANDLES_1D_'+"{:4d}{:02d}{:02d}"
+                        .format(stock_valid_days[stock_index][0].year, stock_valid_days[stock_index][0].month, 
+                        stock_valid_days[stock_index][0].day)+'_'+"{:4d}{:02d}{:02d}"
+                        .format(stock_valid_days[stock_index][-1].year, stock_valid_days[stock_index][-1].month, 
+                        stock_valid_days[stock_index][-1].day)+'.csv'), 
+                        header=header_first_write_flag[time_division_index], mode='a')
+                    
+                    header_first_write_flag[time_division_index] = False
+                    
+                elif time_scale == 604800: # 1 Week
 
-# Create list of minimum prices for each candle
-min_prices = [df_raw.loc[candles_index[i]:candles_index[i+1]]['Last'].min() for i in range(len(candles_index)-1)]
-# Insert last candle
-if (df_raw.loc[candles_index[-1]:end_frame]['Last'].min() != np.nan):
-    min_prices.append(df_raw.loc[candles_index[-1]:end_frame]['Last'].min())
+                    aux_file = out_candles_path[stock_index] / (stock+'_CANDLES_AUX_WEEK.csv')
 
+                    if aux_file.exists():
+                        candles.to_csv(aux_file, header=False, mode='a')
+                    else:
+                        candles.to_csv(aux_file, header=True, mode='w')
 
-# Index list for closing prices of each candles
-close_prices_index = [df_raw.loc[df_raw.index <= candles_index[i+1], ['Last']].tail(1).index.values[0] for i in range(len(candles_index)-1)]
-# Insert last candle
-close_prices_index.append(df_raw.loc[df_raw.index < end_frame, ['Last']].tail(1).index.values[0])
-# Get values list and remove duplicates
-close_prices = df_raw.loc[close_prices_index, ['Last']]
-close_prices = close_prices[~close_prices.index.duplicated(keep='last')]['Last'].to_list()
+                    # Compile and migrate data from aux file to final one
+                    if day.weekday() == 4 or day == stock_valid_days[stock_index][-1]: # Friday or last day
+                        acum_aux_file = pd.read_csv(aux_file, index_col=0, infer_datetime_format=True)
+                        acum_aux_file.index.name = 'Datetime'
+                        
+                        week_candle_data = {'Open': acum_aux_file.loc[acum_aux_file.index[0], 'Open'],
+                            'Max': acum_aux_file['Max'].max(), 'Min': acum_aux_file['Min'].min(), 
+                            'Close': acum_aux_file.loc[acum_aux_file.index[-1], 'Close'],
+                            'Volume': acum_aux_file['Volume'].sum()}
 
+                        candle_week = pd.DataFrame(week_candle_data, 
+                            columns=['Open', 'Max', 'Min', 'Close', 'Volume'], 
+                            index=[acum_aux_file.index[0]])
+                        # candle_week.set_index('Datetime', inplace=True)
+                                                
+                        candle_week.to_csv(out_candles_path[stock_index] / (stock+'_CANDLES_1W_'+"{:4d}{:02d}{:02d}"
+                            .format(stock_valid_days[stock_index][0].year, stock_valid_days[stock_index][0].month, 
+                            stock_valid_days[stock_index][0].day)+'_'+"{:4d}{:02d}{:02d}"
+                            .format(stock_valid_days[stock_index][-1].year, stock_valid_days[stock_index][-1].month, 
+                            stock_valid_days[stock_index][-1].day)+'.csv'), 
+                            header=header_first_write_flag[time_division_index], mode='a')
 
-# Index price list of opening prices for each candle
-open_prices_index = [df_raw.loc[(df_raw.index >= candles_index[i]) & (df_raw.index < candles_index[i]+time_division) & (df_raw['Last'] != close_prices[i-1]), ['Last']].head(1).index.values[0] if len(df_raw.loc[(df_raw.index >= candles_index[i]) & (df_raw.index < candles_index[i]+time_division) & (df_raw['Last'] != close_prices[i-1]), ['Last']]) != 0 else df_raw.loc[(df_raw.index >= candles_index[i]), ['Last']].head(1).index.values[0] for i in range(1, len(candles_index))]
-# Insert first candle
-open_prices_index.insert(0, df_raw.loc[df_raw.index >= start_frame].head(1).index.values[0])
-# Get values list and remove duplicates
-open_prices = df_raw.loc[open_prices_index, ['Last']]
-open_prices = open_prices[~open_prices.index.duplicated(keep='first')]['Last'].to_list()
+                        header_first_write_flag[time_division_index] = False
 
+                        aux_file.unlink()
 
-# Calculate volumes
-volumes = [df_raw.loc[candles_index[i]:candles_index[i+1]]['Volume'].sum() for i in range(len(candles_index)-1)]
-if (df_raw.loc[candles_index[-1]:end_frame]['Last'].min() != np.nan):   #min here is just a way to check for null
-    volumes.append(df_raw.loc[candles_index[-1]:end_frame]['Volume'].sum())
-
-
-# Output: DataFrame de candles
-candles = pd.DataFrame({'Open':open_prices, 'Max':max_prices, 'Min':min_prices, 'Close':close_prices, 'Volume':volumes}, index=[candles_index])
-
-# Save to file
-candles.to_csv(r'/Users/atcha/Github/Projeto-Final/Processed Files/teste.csv', header=True)
-print(candles)
-
-# Output important variables:
-# candles
-# %%
-
-from sklearn.linear_model import Ridge
-from sklearn.model_selection import train_test_split
-
-X = candles.values.tolist()
-X.pop(-1)
-
-y = candles['Close'].values.tolist()
-y.pop(0)
-
-X_train, X_test, y_train, y_test = train_test_split(
-    X, y, random_state=0)
-
-ridge = Ridge(alpha=10).fit(X_train, y_train)
-
-print("Test set score: {:.2f}".format(ridge.score(X_test, y_test)))
-
-print(ridge.predict([X_test[2]]))
-
-print(X_test[2])
-
-
-
+logging.info('Missing candle graphs created successfully')
 # %%
