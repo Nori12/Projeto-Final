@@ -79,11 +79,6 @@ for target in stock_targets:
 # Output important variables:
 # stock_names, initial_days, final_days
 
-print('stock_names:\n\t'+str(stock_names))
-print('initial_days:\n\t'+str(initial_days))
-print('final_days:\n\t'+str(final_days))
-
-
 # %%
 
 # Validate stock ticks files
@@ -147,10 +142,7 @@ for stock_index, stock_name in enumerate(stock_names):
 logging.info('Input ticks files found.')
 
 # Output important variables:
-# stock_valid_days, stock_days_file_pointer
-
-print('stock_valid_days:\n\t'+str(stock_valid_days))
-print('stock_days_file_pointer:\n\t'+str(stock_days_file_pointer))
+# stock_valid_days, stock_days_file_pointer, holidays_datetime
 
 # %%
 
@@ -165,9 +157,9 @@ data_folder = Path(__file__).parents[1] / processed_files_path
 processed_files = [[f for f in (data_folder / stock).glob(stock+'*.csv')] for stock in stock_names]
 
 for stock_index, stock_name in enumerate(stock_names):
-    filename_week_re = re.compile(r"^"+stock_names[stock_index]+"_CANDLES_W_"+r"(\d\d\d\d)(1[0-2]|0[1-9])(3[01]|[12][0-9]|0[1-9])_(\d\d\d\d)(1[0-2]|0[1-9])(3[01]|[12][0-9]|0[1-9])\.csv$")
-    filename_day_re = re.compile(r"^"+stock_names[stock_index]+"_CANDLES_D_"+r"(\d\d\d\d)(1[0-2]|0[1-9])(3[01]|[12][0-9]|0[1-9])_(\d\d\d\d)(1[0-2]|0[1-9])(3[01]|[12][0-9]|0[1-9])\.csv$")
-    filename_60m_re = re.compile(r"^"+stock_names[stock_index]+"_CANDLES_60m_"+r"(\d\d\d\d)(1[0-2]|0[1-9])(3[01]|[12][0-9]|0[1-9])_(\d\d\d\d)(1[0-2]|0[1-9])(3[01]|[12][0-9]|0[1-9])\.csv$")
+    filename_week_re = re.compile(r"^"+stock_names[stock_index]+"_CANDLES_1W_"+r"(\d\d\d\d)(1[0-2]|0[1-9])(3[01]|[12][0-9]|0[1-9])_(\d\d\d\d)(1[0-2]|0[1-9])(3[01]|[12][0-9]|0[1-9])\.csv$")
+    filename_day_re = re.compile(r"^"+stock_names[stock_index]+"_CANDLES_1D_"+r"(\d\d\d\d)(1[0-2]|0[1-9])(3[01]|[12][0-9]|0[1-9])_(\d\d\d\d)(1[0-2]|0[1-9])(3[01]|[12][0-9]|0[1-9])\.csv$")
+    filename_60m_re = re.compile(r"^"+stock_names[stock_index]+"_CANDLES_1H_"+r"(\d\d\d\d)(1[0-2]|0[1-9])(3[01]|[12][0-9]|0[1-9])_(\d\d\d\d)(1[0-2]|0[1-9])(3[01]|[12][0-9]|0[1-9])\.csv$")
  
     results_week = [re.match(filename_week_re, item.name) for item in processed_files[stock_index]]
     results_day = [re.match(filename_day_re, item.name) for item in processed_files[stock_index]]
@@ -210,7 +202,7 @@ all_time_divisions = [smaller_time_division, middle_time_division, greater_time_
 
 in_data_file_path = Path(__file__).parents[1] / ticks_files_path
 out_candles_path = [Path(__file__).parents[1] / processed_files_path/ stock 
-    if stocks_ok[index] == False else None for index, stock in enumerate(stock_names)]
+    for stock in stock_names]    
 
 for stock_index, (stock, status) in enumerate(zip(stock_names, stocks_ok)):
     if status == False:
@@ -250,6 +242,7 @@ for stock_index, (stock, status) in enumerate(zip(stock_names, stocks_ok)):
                 df_raw['Last'].fillna(method='ffill', inplace=True)
                 df_raw['Volume'].fillna(value=0, inplace=True)
                 df_raw.set_index('Datetime', inplace=True)
+                df_raw = df_raw[~(df_raw['Last']==0)]
             
             # Create and store candle data for each time division
             for time_division_index, time_division in enumerate(all_time_divisions):
@@ -372,4 +365,44 @@ for stock_index, (stock, status) in enumerate(zip(stock_names, stocks_ok)):
                         aux_file.unlink()
 
 logging.info('Missing candle graphs created successfully')
+
+
+# Output important variables:
+# out_candles_path
+
+# %%
+
+import plotly.graph_objects as go
+
+# Identify uptrend and downtrend
+
+analysis_status = {'LOW_PEAK': 0, 'HISG_PEAK': 1, 'UPTREND': 2, 'DOWNTREND': 3, 'CONSOLIDATION': 4}
+
+for stock_index, stock in enumerate(stock_names):
+    candle_files_per_stock = list(out_candles_path[stock_index].glob(stock+'_CANDLES_*.csv'))
+
+    for candle_file in candle_files_per_stock:
+        candle_raw = pd.read_csv(candle_file, index_col=0, infer_datetime_format=True)
+        candle_raw.index.name = 'Datetime'
+        candle_raw.index = pd.to_datetime(candle_raw.index)
+
+        # print(stock)
+        # print(candle_raw)
+
+        # fig = go.Figure(data=[go.Candlestick(x=candle_raw.index,
+        #                 open=candle_raw['Open'],
+        #                 high=candle_raw['Max'],
+        #                 low=candle_raw['Min'],
+        #                 close=candle_raw['Close'])])
+
+        # fig.update_xaxes(rangebreaks=[
+        #         dict(bounds=["sat", "mon"]),
+        #         dict(values=[holiday.timestamp()*1000 for holiday in holidays_datetime]),
+        #         dict(bounds=[market_close_time.hour+1, market_open_time.hour-1], pattern="hour") ])
+
+        # fig.show()
+
+        
+
+
 # %%
