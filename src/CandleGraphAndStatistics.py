@@ -373,35 +373,88 @@ logging.info('Missing candle graphs created successfully')
 # %%
 
 import plotly.graph_objects as go
+from scipy.signal import find_peaks
+import numpy as np
 
 # Identify uptrend and downtrend
 
-analysis_status = {'LOW_PEAK': 0, 'HISG_PEAK': 1, 'UPTREND': 2, 'DOWNTREND': 3, 'CONSOLIDATION': 4}
+analysis_status = {'LOW_PEAK': 0, 'HIGH_PEAK': 1, 'UPTREND': 2, 'DOWNTREND': 3, 'CONSOLIDATION': 4}
+
+dumb_flag = True
 
 for stock_index, stock in enumerate(stock_names):
     candle_files_per_stock = list(out_candles_path[stock_index].glob(stock+'_CANDLES_*.csv'))
 
-    for candle_file in candle_files_per_stock:
-        candle_raw = pd.read_csv(candle_file, index_col=0, infer_datetime_format=True)
-        candle_raw.index.name = 'Datetime'
-        candle_raw.index = pd.to_datetime(candle_raw.index)
+    for candle_file_index, candle_file in enumerate(candle_files_per_stock):
 
-        # print(stock)
-        # print(candle_raw)
+        if candle_file_index == 0:
+            candle_raw = pd.read_csv(candle_file, index_col=0, infer_datetime_format=True)
+            candle_raw.index.name = 'Datetime'
+            candle_raw.index = pd.to_datetime(candle_raw.index)
 
-        # fig = go.Figure(data=[go.Candlestick(x=candle_raw.index,
-        #                 open=candle_raw['Open'],
-        #                 high=candle_raw['Max'],
-        #                 low=candle_raw['Min'],
-        #                 close=candle_raw['Close'])])
+            max_peaks_index = find_peaks(candle_raw['Max'], distance=17)[0].tolist()
+            min_peaks_index = find_peaks(1/candle_raw['Min'], distance=17)[0].tolist()
 
-        # fig.update_xaxes(rangebreaks=[
-        #         dict(bounds=["sat", "mon"]),
-        #         dict(values=[holiday.timestamp()*1000 for holiday in holidays_datetime]),
-        #         dict(bounds=[market_close_time.hour+1, market_open_time.hour-1], pattern="hour") ])
+            # Max an Min peaks must be altenate each other. So deleting duplicate sequences...
+            for i in range(1, len(max_peaks_index)):
+                delete_candidates = [j for j in min_peaks_index if j >= max_peaks_index[i-1] and j < max_peaks_index[i]]
+                if len(delete_candidates) > 1:
+                    delete_candidates_values = [candle_raw.iloc[i, candle_raw.columns.get_loc('Min')] for i in delete_candidates]
+                    delete_candidates.remove(delete_candidates[delete_candidates_values.index(min(delete_candidates_values))])
+                    min_peaks_index = [i for i in min_peaks_index if i not in delete_candidates]
 
-        # fig.show()
+            for i in range(1, len(min_peaks_index)):
+                delete_candidates = [j for j in max_peaks_index if j >= min_peaks_index[i-1] and j < min_peaks_index[i]]
+                if len(delete_candidates) > 1:
+                    delete_candidates_values = [candle_raw.iloc[i, candle_raw.columns.get_loc('Max')] for i in delete_candidates]
+                    delete_candidates.remove(delete_candidates[delete_candidates_values.index(max(delete_candidates_values))])
+                    max_peaks_index = [i for i in max_peaks_index if i not in delete_candidates]
 
+            peaks = max_peaks_index + min_peaks_index
+            peaks.sort()
+
+            # Proccess graph
+            # data = [go.Candlestick(x=candle_raw.index,
+            #                 open=candle_raw['Open'],
+            #                 high=candle_raw['Max'],
+            #                 low=candle_raw['Min'],
+            #                 close=candle_raw['Close']),
+            #         go.Scatter(x=candle_raw.index,
+            #                 y=[candle_raw.iloc[x, candle_raw.columns.get_loc('Max')] if x in max_peaks_index else np.nan for x in range(candle_raw.index.size)],                          
+            #                 mode='markers',
+            #                 marker=dict(color='blue')),
+            #         go.Scatter(x=candle_raw.index,
+            #                 y=[candle_raw.iloc[x, candle_raw.columns.get_loc('Min')] if x in min_peaks_index else np.nan for x in range(candle_raw.index.size)],                          
+            #                 mode='markers',
+            #                 marker=dict(color='red')) ]
+
+            data = [go.Candlestick(x=candle_raw.index,
+                            open=candle_raw['Open'],
+                            high=candle_raw['Max'],
+                            low=candle_raw['Min'],
+                            close=candle_raw['Close']),
+                    go.Scatter(x=candle_raw.index,
+                            y=[candle_raw.iloc[x, candle_raw.columns.get_loc('Max')] if x in peaks else np.nan for x in range(candle_raw.index.size)],                          
+                            mode='lines+markers',
+                            connectgaps=True,
+                            marker=dict(color='blue'),
+                            marker_size=9) ]
+
+            layout = go.Layout(title=stock+' - ', yaxis_title='Price (R$)', xaxis_title='Time')
+
+            fig = go.Figure(data=data, layout=layout) # , title=stock+' - 1H', x="Time", y="Price (R$)"
+
+            fig.update_traces(marker=dict(size=9),
+                  selector=dict(mode='lines+markers'))
+
+            fig.update_xaxes(rangebreaks=[
+                    dict(bounds=["sat", "mon"]),
+                    dict(values=[holiday.timestamp()*1000 for holiday in holidays_datetime])
+                    # Creates a bug if added... :/
+                    #dict(bounds=[market_close_time.hour, market_open_time.hour], pattern="hour") 
+                    ])
+            
+            fig.show()
         
 
 
