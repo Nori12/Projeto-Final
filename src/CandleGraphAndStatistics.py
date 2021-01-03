@@ -379,6 +379,7 @@ import numpy as np
 # Identify uptrend and downtrend
 
 analysis_status = {'LOW_PEAK': 0, 'HIGH_PEAK': 1, 'UPTREND': 2, 'DOWNTREND': 3, 'CONSOLIDATION': 4}
+candles_min_peak_distance = 17
 
 dumb_flag = True
 
@@ -392,10 +393,10 @@ for stock_index, stock in enumerate(stock_names):
             candle_raw.index.name = 'Datetime'
             candle_raw.index = pd.to_datetime(candle_raw.index)
 
-            max_peaks_index = find_peaks(candle_raw['Max'], distance=17)[0].tolist()
-            min_peaks_index = find_peaks(1/candle_raw['Min'], distance=17)[0].tolist()
+            max_peaks_index = find_peaks(candle_raw['Max'], distance=candles_min_peak_distance)[0].tolist()
+            min_peaks_index = find_peaks(1.0/candle_raw['Min'], distance=candles_min_peak_distance)[0].tolist()
 
-            # Max an Min peaks must be altenate each other. So deleting duplicate sequences...
+            # Filter 1: Max an Min peaks must be altenate each other. So deleting duplicate sequences...
             for i in range(1, len(max_peaks_index)):
                 delete_candidates = [j for j in min_peaks_index if j >= max_peaks_index[i-1] and j < max_peaks_index[i]]
                 if len(delete_candidates) > 1:
@@ -413,20 +414,52 @@ for stock_index, stock in enumerate(stock_names):
             peaks = max_peaks_index + min_peaks_index
             peaks.sort()
 
+            # Filter 2: Remove monotonic peak sequences of N > 2
+            delete_candidates = []
+            for i in range(len(peaks)):
+                if i >= 2:
+                    current_value = 0
+                    if peaks[i] in max_peaks_index:
+                        current_value = candle_raw.iloc[peaks[i], candle_raw.columns.get_loc('Max')]
+                    else:
+                        current_value = candle_raw.iloc[peaks[i], candle_raw.columns.get_loc('Min')]
+
+                    ultimate_value = 0
+                    if peaks[i-1] in max_peaks_index:
+                        ultimate_value = candle_raw.iloc[peaks[i-1], candle_raw.columns.get_loc('Max')]
+                    else:
+                        ultimate_value = candle_raw.iloc[peaks[i-1], candle_raw.columns.get_loc('Min')]
+
+                    penultimate_value = 0
+                    if peaks[i-2] in max_peaks_index:
+                        penultimate_value = candle_raw.iloc[peaks[i-2], candle_raw.columns.get_loc('Max')]
+                    else:
+                        penultimate_value = candle_raw.iloc[peaks[i-2], candle_raw.columns.get_loc('Min')]
+
+                    if ((current_value > ultimate_value and ultimate_value > penultimate_value) or
+                        (current_value < ultimate_value and ultimate_value < penultimate_value)):
+                        
+                        if peaks[i-1] in max_peaks_index:
+                            max_peaks_index.remove(peaks[i-1])
+                        else:
+                            min_peaks_index.remove(peaks[i-1])
+                        # delete_candidates.append(peaks[i-1])
+                        print('deleted '+str(ultimate_value))
+
             # Proccess graph
-            # data = [go.Candlestick(x=candle_raw.index,
-            #                 open=candle_raw['Open'],
-            #                 high=candle_raw['Max'],
-            #                 low=candle_raw['Min'],
-            #                 close=candle_raw['Close']),
-            #         go.Scatter(x=candle_raw.index,
-            #                 y=[candle_raw.iloc[x, candle_raw.columns.get_loc('Max')] if x in max_peaks_index else np.nan for x in range(candle_raw.index.size)],                          
-            #                 mode='markers',
-            #                 marker=dict(color='blue')),
-            #         go.Scatter(x=candle_raw.index,
-            #                 y=[candle_raw.iloc[x, candle_raw.columns.get_loc('Min')] if x in min_peaks_index else np.nan for x in range(candle_raw.index.size)],                          
-            #                 mode='markers',
-            #                 marker=dict(color='red')) ]
+            data = [go.Candlestick(x=candle_raw.index,
+                            open=candle_raw['Open'],
+                            high=candle_raw['Max'],
+                            low=candle_raw['Min'],
+                            close=candle_raw['Close']),
+                    go.Scatter(x=candle_raw.index,
+                            y=[candle_raw.iloc[x, candle_raw.columns.get_loc('Max')] if x in max_peaks_index else np.nan for x in range(candle_raw.index.size)],                          
+                            mode='markers',
+                            marker=dict(color='blue')),
+                    go.Scatter(x=candle_raw.index,
+                            y=[candle_raw.iloc[x, candle_raw.columns.get_loc('Min')] if x in min_peaks_index else np.nan for x in range(candle_raw.index.size)],                          
+                            mode='markers',
+                            marker=dict(color='red')) ]
 
             data = [go.Candlestick(x=candle_raw.index,
                             open=candle_raw['Open'],
@@ -434,11 +467,24 @@ for stock_index, stock in enumerate(stock_names):
                             low=candle_raw['Min'],
                             close=candle_raw['Close']),
                     go.Scatter(x=candle_raw.index,
-                            y=[candle_raw.iloc[x, candle_raw.columns.get_loc('Max')] if x in peaks else np.nan for x in range(candle_raw.index.size)],                          
+                            y=[candle_raw.iloc[x, candle_raw.columns.get_loc('Max')] if x in max_peaks_index else candle_raw.iloc[x, candle_raw.columns.get_loc('Min')] if x in min_peaks_index else np.nan for x in range(candle_raw.index.size)],                          
                             mode='lines+markers',
                             connectgaps=True,
                             marker=dict(color='blue'),
-                            marker_size=9) ]
+                            marker_size=9)#, 
+                    # go.Scatter(x=candle_raw.index,
+                    #         y=[candle_raw.iloc[x, candle_raw.columns.get_loc('Max')] if x in max_peaks_index else np.nan for x in range(candle_raw.index.size)],                          
+                    #         mode='lines+markers',
+                    #         connectgaps=True,
+                    #         marker=dict(color='green'),
+                    #         marker_size=9), 
+                    # go.Scatter(x=candle_raw.index,
+                    #         y=[candle_raw.iloc[x, candle_raw.columns.get_loc('Min')] if x in min_peaks_index else np.nan for x in range(candle_raw.index.size)],                          
+                    #         mode='lines+markers',
+                    #         connectgaps=True,
+                    #         marker=dict(color='red'),
+                    #         marker_size=9) 
+                            ]
 
             layout = go.Layout(title=stock+' - ', yaxis_title='Price (R$)', xaxis_title='Time')
 
@@ -458,4 +504,7 @@ for stock_index, stock in enumerate(stock_names):
         
 
 
+# %%
+for i in range(len(peaks)):
+        print(i)
 # %%
