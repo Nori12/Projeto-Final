@@ -146,9 +146,8 @@ logging.info('Input ticks files found.')
 
 # %%
 
-# Verify if files were already processed
-
 from pathlib import Path
+from datetime import datetime
 
 stocks_ok = [False]*len(stock_names)
 
@@ -161,19 +160,35 @@ for stock_index, stock_name in enumerate(stock_names):
     filename_day_re = re.compile(r"^"+stock_names[stock_index]+"_CANDLES_1D_"+r"(\d\d\d\d)(1[0-2]|0[1-9])(3[01]|[12][0-9]|0[1-9])_(\d\d\d\d)(1[0-2]|0[1-9])(3[01]|[12][0-9]|0[1-9])\.csv$")
     filename_60m_re = re.compile(r"^"+stock_names[stock_index]+"_CANDLES_1H_"+r"(\d\d\d\d)(1[0-2]|0[1-9])(3[01]|[12][0-9]|0[1-9])_(\d\d\d\d)(1[0-2]|0[1-9])(3[01]|[12][0-9]|0[1-9])\.csv$")
  
-    results_week = [re.match(filename_week_re, item.name) for item in processed_files[stock_index]]
-    results_day = [re.match(filename_day_re, item.name) for item in processed_files[stock_index]]
-    results_60m = [re.match(filename_60m_re, item.name) for item in processed_files[stock_index]]
+    results_week_list = [re.match(filename_week_re, item.name) for item in processed_files[stock_index]]
+    results_day_list = [re.match(filename_day_re, item.name) for item in processed_files[stock_index]]
+    results_60m_list = [re.match(filename_60m_re, item.name) for item in processed_files[stock_index]]
 
-    if (results_week.count(None) != len(results_week) and
-            results_day.count(None) != len(results_day) and
-            results_60m.count(None) != len(results_60m)):
-        stocks_ok[stock_index] = True
+    if (results_week_list.count(None) != len(results_week_list) and
+            results_day_list.count(None) != len(results_day_list) and
+            results_60m_list.count(None) != len(results_60m_list)):
+        results_week = next(item for item in results_week_list if item is not None)
+        results_day = next(item for item in results_day_list if item is not None)
+        results_60m = next(item for item in results_60m_list if item is not None)
+
+        if (results_week is not None and results_day is not None and results_60m is not None):
+            week_start_day = datetime(int(results_week.group(1)), int(results_week.group(2)), int(results_week.group(3)))
+            day_start_day = datetime(int(results_day.group(1)), int(results_day.group(2)), int(results_day.group(3)))
+            _60m_start_day = datetime(int(results_60m.group(1)), int(results_60m.group(2)), int(results_60m.group(3)))
+
+            week_end_day = datetime(int(results_week.group(4)), int(results_week.group(5)), int(results_week.group(6)))
+            day_end_day = datetime(int(results_day.group(4)), int(results_day.group(5)), int(results_day.group(6)))
+            _60m_end_day = datetime(int(results_60m.group(4)), int(results_60m.group(5)), int(results_60m.group(6)))
+
+            if (stock_valid_days[stock_index][0] >= week_start_day and stock_valid_days[stock_index][-1] <=  week_end_day and
+                stock_valid_days[stock_index][0] >= day_start_day and stock_valid_days[stock_index][-1] <=  day_end_day and
+                stock_valid_days[stock_index][0] >= _60m_start_day and stock_valid_days[stock_index][-1] <=  _60m_end_day):
+                stocks_ok[stock_index] = True       
 
     if stocks_ok[stock_index] == True:
-        logging.info('Could not find processed files for stock "'+stock_name+'".')
-    else:
         logging.info('Processed files found for stock "'+stock_name+'".')
+    else:
+        logging.info('Could not find processed files for stock "'+stock_name+'".')
 
 # Output important variables:
 # stocks_ok
@@ -182,6 +197,8 @@ print('stock_names:\n\t'+str(stock_names))
 print('stocks_ok:\n\t'+str(stocks_ok))
 
 # %%
+# Improve: Add percentage improvement in log/console
+# Correct: In weekly candle graphs, candles after a holiday in weekend are not being calculated
 
 # Generate all candle graphs
 
@@ -371,6 +388,7 @@ logging.info('Missing candle graphs created successfully')
 # out_candles_path
 
 # %%
+# Correct: Adjust rangebreak to hour, day and week candle graph individually
 
 import plotly.graph_objects as go
 from scipy.signal import find_peaks
@@ -388,123 +406,128 @@ for stock_index, stock in enumerate(stock_names):
 
     for candle_file_index, candle_file in enumerate(candle_files_per_stock):
 
-        if candle_file_index == 0:
-            candle_raw = pd.read_csv(candle_file, index_col=0, infer_datetime_format=True)
-            candle_raw.index.name = 'Datetime'
-            candle_raw.index = pd.to_datetime(candle_raw.index)
+        candle_raw = pd.read_csv(candle_file, index_col=0, infer_datetime_format=True)
+        candle_raw.index.name = 'Datetime'
+        candle_raw.index = pd.to_datetime(candle_raw.index)
 
-            max_peaks_index = find_peaks(candle_raw['Max'], distance=candles_min_peak_distance)[0].tolist()
-            min_peaks_index = find_peaks(1.0/candle_raw['Min'], distance=candles_min_peak_distance)[0].tolist()
+        max_peaks_index = find_peaks(candle_raw['Max'], distance=candles_min_peak_distance)[0].tolist()
+        min_peaks_index = find_peaks(1.0/candle_raw['Min'], distance=candles_min_peak_distance)[0].tolist()
 
-            # Filter 1: Max an Min peaks must be altenate each other. So deleting duplicate sequences...
-            for i in range(1, len(max_peaks_index)):
-                delete_candidates = [j for j in min_peaks_index if j >= max_peaks_index[i-1] and j < max_peaks_index[i]]
-                if len(delete_candidates) > 1:
-                    delete_candidates_values = [candle_raw.iloc[i, candle_raw.columns.get_loc('Min')] for i in delete_candidates]
-                    delete_candidates.remove(delete_candidates[delete_candidates_values.index(min(delete_candidates_values))])
-                    min_peaks_index = [i for i in min_peaks_index if i not in delete_candidates]
+        # Filter 1: Max an min peaks must be altenate each other. So deleting duplicate sequences of ax or min...
+        for i in range(1, len(max_peaks_index)):
+            delete_candidates = [j for j in min_peaks_index if j >= max_peaks_index[i-1] and j < max_peaks_index[i]]
+            if len(delete_candidates) > 1:
+                delete_candidates_values = [candle_raw.iloc[i, candle_raw.columns.get_loc('Min')] for i in delete_candidates]
+                delete_candidates.remove(delete_candidates[delete_candidates_values.index(min(delete_candidates_values))])
+                min_peaks_index = [i for i in min_peaks_index if i not in delete_candidates]
 
-            for i in range(1, len(min_peaks_index)):
-                delete_candidates = [j for j in max_peaks_index if j >= min_peaks_index[i-1] and j < min_peaks_index[i]]
-                if len(delete_candidates) > 1:
-                    delete_candidates_values = [candle_raw.iloc[i, candle_raw.columns.get_loc('Max')] for i in delete_candidates]
-                    delete_candidates.remove(delete_candidates[delete_candidates_values.index(max(delete_candidates_values))])
-                    max_peaks_index = [i for i in max_peaks_index if i not in delete_candidates]
+        for i in range(1, len(min_peaks_index)):
+            delete_candidates = [j for j in max_peaks_index if j >= min_peaks_index[i-1] and j < min_peaks_index[i]]
+            if len(delete_candidates) > 1:
+                delete_candidates_values = [candle_raw.iloc[i, candle_raw.columns.get_loc('Max')] for i in delete_candidates]
+                delete_candidates.remove(delete_candidates[delete_candidates_values.index(max(delete_candidates_values))])
+                max_peaks_index = [i for i in max_peaks_index if i not in delete_candidates]
 
-            peaks = max_peaks_index + min_peaks_index
-            peaks.sort()
+        peaks = max_peaks_index + min_peaks_index
+        peaks.sort()
 
-            # Filter 2: Remove monotonic peak sequences of N > 2
-            delete_candidates = []
-            for i in range(len(peaks)):
-                if i >= 2:
-                    current_value = 0
-                    if peaks[i] in max_peaks_index:
-                        current_value = candle_raw.iloc[peaks[i], candle_raw.columns.get_loc('Max')]
-                    else:
-                        current_value = candle_raw.iloc[peaks[i], candle_raw.columns.get_loc('Min')]
+        # Filter 2: Remove monotonic peak sequences
+        delete_candidates = []
+        for i in range(len(peaks)):
+            if i >= 2:
+                current_value = 0
+                if peaks[i] in max_peaks_index:
+                    current_value = candle_raw.iloc[peaks[i], candle_raw.columns.get_loc('Max')]
+                else:
+                    current_value = candle_raw.iloc[peaks[i], candle_raw.columns.get_loc('Min')]
 
-                    ultimate_value = 0
+                ultimate_value = 0
+                if peaks[i-1] in max_peaks_index:
+                    ultimate_value = candle_raw.iloc[peaks[i-1], candle_raw.columns.get_loc('Max')]
+                else:
+                    ultimate_value = candle_raw.iloc[peaks[i-1], candle_raw.columns.get_loc('Min')]
+
+                penultimate_value = 0
+                if peaks[i-2] in max_peaks_index:
+                    penultimate_value = candle_raw.iloc[peaks[i-2], candle_raw.columns.get_loc('Max')]
+                else:
+                    penultimate_value = candle_raw.iloc[peaks[i-2], candle_raw.columns.get_loc('Min')]
+
+                if ((current_value > ultimate_value and ultimate_value > penultimate_value) or
+                    (current_value < ultimate_value and ultimate_value < penultimate_value)):
+                    
                     if peaks[i-1] in max_peaks_index:
-                        ultimate_value = candle_raw.iloc[peaks[i-1], candle_raw.columns.get_loc('Max')]
+                        max_peaks_index.remove(peaks[i-1])
                     else:
-                        ultimate_value = candle_raw.iloc[peaks[i-1], candle_raw.columns.get_loc('Min')]
+                        min_peaks_index.remove(peaks[i-1])
 
-                    penultimate_value = 0
-                    if peaks[i-2] in max_peaks_index:
-                        penultimate_value = candle_raw.iloc[peaks[i-2], candle_raw.columns.get_loc('Max')]
-                    else:
-                        penultimate_value = candle_raw.iloc[peaks[i-2], candle_raw.columns.get_loc('Min')]
+        peaks = max_peaks_index + min_peaks_index
+        peaks.sort()
 
-                    if ((current_value > ultimate_value and ultimate_value > penultimate_value) or
-                        (current_value < ultimate_value and ultimate_value < penultimate_value)):
-                        
-                        if peaks[i-1] in max_peaks_index:
-                            max_peaks_index.remove(peaks[i-1])
-                        else:
-                            min_peaks_index.remove(peaks[i-1])
-                        # delete_candidates.append(peaks[i-1])
-                        print('deleted '+str(ultimate_value))
+        # Exponential Moving Average
 
-            # Proccess graph
-            data = [go.Candlestick(x=candle_raw.index,
-                            open=candle_raw['Open'],
-                            high=candle_raw['Max'],
-                            low=candle_raw['Min'],
-                            close=candle_raw['Close']),
-                    go.Scatter(x=candle_raw.index,
-                            y=[candle_raw.iloc[x, candle_raw.columns.get_loc('Max')] if x in max_peaks_index else np.nan for x in range(candle_raw.index.size)],                          
-                            mode='markers',
-                            marker=dict(color='blue')),
-                    go.Scatter(x=candle_raw.index,
-                            y=[candle_raw.iloc[x, candle_raw.columns.get_loc('Min')] if x in min_peaks_index else np.nan for x in range(candle_raw.index.size)],                          
-                            mode='markers',
-                            marker=dict(color='red')) ]
+        ema_17 = candle_raw.iloc[:,candle_raw.columns.get_loc('Close')].ewm(span=17, adjust=False).mean()
+        ema_72 = candle_raw.iloc[:,candle_raw.columns.get_loc('Close')].ewm(span=72, adjust=False).mean()
 
-            data = [go.Candlestick(x=candle_raw.index,
-                            open=candle_raw['Open'],
-                            high=candle_raw['Max'],
-                            low=candle_raw['Min'],
-                            close=candle_raw['Close']),
-                    go.Scatter(x=candle_raw.index,
-                            y=[candle_raw.iloc[x, candle_raw.columns.get_loc('Max')] if x in max_peaks_index else candle_raw.iloc[x, candle_raw.columns.get_loc('Min')] if x in min_peaks_index else np.nan for x in range(candle_raw.index.size)],                          
-                            mode='lines+markers',
-                            connectgaps=True,
-                            marker=dict(color='blue'),
-                            marker_size=9)#, 
-                    # go.Scatter(x=candle_raw.index,
-                    #         y=[candle_raw.iloc[x, candle_raw.columns.get_loc('Max')] if x in max_peaks_index else np.nan for x in range(candle_raw.index.size)],                          
-                    #         mode='lines+markers',
-                    #         connectgaps=True,
-                    #         marker=dict(color='green'),
-                    #         marker_size=9), 
-                    # go.Scatter(x=candle_raw.index,
-                    #         y=[candle_raw.iloc[x, candle_raw.columns.get_loc('Min')] if x in min_peaks_index else np.nan for x in range(candle_raw.index.size)],                          
-                    #         mode='lines+markers',
-                    #         connectgaps=True,
-                    #         marker=dict(color='red'),
-                    #         marker_size=9) 
-                            ]
+        # Proccess graph
+        data = [go.Candlestick(x=candle_raw.index,
+                        open=candle_raw['Open'],
+                        high=candle_raw['Max'],
+                        low=candle_raw['Min'],
+                        close=candle_raw['Close'],
+                        name='Candles'),
+                go.Scatter(x=candle_raw.index,
+                        y=[candle_raw.iloc[x, candle_raw.columns.get_loc('Max')] if x in max_peaks_index else candle_raw.iloc[x, candle_raw.columns.get_loc('Min')] if x in min_peaks_index else np.nan for x in range(candle_raw.index.size)],
+                        mode='lines+markers',
+                        connectgaps=True,
+                        marker=dict(color='blue'),
+                        marker_size=9,
+                        name = 'Peaks'),
+                go.Scatter(x=candle_raw.index,
+                        y=ema_17,
+                        mode='lines',
+                        connectgaps=True,
+                        line_color='purple',
+                        name='EMA K=17'),
+                go.Scatter(x=candle_raw.index,
+                        y=ema_72,
+                        mode='lines',
+                        connectgaps=True,
+                        line_color='yellow',
+                        name='EMA K=72') ]
 
-            layout = go.Layout(title=stock+' - ', yaxis_title='Price (R$)', xaxis_title='Time')
+        # Get candle interval of current file to write it on graph
+        file_re = re.compile(r"^"+stock+"_CANDLES_"+r"(\d[A-Z])"+"_"+r"(\d\d\d\d)(1[0-2]|0[1-9])(3[01]|[12][0-9]|0[1-9])_(\d\d\d\d)(1[0-2]|0[1-9])(3[01]|[12][0-9]|0[1-9])\.csv$")
+        result_time_interval = re.match(file_re, candle_file.name)
+        current_candle_interval = result_time_interval.group(1)
 
-            fig = go.Figure(data=data, layout=layout) # , title=stock+' - 1H', x="Time", y="Price (R$)"
+        layout = go.Layout(title=stock+' - '+current_candle_interval, yaxis_title='Price (R$)', xaxis_title='Time')
 
-            fig.update_traces(marker=dict(size=9),
-                  selector=dict(mode='lines+markers'))
+        fig = go.Figure(data=data, layout=layout)
 
+        fig.update_traces(marker=dict(size=9),
+                selector=dict(mode='lines+markers'))
+
+        if (current_candle_interval == '1H'):
+            fig.update_xaxes(rangebreaks=[
+                    dict(bounds=["sat", "mon"]),
+                    # dict(values=[holiday.timestamp()*1000 for holiday in holidays_datetime]),
+                    dict(pattern="hour", bounds=[market_close_time.hour, market_open_time.hour]) 
+                    ])
+        else:
             fig.update_xaxes(rangebreaks=[
                     dict(bounds=["sat", "mon"]),
                     dict(values=[holiday.timestamp()*1000 for holiday in holidays_datetime])
                     # Creates a bug if added... :/
                     #dict(bounds=[market_close_time.hour, market_open_time.hour], pattern="hour") 
                     ])
-            
-            fig.show()
+        
+        fig.show()
         
 
-
 # %%
-for i in range(len(peaks)):
-        print(i)
+
+test = [None, None, 1, 2, 3, None, 4]
+
+print(next(test))
 # %%
