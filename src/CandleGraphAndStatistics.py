@@ -197,8 +197,6 @@ print('stock_names:\n\t'+str(stock_names))
 print('stocks_ok:\n\t'+str(stocks_ok))
 
 # %%
-# Improve: Add percentage improvement in log/console
-# Correct: In weekly candle graphs, candles after a holiday in weekend are not being calculated
 
 # Generate all candle graphs
 
@@ -213,7 +211,13 @@ middle_time_division = timedelta(weeks=0, days=1, hours=0, minutes=0, seconds=0,
 smaller_time_division = timedelta(weeks=0, days=0, hours=1, minutes=0, seconds=0, microseconds=0, milliseconds=0)
 market_open_time = time(hour=10, minute=0, second=0)
 market_close_time = time(hour=19, minute=0, second=0)
+warning_percentage = 0.05
 # *******************************************************************************************
+
+warning_total_count = sum([len(stock_valid_days[stock_index]) for stock_index, stock in enumerate(stocks_ok) if stock == False ])
+
+warning_cumulative_percentage = warning_percentage
+warning_counter = 0
 
 all_time_divisions = [smaller_time_division, middle_time_division, greater_time_division]
 
@@ -223,7 +227,6 @@ out_candles_path = [Path(__file__).parents[1] / processed_files_path/ stock
 
 for stock_index, (stock, status) in enumerate(zip(stock_names, stocks_ok)):
     if status == False:
-
         # Create folder if doesn't exist
         out_candles_path[stock_index].mkdir(exist_ok=True)
 
@@ -237,6 +240,12 @@ for stock_index, (stock, status) in enumerate(zip(stock_names, stocks_ok)):
         header_first_write_flag = [True]*len(all_time_divisions)
 
         for day, file_pointer in zip(stock_valid_days[stock_index], stock_days_file_pointer[stock_index]):
+
+            warning_counter = warning_counter + 1
+            if warning_counter/warning_total_count >= warning_cumulative_percentage:
+                print(str(int(warning_cumulative_percentage*100)) + "% completed.")
+                if warning_percentage < 1:
+                    warning_cumulative_percentage = warning_cumulative_percentage + warning_percentage
 
             start_frame = datetime.combine(day, market_open_time)
             end_frame = datetime.combine(day, market_close_time)
@@ -356,7 +365,9 @@ for stock_index, (stock, status) in enumerate(zip(stock_names, stocks_ok)):
                         candles.to_csv(aux_file, header=True, mode='w')
 
                     # Compile and migrate data from aux file to final one
-                    if day.weekday() == 4 or day == stock_valid_days[stock_index][-1]: # Friday or last day
+                    if day == stock_valid_days[stock_index][-1] or (stock_valid_days[stock_index][ stock_valid_days[stock_index].index(day)+1 ].weekday() < day.weekday()):
+                        # last work day of the week or last day in config file
+
                         acum_aux_file = pd.read_csv(aux_file, index_col=0, infer_datetime_format=True)
                         acum_aux_file.index.name = 'Datetime'
                         
@@ -512,7 +523,7 @@ for stock_index, stock in enumerate(stock_names):
             fig.update_xaxes(rangebreaks=[
                     dict(bounds=["sat", "mon"]),
                     # dict(values=[holiday.timestamp()*1000 for holiday in holidays_datetime]),
-                    dict(pattern="hour", bounds=[market_close_time.hour, market_open_time.hour]) 
+                    dict(pattern="hour", bounds=[market_close_time.hour-1, market_open_time.hour]) 
                     ])
         else:
             fig.update_xaxes(rangebreaks=[
@@ -531,3 +542,4 @@ test = [None, None, 1, 2, 3, None, 4]
 
 print(next(test))
 # %%
+
