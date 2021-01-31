@@ -211,13 +211,13 @@ middle_time_division = timedelta(weeks=0, days=1, hours=0, minutes=0, seconds=0,
 smaller_time_division = timedelta(weeks=0, days=0, hours=1, minutes=0, seconds=0, microseconds=0, milliseconds=0)
 market_open_time = time(hour=10, minute=0, second=0)
 market_close_time = time(hour=19, minute=0, second=0)
-warning_percentage = 0.05
+warning_percentage = 5 # %
 # *******************************************************************************************
 
 warning_total_count = sum([len(stock_valid_days[stock_index]) for stock_index, stock in enumerate(stocks_ok) if stock == False ])
-
 warning_cumulative_percentage = warning_percentage
 warning_counter = 0
+warning_start_time = datetime.now()
 
 all_time_divisions = [smaller_time_division, middle_time_division, greater_time_division]
 
@@ -240,12 +240,6 @@ for stock_index, (stock, status) in enumerate(zip(stock_names, stocks_ok)):
         header_first_write_flag = [True]*len(all_time_divisions)
 
         for day, file_pointer in zip(stock_valid_days[stock_index], stock_days_file_pointer[stock_index]):
-
-            warning_counter = warning_counter + 1
-            if warning_counter/warning_total_count >= warning_cumulative_percentage:
-                print(str(int(warning_cumulative_percentage*100)) + "% completed.")
-                if warning_percentage < 1:
-                    warning_cumulative_percentage = warning_cumulative_percentage + warning_percentage
 
             start_frame = datetime.combine(day, market_open_time)
             end_frame = datetime.combine(day, market_close_time)
@@ -392,6 +386,15 @@ for stock_index, (stock, status) in enumerate(zip(stock_names, stocks_ok)):
 
                         aux_file.unlink()
 
+            # Prcentage and time estimation
+            warning_counter = warning_counter + 1
+            if warning_counter/warning_total_count > warning_cumulative_percentage/100:
+                warning_seconds_to_comlete = (datetime.now()-warning_start_time).total_seconds()*(100/warning_cumulative_percentage - 1)
+                print("{:02d}% completed. {:d}min {:02d}s remaining...".format(warning_cumulative_percentage, int(warning_seconds_to_comlete // 60), int(warning_seconds_to_comlete % 60)))
+                warning_cumulative_percentage = warning_cumulative_percentage + warning_percentage
+            elif warning_counter == warning_total_count:
+                print("100% completed. Total time: {:d} min {:02d} s.".format( int((datetime.now()-warning_start_time).total_seconds()//60), int((datetime.now()-warning_start_time).total_seconds()%60) ))
+
 logging.info('Missing candle graphs created successfully')
 
 
@@ -407,7 +410,7 @@ import numpy as np
 
 # Identify uptrend and downtrend
 
-analysis_status = {'LOW_PEAK': 0, 'HIGH_PEAK': 1, 'UPTREND': 2, 'DOWNTREND': 3, 'CONSOLIDATION': 4}
+analysis_status = {'UNKNOW': 0, 'LOW_PEAK': 1, 'HIGH_PEAK': 2, 'UPTREND': 3, 'DOWNTREND': 4, 'CONSOLIDATION': 5}
 candles_min_peak_distance = 17
 
 dumb_flag = True
@@ -472,13 +475,21 @@ for stock_index, stock in enumerate(stock_names):
                     else:
                         min_peaks_index.remove(peaks[i-1])
 
-        peaks = max_peaks_index + min_peaks_index
-        peaks.sort()
+        peaks = [ ['Max', index, candle_raw.iloc[index, candle_raw.columns.get_loc('Max')]] for index in max_peaks_index ] + \
+            [ ['Min', index, candle_raw.iloc[index, candle_raw.columns.get_loc('Min')]] for index in min_peaks_index ]
+        peaks.sort(key=lambda x: x[1])
 
         # Exponential Moving Average
 
         ema_17 = candle_raw.iloc[:,candle_raw.columns.get_loc('Close')].ewm(span=17, adjust=False).mean()
         ema_72 = candle_raw.iloc[:,candle_raw.columns.get_loc('Close')].ewm(span=72, adjust=False).mean()
+
+        # Trend analysis
+
+        # for (peak_type, peak_index, peak_value) in peaks:
+        # Continue here
+
+
 
         # Proccess graph
         data = [go.Candlestick(x=candle_raw.index,
@@ -522,8 +533,9 @@ for stock_index, stock in enumerate(stock_names):
         if (current_candle_interval == '1H'):
             fig.update_xaxes(rangebreaks=[
                     dict(bounds=["sat", "mon"]),
-                    # dict(values=[holiday.timestamp()*1000 for holiday in holidays_datetime]),
-                    dict(pattern="hour", bounds=[market_close_time.hour-1, market_open_time.hour]) 
+                    # Plotly don't support hour rangebreaks well. Somehow the 'dvalue' below of half a day make it work
+                    dict(dvalue=43200000,values=[holiday.timestamp()*1000 for holiday in holidays_datetime]),
+                    dict(pattern="hour", bounds=[market_close_time.hour-1, market_open_time.hour])
                     ])
         else:
             fig.update_xaxes(rangebreaks=[
@@ -536,10 +548,5 @@ for stock_index, stock in enumerate(stock_names):
         fig.show()
         
 
-# %%
-
-test = [None, None, 1, 2, 3, None, 4]
-
-print(next(test))
 # %%
 
