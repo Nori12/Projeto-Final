@@ -402,18 +402,17 @@ logging.info('Missing candle graphs created successfully')
 # out_candles_path
 
 # %%
-# Correct: Adjust rangebreak to hour, day and week candle graph individually
 
-import plotly.graph_objects as go
+# Create Estimators
+
 from scipy.signal import find_peaks
 import numpy as np
+from bisect import bisect
+import math
 
-# Identify uptrend and downtrend
-
-analysis_status = {'UNKNOW': 0, 'LOW_PEAK': 1, 'HIGH_PEAK': 2, 'UPTREND': 3, 'DOWNTREND': 4, 'CONSOLIDATION': 5}
+analysis_status = {'UPTREND': 1, 'DOWNTREND': -1, 'CONSOLIDATION': 0}
+analysis_status_tolerance = 0.01
 candles_min_peak_distance = 17
-
-dumb_flag = True
 
 for stock_index, stock in enumerate(stock_names):
     candle_files_per_stock = list(out_candles_path[stock_index].glob(stock+'_CANDLES_*.csv'))
@@ -485,11 +484,87 @@ for stock_index, stock in enumerate(stock_names):
         ema_72 = candle_raw.iloc[:,candle_raw.columns.get_loc('Close')].ewm(span=72, adjust=False).mean()
 
         # Trend analysis
+        # Generate UDT_COEF
 
-        # for (peak_type, peak_index, peak_value) in peaks:
-        # Continue here
+        udt_coef = []
+        peaks_index_list = [line[1] for line in peaks]
 
+        for index, (datetime_index, row) in enumerate(candle_raw.iterrows()):
+            # At least 3 peaks are required
+            last_peak_index = bisect(peaks_index_list, index) - 1
+            if last_peak_index >= 3:# and index != peaks[last_peak_index][1]:
+                if peaks[last_peak_index][0] == 'Max':
+                    max_peak_value_1 = peaks[last_peak_index-2][2]
+                    min_peak_value_1 = peaks[last_peak_index-1][2]
+                    max_peak_value_2 = peaks[last_peak_index][2]                    
+                    min_peak_value_2 = row['Close']
+                elif peaks[last_peak_index][0] == 'Min':
+                    min_peak_value_1 = peaks[last_peak_index-2][2]
+                    max_peak_value_1 = peaks[last_peak_index-1][2]                 
+                    min_peak_value_2 = peaks[last_peak_index][2] 
+                    max_peak_value_2 = row['Close']
+                
+                # print('max_peak_value_1: '+str(max_peak_value_1))
+                # print('min_peak_value_1: '+str(min_peak_value_1))
+                # print('max_peak_value_2: '+str(max_peak_value_2))
+                # print('min_peak_value_2: '+str(min_peak_value_2))
 
+                percent_max = max_peak_value_2 / max_peak_value_1 - 1 # x
+                percent_min = min_peak_value_2 / min_peak_value_1 - 1 # y
+                # print('percent_max: '+str(percent_max))
+                # print('percent_min: '+str(percent_min))
+
+                # d = abs((a * x1 + b * y1 + c)) / (math.sqrt(a * a + b * b))
+                d = percent_max + percent_min / (math.sqrt(2))
+                # print('distance: '+str(d))
+
+                # print('udt_coef: '+str(math.tanh(d)))
+                udt_coef.append(math.tanh(d))
+
+            else:
+                udt_coef.append(np.nan)
+
+        udt_status = [analysis_status['UPTREND'] if x > analysis_status_tolerance else analysis_status['DOWNTREND'] if x < -analysis_status_tolerance else analysis_status['CONSOLIDATION'] for x in udt_coef]
+
+        candle_raw['PEAKS'] = [1 if index in max_peaks_index else -1 if index in min_peaks_index else 0 for index in range(candle_raw.index.size)]
+        candle_raw['EMA_17'] = ema_17
+        candle_raw['EMA_72'] = ema_72
+        candle_raw['UDT_COEF'] = udt_coef
+        candle_raw['UDT_STATUS'] = udt_status
+
+        candle_raw = candle_raw.astype({'Volume':'uint32', 'PEAKS':'int8', 'UDT_COEF':'float32', 'UDT_STATUS':'int8'}, copy=False)
+
+        candle_raw.to_csv(candle_file, float_format='%.4f', header=True, mode='w')
+
+# %%
+# Correct: Adjust rangebreak to hour, day and week candle graph individually
+
+import plotly.graph_objects as go
+from scipy.signal import find_peaks
+import numpy as np
+from bisect import bisect
+import math
+
+# Identify uptrend and downtrend
+
+analysis_status = {'UPTREND': 1, 'DOWNTREND': -1, 'CONSOLIDATION': 0}
+analysis_status_tolerance = 0.01
+candles_min_peak_distance = 17
+
+dumb_flag = True
+
+for stock_index, stock in enumerate(stock_names):
+    candle_files_per_stock = list(out_candles_path[stock_index].glob(stock+'_CANDLES_*.csv'))
+
+    for candle_file_index, candle_file in enumerate(candle_files_per_stock):
+
+        candle_raw = pd.read_csv(candle_file, index_col=0, infer_datetime_format=True, dtype={'Volume':'uint32', 'PEAKS':'int8', 'UDT_COEF':'float32', 'UDT_STATUS':'int8'})
+        candle_raw.index.name = 'Datetime'
+        candle_raw.index = pd.to_datetime(candle_raw.index)
+        
+        # Add only to see the coeficient on the graph
+        candle_raw['UDT_COEF'] = [x*30+80 for x in candle_raw['UDT_COEF']]
+        candle_raw['UDT_STATUS'] = [x*50+50 for x in candle_raw['UDT_STATUS']]
 
         # Proccess graph
         data = [go.Candlestick(x=candle_raw.index,
@@ -499,24 +574,32 @@ for stock_index, stock in enumerate(stock_names):
                         close=candle_raw['Close'],
                         name='Candles'),
                 go.Scatter(x=candle_raw.index,
-                        y=[candle_raw.iloc[x, candle_raw.columns.get_loc('Max')] if x in max_peaks_index else candle_raw.iloc[x, candle_raw.columns.get_loc('Min')] if x in min_peaks_index else np.nan for x in range(candle_raw.index.size)],
+                        # y=[candle_raw.iloc[x, candle_raw.columns.get_loc('Max')] if x in max_peaks_index else candle_raw.iloc[x, candle_raw.columns.get_loc('Min')] if x in min_peaks_index else np.nan for x in range(candle_raw.index.size)],
+                        y= [candle_raw.iloc[x, candle_raw.columns.get_loc('Max')] if candle_raw.iloc[x, candle_raw.columns.get_loc('PEAKS')] == 1 else candle_raw.iloc[x, candle_raw.columns.get_loc('Min')] if candle_raw.iloc[x, candle_raw.columns.get_loc('PEAKS')] == -1 else np.nan for x in range(candle_raw.index.size)],
                         mode='lines+markers',
                         connectgaps=True,
                         marker=dict(color='blue'),
                         marker_size=9,
                         name = 'Peaks'),
                 go.Scatter(x=candle_raw.index,
-                        y=ema_17,
+                        y=candle_raw['EMA_17'],
                         mode='lines',
                         connectgaps=True,
                         line_color='purple',
                         name='EMA K=17'),
                 go.Scatter(x=candle_raw.index,
-                        y=ema_72,
+                        y=candle_raw['EMA_72'],
                         mode='lines',
                         connectgaps=True,
                         line_color='yellow',
-                        name='EMA K=72') ]
+                        name='EMA K=72'),
+                go.Scatter(x=candle_raw.index,
+                        y=udt_status,
+                        mode='lines',
+                        connectgaps=True,
+                        line_color='green',
+                        name='UDT_STATUS'),
+                        ]
 
         # Get candle interval of current file to write it on graph
         file_re = re.compile(r"^"+stock+"_CANDLES_"+r"(\d[A-Z])"+"_"+r"(\d\d\d\d)(1[0-2]|0[1-9])(3[01]|[12][0-9]|0[1-9])_(\d\d\d\d)(1[0-2]|0[1-9])(3[01]|[12][0-9]|0[1-9])\.csv$")
@@ -547,6 +630,24 @@ for stock_index, stock in enumerate(stock_names):
         
         fig.show()
         
+# %%
+
+# Apply Strategy
+
+import pandas as pd
+from pathlib import Path
+from datetime import datetime, time, timedelta
+import numpy as np
+
+strat_log = pd.Dataframe()
+
+
+
 
 # %%
 
+from bisect import bisect
+
+a = 130
+b = [0, 10, 30, 60, 100,        150, 210, 280, 340, 480, 530]
+print(bisect(b, a))
