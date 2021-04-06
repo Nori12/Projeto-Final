@@ -1,6 +1,0 @@
-TODO:
-
-Para simular estratégia do André Moraes:
-1) Gerar gráfico de candles 1Sem, 1D, 60min a partir de 1 ou vários arquivos de ticks passados;
-2) Identificar topos e fundos em cada gráfico;
-3) Identificar tendência de alta a partir dos topos e fundos;
