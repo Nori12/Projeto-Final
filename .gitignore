@@ -1,0 +1,5 @@
+workspace/
+.vscode/
+input_files/*
+!README.md
+src/__pycache__/

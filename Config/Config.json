@@ -1,6 +1,6 @@
 {
-    "ticks_files_path":"Raw Files",
-    "processed_files_path":"Processed Files",
+    "ticks_files_path":"input_files",
+    "processed_files_path":"output_files",
     "holidays": [
         "01/01/2020",
         "24/02/2020",
