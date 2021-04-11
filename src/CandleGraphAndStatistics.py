@@ -235,7 +235,7 @@ for stock_index, (stock, status) in enumerate(zip(stock_names, stocks_ok)):
         for file_to_delete in files_to_delete:
             file_to_delete.unlink()
 
-        # Prepare auxliary variables
+        # Prepare auxiliary variables
         last_file_pointer= None
         header_first_write_flag = [True]*len(all_time_divisions)
 

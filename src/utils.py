@@ -12,8 +12,7 @@ import constants as c
 # Configure Logging
 logger = logging.getLogger(__name__)
 
-log_path = Path(c.LOG_PATH)
-log_path = log_path / c.LOG_FILENAME
+log_path = Path(__file__).parent.parent / c.LOG_PATH / c.LOG_FILENAME
 
 file_handler = RotatingFileHandler(log_path, maxBytes=5*1024*1024, backupCount=10)
 formatter = logging.Formatter(c.LOG_FORMATTER_STRING)
@@ -25,7 +24,9 @@ file_handler.setLevel(logging.DEBUG)
 logger.setLevel(logging.DEBUG)
 
 class RunTime(ContextDecorator):
-    """Timing decorator."""
+    """Timing decorator.
+    
+    Log the execution time of the specified function."""
 
     def __init__(self, function_name):
         self.function_name = function_name
@@ -45,7 +46,13 @@ class RunTime(ContextDecorator):
 
 @RunTime('read_cfg')
 def read_cfg():
-    '''Read config.json file in the given path and returns it as a dictionary of parameters.'''
+    """Read configuration file.
+    
+    Read configuration file in the given path and returns it as a dictionary.
+    
+    Returns:
+        config_json (dict): A dict mapping the corresponding parameters.
+    """
     
     config_path = Path('.') / c.CONFIG_PATH / c.CONFIG_FILENAME
 
@@ -65,20 +72,21 @@ def read_cfg():
     logger.debug('File found.')
     return config_json
 
-@RunTime('get_ticker_data')
-def get_ticker_data(configuration):
-    '''Return ticker information collected from configuration file.
+@RunTime('get_ticker_config_data')
+def get_ticker_config_data(configuration):
+    """Return ticker information collected from configuration file.
     
     Parameters:
-        configuration (dict): Configuration file in form of dict
+        configuration (dict): Configuration file in form of dict.
     
     Returns:
-        ticker_names (list[str]): List of tickers
-        initial_days (list[datetime]): List of initial days of tickers, respectively.
-        final_days (list[datetime]): List of final days of tickers, respectively.
-        
-        * All return variables have the same length.
-    '''
+        ticker_names (List[str]): List of tickers
+        initial_days (List[datetime]): List of initial days of tickers, respectively.
+        final_days (List[datetime]): List of final days of tickers, respectively.
+    
+    Note:
+        All return variables have always the same length.
+    """
 
     ticker_names = [item['name'] for item in configuration['stock_targets'] if "name" in item.keys()]
     initial_days_str = [item['initial_date'] for item in configuration['stock_targets'] if "initial_date" in item.keys()]
@@ -105,7 +113,3 @@ def get_ticker_data(configuration):
             sys.exit()
 
     return ticker_names, initial_days, final_days
-
-
-
-
