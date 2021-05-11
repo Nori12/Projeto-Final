@@ -1,4 +1,5 @@
 workspace/
+database/
 .vscode/
 input_files/*
 !README.md

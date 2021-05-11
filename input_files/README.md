@@ -1,1 +1,1 @@
-For the sake of storage management this files won't be pushed to remote.
+For the sake of storage management this files will not be pushed to remote branch.

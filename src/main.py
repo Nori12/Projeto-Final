@@ -6,6 +6,9 @@ import utils as u
 import constants as c
 from ticker_manager import TickerManager
 
+#For tests only
+import db_model as db
+
 # Configure Logging
 logger = logging.getLogger(__name__)
 
@@ -21,19 +24,24 @@ file_handler.setLevel(logging.DEBUG)
 logger.setLevel(logging.DEBUG)
 
 def run():
-    
+
     logger.info('Program started.')
-    
+
     # Read Config File ad store it in a dict
     config_json = u.read_cfg()
-    
+
     ticker_names, initial_days, final_days = u.get_ticker_config_data(config_json)
 
     for ticker, initial_day, final_day in zip(ticker_names, initial_days, final_days):
         logger.info('Ticker: '+ticker.ljust(6)+'\tInital date: '+initial_day.strftime('%d/%m/%Y')+'\t\tFinal date: '+final_day.strftime('%d/%m/%Y'))
-    
+
     all_ticker_managers = [TickerManager(ticker_names[i], initial_days[i], final_days[i], config_json['input_files_path'], config_json['output_files_path']) for i in range(len(ticker_names))]
-    tickers_output_status = [all_ticker_managers[i].analyze_output_candles() for i in range(len(all_ticker_managers))]
+
+    # date_ranges = [all_ticker_managers. for item in range(all_ticker_managers)]
+
+
+    my_db = db.DBModel()
+    print(my_db.get_all_classifications())
 
 
     """
@@ -55,7 +63,7 @@ def run():
 
     """
     RootStrategy
-        Base class from which other strategies will inherit 
+        Base class from which other strategies will inherit
         Output: Log file of operations
 
         AndreMorais

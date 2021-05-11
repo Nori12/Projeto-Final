@@ -25,7 +25,7 @@ logger.setLevel(logging.DEBUG)
 
 class RunTime(ContextDecorator):
     """Timing decorator.
-    
+
     Log the execution time of the specified function."""
 
     def __init__(self, function_name):
@@ -47,14 +47,14 @@ class RunTime(ContextDecorator):
 @RunTime('read_cfg')
 def read_cfg():
     """Read configuration file.
-    
+
     Read configuration file in the given path and returns it as a dictionary.
-    
+
     Returns:
         config_json (dict): A dict mapping the corresponding parameters.
     """
-    
-    config_path = Path('.') / c.CONFIG_PATH / c.CONFIG_FILENAME
+
+    config_path = Path(__file__).parent.parent / c.CONFIG_PATH / c.CONFIG_FILENAME
 
     logger.debug("Searching for config file in '" + str(config_path) + "'.")
 
@@ -75,15 +75,15 @@ def read_cfg():
 @RunTime('get_ticker_config_data')
 def get_ticker_config_data(configuration):
     """Return ticker information collected from configuration file.
-    
+
     Parameters:
         configuration (dict): Configuration file in form of dict.
-    
+
     Returns:
         ticker_names (List[str]): List of tickers
         initial_days (List[datetime]): List of initial days of tickers, respectively.
         final_days (List[datetime]): List of final days of tickers, respectively.
-    
+
     Note:
         All return variables have always the same length.
     """

@@ -792,3 +792,543 @@
 2021-04-11 02:46:26,722:DEBUG:ticker_manager:'BOVA11' main interval output file was found.
 2021-04-11 02:46:26,722:DEBUG:ticker_manager:'BOVA11' minor interval output file was NOT found.
 2021-04-11 02:46:26,722:DEBUG:utils:The function 'analyze_output_candles' took 1.77 milliseconds to run.
+2021-04-11 18:34:59,627:INFO:__main__:Program started.
+2021-04-11 18:34:59,627:DEBUG:utils:Searching for config file in 'config/config.json'.
+2021-04-11 18:34:59,628:DEBUG:utils:File found.
+2021-04-11 18:34:59,628:DEBUG:utils:The function 'read_cfg' took 0.38 milliseconds to run.
+2021-04-11 18:34:59,635:DEBUG:utils:The function 'get_ticker_config_data' took 7.26 milliseconds to run.
+2021-04-11 18:34:59,635:INFO:__main__:Ticker: MGLU3 	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-04-11 18:34:59,635:INFO:__main__:Ticker: BOVA11	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-04-11 18:34:59,638:DEBUG:ticker_manager:'MGLU3' major interval output file was found.
+2021-04-11 18:34:59,638:DEBUG:ticker_manager:'MGLU3' main interval output file was found.
+2021-04-11 18:34:59,638:DEBUG:ticker_manager:'MGLU3' minor interval output file was found.
+2021-04-11 18:34:59,638:DEBUG:utils:The function 'analyze_output_candles' took 2.26 milliseconds to run.
+2021-04-11 18:34:59,640:DEBUG:ticker_manager:'BOVA11' major interval output file was found.
+2021-04-11 18:34:59,640:DEBUG:ticker_manager:'BOVA11' main interval output file was found.
+2021-04-11 18:34:59,640:DEBUG:ticker_manager:'BOVA11' minor interval output file was found.
+2021-04-11 18:34:59,640:DEBUG:utils:The function 'analyze_output_candles' took 2.03 milliseconds to run.
+2021-04-11 18:35:15,559:INFO:__main__:Program started.
+2021-04-11 18:35:15,559:DEBUG:utils:Searching for config file in 'config/config.json'.
+2021-04-11 18:35:15,559:DEBUG:utils:File found.
+2021-04-11 18:35:15,560:DEBUG:utils:The function 'read_cfg' took 0.52 milliseconds to run.
+2021-04-11 18:35:15,567:DEBUG:utils:The function 'get_ticker_config_data' took 7.45 milliseconds to run.
+2021-04-11 18:35:15,567:INFO:__main__:Ticker: MGLU3 	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-04-11 18:35:15,568:INFO:__main__:Ticker: BOVA11	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-04-11 18:35:15,571:DEBUG:ticker_manager:'MGLU3' major interval output file was found.
+2021-04-11 18:35:15,571:DEBUG:ticker_manager:'MGLU3' main interval output file was found.
+2021-04-11 18:35:15,572:DEBUG:ticker_manager:'MGLU3' minor interval output file was found.
+2021-04-11 18:35:15,572:DEBUG:utils:The function 'analyze_output_candles' took 3.60 milliseconds to run.
+2021-04-11 18:35:15,575:DEBUG:ticker_manager:'BOVA11' major interval output file was found.
+2021-04-11 18:35:15,575:DEBUG:ticker_manager:'BOVA11' main interval output file was found.
+2021-04-11 18:35:15,575:DEBUG:ticker_manager:'BOVA11' minor interval output file was found.
+2021-04-11 18:35:15,575:DEBUG:utils:The function 'analyze_output_candles' took 3.25 milliseconds to run.
+2021-04-11 18:35:32,400:INFO:__main__:Program started.
+2021-04-11 18:35:32,401:DEBUG:utils:Searching for config file in 'config/config.json'.
+2021-04-11 18:35:32,401:DEBUG:utils:File found.
+2021-04-11 18:35:32,401:DEBUG:utils:The function 'read_cfg' took 0.43 milliseconds to run.
+2021-04-11 18:35:32,407:DEBUG:utils:The function 'get_ticker_config_data' took 5.88 milliseconds to run.
+2021-04-11 18:35:32,407:INFO:__main__:Ticker: MGLU3 	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-04-11 18:35:32,407:INFO:__main__:Ticker: BOVA11	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-04-11 18:35:32,409:DEBUG:ticker_manager:'MGLU3' major interval output file was found.
+2021-04-11 18:35:32,409:DEBUG:ticker_manager:'MGLU3' main interval output file was found.
+2021-04-11 18:35:32,409:DEBUG:ticker_manager:'MGLU3' minor interval output file was found.
+2021-04-11 18:35:32,409:DEBUG:utils:The function 'analyze_output_candles' took 2.06 milliseconds to run.
+2021-04-11 18:35:32,411:DEBUG:ticker_manager:'BOVA11' major interval output file was found.
+2021-04-11 18:35:32,411:DEBUG:ticker_manager:'BOVA11' main interval output file was found.
+2021-04-11 18:35:32,411:DEBUG:ticker_manager:'BOVA11' minor interval output file was found.
+2021-04-11 18:35:32,411:DEBUG:utils:The function 'analyze_output_candles' took 1.92 milliseconds to run.
+2021-04-11 19:28:41,472:INFO:__main__:Program started.
+2021-04-11 19:28:41,473:DEBUG:utils:Searching for config file in 'config/config.json'.
+2021-04-11 19:28:41,474:DEBUG:utils:File found.
+2021-04-11 19:28:41,474:DEBUG:utils:The function 'read_cfg' took 0.74 milliseconds to run.
+2021-04-11 19:28:41,480:DEBUG:utils:The function 'get_ticker_config_data' took 6.43 milliseconds to run.
+2021-04-11 19:28:41,480:INFO:__main__:Ticker: MGLU3 	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-04-11 19:28:41,481:INFO:__main__:Ticker: BOVA11	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-04-11 19:28:41,483:DEBUG:ticker_manager:'MGLU3' major interval output file was found.
+2021-04-11 19:28:41,483:DEBUG:ticker_manager:'MGLU3' main interval output file was found.
+2021-04-11 19:28:41,483:DEBUG:ticker_manager:'MGLU3' minor interval output file was found.
+2021-04-11 19:28:41,483:DEBUG:utils:The function 'analyze_output_candles' took 2.05 milliseconds to run.
+2021-04-11 19:28:41,485:DEBUG:ticker_manager:'BOVA11' major interval output file was found.
+2021-04-11 19:28:41,485:DEBUG:ticker_manager:'BOVA11' main interval output file was found.
+2021-04-11 19:28:41,485:DEBUG:ticker_manager:'BOVA11' minor interval output file was found.
+2021-04-11 19:28:41,485:DEBUG:utils:The function 'analyze_output_candles' took 1.88 milliseconds to run.
+2021-04-11 19:29:22,971:INFO:__main__:Program started.
+2021-04-11 19:29:22,971:DEBUG:utils:Searching for config file in 'config/config.json'.
+2021-04-11 19:29:22,971:DEBUG:utils:File found.
+2021-04-11 19:29:22,971:DEBUG:utils:The function 'read_cfg' took 0.65 milliseconds to run.
+2021-04-11 19:29:22,980:DEBUG:utils:The function 'get_ticker_config_data' took 8.09 milliseconds to run.
+2021-04-11 19:29:22,980:INFO:__main__:Ticker: MGLU3 	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-04-11 19:29:22,980:INFO:__main__:Ticker: BOVA11	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-04-11 19:29:22,983:DEBUG:ticker_manager:'MGLU3' major interval output file was found.
+2021-04-11 19:29:22,983:DEBUG:ticker_manager:'MGLU3' main interval output file was found.
+2021-04-11 19:29:22,984:DEBUG:ticker_manager:'MGLU3' minor interval output file was found.
+2021-04-11 19:29:22,984:DEBUG:utils:The function 'analyze_output_candles' took 3.30 milliseconds to run.
+2021-04-11 19:29:22,987:DEBUG:ticker_manager:'BOVA11' major interval output file was found.
+2021-04-11 19:29:22,987:DEBUG:ticker_manager:'BOVA11' main interval output file was found.
+2021-04-11 19:29:22,987:DEBUG:ticker_manager:'BOVA11' minor interval output file was found.
+2021-04-11 19:29:22,987:DEBUG:utils:The function 'analyze_output_candles' took 3.15 milliseconds to run.
+2021-04-11 19:29:53,731:INFO:__main__:Program started.
+2021-04-11 19:29:53,731:DEBUG:utils:Searching for config file in 'config/config.json'.
+2021-04-11 19:29:53,731:DEBUG:utils:File found.
+2021-04-11 19:29:53,731:DEBUG:utils:The function 'read_cfg' took 0.36 milliseconds to run.
+2021-04-11 19:29:53,737:DEBUG:utils:The function 'get_ticker_config_data' took 5.81 milliseconds to run.
+2021-04-11 19:29:53,737:INFO:__main__:Ticker: MGLU3 	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-04-11 19:29:53,737:INFO:__main__:Ticker: BOVA11	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-04-11 19:29:53,739:DEBUG:ticker_manager:'MGLU3' major interval output file was found.
+2021-04-11 19:29:53,739:DEBUG:ticker_manager:'MGLU3' main interval output file was found.
+2021-04-11 19:29:53,739:DEBUG:ticker_manager:'MGLU3' minor interval output file was found.
+2021-04-11 19:29:53,740:DEBUG:utils:The function 'analyze_output_candles' took 1.97 milliseconds to run.
+2021-04-11 19:29:53,741:DEBUG:ticker_manager:'BOVA11' major interval output file was found.
+2021-04-11 19:29:53,741:DEBUG:ticker_manager:'BOVA11' main interval output file was found.
+2021-04-11 19:29:53,741:DEBUG:ticker_manager:'BOVA11' minor interval output file was found.
+2021-04-11 19:29:53,741:DEBUG:utils:The function 'analyze_output_candles' took 1.79 milliseconds to run.
+2021-04-11 19:31:01,623:INFO:__main__:Program started.
+2021-04-11 19:31:01,623:DEBUG:utils:Searching for config file in 'config/config.json'.
+2021-04-11 19:31:01,624:DEBUG:utils:File found.
+2021-04-11 19:31:01,624:DEBUG:utils:The function 'read_cfg' took 0.37 milliseconds to run.
+2021-04-11 19:31:01,629:DEBUG:utils:The function 'get_ticker_config_data' took 5.56 milliseconds to run.
+2021-04-11 19:31:01,630:INFO:__main__:Ticker: MGLU3 	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-04-11 19:31:01,630:INFO:__main__:Ticker: BOVA11	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-04-11 19:31:01,632:DEBUG:ticker_manager:'MGLU3' major interval output file was found.
+2021-04-11 19:31:01,632:DEBUG:ticker_manager:'MGLU3' main interval output file was found.
+2021-04-11 19:31:01,632:DEBUG:ticker_manager:'MGLU3' minor interval output file was found.
+2021-04-11 19:31:01,632:DEBUG:utils:The function 'analyze_output_candles' took 2.05 milliseconds to run.
+2021-04-11 19:31:01,634:DEBUG:ticker_manager:'BOVA11' major interval output file was found.
+2021-04-11 19:31:01,634:DEBUG:ticker_manager:'BOVA11' main interval output file was found.
+2021-04-11 19:31:01,634:DEBUG:ticker_manager:'BOVA11' minor interval output file was found.
+2021-04-11 19:31:01,634:DEBUG:utils:The function 'analyze_output_candles' took 1.87 milliseconds to run.
+2021-04-11 19:31:25,135:INFO:__main__:Program started.
+2021-04-11 19:31:25,135:DEBUG:utils:Searching for config file in 'config/config.json'.
+2021-04-11 19:31:25,136:DEBUG:utils:File found.
+2021-04-11 19:31:25,136:DEBUG:utils:The function 'read_cfg' took 0.36 milliseconds to run.
+2021-04-11 19:31:25,144:DEBUG:utils:The function 'get_ticker_config_data' took 7.74 milliseconds to run.
+2021-04-11 19:31:25,144:INFO:__main__:Ticker: MGLU3 	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-04-11 19:31:25,144:INFO:__main__:Ticker: BOVA11	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-04-11 19:31:25,146:DEBUG:ticker_manager:'MGLU3' major interval output file was found.
+2021-04-11 19:31:25,146:DEBUG:ticker_manager:'MGLU3' main interval output file was found.
+2021-04-11 19:31:25,146:DEBUG:ticker_manager:'MGLU3' minor interval output file was found.
+2021-04-11 19:31:25,146:DEBUG:utils:The function 'analyze_output_candles' took 2.40 milliseconds to run.
+2021-04-11 19:31:25,148:DEBUG:ticker_manager:'BOVA11' major interval output file was found.
+2021-04-11 19:31:25,148:DEBUG:ticker_manager:'BOVA11' main interval output file was found.
+2021-04-11 19:31:25,148:DEBUG:ticker_manager:'BOVA11' minor interval output file was found.
+2021-04-11 19:31:25,148:DEBUG:utils:The function 'analyze_output_candles' took 1.85 milliseconds to run.
+2021-04-11 19:32:57,125:INFO:__main__:Program started.
+2021-04-11 19:32:57,125:DEBUG:utils:Searching for config file in 'config/config.json'.
+2021-04-11 19:32:57,125:DEBUG:utils:File found.
+2021-04-11 19:32:57,125:DEBUG:utils:The function 'read_cfg' took 0.56 milliseconds to run.
+2021-04-11 19:32:57,133:DEBUG:utils:The function 'get_ticker_config_data' took 7.21 milliseconds to run.
+2021-04-11 19:32:57,133:INFO:__main__:Ticker: MGLU3 	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-04-11 19:32:57,133:INFO:__main__:Ticker: BOVA11	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-04-11 19:32:57,136:DEBUG:ticker_manager:'MGLU3' major interval output file was found.
+2021-04-11 19:32:57,136:DEBUG:ticker_manager:'MGLU3' main interval output file was found.
+2021-04-11 19:32:57,136:DEBUG:ticker_manager:'MGLU3' minor interval output file was found.
+2021-04-11 19:32:57,136:DEBUG:utils:The function 'analyze_output_candles' took 2.87 milliseconds to run.
+2021-04-11 19:32:57,139:DEBUG:ticker_manager:'BOVA11' major interval output file was found.
+2021-04-11 19:32:57,139:DEBUG:ticker_manager:'BOVA11' main interval output file was found.
+2021-04-11 19:32:57,139:DEBUG:ticker_manager:'BOVA11' minor interval output file was found.
+2021-04-11 19:32:57,139:DEBUG:utils:The function 'analyze_output_candles' took 2.80 milliseconds to run.
+2021-04-11 19:42:32,169:INFO:__main__:Program started.
+2021-04-11 19:42:32,169:DEBUG:utils:Searching for config file in 'config/config.json'.
+2021-04-11 19:42:32,170:DEBUG:utils:File found.
+2021-04-11 19:42:32,170:DEBUG:utils:The function 'read_cfg' took 0.71 milliseconds to run.
+2021-04-11 19:42:32,181:DEBUG:utils:The function 'get_ticker_config_data' took 10.61 milliseconds to run.
+2021-04-11 19:42:32,181:INFO:__main__:Ticker: MGLU3 	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-04-11 19:42:32,181:INFO:__main__:Ticker: BOVA11	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-04-11 19:42:32,185:DEBUG:ticker_manager:'MGLU3' major interval output file was found.
+2021-04-11 19:42:32,185:DEBUG:ticker_manager:'MGLU3' main interval output file was found.
+2021-04-11 19:42:32,185:DEBUG:ticker_manager:'MGLU3' minor interval output file was found.
+2021-04-11 19:42:32,185:DEBUG:utils:The function 'analyze_output_candles' took 3.74 milliseconds to run.
+2021-04-11 19:42:32,188:DEBUG:ticker_manager:'BOVA11' major interval output file was found.
+2021-04-11 19:42:32,188:DEBUG:ticker_manager:'BOVA11' main interval output file was found.
+2021-04-11 19:42:32,188:DEBUG:ticker_manager:'BOVA11' minor interval output file was found.
+2021-04-11 19:42:32,188:DEBUG:utils:The function 'analyze_output_candles' took 2.64 milliseconds to run.
+2021-04-11 23:52:19,310:INFO:__main__:Program started.
+2021-04-11 23:52:19,311:DEBUG:utils:Searching for config file in 'config/config.json'.
+2021-04-11 23:52:19,312:DEBUG:utils:File found.
+2021-04-11 23:52:19,312:DEBUG:utils:The function 'read_cfg' took 0.79 milliseconds to run.
+2021-04-11 23:52:19,320:DEBUG:utils:The function 'get_ticker_config_data' took 8.04 milliseconds to run.
+2021-04-11 23:52:19,320:INFO:__main__:Ticker: MGLU3 	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-04-11 23:52:19,320:INFO:__main__:Ticker: BOVA11	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-04-11 23:52:19,321:ERROR:ticker_manager:Program aborted. Data source 'ticks_file' not available.
+2021-04-11 23:52:27,999:INFO:__main__:Program started.
+2021-04-11 23:52:27,999:DEBUG:utils:Searching for config file in 'config/config.json'.
+2021-04-11 23:52:28,000:DEBUG:utils:File found.
+2021-04-11 23:52:28,000:DEBUG:utils:The function 'read_cfg' took 0.36 milliseconds to run.
+2021-04-11 23:52:28,005:DEBUG:utils:The function 'get_ticker_config_data' took 5.37 milliseconds to run.
+2021-04-11 23:52:28,005:INFO:__main__:Ticker: MGLU3 	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-04-11 23:52:28,005:INFO:__main__:Ticker: BOVA11	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-04-11 23:52:28,006:ERROR:ticker_manager:Program aborted. Data source 'ticks_file' not available.
+2021-04-11 23:52:59,533:INFO:__main__:Program started.
+2021-04-11 23:52:59,533:DEBUG:utils:Searching for config file in 'config/config.json'.
+2021-04-11 23:52:59,533:DEBUG:utils:File found.
+2021-04-11 23:52:59,533:DEBUG:utils:The function 'read_cfg' took 0.37 milliseconds to run.
+2021-04-11 23:52:59,539:DEBUG:utils:The function 'get_ticker_config_data' took 5.45 milliseconds to run.
+2021-04-11 23:52:59,539:INFO:__main__:Ticker: MGLU3 	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-04-11 23:52:59,539:INFO:__main__:Ticker: BOVA11	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-04-11 23:52:59,539:ERROR:ticker_manager:Program aborted. Data source 'ticks_file' not available.
+2021-04-11 23:58:02,670:INFO:__main__:Program started.
+2021-04-11 23:58:02,670:DEBUG:utils:Searching for config file in 'config/config.json'.
+2021-04-11 23:58:02,671:DEBUG:utils:File found.
+2021-04-11 23:58:02,671:DEBUG:utils:The function 'read_cfg' took 0.76 milliseconds to run.
+2021-04-11 23:58:02,680:DEBUG:utils:The function 'get_ticker_config_data' took 8.76 milliseconds to run.
+2021-04-11 23:58:02,680:INFO:__main__:Ticker: MGLU3 	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-04-11 23:58:02,680:INFO:__main__:Ticker: BOVA11	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-04-11 23:58:02,684:DEBUG:ticker_manager:'MGLU3' major interval output file was found.
+2021-04-11 23:58:02,684:DEBUG:ticker_manager:'MGLU3' main interval output file was found.
+2021-04-11 23:58:02,685:DEBUG:ticker_manager:'MGLU3' minor interval output file was found.
+2021-04-11 23:58:02,685:DEBUG:utils:The function 'analyze_output_candles' took 4.31 milliseconds to run.
+2021-04-11 23:58:02,688:DEBUG:ticker_manager:'BOVA11' major interval output file was found.
+2021-04-11 23:58:02,688:DEBUG:ticker_manager:'BOVA11' main interval output file was found.
+2021-04-11 23:58:02,688:DEBUG:ticker_manager:'BOVA11' minor interval output file was found.
+2021-04-11 23:58:02,688:DEBUG:utils:The function 'analyze_output_candles' took 3.51 milliseconds to run.
+2021-04-12 00:05:19,133:INFO:__main__:Program started.
+2021-04-12 00:05:19,133:DEBUG:utils:Searching for config file in 'config/config.json'.
+2021-04-12 00:05:19,134:DEBUG:utils:File found.
+2021-04-12 00:05:19,134:DEBUG:utils:The function 'read_cfg' took 0.40 milliseconds to run.
+2021-04-12 00:05:19,139:DEBUG:utils:The function 'get_ticker_config_data' took 5.52 milliseconds to run.
+2021-04-12 00:05:19,140:INFO:__main__:Ticker: MGLU3 	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-04-12 00:05:19,140:INFO:__main__:Ticker: BOVA11	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-04-12 00:05:19,142:DEBUG:ticker_manager:'MGLU3' major interval output file was found.
+2021-04-12 00:05:19,142:DEBUG:ticker_manager:'MGLU3' main interval output file was found.
+2021-04-12 00:05:19,142:DEBUG:ticker_manager:'MGLU3' minor interval output file was found.
+2021-04-12 00:05:19,142:DEBUG:utils:The function 'analyze_output_candles' took 2.01 milliseconds to run.
+2021-04-12 00:05:19,144:DEBUG:ticker_manager:'BOVA11' major interval output file was found.
+2021-04-12 00:05:19,144:DEBUG:ticker_manager:'BOVA11' main interval output file was found.
+2021-04-12 00:05:19,145:DEBUG:ticker_manager:'BOVA11' minor interval output file was found.
+2021-04-12 00:05:19,145:DEBUG:utils:The function 'analyze_output_candles' took 2.83 milliseconds to run.
+2021-04-12 00:05:29,356:INFO:__main__:Program started.
+2021-04-12 00:05:29,356:DEBUG:utils:Searching for config file in 'config/config.json'.
+2021-04-12 00:05:29,356:DEBUG:utils:File found.
+2021-04-12 00:05:29,356:DEBUG:utils:The function 'read_cfg' took 0.38 milliseconds to run.
+2021-04-12 00:05:29,363:DEBUG:utils:The function 'get_ticker_config_data' took 6.45 milliseconds to run.
+2021-04-12 00:05:29,363:INFO:__main__:Ticker: MGLU3 	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-04-12 00:05:29,363:INFO:__main__:Ticker: BOVA11	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-04-12 00:05:29,365:DEBUG:ticker_manager:'MGLU3' major interval output file was found.
+2021-04-12 00:05:29,365:DEBUG:ticker_manager:'MGLU3' main interval output file was found.
+2021-04-12 00:05:29,365:DEBUG:ticker_manager:'MGLU3' minor interval output file was found.
+2021-04-12 00:05:29,365:DEBUG:utils:The function 'analyze_output_candles' took 2.14 milliseconds to run.
+2021-04-12 00:05:29,368:DEBUG:ticker_manager:'BOVA11' major interval output file was found.
+2021-04-12 00:05:29,368:DEBUG:ticker_manager:'BOVA11' main interval output file was found.
+2021-04-12 00:05:29,368:DEBUG:ticker_manager:'BOVA11' minor interval output file was found.
+2021-04-12 00:05:29,368:DEBUG:utils:The function 'analyze_output_candles' took 2.50 milliseconds to run.
+2021-04-12 00:09:47,448:INFO:__main__:Program started.
+2021-04-12 00:09:47,449:DEBUG:utils:Searching for config file in 'config/config.json'.
+2021-04-12 00:09:47,449:DEBUG:utils:File found.
+2021-04-12 00:09:47,449:DEBUG:utils:The function 'read_cfg' took 0.71 milliseconds to run.
+2021-04-12 00:09:47,457:DEBUG:utils:The function 'get_ticker_config_data' took 7.80 milliseconds to run.
+2021-04-12 00:09:47,457:INFO:__main__:Ticker: MGLU3 	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-04-12 00:09:47,458:INFO:__main__:Ticker: BOVA11	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-04-12 00:09:47,461:DEBUG:ticker_manager:'MGLU3' major interval output file was found.
+2021-04-12 00:09:47,461:DEBUG:ticker_manager:'MGLU3' main interval output file was found.
+2021-04-12 00:09:47,461:DEBUG:ticker_manager:'MGLU3' minor interval output file was found.
+2021-04-12 00:09:47,461:DEBUG:utils:The function 'analyze_output_candles' took 3.06 milliseconds to run.
+2021-04-12 00:09:47,464:DEBUG:ticker_manager:'BOVA11' major interval output file was found.
+2021-04-12 00:09:47,464:DEBUG:ticker_manager:'BOVA11' main interval output file was found.
+2021-04-12 00:09:47,464:DEBUG:ticker_manager:'BOVA11' minor interval output file was found.
+2021-04-12 00:09:47,464:DEBUG:utils:The function 'analyze_output_candles' took 3.21 milliseconds to run.
+2021-04-21 05:01:17,670:INFO:__main__:Program started.
+2021-04-21 05:01:17,670:DEBUG:utils:Searching for config file in 'config/config.json'.
+2021-04-21 05:01:17,671:DEBUG:utils:File found.
+2021-04-21 05:01:17,671:DEBUG:utils:The function 'read_cfg' took 0.92 milliseconds to run.
+2021-04-21 05:01:17,678:DEBUG:utils:The function 'get_ticker_config_data' took 6.64 milliseconds to run.
+2021-04-21 05:01:17,678:INFO:__main__:Ticker: MGLU3 	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-04-21 05:01:17,678:INFO:__main__:Ticker: BOVA11	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-04-21 05:01:44,565:INFO:__main__:Program started.
+2021-04-21 05:01:44,565:DEBUG:utils:Searching for config file in 'config/config.json'.
+2021-04-21 05:01:44,565:DEBUG:utils:File found.
+2021-04-21 05:01:44,565:DEBUG:utils:The function 'read_cfg' took 0.35 milliseconds to run.
+2021-04-21 05:01:44,571:DEBUG:utils:The function 'get_ticker_config_data' took 5.83 milliseconds to run.
+2021-04-21 05:01:44,571:INFO:__main__:Ticker: MGLU3 	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-04-21 05:01:44,571:INFO:__main__:Ticker: BOVA11	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-04-24 01:08:06,826:INFO:__main__:Program started.
+2021-04-24 01:08:06,826:DEBUG:utils:Searching for config file in 'config/config.json'.
+2021-04-24 01:08:06,826:DEBUG:utils:File found.
+2021-04-24 01:08:06,827:DEBUG:utils:The function 'read_cfg' took 0.89 milliseconds to run.
+2021-04-24 01:08:06,835:DEBUG:utils:The function 'get_ticker_config_data' took 8.08 milliseconds to run.
+2021-04-24 01:08:06,835:INFO:__main__:Ticker: MGLU3 	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-04-24 01:08:06,835:INFO:__main__:Ticker: BOVA11	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-04-24 01:08:21,598:INFO:__main__:Program started.
+2021-04-24 01:08:21,598:DEBUG:utils:Searching for config file in 'config/config.json'.
+2021-04-24 01:08:21,599:DEBUG:utils:File found.
+2021-04-24 01:08:21,599:DEBUG:utils:The function 'read_cfg' took 0.34 milliseconds to run.
+2021-04-24 01:08:21,604:DEBUG:utils:The function 'get_ticker_config_data' took 5.36 milliseconds to run.
+2021-04-24 01:08:21,604:INFO:__main__:Ticker: MGLU3 	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-04-24 01:08:21,605:INFO:__main__:Ticker: BOVA11	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-04-24 01:08:21,739:DEBUG:db_model:Database '{DB_NAME}' connected successfully.
+2021-04-24 01:09:10,125:INFO:__main__:Program started.
+2021-04-24 01:09:10,125:DEBUG:utils:Searching for config file in 'config/config.json'.
+2021-04-24 01:09:10,126:DEBUG:utils:File found.
+2021-04-24 01:09:10,126:DEBUG:utils:The function 'read_cfg' took 0.31 milliseconds to run.
+2021-04-24 01:09:10,131:DEBUG:utils:The function 'get_ticker_config_data' took 5.28 milliseconds to run.
+2021-04-24 01:09:10,131:INFO:__main__:Ticker: MGLU3 	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-04-24 01:09:10,131:INFO:__main__:Ticker: BOVA11	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-04-24 01:09:10,204:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-04-24 01:15:15,969:INFO:__main__:Program started.
+2021-04-24 01:15:15,970:DEBUG:utils:Searching for config file in 'config/config.json'.
+2021-04-24 01:15:15,971:DEBUG:utils:File found.
+2021-04-24 01:15:15,971:DEBUG:utils:The function 'read_cfg' took 1.01 milliseconds to run.
+2021-04-24 01:15:15,977:DEBUG:utils:The function 'get_ticker_config_data' took 5.94 milliseconds to run.
+2021-04-24 01:15:15,977:INFO:__main__:Ticker: MGLU3 	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-04-24 01:15:15,977:INFO:__main__:Ticker: BOVA11	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-04-24 01:15:16,098:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-04-24 01:17:28,725:INFO:__main__:Program started.
+2021-04-24 01:17:28,725:DEBUG:utils:Searching for config file in 'config/config.json'.
+2021-04-24 01:17:28,725:DEBUG:utils:File found.
+2021-04-24 01:17:28,725:DEBUG:utils:The function 'read_cfg' took 0.33 milliseconds to run.
+2021-04-24 01:17:28,730:DEBUG:utils:The function 'get_ticker_config_data' took 4.89 milliseconds to run.
+2021-04-24 01:17:28,730:INFO:__main__:Ticker: MGLU3 	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-04-24 01:17:28,730:INFO:__main__:Ticker: BOVA11	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-04-24 01:17:28,804:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-04-24 01:17:54,877:INFO:__main__:Program started.
+2021-04-24 01:17:54,877:DEBUG:utils:Searching for config file in 'config/config.json'.
+2021-04-24 01:17:54,877:DEBUG:utils:File found.
+2021-04-24 01:17:54,878:DEBUG:utils:The function 'read_cfg' took 0.35 milliseconds to run.
+2021-04-24 01:17:54,883:DEBUG:utils:The function 'get_ticker_config_data' took 5.23 milliseconds to run.
+2021-04-24 01:17:54,883:INFO:__main__:Ticker: MGLU3 	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-04-24 01:17:54,883:INFO:__main__:Ticker: BOVA11	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-04-24 01:17:54,957:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-04-24 01:18:18,983:INFO:__main__:Program started.
+2021-04-24 01:18:18,984:DEBUG:utils:Searching for config file in 'config/config.json'.
+2021-04-24 01:18:18,984:DEBUG:utils:File found.
+2021-04-24 01:18:18,984:DEBUG:utils:The function 'read_cfg' took 0.32 milliseconds to run.
+2021-04-24 01:18:18,989:DEBUG:utils:The function 'get_ticker_config_data' took 5.27 milliseconds to run.
+2021-04-24 01:18:18,989:INFO:__main__:Ticker: MGLU3 	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-04-24 01:18:18,989:INFO:__main__:Ticker: BOVA11	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-04-24 01:18:19,073:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-04-24 01:18:33,826:INFO:__main__:Program started.
+2021-04-24 01:18:33,827:DEBUG:utils:Searching for config file in 'config/config.json'.
+2021-04-24 01:18:33,827:DEBUG:utils:File found.
+2021-04-24 01:18:33,827:DEBUG:utils:The function 'read_cfg' took 0.34 milliseconds to run.
+2021-04-24 01:18:33,832:DEBUG:utils:The function 'get_ticker_config_data' took 5.21 milliseconds to run.
+2021-04-24 01:18:33,832:INFO:__main__:Ticker: MGLU3 	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-04-24 01:18:33,832:INFO:__main__:Ticker: BOVA11	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-04-24 01:18:33,845:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-04-24 01:19:00,853:INFO:__main__:Program started.
+2021-04-24 01:19:00,853:DEBUG:utils:Searching for config file in 'config/config.json'.
+2021-04-24 01:19:00,853:DEBUG:utils:File found.
+2021-04-24 01:19:00,854:DEBUG:utils:The function 'read_cfg' took 0.31 milliseconds to run.
+2021-04-24 01:19:00,859:DEBUG:utils:The function 'get_ticker_config_data' took 5.03 milliseconds to run.
+2021-04-24 01:19:00,859:INFO:__main__:Ticker: MGLU3 	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-04-24 01:19:00,859:INFO:__main__:Ticker: BOVA11	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-04-24 01:19:00,943:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-08 14:08:50,127:INFO:__main__:Program started.
+2021-05-08 14:08:50,128:DEBUG:utils:Searching for config file in 'config/config.json'.
+2021-05-08 14:08:50,128:ERROR:utils:Program aborted. Couldn't open configuration file: 'config/config.json'.
+Traceback (most recent call last):
+  File "/Users/atcha/Github/Projeto-Final/src/utils.py", line 62, in read_cfg
+    with open(config_path, 'r') as cfg_file:
+FileNotFoundError: [Errno 2] No such file or directory: 'config/config.json'
+2021-05-08 14:08:50,129:DEBUG:utils:The function 'read_cfg' took 0.85 milliseconds to run.
+2021-05-08 15:00:01,493:INFO:__main__:Program started.
+2021-05-08 15:00:01,495:DEBUG:utils:Searching for config file in 'config/config.json'.
+2021-05-08 15:00:01,496:DEBUG:utils:File found.
+2021-05-08 15:00:01,496:DEBUG:utils:The function 'read_cfg' took 1.01 milliseconds to run.
+2021-05-08 15:00:01,502:DEBUG:utils:The function 'get_ticker_config_data' took 6.42 milliseconds to run.
+2021-05-08 15:00:01,503:INFO:__main__:Ticker: MGLU3 	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-05-08 15:00:01,503:INFO:__main__:Ticker: BOVA11	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-05-08 15:00:01,671:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-08 15:00:43,357:INFO:__main__:Program started.
+2021-05-08 15:00:43,357:DEBUG:utils:Searching for config file in 'config/config.json'.
+2021-05-08 15:00:43,358:DEBUG:utils:File found.
+2021-05-08 15:00:43,358:DEBUG:utils:The function 'read_cfg' took 0.85 milliseconds to run.
+2021-05-08 15:00:43,364:DEBUG:utils:The function 'get_ticker_config_data' took 5.18 milliseconds to run.
+2021-05-08 15:00:43,364:INFO:__main__:Ticker: MGLU3 	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-05-08 15:00:43,364:INFO:__main__:Ticker: BOVA11	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-05-08 15:00:43,477:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-08 15:01:22,255:INFO:__main__:Program started.
+2021-05-08 15:01:22,255:DEBUG:utils:Searching for config file in 'config/config.json'.
+2021-05-08 15:01:22,255:DEBUG:utils:File found.
+2021-05-08 15:01:22,255:DEBUG:utils:The function 'read_cfg' took 0.31 milliseconds to run.
+2021-05-08 15:01:22,260:DEBUG:utils:The function 'get_ticker_config_data' took 5.12 milliseconds to run.
+2021-05-08 15:01:22,260:INFO:__main__:Ticker: MGLU3 	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-05-08 15:01:22,261:INFO:__main__:Ticker: BOVA11	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-05-08 15:01:22,335:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-08 15:01:45,277:INFO:__main__:Program started.
+2021-05-08 15:01:45,278:DEBUG:utils:Searching for config file in 'config/config.json'.
+2021-05-08 15:01:45,278:DEBUG:utils:File found.
+2021-05-08 15:01:45,278:DEBUG:utils:The function 'read_cfg' took 0.32 milliseconds to run.
+2021-05-08 15:01:45,283:DEBUG:utils:The function 'get_ticker_config_data' took 5.06 milliseconds to run.
+2021-05-08 15:01:45,283:INFO:__main__:Ticker: MGLU3 	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-05-08 15:01:45,283:INFO:__main__:Ticker: BOVA11	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-05-08 15:01:45,365:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-08 15:03:15,392:INFO:__main__:Program started.
+2021-05-08 15:03:15,392:DEBUG:utils:Searching for config file in 'config/config.json'.
+2021-05-08 15:03:15,392:DEBUG:utils:File found.
+2021-05-08 15:03:15,392:DEBUG:utils:The function 'read_cfg' took 0.32 milliseconds to run.
+2021-05-08 15:03:15,397:DEBUG:utils:The function 'get_ticker_config_data' took 4.82 milliseconds to run.
+2021-05-08 15:03:15,397:INFO:__main__:Ticker: MGLU3 	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-05-08 15:03:15,397:INFO:__main__:Ticker: BOVA11	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-05-08 15:03:15,470:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-08 15:04:26,883:INFO:__main__:Program started.
+2021-05-08 15:04:26,883:DEBUG:utils:Searching for config file in 'config/config.json'.
+2021-05-08 15:04:26,884:DEBUG:utils:File found.
+2021-05-08 15:04:26,884:DEBUG:utils:The function 'read_cfg' took 0.82 milliseconds to run.
+2021-05-08 15:04:26,889:DEBUG:utils:The function 'get_ticker_config_data' took 5.46 milliseconds to run.
+2021-05-08 15:04:26,890:INFO:__main__:Ticker: MGLU3 	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-05-08 15:04:26,890:INFO:__main__:Ticker: BOVA11	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-05-08 15:04:27,004:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-08 15:06:38,476:INFO:__main__:Program started.
+2021-05-08 15:06:38,476:DEBUG:utils:Searching for config file in 'config/config.json'.
+2021-05-08 15:06:38,477:DEBUG:utils:File found.
+2021-05-08 15:06:38,477:DEBUG:utils:The function 'read_cfg' took 0.33 milliseconds to run.
+2021-05-08 15:06:38,482:DEBUG:utils:The function 'get_ticker_config_data' took 4.82 milliseconds to run.
+2021-05-08 15:06:38,482:INFO:__main__:Ticker: MGLU3 	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-05-08 15:06:38,482:INFO:__main__:Ticker: BOVA11	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-05-08 15:06:38,553:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-08 15:06:55,844:INFO:__main__:Program started.
+2021-05-08 15:06:55,845:DEBUG:utils:Searching for config file in 'config/config.json'.
+2021-05-08 15:06:55,845:DEBUG:utils:File found.
+2021-05-08 15:06:55,845:DEBUG:utils:The function 'read_cfg' took 0.35 milliseconds to run.
+2021-05-08 15:06:55,850:DEBUG:utils:The function 'get_ticker_config_data' took 4.92 milliseconds to run.
+2021-05-08 15:06:55,850:INFO:__main__:Ticker: MGLU3 	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-05-08 15:06:55,850:INFO:__main__:Ticker: BOVA11	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-05-08 15:06:55,926:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-08 15:07:14,537:INFO:__main__:Program started.
+2021-05-08 15:07:14,538:DEBUG:utils:Searching for config file in 'config/config.json'.
+2021-05-08 15:07:14,538:DEBUG:utils:File found.
+2021-05-08 15:07:14,538:DEBUG:utils:The function 'read_cfg' took 0.32 milliseconds to run.
+2021-05-08 15:07:14,543:DEBUG:utils:The function 'get_ticker_config_data' took 4.96 milliseconds to run.
+2021-05-08 15:07:14,543:INFO:__main__:Ticker: MGLU3 	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-05-08 15:07:14,543:INFO:__main__:Ticker: BOVA11	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-05-08 15:07:14,616:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-08 15:07:22,841:INFO:__main__:Program started.
+2021-05-08 15:07:22,841:DEBUG:utils:Searching for config file in 'config/config.json'.
+2021-05-08 15:07:22,841:DEBUG:utils:File found.
+2021-05-08 15:07:22,842:DEBUG:utils:The function 'read_cfg' took 0.35 milliseconds to run.
+2021-05-08 15:07:22,847:DEBUG:utils:The function 'get_ticker_config_data' took 5.51 milliseconds to run.
+2021-05-08 15:07:22,847:INFO:__main__:Ticker: MGLU3 	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-05-08 15:07:22,847:INFO:__main__:Ticker: BOVA11	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-05-08 15:07:22,858:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-08 15:08:06,755:INFO:__main__:Program started.
+2021-05-08 15:08:06,755:DEBUG:utils:Searching for config file in 'config/config.json'.
+2021-05-08 15:08:06,755:DEBUG:utils:File found.
+2021-05-08 15:08:06,755:DEBUG:utils:The function 'read_cfg' took 0.32 milliseconds to run.
+2021-05-08 15:08:06,760:DEBUG:utils:The function 'get_ticker_config_data' took 5.09 milliseconds to run.
+2021-05-08 15:08:06,761:INFO:__main__:Ticker: MGLU3 	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-05-08 15:08:06,761:INFO:__main__:Ticker: BOVA11	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-05-08 15:08:06,852:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-08 15:11:12,210:INFO:__main__:Program started.
+2021-05-08 15:11:12,210:DEBUG:utils:Searching for config file in 'config/config.json'.
+2021-05-08 15:11:12,210:DEBUG:utils:File found.
+2021-05-08 15:11:12,211:DEBUG:utils:The function 'read_cfg' took 0.32 milliseconds to run.
+2021-05-08 15:11:12,216:DEBUG:utils:The function 'get_ticker_config_data' took 4.93 milliseconds to run.
+2021-05-08 15:11:12,216:INFO:__main__:Ticker: MGLU3 	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-05-08 15:11:12,216:INFO:__main__:Ticker: BOVA11	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-05-08 15:11:12,288:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-10 22:54:20,015:INFO:__main__:Program started.
+2021-05-10 22:54:20,015:DEBUG:utils:Searching for config file in 'config/config.json'.
+2021-05-10 22:54:20,016:ERROR:utils:Program aborted. Couldn't open configuration file: 'config/config.json'.
+Traceback (most recent call last):
+  File "/Users/atcha/Github/Projeto-Final/src/utils.py", line 62, in read_cfg
+    with open(config_path, 'r') as cfg_file:
+FileNotFoundError: [Errno 2] No such file or directory: 'config/config.json'
+2021-05-10 22:54:20,017:DEBUG:utils:The function 'read_cfg' took 1.93 milliseconds to run.
+2021-05-10 22:54:43,096:INFO:__main__:Program started.
+2021-05-10 22:54:43,097:DEBUG:utils:Searching for config file in 'config/config.json'.
+2021-05-10 22:54:43,097:ERROR:utils:Program aborted. Couldn't open configuration file: 'config/config.json'.
+Traceback (most recent call last):
+  File "/Users/atcha/Github/Projeto-Final/src/utils.py", line 62, in read_cfg
+    with open(config_path, 'r') as cfg_file:
+FileNotFoundError: [Errno 2] No such file or directory: 'config/config.json'
+2021-05-10 22:54:43,097:DEBUG:utils:The function 'read_cfg' took 0.61 milliseconds to run.
+2021-05-10 22:58:46,889:INFO:__main__:Program started.
+2021-05-10 22:58:46,890:DEBUG:utils:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-05-10 22:58:46,890:DEBUG:utils:File found.
+2021-05-10 22:58:46,891:DEBUG:utils:The function 'read_cfg' took 0.98 milliseconds to run.
+2021-05-10 22:58:46,899:DEBUG:utils:The function 'get_ticker_config_data' took 7.66 milliseconds to run.
+2021-05-10 22:58:46,899:INFO:__main__:Ticker: MGLU3 	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-05-10 22:58:46,899:INFO:__main__:Ticker: BOVA11	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-05-10 22:58:47,075:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-10 23:00:20,158:INFO:__main__:Program started.
+2021-05-10 23:00:20,158:DEBUG:utils:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-05-10 23:00:20,159:DEBUG:utils:File found.
+2021-05-10 23:00:20,159:DEBUG:utils:The function 'read_cfg' took 0.61 milliseconds to run.
+2021-05-10 23:00:20,165:DEBUG:utils:The function 'get_ticker_config_data' took 5.91 milliseconds to run.
+2021-05-10 23:00:20,165:INFO:__main__:Ticker: MGLU3 	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-05-10 23:00:20,165:INFO:__main__:Ticker: BOVA11	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-05-10 23:00:20,285:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-10 23:01:35,576:INFO:__main__:Program started.
+2021-05-10 23:01:35,577:DEBUG:utils:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-05-10 23:01:35,578:DEBUG:utils:File found.
+2021-05-10 23:01:35,578:DEBUG:utils:The function 'read_cfg' took 1.01 milliseconds to run.
+2021-05-10 23:01:35,584:DEBUG:utils:The function 'get_ticker_config_data' took 5.84 milliseconds to run.
+2021-05-10 23:01:35,584:INFO:__main__:Ticker: MGLU3 	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-05-10 23:01:35,584:INFO:__main__:Ticker: BOVA11	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-05-10 23:01:35,726:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-10 23:02:14,455:INFO:__main__:Program started.
+2021-05-10 23:02:14,455:DEBUG:utils:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-05-10 23:02:14,456:DEBUG:utils:File found.
+2021-05-10 23:02:14,456:DEBUG:utils:The function 'read_cfg' took 0.38 milliseconds to run.
+2021-05-10 23:02:14,461:DEBUG:utils:The function 'get_ticker_config_data' took 5.56 milliseconds to run.
+2021-05-10 23:02:14,461:INFO:__main__:Ticker: MGLU3 	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-05-10 23:02:14,462:INFO:__main__:Ticker: BOVA11	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-05-10 23:02:14,559:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-10 23:20:49,383:INFO:__main__:Program started.
+2021-05-10 23:20:49,384:DEBUG:utils:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-05-10 23:20:49,385:DEBUG:utils:File found.
+2021-05-10 23:20:49,385:DEBUG:utils:The function 'read_cfg' took 0.82 milliseconds to run.
+2021-05-10 23:20:49,390:DEBUG:utils:The function 'get_ticker_config_data' took 5.27 milliseconds to run.
+2021-05-10 23:20:49,391:INFO:__main__:Ticker: MGLU3 	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-05-10 23:20:49,391:INFO:__main__:Ticker: BOVA11	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-05-10 23:21:29,905:INFO:__main__:Program started.
+2021-05-10 23:21:29,905:DEBUG:utils:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-05-10 23:21:29,906:DEBUG:utils:File found.
+2021-05-10 23:21:29,906:DEBUG:utils:The function 'read_cfg' took 0.38 milliseconds to run.
+2021-05-10 23:21:29,911:DEBUG:utils:The function 'get_ticker_config_data' took 5.13 milliseconds to run.
+2021-05-10 23:21:29,911:INFO:__main__:Ticker: MGLU3 	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-05-10 23:21:29,911:INFO:__main__:Ticker: BOVA11	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-05-10 23:21:30,019:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-10 23:21:30,028:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-10 23:21:30,036:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-10 23:23:58,850:INFO:__main__:Program started.
+2021-05-10 23:23:58,851:DEBUG:utils:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-05-10 23:23:58,851:DEBUG:utils:File found.
+2021-05-10 23:23:58,851:DEBUG:utils:The function 'read_cfg' took 0.35 milliseconds to run.
+2021-05-10 23:23:58,856:DEBUG:utils:The function 'get_ticker_config_data' took 4.97 milliseconds to run.
+2021-05-10 23:23:58,856:INFO:__main__:Ticker: MGLU3 	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-05-10 23:23:58,856:INFO:__main__:Ticker: BOVA11	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-05-10 23:23:58,931:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-10 23:23:58,940:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-10 23:23:58,948:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-10 23:24:16,451:INFO:__main__:Program started.
+2021-05-10 23:24:16,452:DEBUG:utils:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-05-10 23:24:16,452:DEBUG:utils:File found.
+2021-05-10 23:24:16,453:DEBUG:utils:The function 'read_cfg' took 0.85 milliseconds to run.
+2021-05-10 23:24:16,459:DEBUG:utils:The function 'get_ticker_config_data' took 5.88 milliseconds to run.
+2021-05-10 23:24:16,459:INFO:__main__:Ticker: MGLU3 	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-05-10 23:24:16,459:INFO:__main__:Ticker: BOVA11	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-05-10 23:24:16,553:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-10 23:24:16,561:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-10 23:24:16,570:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-10 23:24:29,431:INFO:__main__:Program started.
+2021-05-10 23:24:29,431:DEBUG:utils:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-05-10 23:24:29,432:DEBUG:utils:File found.
+2021-05-10 23:24:29,432:DEBUG:utils:The function 'read_cfg' took 0.35 milliseconds to run.
+2021-05-10 23:24:29,437:DEBUG:utils:The function 'get_ticker_config_data' took 4.94 milliseconds to run.
+2021-05-10 23:24:29,437:INFO:__main__:Ticker: MGLU3 	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-05-10 23:24:29,437:INFO:__main__:Ticker: BOVA11	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-05-10 23:24:29,450:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-10 23:24:29,459:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-10 23:24:29,468:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-10 23:24:29,468:ERROR:db_model:Error executing query "SELECT economic_sector, economic_subsector, economic_segment FROM company_classification", error: name 'self' is not defined
+2021-05-10 23:24:53,105:INFO:__main__:Program started.
+2021-05-10 23:24:53,106:DEBUG:utils:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-05-10 23:24:53,106:DEBUG:utils:File found.
+2021-05-10 23:24:53,106:DEBUG:utils:The function 'read_cfg' took 0.37 milliseconds to run.
+2021-05-10 23:24:53,111:DEBUG:utils:The function 'get_ticker_config_data' took 5.11 milliseconds to run.
+2021-05-10 23:24:53,111:INFO:__main__:Ticker: MGLU3 	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-05-10 23:24:53,111:INFO:__main__:Ticker: BOVA11	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-05-10 23:24:53,211:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-10 23:24:53,220:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-10 23:24:53,228:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-10 23:24:53,229:ERROR:db_model:Error executing query "SELECT economic_sector, economic_subsector, economic_segment FROM company_classification", error: name 'self' is not defined
+2021-05-10 23:25:56,120:INFO:__main__:Program started.
+2021-05-10 23:25:56,120:DEBUG:utils:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-05-10 23:25:56,120:DEBUG:utils:File found.
+2021-05-10 23:25:56,120:DEBUG:utils:The function 'read_cfg' took 0.37 milliseconds to run.
+2021-05-10 23:25:56,126:DEBUG:utils:The function 'get_ticker_config_data' took 5.32 milliseconds to run.
+2021-05-10 23:25:56,126:INFO:__main__:Ticker: MGLU3 	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-05-10 23:25:56,126:INFO:__main__:Ticker: BOVA11	Inital date: 01/01/2020		Final date: 30/09/2020
+2021-05-10 23:25:56,201:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-10 23:25:56,209:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-10 23:25:56,217:DEBUG:db_model:Database 'StockMarket' connected successfully.
