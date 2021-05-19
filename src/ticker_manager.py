@@ -108,6 +108,9 @@ class TickerManager:
     def verify_date_range(self):
         pass
 
+    def update_interval(self):
+        self._db_manager.update_daily_candles()
+
 
     # Removed because yfinance will take place
     # @RunTime('analyze_output_candles')

@@ -2,12 +2,9 @@ import logging
 from logging.handlers import RotatingFileHandler
 from pathlib import Path
 
-import utils as u
+import utils
 import constants as c
 from ticker_manager import TickerManager
-
-#For tests only
-import db_model as db
 
 # Configure Logging
 logger = logging.getLogger(__name__)
@@ -28,20 +25,17 @@ def run():
     logger.info('Program started.')
 
     # Read Config File ad store it in a dict
-    config_json = u.read_cfg()
+    config_json = utils.read_cfg()
 
-    ticker_names, initial_days, final_days = u.get_ticker_config_data(config_json)
+    ticker_names, initial_days, final_days = utils.get_ticker_config_data(config_json)
 
     for ticker, initial_day, final_day in zip(ticker_names, initial_days, final_days):
         logger.info('Ticker: '+ticker.ljust(6)+'\tInital date: '+initial_day.strftime('%d/%m/%Y')+'\t\tFinal date: '+final_day.strftime('%d/%m/%Y'))
 
     all_ticker_managers = [TickerManager(ticker_names[i], initial_days[i], final_days[i], config_json['input_files_path'], config_json['output_files_path']) for i in range(len(ticker_names))]
 
-    # date_ranges = [all_ticker_managers. for item in range(all_ticker_managers)]
-
-
-    my_db = db.DBModel()
-    print(my_db.get_all_classifications())
+    for ticker in all_ticker_managers:
+        ticker.update_interval()
 
 
     """
