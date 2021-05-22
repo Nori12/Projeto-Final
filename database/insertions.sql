@@ -1397,7 +1397,7 @@ INSERT INTO symbol (ticker, trading_name) (SELECT 'FSRF11F', trading_name FROM e
 INSERT INTO symbol (ticker, trading_name) (SELECT 'FSTU11F', trading_name FROM entity WHERE trading_name ILIKE 'FISET TUR') ON CONFLICT (ticker) DO NOTHING;
 
 -- 2015 holidays
-INSERT INTO holiday (day)
+INSERT INTO holidays (day)
 VALUES
 ('2015-01-01'),
 ('2015-01-25'),
@@ -1418,7 +1418,7 @@ VALUES
 ('2015-12-31');
 
 -- 2016 holidays
-INSERT INTO holiday (day)
+INSERT INTO holidays (day)
 VALUES
 ('2016-01-01'),
 ('2016-01-25'),
@@ -1439,7 +1439,7 @@ VALUES
 ('2016-12-31');
 
 -- 2017 holidays
-INSERT INTO holiday (day)
+INSERT INTO holidays (day)
 VALUES
 ('2017-01-01'),
 ('2017-01-25'),
@@ -1460,7 +1460,7 @@ VALUES
 ('2017-12-31');
 
 -- 2018 holidays
-INSERT INTO holiday (day)
+INSERT INTO holidays (day)
 VALUES
 ('2018-01-01'),
 ('2018-01-25'),
@@ -1480,7 +1480,7 @@ VALUES
 ('2018-12-31');
 
 -- 2019 holidays
-INSERT INTO holiday (day)
+INSERT INTO holidays (day)
 VALUES
 ('2019-01-01'),
 ('2019-01-25'),
@@ -1501,7 +1501,7 @@ VALUES
 ('2019-12-31');
 
 -- 2020 holidays
-INSERT INTO holiday (day)
+INSERT INTO holidays (day)
 VALUES
 ('2020-01-01'),
 ('2020-01-25'),
@@ -1519,7 +1519,7 @@ VALUES
 ('2020-12-31');
 
 -- 2021 holidays
-INSERT INTO holiday (day)
+INSERT INTO holidays (day)
 VALUES
 ('2021-01-01'),
 ('2021-01-25'),
@@ -1539,7 +1539,7 @@ VALUES
 -- SP: ('2019-01-25'), ('2019-07-09'), ('2019-11-20')
 
 -- 2022 holidays
-INSERT INTO holiday (day)
+INSERT INTO holidays (day)
 VALUES
 ('2022-01-01'),
 ('2022-01-25'),

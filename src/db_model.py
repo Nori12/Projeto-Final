@@ -20,7 +20,7 @@ logger = logging.getLogger(__name__)
 
 log_path = Path(__file__).parent.parent / c.LOG_PATH / c.LOG_FILENAME
 
-file_handler = RotatingFileHandler(log_path, maxBytes=5*1024*1024, backupCount=10)
+file_handler = RotatingFileHandler(log_path, maxBytes=c.LOG_FILE_MAX_SIZE, backupCount=10)
 formatter = logging.Formatter(c.LOG_FORMATTER_STRING)
 file_handler.setFormatter(formatter)
 
@@ -45,6 +45,7 @@ class DBModel:
     def __del__(self):
         self._connection.close()
         self._cursor.close()
+        # logger.debug('Database \'StockMarket\' connection closed.')
 
     def query(self, query, params=None):
         try:
@@ -53,6 +54,7 @@ class DBModel:
             logger.error('Error executing query "{}", error: {}'.format(query, error))
             self._connection.close()
             self._cursor.close()
+            # logger.debug('Database \'StockMarket\' connection closed.')
             sys.exit(c.QUERY_ERR)
 
         return self._cursor.fetchall()
@@ -69,12 +71,14 @@ class DBModel:
 
     def get_all_classifications(self):
         result = self.query("""SELECT economic_sector, economic_subsector, economic_segment FROM company_classification""")
-
         return(result)
 
     def get_date_range(self, ticker):
         result = self.query(f"""SELECT initial_date_hourly_candles, final_date_hourly_candles, initial_date_daily_candles, final_date_daily_candles FROM status WHERE ticker = \'{ticker}\';""")
+        return result
 
+    def get_holidays(self, start_date, end_date):
+        result = self.query(f"""SELECT day FROM holidays WHERE day >= \'{start_date.strftime('%Y-%m-%d')}\' and day <= \'{end_date.strftime('%Y-%m-%d')}\';""")
         return result
 
     def upsert_daily_candles(self, ticker, data):
@@ -88,7 +92,7 @@ class DBModel:
             else:
                 query = query + f"""('{ticker}', '{index.strftime('%Y-%m-%d')}', {row['Open']:.6f}, {row['High']:.6f}, {row['Low']:.6f}, {row['Close']:.6f}, {row['Volume']:.0f}),\n"""
 
-        query = query + 'ON CONFLICT ON CONSTRAINT split_pkey DO NOTHING;'
+        query = query + 'ON CONFLICT ON CONSTRAINT daily_data_pkey DO NOTHING;'
 
         self.insert(query)
 
@@ -106,3 +110,21 @@ class DBModel:
         query = query + 'ON CONFLICT ON CONSTRAINT split_pkey DO NOTHING;'
 
         self.insert(query)
+
+    def upsert_dividends(self, ticker, data):
+
+        number_of_rows = len(data)
+        query = 'INSERT INTO dividends (ticker, payment_date, price_per_stock)\nVALUES\n'
+
+        for n, (index, row) in enumerate(data.iterrows()):
+            if n == number_of_rows - 1:
+                query = query + f"""('{ticker}', '{index.strftime('%Y-%m-%d')}', {row['Dividends']})\n"""
+            else:
+                query = query + f"""('{ticker}', '{index.strftime('%Y-%m-%d')}', {row['Dividends']}),\n"""
+
+        query = query + 'ON CONFLICT ON CONSTRAINT dividends_pkey DO NOTHING;'
+
+        self.insert(query)
+
+    def update_daily_candles_with_split(self, ticker, start_date, end_date, split_ratio):
+        print('Inside update_daily_candles_with_split')

@@ -5,7 +5,8 @@ import json
 from contextlib import ContextDecorator
 from time import time
 import sys
-from datetime import datetime
+from datetime import datetime, timedelta
+import numpy as np
 
 import constants as c
 
@@ -14,7 +15,7 @@ logger = logging.getLogger(__name__)
 
 log_path = Path(__file__).parent.parent / c.LOG_PATH / c.LOG_FILENAME
 
-file_handler = RotatingFileHandler(log_path, maxBytes=5*1024*1024, backupCount=10)
+file_handler = RotatingFileHandler(log_path, maxBytes=c.LOG_FILE_MAX_SIZE, backupCount=10)
 formatter = logging.Formatter(c.LOG_FORMATTER_STRING)
 file_handler.setFormatter(formatter)
 
@@ -113,3 +114,27 @@ def get_ticker_config_data(configuration):
             sys.exit()
 
     return ticker_names, initial_days, final_days
+
+def compare_dates(first, second, holidays):
+    """
+    first > second: positive
+    first < second: negative
+    second = first: zero
+    """
+
+    # work_days = np.busday_count(
+    #     begindates=(final_date_daily_candles+timedelta(days=1)).strftime('%Y-%m-%d'),
+    #     enddates=(self._final_date+timedelta(days=1)).strftime('%Y-%m-%d'),
+    #     holidays = [holiday[0].strftime('%Y-%m-%d') for holiday in holidays])
+
+    wokdays_in_between = int(np.busday_count(
+        begindates=first.strftime('%Y-%m-%d'),
+        enddates=(second).strftime('%Y-%m-%d'),
+        holidays=holidays))
+
+    if wokdays_in_between == 0 or wokdays_in_between == -1:
+        return 0
+    elif wokdays_in_between > 0:
+        return 1
+
+    return -1

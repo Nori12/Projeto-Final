@@ -96,29 +96,29 @@ CREATE TABLE status (
   initial_date_daily_candles TIMESTAMP WITHOUT TIME ZONE,
   final_date_daily_candles TIMESTAMP WITHOUT TIME ZONE,
 
-
   CONSTRAINT status_pkey PRIMARY KEY(ticker)
   --add constraint final_date > inital_date
 );
 
 CREATE TYPE interest_origin_type AS ENUM ('DIV', 'IOC');
 
--- CREATE TABLE interest (
---   ticker CHAR (7) REFERENCES symbol(ticker),
---   origin interest_origin_type,
---   announcement_date TIMESTAMP WITHOUT TIME ZONE,
---   payment_date TIMESTAMP WITHOUT TIME ZONE REFERENCES daily_candles(day),
---   price_per_stock DECIMAL(6, 2) NOT NULL,                   -- Check
---   reference_date TIMESTAMP WITHOUT TIME ZONE NOT NULL
--- );
+CREATE TABLE dividends (
+  ticker CHAR (7) REFERENCES symbol(ticker),
+  payment_date TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+  price_per_stock DECIMAL(10, 6) NOT NULL,
+  reference_date TIMESTAMP WITHOUT TIME ZONE,
+  announcement_date TIMESTAMP WITHOUT TIME ZONE,
+  origin interest_origin_type,
 
-CREATE TABLE holiday (
+  CONSTRAINT dividends_pkey PRIMARY KEY(ticker, payment_date)
+);
+
+CREATE TABLE holidays (
   day TIMESTAMP WITHOUT TIME ZONE PRIMARY KEY
 );
 
---tabela de log de inconsistências ou aproveitar na própria tabela de status
+-- Triggers, Functions, Procedures, Views
 
--- Triggers
 
 CREATE OR REPLACE FUNCTION update_hourly_status() RETURNS trigger AS $update_hourly_status$
   BEGIN
@@ -165,11 +165,13 @@ CREATE OR REPLACE FUNCTION update_hourly_status() RETURNS trigger AS $update_hou
   END;
 $update_hourly_status$ LANGUAGE plpgsql;
 
+
 CREATE TRIGGER update_hourly_status
   AFTER INSERT OR UPDATE OR DELETE OR TRUNCATE
   ON hourly_candles
   FOR EACH STATEMENT
   EXECUTE FUNCTION update_hourly_status();
+
 
 CREATE OR REPLACE FUNCTION update_daily_status() RETURNS trigger AS $update_daily_status$
   BEGIN
@@ -216,6 +218,7 @@ CREATE OR REPLACE FUNCTION update_daily_status() RETURNS trigger AS $update_dail
   END;
 $update_daily_status$ LANGUAGE plpgsql;
 
+
 CREATE TRIGGER update_daily_status
   AFTER INSERT OR UPDATE OR DELETE OR TRUNCATE
   ON daily_candles
@@ -224,7 +227,8 @@ CREATE TRIGGER update_daily_status
 
 CREATE AGGREGATE MUL(DOUBLE PRECISION) (SFUNC=float8mul, STYPE=DOUBLE PRECISION);
 
-CREATE OR REPLACE FUNCTION update_splitted_candles(ticker_name CHAR(7), interval_start TIMESTAMP WITHOUT TIME ZONE, interval_stop TIMESTAMP WITHOUT TIME ZONE)
+
+CREATE OR REPLACE FUNCTION cumulative_split(ticker_name CHAR(7), interval_start TIMESTAMP WITHOUT TIME ZONE, interval_stop TIMESTAMP WITHOUT TIME ZONE)
 RETURNS TABLE(ticker CHAR(7), ratio REAL) AS $$
 DECLARE result REAL;
 BEGIN
@@ -239,3 +243,71 @@ BEGIN
 END;
 $$  LANGUAGE plpgsql
 
+
+CREATE OR REPLACE FUNCTION public.cumulative_split(
+	ticker_name character,
+	interval_start timestamp without time zone,
+	interval_stop timestamp without time zone)
+    RETURNS TABLE(ticker character, ratio real)
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE PARALLEL UNSAFE
+    ROWS 1000
+
+AS $BODY$
+DECLARE result REAL;
+BEGIN
+  RETURN QUERY SELECT s.ticker, CAST(MUL(s.ratio) AS REAL)
+  FROM split s
+  WHERE
+    s.ticker = ticker_name
+	AND s.split_date >= interval_start
+	AND s.split_date <= interval_stop
+  GROUP BY s.ticker;
+
+END;
+$BODY$;
+
+-- CREATE OR REPLACE FUNCTION public.cumulative_split(
+-- 	ticker_name character,
+-- 	interval_start timestamp without time zone,
+-- 	interval_stop timestamp without time zone)
+--     RETURNS TABLE(ticker character, ratio real)
+--     LANGUAGE 'plpgsql'
+--     COST 100
+--     VOLATILE PARALLEL UNSAFE
+--     ROWS 1000
+
+-- AS $BODY$
+-- DECLARE result REAL;
+-- BEGIN
+--   RETURN QUERY SELECT s.ticker, CAST(MUL(s.ratio) AS REAL)
+--   FROM split s
+--   WHERE
+--     s.ticker = ticker_name
+-- 	AND s.split_date >= interval_start
+-- 	AND s.split_date <= interval_stop
+--   GROUP BY s.ticker;
+
+-- END;
+-- $BODY$;
+
+-- SELECT cumulative_split('PRIO3', '2019-01-01','2021-05-19');
+
+-- CREATE OR REPLACE PROCEDURE update_daily_candle_prices(ticker_name CHAR(7), start_date TIMESTAMP WITHOUT TIME ZONE, end_date TIMESTAMP WITHOUT TIME ZONE)
+-- LANGUAGE plpgsql
+-- AS $$
+-- BEGIN
+--     UPDATE daily_candles
+--     SET
+-- 	open_price = CAST((open_price/cumulative_split(ticker_name, end_date, day)) AS REAL)
+--     WHERE
+--       ticker = ticker_name
+--       AND day >= start_date
+-- 	  AND day <= end_date;
+--   END;
+-- $$;
+
+-- SELECT * FROM split;
+-- SELECT * FROM daily_candles WHERE ticker = 'PRIO3' AND day >= '2021-05-01' AND day <= '2021-06-01'
+-- CALL update_daily_candles('PRIO3', '2019-01-01','2021-05-19');
