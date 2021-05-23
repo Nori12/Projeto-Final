@@ -109,7 +109,8 @@ class TickerManager:
         pass
 
     def update_interval(self):
-        self._db_manager.update_daily_candles()
+        self._db_manager.update_candles(interval='1d')
+        self._db_manager.update_candles(interval='1h')
 
 
     # Removed because yfinance will take place

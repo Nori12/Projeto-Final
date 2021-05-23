@@ -4453,3 +4453,303 @@ LINE 3: ON CONFLICT ON CONSTRAINT daily_data_pkey DO NOTHING;
 2021-05-21 23:03:10,942:INFO:__main__:Ticker: PRIO3 	Inital date: 01/12/2020		Final date: 19/05/2021
 2021-05-21 23:03:10,955:DEBUG:db_model:Database 'StockMarket' connected successfully.
 2021-05-21 23:03:54,327:INFO:db_manager:Ticker 'PRIO3' update finished.
+2021-05-22 10:44:53,250:INFO:__main__:Program started.
+2021-05-22 10:44:53,252:DEBUG:utils:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-05-22 10:44:53,252:DEBUG:utils:File found.
+2021-05-22 10:44:53,252:DEBUG:utils:The function 'read_cfg' took 0.94 milliseconds to run.
+2021-05-22 10:44:53,262:DEBUG:utils:The function 'get_ticker_config_data' took 9.64 milliseconds to run.
+2021-05-22 10:44:53,263:INFO:__main__:Ticker: PRIO3 	Inital date: 01/01/2021		Final date: 19/05/2021
+2021-05-22 10:44:53,276:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-22 10:45:14,645:INFO:db_manager:Ticker 'PRIO3' update finished.
+2021-05-22 10:45:40,303:INFO:__main__:Program started.
+2021-05-22 10:45:40,303:DEBUG:utils:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-05-22 10:45:40,304:DEBUG:utils:File found.
+2021-05-22 10:45:40,304:DEBUG:utils:The function 'read_cfg' took 1.12 milliseconds to run.
+2021-05-22 10:45:40,313:DEBUG:utils:The function 'get_ticker_config_data' took 8.28 milliseconds to run.
+2021-05-22 10:45:40,313:INFO:__main__:Ticker: MGLU3 	Inital date: 01/01/2020		Final date: 19/05/2021
+2021-05-22 10:45:40,350:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-22 10:46:17,776:INFO:db_manager:Ticker 'MGLU3' update finished.
+2021-05-22 10:55:52,489:INFO:__main__:Program started.
+2021-05-22 10:55:52,490:DEBUG:utils:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-05-22 10:55:52,491:DEBUG:utils:File found.
+2021-05-22 10:55:52,491:DEBUG:utils:The function 'read_cfg' took 0.84 milliseconds to run.
+2021-05-22 10:55:52,502:DEBUG:utils:The function 'get_ticker_config_data' took 10.98 milliseconds to run.
+2021-05-22 10:55:52,503:INFO:__main__:Ticker: PRIO3 	Inital date: 01/01/2021		Final date: 19/05/2021
+2021-05-22 10:55:52,517:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-22 10:56:11,107:INFO:db_manager:Ticker 'PRIO3' already updated.
+2021-05-22 10:57:23,518:INFO:__main__:Program started.
+2021-05-22 10:57:23,519:DEBUG:utils:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-05-22 10:57:23,519:DEBUG:utils:File found.
+2021-05-22 10:57:23,519:DEBUG:utils:The function 'read_cfg' took 0.93 milliseconds to run.
+2021-05-22 10:57:23,530:DEBUG:utils:The function 'get_ticker_config_data' took 10.18 milliseconds to run.
+2021-05-22 10:57:23,530:INFO:__main__:Ticker: PRIO3 	Inital date: 01/01/2021		Final date: 19/05/2021
+2021-05-22 10:57:23,541:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-22 10:57:30,211:ERROR:db_model:Error executing query "INSERT INTO split (ticker, split_date, ratio)
+VALUES
+('PRIO3', '2021-05-06', 5.0)
+ON CONFLICT ON CONSTRAINT split_pkey DO
+UPDATE SET ratio = EXCLUDED.ratio
+WHERE ticker = EXCLUDED.ticker AND split_date = EXCLUDED.split_date", error: column reference "ticker" is ambiguous
+LINE 6: WHERE ticker = EXCLUDED.ticker AND split_date = EXCLUDED.spl...
+              ^
+
+2021-05-22 12:40:51,577:INFO:__main__:Program started.
+2021-05-22 12:40:51,579:DEBUG:utils:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-05-22 12:40:51,580:DEBUG:utils:File found.
+2021-05-22 12:40:51,580:DEBUG:utils:The function 'read_cfg' took 0.98 milliseconds to run.
+2021-05-22 12:40:51,591:DEBUG:utils:The function 'get_ticker_config_data' took 10.61 milliseconds to run.
+2021-05-22 12:40:51,591:INFO:__main__:Ticker: MGLU3 	Inital date: 01/01/2020		Final date: 18/05/2021
+2021-05-22 12:40:51,607:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-22 12:41:34,486:INFO:db_manager:Ticker 'MGLU3' update finished.
+2021-05-22 13:17:24,742:INFO:__main__:Program started.
+2021-05-22 13:17:24,748:DEBUG:utils:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-05-22 13:17:24,749:DEBUG:utils:File found.
+2021-05-22 13:17:24,749:DEBUG:utils:The function 'read_cfg' took 1.79 milliseconds to run.
+2021-05-22 13:17:24,758:DEBUG:utils:The function 'get_ticker_config_data' took 8.15 milliseconds to run.
+2021-05-22 13:17:24,758:INFO:__main__:Ticker: PRIO3 	Inital date: 01/01/2020		Final date: 18/05/2021
+2021-05-22 13:17:24,770:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-22 13:17:35,867:INFO:db_manager:Ticker 'PRIO3' update finished.
+2021-05-22 13:19:54,258:INFO:__main__:Program started.
+2021-05-22 13:19:54,259:DEBUG:utils:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-05-22 13:19:54,259:DEBUG:utils:File found.
+2021-05-22 13:19:54,259:DEBUG:utils:The function 'read_cfg' took 0.81 milliseconds to run.
+2021-05-22 13:19:54,269:DEBUG:utils:The function 'get_ticker_config_data' took 9.86 milliseconds to run.
+2021-05-22 13:19:54,270:INFO:__main__:Ticker: PRIO3 	Inital date: 01/01/2020		Final date: 18/05/2021
+2021-05-22 13:19:54,286:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-22 13:20:13,051:INFO:db_manager:Ticker 'PRIO3' update finished.
+2021-05-22 13:41:31,787:INFO:__main__:Program started.
+2021-05-22 13:41:31,788:DEBUG:utils:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-05-22 13:41:31,789:DEBUG:utils:File found.
+2021-05-22 13:41:31,789:DEBUG:utils:The function 'read_cfg' took 1.27 milliseconds to run.
+2021-05-22 13:41:31,802:DEBUG:utils:The function 'get_ticker_config_data' took 12.55 milliseconds to run.
+2021-05-22 13:41:31,802:INFO:__main__:Ticker: PRIO3 	Inital date: 01/04/2020		Final date: 01/05/2021
+2021-05-22 13:41:31,813:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-22 13:41:42,003:INFO:db_manager:Ticker 'PRIO3' update finished.
+2021-05-22 13:42:57,582:INFO:__main__:Program started.
+2021-05-22 13:42:57,583:DEBUG:utils:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-05-22 13:42:57,584:DEBUG:utils:File found.
+2021-05-22 13:42:57,584:DEBUG:utils:The function 'read_cfg' took 0.86 milliseconds to run.
+2021-05-22 13:42:57,594:DEBUG:utils:The function 'get_ticker_config_data' took 10.05 milliseconds to run.
+2021-05-22 13:42:57,594:INFO:__main__:Ticker: PRIO3 	Inital date: 01/04/2020		Final date: 10/05/2021
+2021-05-22 13:42:57,605:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-22 13:44:07,144:INFO:db_manager:Ticker 'PRIO3' update finished.
+2021-05-22 13:46:53,898:INFO:__main__:Program started.
+2021-05-22 13:46:53,899:DEBUG:utils:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-05-22 13:46:53,899:DEBUG:utils:File found.
+2021-05-22 13:46:53,899:DEBUG:utils:The function 'read_cfg' took 0.86 milliseconds to run.
+2021-05-22 13:46:53,910:DEBUG:utils:The function 'get_ticker_config_data' took 10.00 milliseconds to run.
+2021-05-22 13:46:53,910:INFO:__main__:Ticker: PRIO3 	Inital date: 01/04/2021		Final date: 01/05/2021
+2021-05-22 13:46:53,921:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-22 13:46:56,993:INFO:db_manager:Ticker 'PRIO3' update finished.
+2021-05-22 13:47:47,031:INFO:__main__:Program started.
+2021-05-22 13:47:47,032:DEBUG:utils:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-05-22 13:47:47,033:DEBUG:utils:File found.
+2021-05-22 13:47:47,033:DEBUG:utils:The function 'read_cfg' took 0.80 milliseconds to run.
+2021-05-22 13:47:47,045:DEBUG:utils:The function 'get_ticker_config_data' took 12.38 milliseconds to run.
+2021-05-22 13:47:47,046:INFO:__main__:Ticker: PRIO3 	Inital date: 01/04/2021		Final date: 06/05/2021
+2021-05-22 13:47:47,058:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-22 13:47:56,076:INFO:db_manager:Ticker 'PRIO3' update finished.
+2021-05-22 16:23:44,585:INFO:__main__:Program started.
+2021-05-22 16:23:44,588:DEBUG:utils:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-05-22 16:23:44,589:DEBUG:utils:File found.
+2021-05-22 16:23:44,589:DEBUG:utils:The function 'read_cfg' took 1.24 milliseconds to run.
+2021-05-22 16:23:44,598:DEBUG:utils:The function 'get_ticker_config_data' took 8.88 milliseconds to run.
+2021-05-22 16:23:44,598:INFO:__main__:Ticker: PRIO3 	Inital date: 01/04/2021		Final date: 01/05/2021
+2021-05-22 16:23:44,615:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-22 16:23:50,712:INFO:db_manager:Ticker 'PRIO3' update finished.
+2021-05-22 19:54:37,126:INFO:__main__:Program started.
+2021-05-22 19:54:37,128:DEBUG:utils:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-05-22 19:54:37,129:DEBUG:utils:File found.
+2021-05-22 19:54:37,130:DEBUG:utils:The function 'read_cfg' took 1.73 milliseconds to run.
+2021-05-22 19:54:37,140:DEBUG:utils:The function 'get_ticker_config_data' took 10.10 milliseconds to run.
+2021-05-22 19:59:36,407:INFO:__main__:Program started.
+2021-05-22 19:59:36,408:DEBUG:utils:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-05-22 19:59:36,409:DEBUG:utils:File found.
+2021-05-22 19:59:36,409:DEBUG:utils:The function 'read_cfg' took 0.99 milliseconds to run.
+2021-05-22 19:59:36,419:DEBUG:utils:The function 'get_ticker_config_data' took 9.57 milliseconds to run.
+2021-05-22 20:00:31,073:INFO:__main__:Program started.
+2021-05-22 20:00:31,075:DEBUG:utils:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-05-22 20:00:31,075:DEBUG:utils:File found.
+2021-05-22 20:00:31,076:DEBUG:utils:The function 'read_cfg' took 1.26 milliseconds to run.
+2021-05-22 20:00:31,087:DEBUG:utils:The function 'get_ticker_config_data' took 10.63 milliseconds to run.
+2021-05-22 20:00:31,087:INFO:__main__:Ticker: 'PRIO3 '	Inital date: 01/04/2021		Final date: 01/05/2021
+2021-05-22 20:00:31,088:INFO:__main__:Ticker: 'MGLU3 '	Inital date: 01/04/2021		Final date: 22/05/2021
+2021-05-22 20:00:31,088:INFO:__main__:Ticker: 'BBAS3 '	Inital date: 01/04/2021		Final date: 23/05/2021
+2021-05-22 20:00:31,109:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-22 20:00:31,118:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-22 20:00:31,128:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-22 20:02:19,294:INFO:db_manager:Ticker 'PRIO3' update finished.
+2021-05-22 20:02:22,296:INFO:db_manager:Ticker 'MGLU3' update finished.
+2021-05-22 20:02:25,022:INFO:db_manager:Ticker 'BBAS3' update finished.
+2021-05-22 20:54:35,003:INFO:__main__:Program started.
+2021-05-22 20:54:35,006:DEBUG:utils:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-05-22 20:54:35,007:DEBUG:utils:File found.
+2021-05-22 20:54:35,007:DEBUG:utils:The function 'read_cfg' took 1.62 milliseconds to run.
+2021-05-22 20:54:35,017:DEBUG:utils:The function 'get_ticker_config_data' took 10.19 milliseconds to run.
+2021-05-22 20:54:35,018:INFO:__main__:Ticker: 'PRIO3 '	Inital date: 01/04/2021		Final date: 01/05/2021
+2021-05-22 20:54:35,018:INFO:__main__:Ticker: 'MGLU3 '	Inital date: 01/04/2021		Final date: 23/05/2021
+2021-05-22 20:54:35,018:INFO:__main__:Ticker: 'BBAS3 '	Inital date: 01/04/2021		Final date: 23/05/2021
+2021-05-22 20:54:35,037:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-22 20:54:35,046:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-22 20:54:35,055:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-22 20:56:34,348:INFO:db_manager:Ticker 'PRIO3' update finished.
+2021-05-22 20:56:38,583:INFO:db_manager:Ticker 'MGLU3' update finished.
+2021-05-22 20:56:42,481:INFO:db_manager:Ticker 'BBAS3' update finished.
+2021-05-22 20:58:37,345:INFO:__main__:Program started.
+2021-05-22 20:58:37,347:DEBUG:utils:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-05-22 20:58:37,347:DEBUG:utils:File found.
+2021-05-22 20:58:37,347:DEBUG:utils:The function 'read_cfg' took 1.17 milliseconds to run.
+2021-05-22 20:58:37,358:DEBUG:utils:The function 'get_ticker_config_data' took 10.75 milliseconds to run.
+2021-05-22 20:58:37,359:INFO:__main__:Ticker: 'PRIO3 '	Inital date: 01/04/2021		Final date: 01/05/2021
+2021-05-22 20:58:37,373:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-22 20:58:41,120:INFO:db_manager:Ticker 'PRIO3' update finished.
+2021-05-22 21:06:21,591:INFO:__main__:Program started.
+2021-05-22 21:06:21,592:DEBUG:utils:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-05-22 21:06:21,593:DEBUG:utils:File found.
+2021-05-22 21:06:21,593:DEBUG:utils:The function 'read_cfg' took 1.19 milliseconds to run.
+2021-05-22 21:06:21,604:DEBUG:utils:The function 'get_ticker_config_data' took 10.34 milliseconds to run.
+2021-05-22 21:06:21,604:INFO:__main__:Ticker: 'PRIO3 '	Inital date: 01/04/2021		Final date: 10/05/2021
+2021-05-22 21:06:21,620:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-22 21:07:06,047:INFO:db_manager:Ticker 'PRIO3' update finished.
+2021-05-22 21:09:28,132:INFO:__main__:Program started.
+2021-05-22 21:09:28,135:DEBUG:utils:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-05-22 21:09:28,136:DEBUG:utils:File found.
+2021-05-22 21:09:28,136:DEBUG:utils:The function 'read_cfg' took 2.01 milliseconds to run.
+2021-05-22 21:09:28,148:DEBUG:utils:The function 'get_ticker_config_data' took 11.03 milliseconds to run.
+2021-05-22 21:09:28,148:INFO:__main__:Ticker: 'PRIO3 '	Inital date: 01/04/2021		Final date: 01/05/2021
+2021-05-22 21:09:28,166:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-22 21:09:35,657:INFO:db_manager:Ticker 'PRIO3' update finished.
+2021-05-22 21:10:57,521:INFO:__main__:Program started.
+2021-05-22 21:10:57,523:DEBUG:utils:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-05-22 21:10:57,523:DEBUG:utils:File found.
+2021-05-22 21:10:57,524:DEBUG:utils:The function 'read_cfg' took 1.31 milliseconds to run.
+2021-05-22 21:10:57,534:DEBUG:utils:The function 'get_ticker_config_data' took 9.99 milliseconds to run.
+2021-05-22 21:10:57,534:INFO:__main__:Ticker: 'PRIO3 '	Inital date: 01/04/2021		Final date: 10/05/2021
+2021-05-22 21:10:57,548:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-22 21:11:46,550:INFO:db_manager:Ticker 'PRIO3' update finished.
+2021-05-22 21:25:01,640:INFO:__main__:Program started.
+2021-05-22 21:25:01,643:DEBUG:utils:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-05-22 21:25:01,644:DEBUG:utils:File found.
+2021-05-22 21:25:01,645:DEBUG:utils:The function 'read_cfg' took 2.28 milliseconds to run.
+2021-05-22 21:25:01,654:DEBUG:utils:The function 'get_ticker_config_data' took 9.42 milliseconds to run.
+2021-05-22 21:25:01,655:INFO:__main__:Ticker: 'PRIO3 '	Inital date: 01/04/2021		Final date: 01/05/2021
+2021-05-22 21:25:01,685:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-22 21:25:06,498:INFO:db_manager:Ticker 'PRIO3' update finished.
+2021-05-22 21:26:03,464:INFO:__main__:Program started.
+2021-05-22 21:26:03,465:DEBUG:utils:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-05-22 21:26:03,466:DEBUG:utils:File found.
+2021-05-22 21:26:03,467:DEBUG:utils:The function 'read_cfg' took 1.37 milliseconds to run.
+2021-05-22 21:26:03,476:DEBUG:utils:The function 'get_ticker_config_data' took 8.95 milliseconds to run.
+2021-05-22 21:26:03,476:INFO:__main__:Ticker: 'PRIO3 '	Inital date: 01/04/2021		Final date: 10/05/2021
+2021-05-22 21:26:03,489:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-22 21:27:56,084:INFO:db_manager:Ticker 'PRIO3' update finished.
+2021-05-22 21:30:12,013:INFO:__main__:Program started.
+2021-05-22 21:30:12,014:DEBUG:utils:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-05-22 21:30:12,015:DEBUG:utils:File found.
+2021-05-22 21:30:12,015:DEBUG:utils:The function 'read_cfg' took 1.26 milliseconds to run.
+2021-05-22 21:30:12,028:DEBUG:utils:The function 'get_ticker_config_data' took 11.70 milliseconds to run.
+2021-05-22 21:30:12,028:INFO:__main__:Ticker: 'PRIO3 '	Inital date: 01/04/2021		Final date: 04/05/2021
+2021-05-22 21:30:12,051:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-22 21:30:15,597:INFO:db_manager:Ticker 'PRIO3' update finished.
+2021-05-22 21:49:52,775:INFO:__main__:Program started.
+2021-05-22 21:49:52,778:DEBUG:utils:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-05-22 21:49:52,779:DEBUG:utils:File found.
+2021-05-22 21:49:52,779:DEBUG:utils:The function 'read_cfg' took 1.03 milliseconds to run.
+2021-05-22 21:49:52,790:DEBUG:utils:The function 'get_ticker_config_data' took 10.43 milliseconds to run.
+2021-05-22 21:49:52,790:INFO:__main__:Ticker: 'PRIO3 '	Inital date: 01/03/2021		Final date: 11/05/2021
+2021-05-22 21:49:52,803:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-22 21:51:16,071:INFO:db_manager:Ticker 'PRIO3' update finished.
+2021-05-22 22:14:05,622:INFO:__main__:Program started.
+2021-05-22 22:14:05,625:DEBUG:utils:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-05-22 22:14:05,625:DEBUG:utils:File found.
+2021-05-22 22:14:05,625:DEBUG:utils:The function 'read_cfg' took 1.12 milliseconds to run.
+2021-05-22 22:14:05,637:DEBUG:utils:The function 'get_ticker_config_data' took 10.90 milliseconds to run.
+2021-05-22 22:14:05,637:INFO:__main__:Ticker: 'PRIO3 '	Inital date: 01/04/2021		Final date: 05/05/2021
+2021-05-22 22:14:05,654:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-22 22:14:05,658:ERROR:db_manager:Error updating daily candles, error: list index out of range
+2021-05-22 22:14:58,870:INFO:__main__:Program started.
+2021-05-22 22:14:58,872:DEBUG:utils:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-05-22 22:14:58,873:DEBUG:utils:File found.
+2021-05-22 22:14:58,873:DEBUG:utils:The function 'read_cfg' took 1.43 milliseconds to run.
+2021-05-22 22:14:58,884:DEBUG:utils:The function 'get_ticker_config_data' took 10.32 milliseconds to run.
+2021-05-22 22:14:58,885:INFO:__main__:Ticker: 'PRIO3 '	Inital date: 01/04/2021		Final date: 05/05/2021
+2021-05-22 22:14:58,898:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-22 22:14:58,901:ERROR:db_manager:Error updating daily candles, error: list index out of range
+2021-05-22 22:16:08,795:INFO:__main__:Program started.
+2021-05-22 22:16:08,796:DEBUG:utils:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-05-22 22:16:08,797:DEBUG:utils:File found.
+2021-05-22 22:16:08,797:DEBUG:utils:The function 'read_cfg' took 0.92 milliseconds to run.
+2021-05-22 22:16:08,805:DEBUG:utils:The function 'get_ticker_config_data' took 8.20 milliseconds to run.
+2021-05-22 22:16:08,806:INFO:__main__:Ticker: 'PRIO3 '	Inital date: 01/04/2021		Final date: 05/05/2021
+2021-05-22 22:16:08,820:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-22 22:16:27,322:ERROR:db_manager:Error updating daily candles, error: list index out of range
+2021-05-22 22:16:44,591:INFO:__main__:Program started.
+2021-05-22 22:16:44,593:DEBUG:utils:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-05-22 22:16:44,593:DEBUG:utils:File found.
+2021-05-22 22:16:44,594:DEBUG:utils:The function 'read_cfg' took 1.21 milliseconds to run.
+2021-05-22 22:16:44,606:DEBUG:utils:The function 'get_ticker_config_data' took 11.67 milliseconds to run.
+2021-05-22 22:16:44,606:INFO:__main__:Ticker: 'PRIO3 '	Inital date: 01/04/2021		Final date: 05/05/2021
+2021-05-22 22:16:44,633:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-22 22:17:18,957:ERROR:db_manager:Error updating daily candles, error: list index out of range
+2021-05-22 22:38:18,489:INFO:__main__:Program started.
+2021-05-22 22:38:18,492:DEBUG:utils:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-05-22 22:38:18,493:DEBUG:utils:File found.
+2021-05-22 22:38:18,493:DEBUG:utils:The function 'read_cfg' took 1.12 milliseconds to run.
+2021-05-22 22:38:18,503:DEBUG:utils:The function 'get_ticker_config_data' took 9.93 milliseconds to run.
+2021-05-22 22:38:18,504:INFO:__main__:Ticker: 'PRIO3 '	Inital date: 01/04/2021		Final date: 05/05/2021
+2021-05-22 22:38:18,529:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-22 22:38:39,635:INFO:db_manager:Ticker 'PRIO3' daily  candles update finished.
+2021-05-22 22:38:42,808:INFO:db_manager:Ticker 'PRIO3' hourly candles update finished.
+2021-05-22 22:46:08,987:INFO:__main__:Program started.
+2021-05-22 22:46:08,989:DEBUG:utils:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-05-22 22:46:08,989:DEBUG:utils:File found.
+2021-05-22 22:46:08,990:DEBUG:utils:The function 'read_cfg' took 1.00 milliseconds to run.
+2021-05-22 22:46:09,002:DEBUG:utils:The function 'get_ticker_config_data' took 11.44 milliseconds to run.
+2021-05-22 22:46:09,002:INFO:__main__:Ticker: 'PRIO3 '	Inital date: 01/04/2021		Final date: 05/05/2021
+2021-05-22 22:46:09,031:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-22 22:46:22,352:INFO:db_manager:Ticker 'PRIO3' daily candles update finished.
+2021-05-22 22:47:13,496:INFO:db_manager:Ticker 'PRIO3' hourly candles update finished.
+2021-05-22 22:48:30,545:INFO:__main__:Program started.
+2021-05-22 22:48:30,547:DEBUG:utils:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-05-22 22:48:30,547:DEBUG:utils:File found.
+2021-05-22 22:48:30,548:DEBUG:utils:The function 'read_cfg' took 1.50 milliseconds to run.
+2021-05-22 22:48:30,563:DEBUG:utils:The function 'get_ticker_config_data' took 14.59 milliseconds to run.
+2021-05-22 22:48:30,563:INFO:__main__:Ticker: 'PRIO3 '	Inital date: 01/04/2021		Final date: 05/05/2021
+2021-05-22 22:48:30,601:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-22 22:48:36,403:ERROR:db_manager:Error updating daily  candles, error: local variable 'last_update_candles' referenced before assignment
+2021-05-22 22:50:34,740:INFO:__main__:Program started.
+2021-05-22 22:50:34,741:DEBUG:utils:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-05-22 22:50:34,742:DEBUG:utils:File found.
+2021-05-22 22:50:34,743:DEBUG:utils:The function 'read_cfg' took 1.89 milliseconds to run.
+2021-05-22 22:50:34,756:DEBUG:utils:The function 'get_ticker_config_data' took 13.00 milliseconds to run.
+2021-05-22 22:50:34,757:INFO:__main__:Ticker: 'PRIO3 '	Inital date: 01/04/2021		Final date: 05/05/2021
+2021-05-22 22:50:34,794:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-22 22:50:46,784:INFO:db_manager:Ticker 'PRIO3' daily candles update finished.
+2021-05-22 22:51:37,697:INFO:db_manager:Ticker 'PRIO3' hourly candles update finished.
+2021-05-22 22:55:06,551:INFO:__main__:Program started.
+2021-05-22 22:55:06,552:DEBUG:utils:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-05-22 22:55:06,553:DEBUG:utils:File found.
+2021-05-22 22:55:06,553:DEBUG:utils:The function 'read_cfg' took 1.26 milliseconds to run.
+2021-05-22 22:55:06,563:DEBUG:utils:The function 'get_ticker_config_data' took 9.19 milliseconds to run.
+2021-05-22 22:55:06,563:INFO:__main__:Ticker: 'PRIO3 '	Inital date: 01/01/2021		Final date: 22/05/2021
+2021-05-22 22:55:06,582:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-22 22:55:07,886:INFO:db_manager:Ticker 'PRIO3' daily candles update finished.
+2021-05-22 22:55:09,102:INFO:db_manager:Ticker 'PRIO3' hourly candles update finished.
+2021-05-22 22:57:30,499:INFO:__main__:Program started.
+2021-05-22 22:57:30,501:DEBUG:utils:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-05-22 22:57:30,502:DEBUG:utils:File found.
+2021-05-22 22:57:30,502:DEBUG:utils:The function 'read_cfg' took 1.16 milliseconds to run.
+2021-05-22 22:57:30,513:DEBUG:utils:The function 'get_ticker_config_data' took 11.12 milliseconds to run.
+2021-05-22 22:57:30,513:INFO:__main__:Ticker: 'PRIO3 '	Inital date: 01/01/2021		Final date: 05/05/2021
+2021-05-22 22:57:30,526:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-22 22:57:31,558:INFO:db_manager:Ticker 'PRIO3' daily candles update finished.
+2021-05-22 22:57:32,561:INFO:db_manager:Ticker 'PRIO3' hourly candles update finished.
+2021-05-22 22:59:28,555:INFO:__main__:Program started.
+2021-05-22 22:59:28,556:DEBUG:utils:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-05-22 22:59:28,556:DEBUG:utils:File found.
+2021-05-22 22:59:28,557:DEBUG:utils:The function 'read_cfg' took 0.84 milliseconds to run.
+2021-05-22 22:59:28,567:DEBUG:utils:The function 'get_ticker_config_data' took 10.35 milliseconds to run.
+2021-05-22 22:59:28,568:INFO:__main__:Ticker: 'PRIO3 '	Inital date: 01/01/2021		Final date: 06/05/2021
+2021-05-22 22:59:28,578:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-22 22:59:29,566:INFO:db_manager:Ticker 'PRIO3' daily candles update finished.
+2021-05-22 22:59:30,475:INFO:db_manager:Ticker 'PRIO3' hourly candles update finished.

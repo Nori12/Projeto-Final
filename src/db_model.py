@@ -59,7 +59,7 @@ class DBModel:
 
         return self._cursor.fetchall()
 
-    def insert(self, query, params=None):
+    def insert_update(self, query, params=None):
         try:
             self._cursor.execute(query, params)
             self._connection.commit()
@@ -74,14 +74,14 @@ class DBModel:
         return(result)
 
     def get_date_range(self, ticker):
-        result = self.query(f"""SELECT initial_date_hourly_candles, final_date_hourly_candles, initial_date_daily_candles, final_date_daily_candles FROM status WHERE ticker = \'{ticker}\';""")
+        result = self.query(f"""SELECT last_update_hourly_candles, initial_date_hourly_candles, final_date_hourly_candles, last_update_daily_candles, initial_date_daily_candles, final_date_daily_candles FROM status WHERE ticker = \'{ticker}\';""")
         return result
 
     def get_holidays(self, start_date, end_date):
         result = self.query(f"""SELECT day FROM holidays WHERE day >= \'{start_date.strftime('%Y-%m-%d')}\' and day <= \'{end_date.strftime('%Y-%m-%d')}\';""")
         return result
 
-    def upsert_daily_candles(self, ticker, data):
+    def insert_daily_candles(self, ticker, data):
 
         number_of_rows = len(data)
         query = 'INSERT INTO daily_candles (ticker, day, open_price, max_price, min_price, close_price, volume)\nVALUES\n'
@@ -94,7 +94,22 @@ class DBModel:
 
         query = query + 'ON CONFLICT ON CONSTRAINT daily_data_pkey DO NOTHING;'
 
-        self.insert(query)
+        self.insert_update(query)
+
+    def insert_hourly_candles(self, ticker, data):
+
+        number_of_rows = len(data)
+        query = 'INSERT INTO hourly_candles (ticker, date_hour, open_price, max_price, min_price, close_price, volume)\nVALUES\n'
+
+        for n, (index, row) in enumerate(data.iterrows()):
+            if n == number_of_rows - 1:
+                query = query + f"""('{ticker}', '{index.strftime('%Y-%m-%d %H:%M:%S')}', {row['Open']:.6f}, {row['High']:.6f}, {row['Low']:.6f}, {row['Close']:.6f}, {row['Volume']:.0f})\n"""
+            else:
+                query = query + f"""('{ticker}', '{index.strftime('%Y-%m-%d %H:%M:%S')}', {row['Open']:.6f}, {row['High']:.6f}, {row['Low']:.6f}, {row['Close']:.6f}, {row['Volume']:.0f}),\n"""
+
+        query = query + 'ON CONFLICT ON CONSTRAINT hourly_data_pkey DO NOTHING;'
+
+        self.insert_update(query)
 
     def upsert_splits(self, ticker, data):
 
@@ -107,9 +122,10 @@ class DBModel:
             else:
                 query = query + f"""('{ticker}', '{index.strftime('%Y-%m-%d')}', {row['Stock Splits']}),\n"""
 
-        query = query + 'ON CONFLICT ON CONSTRAINT split_pkey DO NOTHING;'
+        query = query + 'ON CONFLICT ON CONSTRAINT split_pkey DO'
+        query = query + '\nUPDATE SET ratio = EXCLUDED.ratio'
 
-        self.insert(query)
+        self.insert_update(query)
 
     def upsert_dividends(self, ticker, data):
 
@@ -122,9 +138,31 @@ class DBModel:
             else:
                 query = query + f"""('{ticker}', '{index.strftime('%Y-%m-%d')}', {row['Dividends']}),\n"""
 
-        query = query + 'ON CONFLICT ON CONSTRAINT dividends_pkey DO NOTHING;'
+        query = query + 'ON CONFLICT ON CONSTRAINT dividends_pkey DO'
+        query = query + '\nUPDATE SET price_per_stock = EXCLUDED.price_per_stock'
 
-        self.insert(query)
+        self.insert_update(query)
 
-    def update_daily_candles_with_split(self, ticker, start_date, end_date, split_ratio):
-        print('Inside update_daily_candles_with_split')
+    def update_candles_with_split(self, ticker, start_date, end_date, split_ratio, interval='1d'):
+
+        if not (interval in ['1d', '1h']):
+            logger.error(f'Error argument \'interval\'=\'{interval}\' is not valid.')
+            sys.exit(c.INVALID_ARGUMENT_ERR)
+
+        table_name = 'daily_candles'
+        data_column = 'day'
+
+        if interval == '1h':
+            table_name = 'hourly_candles'
+            data_column = 'date_hour'
+
+        query = f'UPDATE {table_name}\nSET\n'
+        query = query + f"""  open_price = open_price/{split_ratio:.6f},\n"""
+        query = query + f"""  max_price = max_price/{split_ratio:.6f},\n"""
+        query = query + f"""  min_price = min_price/{split_ratio:.6f},\n"""
+        query = query + f"""  close_price = close_price/{split_ratio:.6f}\n"""
+        query = query + f"""WHERE\n  ticker = \'{ticker}\'\n"""
+        query = query + f"""  AND {data_column} >= \'{start_date.strftime('%Y-%m-%d')}\'\n"""
+        query = query + f"""  AND {data_column} < \'{end_date.strftime('%Y-%m-%d')}\'"""
+
+        self.insert_update(query)

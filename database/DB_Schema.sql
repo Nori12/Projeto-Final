@@ -109,6 +109,7 @@ CREATE TABLE dividends (
   reference_date TIMESTAMP WITHOUT TIME ZONE,
   announcement_date TIMESTAMP WITHOUT TIME ZONE,
   origin interest_origin_type,
+  manual_check BOOLEAN DEFAULT FALSE,
 
   CONSTRAINT dividends_pkey PRIMARY KEY(ticker, payment_date)
 );

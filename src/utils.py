@@ -91,7 +91,7 @@ def get_ticker_config_data(configuration):
 
     ticker_names = [item['name'] for item in configuration['stock_targets'] if "name" in item.keys()]
     initial_days_str = [item['initial_date'] for item in configuration['stock_targets'] if "initial_date" in item.keys()]
-    final_days_str = [item['final_date'] for item in configuration['stock_targets'] if "final_date" in item.keys()]
+    final_days_str = [item['final_date'] if "final_date" in item.keys() else (datetime.now()).strftime('%d/%m/%Y') for item in configuration['stock_targets']]
 
     if (ticker_names is None) or (initial_days_str is None) or (final_days_str is None):
         logging.error('Program aborted. Config file does not contain any ticker.')
@@ -106,7 +106,7 @@ def get_ticker_config_data(configuration):
         sys.exit()
 
     initial_days = [datetime.strptime(day, '%d/%m/%Y') for day in initial_days_str]
-    final_days = [datetime.strptime(day, '%d/%m/%Y') for day in final_days_str]
+    final_days = [datetime.strptime(day, '%d/%m/%Y') if day != 'today' else (datetime.now()) for day in final_days_str]
 
     for index, (start, end) in enumerate(zip(initial_days, final_days)):
         if start > end:
@@ -121,11 +121,6 @@ def compare_dates(first, second, holidays):
     first < second: negative
     second = first: zero
     """
-
-    # work_days = np.busday_count(
-    #     begindates=(final_date_daily_candles+timedelta(days=1)).strftime('%Y-%m-%d'),
-    #     enddates=(self._final_date+timedelta(days=1)).strftime('%Y-%m-%d'),
-    #     holidays = [holiday[0].strftime('%Y-%m-%d') for holiday in holidays])
 
     wokdays_in_between = int(np.busday_count(
         begindates=first.strftime('%Y-%m-%d'),
