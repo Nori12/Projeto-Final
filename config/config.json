@@ -5,7 +5,12 @@
     {
         "name":"PRIO3",
         "initial_date":"01/01/2021",
-        "final_date":"06/05/2021"
+        "final_date":"04/05/2021"
+    },
+    {
+        "name":"MGLU3",
+        "initial_date":"01/01/2020",
+        "final_date":"04/05/2021"
     }
     ]
 }

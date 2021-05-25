@@ -95,9 +95,9 @@ class DBManager:
         try:
             msft = yf.Ticker(ticker)
             if interval == '1d':
-                hist = msft.history(start=start.strftime('%Y-%m-%d'), end=end.strftime('%Y-%m-%d'))
+                hist = msft.history(start=start.strftime('%Y-%m-%d'), end=end.strftime('%Y-%m-%d'), prepost=True, back_adjust=True, rounding=True)
             elif interval == '1h':
-                hist = msft.history(start=start.strftime('%Y-%m-%d'), end=end.strftime('%Y-%m-%d'), interval='1h')
+                hist = msft.history(start=start.strftime('%Y-%m-%d'), end=end.strftime('%Y-%m-%d'), interval='1h', prepost=True, back_adjust=True, rounding=True)
             else:
                 hist = None
         except Exception as error:
@@ -155,18 +155,32 @@ class DBManager:
         new_dividends = DBManager._verify_dividends(new_candles)
 
         new_candles.dropna(axis='index', how='any', inplace=True)
+
+        # Insert candles
         if interval == '1d':
             self._db_model.insert_daily_candles(self._ticker, new_candles)
         elif interval == '1h':
             self._db_model.insert_hourly_candles(self._ticker, new_candles)
 
-        if not new_splits.empty:
+        # Insert splits
+        if interval == '1d' and not new_splits.empty:
             self._db_model.upsert_splits(self._ticker, new_splits)
 
-        if update_flag == True and cumulative_splits != 1.0:
-            self._db_model.update_candles_with_split(self._ticker, split_nomalization_date, start_datetime, cumulative_splits, interval=interval)
-
-        if not new_dividends.empty:
+        # Insert dividends
+        if interval == '1d' and not new_dividends.empty:
             self._db_model.upsert_dividends(self._ticker, new_dividends)
 
+        # Normalize candles
+        if interval == '1d' and update_flag == True and cumulative_splits != 1.0:
+            self._db_model.update_daily_candles_with_split(self._ticker, split_nomalization_date, start_datetime, cumulative_splits)
+        elif interval == '1h':
+            self._db_model.update_hourly_candles_with_split(self._ticker)
+
         return True
+
+    def create_missing_daily_candles_from_hourly(self):
+        self._db_model.create_missing_daily_candles_from_hourly(self._ticker)
+
+    def update_weekly_candles(self):
+        self._db_model.delete_weekly_candles(self._ticker)
+        self._db_model.create_weekly_candles_from_daily(self._ticker)

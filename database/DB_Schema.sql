@@ -48,14 +48,14 @@ CREATE TABLE symbol (
 CREATE TABLE hourly_candles (
   ticker CHAR (7) REFERENCES symbol(ticker),
   date_hour TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-  open_price DECIMAL(10, 6) NOT NULL,
-  max_price DECIMAL(10, 6) NOT NULL,
-  min_price DECIMAL(10, 6) NOT NULL,
-  close_price DECIMAL(10, 6) NOT NULL,
+  open_price DECIMAL(6, 2) NOT NULL,
+  max_price DECIMAL(6, 2) NOT NULL,
+  min_price DECIMAL(6, 2) NOT NULL,
+  close_price DECIMAL(6, 2) NOT NULL,
   volume INTEGER NOT NULL,
 
   CONSTRAINT hourly_data_pkey PRIMARY KEY (ticker, date_hour),
-  CHECK (open_price > 0 AND max_price > 0 AND min_price > 0 AND close_price > 0 AND volume > 0),
+  CHECK (open_price > 0 AND max_price > 0 AND min_price > 0 AND close_price > 0 AND volume >= 0),
   CHECK (max_price >= open_price AND max_price >= min_price AND max_price >= close_price),
   CHECK (min_price <= open_price AND min_price <= close_price)
 );
@@ -63,14 +63,29 @@ CREATE TABLE hourly_candles (
 CREATE TABLE daily_candles (
   ticker CHAR (7) REFERENCES symbol(ticker),
   day TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-  open_price DECIMAL(10, 6) NOT NULL,
-  max_price DECIMAL(10, 6) NOT NULL,
-  min_price DECIMAL(10, 6) NOT NULL,
-  close_price DECIMAL(10, 6) NOT NULL,
+  open_price DECIMAL(6, 2) NOT NULL,
+  max_price DECIMAL(6, 2) NOT NULL,
+  min_price DECIMAL(6, 2) NOT NULL,
+  close_price DECIMAL(6, 2) NOT NULL,
   volume INTEGER NOT NULL,
 
   CONSTRAINT daily_data_pkey PRIMARY KEY (ticker, day),
-  CHECK (open_price > 0 AND max_price > 0 AND min_price > 0 AND close_price > 0 AND volume > 0),
+  CHECK (open_price > 0 AND max_price > 0 AND min_price > 0 AND close_price > 0 AND volume >= 0),
+  CHECK (max_price >= open_price AND max_price >= min_price AND max_price >= close_price),
+  CHECK (min_price <= open_price AND min_price <= close_price)
+);
+
+CREATE TABLE weekly_candles (
+  ticker CHAR (7) REFERENCES symbol(ticker),
+  week TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+  open_price DECIMAL(6, 2) NOT NULL,
+  max_price DECIMAL(6, 2) NOT NULL,
+  min_price DECIMAL(6, 2) NOT NULL,
+  close_price DECIMAL(6, 2) NOT NULL,
+  volume INTEGER NOT NULL,
+
+  CONSTRAINT weekly_data_pkey PRIMARY KEY (ticker, week),
+  CHECK (open_price > 0 AND max_price > 0 AND min_price > 0 AND close_price > 0 AND volume >= 0),
   CHECK (max_price >= open_price AND max_price >= min_price AND max_price >= close_price),
   CHECK (min_price <= open_price AND min_price <= close_price)
 );
@@ -119,7 +134,6 @@ CREATE TABLE holidays (
 );
 
 -- Triggers, Functions, Procedures, Views
-
 
 CREATE OR REPLACE FUNCTION update_hourly_status() RETURNS trigger AS $update_hourly_status$
   BEGIN
@@ -226,60 +240,11 @@ CREATE TRIGGER update_daily_status
   FOR EACH STATEMENT
   EXECUTE FUNCTION update_daily_status();
 
-CREATE AGGREGATE MUL(DOUBLE PRECISION) (SFUNC=float8mul, STYPE=DOUBLE PRECISION);
 
+-- CREATE AGGREGATE MUL(DOUBLE PRECISION) (SFUNC=float8mul, STYPE=DOUBLE PRECISION);
 
-CREATE OR REPLACE FUNCTION cumulative_split(ticker_name CHAR(7), interval_start TIMESTAMP WITHOUT TIME ZONE, interval_stop TIMESTAMP WITHOUT TIME ZONE)
-RETURNS TABLE(ticker CHAR(7), ratio REAL) AS $$
-DECLARE result REAL;
-BEGIN
-  RETURN QUERY SELECT s.ticker, CAST(MUL(s.ratio) AS REAL)
-  FROM split s
-  WHERE
-    s.ticker = ticker_name
-	AND s.split_date >= interval_start
-	AND s.split_date <= interval_stop
-  GROUP BY s.ticker;
-
-END;
-$$  LANGUAGE plpgsql
-
-
-CREATE OR REPLACE FUNCTION public.cumulative_split(
-	ticker_name character,
-	interval_start timestamp without time zone,
-	interval_stop timestamp without time zone)
-    RETURNS TABLE(ticker character, ratio real)
-    LANGUAGE 'plpgsql'
-    COST 100
-    VOLATILE PARALLEL UNSAFE
-    ROWS 1000
-
-AS $BODY$
-DECLARE result REAL;
-BEGIN
-  RETURN QUERY SELECT s.ticker, CAST(MUL(s.ratio) AS REAL)
-  FROM split s
-  WHERE
-    s.ticker = ticker_name
-	AND s.split_date >= interval_start
-	AND s.split_date <= interval_stop
-  GROUP BY s.ticker;
-
-END;
-$BODY$;
-
--- CREATE OR REPLACE FUNCTION public.cumulative_split(
--- 	ticker_name character,
--- 	interval_start timestamp without time zone,
--- 	interval_stop timestamp without time zone)
---     RETURNS TABLE(ticker character, ratio real)
---     LANGUAGE 'plpgsql'
---     COST 100
---     VOLATILE PARALLEL UNSAFE
---     ROWS 1000
-
--- AS $BODY$
+-- CREATE OR REPLACE FUNCTION cumulative_split(ticker_name CHAR(7), interval_start TIMESTAMP WITHOUT TIME ZONE, interval_stop TIMESTAMP WITHOUT TIME ZONE)
+-- RETURNS TABLE(ticker CHAR(7), ratio REAL) AS $$
 -- DECLARE result REAL;
 -- BEGIN
 --   RETURN QUERY SELECT s.ticker, CAST(MUL(s.ratio) AS REAL)
@@ -291,24 +256,4 @@ $BODY$;
 --   GROUP BY s.ticker;
 
 -- END;
--- $BODY$;
-
--- SELECT cumulative_split('PRIO3', '2019-01-01','2021-05-19');
-
--- CREATE OR REPLACE PROCEDURE update_daily_candle_prices(ticker_name CHAR(7), start_date TIMESTAMP WITHOUT TIME ZONE, end_date TIMESTAMP WITHOUT TIME ZONE)
--- LANGUAGE plpgsql
--- AS $$
--- BEGIN
---     UPDATE daily_candles
---     SET
--- 	open_price = CAST((open_price/cumulative_split(ticker_name, end_date, day)) AS REAL)
---     WHERE
---       ticker = ticker_name
---       AND day >= start_date
--- 	  AND day <= end_date;
---   END;
--- $$;
-
--- SELECT * FROM split;
--- SELECT * FROM daily_candles WHERE ticker = 'PRIO3' AND day >= '2021-05-01' AND day <= '2021-06-01'
--- CALL update_daily_candles('PRIO3', '2019-01-01','2021-05-19');
+-- $$  LANGUAGE plpgsql
