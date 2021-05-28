@@ -32,16 +32,10 @@ def run():
     for ticker, initial_day, final_day in zip(ticker_names, initial_days, final_days):
         logger.info('Ticker: \''+ticker.ljust(6)+'\'\tInital date: '+initial_day.strftime('%d/%m/%Y')+'\t\tFinal date: '+final_day.strftime('%d/%m/%Y'))
 
-    all_ticker_managers = [TickerManager(ticker_names[i], initial_days[i], final_days[i], config_json['input_files_path'], config_json['output_files_path']) for i in range(len(ticker_names))]
+    all_ticker_managers = [TickerManager(ticker_names[i], initial_days[i], final_days[i]) for i in range(len(ticker_names))]
 
     for ticker in all_ticker_managers:
         ticker.update_interval()
-
-    """
-    Generate 3 candle datasets
-        Input:  Yahoo Finance, CSV files;pwd
-        Output: Weekly/Day/60min candle datasets;
-    """
 
     """
     Plot candle datasets

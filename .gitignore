@@ -2,8 +2,9 @@ workspace/
 database/queries.sql
 .vscode/
 input_files/*
+output_files/*
 !README.md
 src/__pycache__/
 src/tempCodeRunnerFile.py
-venv/
 src/CandleGraphAndStatistics.py
+venv/

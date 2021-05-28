@@ -80,10 +80,10 @@ class DBManager:
             else:
                 self._update_candles_splits_dividends(self._ticker, self._initial_date, self._final_date, interval=interval)
 
-            logger.info(f"""Ticker \'{self._ticker}\' {'daily'if interval=='1d' else 'hourly'} candles update finished.""")
+            logger.info(f"""Ticker \'{self._ticker}\' {'daily' if interval=='1d' else 'hourly'} candles update finished.""")
 
         except Exception as error:
-            logger.error(f"""Error updating {'daily 'if interval=='1d' else 'hourly'} candles, error: {error}""")
+            logger.error(f"""Error updating {'daily' if interval=='1d' else 'hourly'} candles, error: {error}""")
             sys.exit(c.UPDATING_DB_ERR)
 
         return True
@@ -184,3 +184,5 @@ class DBManager:
     def update_weekly_candles(self):
         self._db_model.delete_weekly_candles(self._ticker)
         self._db_model.create_weekly_candles_from_daily(self._ticker)
+
+        logger.info(f"""Ticker \'{self._ticker}\' weekly candles update finished.""")

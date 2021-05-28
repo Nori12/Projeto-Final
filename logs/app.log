@@ -28914,3 +28914,44 @@ LINE 14: WHERE agg.ticker = 'PRIO3'
 2021-05-24 21:48:59,398:INFO:db_manager:Ticker 'PRIO3' hourly candles update finished.
 2021-05-24 21:49:00,039:INFO:db_manager:Ticker 'MGLU3' daily candles update finished.
 2021-05-24 21:49:02,604:INFO:db_manager:Ticker 'MGLU3' hourly candles update finished.
+2021-05-27 22:30:43,271:INFO:__main__:Program started.
+2021-05-27 22:30:43,273:DEBUG:utils:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-05-27 22:30:43,274:DEBUG:utils:File found.
+2021-05-27 22:30:43,275:DEBUG:utils:The function 'read_cfg' took 2.10 milliseconds to run.
+2021-05-27 22:30:43,285:DEBUG:utils:The function 'get_ticker_config_data' took 9.41 milliseconds to run.
+2021-05-27 22:30:43,285:INFO:__main__:Ticker: 'PRIO3 '	Inital date: 01/01/2021		Final date: 04/05/2021
+2021-05-27 22:30:43,285:INFO:__main__:Ticker: 'MGLU3 '	Inital date: 01/01/2020		Final date: 04/05/2021
+2021-05-27 22:30:43,325:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-27 22:30:43,334:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-27 22:30:44,182:INFO:db_manager:Ticker 'PRIO3' daily candles update finished.
+2021-05-27 22:30:45,127:INFO:db_manager:Ticker 'PRIO3' hourly candles update finished.
+2021-05-27 22:30:46,512:INFO:db_manager:Ticker 'MGLU3' daily candles update finished.
+2021-05-27 22:30:48,935:INFO:db_manager:Ticker 'MGLU3' hourly candles update finished.
+2021-05-27 22:31:49,378:INFO:__main__:Program started.
+2021-05-27 22:31:49,380:DEBUG:utils:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-05-27 22:31:49,381:DEBUG:utils:File found.
+2021-05-27 22:31:49,381:DEBUG:utils:The function 'read_cfg' took 1.27 milliseconds to run.
+2021-05-27 22:31:49,393:DEBUG:utils:The function 'get_ticker_config_data' took 11.56 milliseconds to run.
+2021-05-27 22:31:49,393:INFO:__main__:Ticker: 'PRIO3 '	Inital date: 01/01/2021		Final date: 04/05/2021
+2021-05-27 22:31:49,393:INFO:__main__:Ticker: 'MGLU3 '	Inital date: 01/01/2020		Final date: 04/05/2021
+2021-05-27 22:31:49,415:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-27 22:31:49,424:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-27 22:31:50,065:INFO:db_manager:Ticker 'PRIO3' daily candles update finished.
+2021-05-27 22:31:50,961:INFO:db_manager:Ticker 'PRIO3' hourly candles update finished.
+2021-05-27 22:31:52,414:INFO:db_manager:Ticker 'MGLU3' daily candles update finished.
+2021-05-27 22:31:54,488:INFO:db_manager:Ticker 'MGLU3' hourly candles update finished.
+2021-05-27 22:33:55,020:INFO:__main__:Program started.
+2021-05-27 22:33:55,022:DEBUG:utils:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-05-27 22:33:55,023:DEBUG:utils:File found.
+2021-05-27 22:33:55,023:DEBUG:utils:The function 'read_cfg' took 1.83 milliseconds to run.
+2021-05-27 22:33:55,039:DEBUG:utils:The function 'get_ticker_config_data' took 14.59 milliseconds to run.
+2021-05-27 22:33:55,039:INFO:__main__:Ticker: 'PRIO3 '	Inital date: 01/01/2021		Final date: 04/05/2021
+2021-05-27 22:33:55,039:INFO:__main__:Ticker: 'MGLU3 '	Inital date: 01/01/2020		Final date: 04/05/2021
+2021-05-27 22:33:55,070:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-27 22:33:55,088:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-05-27 22:33:56,238:INFO:db_manager:Ticker 'PRIO3' daily candles update finished.
+2021-05-27 22:33:57,397:INFO:db_manager:Ticker 'PRIO3' hourly candles update finished.
+2021-05-27 22:33:57,405:INFO:db_manager:Ticker 'PRIO3' weekly candles update finished.
+2021-05-27 22:33:58,228:INFO:db_manager:Ticker 'MGLU3' daily candles update finished.
+2021-05-27 22:34:00,549:INFO:db_manager:Ticker 'MGLU3' hourly candles update finished.
+2021-05-27 22:34:00,559:INFO:db_manager:Ticker 'MGLU3' weekly candles update finished.

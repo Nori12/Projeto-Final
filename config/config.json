@@ -1,6 +1,4 @@
 {
-    "input_files_path":"input_files",
-    "output_files_path":"output_files",
     "stock_targets": [
     {
         "name":"PRIO3",
