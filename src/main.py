@@ -2,11 +2,12 @@ import logging
 from logging.handlers import RotatingFileHandler
 from pathlib import Path
 
-import utils
+# import utils
 import constants as c
-from strategy import AndreMoraesStrategy
-from ticker_manager import TickerManager
+import config_reader as cr
 from db_model import DBGeneralModel
+from ticker_manager import TickerManager
+from strategy import AndreMoraesStrategy
 
 # Configure Logging
 logger = logging.getLogger(__name__)
@@ -26,36 +27,26 @@ def run():
 
     logger.info('Program started.')
 
-    # Read Config File ad store it in a dict
-    config_json = utils.read_cfg()
-
-    ticker_names, initial_days, final_days = utils.get_ticker_config_data(config_json)
+    # Read Config File
+    config = cr.ConfigReader()
+    ticker_names, initial_dates, final_dates = config.tickers_and_dates
 
     general_info = DBGeneralModel()
-    holidays = general_info.get_holidays(min(initial_days), max(final_days))
+    holidays = general_info.get_holidays(min(initial_dates), max(final_dates))
 
-    # if "all" in ticker_names:
-    #     index = ticker_names.index{"all"}
-    #     all_initial_day = initial_days(index)
-    #     all_final_day = final_days(index)
-    #     ticker_names.remove("all")
-    #     initial_days.remove("all")
-    #     final_days.remove("all")
-
-    #     general_info.
-
-    # Continuar aqui
-
-    for ticker, initial_day, final_day in zip(ticker_names, initial_days, final_days):
+    for ticker, initial_day, final_day in zip(ticker_names, initial_dates, final_dates):
         logger.info('Ticker: \''+ticker.ljust(6)+'\'\tInital date: '+initial_day.strftime('%d/%m/%Y')+'\t\tFinal date: '+final_day.strftime('%d/%m/%Y'))
 
-    all_ticker_managers = [TickerManager(ticker_names[i], initial_days[i], final_days[i]) for i in range(len(ticker_names))]
+    all_ticker_managers = [TickerManager(ticker_names[i], initial_dates[i], final_dates[i]) for i in range(len(ticker_names))]
 
     for ticker_manager in all_ticker_managers:
         ticker_manager._holidays = holidays
         ticker_manager.update_interval()
 
-    # moraes_strat = AndreMoraesStrategy( "André Moraes", ticker_names, initial_days, final_days)
+
+    # Strategy section
+
+    # moraes_strat = AndreMoraesStrategy( "André Moraes", ticker_names, initial_dates, final_dates)
 
     # moraes_strat.set_input_data(all_ticker_managers[0].get_candles_dataframe(interval='1wk'), interval='1wk')
     # moraes_strat.set_input_data(all_ticker_managers[0].get_candles_dataframe(interval='1d'), interval='1d')

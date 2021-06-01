@@ -1,5 +1,5 @@
 from pathlib import Path
-# import pandas as pd
+import pandas as pd
 from datetime import datetime, timedelta
 import logging
 from logging.handlers import RotatingFileHandler
@@ -196,7 +196,10 @@ class TickerManager:
 
         new_dividends = self._verify_dividends(new_candles)
 
-        new_candles.dropna(axis='index', how='any', inplace=True)
+        # new_candles.loc[new_candles['Open'] == 0 | new_candles['High'] == 0 | new_candles['Low'] == 0 | new_candles['Close'] == 0, ['Open', 'High', 'Low', 'Close']].replace(0, pd.np.nan, inplace=True)
+        new_candles.drop(['Dividends', 'Stock Splits'], axis=1, inplace=True)
+        new_candles.replace(0, pd.np.nan, inplace=True)
+        new_candles.dropna(axis=0, how='any', inplace=True)
 
         # Insert candles
         if interval == '1d':

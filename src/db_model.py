@@ -161,7 +161,7 @@ class DBTickerModel:
         query += f"""  (SELECT q.ticker, q.date_hour,\n"""
         query += f"""    CASE\n"""
         query += f"""    WHEN ROUND(q.max_price / dc.max_price, 1) >= 0.9 THEN ROUND(q.max_price / dc.max_price, 0)\n"""
-        query += f"""    WHEN ROUND(dc.max_price / q.max_price, 1) >= 0.9 THEN ROUND(1 / ROUND(q.max_price / dc.max_price, 0), 6)\n"""
+        query += f"""    WHEN ROUND(dc.max_price / q.max_price, 1) >= 0.9 THEN ROUND(1 / ROUND(dc.max_price / q.max_price, 0), 6)\n"""
         query += f"""    ELSE 1 END AS norm_ratio\n"""
         query += f"""  FROM daily_candles dc\n"""
         query += f"""  INNER JOIN\n"""
@@ -350,28 +350,76 @@ class DBGeneralModel:
 
         return pd.read_sql_query(query, self._connection)
 
-    def get_tickers(self, on_shares, pn_shares, units, fractional_market=False):
+    def get_tickers(self, on_flag, pn_flag, units_flag, fractional_market=False, sectors=[], subsectors=[], segments=[]):
+
+        if not any([on_flag, pn_flag, units_flag]):
+            logger.error('Program aborted. At least one filter is required.')
+            sys.exit(c.INVALID_ARGUMENT_ERR)
 
         filters = []
 
-        if on_shares == True:
+        if on_flag == True:
             filters.append('____3')
-        if pn_shares == True:
+        if pn_flag == True:
             filters.append('____4')
-        if units == True:
+        if units_flag == True:
             filters.append('____11')
         if fractional_market == True:
             filters = [filter + "F" for filter in filters]
 
         filters = [filter.ljust(7) for filter in filters]
 
-        query = f"""SELECT DISTINCT ticker FROM symbol\nWHERE\n"""
+        query = f"""SELECT ticker FROM symbol s\n"""
+        query += f"""INNER JOIN entity e ON e.trading_name = s.trading_name\n"""
+        query += f"""INNER JOIN company_classification cc ON cc.id = e.company_classification_id\n"""
+        query += f"""WHERE\n"""
 
         for index, filter in enumerate(filters):
             if index == 0:
-                query += f"""  ticker LIKE \'{filter}\'\n"""
+                query += f"""  (ticker LIKE \'{filter}\'\n"""
             else:
                 query += f"""  OR ticker LIKE \'{filter}\'\n"""
+
+            if index == len(filters)-1:
+                query += f"""  )\n"""
+
+        if any([sectors, subsectors, segments]):
+            if len(filters) > 0:
+                query += f"""  AND """
+
+            for index, sector in enumerate(sectors):
+                if index == 0:
+                    query += f"""  (cc.economic_sector ILIKE \'%{sector}%\'\n"""
+                else:
+                    query += f"""  OR cc.economic_sector ILIKE \'%{sector}%\'\n"""
+
+                if index == len(sectors)-1:
+                    query += f"""  )\n"""
+
+            if len(subsectors) > 0:
+                query += f"""  AND """
+
+            for index, subsector in enumerate(subsectors):
+                if index == 0:
+                    query += f"""  (cc.economic_subsector ILIKE \'%{subsector}%\'\n"""
+                else:
+                    query += f"""  OR cc.economic_subsector ILIKE \'%{subsector}%\'\n"""
+
+                if index == len(subsectors)-1:
+                    query += f"""  )\n"""
+
+
+            if len(segments) > 0:
+                query += f"""  AND """
+
+            for index, segment in enumerate(segments):
+                if index == 0:
+                    query += f"""  (cc.economic_segment ILIKE \'%{segment}%\'\n"""
+                else:
+                    query += f"""  OR cc.economic_segment ILIKE \'%{segment}%\'\n"""
+
+                if index == len(segments)-1:
+                    query += f"""  )\n"""
 
         query += "ORDER BY ticker ASC;"
 
