@@ -238,17 +238,14 @@ class AndreMoraesStrategy(Strategy):
 
     def set_input_data(self, dataframe, interval):
 
-        # Check
-        if not (interval in ['1wk', '1d', '1h']):
+        if not (interval in ['1wk', '1d']):
             logger.error(f'Error argument \'interval\'=\'{interval}\' is not valid.')
             sys.exit(c.INVALID_ARGUMENT_ERR)
 
         if interval == '1wk':
-            self.week_df = dataframe
+            self._week_df = dataframe
         elif interval == '1d':
-            self.day_df = dataframe
-        elif interval == '1h':
-            self.hour_df = dataframe
+            self._day_df = dataframe
 
     def process_operations(self):
         pass

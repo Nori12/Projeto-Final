@@ -48,43 +48,8 @@ def run():
 
     # moraes_strat = AndreMoraesStrategy( "André Moraes", ticker_names, initial_dates, final_dates)
 
-    # moraes_strat.set_input_data(all_ticker_managers[0].get_candles_dataframe(interval='1wk'), interval='1wk')
-    # moraes_strat.set_input_data(all_ticker_managers[0].get_candles_dataframe(interval='1d'), interval='1d')
-    # moraes_strat.set_input_data(all_ticker_managers[0].get_candles_dataframe(interval='1h'), interval='1h')
-
-    # print(all_ticker_managers[0].get_all_tickers(on_shares=True, pn_shares=True, units=True, fractional_market=True))
-
-
-    """
-    Plot candle datasets
-    """
-
-    """
-    GenerateFeatures
-        Input:  Weekly/Day/60min candle datasets;
-                Features desired;
-        Output: Weekly/Day/60min candle datasets + columns for features;
-    """
-
-    """
-    RootStrategy
-        Base class from which other strategies will inherit
-        Output: Log file of operations
-
-        AndreMorais
-        CustomAndreMorais
-    """
-
-    """
-    Analysis
-        Compare results to IBOV
-        Analyze yield
-        Check Sharpe ration
-        Plot graphs with results
-
-        Input:  Log file of operations
-        Output: Graphs
-    """
+    # moraes_strat.set_input_data(general_info.get_candles_dataframe(ticker_names, initial_dates, final_dates, interval='1wk'), interval='1wk')
+    # moraes_strat.set_input_data(general_info.get_candles_dataframe(ticker_names, initial_dates, final_dates, interval='1d'), interval='1d')
 
 if __name__ == '__main__':
     run()

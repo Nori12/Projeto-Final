@@ -48,11 +48,11 @@ CREATE TABLE symbol (
 CREATE TABLE hourly_candles (
   ticker CHAR (7) REFERENCES symbol(ticker),
   date_hour TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-  open_price DECIMAL(6, 2) NOT NULL,
-  max_price DECIMAL(6, 2) NOT NULL,
-  min_price DECIMAL(6, 2) NOT NULL,
-  close_price DECIMAL(6, 2) NOT NULL,
-  volume INTEGER NOT NULL,
+  open_price DECIMAL(7, 2) NOT NULL,
+  max_price DECIMAL(7, 2) NOT NULL,
+  min_price DECIMAL(7, 2) NOT NULL,
+  close_price DECIMAL(7, 2) NOT NULL,
+  volume BIGINT NOT NULL,
 
   CONSTRAINT hourly_data_pkey PRIMARY KEY (ticker, date_hour),
   CHECK (open_price > 0 AND max_price > 0 AND min_price > 0 AND close_price > 0 AND volume >= 0),
@@ -63,26 +63,26 @@ CREATE TABLE hourly_candles (
 CREATE TABLE daily_candles (
   ticker CHAR (7) REFERENCES symbol(ticker),
   day TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-  open_price DECIMAL(6, 2) NOT NULL,
-  max_price DECIMAL(6, 2) NOT NULL,
-  min_price DECIMAL(6, 2) NOT NULL,
-  close_price DECIMAL(6, 2) NOT NULL,
-  volume INTEGER NOT NULL,
+  open_price DECIMAL(7, 2) NOT NULL,
+  max_price DECIMAL(7, 2) NOT NULL,
+  min_price DECIMAL(7, 2) NOT NULL,
+  close_price DECIMAL(7, 2) NOT NULL,
+  volume BIGINT NOT NULL,
 
   CONSTRAINT daily_data_pkey PRIMARY KEY (ticker, day),
-  CHECK (open_price > 0 AND max_price > 0 AND min_price > 0 AND close_price > 0 AND volume >= 0),
-  CHECK (max_price >= open_price AND max_price >= min_price AND max_price >= close_price),
-  CHECK (min_price <= open_price AND min_price <= close_price)
+  CONSTRAINT greater_than_zero CHECK (open_price > 0 AND max_price > 0 AND min_price > 0 AND close_price > 0 AND volume >= 0),
+  CONSTRAINT max_is_max CHECK (max_price >= open_price AND max_price >= min_price AND max_price >= close_price),
+  CONSTRAINT min_is_min CHECK (min_price <= open_price AND min_price <= close_price)
 );
 
 CREATE TABLE weekly_candles (
   ticker CHAR (7) REFERENCES symbol(ticker),
   week TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-  open_price DECIMAL(6, 2) NOT NULL,
-  max_price DECIMAL(6, 2) NOT NULL,
-  min_price DECIMAL(6, 2) NOT NULL,
-  close_price DECIMAL(6, 2) NOT NULL,
-  volume INTEGER NOT NULL,
+  open_price DECIMAL(7, 2) NOT NULL,
+  max_price DECIMAL(7, 2) NOT NULL,
+  min_price DECIMAL(7, 2) NOT NULL,
+  close_price DECIMAL(7, 2) NOT NULL,
+  volume BIGINT NOT NULL,
 
   CONSTRAINT weekly_data_pkey PRIMARY KEY (ticker, week),
   CHECK (open_price > 0 AND max_price > 0 AND min_price > 0 AND close_price > 0 AND volume >= 0),
@@ -120,9 +120,9 @@ CREATE TYPE interest_origin_type AS ENUM ('DIV', 'IOC');
 CREATE TABLE dividends (
   ticker CHAR (7) REFERENCES symbol(ticker),
   payment_date TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+  payment_date_correction TIMESTAMP WITHOUT TIME ZONE,
   price_per_stock DECIMAL(10, 6) NOT NULL,
   reference_date TIMESTAMP WITHOUT TIME ZONE,
-  announcement_date TIMESTAMP WITHOUT TIME ZONE,
   origin interest_origin_type,
   manual_check BOOLEAN DEFAULT FALSE,
 

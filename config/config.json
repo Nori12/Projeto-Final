@@ -1,25 +1,14 @@
 {
-    "stock_targets": [
-        {
-            "name":"PRIO3",
-            "initial_date":"01/01/2021",
-            "final_date":"04/05/2021"
-        },
-        {
-            "name":"MGLU3",
-            "initial_date":"01/01/2020",
-            "final_date":"04/05/2021"
-        }],
-        "group_target":
-        {
-            "on_shares":"true",
-            "pn_shares":"false",
-            "units":"true",
-            "fractional_market":"False",
-            "sector":"Petróleo",
-            "subsector":"Petróleo",
-            "segment":"None",
-            "initial_date":"01/04/2021",
-            "final_date":"today"
-        }
+    "group_target":
+    {
+        "on_shares":"true",
+        "pn_shares":"true",
+        "units":"true",
+        "fractional_market":"False",
+        "sector":"None",
+        "subsector":"None",
+        "segment":"None",
+        "initial_date":"01/01/2014",
+        "final_date":"today"
+    }
 }

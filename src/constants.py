@@ -8,7 +8,7 @@ CONFIG_PATH = 'config/'
 LOG_FILENAME = 'app.log'
 LOG_PATH = 'logs/'
 LOG_FORMATTER_STRING = '%(asctime)s:%(levelname)s:%(name)s:%(message)s'
-LOG_FILE_MAX_SIZE = 5*1024*1024
+LOG_FILE_MAX_SIZE = 1*1024*1024
 
 # Candlegraphs processing
 MARKET_OPEN_TIME = datetime.time(hour=10, minute=0, second=0)

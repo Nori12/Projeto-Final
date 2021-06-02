@@ -1577,3 +1577,6 @@ VALUES
 -- ('2022-12-25'), -- Natal
 -- ('2022-12-31'); -- Fechado
 
+-- INSERT INTO dividends (ticker, payment_date, payment_date_correction, price_per_stock, reference_date, origin, manual_check)
+-- VALUES
+-- ('CSAN3', '2021-05-06 00:00:00', '2021-05-20 00:00:00', 1.030592, '2021-12-31 00:00:00', 'DIV', TRUE);

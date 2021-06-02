@@ -85,7 +85,7 @@ class DBTickerModel:
             else:
                 query += f"""('{ticker}', '{index.strftime('%Y-%m-%d')}', {row['Open']:.6f}, {row['High']:.6f}, {row['Low']:.6f}, {row['Close']:.6f}, {row['Volume']:.0f}),\n"""
 
-        query += 'ON CONFLICT ON CONSTRAINT daily_data_pkey DO NOTHING;'
+        query += 'ON CONFLICT ON CONSTRAINT daily_data_pkey DO NOTHING'
 
         self.insert_update(query)
 

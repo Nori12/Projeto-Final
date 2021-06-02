@@ -1,5 +1,6 @@
 from pathlib import Path
-import pandas as pd
+# import pandas as pd
+import numpy as np
 from datetime import datetime, timedelta
 import logging
 from logging.handlers import RotatingFileHandler
@@ -40,6 +41,7 @@ class TickerManager:
     initial_dates = []
     final_dates = []
     number_of_tickers = 0
+    db_ticker_model = DBTickerModel()
 
     def __init__(self, ticker, initial_date, final_date):
         self._ticker = ticker.upper()
@@ -47,7 +49,7 @@ class TickerManager:
         self._final_date = final_date
         self._holidays = []
 
-        self._db_ticker_model = DBTickerModel()
+        # TickerManager.db_ticker_model = DBTickerModel()
 
         TickerManager.number_of_tickers += 1
         TickerManager.tickers.append(self._ticker)
@@ -82,8 +84,8 @@ class TickerManager:
         # Important: update interval '1d' is the most reliable,
         # so update it first because '1h' depends on it for some adjustments
         self._update_candles(interval='1d')
-        self._update_candles(interval='1h')
-        self._create_missing_daily_candles_from_hourly()
+        # self._update_candles(interval='1h')
+        # self._create_missing_daily_candles_from_hourly()
         self._update_weekly_candles()
 
     def _update_candles(self, interval = '1d'):
@@ -97,7 +99,7 @@ class TickerManager:
         final_date_candles = None
 
         try:
-            date_range = self._db_ticker_model.get_date_range(self._ticker)
+            date_range = TickerManager.db_ticker_model.get_date_range(self._ticker)
 
             if len(date_range) != 0:
                 if interval == '1h':
@@ -196,32 +198,33 @@ class TickerManager:
 
         new_dividends = self._verify_dividends(new_candles)
 
-        # new_candles.loc[new_candles['Open'] == 0 | new_candles['High'] == 0 | new_candles['Low'] == 0 | new_candles['Close'] == 0, ['Open', 'High', 'Low', 'Close']].replace(0, pd.np.nan, inplace=True)
         new_candles.drop(['Dividends', 'Stock Splits'], axis=1, inplace=True)
-        new_candles.replace(0, pd.np.nan, inplace=True)
+        new_candles.replace(0, np.nan, inplace=True)
         new_candles.dropna(axis=0, how='any', inplace=True)
+
+        self._check_dataframe_constraints(new_candles)
 
         # Insert candles
         if interval == '1d':
-            self._db_ticker_model.insert_daily_candles(self._ticker, new_candles)
+            TickerManager.db_ticker_model.insert_daily_candles(self._ticker, new_candles)
         elif interval == '1h':
-            self._db_ticker_model.insert_hourly_candles(self._ticker, new_candles)
+            TickerManager.db_ticker_model.insert_hourly_candles(self._ticker, new_candles)
 
         # Insert splits
         if interval == '1d' and not new_splits.empty:
-            self._db_ticker_model.upsert_splits(self._ticker, new_splits)
+            TickerManager.db_ticker_model.upsert_splits(self._ticker, new_splits)
 
         # Insert dividends
         if interval == '1d' and not new_dividends.empty:
-            self._db_ticker_model.upsert_dividends(self._ticker, new_dividends)
+            TickerManager.db_ticker_model.upsert_dividends(self._ticker, new_dividends)
 
         # Normalize candles
         if interval == '1d' and update_flag == True and cumulative_splits != 1.0:
-            self._db_ticker_model.update_daily_candles_with_split(self._ticker, split_nomalization_date, start_datetime, cumulative_splits)
+            TickerManager.db_ticker_model.update_daily_candles_with_split(self._ticker, split_nomalization_date, start_datetime, cumulative_splits)
         elif interval == '1h':
             # yfinance does not always retrive hourly candles normalized (i.e. split) with respect to the most recent date.
             # In fact the normalization depends on the interval selected, which is a problem.
-            self._db_ticker_model.update_hourly_candles_with_split(self._ticker)
+            TickerManager.db_ticker_model.update_hourly_candles_with_split(self._ticker)
 
         return True
 
@@ -230,10 +233,18 @@ class TickerManager:
         # yfinance does not retrieve days in which the brazilian stock market opens after lunch (1pm),
         # although they had negotiations. The solution is mount then from hourly candles data.
         # The volume information from hourly candles are inaccurate, but better than nothing.
-        self._db_ticker_model.create_missing_daily_candles_from_hourly(self._ticker)
+        TickerManager.db_ticker_model.create_missing_daily_candles_from_hourly(self._ticker)
 
     def _update_weekly_candles(self):
-        self._db_ticker_model.delete_weekly_candles(self._ticker)
-        self._db_ticker_model.create_weekly_candles_from_daily(self._ticker)
+        TickerManager.db_ticker_model.delete_weekly_candles(self._ticker)
+        TickerManager.db_ticker_model.create_weekly_candles_from_daily(self._ticker)
 
         logger.info(f"""Ticker \'{self._ticker}\' weekly candles update finished.""")
+
+    def _check_dataframe_constraints(self, df):
+
+        df['Low'] = df.apply(lambda x: x['Close'] if x['Low'] > x['Close'] else x['Low'], axis=1)
+        df['Low'] = df.apply(lambda x: x['Open'] if x['Low'] > x['Open'] else x['Low'], axis=1)
+        df['High'] = df.apply(lambda x: x['Close'] if x['High'] < x['Close'] else x['High'], axis=1)
+        df['High'] = df.apply(lambda x: x['Open'] if x['High'] < x['Open'] else x['High'], axis=1)
+
