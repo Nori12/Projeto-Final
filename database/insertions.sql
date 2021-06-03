@@ -1396,6 +1396,27 @@ INSERT INTO symbol (ticker, trading_name) (SELECT 'FSPE11F', trading_name FROM e
 INSERT INTO symbol (ticker, trading_name) (SELECT 'FSRF11F', trading_name FROM entity WHERE trading_name ILIKE 'FISET FL REF') ON CONFLICT (ticker) DO NOTHING;
 INSERT INTO symbol (ticker, trading_name) (SELECT 'FSTU11F', trading_name FROM entity WHERE trading_name ILIKE 'FISET TUR') ON CONFLICT (ticker) DO NOTHING;
 
+-- 2014 holidays
+INSERT INTO holidays (day)
+VALUES
+('2014-01-01'),
+('2014-01-25'),
+('2014-03-03'),
+('2014-03-04'),
+('2014-04-18'),
+('2014-04-21'),
+('2014-05-01'),
+('2014-06-19'),
+('2014-07-09'),
+('2014-09-07'),
+('2014-10-12'),
+('2014-11-02'),
+('2014-11-15'),
+('2014-11-20'),
+('2014-12-24'),
+('2014-12-25'),
+('2014-12-31');
+
 -- 2015 holidays
 INSERT INTO holidays (day)
 VALUES

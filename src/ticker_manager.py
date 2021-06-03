@@ -204,6 +204,10 @@ class TickerManager:
 
         self._check_dataframe_constraints(new_candles)
 
+        if new_candles.empty:
+            logger.warning(f"""No valid data to update for ticker \'{self._ticker}\', (\'{start_datetime.strftime('%Y-%m-%d')}\', \'{end_datetime.strftime('%Y-%m-%d')}\').""")
+            return False
+
         # Insert candles
         if interval == '1d':
             TickerManager.db_ticker_model.insert_daily_candles(self._ticker, new_candles)
