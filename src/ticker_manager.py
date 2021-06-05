@@ -5,8 +5,12 @@ from datetime import datetime, timedelta
 import logging
 from logging.handlers import RotatingFileHandler
 import sys
-# import re
 import yfinance as yf
+from scipy.signal import find_peaks
+import plotly.graph_objects as go
+from scipy.signal import find_peaks
+import math
+from bisect import bisect
 
 import constants as c
 from utils import compare_dates
@@ -81,16 +85,13 @@ class TickerManager:
 
     def update_interval(self):
 
-        # Important: update interval '1d' is the most reliable,
-        # so update it first because '1h' depends on it for some adjustments
+        # Important: update interval '1d' is the most reliable, so it is the basis to others
         self._update_candles(interval='1d')
-        # self._update_candles(interval='1h')
-        # self._create_missing_daily_candles_from_hourly()
         self._update_weekly_candles()
 
     def _update_candles(self, interval = '1d'):
 
-        if not (interval in ['1d', '1h']):
+        if not (interval in ['1d']):
             logger.error(f'Error argument \'interval\'=\'{interval}\' is not valid.')
             sys.exit(c.INVALID_ARGUMENT_ERR)
 
@@ -102,14 +103,10 @@ class TickerManager:
             date_range = TickerManager.db_ticker_model.get_date_range(self._ticker)
 
             if len(date_range) != 0:
-                if interval == '1h':
+                if interval == '1d':
                     last_update_candles = date_range[0][0]
                     initial_date_candles = date_range[0][1]
                     final_date_candles = date_range[0][2]
-                else:
-                    last_update_candles = date_range[0][3]
-                    initial_date_candles = date_range[0][4]
-                    final_date_candles = date_range[0][5]
 
             if all([last_update_candles, initial_date_candles, final_date_candles]):
 
@@ -142,8 +139,6 @@ class TickerManager:
             msft = yf.Ticker(ticker)
             if interval == '1d':
                 hist = msft.history(start=start.strftime('%Y-%m-%d'), end=end.strftime('%Y-%m-%d'), prepost=True, back_adjust=True, rounding=True)
-            elif interval == '1h':
-                hist = msft.history(start=start.strftime('%Y-%m-%d'), end=end.strftime('%Y-%m-%d'), interval='1h', prepost=True, back_adjust=True, rounding=True)
             else:
                 hist = None
         except Exception as error:
@@ -211,8 +206,6 @@ class TickerManager:
         # Insert candles
         if interval == '1d':
             TickerManager.db_ticker_model.insert_daily_candles(self._ticker, new_candles)
-        elif interval == '1h':
-            TickerManager.db_ticker_model.insert_hourly_candles(self._ticker, new_candles)
 
         # Insert splits
         if interval == '1d' and not new_splits.empty:
@@ -225,19 +218,8 @@ class TickerManager:
         # Normalize candles
         if interval == '1d' and update_flag == True and cumulative_splits != 1.0:
             TickerManager.db_ticker_model.update_daily_candles_with_split(self._ticker, split_nomalization_date, start_datetime, cumulative_splits)
-        elif interval == '1h':
-            # yfinance does not always retrive hourly candles normalized (i.e. split) with respect to the most recent date.
-            # In fact the normalization depends on the interval selected, which is a problem.
-            TickerManager.db_ticker_model.update_hourly_candles_with_split(self._ticker)
 
         return True
-
-    def _create_missing_daily_candles_from_hourly(self):
-
-        # yfinance does not retrieve days in which the brazilian stock market opens after lunch (1pm),
-        # although they had negotiations. The solution is mount then from hourly candles data.
-        # The volume information from hourly candles are inaccurate, but better than nothing.
-        TickerManager.db_ticker_model.create_missing_daily_candles_from_hourly(self._ticker)
 
     def _update_weekly_candles(self):
         TickerManager.db_ticker_model.delete_weekly_candles(self._ticker)
@@ -251,4 +233,135 @@ class TickerManager:
         df['Low'] = df.apply(lambda x: x['Open'] if x['Low'] > x['Open'] else x['Low'], axis=1)
         df['High'] = df.apply(lambda x: x['Close'] if x['High'] < x['Close'] else x['High'], axis=1)
         df['High'] = df.apply(lambda x: x['Open'] if x['High'] < x['Open'] else x['High'], axis=1)
+
+    def generate_features(self):
+        self._generate_features(interval='1d')
+        self._generate_features(interval='1wk')
+
+    def _generate_features(self, interval = '1d'):
+
+        candles_min_peak_distance = 17
+        analysis_status = {'UPTREND': 1, 'DOWNTREND': -1, 'CONSOLIDATION': 0}
+        analysis_status_tolerance = 0.01
+
+        candles = TickerManager.db_ticker_model.get_candles_dataframe(self._ticker, self._initial_date, self._final_date, interval=interval)
+
+        max_peaks_index = find_peaks(candles['max_price'], distance=candles_min_peak_distance)[0].tolist()
+        min_peaks_index = find_peaks(1.0/candles['min_price'], distance=candles_min_peak_distance)[0].tolist()
+
+                # Filter 1: Max an min peaks must be altenate each other. So deleting duplicate sequences of ax or min...
+        for i in range(1, len(max_peaks_index)):
+            delete_candidates = [j for j in min_peaks_index if j >= max_peaks_index[i-1] and j < max_peaks_index[i]]
+            if len(delete_candidates) > 1:
+                delete_candidates_values = [candles.iloc[i, candles.columns.get_loc('min_price')] for i in delete_candidates]
+                delete_candidates.remove(delete_candidates[delete_candidates_values.index(min(delete_candidates_values))])
+                min_peaks_index = [i for i in min_peaks_index if i not in delete_candidates]
+
+        for i in range(1, len(min_peaks_index)):
+            delete_candidates = [j for j in max_peaks_index if j >= min_peaks_index[i-1] and j < min_peaks_index[i]]
+            if len(delete_candidates) > 1:
+                delete_candidates_values = [candles.iloc[i, candles.columns.get_loc('max_price')] for i in delete_candidates]
+                delete_candidates.remove(delete_candidates[delete_candidates_values.index(max(delete_candidates_values))])
+                max_peaks_index = [i for i in max_peaks_index if i not in delete_candidates]
+
+        peaks = max_peaks_index + min_peaks_index
+        peaks.sort()
+
+        # Filter 2: Remove monotonic peak sequences
+        delete_candidates = []
+        for i in range(len(peaks)):
+            if i >= 2:
+                current_value = 0
+                if peaks[i] in max_peaks_index:
+                    current_value = candles.iloc[peaks[i], candles.columns.get_loc('max_price')]
+                else:
+                    current_value = candles.iloc[peaks[i], candles.columns.get_loc('min_price')]
+
+                ultimate_value = 0
+                if peaks[i-1] in max_peaks_index:
+                    ultimate_value = candles.iloc[peaks[i-1], candles.columns.get_loc('max_price')]
+                else:
+                    ultimate_value = candles.iloc[peaks[i-1], candles.columns.get_loc('min_price')]
+
+                penultimate_value = 0
+                if peaks[i-2] in max_peaks_index:
+                    penultimate_value = candles.iloc[peaks[i-2], candles.columns.get_loc('max_price')]
+                else:
+                    penultimate_value = candles.iloc[peaks[i-2], candles.columns.get_loc('min_price')]
+
+                if ((current_value > ultimate_value and ultimate_value > penultimate_value) or
+                    (current_value < ultimate_value and ultimate_value < penultimate_value)):
+
+                    if peaks[i-1] in max_peaks_index:
+                        max_peaks_index.remove(peaks[i-1])
+                    else:
+                        min_peaks_index.remove(peaks[i-1])
+
+        peaks = [ ['max_price', index, candles.iloc[index, candles.columns.get_loc('max_price')]] for index in max_peaks_index ] + \
+            [ ['min_price', index, candles.iloc[index, candles.columns.get_loc('min_price')]] for index in min_peaks_index ]
+        peaks.sort(key=lambda x: x[1])
+
+        # Trend analysis
+        # Generate UDT_COEF
+
+        udt_coef = []
+        peaks_index_list = [line[1] for line in peaks]
+
+        for index, (_, row) in enumerate(candles.iterrows()):
+            # At least 3 peaks are required
+            last_peak_index = bisect(peaks_index_list, index) - 1
+            if last_peak_index >= 3:# and index != peaks[last_peak_index][1]:
+                if peaks[last_peak_index][0] == 'max_price':
+                    max_peak_value_1 = peaks[last_peak_index-2][2]
+                    min_peak_value_1 = peaks[last_peak_index-1][2]
+                    max_peak_value_2 = peaks[last_peak_index][2]
+                    min_peak_value_2 = row['close_price']
+                elif peaks[last_peak_index][0] == 'min_price':
+                    min_peak_value_1 = peaks[last_peak_index-2][2]
+                    max_peak_value_1 = peaks[last_peak_index-1][2]
+                    min_peak_value_2 = peaks[last_peak_index][2]
+                    max_peak_value_2 = row['close_price']
+
+                # print('max_peak_value_1: '+str(max_peak_value_1))
+                # print('min_peak_value_1: '+str(min_peak_value_1))
+                # print('max_peak_value_2: '+str(max_peak_value_2))
+                # print('min_peak_value_2: '+str(min_peak_value_2))
+
+                percent_max = max_peak_value_2 / max_peak_value_1 - 1 # x
+                percent_min = min_peak_value_2 / min_peak_value_1 - 1 # y
+                # print('percent_max: '+str(percent_max))
+                # print('percent_min: '+str(percent_min))
+
+                # d = abs((a * x1 + b * y1 + c)) / (math.sqrt(a * a + b * b))
+                d = percent_max + percent_min / (math.sqrt(2))
+                # print('distance: '+str(d))
+
+                # print('udt_coef: '+str(math.tanh(d)))
+                udt_coef.append(math.tanh(d))
+
+            else:
+                udt_coef.append(np.nan)
+
+        udt_status = [analysis_status['UPTREND'] if x > analysis_status_tolerance else analysis_status['DOWNTREND'] if x < -analysis_status_tolerance else analysis_status['CONSOLIDATION'] for x in udt_coef]
+
+        # Exponential Moving Average
+        ema_17 = candles.iloc[:,candles.columns.get_loc('close_price')].ewm(span=17, adjust=False).mean()
+        ema_72 = candles.iloc[:,candles.columns.get_loc('close_price')].ewm(span=72, adjust=False).mean()
+
+        candles['peak'] = [1 if index in max_peaks_index else -1 if index in min_peaks_index else 0 for index in range(candles.index.size)]
+        candles['ema_17'] = ema_17
+        candles['ema_72'] = ema_72
+        candles['up_down_trend_coef'] = udt_coef
+        candles['up_down_trend_status'] = udt_status
+
+        TickerManager.db_ticker_model.upsert_features(candles, interval=interval)
+
+        logger.info(f"""Ticker \'{self._ticker}\' {'daily' if interval=='1d' else 'weekly'} features generated.""")
+
+    # def show_graphs(self):
+    #     daily_candles = TickerManager.db_ticker_model.get_candles_dataframe(self._ticker, self._initial_date, self._final_date, interval='1d')
+    #     weekly_candles = TickerManager.db_ticker_model.get_candles_dataframe(self._ticker, self._initial_date, self._final_date, interval='1wk')
+
+    #     print(daily_candles)
+    #     print(weekly_candles)
 

@@ -42,7 +42,7 @@ def run():
     for ticker_manager in all_ticker_managers:
         ticker_manager._holidays = holidays
         ticker_manager.update_interval()
-
+        ticker_manager.generate_features()
 
     # Strategy section
 
@@ -50,6 +50,9 @@ def run():
 
     # moraes_strat.set_input_data(general_info.get_candles_dataframe(ticker_names, initial_dates, final_dates, interval='1wk'), interval='1wk')
     # moraes_strat.set_input_data(general_info.get_candles_dataframe(ticker_names, initial_dates, final_dates, interval='1d'), interval='1d')
+
+    # moraes_strat.process_operations()
+
 
 if __name__ == '__main__':
     run()

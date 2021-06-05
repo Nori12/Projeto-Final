@@ -169,6 +169,26 @@ class Strategy(ABC):
 
     @property
     @abstractmethod
+    def id(self):
+        pass
+
+    @property
+    @abstractmethod
+    def tickers(self):
+        pass
+
+    @property
+    @abstractmethod
+    def initial_dates(self):
+        pass
+
+    @property
+    @abstractmethod
+    def final_dates(self):
+        pass
+
+    @property
+    @abstractmethod
     def total_capital(self):
         pass
 
@@ -199,13 +219,13 @@ class AndreMoraesStrategy(Strategy):
             sys.exit(c.INVALID_ARGUMENT_ERR)
 
         self._name = name
+        random.seed()
+        self._id = random.randint(0, 9223372036854775807) # Max 8 bytes integer
         self._tickers = [ticker.upper() for ticker in tickers]
         self._initial_dates = initial_dates
         self._final_dates = final_dates
         self._total_capital = total_capital
         self._max_capital_per_operation = max_capital_per_operation
-        random.seed()
-        self._id = random.randint(0, 9223372036854775807) # Max 8 bytes integer
         self._operations = []
 
     @property
@@ -215,6 +235,22 @@ class AndreMoraesStrategy(Strategy):
     @name.setter
     def name(self, name):
         self._name = name
+
+    @property
+    def id(self):
+        return self._id
+
+    @property
+    def tickers(self):
+        return self._tickers
+
+    @property
+    def initial_dates(self):
+        return self._initial_dates
+
+    @property
+    def final_dates(self):
+        return self._final_dates
 
     @property
     def total_capital(self):
@@ -248,6 +284,26 @@ class AndreMoraesStrategy(Strategy):
             self._day_df = dataframe
 
     def process_operations(self):
-        pass
+
+        print("Inside: process_operations(self)")
+
+        for _, ticker in enumerate(self._tickers):
+
+            print(ticker)
+
+            dates = self._day_df.loc[self._day_df['ticker'] == ticker, ['day']].tolist()
+
+            for date in dates:
+                print(date)
+
+        print('ok')
+
+    # Tendência de Alta to TGP?
+    # Tendência de Alta to TGMai?
+    # TGP: preço do ativo próximo das médias de 17 e 72?
+    # TGMai: preço do ativo acima da MME_72?
+    # Identificar risco (?)
+    # Definir alvo e stop
+
 
 

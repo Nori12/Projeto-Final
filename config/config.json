@@ -1,14 +1,8 @@
 {
-    "group_target":
-    {
-        "on_shares":"true",
-        "pn_shares":"true",
-        "units":"true",
-        "fractional_market":"False",
-        "sector":"None",
-        "subsector":"None",
-        "segment":"None",
-        "initial_date":"01/01/2014",
-        "final_date":"today"
-    }
+    "stock_targets": [
+        {
+            "name":"MGLU3",
+            "initial_date":"01/01/2020",
+            "final_date":"today"
+        }]
 }
