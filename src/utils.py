@@ -63,3 +63,18 @@ def compare_dates(first, second, holidays):
         return 1
 
     return -1
+
+def calculate_maximum_volume(price, max_capital, minimum_volume=100):
+
+    volume = max_capital // price
+    remaining_volume = volume % minimum_volume
+    volume = volume - remaining_volume
+
+    return volume
+
+def calculate_annualized_yield(yield_in_period, business_days):
+    business_days_per_year = 252
+
+    annualized_yield = (1+yield_in_period) ** (business_days_per_year/business_days)
+
+    return round(annualized_yield-1, 4)

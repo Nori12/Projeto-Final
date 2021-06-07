@@ -297,7 +297,7 @@ class DBGeneralModel:
         query += f""";"""
 
         df = pd.read_sql_query(query, self._connection)
-        df['ticker'] =  df['ticker'].apply(lambda x: x.lstrip())
+        df['ticker'] =  df['ticker'].apply(lambda x: x.rstrip())
         df.sort_values(['ticker', time_column], axis=0, ascending=True, ignore_index=True, inplace=True)
         # df.set_index(['ticker', time_column], inplace=True)
 

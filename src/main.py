@@ -34,25 +34,21 @@ def run():
     general_info = DBGeneralModel()
     holidays = general_info.get_holidays(min(initial_dates), max(final_dates))
 
-    for ticker, initial_day, final_day in zip(ticker_names, initial_dates, final_dates):
-        logger.info('Ticker: \''+ticker.ljust(6)+'\'\tInital date: '+initial_day.strftime('%d/%m/%Y')+'\t\tFinal date: '+final_day.strftime('%d/%m/%Y'))
-
     all_ticker_managers = [TickerManager(ticker_names[i], initial_dates[i], final_dates[i]) for i in range(len(ticker_names))]
 
+    # Update data accordingly
     for ticker_manager in all_ticker_managers:
         ticker_manager._holidays = holidays
         ticker_manager.update_interval()
         ticker_manager.generate_features()
 
     # Strategy section
+    moraes_strat = AndreMoraesStrategy("André Moraes", ticker_names, initial_dates, final_dates)
 
-    # moraes_strat = AndreMoraesStrategy( "André Moraes", ticker_names, initial_dates, final_dates)
+    moraes_strat.set_input_data(general_info.get_candles_dataframe(ticker_names, initial_dates, final_dates, interval='1wk'), interval='1wk')
+    moraes_strat.set_input_data(general_info.get_candles_dataframe(ticker_names, initial_dates, final_dates, interval='1d'), interval='1d')
 
-    # moraes_strat.set_input_data(general_info.get_candles_dataframe(ticker_names, initial_dates, final_dates, interval='1wk'), interval='1wk')
-    # moraes_strat.set_input_data(general_info.get_candles_dataframe(ticker_names, initial_dates, final_dates, interval='1d'), interval='1d')
-
-    # moraes_strat.process_operations()
-
+    moraes_strat.process_operations()
 
 if __name__ == '__main__':
     run()

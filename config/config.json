@@ -2,7 +2,7 @@
     "stock_targets": [
         {
             "name":"MGLU3",
-            "initial_date":"01/01/2020",
+            "initial_date":"01/01/2018",
             "final_date":"today"
         }]
 }

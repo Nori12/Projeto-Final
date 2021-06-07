@@ -38,7 +38,7 @@ class ConfigReader:
 
         logger.info("Ticker, Inital Date, Final Date:")
         for ticker, initial_date, final_date in zip(self._tickers, self._initial_dates, self._final_dates):
-            logger.info(f"""\'{ticker}\', \'{initial_date.strftime('%Y-%m-%d')}\', \'{final_date.strftime('%Y-%m-%d')}\'""")
+            logger.info('Ticker: \''+ticker.ljust(6)+'\'\tInital date: '+initial_date.strftime('%d/%m/%Y')+'\t\tFinal date: '+final_date.strftime('%d/%m/%Y'))
 
     @property
     def tickers(self):
@@ -201,4 +201,3 @@ class ConfigReader:
                     self._tickers.append(ticker)
                     self._initial_dates.append(initial_date)
                     self._final_dates.append(final_date)
-
