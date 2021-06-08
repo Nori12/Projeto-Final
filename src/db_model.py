@@ -7,8 +7,10 @@ import sys
 from decimal import *
 import pandas as pd
 import numpy as np
+import math
 
 import constants as c
+from utils import State
 
 # Database macros
 DB_USER = os.environ.get('STOCK_MARKET_DB_USER')
@@ -49,7 +51,7 @@ class DBTickerModel:
         self._cursor.close()
         # logger.debug('Database \'StockMarket\' connection closed.')
 
-    def query(self, query, params=None):
+    def _query(self, query, params=None):
         try:
             self._cursor.execute(query, params)
         except Exception as error:
@@ -61,7 +63,7 @@ class DBTickerModel:
 
         return self._cursor.fetchall()
 
-    def insert_update(self, query, params=None):
+    def _insert_update(self, query, params=None):
         try:
             self._cursor.execute(query, params)
             self._connection.commit()
@@ -72,7 +74,7 @@ class DBTickerModel:
             sys.exit(c.QUERY_ERR)
 
     def get_date_range(self, ticker):
-        result = self.query(f"""SELECT last_update_daily_candles, initial_date_daily_candles, final_date_daily_candles FROM status WHERE ticker = \'{ticker}\';""")
+        result = self._query(f"""SELECT last_update_daily_candles, initial_date_daily_candles, final_date_daily_candles FROM status WHERE ticker = \'{ticker}\';""")
 
         return result
 
@@ -89,7 +91,7 @@ class DBTickerModel:
 
         query += 'ON CONFLICT ON CONSTRAINT daily_data_pkey DO NOTHING'
 
-        self.insert_update(query)
+        self._insert_update(query)
 
     def upsert_splits(self, ticker, data):
 
@@ -105,7 +107,7 @@ class DBTickerModel:
         query += 'ON CONFLICT ON CONSTRAINT split_pkey DO'
         query += '\nUPDATE SET ratio = EXCLUDED.ratio'
 
-        self.insert_update(query)
+        self._insert_update(query)
 
     def upsert_dividends(self, ticker, dataframe):
 
@@ -121,7 +123,7 @@ class DBTickerModel:
         query += 'ON CONFLICT ON CONSTRAINT dividends_pkey DO'
         query += '\nUPDATE SET price_per_stock = EXCLUDED.price_per_stock'
 
-        self.insert_update(query)
+        self._insert_update(query)
 
     def update_daily_candles_with_split(self, ticker, start_date, end_date, split_ratio):
 
@@ -134,13 +136,13 @@ class DBTickerModel:
         query += f"""  AND date_hour >= \'{start_date.strftime('%Y-%m-%d')}\'\n"""
         query += f"""  AND date_hour < \'{end_date.strftime('%Y-%m-%d')}\'"""
 
-        self.insert_update(query)
+        self._insert_update(query)
 
     def delete_weekly_candles(self, ticker):
 
         query = f"""DELETE FROM weekly_candles WHERE ticker = \'{ticker}\'"""
 
-        self.insert_update(query)
+        self._insert_update(query)
 
     def create_weekly_candles_from_daily(self, ticker):
 
@@ -158,7 +160,7 @@ class DBTickerModel:
         query += f"""WHERE dc3.ticker = \'{ticker}\'\n"""
         query += f"""ON CONFLICT ON CONSTRAINT weekly_data_pkey DO NOTHING;"""
 
-        self.insert_update(query)
+        self._insert_update(query)
 
     def get_candles_dataframe(self, ticker, initial_date, final_date, interval='1d'):
 
@@ -196,16 +198,16 @@ class DBTickerModel:
 
         for n, (_, row) in enumerate(dataframe.iterrows()):
             if n != number_of_rows - 1:
-                query += f"""('{row['ticker']}', '{row[time_column].strftime('%Y-%m-%d')}', {row['peak']}, {row['ema_17']:.3f}, {row['ema_72']:.3f}, {row['up_down_trend_coef']:.4f}, {row['up_down_trend_status']}),\n"""
+                query += f"""('{row['ticker']}', '{row[time_column].strftime('%Y-%m-%d')}', {row['peak']}, {row['ema_17']:.3f}, {row['ema_72']:.3f}, {row['up_down_trend_coef']:.2f}, {row['up_down_trend_status']}),\n"""
             else:
-                query += f"""('{row['ticker']}', '{row[time_column].strftime('%Y-%m-%d')}', {row['peak']}, {row['ema_17']:.3f}, {row['ema_72']:.3f}, {row['up_down_trend_coef']:.4f}, {row['up_down_trend_status']})\n"""
+                query += f"""('{row['ticker']}', '{row[time_column].strftime('%Y-%m-%d')}', {row['peak']}, {row['ema_17']:.3f}, {row['ema_72']:.3f}, {row['up_down_trend_coef']:.2f}, {row['up_down_trend_status']})\n"""
 
         query = query.replace('nan', 'NULL')
 
         query += f"""ON CONFLICT ON CONSTRAINT {pkey_constraint} DO\n"""
         query += f"""UPDATE SET ticker = EXCLUDED.ticker, {time_column} = EXCLUDED.{time_column}, peak = EXCLUDED.peak, ema_17 = EXCLUDED.ema_17, ema_72 = EXCLUDED.ema_72, up_down_trend_coef = EXCLUDED.up_down_trend_coef, up_down_trend_status = EXCLUDED.up_down_trend_status;"""
 
-        self.insert_update(query)
+        self._insert_update(query)
 
 class DBGeneralModel:
     def __init__(self):
@@ -224,7 +226,7 @@ class DBGeneralModel:
         self._cursor.close()
         # logger.debug('Database \'StockMarket\' connection closed.')
 
-    def query(self, query, params=None):
+    def _query(self, query, params=None):
         try:
             self._cursor.execute(query, params)
         except Exception as error:
@@ -236,7 +238,7 @@ class DBGeneralModel:
 
         return self._cursor.fetchall()
 
-    def insert_update(self, query, params=None):
+    def _insert_update(self, query, params=None):
         try:
             self._cursor.execute(query, params)
             self._connection.commit()
@@ -247,11 +249,11 @@ class DBGeneralModel:
             sys.exit(c.QUERY_ERR)
 
     def get_all_classifications(self):
-        result = self.query("""SELECT economic_sector, economic_subsector, economic_segment FROM company_classification""")
+        result = self._query("""SELECT economic_sector, economic_subsector, economic_segment FROM company_classification""")
         return(result)
 
     def get_holidays(self, start_date, end_date):
-        holidays = self.query(f"""SELECT day FROM holidays WHERE day >= \'{start_date.strftime('%Y-%m-%d')}\' and day <= \'{end_date.strftime('%Y-%m-%d')}\';""")
+        holidays = self._query(f"""SELECT day FROM holidays WHERE day >= \'{start_date.strftime('%Y-%m-%d')}\' and day <= \'{end_date.strftime('%Y-%m-%d')}\';""")
 
         if len(holidays) == 0:
             holidays = ['2200-01-01']
@@ -320,8 +322,6 @@ class DBGeneralModel:
         if fractional_market == True:
             filters = [filter + "F" for filter in filters]
 
-        filters = [filter.ljust(7) for filter in filters]
-
         query = f"""SELECT ticker FROM symbol s\n"""
         query += f"""INNER JOIN entity e ON e.trading_name = s.trading_name\n"""
         query += f"""INNER JOIN company_classification cc ON cc.id = e.company_classification_id\n"""
@@ -376,4 +376,167 @@ class DBGeneralModel:
 
         query += "ORDER BY ticker ASC;"
 
-        return self.query(query)
+        return self._query(query)
+
+class DBStrategyModel:
+    def __init__(self, name, tickers, initial_dates, final_dates, total_capital, alias=None, comment=None, risk_capital_product=None):
+        try:
+            connection = psycopg2.connect(f"dbname='{DB_NAME}' user={DB_USER} host='{DB_HOST}' password={DB_PASS} port='{DB_PORT}'")
+            logger.debug(f'Database \'{DB_NAME}\' connected successfully.')
+        except:
+            logger.error(f'Database \'{DB_NAME}\' connection failed.')
+            sys.exit(c.DB_CONNECTION_ERR)
+
+        self._connection = connection
+        self._cursor = self._connection.cursor()
+
+        self._name = name
+        self._tickers = tickers
+        self._initial_dates = initial_dates
+        self._final_dates = final_dates
+        self._total_capital = total_capital
+        self._alias = alias
+        self._comment = comment
+        self._risk_capital_product = risk_capital_product
+
+    @property
+    def alias(self):
+        return self._alias
+
+    @alias.setter
+    def alias(self, alias):
+        self._alias = alias
+
+    @property
+    def comment(self):
+        return self._comment
+
+    @comment.setter
+    def comment(self, comment):
+        self._comment = comment
+
+    @property
+    def risk_capital_product(self):
+        return self._risk_capital_product
+
+    @risk_capital_product.setter
+    def risk_capital_product(self, risk_capital_product):
+        self._risk_capital_product = risk_capital_product
+
+    def __del__(self):
+        self._connection.close()
+        self._cursor.close()
+        # logger.debug('Database \'StockMarket\' connection closed.')
+
+    def _query(self, query, params=None):
+        try:
+            self._cursor.execute(query, params)
+        except Exception as error:
+            logger.error('Error executing query "{}", error: {}'.format(query, error))
+            self._connection.close()
+            self._cursor.close()
+            # logger.debug('Database \'StockMarket\' connection closed.')
+            sys.exit(c.QUERY_ERR)
+
+        return self._cursor.fetchall()
+
+    def _insert_update(self, query, params=None):
+        try:
+            self._cursor.execute(query, params)
+            self._connection.commit()
+        except Exception as error:
+            logger.error('Error executing query "{}", error: {}'.format(query, error))
+            self._connection.close()
+            self._cursor.close()
+            sys.exit(c.QUERY_ERR)
+
+    def _insert_update_with_returning(self, query, params=None):
+        try:
+            self._cursor.execute(query, params)
+            id_of_new_row = self._cursor.fetchone()[0]
+            self._connection.commit()
+        except Exception as error:
+            logger.error('Error executing query "{}", error: {}'.format(query, error))
+            self._connection.close()
+            self._cursor.close()
+            sys.exit(c.QUERY_ERR)
+
+        return id_of_new_row
+
+    def insert_strategy_results(self, operations):
+        strategy_id = self._insert_strategy()
+        self._insert_strategy_tickers(strategy_id)
+        self._insert_operations(strategy_id, operations)
+
+    def _insert_strategy(self):
+        query = f"""INSERT INTO strategy (name, alias, comment, total_capital, risk_capital_product)\nVALUES\n"""
+
+        query += f"""(\'{self._name}\', \'{self._alias if self._alias is not None else ""}\', \'{self._comment if self._comment is not None else ""}\', {self._total_capital}, {self._risk_capital_product})\n"""
+        query += f"""RETURNING id;"""
+
+        strategy_id = self._insert_update_with_returning(query)
+
+        return strategy_id
+
+    def _insert_strategy_tickers(self, strategy_id):
+
+        number_of_rows = len(self._tickers)
+
+        query = f"""INSERT INTO strategy_tickers (strategy_id, ticker, initial_date, final_date)\nVALUES\n"""
+
+        for n, (ticker, initial_date, final_date) in enumerate(zip(self._tickers, self._initial_dates, self._final_dates)):
+            query += f"""({strategy_id}, '{ticker}', '{initial_date.strftime('%Y-%m-%d')}', '{final_date.strftime('%Y-%m-%d')}')\n"""
+
+            if n != number_of_rows - 1:
+                query += ',\n'
+            else:
+                query += ';'
+
+        self._insert_update(query)
+
+    def _insert_operations(self, strategy_id, operations):
+
+        for operation in operations:
+            query = f"""INSERT INTO operation (strategy_id, ticker, start_date, end_date, state, target_purchase_price, target_sale_price, stop_loss, profit, yield)\nVALUES\n"""
+
+            # if/elif statement only because can not handle operation.end_date being None
+            if operation.state == State.CLOSE:
+                query += f"""({strategy_id}, \'{operation.ticker}\', \'{operation.start_date.strftime('%Y-%m-%d')}\', \'{operation.end_date.strftime('%Y-%m-%d')}\', \'{operation.state.value}\', {operation.target_purchase_price:.2f}, {operation.target_sale_price:.2f}, {operation.stop_loss:.2f}, {round(operation.result_profit, 2) if (operation.result_profit is not None) and (not math.isnan(operation.result_profit)) else 'NULL'}, {round(operation.result_yield, 6) if (operation.result_yield is not None) and (not math.isnan(operation.result_yield)) else 'NULL'})\n"""
+            elif operation.state == State.OPEN:
+                query += f"""({strategy_id}, \'{operation.ticker}\', \'{operation.start_date.strftime('%Y-%m-%d')}\', NULL, \'{operation.state.value}\', {operation.target_purchase_price:.2f}, {operation.target_sale_price:.2f}, {operation.stop_loss:.2f}, {round(operation.result_profit, 2) if (operation.result_profit is not None) and (not math.isnan(operation.result_profit)) else 'NULL'}, {round(operation.result_yield, 6) if (operation.result_yield is not None) and (not math.isnan(operation.result_yield)) else 'NULL'})\n"""
+
+            query += f"""RETURNING id;"""
+
+            operation_id = self._insert_update_with_returning(query)
+
+            self._insert_negotiations(operation_id, operation)
+
+    def _insert_negotiations(self, operation_id, operation):
+
+        number_of_negotiations = operation.number_of_orders
+        current_negotiation = 0
+
+        query = f"""INSERT INTO negotiation (operation_id, day, buy_sell_flag, price, volume, stop_flag, partial_sale_flag)\nVALUES\n"""
+
+        for index in range(len(operation.purchase_price)):
+            query += f"""({operation_id}, \'{operation.purchase_datetime[index].strftime('%Y-%m-%d')}\', 'B', {operation.purchase_price[index]:.2f}, {operation.purchase_volume[index]:.0f}, False, False)"""
+
+            current_negotiation += 1
+
+            if current_negotiation != number_of_negotiations:
+                query += ',\n'
+            else:
+                query += ';'
+
+        for index in range(len(operation.sale_price)):
+            query += f"""({operation_id}, \'{operation._sale_datetime[index].strftime('%Y-%m-%d')}\', 'S', {operation.sale_price[index]:.2f}, {operation.sale_volume[index]:.0f}, {operation.stop_flag[index]}, {operation.partial_sale_flag[index]})"""
+
+            current_negotiation += 1
+
+            if current_negotiation != number_of_negotiations:
+                query += ',\n'
+            else:
+                query += ';'
+
+        self._insert_update(query)
+

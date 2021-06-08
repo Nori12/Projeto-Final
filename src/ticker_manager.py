@@ -47,13 +47,12 @@ class TickerManager:
     number_of_tickers = 0
     db_ticker_model = DBTickerModel()
 
-    def __init__(self, ticker, initial_date, final_date):
+    def __init__(self, ticker, initial_date, final_date, common_ticker_flag=True):
         self._ticker = ticker.upper()
         self._initial_date = initial_date
         self._final_date = final_date
+        self._common_ticker_flag = common_ticker_flag
         self._holidays = []
-
-        # TickerManager.db_ticker_model = DBTickerModel()
 
         TickerManager.number_of_tickers += 1
         TickerManager.tickers.append(self._ticker)
@@ -87,7 +86,9 @@ class TickerManager:
 
         # Important: update interval '1d' is the most reliable, so it is the basis to others
         self._update_candles(interval='1d')
-        self._update_weekly_candles()
+
+        if self._common_ticker_flag == True:
+            self._update_weekly_candles()
 
     def _update_candles(self, interval = '1d'):
 
@@ -134,7 +135,11 @@ class TickerManager:
 
     def _get_data(self, start, end, interval='1d'):
 
-        ticker = self._ticker + '.SA'
+        ticker = self._ticker
+
+        if self._common_ticker_flag == True:
+            ticker += '.SA'
+
         try:
             msft = yf.Ticker(ticker)
             if interval == '1d':
@@ -193,11 +198,14 @@ class TickerManager:
 
         new_dividends = self._verify_dividends(new_candles)
 
-        new_candles.drop(['Dividends', 'Stock Splits'], axis=1, inplace=True)
-        new_candles.replace(0, np.nan, inplace=True)
-        new_candles.dropna(axis=0, how='any', inplace=True)
+        if self._common_ticker_flag == True:
+            new_candles.drop(['Dividends', 'Stock Splits'], axis=1, inplace=True)
+            new_candles.replace(0, np.nan, inplace=True)
+            new_candles.dropna(axis=0, how='any', inplace=True)
+        else:
+            new_candles.drop(new_candles[(new_candles['Open'] == 0) | (new_candles['High'] == 0) | (new_candles['Low'] == 0) | (new_candles['Close'] == 0)].index, inplace=True)
 
-        self._check_dataframe_constraints(new_candles)
+        self._adjust_to_dataframe_constraints(new_candles)
 
         if new_candles.empty:
             logger.warning(f"""No valid data to update for ticker \'{self._ticker}\', (\'{start_datetime.strftime('%Y-%m-%d')}\', \'{end_datetime.strftime('%Y-%m-%d')}\').""")
@@ -227,7 +235,7 @@ class TickerManager:
 
         logger.info(f"""Ticker \'{self._ticker}\' weekly candles update finished.""")
 
-    def _check_dataframe_constraints(self, df):
+    def _adjust_to_dataframe_constraints(self, df):
 
         df['Low'] = df.apply(lambda x: x['Close'] if x['Low'] > x['Close'] else x['Low'], axis=1)
         df['Low'] = df.apply(lambda x: x['Open'] if x['Low'] > x['Open'] else x['Low'], axis=1)
@@ -235,8 +243,10 @@ class TickerManager:
         df['High'] = df.apply(lambda x: x['Open'] if x['High'] < x['Open'] else x['High'], axis=1)
 
     def generate_features(self):
-        self._generate_features(interval='1d')
-        self._generate_features(interval='1wk')
+
+        if self._common_ticker_flag == True:
+            self._generate_features(interval='1d')
+            self._generate_features(interval='1wk')
 
     def _generate_features(self, interval = '1d'):
 

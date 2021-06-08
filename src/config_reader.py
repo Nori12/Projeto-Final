@@ -137,7 +137,6 @@ class ConfigReader:
                 logging.error(f"""Program aborted. Parameter \'on_shares\' in \'{c.CONFIG_FILENAME}\' can only be \"true\" or \"false\".""")
                 sys.exit(c.CONFIG_FILE_ERR)
 
-
             pn_flag = False
             if pn_shares_raw == 'true':
                 pn_flag = True

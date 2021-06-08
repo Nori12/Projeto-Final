@@ -7,6 +7,7 @@ from time import time
 import sys
 from datetime import datetime, timedelta
 import numpy as np
+from enum import Enum
 
 import constants as c
 
@@ -72,9 +73,7 @@ def calculate_maximum_volume(price, max_capital, minimum_volume=100):
 
     return volume
 
-def calculate_annualized_yield(yield_in_period, business_days):
-    business_days_per_year = 252
-
-    annualized_yield = (1+yield_in_period) ** (business_days_per_year/business_days)
-
-    return round(annualized_yield-1, 4)
+class State(Enum):
+    NOT_STARTED = "NOT STARTED"
+    OPEN = "OPEN"
+    CLOSE = "CLOSE"

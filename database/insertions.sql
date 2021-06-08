@@ -88,9 +88,10 @@ VALUES
 
 INSERT INTO entity_type (type)
 VALUES
-('COM'),
+('ORDINARY'),
 ('ETF'),
-('IND');
+('INDEX'),
+('CURRENCY');
 
 INSERT INTO entity (trading_name, ticker_root, company_classification_id, entity_type_id)
 VALUES
@@ -556,6 +557,11 @@ VALUES
 ('XINA', 'TREND CHINA', NULL, 2),
 ('XPIE', 'FIP XP INFRA', NULL, 2),
 ('FDES', 'FUNDES', NULL, 2);
+
+INSERT INTO entity (ticker_root, trading_name, company_classification_id, entity_type_id)
+VALUES
+('^BVSP', 'IBOVESPA', NULL, 3),
+('BRL=X', 'USD/BRL', NULL, 4);
 
 -- ON and PN
 INSERT INTO symbol (ticker, trading_name) (SELECT 'AALR3', trading_name FROM entity WHERE trading_name ILIKE 'ALLIAR') ON CONFLICT (ticker) DO NOTHING;
@@ -1395,6 +1401,11 @@ INSERT INTO symbol (ticker, trading_name) (SELECT 'FNOR11F', trading_name FROM e
 INSERT INTO symbol (ticker, trading_name) (SELECT 'FSPE11F', trading_name FROM entity WHERE trading_name ILIKE 'FISET PESCA') ON CONFLICT (ticker) DO NOTHING;
 INSERT INTO symbol (ticker, trading_name) (SELECT 'FSRF11F', trading_name FROM entity WHERE trading_name ILIKE 'FISET FL REF') ON CONFLICT (ticker) DO NOTHING;
 INSERT INTO symbol (ticker, trading_name) (SELECT 'FSTU11F', trading_name FROM entity WHERE trading_name ILIKE 'FISET TUR') ON CONFLICT (ticker) DO NOTHING;
+
+-- Indexes and Currencies
+INSERT INTO symbol (ticker, trading_name) (SELECT ticker_root, trading_name FROM entity WHERE trading_name ILIKE 'IBOVESPA') ON CONFLICT (ticker) DO NOTHING;
+INSERT INTO symbol (ticker, trading_name) (SELECT ticker_root, trading_name FROM entity WHERE trading_name ILIKE 'USD/BRL') ON CONFLICT (ticker) DO NOTHING;
+
 
 -- 2014 holidays
 INSERT INTO holidays (day)

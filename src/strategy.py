@@ -2,16 +2,17 @@ from pathlib import Path
 import pandas as pd
 import logging
 from logging.handlers import RotatingFileHandler
-from datetime import datetime, timedelta
+from datetime import timedelta
 import random
 from abc import ABC, abstractmethod
 from enum import Enum
 import sys
 import numpy as np
+import math
 
 import constants as c
-from utils import calculate_maximum_volume, calculate_annualized_yield
-from db_model import DBTickerModel
+from utils import calculate_maximum_volume, State
+from db_model import DBStrategyModel
 
 # Configure Logging
 logger = logging.getLogger(__name__)
@@ -27,21 +28,14 @@ logger.addHandler(file_handler)
 file_handler.setLevel(logging.DEBUG)
 logger.setLevel(logging.DEBUG)
 
-class State(Enum):
-    NOT_STARTED = "NOT_STARTED"
-    OPEN = "OPEN"
-    CLOSE = "CLOSE"
-
-# TODO: Add holidays in self._result_yield_annualized calculation
 class Operation:
 
-    def __init__(self, ticker, strategy_name, strategy_id):
+    def __init__(self, ticker):
         self._ticker = ticker
-        self._strategy_name = strategy_name
-        self._strategy_id = strategy_id
-        self._start = None
-        self._end = None
+        self._start_date = None
+        self._end_date = None
         self._state = State.NOT_STARTED
+        self._number_of_orders = 0
         self._target_purchase_price = None
         self._purchase_price = []
         self._purchase_volume = []
@@ -56,7 +50,6 @@ class Operation:
         self._partial_sale_price = None
         self._result_profit = None
         self._result_yield = None
-        self._result_yield_annualized = None
 
     # General properties
     @property
@@ -64,24 +57,28 @@ class Operation:
         return self._ticker
 
     @property
-    def strategy_name(self):
-        return self._strategy_name
-
-    @property
-    def strategy_id(self):
-        return self._strategy_id
-
-    @property
     def state(self):
         return self._state
 
     @property
-    def start(self):
-        return self._start
+    def start_date(self):
+        return self._start_date
 
     @property
-    def end(self):
-        return self._end
+    def end_date(self):
+        return self._end_date
+
+    @property
+    def number_of_orders(self):
+        return self._number_of_orders
+
+    @property
+    def result_profit(self):
+        return self._result_profit
+
+    @property
+    def result_yield(self):
+        return self._result_yield
 
     # Purchase properties
     @property
@@ -146,6 +143,10 @@ class Operation:
         return self._stop_flag
 
     @property
+    def partial_sale_flag(self):
+        return self._partial_sale_flag
+
+    @property
     def stop_loss(self):
         return self._stop_loss
 
@@ -183,9 +184,10 @@ class Operation:
             self._purchase_price.append(purchase_price)
             self._purchase_volume.append(purchase_volume)
             self._purchase_datetime.append(purchase_datetime)
+            self._number_of_orders += 1
 
             if self.state == State.NOT_STARTED:
-                self._start = purchase_datetime
+                self._start_date = purchase_datetime
                 self._state = State.OPEN
 
             return True
@@ -206,13 +208,13 @@ class Operation:
             self._sale_volume.append(sale_volume)
             self._sale_datetime.append(sale_datetime)
             self._stop_flag.append(stop_flag)
+            self._number_of_orders += 1
 
             if self.total_purchase_volume == self.total_sale_volume:
                 self._partial_sale_flag.append(False)
-                self._end = sale_datetime
+                self._end_date = sale_datetime
                 self._result_profit = self.total_sale_capital - self.total_purchase_capital
                 self._result_yield = self._result_profit / self.total_purchase_capital
-                self._result_yield_annualized = calculate_annualized_yield(self._result_yield, np.busday_count(self._start.date(), (self._end+timedelta(days=1)).date() ))
                 self._state = State.CLOSE
             else:
                 self._partial_sale_flag.append(True)
@@ -250,7 +252,22 @@ class Strategy(ABC):
 
     @property
     @abstractmethod
-    def id(self):
+    def alias(self):
+        pass
+
+    @alias.setter
+    @abstractmethod
+    def alias(self, alias):
+        pass
+
+    @property
+    @abstractmethod
+    def comment(self):
+        pass
+
+    @comment.setter
+    @abstractmethod
+    def comment(self, comment):
         pass
 
     @property
@@ -275,11 +292,6 @@ class Strategy(ABC):
 
     @property
     @abstractmethod
-    def max_capital_per_operation(self):
-        pass
-
-    @property
-    @abstractmethod
     def operations(self):
         pass
 
@@ -291,35 +303,52 @@ class Strategy(ABC):
     def process_operations(self):
         pass
 
+    @abstractmethod
+    def save(self):
+        pass
+
 class AndreMoraesStrategy(Strategy):
 
-    def __init__(self, name, tickers, initial_dates, final_dates, total_capital=100000, max_capital_per_operation = 0.10):
+    def __init__(self, tickers, initial_dates, final_dates, alias=None, comment=None, total_capital=100000, risk_capital_product=0.0036):
 
-        if max_capital_per_operation < 0.0 or max_capital_per_operation > 1.0:
-            logger.error(f"""Parameter \'max_capital_per_operation\' must be in the interval [0, 1].""")
+        if risk_capital_product < 0.0 or risk_capital_product > 1.0:
+            logger.error(f"""Parameter \'risk_capital_product\' must be in the interval [0, 1].""")
             sys.exit(c.INVALID_ARGUMENT_ERR)
 
-        self._name = name
-        random.seed()
-        self._id = random.randint(0, 9223372036854775807) # Max 8 bytes integer
+        self._name = "Andre Moraes"
+        self._alias = alias
+        self._comment = comment
         self._tickers = [ticker.upper() for ticker in tickers]
         self._initial_dates = initial_dates
         self._final_dates = final_dates
         self._total_capital = total_capital
-        self._max_capital_per_operation = max_capital_per_operation
+        self._current_capital = total_capital
+        self._risk_capital_product = risk_capital_product
         self._operations = []
+
+        self._db_strategy_model = DBStrategyModel(self._name, self._tickers, self._initial_dates, self._final_dates, self._total_capital, alias=self._alias, comment=self._comment, risk_capital_product=self._risk_capital_product)
 
     @property
     def name(self):
         return self._name
 
-    @name.setter
-    def name(self, name):
-        self._name = name
+    @property
+    def alias(self):
+        return self._alias
+
+    @alias.setter
+    def alias(self, alias):
+        self._alias = alias
+        self._db_strategy_model.alias = alias
 
     @property
-    def id(self):
-        return self._id
+    def comment(self):
+        return self._comment
+
+    @comment.setter
+    def comment(self, comment):
+        self._comment = comment
+        self._db_strategy_model.comment = comment
 
     @property
     def tickers(self):
@@ -337,17 +366,19 @@ class AndreMoraesStrategy(Strategy):
     def total_capital(self):
         return self.total_capital
 
-    @total_capital.setter
-    def total_capital(self, total_capital):
-        self._total_capital = total_capital
+    @property
+    def current_capital(self):
+
+        allocated_capital = 0.0
+
+        for operation in self._operations:
+            allocated_capital = allocated_capital - operation.total_purchase_capital + operation.total_sale_capital
+
+        return round(allocated_capital, 2)
 
     @property
-    def max_capital_per_operation(self):
-        return self._max_capital_per_operation
-
-    @max_capital_per_operation.setter
-    def max_capital_per_operation(self, max_capital_per_operation):
-        self._max_capital_per_operation = max_capital_per_operation
+    def risk_capital_product(self):
+        return self._risk_capital_product
 
     @property
     def operations(self):
@@ -363,6 +394,9 @@ class AndreMoraesStrategy(Strategy):
             self._week_df = dataframe
         elif interval == '1d':
             self._day_df = dataframe
+
+    def _get_capital_per_risk(self, risk):
+        return round(self._risk_capital_product * self._total_capital / risk, 2)
 
     # TODO: correct potentially problem of stop loss and target sale price being hit on the same day
     def process_operations(self):
@@ -399,7 +433,7 @@ class AndreMoraesStrategy(Strategy):
 
                                 stop_loss = self._day_df.loc[(self._day_df['ticker'] == ticker) & (self._day_df['day'] < row['day']) & (self._day_df['peak'] == -1) & (self._day_df['min_price'] < row['close_price'])].tail(1)['min_price'].values[0]
 
-                                operation = Operation(ticker, self._name, self._id)
+                                operation = Operation(ticker)
                                 operation.set_purchase_target(purchase_target)
                                 operation.set_stop_loss(stop_loss)
                                 operation.set_sale_target(round(purchase_target + (purchase_target - stop_loss) * 3, 2))
@@ -414,28 +448,38 @@ class AndreMoraesStrategy(Strategy):
                         # Check if the target purchase price was hit
                         if operation.target_purchase_price >= row['min_price'] and operation.target_purchase_price <= row['max_price']:
 
-                            operation.add_purchase(operation.target_purchase_price, calculate_maximum_volume(operation.target_purchase_price, self._max_capital_per_operation * self._total_capital), row['day'])
-
-                            operation.target_purchase_price = None
+                            operation.add_purchase(operation.target_purchase_price, calculate_maximum_volume(operation.target_purchase_price, self._get_capital_per_risk((operation.target_purchase_price - operation.stop_loss)/(operation.target_purchase_price)), minimum_volume=1), row['day'])
 
                     elif operation.state == State.OPEN:
 
-                        # Check if te partial sale price was hit
-                        if partial_sale_flag == False and operation.partial_sale_price >= row['min_price']:
-                            operation.add_sale(operation.partial_sale_price, operation.purchase_volume[0]/2, row['day'])
-                            partial_sale_flag = True
+                        # Check if the target STOP LOSS is hit
+                        if operation.stop_loss >= row['min_price'] and operation.stop_loss <= row['max_price']:
+                            operation.add_sale(operation.stop_loss, operation.total_purchase_volume - operation.total_sale_volume, row['day'], stop_flag=True)
 
-                        # Check if the target sale price was hit
-                        if operation.target_sale_price >= row['min_price']:
-                            operation.add_sale(operation.target_sale_price, operation.purchase_volume[0]/2, row['day'])
+                        # Check if the target STOP LOSS is skipped
+                        if operation.stop_loss > row['max_price']:
+                            operation.add_sale(row['min_price'], operation.total_purchase_volume - operation.total_sale_volume, row['day'], stop_flag=True)
 
-                            operation.target_sale_price = None
+                        # After hitting the stol loss, the operation can be closed
+                        if operation.state == State.OPEN:
 
-                        # Check if the target stop loss was hit
-                        if operation.stop_loss >= row['min_price'] and operation.target_sale_price <= row['max_price']:
-                            operation.add_sale(operation.stop_loss, operation.purchase_volume[0], row['day'])
+                            # Check if the PARTIAL SALE price is hit
+                            if partial_sale_flag == False and operation.partial_sale_price >= row['min_price'] and operation.partial_sale_price <= row['max_price']:
+                                operation.add_sale(operation.partial_sale_price, math.ceil(operation.purchase_volume[0] / 2), row['day'])
+                                partial_sale_flag = True
 
-                            operation.stop_loss = None
+                            # Check if the PARTIAL SALE price is skipped but not TARGET SALE
+                            if partial_sale_flag == False and operation.partial_sale_price < row['min_price'] and operation.target_sale_price > row['max_price']:
+                                operation.add_sale(row['min_price'], math.ceil(operation.purchase_volume[0] / 2), row['day'])
+                                partial_sale_flag = True
+
+                            # Check if the TARGET SALE price is hit
+                            if operation.target_sale_price >= row['min_price'] and operation.target_sale_price <= row['max_price']:
+                                operation.add_sale(operation.target_sale_price, operation.total_purchase_volume - operation.total_sale_volume, row['day'])
+
+                            # Check if the TARGET SALE price is skipped
+                            if operation.target_sale_price < row['min_price']:
+                                operation.add_sale(row['min_price'], operation.total_purchase_volume - operation.total_sale_volume, row['day'])
 
                     if operation.state == State.CLOSE:
                         self.operations.append(operation)
@@ -447,4 +491,6 @@ class AndreMoraesStrategy(Strategy):
             partial_sale_flag = False
             if operation is not None and operation.state == State.OPEN:
                 self.operations.append(operation)
-        print(1)
+
+    def save(self):
+        self._db_strategy_model.insert_strategy_results(self.operations)

@@ -24,7 +24,6 @@ file_handler.setLevel(logging.DEBUG)
 logger.setLevel(logging.DEBUG)
 
 def run():
-
     logger.info('Program started.')
 
     # Read Config File
@@ -35,6 +34,8 @@ def run():
     holidays = general_info.get_holidays(min(initial_dates), max(final_dates))
 
     all_ticker_managers = [TickerManager(ticker_names[i], initial_dates[i], final_dates[i]) for i in range(len(ticker_names))]
+    all_ticker_managers.append(TickerManager('^BVSP', min(initial_dates), max(final_dates), common_ticker_flag=False)) # IBOVESPA Index
+    all_ticker_managers.append(TickerManager('BRL=X', min(initial_dates), max(final_dates), common_ticker_flag=False)) # USD/BRL
 
     # Update data accordingly
     for ticker_manager in all_ticker_managers:
@@ -43,12 +44,18 @@ def run():
         ticker_manager.generate_features()
 
     # Strategy section
-    moraes_strat = AndreMoraesStrategy("André Moraes", ticker_names, initial_dates, final_dates)
+    am_strat = AndreMoraesStrategy(ticker_names, initial_dates, final_dates)
+    am_strat.alias = "André Moraes beta"
+    am_strat.comment = "Strategy not complete."
 
-    moraes_strat.set_input_data(general_info.get_candles_dataframe(ticker_names, initial_dates, final_dates, interval='1wk'), interval='1wk')
-    moraes_strat.set_input_data(general_info.get_candles_dataframe(ticker_names, initial_dates, final_dates, interval='1d'), interval='1d')
+    weekly_candles = general_info.get_candles_dataframe(ticker_names, initial_dates, final_dates, interval='1wk')
+    daily_candles = general_info.get_candles_dataframe(ticker_names, initial_dates, final_dates, interval='1d')
 
-    moraes_strat.process_operations()
+    am_strat.set_input_data(weekly_candles, interval='1wk')
+    am_strat.set_input_data(daily_candles, interval='1d')
+
+    am_strat.process_operations()
+    am_strat.save()
 
 if __name__ == '__main__':
     run()

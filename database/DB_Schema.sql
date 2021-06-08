@@ -12,7 +12,7 @@
 --     CONNECTION LIMIT = -1;
 
 -- COMMENT ON DATABASE "StockMarket"
---     IS 'A database to store stock market data.';
+--     IS 'A database to store stock market data and application of strategies.';
 
 CREATE TABLE company_classification (
   id SERIAL PRIMARY KEY,
@@ -30,7 +30,7 @@ CREATE TABLE entity_type (
 
 CREATE TABLE entity (
   trading_name VARCHAR(100) PRIMARY KEY,
-  ticker_root CHAR (4) NOT NULL,
+  ticker_root VARCHAR(5) NOT NULL,
   entity_type_id INTEGER REFERENCES entity_type(id),
   company_classification_id INTEGER,
 
@@ -41,17 +41,17 @@ CREATE TABLE entity (
 );
 
 CREATE TABLE symbol (
-  ticker CHAR (7) NOT NULL PRIMARY KEY,
+  ticker VARCHAR(7) NOT NULL PRIMARY KEY,
   trading_name VARCHAR(100) REFERENCES entity(trading_name)
 );
 
 CREATE TABLE daily_candles (
-  ticker CHAR (7) REFERENCES symbol(ticker),
+  ticker VARCHAR(7) REFERENCES symbol(ticker),
   day TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-  open_price DECIMAL(7, 2) NOT NULL,
-  max_price DECIMAL(7, 2) NOT NULL,
-  min_price DECIMAL(7, 2) NOT NULL,
-  close_price DECIMAL(7, 2) NOT NULL,
+  open_price DECIMAL(8, 2) NOT NULL,
+  max_price DECIMAL(8, 2) NOT NULL,
+  min_price DECIMAL(8, 2) NOT NULL,
+  close_price DECIMAL(8, 2) NOT NULL,
   volume BIGINT NOT NULL,
 
   CONSTRAINT daily_data_pkey PRIMARY KEY (ticker, day),
@@ -61,12 +61,12 @@ CREATE TABLE daily_candles (
 );
 
 CREATE TABLE weekly_candles (
-  ticker CHAR (7) REFERENCES symbol(ticker),
+  ticker VARCHAR(7) REFERENCES symbol(ticker),
   week TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-  open_price DECIMAL(7, 2) NOT NULL,
-  max_price DECIMAL(7, 2) NOT NULL,
-  min_price DECIMAL(7, 2) NOT NULL,
-  close_price DECIMAL(7, 2) NOT NULL,
+  open_price DECIMAL(8, 2) NOT NULL,
+  max_price DECIMAL(8, 2) NOT NULL,
+  min_price DECIMAL(8, 2) NOT NULL,
+  close_price DECIMAL(8, 2) NOT NULL,
   volume BIGINT NOT NULL,
 
   CONSTRAINT weekly_data_pkey PRIMARY KEY (ticker, week),
@@ -76,7 +76,7 @@ CREATE TABLE weekly_candles (
 );
 
 CREATE TABLE split (
-  ticker CHAR (7) REFERENCES symbol(ticker),
+  ticker VARCHAR(7) REFERENCES symbol(ticker),
   split_date TIMESTAMP WITHOUT TIME ZONE,
   ratio REAL NOT NULL,
   manual_check BOOLEAN DEFAULT FALSE,
@@ -87,7 +87,7 @@ CREATE TABLE split (
 CREATE TYPE currency_type AS ENUM ('R$');
 
 CREATE TABLE status (
-  ticker CHAR (7) REFERENCES symbol(ticker),
+  ticker VARCHAR(7) REFERENCES symbol(ticker),
   currency currency_type DEFAULT 'R$',
   last_update_daily_candles TIMESTAMP WITHOUT TIME ZONE,
   initial_date_daily_candles TIMESTAMP WITHOUT TIME ZONE,
@@ -99,7 +99,7 @@ CREATE TABLE status (
 CREATE TYPE interest_origin_type AS ENUM ('DIV', 'IOC');
 
 CREATE TABLE dividends (
-  ticker CHAR (7) REFERENCES symbol(ticker),
+  ticker VARCHAR(7) REFERENCES symbol(ticker),
   payment_date TIMESTAMP WITHOUT TIME ZONE NOT NULL,
   payment_date_correction TIMESTAMP WITHOUT TIME ZONE,
   price_per_stock DECIMAL(10, 6) NOT NULL,
@@ -115,11 +115,11 @@ CREATE TABLE holidays (
 );
 
 CREATE TABLE daily_features (
-  ticker CHAR (7) REFERENCES symbol(ticker),
+  ticker VARCHAR(7) REFERENCES symbol(ticker),
   day TIMESTAMP WITHOUT TIME ZONE NOT NULL,
   peak SMALLINT,
-  ema_17 DECIMAL(10, 6),
-  ema_72 DECIMAL(10, 6),
+  ema_17 DECIMAL(8, 2),
+  ema_72 DECIMAL(8, 2),
   up_down_trend_coef REAL,
   up_down_trend_status SMALLINT,
 
@@ -131,11 +131,11 @@ CREATE TABLE daily_features (
 );
 
 CREATE TABLE weekly_features (
-  ticker CHAR (7) REFERENCES symbol(ticker),
+  ticker VARCHAR(7) REFERENCES symbol(ticker),
   week TIMESTAMP WITHOUT TIME ZONE NOT NULL,
   peak SMALLINT,
-  ema_17 DECIMAL(10, 6),
-  ema_72 DECIMAL(10, 6),
+  ema_17 DECIMAL(8, 2),
+  ema_72 DECIMAL(8, 2),
   up_down_trend_coef REAL,
   up_down_trend_status SMALLINT,
 
@@ -144,7 +144,61 @@ CREATE TABLE weekly_features (
   CONSTRAINT greater_than_zero CHECK (ema_17 > 0 AND ema_72 > 0),
   CONSTRAINT coef_in_bounds CHECK (up_down_trend_coef >= -1 AND up_down_trend_coef <= 1),
   CONSTRAINT up_down_trend_status_valid CHECK (up_down_trend_status = 1 OR up_down_trend_status = -1 OR up_down_trend_status = 0)
-)
+);
+
+CREATE TABLE strategy (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(50) NOT NULL,
+  alias VARCHAR(50),
+  comment VARCHAR(100),
+  total_capital DECIMAL(11, 2) NOT NULL,
+  risk_capital_product DECIMAL(5, 4)
+);
+
+CREATE TABLE strategy_tickers (
+  id SERIAL PRIMARY KEY,
+  strategy_id INTEGER REFERENCES strategy(id),
+  ticker VARCHAR(7) REFERENCES symbol(ticker),
+  initial_date TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+  final_date TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+
+  CONSTRAINT strategy_tickers_uniqueness UNIQUE (strategy_id, ticker, initial_date, final_date)
+);
+
+CREATE TYPE state_type AS ENUM ('NOT STARTED', 'OPEN', 'CLOSE');
+
+CREATE TABLE operation (
+  id SERIAL PRIMARY KEY,
+  strategy_id INTEGER REFERENCES strategy(id),
+  ticker VARCHAR(7) REFERENCES symbol(ticker),
+  start_date TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+  end_date TIMESTAMP WITHOUT TIME ZONE,
+  state state_type NOT NULL,
+  target_purchase_price DECIMAL(8, 2),
+  target_sale_price DECIMAL(8, 2),
+  stop_loss DECIMAL(8, 2),
+  profit DECIMAL(8, 2),
+  yield REAL,
+
+  CONSTRAINT operation_uniqueness UNIQUE (strategy_id, ticker, start_date, end_date)
+);
+
+CREATE TYPE trade_type AS ENUM ('B', 'S');
+
+CREATE TABLE negotiation (
+  id SERIAL PRIMARY KEY,
+  operation_id INTEGER REFERENCES operation(id),
+  day TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+  buy_sell_flag trade_type NOT NULL,
+  price DECIMAL(8, 2) NOT NULL,
+  volume SMALLINT NOT NULL,
+  stop_flag BOOLEAN NOT NULL,
+  partial_sale_flag BOOLEAN NOT NULL,
+
+  CONSTRAINT negotiation_uniqueness UNIQUE (operation_id, day, buy_sell_flag, price),
+  CONSTRAINT purchase_has_no_stop CHECK ((buy_sell_flag = 'B' AND stop_flag = FALSE) OR (buy_sell_flag = 'S')),
+  CONSTRAINT purchase_has_no_partial_sale CHECK ((buy_sell_flag = 'B' AND partial_sale_flag = FALSE) OR (buy_sell_flag = 'S'))
+);
 
 -- Triggers, Functions, Procedures, Views
 
