@@ -1,8 +1,13 @@
 {
     "stock_targets": [
         {
-            "name":"CVCB3",
-            "initial_date":"01/01/2014",
+            "name":"MGLU3",
+            "initial_date":"01/01/2019",
+            "final_date":"today"
+        },
+        {
+            "name":"VALE3",
+            "initial_date":"01/01/2019",
             "final_date":"today"
         }]
 }

@@ -77,3 +77,11 @@ class State(Enum):
     NOT_STARTED = "NOT STARTED"
     OPEN = "OPEN"
     CLOSE = "CLOSE"
+
+def calculate_yield_annualized(in_yield, bus_day_count):
+
+    total_bus_day_per_year = 252
+
+    annualized_yield = (1+in_yield) ** (total_bus_day_per_year/bus_day_count)
+
+    return round(annualized_yield - 1, 4)

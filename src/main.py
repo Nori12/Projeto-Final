@@ -46,7 +46,7 @@ def run():
     # Strategy section
     am_strat = AndreMoraesStrategy(ticker_names, initial_dates, final_dates)
     am_strat.alias = "André Moraes beta"
-    am_strat.comment = "Strategy not complete."
+    am_strat.comment = "Testing concurrent ticker operations."
 
     weekly_candles = general_info.get_candles_dataframe(ticker_names, initial_dates, final_dates, interval='1wk')
     daily_candles = general_info.get_candles_dataframe(ticker_names, initial_dates, final_dates, interval='1d')
@@ -55,6 +55,8 @@ def run():
     am_strat.set_input_data(daily_candles, interval='1d')
 
     am_strat.process_operations()
+    # am_strat.process_single_operations('MGLU3')
+    am_strat.calculate_statistics()
     am_strat.save()
 
 if __name__ == '__main__':

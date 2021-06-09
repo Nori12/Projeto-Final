@@ -300,8 +300,7 @@ class DBGeneralModel:
 
         df = pd.read_sql_query(query, self._connection)
         df['ticker'] =  df['ticker'].apply(lambda x: x.rstrip())
-        df.sort_values(['ticker', time_column], axis=0, ascending=True, ignore_index=True, inplace=True)
-        # df.set_index(['ticker', time_column], inplace=True)
+        # df.sort_values(['ticker', time_column], axis=0, ascending=True, ignore_index=True, inplace=True)
 
         return df
 
@@ -379,7 +378,7 @@ class DBGeneralModel:
         return self._query(query)
 
 class DBStrategyModel:
-    def __init__(self, name, tickers, initial_dates, final_dates, total_capital, alias=None, comment=None, risk_capital_product=None):
+    def __init__(self, name, tickers, initial_dates, final_dates, total_capital, alias=None, comment=None, risk_capital_product=None, min_volume_per_year=0):
         try:
             connection = psycopg2.connect(f"dbname='{DB_NAME}' user={DB_USER} host='{DB_HOST}' password={DB_PASS} port='{DB_PORT}'")
             logger.debug(f'Database \'{DB_NAME}\' connected successfully.')
@@ -398,6 +397,7 @@ class DBStrategyModel:
         self._alias = alias
         self._comment = comment
         self._risk_capital_product = risk_capital_product
+        self._min_volume_per_year = min_volume_per_year
 
     @property
     def alias(self):
@@ -422,6 +422,14 @@ class DBStrategyModel:
     @risk_capital_product.setter
     def risk_capital_product(self, risk_capital_product):
         self._risk_capital_product = risk_capital_product
+
+    @property
+    def min_volume_per_year(self):
+        return self._min_volume_per_year
+
+    @min_volume_per_year.setter
+    def min_volume_per_year(self, min_volume_per_year):
+        self._min_volume_per_year = min_volume_per_year
 
     def __del__(self):
         self._connection.close()
@@ -462,6 +470,16 @@ class DBStrategyModel:
             sys.exit(c.QUERY_ERR)
 
         return id_of_new_row
+
+    def get_tickers_above_min_volume(self):
+        query = f"""SELECT DISTINCT tic_y.ticker\n"""
+        query += f"""FROM\n"""
+        query += f"""(SELECT dc.ticker, EXTRACT(YEAR FROM dc.day), ROUND(AVG(dc.volume), 0) FROM daily_candles dc\n"""
+        query += f"""GROUP BY dc.ticker, EXTRACT(YEAR FROM dc.day)\n"""
+        query += f"""HAVING ROUND(AVG(dc.volume), 0) > {self._min_volume_per_year}) tic_y\n"""
+        query += f"""ORDER BY tic_y.ticker;"""
+
+        return self._query(query)
 
     def insert_strategy_results(self, operations):
         strategy_id = self._insert_strategy()
@@ -540,3 +558,15 @@ class DBStrategyModel:
 
         self._insert_update(query)
 
+    def get_ticker_price(self, ticker, start_date, end_date):
+
+        query = f"""SELECT dc.day, dc.close_price FROM daily_candles dc\n"""
+        query += f"""WHERE\n"""
+        query += f"""  dc.ticker = \'{ticker}\'\n"""
+        query += f"""  AND dc.day >= \'{start_date.to_pydatetime().strftime('%Y-%m-%d')}\'\n"""
+        query += f"""  AND dc.day <= \'{end_date.to_pydatetime().strftime('%Y-%m-%d')}\'\n"""
+        query += f"""ORDER BY day;"""
+
+        df = pd.read_sql_query(query, self._connection)
+
+        return df
