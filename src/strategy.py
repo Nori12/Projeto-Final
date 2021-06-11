@@ -334,7 +334,7 @@ class AndreMoraesStrategy(Strategy):
         self._db_strategy_model = DBStrategyModel(self._name, self._tickers, self._initial_dates, self._final_dates, self._total_capital, alias=self._alias, comment=self._comment, risk_capital_product=self._risk_capital_product, min_volume_per_year=min_volume_per_year)
 
         self._statistics_graph = None
-        self._statistics_parameters = {'profit': None, 'max_capital_used': None, 'yield': None, 'annualized_yield': None, 'ibov_yield': None, 'annualized_ibov_yield': None, 'avr_tickers_yield': None, 'annualized_avr_tickers_yield': None, 'volatility': None, 'sharpe_ratio': None}
+        self._statistics_parameters = {'profit': None, 'max_used_capital': None, 'yield': None, 'annualized_yield': None, 'ibov_yield': None, 'annualized_ibov_yield': None, 'avr_tickers_yield': None, 'annualized_avr_tickers_yield': None, 'volatility': None, 'sharpe_ratio': None}
 
         if self._min_volume_per_year != 0:
             self._filter_tickers_per_min_volume()
@@ -686,7 +686,7 @@ class AndreMoraesStrategy(Strategy):
         return new_list
 
     def save(self):
-        self._db_strategy_model.insert_strategy_results(self.operations)
+        self._db_strategy_model.insert_strategy_results(self._statistics_parameters, self.operations, self._statistics_graph)
 
     def calculate_statistics(self):
         self._calculate_statistics_graph()
@@ -694,7 +694,7 @@ class AndreMoraesStrategy(Strategy):
 
     def _calculate_statistics_graph(self):
 
-        statistics = pd.DataFrame(columns=['day', 'capital', 'capital_in_use', 'tickers_avr', 'ibov'])
+        statistics = pd.DataFrame(columns=['day', 'capital', 'capital_in_use', 'tickers_average', 'ibov'])
 
         statistics['day'] = self._day_df.sort_values(by=['day'], axis=0, kind='mergesort', ascending=True, ignore_index=True)['day'].drop_duplicates()
 
@@ -705,7 +705,7 @@ class AndreMoraesStrategy(Strategy):
 
         statistics['ibov'] = ibov_data.sort_values(by='day', axis=0, ascending=True, ignore_index=True)['close_price']
 
-        statistics['tickers_avr'] = self._calculate_average_tickers_yield(statistics)
+        statistics['tickers_average'] = self._calculate_average_tickers_yield(statistics)
 
         statistics['capital'], statistics['capital_in_use'] = self._calculate_capital_usage(statistics)
 
@@ -721,10 +721,10 @@ class AndreMoraesStrategy(Strategy):
         self._statistics_parameters['profit'] = round(last_capital_value - self._total_capital, 2)
 
         # Maximum Capital Used
-        self._statistics_parameters['max_capital_used'] = round(max(self._statistics_graph['capital_in_use']), 2)
+        self._statistics_parameters['max_used_capital'] = round(max(self._statistics_graph['capital_in_use']), 2)
 
         # Yield
-        self._statistics_parameters['yield'] = round(self._statistics_parameters['profit'] / self._statistics_parameters['max_capital_used'], 4)
+        self._statistics_parameters['yield'] = round(self._statistics_parameters['profit'] / self._statistics_parameters['max_used_capital'], 4)
 
         # Annualized Yield
         bus_day_count = len(self._statistics_graph)
@@ -742,8 +742,8 @@ class AndreMoraesStrategy(Strategy):
         self._statistics_parameters['annualized_ibov_yield'] = round(calculate_yield_annualized(self._statistics_parameters['ibov_yield'], bus_day_count), 4)
 
         # Average Tickers Yield
-        first_avr_tickers_value = self._statistics_graph['tickers_avr'].head(1).values[0]
-        last_avr_tickers_value = self._statistics_graph['tickers_avr'].tail(1).values[0]
+        first_avr_tickers_value = self._statistics_graph['tickers_average'].head(1).values[0]
+        last_avr_tickers_value = self._statistics_graph['tickers_average'].tail(1).values[0]
         avr_tickers_yield = (last_avr_tickers_value / first_avr_tickers_value) - 1
 
         self._statistics_parameters['avr_tickers_yield'] = round(avr_tickers_yield, 4)

@@ -481,10 +481,12 @@ class DBStrategyModel:
 
         return self._query(query)
 
-    def insert_strategy_results(self, operations):
+    def insert_strategy_results(self, result_parameters, operations, performance_dataframe):
         strategy_id = self._insert_strategy()
         self._insert_strategy_tickers(strategy_id)
         self._insert_operations(strategy_id, operations)
+        self._insert_strategy_statistics(strategy_id, result_parameters)
+        self._insert_strategy_performance(strategy_id, performance_dataframe)
 
     def _insert_strategy(self):
         query = f"""INSERT INTO strategy (name, alias, comment, total_capital, risk_capital_product)\nVALUES\n"""
@@ -552,6 +554,28 @@ class DBStrategyModel:
             current_negotiation += 1
 
             if current_negotiation != number_of_negotiations:
+                query += ',\n'
+            else:
+                query += ';'
+
+        self._insert_update(query)
+
+    def _insert_strategy_statistics(self, strategy_id, result_parameters):
+        query = f"""INSERT INTO strategy_statistics (strategy_id, volatility, sharpe_ratio, profit, max_used_capital, yield, annualized_yield, ibov_yield, annualized_ibov_yield, avr_tickers_yield, annualized_avr_tickers_yield)\nVALUES\n"""
+
+        query += f"""  ({strategy_id}, {result_parameters["volatility"]}, {result_parameters["sharpe_ratio"]}, {result_parameters["profit"]}, {result_parameters["max_used_capital"]}, {result_parameters["yield"]}, {result_parameters["annualized_yield"]}, {result_parameters["ibov_yield"]}, {result_parameters["annualized_ibov_yield"]}, {result_parameters["avr_tickers_yield"]}, {result_parameters["annualized_avr_tickers_yield"]});"""
+
+        self._insert_update(query)
+
+    def _insert_strategy_performance(self, strategy_id, performance_dataframe):
+        query = f"""INSERT INTO strategy_performance (strategy_id, day, capital, capital_in_use, tickers_average, ibov)\nVALUES\n"""
+
+        number_of_rows = len(performance_dataframe)
+
+        for n, (_, row) in enumerate(performance_dataframe.iterrows()):
+            query += f"""  ({strategy_id}, \'{row['day'].to_pydatetime().strftime('%Y-%m-%d')}\', {row['capital']}, {row['capital_in_use']}, {row['tickers_average']}, {row['ibov']})"""
+
+            if n != number_of_rows - 1:
                 query += ',\n'
             else:
                 query += ';'

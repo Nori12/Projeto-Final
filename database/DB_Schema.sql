@@ -200,6 +200,31 @@ CREATE TABLE negotiation (
   CONSTRAINT purchase_has_no_partial_sale CHECK ((buy_sell_flag = 'B' AND partial_sale_flag = FALSE) OR (buy_sell_flag = 'S'))
 );
 
+CREATE TABLE strategy_statistics (
+  id SERIAL PRIMARY KEY,
+  strategy_id INTEGER REFERENCES strategy(id),
+  volatility REAL NOT NULL,
+  sharpe_ratio REAL NOT NULL,
+  profit DECIMAL (8,2) NOT NULL,
+  max_used_capital DECIMAL(8, 2) NOT NULL,
+  yield REAL NOT NULL,
+  annualized_yield REAL NOT NULL,
+  ibov_yield REAL NOT NULL,
+  annualized_ibov_yield REAL NOT NULL,
+  avr_tickers_yield REAL NOT NULL,
+  annualized_avr_tickers_yield REAL NOT NULL
+);
+
+CREATE TABLE strategy_performance (
+  id SERIAL PRIMARY KEY,
+  strategy_id INTEGER REFERENCES strategy(id),
+  day TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+  capital DECIMAL(8, 2) NOT NULL,
+  capital_in_use DECIMAL(8, 2) NOT NULL,
+  tickers_average DECIMAL(8, 2),
+  ibov DECIMAL(8, 2)
+);
+
 -- Triggers, Functions, Procedures, Views
 
 CREATE OR REPLACE FUNCTION update_daily_status() RETURNS trigger AS $update_daily_status$
