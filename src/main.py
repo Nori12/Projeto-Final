@@ -5,9 +5,10 @@ from pathlib import Path
 # import utils
 import constants as c
 import config_reader as cr
-from db_model import DBGeneralModel
+from db_model import DBGeneralModel, DBStrategyAnalyzerModel
 from ticker_manager import TickerManager
 from strategy import AndreMoraesStrategy
+from strategy_analyzer import StrategyAnalyzer
 
 # Configure Logging
 logger = logging.getLogger(__name__)
@@ -44,7 +45,7 @@ def run():
         ticker_manager.generate_features()
 
     # Strategy section
-    am_strat = AndreMoraesStrategy(ticker_names, initial_dates, final_dates)
+    am_strat = AndreMoraesStrategy(ticker_names, initial_dates, final_dates, total_capital=17510)
     am_strat.alias = "André Moraes beta"
     am_strat.comment = "Testing concurrent ticker operations."
 
@@ -55,9 +56,13 @@ def run():
     am_strat.set_input_data(daily_candles, interval='1d')
 
     am_strat.process_operations()
-    # am_strat.process_single_operations('MGLU3')
     am_strat.calculate_statistics()
     am_strat.save()
+
+    # Strategy Analysis section
+
+    analyzer = StrategyAnalyzer()
+    analyzer.run()
 
 if __name__ == '__main__':
     run()

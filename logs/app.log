@@ -10948,3 +10948,360 @@ HINT:  You will need to rewrite or cast the expression.
 2021-06-10 22:47:57,537:INFO:ticker_manager:Ticker '^BVSP' already updated.
 2021-06-10 22:47:57,537:INFO:ticker_manager:Ticker 'BRL=X' already updated.
 2021-06-10 22:47:57,549:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 10:59:09,545:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 10:59:50,718:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 11:00:22,489:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 11:00:59,635:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 11:00:59,686:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 11:01:53,095:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 11:01:53,161:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 11:02:17,927:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 11:02:17,982:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 11:03:48,408:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 11:03:48,457:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 11:04:07,722:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 11:04:29,564:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 11:06:47,334:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 11:06:47,393:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 11:07:40,697:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 11:09:41,121:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 11:10:33,119:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 11:10:33,188:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 11:11:51,245:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 11:11:51,292:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 11:15:13,795:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 11:15:13,853:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 12:50:41,911:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 12:50:41,959:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 13:03:08,908:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 13:10:48,854:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 13:24:14,612:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 13:24:14,689:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 13:26:54,143:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 13:26:54,237:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 13:30:20,628:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 13:30:20,709:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 13:31:29,989:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 13:31:30,064:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 13:32:02,602:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 13:32:02,685:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 13:32:36,193:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 13:32:36,267:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 13:45:02,743:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 13:45:03,592:INFO:__main__:Program started.
+2021-06-12 13:45:03,592:DEBUG:config_reader:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-12 13:45:03,593:DEBUG:config_reader:Config file found.
+2021-06-12 13:45:03,599:INFO:config_reader:Ticker, Inital Date, Final Date:
+2021-06-12 13:45:03,600:INFO:config_reader:Ticker: 'MGLU3 '	Inital date: 01/01/2019		Final date: 12/06/2021
+2021-06-12 13:45:03,600:INFO:config_reader:Ticker: 'VALE3 '	Inital date: 01/01/2019		Final date: 12/06/2021
+2021-06-12 13:45:03,600:INFO:config_reader:Ticker: 'PETR4 '	Inital date: 01/01/2019		Final date: 12/06/2021
+2021-06-12 13:45:03,600:INFO:config_reader:Ticker: 'WEGE3 '	Inital date: 01/01/2019		Final date: 12/06/2021
+2021-06-12 13:45:03,600:INFO:config_reader:Ticker: 'BBAS3 '	Inital date: 01/01/2019		Final date: 12/06/2021
+2021-06-12 13:45:03,601:INFO:config_reader:Ticker: 'BBDC3 '	Inital date: 01/01/2019		Final date: 12/06/2021
+2021-06-12 13:45:03,601:INFO:config_reader:Ticker: 'EMBR3 '	Inital date: 01/01/2019		Final date: 12/06/2021
+2021-06-12 13:45:03,601:INFO:config_reader:Ticker: 'GGBR4 '	Inital date: 01/01/2019		Final date: 12/06/2021
+2021-06-12 13:45:03,601:INFO:config_reader:Ticker: 'AZUL4 '	Inital date: 01/01/2019		Final date: 12/06/2021
+2021-06-12 13:45:03,610:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 13:45:04,443:INFO:ticker_manager:Ticker 'MGLU3' daily candles update finished.
+2021-06-12 13:45:04,471:INFO:ticker_manager:Ticker 'MGLU3' weekly candles update finished.
+2021-06-12 13:45:05,132:INFO:ticker_manager:Ticker 'MGLU3' daily features generated.
+2021-06-12 13:45:05,301:INFO:ticker_manager:Ticker 'MGLU3' weekly features generated.
+2021-06-12 13:45:05,833:INFO:ticker_manager:Ticker 'VALE3' daily candles update finished.
+2021-06-12 13:45:05,861:INFO:ticker_manager:Ticker 'VALE3' weekly candles update finished.
+2021-06-12 13:45:06,493:INFO:ticker_manager:Ticker 'VALE3' daily features generated.
+2021-06-12 13:45:06,620:INFO:ticker_manager:Ticker 'VALE3' weekly features generated.
+2021-06-12 13:45:07,245:INFO:ticker_manager:Ticker 'PETR4' daily candles update finished.
+2021-06-12 13:45:07,263:INFO:ticker_manager:Ticker 'PETR4' weekly candles update finished.
+2021-06-12 13:45:07,799:INFO:ticker_manager:Ticker 'PETR4' daily features generated.
+2021-06-12 13:45:07,926:INFO:ticker_manager:Ticker 'PETR4' weekly features generated.
+2021-06-12 13:45:08,457:INFO:ticker_manager:Ticker 'WEGE3' daily candles update finished.
+2021-06-12 13:45:08,475:INFO:ticker_manager:Ticker 'WEGE3' weekly candles update finished.
+2021-06-12 13:45:09,020:INFO:ticker_manager:Ticker 'WEGE3' daily features generated.
+2021-06-12 13:45:09,144:INFO:ticker_manager:Ticker 'WEGE3' weekly features generated.
+2021-06-12 13:45:09,652:INFO:ticker_manager:Ticker 'BBAS3' daily candles update finished.
+2021-06-12 13:45:09,669:INFO:ticker_manager:Ticker 'BBAS3' weekly candles update finished.
+2021-06-12 13:45:10,370:INFO:ticker_manager:Ticker 'BBAS3' daily features generated.
+2021-06-12 13:45:10,496:INFO:ticker_manager:Ticker 'BBAS3' weekly features generated.
+2021-06-12 13:45:11,031:INFO:ticker_manager:Ticker 'BBDC3' daily candles update finished.
+2021-06-12 13:45:11,046:INFO:ticker_manager:Ticker 'BBDC3' weekly candles update finished.
+2021-06-12 13:45:11,578:INFO:ticker_manager:Ticker 'BBDC3' daily features generated.
+2021-06-12 13:45:11,702:INFO:ticker_manager:Ticker 'BBDC3' weekly features generated.
+2021-06-12 13:45:12,256:INFO:ticker_manager:Ticker 'EMBR3' daily candles update finished.
+2021-06-12 13:45:12,272:INFO:ticker_manager:Ticker 'EMBR3' weekly candles update finished.
+2021-06-12 13:45:12,802:INFO:ticker_manager:Ticker 'EMBR3' daily features generated.
+2021-06-12 13:45:12,930:INFO:ticker_manager:Ticker 'EMBR3' weekly features generated.
+2021-06-12 13:45:13,463:INFO:ticker_manager:Ticker 'GGBR4' daily candles update finished.
+2021-06-12 13:45:13,480:INFO:ticker_manager:Ticker 'GGBR4' weekly candles update finished.
+2021-06-12 13:45:14,084:INFO:ticker_manager:Ticker 'GGBR4' daily features generated.
+2021-06-12 13:45:14,231:INFO:ticker_manager:Ticker 'GGBR4' weekly features generated.
+2021-06-12 13:45:14,760:INFO:ticker_manager:Ticker 'AZUL4' daily candles update finished.
+2021-06-12 13:45:14,774:INFO:ticker_manager:Ticker 'AZUL4' weekly candles update finished.
+2021-06-12 13:45:15,348:INFO:ticker_manager:Ticker 'AZUL4' daily features generated.
+2021-06-12 13:45:15,489:INFO:ticker_manager:Ticker 'AZUL4' weekly features generated.
+2021-06-12 13:45:16,192:INFO:ticker_manager:Ticker '^BVSP' daily candles update finished.
+2021-06-12 13:45:16,703:INFO:ticker_manager:Ticker 'BRL=X' daily candles update finished.
+2021-06-12 13:45:16,823:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 13:46:20,300:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 13:46:22,027:INFO:strategy_analyzer:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 13:54:49,963:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 13:54:50,103:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 13:59:02,184:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 13:59:03,204:INFO:__main__:Program started.
+2021-06-12 13:59:03,205:DEBUG:config_reader:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-12 13:59:03,206:DEBUG:config_reader:Config file found.
+2021-06-12 13:59:03,214:INFO:config_reader:Ticker, Inital Date, Final Date:
+2021-06-12 13:59:03,215:INFO:config_reader:Ticker: 'MGLU3 '	Inital date: 01/01/2019		Final date: 12/06/2021
+2021-06-12 13:59:03,215:INFO:config_reader:Ticker: 'VALE3 '	Inital date: 01/01/2019		Final date: 12/06/2021
+2021-06-12 13:59:03,216:INFO:config_reader:Ticker: 'PETR4 '	Inital date: 01/01/2019		Final date: 12/06/2021
+2021-06-12 13:59:03,216:INFO:config_reader:Ticker: 'WEGE3 '	Inital date: 01/01/2019		Final date: 12/06/2021
+2021-06-12 13:59:03,216:INFO:config_reader:Ticker: 'BBAS3 '	Inital date: 01/01/2019		Final date: 12/06/2021
+2021-06-12 13:59:03,216:INFO:config_reader:Ticker: 'BBDC3 '	Inital date: 01/01/2019		Final date: 12/06/2021
+2021-06-12 13:59:03,217:INFO:config_reader:Ticker: 'EMBR3 '	Inital date: 01/01/2019		Final date: 12/06/2021
+2021-06-12 13:59:03,217:INFO:config_reader:Ticker: 'GGBR4 '	Inital date: 01/01/2019		Final date: 12/06/2021
+2021-06-12 13:59:03,217:INFO:config_reader:Ticker: 'AZUL4 '	Inital date: 01/01/2019		Final date: 12/06/2021
+2021-06-12 13:59:03,229:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 13:59:05,844:INFO:ticker_manager:Ticker 'MGLU3' already updated.
+2021-06-12 13:59:05,963:INFO:ticker_manager:Ticker 'MGLU3' weekly candles update finished.
+2021-06-12 13:59:06,874:INFO:ticker_manager:Ticker 'MGLU3' daily features generated.
+2021-06-12 13:59:07,072:INFO:ticker_manager:Ticker 'MGLU3' weekly features generated.
+2021-06-12 13:59:09,054:INFO:ticker_manager:Ticker 'VALE3' already updated.
+2021-06-12 13:59:09,094:INFO:ticker_manager:Ticker 'VALE3' weekly candles update finished.
+2021-06-12 13:59:09,938:INFO:ticker_manager:Ticker 'VALE3' daily features generated.
+2021-06-12 13:59:10,152:INFO:ticker_manager:Ticker 'VALE3' weekly features generated.
+2021-06-12 13:59:10,154:INFO:ticker_manager:Ticker 'PETR4' already updated.
+2021-06-12 13:59:10,180:INFO:ticker_manager:Ticker 'PETR4' weekly candles update finished.
+2021-06-12 13:59:11,170:INFO:ticker_manager:Ticker 'PETR4' daily features generated.
+2021-06-12 13:59:11,480:INFO:ticker_manager:Ticker 'PETR4' weekly features generated.
+2021-06-12 13:59:11,482:INFO:ticker_manager:Ticker 'WEGE3' already updated.
+2021-06-12 13:59:11,496:INFO:ticker_manager:Ticker 'WEGE3' weekly candles update finished.
+2021-06-12 13:59:12,533:INFO:ticker_manager:Ticker 'WEGE3' daily features generated.
+2021-06-12 13:59:12,905:INFO:ticker_manager:Ticker 'WEGE3' weekly features generated.
+2021-06-12 13:59:12,907:INFO:ticker_manager:Ticker 'BBAS3' already updated.
+2021-06-12 13:59:12,950:INFO:ticker_manager:Ticker 'BBAS3' weekly candles update finished.
+2021-06-12 13:59:14,498:INFO:ticker_manager:Ticker 'BBAS3' daily features generated.
+2021-06-12 13:59:14,640:INFO:ticker_manager:Ticker 'BBAS3' weekly features generated.
+2021-06-12 13:59:14,641:INFO:ticker_manager:Ticker 'BBDC3' already updated.
+2021-06-12 13:59:14,658:INFO:ticker_manager:Ticker 'BBDC3' weekly candles update finished.
+2021-06-12 13:59:15,217:INFO:ticker_manager:Ticker 'BBDC3' daily features generated.
+2021-06-12 13:59:15,362:INFO:ticker_manager:Ticker 'BBDC3' weekly features generated.
+2021-06-12 13:59:15,363:INFO:ticker_manager:Ticker 'EMBR3' already updated.
+2021-06-12 13:59:15,385:INFO:ticker_manager:Ticker 'EMBR3' weekly candles update finished.
+2021-06-12 13:59:15,958:INFO:ticker_manager:Ticker 'EMBR3' daily features generated.
+2021-06-12 13:59:16,080:INFO:ticker_manager:Ticker 'EMBR3' weekly features generated.
+2021-06-12 13:59:16,081:INFO:ticker_manager:Ticker 'GGBR4' already updated.
+2021-06-12 13:59:16,096:INFO:ticker_manager:Ticker 'GGBR4' weekly candles update finished.
+2021-06-12 13:59:16,664:INFO:ticker_manager:Ticker 'GGBR4' daily features generated.
+2021-06-12 13:59:16,790:INFO:ticker_manager:Ticker 'GGBR4' weekly features generated.
+2021-06-12 13:59:16,791:INFO:ticker_manager:Ticker 'AZUL4' already updated.
+2021-06-12 13:59:16,800:INFO:ticker_manager:Ticker 'AZUL4' weekly candles update finished.
+2021-06-12 13:59:17,334:INFO:ticker_manager:Ticker 'AZUL4' daily features generated.
+2021-06-12 13:59:17,457:INFO:ticker_manager:Ticker 'AZUL4' weekly features generated.
+2021-06-12 13:59:17,458:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-06-12 13:59:17,459:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-06-12 13:59:19,663:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 14:00:24,772:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 14:00:24,850:INFO:strategy_analyzer:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 15:52:30,601:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 15:52:30,750:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 15:59:34,170:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 15:59:34,245:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 16:00:46,213:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 16:00:46,305:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 16:17:07,587:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 16:17:07,666:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 16:21:09,014:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 16:21:09,113:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 17:07:12,334:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 17:07:12,410:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 17:13:08,654:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 17:13:08,756:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 17:31:50,007:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 17:31:50,106:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 17:32:52,470:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 17:32:52,542:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 17:39:27,322:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 17:39:27,424:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 17:39:42,274:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 17:40:25,917:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 17:41:45,646:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 17:41:45,770:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 17:43:33,313:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 17:44:21,149:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 17:44:21,223:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 17:52:40,206:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 18:03:42,203:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 18:03:57,983:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 18:04:48,468:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 18:08:24,307:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 18:08:24,437:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 18:10:36,448:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 18:10:36,519:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 18:11:26,048:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 18:11:26,137:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 18:11:57,684:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 18:11:57,774:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 18:12:49,939:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 18:14:58,203:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 18:15:09,373:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 18:15:37,643:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 18:15:37,731:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 18:19:32,969:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 18:19:33,068:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 18:20:32,789:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 18:27:42,709:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 18:28:57,571:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 18:29:10,101:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 18:33:43,474:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 18:33:46,497:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 18:35:58,028:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 18:35:58,112:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 18:37:19,034:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 18:45:26,477:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 18:45:45,227:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 18:53:27,923:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 18:57:32,744:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 18:58:28,632:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 18:58:28,717:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 19:05:35,481:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 19:05:35,571:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 19:16:20,440:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 19:16:20,535:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 19:16:44,142:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 19:16:44,248:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 19:17:46,141:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 19:17:46,243:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 22:49:43,019:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 22:50:29,767:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 22:50:29,857:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 22:53:29,128:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 22:53:29,212:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 22:54:31,501:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 22:54:31,611:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 22:58:21,745:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 22:58:21,835:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 22:58:46,347:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 22:58:46,433:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 22:59:59,349:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 22:59:59,440:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 23:00:21,937:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 23:00:22,037:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 23:02:14,163:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 23:02:14,255:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 23:02:36,212:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 23:02:36,294:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 23:02:58,033:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 23:02:58,142:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 23:05:07,083:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 23:05:07,375:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 23:05:49,478:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 23:05:49,673:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 23:08:17,860:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 23:08:17,957:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 23:09:44,571:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 23:09:44,673:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 23:11:36,601:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 23:11:36,695:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 23:12:45,475:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 23:12:45,554:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 23:14:29,284:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 23:14:29,380:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 23:15:03,054:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 23:15:03,150:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 23:17:36,319:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 23:17:36,421:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 23:18:32,061:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 23:18:32,140:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 23:20:46,734:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 23:20:46,840:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 23:23:26,211:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 23:23:26,343:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 23:26:38,812:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 23:26:38,911:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 23:29:55,102:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 23:29:55,187:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 23:31:30,284:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 23:32:15,040:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 23:32:17,576:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 23:36:12,239:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 23:36:12,335:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 23:36:45,709:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 23:36:45,826:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-12 23:59:38,778:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-12 23:59:38,879:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+

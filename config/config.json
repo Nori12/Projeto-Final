@@ -9,5 +9,41 @@
             "name":"VALE3",
             "initial_date":"01/01/2019",
             "final_date":"today"
-        }]
+        },
+        {
+            "name":"PETR4",
+            "initial_date":"01/01/2019",
+            "final_date":"today"
+        },
+        {
+            "name":"WEGE3",
+            "initial_date":"01/01/2019",
+            "final_date":"today"
+        },
+        {
+            "name":"BBAS3",
+            "initial_date":"01/01/2019",
+            "final_date":"today"
+        },
+        {
+            "name":"BBDC3",
+            "initial_date":"01/01/2019",
+            "final_date":"today"
+        },
+        {
+            "name":"EMBR3",
+            "initial_date":"01/01/2019",
+            "final_date":"today"
+        },
+        {
+            "name":"GGBR4",
+            "initial_date":"01/01/2019",
+            "final_date":"today"
+        },
+        {
+            "name":"AZUL4",
+            "initial_date":"01/01/2019",
+            "final_date":"today"
+        }
+    ]
 }

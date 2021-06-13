@@ -594,3 +594,60 @@ class DBStrategyModel:
         df = pd.read_sql_query(query, self._connection)
 
         return df
+
+class DBStrategyAnalyzerModel:
+    def __init__(self):
+        try:
+            connection = psycopg2.connect(f"dbname='{DB_NAME}' user={DB_USER} host='{DB_HOST}' password={DB_PASS} port='{DB_PORT}'")
+            logger.debug(f'Database \'{DB_NAME}\' connected successfully.')
+        except:
+            logger.error(f'Database \'{DB_NAME}\' connection failed.')
+            sys.exit(c.DB_CONNECTION_ERR)
+
+        self._connection = connection
+        self._cursor = self._connection.cursor()
+
+    def __del__(self):
+        self._connection.close()
+        self._cursor.close()
+
+    def _query(self, query, params=None):
+        try:
+            self._cursor.execute(query, params)
+        except Exception as error:
+            logger.error('Error executing query "{}", error: {}'.format(query, error))
+            self._connection.close()
+            self._cursor.close()
+            sys.exit(c.QUERY_ERR)
+
+        return self._cursor.fetchall()
+
+    def get_strategy_ids(self):
+        query = f"""SELECT id, name, alias, comment\n"""
+        query += f"""FROM strategy\n"""
+        query += f"""ORDER BY id DESC;"""
+
+        df = pd.read_sql_query(query, self._connection)
+
+        return df
+
+    def get_strategy_performance(self, strategy_id):
+        query = f"""SELECT sp.day, sp.capital, sp.capital_in_use, sp.tickers_average, sp.ibov\n"""
+        query += f"""FROM strategy_performance sp\n"""
+        query += f"""INNER JOIN strategy s ON s.id = sp.strategy_id\n"""
+        query += f"""WHERE s.id = {strategy_id}\n"""
+        query += f"""ORDER BY sp.day ASC;"""
+
+        df = pd.read_sql_query(query, self._connection)
+
+        return df
+
+    def get_strategy_statistics(self, strategy_id):
+        query = f"""SELECT ss.volatility, ss.sharpe_ratio, ss.profit, ss.max_used_capital, ss.yield, ss.annualized_yield, ss.ibov_yield, ss.annualized_ibov_yield, ss.avr_tickers_yield, ss.annualized_avr_tickers_yield\n"""
+        query += f"""FROM strategy_statistics ss\n"""
+        query += f"""INNER JOIN strategy s ON s.id = ss.strategy_id\n"""
+        query += f"""WHERE s.id = {strategy_id};"""
+
+        df = pd.read_sql_query(query, self._connection)
+
+        return df
