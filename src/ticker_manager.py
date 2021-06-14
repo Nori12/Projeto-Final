@@ -84,9 +84,11 @@ class TickerManager:
 
     def update_interval(self):
 
-        # Important: update interval '1d' is the most reliable, so it is the basis to others
+        # Important: update interval '1d' is the most reliable, so it must be the basis to others
         self._update_candles(interval='1d')
 
+        # Only common tickers should have derived candlesticks
+        # Indexes (IBOV, S&P500, ...) does not need it
         if self._common_ticker_flag == True:
             self._update_weekly_candles()
 
@@ -254,12 +256,12 @@ class TickerManager:
         analysis_status = {'UPTREND': 1, 'DOWNTREND': -1, 'CONSOLIDATION': 0}
         analysis_status_tolerance = 0.01
 
-        candles = TickerManager.db_ticker_model.get_candles_dataframe(self._ticker, self._initial_date, self._final_date, interval=interval)
+        candles = TickerManager.db_ticker_model.get_candles_dataframe(self._ticker, None, self._final_date, interval=interval)
 
         max_peaks_index = find_peaks(candles['max_price'], distance=candles_min_peak_distance)[0].tolist()
         min_peaks_index = find_peaks(1.0/candles['min_price'], distance=candles_min_peak_distance)[0].tolist()
 
-                # Filter 1: Max an min peaks must be altenate each other. So deleting duplicate sequences of ax or min...
+        # Filter 1: Max an min peaks must be altenate each other. So deleting duplicate sequences of ax or min...
         for i in range(1, len(max_peaks_index)):
             delete_candidates = [j for j in min_peaks_index if j >= max_peaks_index[i-1] and j < max_peaks_index[i]]
             if len(delete_candidates) > 1:
@@ -367,11 +369,3 @@ class TickerManager:
         TickerManager.db_ticker_model.upsert_features(candles, interval=interval)
 
         logger.info(f"""Ticker \'{self._ticker}\' {'daily' if interval=='1d' else 'weekly'} features generated.""")
-
-    # def show_graphs(self):
-    #     daily_candles = TickerManager.db_ticker_model.get_candles_dataframe(self._ticker, self._initial_date, self._final_date, interval='1d')
-    #     weekly_candles = TickerManager.db_ticker_model.get_candles_dataframe(self._ticker, self._initial_date, self._final_date, interval='1wk')
-
-    #     print(daily_candles)
-    #     print(weekly_candles)
-

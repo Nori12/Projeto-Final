@@ -696,7 +696,7 @@ class AndreMoraesStrategy(Strategy):
 
         statistics = pd.DataFrame(columns=['day', 'capital', 'capital_in_use', 'tickers_average', 'ibov'])
 
-        statistics['day'] = self._day_df.sort_values(by=['day'], axis=0, kind='mergesort', ascending=True, ignore_index=True)['day'].drop_duplicates()
+        statistics['day'] = self._day_df[self._day_df['day'] >= min(self._initial_dates)].sort_values(by=['day'], axis=0, kind='mergesort', ascending=True, ignore_index=True)['day'].drop_duplicates()
 
         statistics.reset_index(inplace=True)
 

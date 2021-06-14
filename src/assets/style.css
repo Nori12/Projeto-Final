@@ -9,7 +9,12 @@ h1 {
   -webkit-margin-before: 0;
 }
 
-.header {
+h3 {
+  margin-top: 50px;
+  margin-bottom: 30px;
+}
+
+.header-div {
   font-family: Arial, Helvetica, sans-serif;
   background-color: #1F1F1F;
   padding: 16px;
@@ -36,22 +41,32 @@ h1 {
   text-align: center;
   padding: 5px;
   background-color: #FFFFFF;
-  max-width: 600px;
+  max-width: 900px;
   margin: auto;
   margin-top: 50px;
   box-shadow: 2px 2px 4px #C9C9C9;
   border-radius: 3px;
 }
 
-.graph-box {
-  /* height: 300; */
-  width: 90%;
+.performance-div {
+  width: 100%;
+  margin: auto;
 }
 
-.parameters-table {
-  border: 0;
+.performance-graph {
+  margin: auto;
 }
 
-.table-div {
+.statistics-div {
   text-align: center;
+}
+
+.ticker-div {
+  width: 100%;
+  margin: auto;
+}
+
+.ticker-dropdown {
+  width: 20%;
+  margin: auto;
 }

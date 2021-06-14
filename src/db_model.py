@@ -8,6 +8,7 @@ from decimal import *
 import pandas as pd
 import numpy as np
 import math
+from datetime import timedelta
 
 import constants as c
 from utils import State
@@ -175,7 +176,10 @@ class DBTickerModel:
         query += f"""FROM {table}\n"""
         query += f"""WHERE\n"""
 
-        query += f"""  (ticker = \'{ticker}\' and {time_column} >= \'{initial_date.strftime('%Y-%m-%d')}\' and {time_column} < \'{final_date.strftime('%Y-%m-%d')}\')\n"""
+        if initial_date is not None:
+            query += f"""  (ticker = \'{ticker}\' and {time_column} >= \'{initial_date.strftime('%Y-%m-%d')}\' and {time_column} < \'{final_date.strftime('%Y-%m-%d')}\')\n"""
+        else:
+            query += f"""  (ticker = \'{ticker}\' and {time_column} < \'{final_date.strftime('%Y-%m-%d')}\')\n"""
 
         query += f""";"""
 
@@ -262,7 +266,7 @@ class DBGeneralModel:
 
         return holidays
 
-    def get_candles_dataframe(self, tickers, initial_dates, final_dates, interval='1d'):
+    def get_candles_dataframe(self, tickers, initial_dates, final_dates, interval='1d', days_before_initial_dates=0):
 
         candles_table = 'daily_candles'
         features_table = 'daily_features'
@@ -292,9 +296,9 @@ class DBGeneralModel:
 
         for index, (ticker, initial_date, final_date) in enumerate(zip(tickers, initial_dates, final_dates)):
             if index == 0:
-                query += f"""  (cand.ticker = \'{ticker}\' and cand.{time_column} >= \'{initial_date.strftime('%Y-%m-%d')}\' and cand.{time_column} < \'{final_date.strftime('%Y-%m-%d')}\')\n"""
+                query += f"""  (cand.ticker = \'{ticker}\' and cand.{time_column} >= \'{(initial_date - timedelta(days=days_before_initial_dates)).strftime('%Y-%m-%d')}\' and cand.{time_column} < \'{final_date.strftime('%Y-%m-%d')}\')\n"""
             else:
-                query += f"""  OR (cand.ticker = \'{ticker}\' and cand.{time_column} >= \'{initial_date.strftime('%Y-%m-%d')}\' and cand.{time_column} < \'{final_date.strftime('%Y-%m-%d')}\')\n"""
+                query += f"""  OR (cand.ticker = \'{ticker}\' and cand.{time_column} >= \'{(initial_date - timedelta(days=days_before_initial_dates)).strftime('%Y-%m-%d')}\' and cand.{time_column} < \'{final_date.strftime('%Y-%m-%d')}\')\n"""
 
         query += f""";"""
 
@@ -647,6 +651,60 @@ class DBStrategyAnalyzerModel:
         query += f"""FROM strategy_statistics ss\n"""
         query += f"""INNER JOIN strategy s ON s.id = ss.strategy_id\n"""
         query += f"""WHERE s.id = {strategy_id};"""
+
+        df = pd.read_sql_query(query, self._connection)
+
+        return df
+
+    def get_strategy_tickers(self, strategy_id):
+        query = f"""SELECT ticker, initial_date, final_date\n"""
+        query += f"""FROM strategy_tickers st\n"""
+        query += f"""INNER JOIN strategy s ON s.id = st.strategy_id\n"""
+        query += f"""WHERE\n"""
+        query += f"""  s.id = {strategy_id}\n"""
+        query += f"""ORDER BY\n"""
+        query += f"""  st.ticker ASC;"""
+
+        df = pd.read_sql_query(query, self._connection)
+
+        return df
+
+    def get_ticker_prices(self, ticker, initial_date, final_date):
+        query = f"""SELECT dc.day, dc.close_price\n"""
+        query += f"""FROM daily_candles dc\n"""
+        query += f"""WHERE \n"""
+        query += f"""  dc.ticker = \'{ticker}\'\n"""
+        query += f"""  AND dc.day >= \'{initial_date.to_pydatetime().strftime('%Y-%m-%d')}\'\n"""
+        query += f"""  AND dc.day < \'{final_date.to_pydatetime().strftime('%Y-%m-%d')}\'\n"""
+        query += f"""ORDER BY dc.day ASC;"""
+
+        df = pd.read_sql_query(query, self._connection)
+
+        return df
+
+    def get_operations(self, strategy_id, ticker):
+        query = f"""SELECT o.ticker, o.id as operation_id, neg.day, neg.price, neg.volume, neg.order_type\n"""
+        query += f"""FROM operation o\n"""
+        query += f"""INNER JOIN strategy s on s.id = o.strategy_id\n"""
+        query += f"""INNER JOIN\n"""
+        query += f"""  (SELECT \n"""
+        query += f"""    operation_id,\n"""
+        query += f"""    day, \n"""
+        query += f"""    price,\n"""
+        query += f"""    volume,\n"""
+        query += f"""    CASE \n"""
+        query += f"""      WHEN buy_sell_flag = 'B' THEN 'PURCHASE'\n"""
+        query += f"""      WHEN stop_flag = TRUE THEN 'STOP_LOSS'\n"""
+        query += f"""	   WHEN partial_sale_flag = TRUE THEN 'PARTIAL_SALE'\n"""
+        query += f"""  	   ELSE 'TARGET_SALE'\n"""
+        query += f"""    END AS order_type\n"""
+        query += f"""  FROM negotiation\n"""
+        query += f"""  ORDER BY day) neg \n"""
+        query += f"""  ON neg.operation_id = o.id\n"""
+        query += f"""WHERE \n"""
+        query += f"""  s.id = {strategy_id}\n"""
+        query += f"""  AND o.ticker = \'{ticker}\'\n"""
+        query += f"""ORDER BY o.strategy_id, o.ticker, neg.day;"""
 
         df = pd.read_sql_query(query, self._connection)
 

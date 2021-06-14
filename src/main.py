@@ -50,7 +50,7 @@ def run():
     am_strat.comment = "Testing concurrent ticker operations."
 
     weekly_candles = general_info.get_candles_dataframe(ticker_names, initial_dates, final_dates, interval='1wk')
-    daily_candles = general_info.get_candles_dataframe(ticker_names, initial_dates, final_dates, interval='1d')
+    daily_candles = general_info.get_candles_dataframe(ticker_names, initial_dates, final_dates, interval='1d', days_before_initial_dates=180)
 
     am_strat.set_input_data(weekly_candles, interval='1wk')
     am_strat.set_input_data(daily_candles, interval='1d')
