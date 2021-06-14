@@ -626,9 +626,13 @@ class DBStrategyAnalyzerModel:
 
         return self._cursor.fetchall()
 
-    def get_strategy_ids(self):
-        query = f"""SELECT id, name, alias, comment\n"""
+    def get_strategy_ids(self, strategy_id=None):
+        query = f"""SELECT id, name, alias, comment, total_capital, risk_capital_product\n"""
         query += f"""FROM strategy\n"""
+
+        if strategy_id != None:
+            query += f"""WHERE id = {strategy_id}\n"""
+
         query += f"""ORDER BY id DESC;"""
 
         df = pd.read_sql_query(query, self._connection)

@@ -45,7 +45,7 @@ def run():
         ticker_manager.generate_features()
 
     # Strategy section
-    am_strat = AndreMoraesStrategy(ticker_names, initial_dates, final_dates, total_capital=17510)
+    am_strat = AndreMoraesStrategy(ticker_names, initial_dates, final_dates, total_capital=100000, risk_reference=0.18)
     am_strat.alias = "André Moraes beta"
     am_strat.comment = "Testing concurrent ticker operations."
 

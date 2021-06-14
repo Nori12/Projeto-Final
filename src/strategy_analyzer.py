@@ -30,26 +30,54 @@ logger.setLevel(logging.DEBUG)
 
 class StrategyAnalyzer:
 
-    def __init__(self, default_strategy='last'):
+    def __init__(self, strategy_id=None):
         self._app = None
         self._db_strategy_analyzer_model = DBStrategyAnalyzerModel()
 
         self._strategy = None
         self._performance = None
         self._tickers_and_dates = None
+        self._strategy_id = None
+        self._strategy_name = None
 
-        if default_strategy == 'last':
-            self._strategy = self._db_strategy_analyzer_model.get_strategy_ids().head(1)
+        if strategy_id == None:
+            # Pick last strategy
+            self._strategy_id = self._db_strategy_analyzer_model.get_strategy_ids()['id'][0]
+        else:
+            self._strategy_id = strategy_id
 
-        self._set_strategy_parameters(self._strategy['id'][0])
-        self._set_strategy_performance(self._strategy['id'][0])
-        self._set_strategy_tickers(self._strategy['id'][0])
+        self._set_strategy_tickers(self._strategy_id)
+        self._set_strategy_parameters(self._strategy_id)
+        self._set_strategy_statistics(self._strategy_id)
+        self._set_strategy_performance(self._strategy_id)
 
         self._prepare_app()
 
         self._set_callbacks()
 
     def _set_strategy_parameters(self, strategy_id):
+
+        strategy_raw = self._db_strategy_analyzer_model.get_strategy_ids(strategy_id)
+        self._strategy_name = strategy_raw['name'][0]
+
+        strategy_raw.drop(['name', 'id', 'alias', 'comment'], axis=1, inplace=True)
+
+        if strategy_raw['risk_capital_product'][0] >= 0 and strategy_raw['risk_capital_product'][0] <= 1:
+            strategy_raw['risk_capital_product'][0] = round(strategy_raw['risk_capital_product'][0] * 100, 2)
+
+        strategy_raw['total_capital'][0] = round(strategy_raw['total_capital'][0], 2)
+
+        strategy_raw['number_or_tickers'] = len(self._tickers_and_dates)
+
+        # Names that will be shown
+        strategy_parameters = ["Start Date", "End Date", "Capital (R$)", 'Risk-Capital Coefficient (%)', 'Number of Tickers']
+
+        strategy_data = [min(self._tickers_and_dates['initial_date']).strftime('%d/%m/%Y'), max(self._tickers_and_dates['final_date']).strftime('%d/%m/%Y'), strategy_raw['total_capital'][0], strategy_raw['risk_capital_product'][0], strategy_raw['number_or_tickers'][0]]
+
+        self._strategy = pd.DataFrame(data={'parameter': strategy_parameters})
+        self._strategy['data'] = strategy_data
+
+    def _set_strategy_statistics(self, strategy_id):
 
         max_percentage_tolerance = 5.0
 
@@ -92,10 +120,13 @@ class StrategyAnalyzer:
         self._performance = self._db_strategy_analyzer_model.get_strategy_performance(strategy_id)
 
         if self._performance['ibov'][0] != 1.0:
-            self._performance['ibov'] = round(self._performance['ibov'] / self._performance['ibov'][0], 4)
+            self._performance['ibov'] = round((self._performance['ibov'] / self._performance['ibov'][0] - 1) * 100, 2)
 
         if self._performance['capital'][0] != 1.0:
-            self._performance['capital'] = round(self._performance['capital'] / self._performance['capital'][0], 4)
+            self._performance['capital'] = round((self._performance['capital'] / self._performance['capital'][0] - 1) * 100, 2)
+
+        if self._performance['tickers_average'][0] == 1.0:
+            self._performance['tickers_average'] = round((self._performance['tickers_average'] - 1) * 100, 2)
 
     def _set_strategy_tickers(self, strategy_id):
         self._tickers_and_dates = self._db_strategy_analyzer_model.get_strategy_tickers(strategy_id)
@@ -122,7 +153,7 @@ class StrategyAnalyzer:
                 html.Div(
                     children=[
                         html.H2(
-                            children="Strategy: "+self._strategy['name'][0],
+                            children="Strategy: "+self._strategy_name,
                             className="strategy-name"
                         ),
                         html.Div(
@@ -136,7 +167,8 @@ class StrategyAnalyzer:
                                                 name='IBOV',
                                                 marker=dict(
                                                     color='rgb(37, 37, 37)'
-                                                )
+                                                ),
+                                                hovertemplate="%{y:.2f}%"
                                             ),
                                             dict(
                                                 x=self._performance['day'],
@@ -144,7 +176,8 @@ class StrategyAnalyzer:
                                                 name='Tickers Average',
                                                 marker=dict(
                                                     color='rgb(144, 144, 144)'
-                                                )
+                                                ),
+                                                hovertemplate="%{y:.2f}%"
                                             ),
                                             dict(
                                                 x=self._performance['day'],
@@ -152,7 +185,8 @@ class StrategyAnalyzer:
                                                 name='Yield',
                                                 marker=dict(
                                                     color='rgb(236, 187, 48)'
-                                                )
+                                                ),
+                                                hovertemplate="%{y:.2f}%"
                                             ),
                                         ],
                                         layout=dict(
@@ -161,13 +195,54 @@ class StrategyAnalyzer:
                                             legend=dict(
                                                 x=0,
                                                 y=1.0
-                                            )
+                                            ),
+                                            yaxis={"ticksuffix": "%"},
                                         )
                                     ),
                                     className="performance-graph"
                                 ),
                             ],
                             className="performance-div"
+                        ),
+                        html.Div(
+                            children=[
+                                html.H3(
+                                    children="Parameters"
+                                ),
+                               dash_table.DataTable (
+                                    style_table={
+                                        'width': '70%',
+                                        'background-color': '#F6F6F6',
+                                        'border': '0px',
+                                        'margin': 'auto',
+                                    },
+                                    style_data={
+                                        'whiteSpace': 'normal',
+                                        'text-align': 'left',
+                                    },
+                                    style_cell={
+                                        'fontFamily': 'Arial, Helvetica, sans-serif',
+                                        'fontSize': '12px',
+                                        'boxShadow': '0 0',
+                                    },
+                                    css=[{
+                                        'selector': 'tr:first-child',
+                                        'rule': 'display: none',
+                                    }],
+                                    style_cell_conditional=[{
+                                        'if': {'row_index': 'even'},
+                                        'backgroundColor': '#F5F5F5'
+                                    }] + [{
+                                        'if': {'column_id': 'parameter'},
+                                        'fontWeight': 'bold'
+                                    }],
+                                    style_as_list_view=True,
+                                    id='parameters-table',
+                                    columns=[{"name": i, "id": i} for i in self._strategy.columns],
+                                    data=self._strategy.to_dict('records')
+                                )
+                            ],
+                            className="parameters-div"
                         ),
                         html.Div(
                             children=[
@@ -202,7 +277,7 @@ class StrategyAnalyzer:
                                         'fontWeight': 'bold'
                                     }],
                                     style_as_list_view=True,
-                                    id='table',
+                                    id='statistics-table',
                                     columns=[{"name": i, "id": i} for i in self._statistics.columns],
                                     data=self._statistics.to_dict('records')
                                 )
@@ -258,7 +333,7 @@ class StrategyAnalyzer:
 
         ticker_prices = self._db_strategy_analyzer_model.get_ticker_prices(ticker, pd.to_datetime(self._tickers_and_dates.loc[self._tickers_and_dates['ticker'] == ticker]['initial_date'].values[0]), pd.to_datetime(self._tickers_and_dates.loc[self._tickers_and_dates['ticker'] == ticker]['final_date'].values[0]))
 
-        operations_raw = self._db_strategy_analyzer_model.get_operations(self._strategy['id'][0], ticker)
+        operations_raw = self._db_strategy_analyzer_model.get_operations(self._strategy_id, ticker)
 
         operations_data = [
         {
@@ -267,7 +342,7 @@ class StrategyAnalyzer:
             "y": ticker_prices["close_price"],
             "type": "lines",
             "line": {"color": "orange"},
-            "hovertemplate": "R$%{y:.2f}<extra></extra>",
+            "hovertemplate": "R$%{y:.2f}",
         }]
 
         only_first_needs_legend_flag = True
@@ -310,6 +385,5 @@ class StrategyAnalyzer:
 
 
 if __name__ == "__main__":
-
-    analyzer = StrategyAnalyzer()
+    analyzer = StrategyAnalyzer(strategy_id=None)
     analyzer.run()

@@ -11675,3 +11675,334 @@ HINT:  You will need to rewrite or cast the expression.
 2021-06-13 23:51:36,833:DEBUG:db_model:Database 'StockMarket' connected successfully.
 2021-06-13 23:51:37,663:INFO:strategy_analyzer:Dash is running on http://127.0.0.1:8050/
 
+2021-06-14 00:26:09,620:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-14 00:26:09,706:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-14 00:57:36,995:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-14 00:57:37,741:INFO:__main__:Program started.
+2021-06-14 00:57:37,741:DEBUG:config_reader:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-14 00:57:37,742:DEBUG:config_reader:Config file found.
+2021-06-14 00:57:37,748:INFO:config_reader:Ticker, Inital Date, Final Date:
+2021-06-14 00:57:37,748:INFO:config_reader:Ticker: 'MGLU3 '	Inital date: 01/01/2019		Final date: 14/06/2021
+2021-06-14 00:57:37,748:INFO:config_reader:Ticker: 'VALE3 '	Inital date: 01/01/2019		Final date: 14/06/2021
+2021-06-14 00:57:37,748:INFO:config_reader:Ticker: 'PETR4 '	Inital date: 01/01/2019		Final date: 14/06/2021
+2021-06-14 00:57:37,748:INFO:config_reader:Ticker: 'WEGE3 '	Inital date: 01/01/2019		Final date: 14/06/2021
+2021-06-14 00:57:37,749:INFO:config_reader:Ticker: 'BBAS3 '	Inital date: 01/01/2019		Final date: 14/06/2021
+2021-06-14 00:57:37,749:INFO:config_reader:Ticker: 'BBDC3 '	Inital date: 01/01/2019		Final date: 14/06/2021
+2021-06-14 00:57:37,749:INFO:config_reader:Ticker: 'EMBR3 '	Inital date: 01/01/2019		Final date: 14/06/2021
+2021-06-14 00:57:37,749:INFO:config_reader:Ticker: 'GGBR4 '	Inital date: 01/01/2019		Final date: 14/06/2021
+2021-06-14 00:57:37,749:INFO:config_reader:Ticker: 'AZUL4 '	Inital date: 01/01/2019		Final date: 14/06/2021
+2021-06-14 00:57:37,757:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-14 00:57:37,763:INFO:ticker_manager:Ticker 'MGLU3' already updated.
+2021-06-14 00:57:37,788:INFO:ticker_manager:Ticker 'MGLU3' weekly candles update finished.
+2021-06-14 00:57:39,448:INFO:ticker_manager:Ticker 'MGLU3' daily features generated.
+2021-06-14 00:57:39,815:INFO:ticker_manager:Ticker 'MGLU3' weekly features generated.
+2021-06-14 00:57:39,816:INFO:ticker_manager:Ticker 'VALE3' already updated.
+2021-06-14 00:57:39,831:INFO:ticker_manager:Ticker 'VALE3' weekly candles update finished.
+2021-06-14 00:57:41,434:INFO:ticker_manager:Ticker 'VALE3' daily features generated.
+2021-06-14 00:57:41,791:INFO:ticker_manager:Ticker 'VALE3' weekly features generated.
+2021-06-14 00:57:41,793:INFO:ticker_manager:Ticker 'PETR4' already updated.
+2021-06-14 00:57:41,807:INFO:ticker_manager:Ticker 'PETR4' weekly candles update finished.
+2021-06-14 00:57:43,405:INFO:ticker_manager:Ticker 'PETR4' daily features generated.
+2021-06-14 00:57:43,758:INFO:ticker_manager:Ticker 'PETR4' weekly features generated.
+2021-06-14 00:57:43,760:INFO:ticker_manager:Ticker 'WEGE3' already updated.
+2021-06-14 00:57:43,774:INFO:ticker_manager:Ticker 'WEGE3' weekly candles update finished.
+2021-06-14 00:57:45,434:INFO:ticker_manager:Ticker 'WEGE3' daily features generated.
+2021-06-14 00:57:45,790:INFO:ticker_manager:Ticker 'WEGE3' weekly features generated.
+2021-06-14 00:57:45,791:INFO:ticker_manager:Ticker 'BBAS3' already updated.
+2021-06-14 00:57:45,804:INFO:ticker_manager:Ticker 'BBAS3' weekly candles update finished.
+2021-06-14 00:57:47,409:INFO:ticker_manager:Ticker 'BBAS3' daily features generated.
+2021-06-14 00:57:47,764:INFO:ticker_manager:Ticker 'BBAS3' weekly features generated.
+2021-06-14 00:57:47,765:INFO:ticker_manager:Ticker 'BBDC3' already updated.
+2021-06-14 00:57:47,780:INFO:ticker_manager:Ticker 'BBDC3' weekly candles update finished.
+2021-06-14 00:57:49,378:INFO:ticker_manager:Ticker 'BBDC3' daily features generated.
+2021-06-14 00:57:49,732:INFO:ticker_manager:Ticker 'BBDC3' weekly features generated.
+2021-06-14 00:57:49,733:INFO:ticker_manager:Ticker 'EMBR3' already updated.
+2021-06-14 00:57:49,746:INFO:ticker_manager:Ticker 'EMBR3' weekly candles update finished.
+2021-06-14 00:57:51,358:INFO:ticker_manager:Ticker 'EMBR3' daily features generated.
+2021-06-14 00:57:51,716:INFO:ticker_manager:Ticker 'EMBR3' weekly features generated.
+2021-06-14 00:57:51,717:INFO:ticker_manager:Ticker 'GGBR4' already updated.
+2021-06-14 00:57:51,732:INFO:ticker_manager:Ticker 'GGBR4' weekly candles update finished.
+2021-06-14 00:57:53,347:INFO:ticker_manager:Ticker 'GGBR4' daily features generated.
+2021-06-14 00:57:53,700:INFO:ticker_manager:Ticker 'GGBR4' weekly features generated.
+2021-06-14 00:57:53,701:INFO:ticker_manager:Ticker 'AZUL4' already updated.
+2021-06-14 00:57:53,709:INFO:ticker_manager:Ticker 'AZUL4' weekly candles update finished.
+2021-06-14 00:57:54,614:INFO:ticker_manager:Ticker 'AZUL4' daily features generated.
+2021-06-14 00:57:54,820:INFO:ticker_manager:Ticker 'AZUL4' weekly features generated.
+2021-06-14 00:57:54,821:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-06-14 00:57:54,822:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-06-14 00:57:54,936:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-14 00:58:48,219:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-14 00:58:48,296:INFO:strategy_analyzer:Dash is running on http://127.0.0.1:8050/
+
+2021-06-14 01:07:30,085:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-14 01:07:30,816:INFO:__main__:Program started.
+2021-06-14 01:07:30,817:DEBUG:config_reader:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-14 01:07:30,818:DEBUG:config_reader:Config file found.
+2021-06-14 01:07:30,824:INFO:config_reader:Ticker, Inital Date, Final Date:
+2021-06-14 01:07:30,824:INFO:config_reader:Ticker: 'MGLU3 '	Inital date: 01/01/2019		Final date: 14/06/2021
+2021-06-14 01:07:30,824:INFO:config_reader:Ticker: 'VALE3 '	Inital date: 01/01/2019		Final date: 14/06/2021
+2021-06-14 01:07:30,824:INFO:config_reader:Ticker: 'PETR4 '	Inital date: 01/01/2019		Final date: 14/06/2021
+2021-06-14 01:07:30,825:INFO:config_reader:Ticker: 'WEGE3 '	Inital date: 01/01/2019		Final date: 14/06/2021
+2021-06-14 01:07:30,825:INFO:config_reader:Ticker: 'BBAS3 '	Inital date: 01/01/2019		Final date: 14/06/2021
+2021-06-14 01:07:30,825:INFO:config_reader:Ticker: 'BBDC3 '	Inital date: 01/01/2019		Final date: 14/06/2021
+2021-06-14 01:07:30,825:INFO:config_reader:Ticker: 'EMBR3 '	Inital date: 01/01/2019		Final date: 14/06/2021
+2021-06-14 01:07:30,825:INFO:config_reader:Ticker: 'GGBR4 '	Inital date: 01/01/2019		Final date: 14/06/2021
+2021-06-14 01:07:30,826:INFO:config_reader:Ticker: 'AZUL4 '	Inital date: 01/01/2019		Final date: 14/06/2021
+2021-06-14 01:07:30,835:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-14 01:07:30,841:INFO:ticker_manager:Ticker 'MGLU3' already updated.
+2021-06-14 01:07:30,865:INFO:ticker_manager:Ticker 'MGLU3' weekly candles update finished.
+2021-06-14 01:07:32,585:INFO:ticker_manager:Ticker 'MGLU3' daily features generated.
+2021-06-14 01:07:32,928:INFO:ticker_manager:Ticker 'MGLU3' weekly features generated.
+2021-06-14 01:07:32,929:INFO:ticker_manager:Ticker 'VALE3' already updated.
+2021-06-14 01:07:32,944:INFO:ticker_manager:Ticker 'VALE3' weekly candles update finished.
+2021-06-14 01:07:34,547:INFO:ticker_manager:Ticker 'VALE3' daily features generated.
+2021-06-14 01:07:34,896:INFO:ticker_manager:Ticker 'VALE3' weekly features generated.
+2021-06-14 01:07:34,897:INFO:ticker_manager:Ticker 'PETR4' already updated.
+2021-06-14 01:07:34,911:INFO:ticker_manager:Ticker 'PETR4' weekly candles update finished.
+2021-06-14 01:07:36,517:INFO:ticker_manager:Ticker 'PETR4' daily features generated.
+2021-06-14 01:07:36,862:INFO:ticker_manager:Ticker 'PETR4' weekly features generated.
+2021-06-14 01:07:36,863:INFO:ticker_manager:Ticker 'WEGE3' already updated.
+2021-06-14 01:07:36,877:INFO:ticker_manager:Ticker 'WEGE3' weekly candles update finished.
+2021-06-14 01:07:38,532:INFO:ticker_manager:Ticker 'WEGE3' daily features generated.
+2021-06-14 01:07:38,884:INFO:ticker_manager:Ticker 'WEGE3' weekly features generated.
+2021-06-14 01:07:38,885:INFO:ticker_manager:Ticker 'BBAS3' already updated.
+2021-06-14 01:07:38,898:INFO:ticker_manager:Ticker 'BBAS3' weekly candles update finished.
+2021-06-14 01:07:40,510:INFO:ticker_manager:Ticker 'BBAS3' daily features generated.
+2021-06-14 01:07:40,865:INFO:ticker_manager:Ticker 'BBAS3' weekly features generated.
+2021-06-14 01:07:40,866:INFO:ticker_manager:Ticker 'BBDC3' already updated.
+2021-06-14 01:07:40,880:INFO:ticker_manager:Ticker 'BBDC3' weekly candles update finished.
+2021-06-14 01:07:42,477:INFO:ticker_manager:Ticker 'BBDC3' daily features generated.
+2021-06-14 01:07:42,867:INFO:ticker_manager:Ticker 'BBDC3' weekly features generated.
+2021-06-14 01:07:42,868:INFO:ticker_manager:Ticker 'EMBR3' already updated.
+2021-06-14 01:07:42,880:INFO:ticker_manager:Ticker 'EMBR3' weekly candles update finished.
+2021-06-14 01:07:44,479:INFO:ticker_manager:Ticker 'EMBR3' daily features generated.
+2021-06-14 01:07:44,831:INFO:ticker_manager:Ticker 'EMBR3' weekly features generated.
+2021-06-14 01:07:44,832:INFO:ticker_manager:Ticker 'GGBR4' already updated.
+2021-06-14 01:07:44,845:INFO:ticker_manager:Ticker 'GGBR4' weekly candles update finished.
+2021-06-14 01:07:46,448:INFO:ticker_manager:Ticker 'GGBR4' daily features generated.
+2021-06-14 01:07:46,798:INFO:ticker_manager:Ticker 'GGBR4' weekly features generated.
+2021-06-14 01:07:46,800:INFO:ticker_manager:Ticker 'AZUL4' already updated.
+2021-06-14 01:07:46,808:INFO:ticker_manager:Ticker 'AZUL4' weekly candles update finished.
+2021-06-14 01:07:47,703:INFO:ticker_manager:Ticker 'AZUL4' daily features generated.
+2021-06-14 01:07:47,903:INFO:ticker_manager:Ticker 'AZUL4' weekly features generated.
+2021-06-14 01:07:47,904:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-06-14 01:07:47,904:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-06-14 01:07:47,974:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-14 01:08:51,333:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-14 01:09:56,363:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-14 01:09:57,011:INFO:__main__:Program started.
+2021-06-14 01:09:57,012:DEBUG:config_reader:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-14 01:09:57,012:DEBUG:config_reader:Config file found.
+2021-06-14 01:09:57,017:INFO:config_reader:Ticker, Inital Date, Final Date:
+2021-06-14 01:09:57,017:INFO:config_reader:Ticker: 'MGLU3 '	Inital date: 01/01/2019		Final date: 14/06/2021
+2021-06-14 01:09:57,017:INFO:config_reader:Ticker: 'VALE3 '	Inital date: 01/01/2019		Final date: 14/06/2021
+2021-06-14 01:09:57,018:INFO:config_reader:Ticker: 'PETR4 '	Inital date: 01/01/2019		Final date: 14/06/2021
+2021-06-14 01:09:57,018:INFO:config_reader:Ticker: 'WEGE3 '	Inital date: 01/01/2019		Final date: 14/06/2021
+2021-06-14 01:09:57,018:INFO:config_reader:Ticker: 'BBAS3 '	Inital date: 01/01/2019		Final date: 14/06/2021
+2021-06-14 01:09:57,018:INFO:config_reader:Ticker: 'BBDC3 '	Inital date: 01/01/2019		Final date: 14/06/2021
+2021-06-14 01:09:57,019:INFO:config_reader:Ticker: 'EMBR3 '	Inital date: 01/01/2019		Final date: 14/06/2021
+2021-06-14 01:09:57,019:INFO:config_reader:Ticker: 'GGBR4 '	Inital date: 01/01/2019		Final date: 14/06/2021
+2021-06-14 01:09:57,019:INFO:config_reader:Ticker: 'AZUL4 '	Inital date: 01/01/2019		Final date: 14/06/2021
+2021-06-14 01:09:57,027:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-14 01:09:57,032:INFO:ticker_manager:Ticker 'MGLU3' already updated.
+2021-06-14 01:09:57,048:INFO:ticker_manager:Ticker 'MGLU3' weekly candles update finished.
+2021-06-14 01:09:58,873:INFO:ticker_manager:Ticker 'MGLU3' daily features generated.
+2021-06-14 01:09:59,255:INFO:ticker_manager:Ticker 'MGLU3' weekly features generated.
+2021-06-14 01:09:59,256:INFO:ticker_manager:Ticker 'VALE3' already updated.
+2021-06-14 01:09:59,270:INFO:ticker_manager:Ticker 'VALE3' weekly candles update finished.
+2021-06-14 01:10:01,015:INFO:ticker_manager:Ticker 'VALE3' daily features generated.
+2021-06-14 01:10:01,381:INFO:ticker_manager:Ticker 'VALE3' weekly features generated.
+2021-06-14 01:10:01,382:INFO:ticker_manager:Ticker 'PETR4' already updated.
+2021-06-14 01:10:01,397:INFO:ticker_manager:Ticker 'PETR4' weekly candles update finished.
+2021-06-14 01:10:03,651:INFO:ticker_manager:Ticker 'PETR4' daily features generated.
+2021-06-14 01:10:04,107:INFO:ticker_manager:Ticker 'PETR4' weekly features generated.
+2021-06-14 01:10:04,108:INFO:ticker_manager:Ticker 'WEGE3' already updated.
+2021-06-14 01:10:04,124:INFO:ticker_manager:Ticker 'WEGE3' weekly candles update finished.
+2021-06-14 01:10:06,082:INFO:ticker_manager:Ticker 'WEGE3' daily features generated.
+2021-06-14 01:10:06,462:INFO:ticker_manager:Ticker 'WEGE3' weekly features generated.
+2021-06-14 01:10:06,465:INFO:ticker_manager:Ticker 'BBAS3' already updated.
+2021-06-14 01:10:06,483:INFO:ticker_manager:Ticker 'BBAS3' weekly candles update finished.
+2021-06-14 01:10:08,628:INFO:ticker_manager:Ticker 'BBAS3' daily features generated.
+2021-06-14 01:10:09,040:INFO:ticker_manager:Ticker 'BBAS3' weekly features generated.
+2021-06-14 01:10:09,041:INFO:ticker_manager:Ticker 'BBDC3' already updated.
+2021-06-14 01:10:09,058:INFO:ticker_manager:Ticker 'BBDC3' weekly candles update finished.
+2021-06-14 01:10:10,756:INFO:ticker_manager:Ticker 'BBDC3' daily features generated.
+2021-06-14 01:10:11,107:INFO:ticker_manager:Ticker 'BBDC3' weekly features generated.
+2021-06-14 01:10:11,109:INFO:ticker_manager:Ticker 'EMBR3' already updated.
+2021-06-14 01:10:11,123:INFO:ticker_manager:Ticker 'EMBR3' weekly candles update finished.
+2021-06-14 01:10:12,758:INFO:ticker_manager:Ticker 'EMBR3' daily features generated.
+2021-06-14 01:10:13,104:INFO:ticker_manager:Ticker 'EMBR3' weekly features generated.
+2021-06-14 01:10:13,105:INFO:ticker_manager:Ticker 'GGBR4' already updated.
+2021-06-14 01:10:13,121:INFO:ticker_manager:Ticker 'GGBR4' weekly candles update finished.
+2021-06-14 01:10:14,792:INFO:ticker_manager:Ticker 'GGBR4' daily features generated.
+2021-06-14 01:10:15,150:INFO:ticker_manager:Ticker 'GGBR4' weekly features generated.
+2021-06-14 01:10:15,151:INFO:ticker_manager:Ticker 'AZUL4' already updated.
+2021-06-14 01:10:15,160:INFO:ticker_manager:Ticker 'AZUL4' weekly candles update finished.
+2021-06-14 01:10:16,497:INFO:ticker_manager:Ticker 'AZUL4' daily features generated.
+2021-06-14 01:10:16,736:INFO:ticker_manager:Ticker 'AZUL4' weekly features generated.
+2021-06-14 01:10:16,737:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-06-14 01:10:16,737:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-06-14 01:10:16,801:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-14 01:11:11,161:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-14 01:11:11,233:INFO:strategy_analyzer:Dash is running on http://127.0.0.1:8050/
+
+2021-06-14 01:16:37,887:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-14 01:16:38,567:INFO:__main__:Program started.
+2021-06-14 01:16:38,568:DEBUG:config_reader:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-14 01:16:38,569:DEBUG:config_reader:Config file found.
+2021-06-14 01:16:38,589:INFO:config_reader:Ticker, Inital Date, Final Date:
+2021-06-14 01:16:38,590:INFO:config_reader:Ticker: 'MGLU3 '	Inital date: 01/01/2019		Final date: 14/06/2021
+2021-06-14 01:16:38,590:INFO:config_reader:Ticker: 'VALE3 '	Inital date: 01/01/2019		Final date: 14/06/2021
+2021-06-14 01:16:38,592:INFO:config_reader:Ticker: 'PETR4 '	Inital date: 01/01/2019		Final date: 14/06/2021
+2021-06-14 01:16:38,592:INFO:config_reader:Ticker: 'WEGE3 '	Inital date: 01/01/2019		Final date: 14/06/2021
+2021-06-14 01:16:38,593:INFO:config_reader:Ticker: 'BBAS3 '	Inital date: 01/01/2019		Final date: 14/06/2021
+2021-06-14 01:16:38,593:INFO:config_reader:Ticker: 'BBDC3 '	Inital date: 01/01/2019		Final date: 14/06/2021
+2021-06-14 01:16:38,594:INFO:config_reader:Ticker: 'EMBR3 '	Inital date: 01/01/2019		Final date: 14/06/2021
+2021-06-14 01:16:38,594:INFO:config_reader:Ticker: 'GGBR4 '	Inital date: 01/01/2019		Final date: 14/06/2021
+2021-06-14 01:16:38,595:INFO:config_reader:Ticker: 'AZUL4 '	Inital date: 01/01/2019		Final date: 14/06/2021
+2021-06-14 01:16:38,655:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-14 01:16:38,662:INFO:ticker_manager:Ticker 'MGLU3' already updated.
+2021-06-14 01:16:38,682:INFO:ticker_manager:Ticker 'MGLU3' weekly candles update finished.
+2021-06-14 01:16:40,769:INFO:ticker_manager:Ticker 'MGLU3' daily features generated.
+2021-06-14 01:16:41,130:INFO:ticker_manager:Ticker 'MGLU3' weekly features generated.
+2021-06-14 01:16:41,131:INFO:ticker_manager:Ticker 'VALE3' already updated.
+2021-06-14 01:16:41,145:INFO:ticker_manager:Ticker 'VALE3' weekly candles update finished.
+2021-06-14 01:16:42,939:INFO:ticker_manager:Ticker 'VALE3' daily features generated.
+2021-06-14 01:16:43,298:INFO:ticker_manager:Ticker 'VALE3' weekly features generated.
+2021-06-14 01:16:43,299:INFO:ticker_manager:Ticker 'PETR4' already updated.
+2021-06-14 01:16:43,316:INFO:ticker_manager:Ticker 'PETR4' weekly candles update finished.
+2021-06-14 01:16:44,923:INFO:ticker_manager:Ticker 'PETR4' daily features generated.
+2021-06-14 01:16:45,271:INFO:ticker_manager:Ticker 'PETR4' weekly features generated.
+2021-06-14 01:16:45,272:INFO:ticker_manager:Ticker 'WEGE3' already updated.
+2021-06-14 01:16:45,290:INFO:ticker_manager:Ticker 'WEGE3' weekly candles update finished.
+2021-06-14 01:16:46,938:INFO:ticker_manager:Ticker 'WEGE3' daily features generated.
+2021-06-14 01:16:47,284:INFO:ticker_manager:Ticker 'WEGE3' weekly features generated.
+2021-06-14 01:16:47,285:INFO:ticker_manager:Ticker 'BBAS3' already updated.
+2021-06-14 01:16:47,298:INFO:ticker_manager:Ticker 'BBAS3' weekly candles update finished.
+2021-06-14 01:16:48,971:INFO:ticker_manager:Ticker 'BBAS3' daily features generated.
+2021-06-14 01:16:49,332:INFO:ticker_manager:Ticker 'BBAS3' weekly features generated.
+2021-06-14 01:16:49,334:INFO:ticker_manager:Ticker 'BBDC3' already updated.
+2021-06-14 01:16:49,348:INFO:ticker_manager:Ticker 'BBDC3' weekly candles update finished.
+2021-06-14 01:16:51,170:INFO:ticker_manager:Ticker 'BBDC3' daily features generated.
+2021-06-14 01:16:51,627:INFO:ticker_manager:Ticker 'BBDC3' weekly features generated.
+2021-06-14 01:16:51,628:INFO:ticker_manager:Ticker 'EMBR3' already updated.
+2021-06-14 01:16:51,643:INFO:ticker_manager:Ticker 'EMBR3' weekly candles update finished.
+2021-06-14 01:16:53,513:INFO:ticker_manager:Ticker 'EMBR3' daily features generated.
+2021-06-14 01:16:53,921:INFO:ticker_manager:Ticker 'EMBR3' weekly features generated.
+2021-06-14 01:16:53,922:INFO:ticker_manager:Ticker 'GGBR4' already updated.
+2021-06-14 01:16:53,937:INFO:ticker_manager:Ticker 'GGBR4' weekly candles update finished.
+2021-06-14 01:16:55,685:INFO:ticker_manager:Ticker 'GGBR4' daily features generated.
+2021-06-14 01:16:56,055:INFO:ticker_manager:Ticker 'GGBR4' weekly features generated.
+2021-06-14 01:16:56,056:INFO:ticker_manager:Ticker 'AZUL4' already updated.
+2021-06-14 01:16:56,064:INFO:ticker_manager:Ticker 'AZUL4' weekly candles update finished.
+2021-06-14 01:16:57,035:INFO:ticker_manager:Ticker 'AZUL4' daily features generated.
+2021-06-14 01:16:57,234:INFO:ticker_manager:Ticker 'AZUL4' weekly features generated.
+2021-06-14 01:16:57,235:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-06-14 01:16:57,236:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-06-14 01:16:57,301:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-14 01:17:49,669:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-14 01:17:49,752:INFO:strategy_analyzer:Dash is running on http://127.0.0.1:8050/
+
+2021-06-14 01:33:11,002:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-14 01:33:11,550:INFO:__main__:Program started.
+2021-06-14 01:33:11,550:DEBUG:config_reader:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-14 01:33:11,551:DEBUG:config_reader:Config file found.
+2021-06-14 01:33:11,555:INFO:config_reader:Ticker, Inital Date, Final Date:
+2021-06-14 01:33:11,556:INFO:config_reader:Ticker: 'MGLU3 '	Inital date: 01/01/2019		Final date: 14/06/2021
+2021-06-14 01:33:11,556:INFO:config_reader:Ticker: 'VALE3 '	Inital date: 01/01/2019		Final date: 14/06/2021
+2021-06-14 01:33:11,556:INFO:config_reader:Ticker: 'PETR4 '	Inital date: 01/01/2019		Final date: 14/06/2021
+2021-06-14 01:33:11,556:INFO:config_reader:Ticker: 'WEGE3 '	Inital date: 01/01/2019		Final date: 14/06/2021
+2021-06-14 01:33:11,556:INFO:config_reader:Ticker: 'BBAS3 '	Inital date: 01/01/2019		Final date: 14/06/2021
+2021-06-14 01:33:11,556:INFO:config_reader:Ticker: 'BBDC3 '	Inital date: 01/01/2019		Final date: 14/06/2021
+2021-06-14 01:33:11,556:INFO:config_reader:Ticker: 'EMBR3 '	Inital date: 01/01/2019		Final date: 14/06/2021
+2021-06-14 01:33:11,557:INFO:config_reader:Ticker: 'GGBR4 '	Inital date: 01/01/2019		Final date: 14/06/2021
+2021-06-14 01:33:11,557:INFO:config_reader:Ticker: 'AZUL4 '	Inital date: 01/01/2019		Final date: 14/06/2021
+2021-06-14 01:33:11,565:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-14 01:33:11,570:INFO:ticker_manager:Ticker 'MGLU3' already updated.
+2021-06-14 01:33:11,586:INFO:ticker_manager:Ticker 'MGLU3' weekly candles update finished.
+2021-06-14 01:33:13,262:INFO:ticker_manager:Ticker 'MGLU3' daily features generated.
+2021-06-14 01:33:13,643:INFO:ticker_manager:Ticker 'MGLU3' weekly features generated.
+2021-06-14 01:33:13,647:INFO:ticker_manager:Ticker 'VALE3' already updated.
+2021-06-14 01:33:13,665:INFO:ticker_manager:Ticker 'VALE3' weekly candles update finished.
+2021-06-14 01:33:15,876:INFO:ticker_manager:Ticker 'VALE3' daily features generated.
+2021-06-14 01:33:16,367:INFO:ticker_manager:Ticker 'VALE3' weekly features generated.
+2021-06-14 01:33:16,368:INFO:ticker_manager:Ticker 'PETR4' already updated.
+2021-06-14 01:33:16,382:INFO:ticker_manager:Ticker 'PETR4' weekly candles update finished.
+2021-06-14 01:33:18,265:INFO:ticker_manager:Ticker 'PETR4' daily features generated.
+2021-06-14 01:33:18,641:INFO:ticker_manager:Ticker 'PETR4' weekly features generated.
+2021-06-14 01:33:18,643:INFO:ticker_manager:Ticker 'WEGE3' already updated.
+2021-06-14 01:33:18,657:INFO:ticker_manager:Ticker 'WEGE3' weekly candles update finished.
+2021-06-14 01:33:20,687:INFO:ticker_manager:Ticker 'WEGE3' daily features generated.
+2021-06-14 01:33:21,119:INFO:ticker_manager:Ticker 'WEGE3' weekly features generated.
+2021-06-14 01:33:21,120:INFO:ticker_manager:Ticker 'BBAS3' already updated.
+2021-06-14 01:33:21,133:INFO:ticker_manager:Ticker 'BBAS3' weekly candles update finished.
+2021-06-14 01:33:22,998:INFO:ticker_manager:Ticker 'BBAS3' daily features generated.
+2021-06-14 01:33:23,574:INFO:ticker_manager:Ticker 'BBAS3' weekly features generated.
+2021-06-14 01:33:23,575:INFO:ticker_manager:Ticker 'BBDC3' already updated.
+2021-06-14 01:33:23,590:INFO:ticker_manager:Ticker 'BBDC3' weekly candles update finished.
+2021-06-14 01:33:25,351:INFO:ticker_manager:Ticker 'BBDC3' daily features generated.
+2021-06-14 01:33:25,703:INFO:ticker_manager:Ticker 'BBDC3' weekly features generated.
+2021-06-14 01:33:25,705:INFO:ticker_manager:Ticker 'EMBR3' already updated.
+2021-06-14 01:33:25,720:INFO:ticker_manager:Ticker 'EMBR3' weekly candles update finished.
+2021-06-14 01:33:27,319:INFO:ticker_manager:Ticker 'EMBR3' daily features generated.
+2021-06-14 01:33:27,664:INFO:ticker_manager:Ticker 'EMBR3' weekly features generated.
+2021-06-14 01:33:27,665:INFO:ticker_manager:Ticker 'GGBR4' already updated.
+2021-06-14 01:33:27,678:INFO:ticker_manager:Ticker 'GGBR4' weekly candles update finished.
+2021-06-14 01:33:29,281:INFO:ticker_manager:Ticker 'GGBR4' daily features generated.
+2021-06-14 01:33:29,626:INFO:ticker_manager:Ticker 'GGBR4' weekly features generated.
+2021-06-14 01:33:29,627:INFO:ticker_manager:Ticker 'AZUL4' already updated.
+2021-06-14 01:33:29,636:INFO:ticker_manager:Ticker 'AZUL4' weekly candles update finished.
+2021-06-14 01:33:30,537:INFO:ticker_manager:Ticker 'AZUL4' daily features generated.
+2021-06-14 01:33:30,737:INFO:ticker_manager:Ticker 'AZUL4' weekly features generated.
+2021-06-14 01:33:30,738:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-06-14 01:33:30,739:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-06-14 01:33:30,804:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-14 01:34:53,615:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-14 01:34:53,686:INFO:strategy_analyzer:Dash is running on http://127.0.0.1:8050/
+
+2021-06-14 02:17:42,129:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-14 02:31:13,028:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-14 02:32:41,588:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-14 02:33:28,644:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-14 02:34:02,065:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-14 02:34:24,521:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-14 02:38:47,554:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-14 02:38:47,677:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-14 02:39:53,017:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-14 02:53:20,934:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-14 02:55:32,329:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-14 02:55:35,723:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-14 02:57:12,852:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-14 02:57:12,977:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-14 03:02:23,512:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-14 03:02:23,617:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-14 03:24:00,327:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-14 03:24:00,442:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-14 03:25:16,877:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-14 03:25:17,012:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-14 03:25:57,788:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-14 03:25:57,908:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-14 03:27:28,928:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-14 03:27:29,062:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-14 03:29:20,128:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-14 03:29:20,249:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-14 03:31:09,713:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-14 03:31:09,847:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-14 03:32:21,412:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-14 03:32:21,542:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-14 03:33:29,764:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-14 03:33:30,010:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
