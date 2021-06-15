@@ -198,18 +198,18 @@ class DBTickerModel:
 
         number_of_rows = len(dataframe)
 
-        query = f"""INSERT INTO {table} (ticker, {time_column}, peak, ema_17, ema_72, up_down_trend_coef, up_down_trend_status)\nVALUES\n"""
+        query = f"""INSERT INTO {table} (ticker, {time_column}, peak, ema_17, ema_72, up_down_trend_status)\nVALUES\n"""
 
         for n, (_, row) in enumerate(dataframe.iterrows()):
             if n != number_of_rows - 1:
-                query += f"""('{row['ticker']}', '{row[time_column].strftime('%Y-%m-%d')}', {row['peak']}, {row['ema_17']:.3f}, {row['ema_72']:.3f}, {row['up_down_trend_coef']:.2f}, {row['up_down_trend_status']}),\n"""
+                query += f"""('{row['ticker']}', '{row[time_column].strftime('%Y-%m-%d')}', {row['peak']}, {row['ema_17']:.3f}, {row['ema_72']:.3f}, {row['up_down_trend_status']}),\n"""
             else:
-                query += f"""('{row['ticker']}', '{row[time_column].strftime('%Y-%m-%d')}', {row['peak']}, {row['ema_17']:.3f}, {row['ema_72']:.3f}, {row['up_down_trend_coef']:.2f}, {row['up_down_trend_status']})\n"""
+                query += f"""('{row['ticker']}', '{row[time_column].strftime('%Y-%m-%d')}', {row['peak']}, {row['ema_17']:.3f}, {row['ema_72']:.3f}, {row['up_down_trend_status']})\n"""
 
         query = query.replace('nan', 'NULL')
 
         query += f"""ON CONFLICT ON CONSTRAINT {pkey_constraint} DO\n"""
-        query += f"""UPDATE SET ticker = EXCLUDED.ticker, {time_column} = EXCLUDED.{time_column}, peak = EXCLUDED.peak, ema_17 = EXCLUDED.ema_17, ema_72 = EXCLUDED.ema_72, up_down_trend_coef = EXCLUDED.up_down_trend_coef, up_down_trend_status = EXCLUDED.up_down_trend_status;"""
+        query += f"""UPDATE SET ticker = EXCLUDED.ticker, {time_column} = EXCLUDED.{time_column}, peak = EXCLUDED.peak, ema_17 = EXCLUDED.ema_17, ema_72 = EXCLUDED.ema_72, up_down_trend_status = EXCLUDED.up_down_trend_status;"""
 
         self._insert_update(query)
 
@@ -288,7 +288,6 @@ class DBGeneralModel:
         query += f"""  feat.peak, \n"""
         query += f"""  feat.ema_17, \n"""
         query += f"""  feat.ema_72, \n"""
-        query += f"""  feat.up_down_trend_coef, \n"""
         query += f"""  feat.up_down_trend_status\n"""
         query += f"""FROM {candles_table} cand\n"""
         query += f"""INNER JOIN {features_table} feat ON feat.ticker = cand.ticker AND feat.{time_column} = cand.{time_column}\n"""
@@ -673,9 +672,10 @@ class DBStrategyAnalyzerModel:
 
         return df
 
-    def get_ticker_prices(self, ticker, initial_date, final_date):
-        query = f"""SELECT dc.day, dc.close_price\n"""
+    def get_ticker_prices_and_features(self, ticker, initial_date, final_date):
+        query = f"""SELECT dc.day, dc.close_price, df.peak, df.ema_17, df.ema_72, df.up_down_trend_status\n"""
         query += f"""FROM daily_candles dc\n"""
+        query += f"""INNER JOIN daily_features df ON df.ticker = dc.ticker AND df.day = dc.day\n"""
         query += f"""WHERE \n"""
         query += f"""  dc.ticker = \'{ticker}\'\n"""
         query += f"""  AND dc.day >= \'{initial_date.to_pydatetime().strftime('%Y-%m-%d')}\'\n"""
@@ -709,6 +709,30 @@ class DBStrategyAnalyzerModel:
         query += f"""  s.id = {strategy_id}\n"""
         query += f"""  AND o.ticker = \'{ticker}\'\n"""
         query += f"""ORDER BY o.strategy_id, o.ticker, neg.day;"""
+
+        df = pd.read_sql_query(query, self._connection)
+
+        return df
+
+    def get_operations_statistics(self, strategy_id):
+
+        tolerance = 50
+
+        query = f"""SELECT q.status, COUNT(q.status) AS number\n"""
+        query += f"""FROM\n"""
+        query += f"""(SELECT\n"""
+        query += f"""  CASE\n"""
+        query += f"""    WHEN profit > {tolerance} THEN \'SUCCESS\'\n"""
+        query += f"""	WHEN profit > -{tolerance} THEN \'NEUTRAL\'\n"""
+        query += f"""	WHEN o.state = \'OPEN\' THEN \'OPEN\'\n"""
+        query += f"""	ELSE \'FAILURE\'\n"""
+        query += f"""  END AS status\n"""
+        query += f"""FROM operation o\n"""
+        query += f"""INNER JOIN strategy s ON s.id = o.strategy_id\n"""
+        query += f"""WHERE\n"""
+        query += f"""  s.id = {strategy_id}) q\n"""
+        query += f"""GROUP BY q.status\n"""
+        query += f"""ORDER BY q.status;"""
 
         df = pd.read_sql_query(query, self._connection)
 

@@ -120,7 +120,7 @@ CREATE TABLE daily_features (
   peak SMALLINT,
   ema_17 DECIMAL(8, 2),
   ema_72 DECIMAL(8, 2),
-  up_down_trend_coef REAL,
+  -- up_down_trend_coef REAL,
   up_down_trend_status SMALLINT,
 
   CONSTRAINT daily_features_pkey PRIMARY KEY(ticker, day),
@@ -136,7 +136,7 @@ CREATE TABLE weekly_features (
   peak SMALLINT,
   ema_17 DECIMAL(8, 2),
   ema_72 DECIMAL(8, 2),
-  up_down_trend_coef REAL,
+  -- up_down_trend_coef REAL,
   up_down_trend_status SMALLINT,
 
   CONSTRAINT weekly_features_pkey PRIMARY KEY(ticker, week),

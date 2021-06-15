@@ -69,10 +69,18 @@ class StrategyAnalyzer:
 
         strategy_raw['number_or_tickers'] = len(self._tickers_and_dates)
 
-        # Names that will be shown
-        strategy_parameters = ["Start Date", "End Date", "Capital (R$)", 'Risk-Capital Coefficient (%)', 'Number of Tickers']
+        operations_stats = self._db_strategy_analyzer_model.get_operations_statistics(strategy_id)
 
-        strategy_data = [min(self._tickers_and_dates['initial_date']).strftime('%d/%m/%Y'), max(self._tickers_and_dates['final_date']).strftime('%d/%m/%Y'), strategy_raw['total_capital'][0], strategy_raw['risk_capital_product'][0], strategy_raw['number_or_tickers'][0]]
+        # Names that will be shown
+        strategy_parameters = ['Start Date', 'End Date', 'Capital (R$)', 'Risk-Capital Coefficient (%)', 'Total Tickers', 'Total Operations', 'Successful Operations', 'Failed Operations', 'Neutral Operations', 'Unfinished Operations']
+
+        total_operations = sum(operations_stats['number'])
+        succesful_operations = operations_stats[operations_stats['status'] == 'SUCCESS']['number'].squeeze() if operations_stats[operations_stats['status'] == 'SUCCESS'].empty == False else 0
+        failed_operations = operations_stats[operations_stats['status'] == 'FAILURE']['number'].squeeze() if operations_stats[operations_stats['status'] == 'FAILURE'].empty == False else 0
+        neutral_operations = operations_stats[operations_stats['status'] == 'NEUTRAL']['number'].squeeze() if operations_stats[operations_stats['status'] == 'NEUTRAL'].empty == False else 0
+        open_operations = operations_stats[operations_stats['status'] == 'OPEN']['number'].squeeze() if operations_stats[operations_stats['status'] == 'OPEN'].empty == False else 0
+
+        strategy_data = [min(self._tickers_and_dates['initial_date']).strftime('%d/%m/%Y'), max(self._tickers_and_dates['final_date']).strftime('%d/%m/%Y'), strategy_raw['total_capital'][0], strategy_raw['risk_capital_product'][0], strategy_raw['number_or_tickers'][0], total_operations, succesful_operations, failed_operations, neutral_operations, open_operations]
 
         self._strategy = pd.DataFrame(data={'parameter': strategy_parameters})
         self._strategy['data'] = strategy_data
@@ -84,26 +92,27 @@ class StrategyAnalyzer:
         statistics_raw = self._db_strategy_analyzer_model.get_strategy_statistics(strategy_id)
 
         # Transform to percetage if not in
-        if statistics_raw['yield'][0] >= 0.0 and statistics_raw['yield'][0] <= max_percentage_tolerance:
-            statistics_raw['yield'][0] = round(statistics_raw['yield'][0] * 100, 2)
+        # if statistics_raw['yield'][0] >= 0.0 and statistics_raw['yield'][0] <= max_percentage_tolerance:
+        statistics_raw['yield'][0] = round(statistics_raw['yield'][0] * 100, 2)
 
-        if statistics_raw['annualized_yield'][0] >= 0.0 and statistics_raw['annualized_yield'][0] <= max_percentage_tolerance:
-            statistics_raw['annualized_yield'][0] = round(statistics_raw['annualized_yield'][0] * 100, 2)
+        # if statistics_raw['annualized_yield'][0] >= 0.0 and statistics_raw['annualized_yield'][0] <= max_percentage_tolerance:
+        statistics_raw['annualized_yield'][0] = round(statistics_raw['annualized_yield'][0] * 100, 2)
 
-        if statistics_raw['ibov_yield'][0] >= 0.0 and statistics_raw['ibov_yield'][0] <= max_percentage_tolerance:
-            statistics_raw['ibov_yield'][0] = round(statistics_raw['ibov_yield'][0] * 100, 2)
+        # if statistics_raw['ibov_yield'][0] >= 0.0 and statistics_raw['ibov_yield'][0] <= max_percentage_tolerance:
+        statistics_raw['ibov_yield'][0] = round(statistics_raw['ibov_yield'][0] * 100, 2)
 
-        if statistics_raw['annualized_ibov_yield'][0] >= 0.0 and statistics_raw['annualized_ibov_yield'][0] <= max_percentage_tolerance:
-            statistics_raw['annualized_ibov_yield'][0] = round(statistics_raw['annualized_ibov_yield'][0] * 100, 2)
+        # if statistics_raw['annualized_ibov_yield'][0] >= 0.0 and statistics_raw['annualized_ibov_yield'][0] <= max_percentage_tolerance:
+        statistics_raw['annualized_ibov_yield'][0] = round(statistics_raw['annualized_ibov_yield'][0] * 100, 2)
 
-        if statistics_raw['avr_tickers_yield'][0] >= 0.0 and statistics_raw['avr_tickers_yield'][0] <= max_percentage_tolerance:
-            statistics_raw['avr_tickers_yield'][0] = round(statistics_raw['avr_tickers_yield'][0] * 100, 2)
+        # if statistics_raw['avr_tickers_yield'][0] >= 0.0 and statistics_raw['avr_tickers_yield'][0] <= max_percentage_tolerance:
+        statistics_raw['avr_tickers_yield'][0] = round(statistics_raw['avr_tickers_yield'][0] * 100, 2)
 
-        if statistics_raw['annualized_avr_tickers_yield'][0] >= 0.0 and statistics_raw['annualized_avr_tickers_yield'][0] <= max_percentage_tolerance:
-            statistics_raw['annualized_avr_tickers_yield'][0] = round(statistics_raw['annualized_avr_tickers_yield'][0] * 100, 2)
+        # if statistics_raw['annualized_avr_tickers_yield'][0] >= 0.0 and statistics_raw['annualized_avr_tickers_yield'][0] <= max_percentage_tolerance:
+        statistics_raw['annualized_avr_tickers_yield'][0] = round(statistics_raw['annualized_avr_tickers_yield'][0] * 100, 2)
 
-        if statistics_raw['sharpe_ratio'][0] >= 0.0 and statistics_raw['sharpe_ratio'][0] <= max_percentage_tolerance:
-            statistics_raw['sharpe_ratio'][0] = round(statistics_raw['sharpe_ratio'][0] * 100, 2)
+        # if statistics_raw['sharpe_ratio'][0] >= 0.0 and statistics_raw['sharpe_ratio'][0] <= max_percentage_tolerance:
+        statistics_raw['sharpe_ratio'][0] = round(statistics_raw['sharpe_ratio'][0] * 100, 2)
+        statistics_raw['volatility'][0] = round(statistics_raw['volatility'][0] * 100, 2)
 
         # Round unrounded data
         statistics_raw['volatility'][0] = round(statistics_raw['volatility'][0], 2)
@@ -177,7 +186,7 @@ class StrategyAnalyzer:
                                                 marker=dict(
                                                     color='rgb(144, 144, 144)'
                                                 ),
-                                                hovertemplate="%{y:.2f}%"
+                                                hovertemplate="%{y:.2f}%",
                                             ),
                                             dict(
                                                 x=self._performance['day'],
@@ -197,6 +206,7 @@ class StrategyAnalyzer:
                                                 y=1.0
                                             ),
                                             yaxis={"ticksuffix": "%"},
+                                            hovermode="x"
                                         )
                                     ),
                                     className="performance-graph"
@@ -331,18 +341,19 @@ class StrategyAnalyzer:
         partial_sale_marker_color = 'LightSkyBlue'
         target_sale_marker_color = 'Blue'
 
-        ticker_prices = self._db_strategy_analyzer_model.get_ticker_prices(ticker, pd.to_datetime(self._tickers_and_dates.loc[self._tickers_and_dates['ticker'] == ticker]['initial_date'].values[0]), pd.to_datetime(self._tickers_and_dates.loc[self._tickers_and_dates['ticker'] == ticker]['final_date'].values[0]))
+        ticker_prices = self._db_strategy_analyzer_model.get_ticker_prices_and_features(ticker, pd.to_datetime(self._tickers_and_dates.loc[self._tickers_and_dates['ticker'] == ticker]['initial_date'].values[0]), pd.to_datetime(self._tickers_and_dates.loc[self._tickers_and_dates['ticker'] == ticker]['final_date'].values[0]))
 
         operations_raw = self._db_strategy_analyzer_model.get_operations(self._strategy_id, ticker)
 
-        operations_data = [
-        {
+        # Ticker prices
+        operations_data = [{
             "name": "Price",
-            "x": ticker_prices["day"],
-            "y": ticker_prices["close_price"],
-            "type": "lines",
+            "x": ticker_prices['day'],
+            "y": ticker_prices['close_price'],
+            "mode": "lines",
             "line": {"color": "orange"},
             "hovertemplate": "R$%{y:.2f}",
+            "showlegend": True
         }]
 
         only_first_needs_legend_flag = True
@@ -353,26 +364,118 @@ class StrategyAnalyzer:
                     "legendgroup": "group",
                     "x": operations_raw[operations_raw['operation_id'] == operation]['day'].to_list(),
                     "y": operations_raw[operations_raw['operation_id'] == operation]['price'].to_list(),
-                    "type": "markers+lines",
+                    "mode": "markers+lines",
                     "line": {"color": "green"},
-                    "marker": {'color':[purchase_marker_color if order_type == purchase_order_type else stop_loss_marker_color if order_type == stop_loss_order_type else partial_sale_marker_color if order_type == partial_sale_order_type else target_sale_marker_color if order_type == target_sale_order_type else 'black' for order_type in operations_raw[operations_raw['operation_id'] == operation]['order_type']]},
+                    "marker": {"size": 8, "color":[purchase_marker_color if order_type == purchase_order_type else stop_loss_marker_color if order_type == stop_loss_order_type else partial_sale_marker_color if order_type == partial_sale_order_type else target_sale_marker_color if order_type == target_sale_order_type else 'black' for order_type in operations_raw[operations_raw['operation_id'] == operation]['order_type']]},
                     "showlegend": only_first_needs_legend_flag
                 }
             )
             only_first_needs_legend_flag = False
+
+        # Ticker peaks
+        operations_data.append({
+            "name": "Peaks",
+            "x": ticker_prices.loc[(ticker_prices['peak'] != 0)]['day'],
+            "y": ticker_prices.loc[(ticker_prices['peak'] != 0)]['close_price'],
+            "mode": "markers",
+            "showlegend": True,
+            "visible": "legendonly",
+            "marker": {"color": "black", "symbol": "circle-open", "size": 8, "line": {"width": 2}}
+        })
+
+        # Ticker EMA 17
+        operations_data.append({
+            "name": "EMA 17",
+            "x": ticker_prices['day'],
+            "y": ticker_prices['ema_17'],
+            "mode": "lines",
+            "line": {"color": "purple"},
+            "showlegend": True,
+            "visible": "legendonly"
+        })
+
+        # Ticker EMA 17
+        operations_data.append({
+            "name": "EMA 72",
+            "x": ticker_prices['day'],
+            "y": ticker_prices['ema_72'],
+            "mode": "lines",
+            "line": {"color": "yellow"},
+            "visible": "legendonly"
+        })
 
         ticker_chart_figure = {
             "data": operations_data,
             "layout": {
                 "title": {
                     "text": "Prices and Operations",
+                    "xanchor": "center",
+                    "yanchor": "top"
                 },
                 "yaxis": {"tickprefix": "R$"},
-                "legend": {"x": 0, "y": 1.0}
+                # "legend": {"x": 0, "y": 1.0},
+                "legend": {
+                    # "orientation": "h",
+                    # "yanchor":"top",
+                    "xanchor": "left",
+                    "bgcolor": "rgba(0, 0, 0, 0)",
+                    # "x": 0,
+                    # "y": 1.0
+                },
+                "hovermode": "x",
             },
         }
 
+        # Convert only to add vrect
+        fig = go.Figure(dict(ticker_chart_figure))
+
+        uptrend_slices = self._get_uptrend_slices(ticker_prices)
+
+        only_first_needs_legend_flag = True
+        for slice in uptrend_slices:
+            fig.add_vrect(x0=slice['start'], x1=slice['end'],
+                fillcolor="green", opacity=0.25, line_width=0)
+            only_first_needs_legend_flag = False
+
+        ticker_chart_figure = fig.to_dict()
+
         return ticker_chart_figure
+
+    def _get_uptrend_slices(self, dataframe):
+
+        uptrend_slices = []
+
+        last_trend_status = None
+        last_date = None
+
+        current_slice_start_date = None
+
+        for index, (_, row) in enumerate(dataframe.iterrows()):
+            if index == 0:
+                last_trend_status = row['up_down_trend_status']
+                last_date = row['day']
+            else:
+                # Enter uptrend interval
+                if row['up_down_trend_status'] == 1 and last_trend_status != 1:
+                    current_slice_start_date = row['day']
+                # Leave uptrend interval
+                elif row['up_down_trend_status'] != 1 and last_trend_status == 1:
+                    if current_slice_start_date is not None:
+                        uptrend_slices.append({"start": current_slice_start_date, "end": last_date})
+                        current_slice_start_date = None
+                    # If data already starts in uptrend interval
+                    else:
+                        uptrend_slices.append({"start": dataframe['day'][0], "end": last_date})
+
+                    current_slice_start_date = None
+                # If last slice is unfinished
+                elif index == len(dataframe) - 1 and row['up_down_trend_status'] == 1 and last_trend_status == 1 and current_slice_start_date is not None:
+                    uptrend_slices.append({"start": current_slice_start_date, "end": row['day']})
+
+                last_trend_status = row['up_down_trend_status']
+                last_date = row['day']
+
+        return uptrend_slices
 
     def _set_callbacks(self):
         self._app.callback(

@@ -39,13 +39,13 @@ def run():
     all_ticker_managers.append(TickerManager('BRL=X', min(initial_dates), max(final_dates), common_ticker_flag=False)) # USD/BRL
 
     # Update data accordingly
-    for ticker_manager in all_ticker_managers:
-        ticker_manager._holidays = holidays
-        ticker_manager.update_interval()
-        ticker_manager.generate_features()
+    # for ticker_manager in all_ticker_managers:
+    #     ticker_manager._holidays = holidays
+    #     ticker_manager.update_interval()
+    #     ticker_manager.generate_features()
 
     # Strategy section
-    am_strat = AndreMoraesStrategy(ticker_names, initial_dates, final_dates, total_capital=100000, risk_reference=0.18)
+    am_strat = AndreMoraesStrategy(ticker_names, initial_dates, final_dates, total_capital=100000, risk_reference=0.12)
     am_strat.alias = "André Moraes beta"
     am_strat.comment = "Testing concurrent ticker operations."
 
