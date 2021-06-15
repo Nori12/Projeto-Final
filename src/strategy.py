@@ -713,7 +713,6 @@ class AndreMoraesStrategy(Strategy):
         statistics.reset_index(inplace=True)
 
         ibov_data = self._db_strategy_model.get_ticker_price('^BVSP', pd.to_datetime(statistics['day'].head(1).values[0]), pd.to_datetime(statistics['day'].tail(1).values[0]))
-        # ibov_data.sort_values(by='day', axis=0, ascending=True, ignore_index=True)['close_price']
 
         statistics['ibov'] = ibov_data.sort_values(by='day', axis=0, ascending=True, ignore_index=True)['close_price']
 
@@ -769,10 +768,10 @@ class AndreMoraesStrategy(Strategy):
 
         # Sharpe Ration
         # Risk-free yield by CDI index
-        cdi_per_year = 0.034
-        cdi_in_period = ((1 + cdi_per_year) ** (bus_day_count / 252)) - 1
 
-        self._statistics_parameters['sharpe_ratio'] = (self._statistics_parameters['yield'] - cdi_in_period) / self._statistics_parameters['volatility']
+        cdi_df = self._db_strategy_model.get_cdi_index(min(self._initial_dates), max(self._final_dates))
+
+        self._statistics_parameters['sharpe_ratio'] = (self._statistics_parameters['yield'] - (cdi_df['cumulative'].tail(1).squeeze() - 1.0)) / self._statistics_parameters['volatility']
 
 
     def _calculate_average_tickers_yield(self, statistics):

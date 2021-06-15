@@ -598,6 +598,21 @@ class DBStrategyModel:
 
         return df
 
+    def get_cdi_index(self, start_date, end_date):
+        query = f"""SELECT day, value\n"""
+        query += f"""FROM cdi\n"""
+        query += f"""WHERE\n"""
+        query += f"""  day >= \'{start_date}\'\n"""
+        query += f"""  AND day < \'{end_date}\'\n"""
+        query += f"""ORDER BY\n"""
+        query += f"""  day ASC;"""
+
+        df = pd.read_sql_query(query, self._connection)
+
+        df['cumulative'] = df['value'].cumprod()
+
+        return df
+
 class DBStrategyAnalyzerModel:
     def __init__(self):
         try:
@@ -735,5 +750,20 @@ class DBStrategyAnalyzerModel:
         query += f"""ORDER BY q.status;"""
 
         df = pd.read_sql_query(query, self._connection)
+
+        return df
+
+    def get_cdi_index(self, start_date, end_date):
+        query = f"""SELECT day, value\n"""
+        query += f"""FROM cdi\n"""
+        query += f"""WHERE\n"""
+        query += f"""  day >= \'{start_date}\'\n"""
+        query += f"""  AND day < \'{end_date}\'\n"""
+        query += f"""ORDER BY\n"""
+        query += f"""  day ASC;"""
+
+        df = pd.read_sql_query(query, self._connection)
+
+        df['cumulative'] = df['value'].cumprod()
 
         return df

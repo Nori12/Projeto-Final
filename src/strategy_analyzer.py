@@ -87,32 +87,23 @@ class StrategyAnalyzer:
 
     def _set_strategy_statistics(self, strategy_id):
 
-        max_percentage_tolerance = 5.0
-
         statistics_raw = self._db_strategy_analyzer_model.get_strategy_statistics(strategy_id)
 
-        # Transform to percetage if not in
-        # if statistics_raw['yield'][0] >= 0.0 and statistics_raw['yield'][0] <= max_percentage_tolerance:
         statistics_raw['yield'][0] = round(statistics_raw['yield'][0] * 100, 2)
 
-        # if statistics_raw['annualized_yield'][0] >= 0.0 and statistics_raw['annualized_yield'][0] <= max_percentage_tolerance:
         statistics_raw['annualized_yield'][0] = round(statistics_raw['annualized_yield'][0] * 100, 2)
 
-        # if statistics_raw['ibov_yield'][0] >= 0.0 and statistics_raw['ibov_yield'][0] <= max_percentage_tolerance:
         statistics_raw['ibov_yield'][0] = round(statistics_raw['ibov_yield'][0] * 100, 2)
 
-        # if statistics_raw['annualized_ibov_yield'][0] >= 0.0 and statistics_raw['annualized_ibov_yield'][0] <= max_percentage_tolerance:
         statistics_raw['annualized_ibov_yield'][0] = round(statistics_raw['annualized_ibov_yield'][0] * 100, 2)
 
-        # if statistics_raw['avr_tickers_yield'][0] >= 0.0 and statistics_raw['avr_tickers_yield'][0] <= max_percentage_tolerance:
         statistics_raw['avr_tickers_yield'][0] = round(statistics_raw['avr_tickers_yield'][0] * 100, 2)
 
-        # if statistics_raw['annualized_avr_tickers_yield'][0] >= 0.0 and statistics_raw['annualized_avr_tickers_yield'][0] <= max_percentage_tolerance:
         statistics_raw['annualized_avr_tickers_yield'][0] = round(statistics_raw['annualized_avr_tickers_yield'][0] * 100, 2)
 
-        # if statistics_raw['sharpe_ratio'][0] >= 0.0 and statistics_raw['sharpe_ratio'][0] <= max_percentage_tolerance:
-        statistics_raw['sharpe_ratio'][0] = round(statistics_raw['sharpe_ratio'][0] * 100, 2)
         statistics_raw['volatility'][0] = round(statistics_raw['volatility'][0] * 100, 2)
+
+        statistics_raw['sharpe_ratio'][0] = round(statistics_raw['sharpe_ratio'][0] * 100, 2)
 
         # Round unrounded data
         statistics_raw['volatility'][0] = round(statistics_raw['volatility'][0], 2)
@@ -136,6 +127,12 @@ class StrategyAnalyzer:
 
         if self._performance['tickers_average'][0] == 1.0:
             self._performance['tickers_average'] = round((self._performance['tickers_average'] - 1) * 100, 2)
+
+        cdi_df = self._db_strategy_analyzer_model.get_cdi_index(min(self._tickers_and_dates['initial_date']), max(self._tickers_and_dates['final_date']))
+
+        cdi_df['cumulative'] = cdi_df['cumulative'] - 1.0
+
+        self._performance['cdi'] = round(cdi_df['cumulative'] * 100, 2)
 
     def _set_strategy_tickers(self, strategy_id):
         self._tickers_and_dates = self._db_strategy_analyzer_model.get_strategy_tickers(strategy_id)
@@ -172,10 +169,28 @@ class StrategyAnalyzer:
                                         data=[
                                             dict(
                                                 x=self._performance['day'],
+                                                y=self._performance['capital'],
+                                                name='Yield',
+                                                marker=dict(
+                                                    color='rgb(236, 187, 48)'
+                                                ),
+                                                hovertemplate="%{y:.2f}%"
+                                            ),
+                                            dict(
+                                                x=self._performance['day'],
                                                 y=self._performance['ibov'],
                                                 name='IBOV',
                                                 marker=dict(
-                                                    color='rgb(37, 37, 37)'
+                                                    color='rgb(90, 90, 90)'
+                                                ),
+                                                hovertemplate="%{y:.2f}%"
+                                            ),
+                                            dict(
+                                                x=self._performance['day'],
+                                                y=self._performance['cdi'],
+                                                name='CDI',
+                                                marker=dict(
+                                                    color='rgb(200, 191, 185)'
                                                 ),
                                                 hovertemplate="%{y:.2f}%"
                                             ),
@@ -187,15 +202,7 @@ class StrategyAnalyzer:
                                                     color='rgb(144, 144, 144)'
                                                 ),
                                                 hovertemplate="%{y:.2f}%",
-                                            ),
-                                            dict(
-                                                x=self._performance['day'],
-                                                y=self._performance['capital'],
-                                                name='Yield',
-                                                marker=dict(
-                                                    color='rgb(236, 187, 48)'
-                                                ),
-                                                hovertemplate="%{y:.2f}%"
+                                                visible="legendonly"
                                             ),
                                         ],
                                         layout=dict(

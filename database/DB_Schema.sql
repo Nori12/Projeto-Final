@@ -120,7 +120,6 @@ CREATE TABLE daily_features (
   peak SMALLINT,
   ema_17 DECIMAL(8, 2),
   ema_72 DECIMAL(8, 2),
-  -- up_down_trend_coef REAL,
   up_down_trend_status SMALLINT,
 
   CONSTRAINT daily_features_pkey PRIMARY KEY(ticker, day),
@@ -136,7 +135,6 @@ CREATE TABLE weekly_features (
   peak SMALLINT,
   ema_17 DECIMAL(8, 2),
   ema_72 DECIMAL(8, 2),
-  -- up_down_trend_coef REAL,
   up_down_trend_status SMALLINT,
 
   CONSTRAINT weekly_features_pkey PRIMARY KEY(ticker, week),
@@ -223,6 +221,12 @@ CREATE TABLE strategy_performance (
   capital_in_use DECIMAL(8, 2) NOT NULL,
   tickers_average DECIMAL(8, 2),
   ibov DECIMAL(8, 2)
+);
+
+CREATE TABLE cdi (
+  day TIMESTAMP WITHOUT TIME ZONE PRIMARY KEY,
+  reference_value DECIMAL(4, 2) NOT NULL,
+  value DECIMAL(9, 8) NOT NULL
 );
 
 -- Triggers, Functions, Procedures, Views
