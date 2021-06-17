@@ -27,40 +27,43 @@ logger.setLevel(logging.DEBUG)
 def run():
     logger.info('Program started.')
 
+    general_info = DBGeneralModel()
+
     # Read Config File
     config = cr.ConfigReader()
-    ticker_names, initial_dates, final_dates = config.tickers_and_dates
+    ticker_managers = []
 
-    general_info = DBGeneralModel()
-    holidays = general_info.get_holidays(min(initial_dates), max(final_dates))
+    # Create TickerManager objects to update and process then
+    for ticker, date in config.tickers_and_dates.items():
+        ticker_managers.append(TickerManager(ticker, date['start_date'], date['end_date']))
 
-    all_ticker_managers = [TickerManager(ticker_names[i], initial_dates[i], final_dates[i]) for i in range(len(ticker_names))]
-    all_ticker_managers.append(TickerManager('^BVSP', min(initial_dates), max(final_dates), common_ticker_flag=False)) # IBOVESPA Index
-    all_ticker_managers.append(TickerManager('BRL=X', min(initial_dates), max(final_dates), common_ticker_flag=False)) # USD/BRL
+    ticker_managers.append(TickerManager('^BVSP', config.min_start_date, config.max_end_date, common_ticker_flag=False)) # IBOVESPA Index
+    ticker_managers.append(TickerManager('BRL=X', config.min_start_date, config.max_end_date, common_ticker_flag=False)) # USD/BRL
 
     # Update data accordingly
-    # for ticker_manager in all_ticker_managers:
-    #     ticker_manager._holidays = holidays
-    #     ticker_manager.update_interval()
-    #     ticker_manager.generate_features()
+    for ticker_manager in ticker_managers:
+        ticker_manager._holidays = config.holidays
+        ticker_manager.update_interval()
+        ticker_manager.generate_features()
 
     # Strategy section
-    am_strat = AndreMoraesStrategy(ticker_names, initial_dates, final_dates, total_capital=100000, risk_reference=0.12)
-    am_strat.alias = "André Moraes beta"
-    am_strat.comment = "Testing concurrent ticker operations."
+    # for strategy in config.strategies:
+    #     if strategy['name'] == "Andre Moraes":
+    #         strategy = AndreMoraesStrategy(strategy['tickers'], total_capital=strategy['capital'], risk_capital_product=strategy['risk_capital_coefficient'])
+    #         strategy.alias = strategy['alias']
+    #         strategy.comment = strategy['comment']
 
-    weekly_candles = general_info.get_candles_dataframe(ticker_names, initial_dates, final_dates, interval='1wk')
-    daily_candles = general_info.get_candles_dataframe(ticker_names, initial_dates, final_dates, interval='1d', days_before_initial_dates=180)
+    #         weekly_candles = general_info.get_candles_dataframe(ticker_names, initial_dates, final_dates, interval='1wk')
+    #         daily_candles = general_info.get_candles_dataframe(ticker_names, initial_dates, final_dates, interval='1d', days_before_initial_dates=180)
 
-    am_strat.set_input_data(weekly_candles, interval='1wk')
-    am_strat.set_input_data(daily_candles, interval='1d')
+    #         strategy.set_input_data(weekly_candles, interval='1wk')
+    #         strategy.set_input_data(daily_candles, interval='1d')
 
-    am_strat.process_operations()
-    am_strat.calculate_statistics()
-    am_strat.save()
+    #         strategy.process_operations()
+    #         strategy.calculate_statistics()
+    #         strategy.save()
 
     # Strategy Analysis section
-
     analyzer = StrategyAnalyzer()
     analyzer.run()
 

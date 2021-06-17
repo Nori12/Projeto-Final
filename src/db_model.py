@@ -257,14 +257,28 @@ class DBGeneralModel:
         return(result)
 
     def get_holidays(self, start_date, end_date):
-        holidays = self._query(f"""SELECT day FROM holidays WHERE day >= \'{start_date.strftime('%Y-%m-%d')}\' and day <= \'{end_date.strftime('%Y-%m-%d')}\';""")
 
-        if len(holidays) == 0:
-            holidays = ['2200-01-01']
-        else:
-            holidays = [holiday[0].strftime('%Y-%m-%d') for holiday in holidays]
+        query = f"""SELECT day FROM holidays\nWHERE\n"""
+        query += f"""  day >= \'{start_date.strftime('%Y-%m-%d')}\' and day <= \'{end_date.strftime('%Y-%m-%d')}\';"""
 
-        return holidays
+        df = pd.read_sql_query(query, self._connection)
+
+        if df.empty:
+            logger.error(f"""Holidays table is empty.""")
+            sys.exit(c.NO_HOLIDAYS_DATA_ERR)
+
+        return df
+
+    def get_cdi_interval(self):
+        query = f"""SELECT MIN(day) as min_day, MAX(day) AS max_day FROM cdi;"""
+
+        df = pd.read_sql_query(query, self._connection)
+
+        if df.empty:
+            logger.error(f"""CDI table is empty.""")
+            sys.exit(c.NO_CDI_DATA_ERR)
+
+        return df['min_day'][0].to_pydatetime().date(), df['max_day'][0].to_pydatetime().date()
 
     def get_candles_dataframe(self, tickers, initial_dates, final_dates, interval='1d', days_before_initial_dates=0):
 
@@ -307,11 +321,26 @@ class DBGeneralModel:
 
         return df
 
-    def get_tickers(self, on_flag, pn_flag, units_flag, fractional_market=False, sectors=[], subsectors=[], segments=[]):
+    def get_tickers(self, on_flag, pn_flag, units_flag, fractional_market=False, sectors=None, subsectors=None, segments=None):
 
         if not any([on_flag, pn_flag, units_flag]):
             logger.error('Program aborted. At least one filter is required.')
             sys.exit(c.INVALID_ARGUMENT_ERR)
+
+        if sectors == None:
+            sectors = []
+        elif isinstance(sectors, str):
+            sectors = [sectors]
+
+        if subsectors == None:
+            subsectors = []
+        elif isinstance(subsectors, str):
+            subsectors = [subsectors]
+
+        if segments == None:
+            segments = []
+        elif isinstance(segments, str):
+            segments = [segments]
 
         filters = []
 
@@ -363,7 +392,6 @@ class DBGeneralModel:
                 if index == len(subsectors)-1:
                     query += f"""  )\n"""
 
-
             if len(segments) > 0:
                 query += f"""  AND """
 
@@ -378,7 +406,21 @@ class DBGeneralModel:
 
         query += "ORDER BY ticker ASC;"
 
-        return self._query(query)
+        df = pd.read_sql_query(query, self._connection)
+
+        return df
+
+    def get_holidays_interval(self):
+        query = f"""SELECT MIN(day) as min_day, MAX(day) AS max_day FROM holidays;"""
+
+        df = pd.read_sql_query(query, self._connection)
+
+        if df.empty:
+            logger.error(f"""cdi table is empty""")
+            sys.exit(c.NO_CDI_DATA_ERR)
+
+        return df['min_day'][0].to_pydatetime().date(), df['max_day'][0].to_pydatetime().date()
+
 
 class DBStrategyModel:
     def __init__(self, name, tickers, initial_dates, final_dates, total_capital, alias=None, comment=None, risk_capital_product=None, min_volume_per_year=0):

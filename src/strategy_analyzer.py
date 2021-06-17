@@ -103,13 +103,13 @@ class StrategyAnalyzer:
 
         statistics_raw['volatility'][0] = round(statistics_raw['volatility'][0] * 100, 2)
 
-        statistics_raw['sharpe_ratio'][0] = round(statistics_raw['sharpe_ratio'][0] * 100, 2)
+        statistics_raw['sharpe_ratio'][0] = round(statistics_raw['sharpe_ratio'][0], 2)
 
         # Round unrounded data
         statistics_raw['volatility'][0] = round(statistics_raw['volatility'][0], 2)
 
         # Names that will be shown
-        statistic_parameters = ['Yield (%)', "Yield (% ann)", 'Volatility (-)', 'Sharpe Ratio (%)', 'Profit (R$)', 'Max Used Capital (R$)', 'IBOVESPA Yield (%)', 'IBOVESPA Yield (% ann)', 'Tickers Average Yield (%)', 'Tickers Average Yield (% ann)']
+        statistic_parameters = ['Yield (%)', "Yield (% ann)", 'Volatility (%)', 'Sharpe Ratio (-)', 'Profit (R$)', 'Max Used Capital (R$)', 'IBOVESPA Yield (%)', 'IBOVESPA Yield (% ann)', 'Tickers Average Yield (%)', 'Tickers Average Yield (% ann)']
 
         statistics_data = [statistics_raw['yield'][0], statistics_raw['annualized_yield'][0], statistics_raw['volatility'][0], statistics_raw['sharpe_ratio'][0], statistics_raw['profit'][0], statistics_raw['max_used_capital'][0], statistics_raw['ibov_yield'][0], statistics_raw['annualized_ibov_yield'][0], statistics_raw['avr_tickers_yield'][0], statistics_raw['annualized_avr_tickers_yield'][0], ]
 
