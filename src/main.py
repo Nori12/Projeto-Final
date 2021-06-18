@@ -27,7 +27,7 @@ logger.setLevel(logging.DEBUG)
 def run():
     logger.info('Program started.')
 
-    general_info = DBGeneralModel()
+    # general_info = DBGeneralModel()
 
     # Read Config File
     config = cr.ConfigReader()
@@ -42,7 +42,7 @@ def run():
 
     # Update data accordingly
     for ticker_manager in ticker_managers:
-        ticker_manager._holidays = config.holidays
+        ticker_manager.holidays = config.holidays
         ticker_manager.update_interval()
         ticker_manager.generate_features()
 

@@ -7,13 +7,12 @@ from logging.handlers import RotatingFileHandler
 import sys
 import yfinance as yf
 from scipy.signal import find_peaks
-import plotly.graph_objects as go
 from scipy.signal import find_peaks
 import math
 from bisect import bisect
 
 import constants as c
-from utils import compare_dates
+from utils import compare_dates, RunTime
 from db_model import DBTickerModel
 
 # Configure Logging
@@ -31,33 +30,70 @@ file_handler.setLevel(logging.DEBUG)
 logger.setLevel(logging.DEBUG)
 
 class TickerManager:
-    """The class that implements all necessary pre-processing.
-
-    Attributes:
-        ticker (str): Ticker name.
-        initial_date (datetime): Start date of the time interval.
-        final_date (datetime): End date of the time interval.
-        input_files_path (Path, optional): Path to input files folder.
-        output_files_path (Path, optional): Path to output files folder.
     """
+    Ticker manager responsible for requesting and updating data, as long as creating new features.
 
-    tickers = []
-    initial_dates = []
-    final_dates = []
-    number_of_tickers = 0
+    Interval update verifies data in database then requests missing values.
+    If a new split is perceived, all previous data is updated.
+
+    Currently working with candlesticks in daily and weekly intervals only.
+
+    Features supported:
+        - Peaks : maximum and minimum.
+        - Exponential Moving Average (17 points)
+        - Exponential Moving Average (72 points)
+        - Up Down Trend Status : indicate whether in uptrend, downtrend or consolidation.
+
+    Args
+    ----------
+    ticker : str
+        Ticker name.
+    start_date : `datetime.date`
+        Start date.
+    end_date : `datetime.date`
+        End date.
+    ordinary_ticker : bool, optional
+        Indication whether is ordinary or not (e.g., index, curency).
+        Non-ordinary tickers are not able to have features.
+    holidays : list of `datetime.date`
+        Holidays.
+
+    Attributes
+    ----------
+    _ticker : str
+        Ticker name.
+    _start_date : `datetime.date`
+        Start date.
+    _end_date : `datetime.date`
+        End date.
+    _ordinary_ticker : bool, default True
+        Indication whether is ordinary or not (e.g., index, curency).
+        Non-ordinary tickers are not able to have features.
+    _holidays : list of `datetime.date`
+        Holidays.
+
+    Attributes (static)
+    ----------
+    ticker_count : dict
+        Number of tickers.
+    db_ticker_model : 'DBTickerModel'
+        Database connection class. Must be static to limit number of connections.
+    """
+    ticker_count = 0
     db_ticker_model = DBTickerModel()
 
-    def __init__(self, ticker, initial_date, final_date, common_ticker_flag=True):
+    @RunTime('TickerManager.__init__')
+    def __init__(self, ticker, start_date, end_date, ordinary_ticker=True, holidays=None):
         self._ticker = ticker.upper()
-        self._initial_date = initial_date
-        self._final_date = final_date
-        self._common_ticker_flag = common_ticker_flag
-        self._holidays = []
+        self._start_date = start_date
+        self._end_date = end_date
+        self._ordinary_ticker = ordinary_ticker
 
-        TickerManager.number_of_tickers += 1
-        TickerManager.tickers.append(self._ticker)
-        TickerManager.initial_dates.append(self._initial_date)
-        TickerManager.final_dates.append(self._final_date)
+        self._holidays = []
+        if holidays is not None:
+            self._holidays = holidays
+
+        TickerManager.ticker_count += 1
 
     @property
     def holidays(self):
@@ -75,12 +111,12 @@ class TickerManager:
     @property
     def initial_date(self):
         """Return the start date of the time interval."""
-        return self._initial_date
+        return self._start_date
 
     @property
     def final_date(self):
         """Return the end date of the time interval."""
-        return self._final_date
+        return self._end_date
 
     def update_interval(self):
 
@@ -89,7 +125,7 @@ class TickerManager:
 
         # Only common tickers should have derived candlesticks
         # Indexes (IBOV, S&P500, ...) does not need it
-        if self._common_ticker_flag == True:
+        if self._ordinary_ticker == True:
             self._update_weekly_candles()
 
     def _update_candles(self, interval = '1d'):
@@ -113,19 +149,19 @@ class TickerManager:
 
             if all([last_update_candles, initial_date_candles, final_date_candles]):
 
-                if (compare_dates(self._initial_date, initial_date_candles, self._holidays) <= 0 and compare_dates(self._final_date, final_date_candles, self._holidays) >= 0):
+                if (compare_dates(self._start_date, initial_date_candles, self._holidays) <= 0 and compare_dates(self._end_date, final_date_candles, self._holidays) >= 0):
                     logger.info(f"""Ticker \'{self._ticker}\' already updated.""")
                     return True
 
                 # Database lacks most recent data
-                if compare_dates(self._final_date, final_date_candles, self._holidays) < 0:
-                    self._update_candles_splits_dividends(final_date_candles+timedelta(days=1), self._final_date, split_nomalization_date=initial_date_candles, last_update_date=last_update_candles, interval=interval)
+                if compare_dates(self._end_date, final_date_candles, self._holidays) < 0:
+                    self._update_candles_splits_dividends(final_date_candles+timedelta(days=1), self._end_date, split_nomalization_date=initial_date_candles, last_update_date=last_update_candles, interval=interval)
 
                 # Database lacks older data
-                if compare_dates(self._initial_date, initial_date_candles, self._holidays) > 0:
-                    self._update_candles_splits_dividends(self._initial_date, initial_date_candles, interval=interval)
+                if compare_dates(self._start_date, initial_date_candles, self._holidays) > 0:
+                    self._update_candles_splits_dividends(self._start_date, initial_date_candles, interval=interval)
             else:
-                self._update_candles_splits_dividends(self._initial_date, self._final_date, interval=interval)
+                self._update_candles_splits_dividends(self._start_date, self._end_date, interval=interval)
 
             logger.info(f"""Ticker \'{self._ticker}\' {'daily' if interval=='1d' else 'hourly'} candles update finished.""")
 
@@ -139,7 +175,7 @@ class TickerManager:
 
         ticker = self._ticker
 
-        if self._common_ticker_flag == True:
+        if self._ordinary_ticker == True:
             ticker += '.SA'
 
         try:
@@ -200,7 +236,7 @@ class TickerManager:
 
         new_dividends = self._verify_dividends(new_candles)
 
-        if self._common_ticker_flag == True:
+        if self._ordinary_ticker == True:
             new_candles.drop(['Dividends', 'Stock Splits'], axis=1, inplace=True)
             new_candles.replace(0, np.nan, inplace=True)
             new_candles.dropna(axis=0, how='any', inplace=True)
@@ -246,7 +282,7 @@ class TickerManager:
 
     def generate_features(self):
 
-        if self._common_ticker_flag == True:
+        if self._ordinary_ticker == True:
             self._generate_features(interval='1d', trend_method='ema_derivative', ema_derivative_alpha=0.95, consolidation_tolerance=0.05)
             self._generate_features(interval='1wk', trend_method='ema_derivative', ema_derivative_alpha=0.95, consolidation_tolerance=0.05)
 
@@ -263,7 +299,7 @@ class TickerManager:
         candles_min_peak_distance = 17
         analysis_status = {'UPTREND': 1, 'DOWNTREND': -1, 'CONSOLIDATION': 0}
 
-        candles = TickerManager.db_ticker_model.get_candles_dataframe(self._ticker, None, self._final_date, interval=interval)
+        candles = TickerManager.db_ticker_model.get_candles_dataframe(self._ticker, None, self._end_date, interval=interval)
 
         max_peaks_index = find_peaks(candles['max_price'], distance=candles_min_peak_distance)[0].tolist()
         min_peaks_index = find_peaks(1.0/candles['min_price'], distance=candles_min_peak_distance)[0].tolist()

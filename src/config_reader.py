@@ -4,7 +4,6 @@ from pathlib import Path
 import json
 import sys
 from datetime import datetime
-# import numpy as np
 
 import constants as c
 from db_model import DBGeneralModel
@@ -33,11 +32,17 @@ class ConfigReader:
 
     Notes
     ----------
-    A single strategy block in the file can contains MULTIPLE IMPLICIT
+    A single strategy block in the file can contain MULTIPLE IMPLICIT
     STRATEGIES given by lists of parameters. But size must be consintent.
+    This is done by parameter values as list.
 
     Ticker dates are currently limited by the interval intersection
     between holidays and CDI data.
+
+    Args
+    ----------
+    config_file_path : `Path`, optional
+        Configuration file path.
 
     Attributes
     ----------
@@ -52,6 +57,7 @@ class ConfigReader:
     _holidays : list of `datetime`
         Holidays
     """
+
     @RunTime('ConfigReader.__init__')
     def __init__(self,
         config_file_path=Path(__file__).parent.parent/c.CONFIG_PATH/c.CONFIG_FILENAME):
@@ -62,9 +68,9 @@ class ConfigReader:
 
         Args
         ----------
-            config_file_path : `Path`,
-                default `Path(__file__)/c.CONFIG_PATH/c.CONFIG_FILENAME`
-                Relative path to config file from this file.
+        config_file_path : `Path`,
+            default `Path(__file__)/c.CONFIG_PATH/c.CONFIG_FILENAME`
+            Relative path to config file from this file.
         """
         self._db_general_model = DBGeneralModel()
 
@@ -129,10 +135,10 @@ class ConfigReader:
     def tickers_and_dates(self):
         """
         dict : All strategies interpreted from config file.
-
-        Example
-        ----------
-        {'ABCD1': {'start_date': `datetime.date`, 'end_date': `datetime.date`}, ...}
+            Format: {'ABCD1': {
+                        'start_date': `datetime.date`,
+                        'end_date': `datetime.date`}
+                    , ... }
         """
         tickers = {}
 
@@ -210,7 +216,7 @@ class ConfigReader:
 
         logger.debug('Config file found.')
 
-    def read_parameter(self, parameter_name, origin='root', is_boolean=False,
+    def read_parameter(self, param_name, origin='root', is_boolean=False,
         is_date=False, can_be_list=False, can_be_missed=False, can_be_none=False,
         if_missed_default_value=None, accept_today=False):
         """
@@ -219,35 +225,35 @@ class ConfigReader:
         Generical method (swiss army knife) for searching, validating and
         returning a parameter in a given source (dict).
 
-        Parameters
+        Args
         ----------
-            parameter_name : str
-                Parameter name (key).
-            origin : dict, default 'root' (i.e., saved config file)
-                Where to search.
-            is_boolean : bool
-                Flag if expected parameter value is of type bool.
-                Do not work simultaneously with is_date.
-            is_date : bool
-                Flag if expected parameter value is of type `datetime`.
-                Do not work simultaneously with is_boolean.
-            can_be_list : bool
-                Flag if expected parameter value is of type bool.
-            can_be_missed : bool
-                Flag if expected parameter value can not be found.
-            can_be_none : bool
-                Flag if expected parameter value can be none.
-            if_missed_default_value : `obj`
-                Parameter replace value in case is not found.
-                Only works if can_be_missed=True.
-            accept_today : bool
-                Indication to replace string 'today' for current date.
-                Only works if is_date=True.
+        param_name : str
+            Parameter name (key).
+        origin : dict, default 'root' (i.e., saved config file)
+            Where to search.
+        is_boolean : bool, default False
+            Flag if expected parameter value is of type bool.
+            Do not work simultaneously with is_date.
+        is_date : bool, default False
+            Flag if expected parameter value is of type `datetime`.
+            Do not work simultaneously with is_boolean.
+        can_be_list : bool, default False
+            Flag if expected parameter value is of type bool.
+        can_be_missed : bool, default False
+            Flag if expected parameter value can not be found.
+        can_be_none : bool, default False
+            Flag if expected parameter value can be none.
+        if_missed_default_value : `obj`, default None
+            Parameter replace value in case is not found.
+            Only works if can_be_missed=True.
+        accept_today : bool, default False
+            Indication to replace string 'today' for current date.
+            Only works if is_date=True.
 
         Returns
         ----------
-            parameter : `obj`
-                Parameter value.
+        parameter : any
+            Parameter value.
         """
         if is_boolean == True and is_date == True:
             logger.error(f"""Parameter can not be boolean and date at the same time.""")
@@ -258,120 +264,127 @@ class ConfigReader:
         if origin == 'root':
             origin = self.config_json
 
-        if parameter_name in origin:
+        if param_name in origin:
 
-            parameter_raw = origin[parameter_name]
+            parameter_raw = origin[param_name]
             if isinstance(parameter_raw, list):
 
                 if can_be_list == True:
 
                     parameter = []
                     for param_element in parameter_raw:
-                        parameter.append(self._get_value(parameter_name,
+                        parameter.append(ConfigReader.get_value(param_name,
                             param_element, is_boolean, is_date, can_be_none,
                             accept_today))
                 else:
-                    logger.error(f"""Parameter \'{parameter_name}\' can not """\
+                    logger.error(f"""Parameter \'{param_name}\' can not """\
                         f"""be of type LIST.""")
                     sys.exit(c.CONFIG_FILE_ERR)
             else:
-                parameter = self._get_value(parameter_name, parameter_raw,
+                parameter = ConfigReader.get_value(param_name, parameter_raw,
                 is_boolean, is_date, can_be_none, accept_today)
 
         elif can_be_missed == True and if_missed_default_value is not None:
             parameter = if_missed_default_value
 
         elif can_be_missed == False:
-            logger.error(f"""Could not find parameter: \'{parameter_name}\'.""")
+            logger.error(f"""Could not find parameter: \'{param_name}\'.""")
             sys.exit(c.CONFIG_FILE_ERR)
 
         return parameter
 
-    def _get_value(self, parameter_name, input, is_boolean=False, is_date=False,
+    @staticmethod
+    def get_value(param_name, origin, is_boolean=False, is_date=False,
         can_be_none=False, accept_today=False):
         """
         Validate and return the given parameter.
 
         Auxiliary method. More granular.
 
-        PAREI AQUIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
-
         Parameters
         ----------
-            parameter_name : str
-                Parameter name (key).
-            input : dict
-                Where to search.
-            is_boolean : bool
-                Flag if expected parameter value is of type bool.
-                Do not work simultaneously with is_date.
-            is_date : bool
-                Flag if expected parameter value is of type `datetime`.
-                Do not work simultaneously with is_boolean.
-            can_be_list : bool
-                Flag if expected parameter value is of type bool.
-            can_be_missed : bool
-                Flag if expected parameter value can not be found.
-            can_be_none : bool
-                Flag if expected parameter value can be none.
-            if_missed_default_value : `obj`
-                Parameter replace value in case is not found.
-                Only works if can_be_missed=True.
-            accept_today : bool
-                Indication to replace string 'today' for current date.
-                Only works if is_date=True.
+        param_name : str
+            Parameter name (key).
+        origin : dict
+            Where to search.
+        is_boolean : bool, default False
+            Flag if expected parameter value is of type bool.
+            Do not work simultaneously with is_date.
+        is_date : bool, default False
+            Flag if expected parameter value is of type `datetime`.
+            Do not work simultaneously with is_boolean.
+        can_be_none : bool, default False
+            Flag if expected parameter value can be none.
+        accept_today : bool, default False
+            Indication to replace string 'today' for current date.
+            Only works if is_date=True.
 
         Returns
         ----------
-            parameter : `obj`
-                Parameter value.
+        parameter : any
+            Parameter value.
         """
         parameter = None
 
         if is_boolean == True:
-            if input in c.ACCEPTABLE_TRUE_VALUES:
+            if origin in c.ACCEPTABLE_TRUE_VALUES:
                 parameter = True
-            elif input in c.ACCEPTABLE_FALSE_VALUES:
+            elif origin in c.ACCEPTABLE_FALSE_VALUES:
                 parameter = False
 
             if parameter == None:
-                logger.error(f"""Parameter \'{parameter_name}\' has type of BOOLEAN and its value could not be identified.""")
+                logger.error(f"""Parameter \'{param_name}\' has type of """
+                    f"""BOOLEAN and its value could not be identified.""")
                 sys.exit(c.CONFIG_FILE_ERR)
 
         elif is_date == True:
-            if accept_today == True and input.lower() == "today":
+            if accept_today == True and origin.lower() == "today":
                 parameter = datetime.now().date()
             else:
                 try:
-                    parameter = datetime.strptime(input, '%d/%m/%Y').date()
+                    parameter = datetime.strptime(origin, '%d/%m/%Y').date()
                 except Exception:
-                    logger.exception(f"""Parameter \'{parameter_name}\' has no valid convertion to date object.""")
+                    logger.exception(f"""Parameter \'{param_name}\' has no """
+                        f"""valid convertion to date object.""")
                     sys.exit(c.CONFIG_FILE_ERR)
             if parameter == None:
-                logger.error(f"""Parameter \'{parameter_name}\' has type of DATE (\'dd/mm/yyyy\') and its value could not be identified.""")
+                logger.error(f"""Parameter \'{param_name}\' has type of DATE """
+                    f"""(\'dd/mm/yyyy\') and its value could not be identified.""")
                 sys.exit(c.CONFIG_FILE_ERR)
 
-        elif isinstance(input, str):
-            if input.lower() not in c.ACCEPTABLE_NONE_VALUES:
-                parameter = input.strip()
+        elif isinstance(origin, str):
+            if origin.lower() not in c.ACCEPTABLE_NONE_VALUES:
+                parameter = origin.strip()
             # No need for else because it is already None
         else:
-            parameter = input
+            parameter = origin
 
         if can_be_none == False and parameter is None:
-            logger.error(f"""Parameter \'{parameter_name}\' does not accept NULL values.""")
+            logger.error(f"""Parameter \'{param_name}\' does not accept NULL values.""")
             sys.exit(c.CONFIG_FILE_ERR)
 
         return parameter
 
     def _read_strategies(self):
+        """
+        Parse all strategies present in config file.
 
+        Store strategies in attribute _strategies.
+
+        A single strategy block in the file can contain MULTIPLE IMPLICIT
+        STRATEGIES given by lists of parameters. But size must be consintent.
+        This is done by parameter values as list.
+
+        Strategy parameters `alias` and `comment` can have parts of its text
+        replaced by the parameter value itself.
+
+        Example : "alias" = "Tickers: {number_of_tickers}, Capital: {capital}"
+            Text "{number_of_tickers}" and "{capital}" will be reaplced by the
+            corresponding values.
+        """
         if "strategies" in self.config_json:
 
             for strategy_batch in self.config_json['strategies']:
-
-                # This single strategy element can contain multiple strategies within
-                # This is done through a list parameters
 
                 strategies = []
 
@@ -381,35 +394,35 @@ class ConfigReader:
                     can_be_missed=True)
                 capital = self.read_parameter('capital', strategy_batch,
                     can_be_list=True)
-                risk_capital_coefficient = self.read_parameter(
+                rc_coef = self.read_parameter(
                     'risk_capital_coefficient', strategy_batch, can_be_list=True)
                 min_order_volume = self.read_parameter('min_order_volume',
                     strategy_batch, can_be_list=True, can_be_missed=True,
                     if_missed_default_value=1)
-                ticker_min_ann_volume_filter = self.read_parameter(
+                volume_filter = self.read_parameter(
                     'ticker_min_ann_volume_filter', strategy_batch, can_be_list=True,
                     can_be_missed=True, if_missed_default_value=0)
 
-                self._add_parameter_to_strategies('name', name, strategies)
-                self._add_parameter_to_strategies('alias', alias, strategies)
-                self._add_parameter_to_strategies('comment', comment, strategies)
-                self._add_parameter_to_strategies('capital', capital, strategies)
-                self._add_parameter_to_strategies('risk_capital_coefficient',
-                    risk_capital_coefficient, strategies)
-                self._add_parameter_to_strategies('min_order_volume', min_order_volume,
+                ConfigReader.add_param_to_strategies('name', name, strategies)
+                ConfigReader.add_param_to_strategies('alias', alias, strategies)
+                ConfigReader.add_param_to_strategies('comment', comment, strategies)
+                ConfigReader.add_param_to_strategies('capital', capital, strategies)
+                ConfigReader.add_param_to_strategies('risk_capital_coefficient',
+                    rc_coef, strategies)
+                ConfigReader.add_param_to_strategies('min_order_volume', min_order_volume,
                     strategies)
-                self._add_parameter_to_strategies('ticker_min_ann_volume_filter',
-                    ticker_min_ann_volume_filter, strategies)
+                ConfigReader.add_param_to_strategies('ticker_min_ann_volume_filter',
+                    volume_filter, strategies)
 
-                tickers = self._read_individual_tickers('stock_targets',
+                tickers = ConfigReader.read_individual_tickers('stock_targets',
                     origin=strategy_batch)
 
-                self._add_parameter_to_strategies('tickers', tickers, strategies,
+                ConfigReader.add_param_to_strategies('tickers', tickers, strategies,
                     is_ticker=True, overwrite_ticker=True)
 
                 tickers = self._read_tickers_group('group_target', origin=strategy_batch)
 
-                self._add_parameter_to_strategies('tickers', tickers, strategies, is_ticker=True)
+                ConfigReader.add_param_to_strategies('tickers', tickers, strategies, is_ticker=True)
 
                 for strategy in strategies:
                     if (('tickers' in strategy and not strategy['tickers']) or
@@ -417,69 +430,121 @@ class ConfigReader:
                         logger.error(f"""Any strategy must have at least one ticker.""")
                         sys.exit(c.NO_TICKER_FOR_STRATEGY_ERR)
 
-                self._update_text(strategies)
+                ConfigReader.replace_text('alias', strategies)
+                ConfigReader.replace_text('comment', strategies)
 
                 self._strategies.extend(strategies)
 
-    def _add_parameter_to_strategies(self, parameter_name, parameter, strategies,
+    @staticmethod
+    def add_param_to_strategies(param_name, param, strategies,
         is_ticker=False, overwrite_ticker=False):
+        """
+        Add parameter to given list of strategies.
 
-        # Then add to strategies, but...
-        # strategies can have 0, 1 or more dict elements inside.
-        # Also, parameter can be a single value or a list
-        # So, care must be taken when merging parameter into strategies
-        if isinstance(parameter, list):
+        If `param` is not a list, then add it to all `strategies`.
+        If `param` is a list, then add its elements to the corresponding
+        elements of `strategies`.
 
-            # If multiple strategies are implicitly being configured, they must agree in size
-            if len(strategies) > 1 and len(parameter) != len(strategies):
+        If the param_name does not exist in a strategy, it is created.
+
+        Attention
+        ----------
+        If `strategies` is a list and has a length greater than one and if param is
+        also a list, both lengths must be the same, otherwise an error occur.
+
+        Args
+        ----------
+        param_name : str
+            Parameter name (key) that will be created in `strategies`.
+        param : any
+            Parameter value. Can be a list.
+        strategies : list
+            List of strategies where to add.
+        is_ticker : bool, default False
+            Flag if expected parameter value is a dict of tickers (or a list of dict).
+            This is necessary because multiple tickers are attached to a single
+            param_name
+        overwrite_ticker : bool, default False
+            Flag if can oberwrite existing ticker dates. Only works if is_ticker=True.
+        """
+        if isinstance(param, list):
+
+            # Check if dimension of strategies and param match.
+            if len(strategies) > 1 and len(param) != len(strategies):
                 logger.error(f"""Implicit strategy executions do not match size.""")
                 sys.exit(c.CONFIG_FILE_ERR)
 
+            # Create param_name if does not exist.
             if len(strategies) == 0:
-                for index, value in enumerate(parameter):
-                    strategies.append({parameter_name: value})
+                for index, value in enumerate(param):
+                    strategies.append({param_name: value})
 
             else:
                 # Clone strategies
                 if len(strategies) == 1:
                     template_strategy = strategies[0].copy()
-                    for _ in range(len(parameter) - 1):
+                    for _ in range(len(param) - 1):
                         strategies.append(template_strategy)
 
                 # Finally len(strategies) == len(parameter)
-                for index, value in enumerate(parameter):
+                for index, value in enumerate(param):
                     if is_ticker == False:
-                        strategies[index][parameter_name] = value
+                        strategies[index][param_name] = value
                     else:
-                        if parameter_name not in strategies[index]:
-                            strategies[index][parameter_name] = {}
+                        if param_name not in strategies[index]:
+                            strategies[index][param_name] = {}
 
-                        for tck_name in list(parameter[index].keys()):
-                            if tck_name in strategies[index][parameter_name] \
+                        for tck_name in list(param[index].keys()):
+                            if tck_name in strategies[index][param_name] \
                                 and overwrite_ticker == True:
-                                strategies[index][parameter_name][tck_name]['start_date'] = parameter[index][tck_name]['start_date']
-                                strategies[index][parameter_name][tck_name]['end_date'] = parameter[index][tck_name]['end_date']
-                            elif tck_name not in strategies[index][parameter_name]:
-                                strategies[index][parameter_name][tck_name] = parameter[index][tck_name]
-
-
+                                strategies[index][param_name][tck_name]['start_date'] = \
+                                    param[index][tck_name]['start_date']
+                                strategies[index][param_name][tck_name]['end_date'] = \
+                                    param[index][tck_name]['end_date']
+                            elif tck_name not in strategies[index][param_name]:
+                                strategies[index][param_name][tck_name] = \
+                                    param[index][tck_name]
         else:
             if len(strategies) == 0:
-                strategies.append({parameter_name: parameter})
+                strategies.append({param_name: param})
             else:
                 for index in range(len(strategies)):
-                    strategies[index][parameter_name] = parameter
+                    strategies[index][param_name] = param
 
-    def _read_individual_tickers(self, input_parameter_name, origin):
-        """do not forget to say it handles multiple implicit strategies."""
-        if input_parameter_name in origin:
+    @staticmethod
+    def read_individual_tickers(param_name, origin):
+        """
+        Read, validate and return tickers.
+
+        Handle multiple implicit strategies.
+
+        Parameters
+        ----------
+        param_name : str
+            Parameter name where tickers can be found.
+        origin : dict
+            Where to search.
+
+        Returns
+        ----------
+        tickers : dict or list(dict)
+            All tickers found.
+            If multiple strategies are implicit, return a type of list.
+            Format: [{'ABCD1': {
+                        'start_date': `datetime.date`,
+                        'end_date': `datetime.date`}
+                    , ... }, ... ]
+        """
+        tickers = None
+
+        if param_name in origin:
 
             # Read variables
-            ticker_names = [item['name'] for item in origin[input_parameter_name]
+            ticker_names = [item['name'] for item in origin[param_name]
                 if "name" in item.keys()]
-            start_dates_raw = [item['start_date'] for item in origin[input_parameter_name]
+            start_dates_raw = [item['start_date'] for item in origin[param_name]
                 if 'start_date' in item.keys()]
-            end_dates_raw = [item['end_date'] for item in origin[input_parameter_name]
+            end_dates_raw = [item['end_date'] for item in origin[param_name]
                 if 'end_date' in item.keys()]
 
             if not len(start_dates_raw) == len(end_dates_raw) == len(ticker_names):
@@ -510,31 +575,32 @@ class ConfigReader:
                     else:
                         strategies_len = max(strategies_len, len(end_dates_raw[index]))
 
+            # Process the output
             tickers = []
-            for strat_num in range(strategies_len):
+            for strat_index in range(strategies_len):
 
                 tickers_wrapper = {}
-                for index, tck_name in enumerate(ticker_names):
+                for tck_index, tck_name in enumerate(ticker_names):
 
-                    if isinstance(start_dates_raw[index], list):
+                    if isinstance(start_dates_raw[tck_index], list):
                         start_date_value = datetime.strptime(
-                            start_dates_raw[index][strat_num], '%d/%m/%Y').date()
+                            start_dates_raw[tck_index][strat_index], '%d/%m/%Y').date()
                     else:
                         start_date_value = datetime.strptime(
-                            start_dates_raw[index], '%d/%m/%Y').date()
+                            start_dates_raw[tck_index], '%d/%m/%Y').date()
 
-                    if isinstance(end_dates_raw[index], list):
-                        if end_dates_raw[index][strat_num] == 'today':
+                    if isinstance(end_dates_raw[tck_index], list):
+                        if end_dates_raw[tck_index][strat_index] == 'today':
                             end_date_value = datetime.now().date()
                         else:
                             end_date_value = datetime.strptime(
-                                end_dates_raw[index][strat_num], '%d/%m/%Y').date()
+                                end_dates_raw[tck_index][strat_index], '%d/%m/%Y').date()
                     else:
-                        if end_dates_raw[index] == 'today':
+                        if end_dates_raw[tck_index] == 'today':
                             end_date_value = datetime.now().date()
                         else:
                             end_date_value = datetime.strptime(
-                                end_dates_raw[index], '%d/%m/%Y').date()
+                                end_dates_raw[tck_index], '%d/%m/%Y').date()
 
                     tickers_wrapper[tck_name] = {
                         'start_date': start_date_value,
@@ -548,16 +614,36 @@ class ConfigReader:
 
         return tickers
 
-    def _read_tickers_group(self, input_parameter_name, origin):
-        """do not forget to say it handles multiple implicit strategies."""
+    def _read_tickers_group(self, param_name, origin):
+        """
+        Parse request of group of tickers and return them.
 
-        if input_parameter_name in origin:
-            if isinstance(origin[input_parameter_name], list):
-                logger.error(f"""Only one \'{input_parameter_name}\' parameter """
+        Handle multiple implicit strategies.
+
+        Parameters
+        ----------
+        param_name : str
+            Parameter name where tickers can be found.
+        origin : dict
+            Where to search.
+
+        Returns
+        ----------
+        tickers : dict or list(dict)
+            All tickers found.
+            If multiple strategies are implicit, return a type of list.
+            Format: [{'ABCD1': {
+                        'start_date': `datetime.date`,
+                        'end_date': `datetime.date`}
+                    , ... }, ... ]
+        """
+        if param_name in origin:
+            if isinstance(origin[param_name], list):
+                logger.error(f"""Only one \'{param_name}\' parameter """
                     f"""per strategy is allowed.""")
                 sys.exit(c.CONFIG_FILE_ERR)
 
-            group_object = origin[input_parameter_name]
+            group_object = origin[param_name]
 
             group_params = dict(
                 on_shares = self.read_parameter('on_shares', origin=group_object,
@@ -581,7 +667,7 @@ class ConfigReader:
             )
 
             if group_params['start_date'] >= group_params['end_date']:
-                logger.error(f"""\'{input_parameter_name}\' has start date greater than end date.""")
+                logger.error(f"""\'{param_name}\' has start date greater than end date.""")
                 sys.exit(c.CONFIG_FILE_ERR)
 
             # Get length of implicit strategies while checking for inconsistencies
@@ -597,37 +683,41 @@ class ConfigReader:
                     else:
                         strategies_len = max(strategies_len, len(group_params[key]))
 
+            # Process the output
             tickers = []
-            for strat_num in range(strategies_len):
+            for strat_index in range(strategies_len):
 
                 tickers_per_strat = self._db_general_model.get_tickers(
                     group_params['on_shares'] if not isinstance(group_params['on_shares'], list)
-                        else group_params['on_shares'][strat_num],
+                        else group_params['on_shares'][strat_index],
                     group_params['pn_shares'] if not isinstance(group_params['pn_shares'], list)
-                        else group_params['pn_shares'][strat_num],
+                        else group_params['pn_shares'][strat_index],
                     group_params['units'] if not isinstance(group_params['units'], list)
-                        else group_params['units'][strat_num],
-                    group_params['fractional_market'] if not isinstance(group_params['fractional_market'], list)
-                        else group_params['fractional_market'][strat_num],
+                        else group_params['units'][strat_index],
+                    group_params['fractional_market'] if not isinstance(
+                        group_params['fractional_market'], list)
+                        else group_params['fractional_market'][strat_index],
                     group_params['sectors'] if not isinstance(group_params['sectors'], list)
-                        else group_params['sectors'][strat_num],
+                        else group_params['sectors'][strat_index],
                     group_params['subsectors'] if not isinstance(group_params['subsectors'], list)
-                        else group_params['subsectors'][strat_num],
+                        else group_params['subsectors'][strat_index],
                     group_params['segments'] if not isinstance(group_params['segments'], list)
-                        else group_params['segments'][strat_num],
+                        else group_params['segments'][strat_index],
                 )
 
                 if tickers_per_strat.empty:
-                    logger.error(f"""\'{input_parameter_name}\' has no tickers in database.""")
+                    logger.error(f"""\'{param_name}\' has no tickers in database.""")
                     sys.exit(c.CONFIG_FILE_ERR)
 
                 tickers_wrapper = {}
                 for tck_name in tickers_per_strat['ticker'].to_list():
                     tickers_wrapper[tck_name] = {
-                        'start_date': group_params['start_date'] if not isinstance(group_params['start_date'], list)
-                            else group_params['start_date'][strat_num],
-                        'end_date': group_params['end_date'] if not isinstance(group_params['end_date'], list)
-                            else group_params['end_date'][strat_num]
+                        'start_date': group_params['start_date']
+                            if not isinstance(group_params['start_date'], list)
+                            else group_params['start_date'][strat_index],
+                        'end_date': group_params['end_date']
+                            if not isinstance(group_params['end_date'], list)
+                            else group_params['end_date'][strat_index]
                         }
 
                 tickers.append(tickers_wrapper)
@@ -637,24 +727,33 @@ class ConfigReader:
 
         return tickers
 
-    def _update_text(self, strategies):
+    @staticmethod
+    def replace_text(param_name, strategies):
+        """
+        Replace text in parameter with its respective value.
 
+        Handle multiple implicit strategies.
+
+        Parameters
+        ----------
+        param_name : str
+            Parameter name to replace text.
+        strategies : list
+            List of strategies where to reaplce text.
+        """
         for strategy in strategies:
+            if param_name in strategy:
 
-            strategy['alias'] = strategy['alias'].replace('{capital}', str(strategy['capital']))
-            strategy['comment'] = strategy['comment'].replace('{capital}', str(strategy['capital']))
-
-            strategy['alias'] = strategy['alias'].replace('{number_of_tickers}', str(len(strategy['tickers'])))
-            strategy['comment'] = strategy['comment'].replace('{number_of_tickers}', str(len(strategy['tickers'])))
-
-            strategy['alias'] = strategy['alias'].replace('{risk_capital_coefficient}', str(strategy['risk_capital_coefficient']))
-            strategy['comment'] = strategy['comment'].replace('{risk_capital_coefficient}', str(strategy['risk_capital_coefficient']))
-
-            strategy['alias'] = strategy['alias'].replace('{min_order_volume}', str(strategy['min_order_volume']))
-            strategy['comment'] = strategy['comment'].replace('{min_order_volume}', str(strategy['min_order_volume']))
-
-            strategy['alias'] = strategy['alias'].replace('{ticker_min_ann_volume_filter}', str(strategy['ticker_min_ann_volume_filter']))
-            strategy['comment'] = strategy['comment'].replace('{ticker_min_ann_volume_filter}', str(strategy['ticker_min_ann_volume_filter']))
+                strategy[param_name] = strategy[param_name].\
+                    replace('{capital}', str(strategy['capital']))
+                strategy[param_name] = strategy[param_name].\
+                replace('{number_of_tickers}', str(len(strategy['tickers'])))
+                strategy[param_name] = strategy[param_name].\
+                replace('{risk_capital_coefficient}', str(strategy['risk_capital_coefficient']))
+                strategy[param_name] = strategy[param_name].\
+                replace('{min_order_volume}', str(strategy['min_order_volume']))
+                strategy[param_name] = strategy[param_name].\
+                replace('{ticker_min_ann_volume_filter}', str(strategy['ticker_min_ann_volume_filter']))
 
 if __name__ == "__main__":
     ConfigReader()

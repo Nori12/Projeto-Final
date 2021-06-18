@@ -1212,3 +1212,67 @@
 2021-06-18 04:56:56,888:WARNING:ticker_manager:No valid data to update for ticker 'BALM3', ('2014-01-01', '2017-07-11').
 2021-06-18 04:56:56,889:INFO:ticker_manager:Ticker 'BALM3' daily candles update finished.
 2021-06-18 04:56:56,904:INFO:ticker_manager:Ticker 'BALM3' weekly candles update finished.
+2021-06-18 15:01:31,099:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-18 15:01:31,489:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-06-18 19:17:46,266:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-18 19:17:46,268:DEBUG:__main__:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-18 19:17:46,270:DEBUG:__main__:Config file found.
+2021-06-18 19:17:46,280:ERROR:__main__:Parameter ' Petróleo | Saúde' has no valid convertion to date object.
+Traceback (most recent call last):
+  File "/Users/atcha/Github/Projeto-Final/src/config_reader.py", line 345, in _get_value
+    parameter = datetime.strptime(origin, '%d/%m/%Y').date()
+TypeError: strptime() argument 1 must be str, not bool
+2021-06-18 19:17:46,284:DEBUG:utils:The function 'ConfigReader.__init__' took 233.87 milliseconds to run.
+2021-06-18 19:19:46,855:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-18 19:19:46,856:DEBUG:__main__:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-18 19:19:46,856:DEBUG:__main__:Config file found.
+2021-06-18 19:20:44,414:ERROR:__main__:Parameter ' Petróleo | Saúde' has no valid convertion to date object.
+Traceback (most recent call last):
+  File "/Users/atcha/Github/Projeto-Final/src/config_reader.py", line 345, in _get_value
+    parameter = datetime.strptime(origin, '%d/%m/%Y').date()
+TypeError: strptime() argument 1 must be str, not bool
+2021-06-18 19:20:44,420:DEBUG:utils:The function 'ConfigReader.__init__' took 57690.12 milliseconds to run.
+2021-06-18 19:20:49,368:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-18 19:20:49,369:DEBUG:__main__:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-18 19:20:49,369:DEBUG:__main__:Config file found.
+2021-06-18 19:25:03,635:ERROR:__main__:Parameter ' Petróleo | Saúde' has no valid convertion to date object.
+Traceback (most recent call last):
+  File "/Users/atcha/Github/Projeto-Final/src/config_reader.py", line 345, in _get_value
+    parameter = datetime.strptime(origin, '%d/%m/%Y').date()
+TypeError: strptime() argument 1 must be str, not bool
+2021-06-18 19:25:03,640:DEBUG:utils:The function 'ConfigReader.__init__' took 254349.41 milliseconds to run.
+2021-06-18 19:25:07,951:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-18 19:25:07,951:DEBUG:__main__:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-18 19:25:07,952:DEBUG:__main__:Config file found.
+2021-06-18 19:34:52,684:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-18 19:34:52,686:DEBUG:__main__:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-18 19:34:52,687:DEBUG:__main__:Config file found.
+2021-06-18 19:35:22,809:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-18 19:35:22,810:DEBUG:__main__:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-18 19:35:22,811:DEBUG:__main__:Config file found.
+2021-06-18 19:35:51,335:DEBUG:utils:The function 'ConfigReader.__init__' took 28613.16 milliseconds to run.
+2021-06-18 19:39:51,624:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-18 19:39:51,626:DEBUG:__main__:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-18 19:39:51,627:DEBUG:__main__:Config file found.
+2021-06-18 19:39:51,628:DEBUG:utils:The function 'ConfigReader.__init__' took 143.88 milliseconds to run.
+2021-06-18 19:40:10,124:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-18 19:40:10,125:DEBUG:__main__:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-18 19:40:10,126:DEBUG:__main__:Config file found.
+2021-06-18 19:40:10,153:DEBUG:utils:The function 'ConfigReader.__init__' took 127.53 milliseconds to run.
+2021-06-18 19:40:44,726:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-18 19:40:44,726:DEBUG:__main__:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-18 19:40:44,727:DEBUG:__main__:Config file found.
+2021-06-18 19:40:44,744:DEBUG:utils:The function 'ConfigReader.__init__' took 89.65 milliseconds to run.
+2021-06-18 19:41:13,502:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-18 19:41:13,503:DEBUG:__main__:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-18 19:41:13,504:DEBUG:__main__:Config file found.
+2021-06-18 19:41:13,538:INFO:__main__:Config file successfully read.
+2021-06-18 19:41:13,538:INFO:__main__:Total strategies: 2
+2021-06-18 19:41:13,539:INFO:__main__:Total tickers: 22
+2021-06-18 19:41:13,539:INFO:__main__:Oldest date: 01/01/2014
+2021-06-18 19:41:13,539:INFO:__main__:Most recent date: 10/05/2021
+2021-06-18 19:41:13,539:INFO:__main__:Strategies found:
+2021-06-18 19:41:13,539:INFO:__main__:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['HYPE3', 'WEGE3', 'BALM3', 'BALM4', 'PFRM3', 'PNVL3', 'PNVL4', 'RADL3']
+2021-06-18 19:41:13,539:INFO:__main__:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.3, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['HYPE3', 'WEGE3', 'BALM3', 'BALM4', 'BDLL3', 'BDLL4', 'EALT3', 'EALT4', 'INEP3', 'INEP4', 'KEPL3', 'MTSA4', 'NORD3', 'POSI3', 'ROMI3', 'SHUL4', 'TASA3', 'TASA4']
+2021-06-18 19:41:13,540:DEBUG:utils:The function 'ConfigReader.__init__' took 111.74 milliseconds to run.
