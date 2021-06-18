@@ -953,3 +953,262 @@
 2021-06-17 07:30:57,569:INFO:__main__:Strategies found:
 2021-06-17 07:30:57,569:INFO:__main__:  Name: 'Andre Moraes', Capital: 100, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['PRIO3', 'MGLU3', 'AALR3', 'BALM3', 'BALM4', 'BIOM3', 'BRDT3', 'CSAN3', 'DASA3', 'DMMO3', 'ENAT3', 'FLRY3', 'GNDI3', 'HAPV3', 'HYPE3', 'LUPA3', 'ODPV3', 'OFSA3', 'OSXB3', 'PARD3', 'PETR3', 'PETR4', 'PFRM3', 'PNVL3', 'PNVL4', 'QUAL3', 'RADL3', 'RPMG3', 'UGPA3']
 2021-06-17 07:30:57,569:DEBUG:utils:The function 'ConfigReader.__init__' took 19841.86 milliseconds to run.
+2021-06-18 01:02:54,311:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-18 01:02:54,313:DEBUG:__main__:Searching for config file in '/Users/atcha/Github/Projeto-Final/src/config_reader.py/config/config.json'.
+2021-06-18 01:02:54,313:DEBUG:utils:The function 'ConfigReader.__init__' took 149.32 milliseconds to run.
+2021-06-18 01:03:16,521:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-18 01:03:16,522:DEBUG:__main__:Searching for config file in '/Users/atcha/Github/Projeto-Final/src/config_reader.py/config/config.json'.
+2021-06-18 01:03:16,522:DEBUG:utils:The function 'ConfigReader.__init__' took 82.37 milliseconds to run.
+2021-06-18 01:04:47,728:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-18 01:04:47,728:DEBUG:__main__:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-18 01:04:47,729:DEBUG:__main__:Config file found.
+2021-06-18 01:04:47,730:ERROR:__main__:Implicit strategy executions does not match size.
+2021-06-18 01:04:47,730:DEBUG:utils:The function 'ConfigReader.__init__' took 70.06 milliseconds to run.
+2021-06-18 01:05:55,958:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-18 01:05:55,959:DEBUG:__main__:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-18 01:05:55,960:DEBUG:__main__:Config file found.
+2021-06-18 01:06:22,001:ERROR:__main__:'group_target' has no tickers in database.
+2021-06-18 01:06:22,003:DEBUG:utils:The function 'ConfigReader.__init__' took 26125.02 milliseconds to run.
+2021-06-18 01:07:57,574:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-18 01:07:57,576:DEBUG:__main__:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-18 01:07:57,576:DEBUG:__main__:Config file found.
+2021-06-18 01:08:13,417:ERROR:__main__:'group_target' has no tickers in database.
+2021-06-18 01:08:13,420:DEBUG:utils:The function 'ConfigReader.__init__' took 15916.52 milliseconds to run.
+2021-06-18 01:08:18,862:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-18 01:08:18,863:DEBUG:__main__:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-18 01:08:18,864:DEBUG:__main__:Config file found.
+2021-06-18 01:08:57,408:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-18 01:08:57,409:DEBUG:__main__:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-18 01:08:57,409:DEBUG:__main__:Config file found.
+2021-06-18 01:10:33,473:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-18 01:10:33,474:DEBUG:__main__:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-18 01:10:33,475:DEBUG:__main__:Config file found.
+2021-06-18 01:23:07,854:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-18 01:23:07,856:DEBUG:__main__:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-18 01:23:07,857:DEBUG:__main__:Config file found.
+2021-06-18 01:24:50,140:INFO:__main__:Config file successfully read.
+2021-06-18 01:24:50,140:INFO:__main__:Total strategies: 2
+2021-06-18 01:24:50,141:INFO:__main__:Total tickers: 29
+2021-06-18 01:24:50,141:INFO:__main__:Oldest date: 01/01/2014
+2021-06-18 01:24:50,142:INFO:__main__:Most recent date: 11/05/2021
+2021-06-18 01:24:50,142:INFO:__main__:Strategies found:
+2021-06-18 01:24:50,143:INFO:__main__:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['PRIO3', 'MGLU3', 'AALR3', 'BALM3', 'BALM4', 'BIOM3', 'BRDT3', 'CSAN3', 'DASA3', 'DMMO3', 'ENAT3', 'FLRY3', 'GNDI3', 'HAPV3', 'HYPE3', 'LUPA3', 'ODPV3', 'OFSA3', 'OSXB3', 'PARD3', 'PETR3', 'PETR4', 'PFRM3', 'PNVL3', 'PNVL4', 'QUAL3', 'RADL3', 'RPMG3', 'UGPA3']
+2021-06-18 01:24:50,143:INFO:__main__:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.3, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['PRIO3', 'MGLU3', 'AALR3', 'BALM3', 'BALM4', 'BIOM3', 'BRDT3', 'CSAN3', 'DASA3', 'DMMO3', 'ENAT3', 'FLRY3', 'GNDI3', 'HAPV3', 'HYPE3', 'LUPA3', 'ODPV3', 'OFSA3', 'OSXB3', 'PARD3', 'PETR3', 'PETR4', 'PFRM3', 'PNVL3', 'PNVL4', 'QUAL3', 'RADL3', 'RPMG3', 'UGPA3']
+2021-06-18 01:24:50,143:DEBUG:utils:The function 'ConfigReader.__init__' took 102474.28 milliseconds to run.
+2021-06-18 01:28:37,836:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-18 01:28:37,837:DEBUG:__main__:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-18 01:28:37,838:DEBUG:__main__:Config file found.
+2021-06-18 01:30:20,726:INFO:__main__:Config file successfully read.
+2021-06-18 01:30:20,727:INFO:__main__:Total strategies: 2
+2021-06-18 01:30:20,728:INFO:__main__:Total tickers: 9
+2021-06-18 01:30:20,728:INFO:__main__:Oldest date: 01/01/2014
+2021-06-18 01:30:20,728:INFO:__main__:Most recent date: 11/05/2021
+2021-06-18 01:30:20,728:INFO:__main__:Strategies found:
+2021-06-18 01:30:20,729:INFO:__main__:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['PRIO3', 'MGLU3', 'BALM3', 'BALM4', 'HYPE3', 'PFRM3', 'PNVL3', 'PNVL4', 'RADL3']
+2021-06-18 01:30:20,729:INFO:__main__:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.3, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['PRIO3', 'MGLU3', 'BALM3', 'BALM4', 'HYPE3', 'PFRM3', 'PNVL3', 'PNVL4', 'RADL3']
+2021-06-18 01:30:20,730:DEBUG:utils:The function 'ConfigReader.__init__' took 103071.61 milliseconds to run.
+2021-06-18 01:31:34,886:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-18 01:31:34,887:DEBUG:__main__:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-18 01:31:34,887:DEBUG:__main__:Config file found.
+2021-06-18 02:39:39,237:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-18 02:39:39,239:DEBUG:__main__:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-18 02:39:39,240:DEBUG:__main__:Config file found.
+2021-06-18 02:40:00,586:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-18 02:40:00,587:DEBUG:__main__:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-18 02:40:00,589:DEBUG:__main__:Config file found.
+2021-06-18 03:54:54,172:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-18 03:54:54,174:DEBUG:__main__:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-18 03:54:54,176:DEBUG:__main__:Config file found.
+2021-06-18 03:55:47,882:ERROR:__main__:Implicit strategy executions do not match size.
+2021-06-18 03:55:52,686:DEBUG:utils:The function 'ConfigReader.__init__' took 57036.73 milliseconds to run.
+2021-06-18 03:56:52,847:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-18 03:56:52,848:DEBUG:__main__:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-18 03:56:52,848:DEBUG:__main__:Config file found.
+2021-06-18 03:58:06,473:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-18 03:58:06,474:DEBUG:__main__:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-18 03:58:06,475:DEBUG:__main__:Config file found.
+2021-06-18 03:58:14,996:ERROR:__main__:Implicit strategy executions do not match size.
+2021-06-18 03:58:17,975:DEBUG:utils:The function 'ConfigReader.__init__' took 9878.00 milliseconds to run.
+2021-06-18 04:00:24,517:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-18 04:00:24,519:DEBUG:__main__:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-18 04:00:24,520:DEBUG:__main__:Config file found.
+2021-06-18 04:02:43,426:DEBUG:utils:The function 'ConfigReader.__init__' took 135776.68 milliseconds to run.
+2021-06-18 04:05:40,324:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-18 04:05:40,327:DEBUG:__main__:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-18 04:05:40,328:DEBUG:__main__:Config file found.
+2021-06-18 04:07:16,658:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-18 04:07:16,659:DEBUG:__main__:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-18 04:07:16,660:DEBUG:__main__:Config file found.
+2021-06-18 04:07:18,840:DEBUG:utils:The function 'ConfigReader.__init__' took 2268.83 milliseconds to run.
+2021-06-18 04:10:21,901:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-18 04:10:21,903:DEBUG:__main__:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-18 04:10:21,903:DEBUG:__main__:Config file found.
+2021-06-18 04:20:49,407:INFO:__main__:Config file successfully read.
+2021-06-18 04:20:49,408:INFO:__main__:Total strategies: 2
+2021-06-18 04:20:49,409:INFO:__main__:Total tickers: 24
+2021-06-18 04:20:49,409:INFO:__main__:Oldest date: 01/01/2014
+2021-06-18 04:20:49,409:INFO:__main__:Most recent date: 11/05/2021
+2021-06-18 04:20:49,409:INFO:__main__:Strategies found:
+2021-06-18 04:20:49,409:INFO:__main__:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['PRIO3', 'MGLU3', 'BALM3', 'BALM4', 'HYPE3', 'PFRM3', 'PNVL3', 'PNVL4', 'RADL3', 'BDLL3', 'BDLL4', 'EALT3', 'EALT4', 'INEP3', 'INEP4', 'KEPL3', 'MTSA4', 'NORD3', 'POSI3', 'ROMI3', 'SHUL4', 'TASA3', 'TASA4', 'WEGE3']
+2021-06-18 04:20:49,410:INFO:__main__:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.3, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['PRIO3', 'MGLU3', 'BALM3', 'BALM4', 'HYPE3', 'PFRM3', 'PNVL3', 'PNVL4', 'RADL3', 'BDLL3', 'BDLL4', 'EALT3', 'EALT4', 'INEP3', 'INEP4', 'KEPL3', 'MTSA4', 'NORD3', 'POSI3', 'ROMI3', 'SHUL4', 'TASA3', 'TASA4', 'WEGE3']
+2021-06-18 04:20:49,410:DEBUG:utils:The function 'ConfigReader.__init__' took 627654.98 milliseconds to run.
+2021-06-18 04:21:12,333:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-18 04:21:12,334:DEBUG:__main__:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-18 04:21:12,334:DEBUG:__main__:Config file found.
+2021-06-18 04:24:17,513:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-18 04:24:17,515:DEBUG:__main__:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-18 04:24:17,516:DEBUG:__main__:Config file found.
+2021-06-18 04:30:53,763:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-18 04:30:53,764:DEBUG:__main__:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-18 04:30:53,764:DEBUG:__main__:Config file found.
+2021-06-18 04:30:53,765:ERROR:__main__:Implicit strategy executions do not match size.
+2021-06-18 04:30:53,766:DEBUG:utils:The function 'ConfigReader.__init__' took 85.30 milliseconds to run.
+2021-06-18 04:31:35,354:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-18 04:31:35,354:DEBUG:__main__:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-18 04:31:35,355:DEBUG:__main__:Config file found.
+2021-06-18 04:31:40,634:ERROR:__main__:Ticker has end date greater than the maximum available (14/06/2021'). Please check holidays and CDI data in database.
+2021-06-18 04:31:40,636:DEBUG:utils:The function 'ConfigReader.__init__' took 5355.65 milliseconds to run.
+2021-06-18 04:32:17,411:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-18 04:32:17,412:DEBUG:__main__:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-18 04:32:17,413:DEBUG:__main__:Config file found.
+2021-06-18 04:41:22,426:ERROR:__main__:Ticker has end date greater than the maximum available (14/06/2021'). Please check holidays and CDI data in database.
+2021-06-18 04:41:22,428:DEBUG:utils:The function 'ConfigReader.__init__' took 545092.64 milliseconds to run.
+2021-06-18 04:42:32,887:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-18 04:42:32,888:DEBUG:__main__:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-18 04:42:32,889:DEBUG:__main__:Config file found.
+2021-06-18 04:42:41,938:INFO:__main__:Config file successfully read.
+2021-06-18 04:42:41,939:INFO:__main__:Total strategies: 2
+2021-06-18 04:42:41,939:INFO:__main__:Total tickers: 22
+2021-06-18 04:42:41,940:INFO:__main__:Oldest date: 01/01/2014
+2021-06-18 04:42:41,940:INFO:__main__:Most recent date: 10/05/2021
+2021-06-18 04:42:41,940:INFO:__main__:Strategies found:
+2021-06-18 04:42:41,941:INFO:__main__:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['HYPE3', 'WEGE3', 'BALM3', 'BALM4', 'PFRM3', 'PNVL3', 'PNVL4', 'RADL3']
+2021-06-18 04:42:41,941:INFO:__main__:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.3, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['HYPE3', 'WEGE3', 'BALM3', 'BALM4', 'BDLL3', 'BDLL4', 'EALT3', 'EALT4', 'INEP3', 'INEP4', 'KEPL3', 'MTSA4', 'NORD3', 'POSI3', 'ROMI3', 'SHUL4', 'TASA3', 'TASA4']
+2021-06-18 04:42:41,941:DEBUG:utils:The function 'ConfigReader.__init__' took 9131.36 milliseconds to run.
+2021-06-18 04:45:40,876:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-18 04:45:41,696:INFO:__main__:Program started.
+2021-06-18 04:45:41,705:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-18 04:45:41,714:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-18 04:45:41,715:DEBUG:config_reader:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-18 04:45:41,715:DEBUG:config_reader:Config file found.
+2021-06-18 04:45:41,748:INFO:config_reader:Config file successfully read.
+2021-06-18 04:45:41,748:INFO:config_reader:Total strategies: 2
+2021-06-18 04:45:41,749:INFO:config_reader:Total tickers: 22
+2021-06-18 04:45:41,749:INFO:config_reader:Oldest date: 01/01/2014
+2021-06-18 04:45:41,749:INFO:config_reader:Most recent date: 10/05/2021
+2021-06-18 04:45:41,749:INFO:config_reader:Strategies found:
+2021-06-18 04:45:41,749:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['HYPE3', 'WEGE3', 'BALM3', 'BALM4', 'PFRM3', 'PNVL3', 'PNVL4', 'RADL3']
+2021-06-18 04:45:41,750:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.3, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['HYPE3', 'WEGE3', 'BALM3', 'BALM4', 'BDLL3', 'BDLL4', 'EALT3', 'EALT4', 'INEP3', 'INEP4', 'KEPL3', 'MTSA4', 'NORD3', 'POSI3', 'ROMI3', 'SHUL4', 'TASA3', 'TASA4']
+2021-06-18 04:45:41,750:DEBUG:utils:The function 'ConfigReader.__init__' took 44.57 milliseconds to run.
+2021-06-18 04:47:08,285:ERROR:ticker_manager:Error updating daily candles, error: Cannot safely convert provided holidays input into an array of dates
+2021-06-18 04:48:14,452:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-18 04:48:15,179:INFO:__main__:Program started.
+2021-06-18 04:48:15,187:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-18 04:48:15,195:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-18 04:48:15,196:DEBUG:config_reader:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-18 04:48:15,196:DEBUG:config_reader:Config file found.
+2021-06-18 04:48:15,221:INFO:config_reader:Config file successfully read.
+2021-06-18 04:48:15,221:INFO:config_reader:Total strategies: 2
+2021-06-18 04:48:15,221:INFO:config_reader:Total tickers: 22
+2021-06-18 04:48:15,221:INFO:config_reader:Oldest date: 01/01/2014
+2021-06-18 04:48:15,222:INFO:config_reader:Most recent date: 10/05/2021
+2021-06-18 04:48:15,222:INFO:config_reader:Strategies found:
+2021-06-18 04:48:15,222:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['HYPE3', 'WEGE3', 'BALM3', 'BALM4', 'PFRM3', 'PNVL3', 'PNVL4', 'RADL3']
+2021-06-18 04:48:15,222:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.3, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['HYPE3', 'WEGE3', 'BALM3', 'BALM4', 'BDLL3', 'BDLL4', 'EALT3', 'EALT4', 'INEP3', 'INEP4', 'KEPL3', 'MTSA4', 'NORD3', 'POSI3', 'ROMI3', 'SHUL4', 'TASA3', 'TASA4']
+2021-06-18 04:48:15,222:DEBUG:utils:The function 'ConfigReader.__init__' took 34.50 milliseconds to run.
+2021-06-18 04:49:50,913:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-18 04:49:50,915:DEBUG:__main__:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-18 04:49:50,916:DEBUG:__main__:Config file found.
+2021-06-18 04:50:58,973:INFO:__main__:Config file successfully read.
+2021-06-18 04:50:58,974:INFO:__main__:Total strategies: 2
+2021-06-18 04:50:58,974:INFO:__main__:Total tickers: 22
+2021-06-18 04:50:58,974:INFO:__main__:Oldest date: 01/01/2014
+2021-06-18 04:50:58,975:INFO:__main__:Most recent date: 10/05/2021
+2021-06-18 04:50:58,975:INFO:__main__:Strategies found:
+2021-06-18 04:50:58,975:INFO:__main__:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['HYPE3', 'WEGE3', 'BALM3', 'BALM4', 'PFRM3', 'PNVL3', 'PNVL4', 'RADL3']
+2021-06-18 04:50:58,975:INFO:__main__:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.3, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['HYPE3', 'WEGE3', 'BALM3', 'BALM4', 'BDLL3', 'BDLL4', 'EALT3', 'EALT4', 'INEP3', 'INEP4', 'KEPL3', 'MTSA4', 'NORD3', 'POSI3', 'ROMI3', 'SHUL4', 'TASA3', 'TASA4']
+2021-06-18 04:50:58,975:DEBUG:utils:The function 'ConfigReader.__init__' took 68199.59 milliseconds to run.
+2021-06-18 04:51:11,544:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-18 04:51:12,334:INFO:__main__:Program started.
+2021-06-18 04:51:12,343:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-18 04:51:12,352:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-18 04:51:12,353:DEBUG:config_reader:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-18 04:51:12,353:DEBUG:config_reader:Config file found.
+2021-06-18 04:51:12,379:INFO:config_reader:Config file successfully read.
+2021-06-18 04:51:12,379:INFO:config_reader:Total strategies: 2
+2021-06-18 04:51:12,380:INFO:config_reader:Total tickers: 22
+2021-06-18 04:51:12,380:INFO:config_reader:Oldest date: 01/01/2014
+2021-06-18 04:51:12,380:INFO:config_reader:Most recent date: 10/05/2021
+2021-06-18 04:51:12,380:INFO:config_reader:Strategies found:
+2021-06-18 04:51:12,380:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['HYPE3', 'WEGE3', 'BALM3', 'BALM4', 'PFRM3', 'PNVL3', 'PNVL4', 'RADL3']
+2021-06-18 04:51:12,381:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.3, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['HYPE3', 'WEGE3', 'BALM3', 'BALM4', 'BDLL3', 'BDLL4', 'EALT3', 'EALT4', 'INEP3', 'INEP4', 'KEPL3', 'MTSA4', 'NORD3', 'POSI3', 'ROMI3', 'SHUL4', 'TASA3', 'TASA4']
+2021-06-18 04:51:12,381:DEBUG:utils:The function 'ConfigReader.__init__' took 37.46 milliseconds to run.
+2021-06-18 04:51:14,294:ERROR:ticker_manager:Error updating daily candles, error: Cannot safely convert provided holidays input into an array of dates
+2021-06-18 04:51:49,893:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-18 04:51:49,894:DEBUG:__main__:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-18 04:51:49,894:DEBUG:__main__:Config file found.
+2021-06-18 04:51:54,129:DEBUG:utils:The function 'ConfigReader.__init__' took 4376.40 milliseconds to run.
+2021-06-18 04:53:59,692:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-18 04:53:59,693:DEBUG:__main__:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-18 04:53:59,694:DEBUG:__main__:Config file found.
+2021-06-18 04:54:12,722:INFO:__main__:Config file successfully read.
+2021-06-18 04:54:12,722:INFO:__main__:Total strategies: 2
+2021-06-18 04:54:12,722:INFO:__main__:Total tickers: 22
+2021-06-18 04:54:12,722:INFO:__main__:Oldest date: 01/01/2014
+2021-06-18 04:54:12,723:INFO:__main__:Most recent date: 10/05/2021
+2021-06-18 04:54:12,723:INFO:__main__:Strategies found:
+2021-06-18 04:54:12,723:INFO:__main__:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['HYPE3', 'WEGE3', 'BALM3', 'BALM4', 'PFRM3', 'PNVL3', 'PNVL4', 'RADL3']
+2021-06-18 04:54:12,723:INFO:__main__:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.3, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['HYPE3', 'WEGE3', 'BALM3', 'BALM4', 'BDLL3', 'BDLL4', 'EALT3', 'EALT4', 'INEP3', 'INEP4', 'KEPL3', 'MTSA4', 'NORD3', 'POSI3', 'ROMI3', 'SHUL4', 'TASA3', 'TASA4']
+2021-06-18 04:54:12,723:DEBUG:utils:The function 'ConfigReader.__init__' took 13255.95 milliseconds to run.
+2021-06-18 04:54:19,404:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-18 04:54:20,210:INFO:__main__:Program started.
+2021-06-18 04:54:20,219:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-18 04:54:20,227:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-18 04:54:20,228:DEBUG:config_reader:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-18 04:54:20,228:DEBUG:config_reader:Config file found.
+2021-06-18 04:54:20,255:INFO:config_reader:Config file successfully read.
+2021-06-18 04:54:20,256:INFO:config_reader:Total strategies: 2
+2021-06-18 04:54:20,256:INFO:config_reader:Total tickers: 22
+2021-06-18 04:54:20,256:INFO:config_reader:Oldest date: 01/01/2014
+2021-06-18 04:54:20,256:INFO:config_reader:Most recent date: 10/05/2021
+2021-06-18 04:54:20,256:INFO:config_reader:Strategies found:
+2021-06-18 04:54:20,257:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['HYPE3', 'WEGE3', 'BALM3', 'BALM4', 'PFRM3', 'PNVL3', 'PNVL4', 'RADL3']
+2021-06-18 04:54:20,257:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.3, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['HYPE3', 'WEGE3', 'BALM3', 'BALM4', 'BDLL3', 'BDLL4', 'EALT3', 'EALT4', 'INEP3', 'INEP4', 'KEPL3', 'MTSA4', 'NORD3', 'POSI3', 'ROMI3', 'SHUL4', 'TASA3', 'TASA4']
+2021-06-18 04:54:20,257:DEBUG:utils:The function 'ConfigReader.__init__' took 38.04 milliseconds to run.
+2021-06-18 04:54:20,261:INFO:ticker_manager:Ticker 'HYPE3' already updated.
+2021-06-18 04:54:20,302:INFO:ticker_manager:Ticker 'HYPE3' weekly candles update finished.
+2021-06-18 04:54:21,392:INFO:ticker_manager:Ticker 'HYPE3' daily features generated.
+2021-06-18 04:54:21,635:INFO:ticker_manager:Ticker 'HYPE3' weekly features generated.
+2021-06-18 04:54:21,637:INFO:ticker_manager:Ticker 'WEGE3' already updated.
+2021-06-18 04:54:21,661:INFO:ticker_manager:Ticker 'WEGE3' weekly candles update finished.
+2021-06-18 04:54:22,725:INFO:ticker_manager:Ticker 'WEGE3' daily features generated.
+2021-06-18 04:54:22,952:INFO:ticker_manager:Ticker 'WEGE3' weekly features generated.
+2021-06-18 04:54:24,187:WARNING:ticker_manager:No valid data to update for ticker 'BALM3', ('2014-01-01', '2017-07-11').
+2021-06-18 04:54:24,188:INFO:ticker_manager:Ticker 'BALM3' daily candles update finished.
+2021-06-18 04:54:24,221:INFO:ticker_manager:Ticker 'BALM3' weekly candles update finished.
+2021-06-18 04:56:53,066:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-18 04:56:53,717:INFO:__main__:Program started.
+2021-06-18 04:56:53,726:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-18 04:56:53,735:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-18 04:56:53,735:DEBUG:config_reader:Searching for config file in '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-18 04:56:53,735:DEBUG:config_reader:Config file found.
+2021-06-18 04:56:53,763:INFO:config_reader:Config file successfully read.
+2021-06-18 04:56:53,763:INFO:config_reader:Total strategies: 2
+2021-06-18 04:56:53,764:INFO:config_reader:Total tickers: 22
+2021-06-18 04:56:53,764:INFO:config_reader:Oldest date: 01/01/2014
+2021-06-18 04:56:53,764:INFO:config_reader:Most recent date: 10/05/2021
+2021-06-18 04:56:53,764:INFO:config_reader:Strategies found:
+2021-06-18 04:56:53,765:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['HYPE3', 'WEGE3', 'BALM3', 'BALM4', 'PFRM3', 'PNVL3', 'PNVL4', 'RADL3']
+2021-06-18 04:56:53,765:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.3, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['HYPE3', 'WEGE3', 'BALM3', 'BALM4', 'BDLL3', 'BDLL4', 'EALT3', 'EALT4', 'INEP3', 'INEP4', 'KEPL3', 'MTSA4', 'NORD3', 'POSI3', 'ROMI3', 'SHUL4', 'TASA3', 'TASA4']
+2021-06-18 04:56:53,765:DEBUG:utils:The function 'ConfigReader.__init__' took 38.57 milliseconds to run.
+2021-06-18 04:56:53,769:INFO:ticker_manager:Ticker 'HYPE3' already updated.
+2021-06-18 04:56:53,802:INFO:ticker_manager:Ticker 'HYPE3' weekly candles update finished.
+2021-06-18 04:56:54,882:INFO:ticker_manager:Ticker 'HYPE3' daily features generated.
+2021-06-18 04:56:55,114:INFO:ticker_manager:Ticker 'HYPE3' weekly features generated.
+2021-06-18 04:56:55,116:INFO:ticker_manager:Ticker 'WEGE3' already updated.
+2021-06-18 04:56:55,129:INFO:ticker_manager:Ticker 'WEGE3' weekly candles update finished.
+2021-06-18 04:56:56,176:INFO:ticker_manager:Ticker 'WEGE3' daily features generated.
+2021-06-18 04:56:56,421:INFO:ticker_manager:Ticker 'WEGE3' weekly features generated.
+2021-06-18 04:56:56,888:WARNING:ticker_manager:No valid data to update for ticker 'BALM3', ('2014-01-01', '2017-07-11').
+2021-06-18 04:56:56,889:INFO:ticker_manager:Ticker 'BALM3' daily candles update finished.
+2021-06-18 04:56:56,904:INFO:ticker_manager:Ticker 'BALM3' weekly candles update finished.

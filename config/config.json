@@ -5,20 +5,20 @@
             "name": "Andre Moraes",
             "alias": "Tickers: {number_of_tickers}, Risk-Capital: {risk_capital_coefficient}%",
             "comment": "Test",
-            "capital": [100],
-            "risk_capital_coefficient": [0.20],
+            "capital": 100000,
+            "risk_capital_coefficient": [0.20, 0.3],
             "min_order_volume": 1,
             "ticker_min_ann_volume_filter": 1000000,
             "stock_targets": [
                 {
-                    "name":"PRIO3",
-                    "start_date":"01/01/2021",
-                    "end_date":"11/05/2021"
+                    "name": "HYPE3",
+                    "start_date": ["01/01/2020", "01/01/2021"],
+                    "end_date": ["08/05/2021", "01/05/2021"]
                 },
                 {
-                    "name":"MGLU3",
-                    "start_date":"01/01/2018",
-                    "end_date":"10/05/2021"
+                    "name": "WEGE3",
+                    "start_date": "01/01/2018",
+                    "end_date": ["10/05/2021", "01/05/2020"]
                 }
             ],
             "group_target":
@@ -27,11 +27,11 @@
                     "pn_shares": true,
                     "units": true,
                     "fractional_market": false,
-                    "sector": ["Petróleo", "Saúde"],
-                    "subsector": "None",
-                    "segment":"None",
-                    "start_date":"01/01/2014",
-                    "end_date":"10/05/2021"
+                    "sector": [" Petróleo | Saúde", null],
+                    "subsector": ["Equipamentos | Comércio e Distribuição", "Equipamentos"],
+                    "segment": null,
+                    "start_date": "01/01/2014",
+                    "end_date": "15/03/2017"
                 }
         }
     ]

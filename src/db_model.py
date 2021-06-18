@@ -327,23 +327,23 @@ class DBGeneralModel:
             logger.error('Program aborted. At least one filter is required.')
             sys.exit(c.INVALID_ARGUMENT_ERR)
 
+        # Transform parameters without loosing its value
         if sectors == None:
             sectors = []
-        elif isinstance(sectors, str):
-            sectors = [sectors]
+        else:
+            sectors = [item.strip() for item in sectors.split('|') if item != '']
 
         if subsectors == None:
             subsectors = []
-        elif isinstance(subsectors, str):
-            subsectors = [subsectors]
+        else:
+            subsectors = [item.strip() for item in subsectors.split('|') if item != '']
 
         if segments == None:
             segments = []
-        elif isinstance(segments, str):
-            segments = [segments]
+        else:
+            segments = [item.strip() for item in segments.split('|') if item != '']
 
         filters = []
-
         if on_flag == True:
             filters.append('____3')
         if pn_flag == True:
@@ -363,51 +363,43 @@ class DBGeneralModel:
                 query += f"""  (ticker LIKE \'{filter}\'\n"""
             else:
                 query += f"""  OR ticker LIKE \'{filter}\'\n"""
-
             if index == len(filters)-1:
                 query += f"""  )\n"""
 
         if any([sectors, subsectors, segments]):
-            if len(filters) > 0:
+            if len(sectors) > 0:
                 query += f"""  AND """
-
             for index, sector in enumerate(sectors):
                 if index == 0:
                     query += f"""  (cc.economic_sector ILIKE \'%{sector}%\'\n"""
                 else:
                     query += f"""  OR cc.economic_sector ILIKE \'%{sector}%\'\n"""
-
                 if index == len(sectors)-1:
                     query += f"""  )\n"""
 
             if len(subsectors) > 0:
                 query += f"""  AND """
-
             for index, subsector in enumerate(subsectors):
                 if index == 0:
                     query += f"""  (cc.economic_subsector ILIKE \'%{subsector}%\'\n"""
                 else:
                     query += f"""  OR cc.economic_subsector ILIKE \'%{subsector}%\'\n"""
-
                 if index == len(subsectors)-1:
                     query += f"""  )\n"""
 
             if len(segments) > 0:
                 query += f"""  AND """
-
             for index, segment in enumerate(segments):
                 if index == 0:
                     query += f"""  (cc.economic_segment ILIKE \'%{segment}%\'\n"""
                 else:
                     query += f"""  OR cc.economic_segment ILIKE \'%{segment}%\'\n"""
-
                 if index == len(segments)-1:
                     query += f"""  )\n"""
 
         query += "ORDER BY ticker ASC;"
 
         df = pd.read_sql_query(query, self._connection)
-
         return df
 
     def get_holidays_interval(self):

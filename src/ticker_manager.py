@@ -396,7 +396,6 @@ class TickerManager:
             [ ['min_price', index, candles.iloc[index, candles.columns.get_loc('min_price')]] for index in min_peaks_index ]
         peaks.sort(key=lambda x: x[1])
 
-
         candles['peak'] = [1 if index in max_peaks_index else -1 if index in min_peaks_index else 0 for index in range(candles.index.size)]
         candles['ema_17'] = ema_17
         candles['ema_72'] = ema_72
