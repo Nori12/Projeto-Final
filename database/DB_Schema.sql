@@ -12,7 +12,7 @@
 --     CONNECTION LIMIT = -1;
 
 -- COMMENT ON DATABASE "StockMarket"
---     IS 'A database to store stock market data and application of strategies.';
+--     IS 'A database to store stock market data and strategies results.';
 
 CREATE TABLE company_classification (
   id SERIAL PRIMARY KEY,
@@ -86,14 +86,16 @@ CREATE TABLE split (
 
 CREATE TYPE currency_type AS ENUM ('R$');
 
-CREATE TABLE status (
+CREATE TABLE symbol_status (
   ticker VARCHAR(7) REFERENCES symbol(ticker),
-  currency currency_type DEFAULT 'R$',
   last_update_daily_candles TIMESTAMP WITHOUT TIME ZONE,
-  initial_date_daily_candles TIMESTAMP WITHOUT TIME ZONE,
-  final_date_daily_candles TIMESTAMP WITHOUT TIME ZONE,
+  start_date_daily_candles TIMESTAMP WITHOUT TIME ZONE,
+  end_date_daily_candles TIMESTAMP WITHOUT TIME ZONE,
+  last_update_weekly_candles TIMESTAMP WITHOUT TIME ZONE,
+  start_date_weekly_candles TIMESTAMP WITHOUT TIME ZONE,
+  end_date_weekly_candles TIMESTAMP WITHOUT TIME ZONE,
 
-  CONSTRAINT status_pkey PRIMARY KEY(ticker)
+  CONSTRAINT symbol_status_pkey PRIMARY KEY(ticker)
 );
 
 CREATE TYPE interest_origin_type AS ENUM ('DIV', 'IOC');
@@ -125,7 +127,6 @@ CREATE TABLE daily_features (
   CONSTRAINT daily_features_pkey PRIMARY KEY(ticker, day),
   CONSTRAINT peak_is_valid CHECK (peak = 1 OR peak = -1 or peak = 0),
   CONSTRAINT greater_than_zero CHECK (ema_17 > 0 AND ema_72 > 0),
-  CONSTRAINT coef_in_bounds CHECK (up_down_trend_coef >= -1 AND up_down_trend_coef <= 1),
   CONSTRAINT up_down_trend_status_valid CHECK (up_down_trend_status = 1 OR up_down_trend_status = -1 OR up_down_trend_status = 0)
 );
 
@@ -140,7 +141,6 @@ CREATE TABLE weekly_features (
   CONSTRAINT weekly_features_pkey PRIMARY KEY(ticker, week),
   CONSTRAINT peak_is_valid CHECK (peak = 1 OR peak = -1 or peak = 0),
   CONSTRAINT greater_than_zero CHECK (ema_17 > 0 AND ema_72 > 0),
-  CONSTRAINT coef_in_bounds CHECK (up_down_trend_coef >= -1 AND up_down_trend_coef <= 1),
   CONSTRAINT up_down_trend_status_valid CHECK (up_down_trend_status = 1 OR up_down_trend_status = -1 OR up_down_trend_status = 0)
 );
 
@@ -231,54 +231,107 @@ CREATE TABLE cdi (
 
 -- Triggers, Functions, Procedures, Views
 
-CREATE OR REPLACE FUNCTION update_daily_status() RETURNS trigger AS $update_daily_status$
+CREATE OR REPLACE FUNCTION update_daily_symbol_status() RETURNS trigger AS $update_daily_symbol_status$
   BEGIN
 
     IF (TG_OP = 'INSERT') OR (TG_OP = 'UPDATE') THEN
 
-      INSERT INTO status (ticker, last_update_daily_candles, initial_date_daily_candles, final_date_daily_candles)
-        SELECT hc.ticker, NOW(), MIN(hc.day), MAX(hc.day)
-        FROM daily_candles hc
-        LEFT JOIN status s on s.ticker = hc.ticker
-        GROUP BY hc.ticker, s.initial_date_daily_candles, s.final_date_daily_candles
-        HAVING MIN(hc.day) <> COALESCE(s.initial_date_daily_candles, NOW()) OR MAX(hc.day) <> COALESCE(s.final_date_daily_candles, NOW())
+      INSERT INTO symbol_status (ticker, last_update_daily_candles, start_date_daily_candles, end_date_daily_candles)
+        SELECT dc.ticker, NOW(), MIN(dc.day), MAX(dc.day)
+        FROM daily_candles dc
+        LEFT JOIN symbol_status s on s.ticker = dc.ticker
+        GROUP BY dc.ticker, s.start_date_daily_candles, s.end_date_daily_candles
+        HAVING MIN(dc.day) <> COALESCE(s.start_date_daily_candles, NOW()) OR MAX(dc.day) <> COALESCE(s.end_date_daily_candles, NOW())
       ON CONFLICT (ticker)
       DO UPDATE
         SET
           ticker = EXCLUDED.ticker,
           last_update_daily_candles = EXCLUDED.last_update_daily_candles,
-          initial_date_daily_candles = EXCLUDED.initial_date_daily_candles,
-          final_date_daily_candles = EXCLUDED.final_date_daily_candles;
+          start_date_daily_candles = EXCLUDED.start_date_daily_candles,
+          end_date_daily_candles = EXCLUDED.end_date_daily_candles;
 
     ELSIF (TG_OP = 'DELETE') THEN
 
-      UPDATE status s1
+      UPDATE symbol_status s1
       SET
         last_update_daily_candles =
-        CASE WHEN (initial_date_daily_candles <> COALESCE(q.min_date, NOW()) OR final_date_daily_candles <> COALESCE(q.max_date, NOW())) THEN NOW()
+        CASE WHEN (start_date_daily_candles <> COALESCE(q.min_date, NOW()) OR end_date_daily_candles <> COALESCE(q.max_date, NOW())) THEN NOW()
         ELSE last_update_daily_candles END,
-        initial_date_daily_candles = q.min_date,
-        final_date_daily_candles = q.max_date
+        start_date_daily_candles = q.min_date,
+        end_date_daily_candles = q.max_date
       FROM (
-        SELECT s2.ticker, MIN(hc.day) AS min_date, MAX(hc.day) AS max_date FROM status s2
-        LEFT JOIN daily_candles hc on hc.ticker = s2.ticker
+        SELECT s2.ticker, MIN(dc.day) AS min_date, MAX(dc.day) AS max_date FROM symbol_status s2
+        LEFT JOIN daily_candles dc ON dc.ticker = s2.ticker
         GROUP BY s2.ticker
       ) q
       WHERE q.ticker = s1.ticker;
 
     ELSIF (TG_OP = 'TRUNCATE') THEN
 
-      UPDATE status SET last_update_daily_candles = NOW(), initial_date_daily_candles = NULL, final_date_daily_candles = NULL;
+      UPDATE symbol_status SET last_update_daily_candles = NOW(), start_date_daily_candles = NULL, end_date_daily_candles = NULL;
 
     END IF;
 
     RETURN NULL;
   END;
-$update_daily_status$ LANGUAGE plpgsql;
+$update_daily_symbol_status$ LANGUAGE plpgsql;
 
 
-CREATE TRIGGER update_daily_status
+CREATE TRIGGER update_daily_symbol_status
   AFTER INSERT OR UPDATE OR DELETE OR TRUNCATE
   ON daily_candles
   FOR EACH STATEMENT
-  EXECUTE FUNCTION update_daily_status();
+  EXECUTE FUNCTION update_daily_symbol_status();
+
+
+CREATE OR REPLACE FUNCTION update_weekly_symbol_status() RETURNS trigger AS $update_weekly_symbol_status$
+  BEGIN
+
+    IF (TG_OP = 'INSERT') OR (TG_OP = 'UPDATE') THEN
+
+      INSERT INTO symbol_status (ticker, last_update_weekly_candles, start_date_weekly_candles, end_date_weekly_candles)
+        SELECT wc.ticker, NOW(), MIN(wc.week), MAX(wc.week)
+        FROM weekly_candles wc
+        LEFT JOIN symbol_status s on s.ticker = wc.ticker
+        GROUP BY wc.ticker, s.start_date_weekly_candles, s.end_date_weekly_candles
+        HAVING MIN(wc.week) <> COALESCE(s.start_date_weekly_candles, NOW()) OR MAX(wc.week) <> COALESCE(s.end_date_weekly_candles, NOW())
+      ON CONFLICT (ticker)
+      DO UPDATE
+        SET
+          ticker = EXCLUDED.ticker,
+          last_update_weekly_candles = EXCLUDED.last_update_weekly_candles,
+          start_date_weekly_candles = EXCLUDED.start_date_weekly_candles,
+          end_date_weekly_candles = EXCLUDED.end_date_weekly_candles;
+
+    ELSIF (TG_OP = 'DELETE') THEN
+
+      UPDATE symbol_status s1
+      SET
+        last_update_weekly_candles =
+        CASE WHEN (start_date_weekly_candles <> COALESCE(q.min_date, NOW()) OR end_date_weekly_candles <> COALESCE(q.max_date, NOW())) THEN NOW()
+        ELSE last_update_weekly_candles END,
+        start_date_weekly_candles = q.min_date,
+        end_date_weekly_candles = q.max_date
+      FROM (
+        SELECT s2.ticker, MIN(wc.week) AS min_date, MAX(wc.week) AS max_date FROM symbol_status s2
+        LEFT JOIN weekly_candles wc ON wc.ticker = s2.ticker
+        GROUP BY s2.ticker
+      ) q
+      WHERE q.ticker = s1.ticker;
+
+    ELSIF (TG_OP = 'TRUNCATE') THEN
+
+      UPDATE symbol_status SET last_update_weekly_candles = NOW(), start_date_weekly_candles = NULL, end_date_weekly_candles = NULL;
+
+    END IF;
+
+    RETURN NULL;
+  END;
+$update_weekly_symbol_status$ LANGUAGE plpgsql;
+
+
+CREATE TRIGGER update_weekly_symbol_status
+  AFTER INSERT OR UPDATE OR DELETE OR TRUNCATE
+  ON weekly_candles
+  FOR EACH STATEMENT
+  EXECUTE FUNCTION update_weekly_symbol_status();

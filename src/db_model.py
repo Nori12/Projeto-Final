@@ -75,9 +75,19 @@ class DBTickerModel:
             sys.exit(c.QUERY_ERR)
 
     def get_date_range(self, ticker):
-        result = self._query(f"""SELECT last_update_daily_candles, initial_date_daily_candles, final_date_daily_candles FROM status WHERE ticker = \'{ticker}\';""")
+        """Get date range in symbol_status table"""
+        query = f"""SELECT\n"""
+        query += f"""  last_update_daily_candles,\n"""
+        query += f"""  start_date_daily_candles,\n"""
+        query += f"""  end_date_daily_candles,\n"""
+        query += f"""  last_update_weekly_candles,\n"""
+        query += f"""  start_date_weekly_candles,\n"""
+        query += f"""  end_date_weekly_candles\n"""
+        query += f"""FROM symbol_status\n"""
+        query += f"""WHERE ticker = \'{ticker}\';"""
 
-        return result
+        df = pd.read_sql_query(query, self._connection)
+        return df
 
     def insert_daily_candles(self, ticker, data):
 
@@ -90,7 +100,8 @@ class DBTickerModel:
             else:
                 query += f"""('{ticker}', '{index.strftime('%Y-%m-%d')}', {row['Open']:.6f}, {row['High']:.6f}, {row['Low']:.6f}, {row['Close']:.6f}, {row['Volume']:.0f}),\n"""
 
-        query += 'ON CONFLICT ON CONSTRAINT daily_data_pkey DO NOTHING'
+        # query += 'ON CONFLICT ON CONSTRAINT daily_data_pkey DO NOTHING'
+        query += ';'
 
         self._insert_update(query)
 

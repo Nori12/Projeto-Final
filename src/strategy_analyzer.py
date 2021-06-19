@@ -27,7 +27,7 @@ logger.addHandler(file_handler)
 file_handler.setLevel(logging.DEBUG)
 logger.setLevel(logging.DEBUG)
 
-
+ # TODO: Bug - What if there is no strategy in database?
 class StrategyAnalyzer:
 
     def __init__(self, strategy_id=None):

@@ -26,9 +26,11 @@ file_handler.setLevel(logging.DEBUG)
 logger.setLevel(logging.DEBUG)
 
 class RunTime(ContextDecorator):
-    """Timing decorator.
+    """
+    Timing decorator.
 
-    Log the execution time of the specified function."""
+    Log the execution time of the specified function in milliseconds.
+    """
 
     def __init__(self, function_name):
         self.function_name = function_name
@@ -46,24 +48,44 @@ class RunTime(ContextDecorator):
         else:
             logger.debug(f"The function '{self.function_name}' took less than 10 microseconds to run.")
 
-def compare_dates(first, second, holidays):
+def has_workdays_in_between(oldest_date, recent_date, holidays,
+    consider_oldest_date=False, consider_recent_date=False):
     """
-    first > second: positive
-    first < second: negative
-    second = first: zero
+    Check if date interval has any workday in between.
+
+    Open interval by default.
+
+    Args
+    ----------
+    oldest_date : `datetime.date`
+        Oldest date.
+    recent_date : `datetime.date`
+        Most recent date.
+    consider_oldest_date : bool, default False
+        Indicate whether or not to consider the day of `oldest_date`
+    consider_recent_date : bool, default False
+        Indicate whether or not to consider the day of `recent_date`
+
+    Returns
+    ----------
+    bool
+        True  : At least one workday.
+        False : No workday or `recent_date` is actually older than `oldest_date`.
     """
+    if consider_oldest_date == False:
+        oldest_date = oldest_date + timedelta(days=1)
+    if consider_recent_date == True:
+        recent_date = recent_date + timedelta(days=1)
 
     wokdays_in_between = int(np.busday_count(
-        begindates=first.strftime('%Y-%m-%d'),
-        enddates=(second).strftime('%Y-%m-%d'),
+        begindates=oldest_date.strftime('%Y-%m-%d'),
+        enddates=(recent_date).strftime('%Y-%m-%d'),
         holidays=holidays))
 
-    if wokdays_in_between == 0 or wokdays_in_between == -1:
-        return 0
-    elif wokdays_in_between > 0:
-        return 1
+    if wokdays_in_between > 0:
+        return True
 
-    return -1
+    return False
 
 def calculate_maximum_volume(price, max_capital, minimum_volume=100):
 

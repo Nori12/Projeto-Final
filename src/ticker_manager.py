@@ -12,7 +12,7 @@ import math
 from bisect import bisect
 
 import constants as c
-from utils import compare_dates, RunTime
+from utils import has_workdays_in_between, RunTime
 from db_model import DBTickerModel
 
 # Configure Logging
@@ -33,7 +33,9 @@ class TickerManager:
     """
     Ticker manager responsible for requesting and updating data, as long as creating new features.
 
-    Interval update verifies data in database then requests missing values.
+    Data source is Yahoo Finance and destination is database.
+
+    Verify date intervals in database then requests missing data.
     If a new split is perceived, all previous data is updated.
 
     Currently working with candlesticks in daily and weekly intervals only.
@@ -52,10 +54,10 @@ class TickerManager:
         Start date.
     end_date : `datetime.date`
         End date.
-    ordinary_ticker : bool, optional
+    ordinary_ticker : bool, default True
         Indication whether is ordinary or not (e.g., index, curency).
         Non-ordinary tickers are not able to have features.
-    holidays : list of `datetime.date`
+    holidays : list of `datetime.date`, optional
         Holidays.
 
     Attributes
@@ -66,13 +68,13 @@ class TickerManager:
         Start date.
     _end_date : `datetime.date`
         End date.
-    _ordinary_ticker : bool, default True
+    _ordinary_ticker : bool
         Indication whether is ordinary or not (e.g., index, curency).
         Non-ordinary tickers are not able to have features.
     _holidays : list of `datetime.date`
         Holidays.
 
-    Attributes (static)
+    Attributes (class)
     ----------
     ticker_count : dict
         Number of tickers.
@@ -87,7 +89,7 @@ class TickerManager:
         self._ticker = ticker.upper()
         self._start_date = start_date
         self._end_date = end_date
-        self._ordinary_ticker = ordinary_ticker
+        self.ordinary_ticker = ordinary_ticker
 
         self._holidays = []
         if holidays is not None:
@@ -97,6 +99,7 @@ class TickerManager:
 
     @property
     def holidays(self):
+        """list of `datetime.date` : Holidays."""
         return self._holidays
 
     @holidays.setter
@@ -105,83 +108,211 @@ class TickerManager:
 
     @property
     def ticker(self):
-        """Return the ticker name."""
+        """str : Ticker name."""
         return self._ticker
 
     @property
-    def initial_date(self):
-        """Return the start date of the time interval."""
+    def start_date(self):
+        """`datetime.date` : Start date."""
         return self._start_date
 
     @property
-    def final_date(self):
-        """Return the end date of the time interval."""
+    def end_date(self):
+        """`datetime.date` : End date."""
         return self._end_date
 
-    def update_interval(self):
+    def update(self):
+        """
+        Update ticker data.
 
-        # Important: update interval '1d' is the most reliable, so it must be the basis to others
-        self._update_candles(interval='1d')
+        Currently working with candlesticks in daily and weekly intervals.
+        """
+        self._update_missing_data()
 
         # Only common tickers should have derived candlesticks
         # Indexes (IBOV, S&P500, ...) does not need it
-        if self._ordinary_ticker == True:
+        if self.ordinary_ticker == True:
             self._update_weekly_candles()
 
-    def _update_candles(self, interval = '1d'):
+    def _update_missing_data(self):
+        """
+        Update ticker daily candlesticks.
 
-        if not (interval in ['1d']):
-            logger.error(f'Error argument \'interval\'=\'{interval}\' is not valid.')
-            sys.exit(c.INVALID_ARGUMENT_ERR)
+        Three cases are handled:
+                                ----------------------------> +
+        Database interval:                |---------|
+        Requested interval:     |-----------------------------|
+                                |--Case1--|--Case2--|--Case3--|
 
+        Case 1: Database lacks oldest data.
+        Case 2: Database already contains the interval.
+        Case 3: Database lacks most recent data.
+
+        If Case 3 has a split, all previous data is updated.
+
+        Returns
+        ----------
+        bool
+            True if update was necessary, False if not.
+        """
         last_update_candles = None
-        initial_date_candles = None
-        final_date_candles = None
+        start_date_in_db = None
+        end_date_in_db = None
 
         try:
-            date_range = TickerManager.db_ticker_model.get_date_range(self._ticker)
+            # Get database interval range
+            date_range_df = TickerManager.db_ticker_model.get_date_range(self.ticker)
+            if not date_range_df.empty:
+                last_update_candles = date_range_df['last_update_daily_candles'][0]
+                if last_update_candles is not None:
+                    last_update_candles = last_update_candles.to_pydatetime().date()
 
-            if len(date_range) != 0:
-                if interval == '1d':
-                    last_update_candles = date_range[0][0]
-                    initial_date_candles = date_range[0][1]
-                    final_date_candles = date_range[0][2]
+                start_date_in_db = date_range_df['start_date_daily_candles'][0]
+                if start_date_in_db is not None:
+                    start_date_in_db = start_date_in_db.to_pydatetime().date()
 
-            if all([last_update_candles, initial_date_candles, final_date_candles]):
+                end_date_in_db = date_range_df['end_date_daily_candles'][0]
+                if end_date_in_db is not None:
+                    end_date_in_db = end_date_in_db.to_pydatetime().date()
 
-                if (compare_dates(self._start_date, initial_date_candles, self._holidays) <= 0 and compare_dates(self._end_date, final_date_candles, self._holidays) >= 0):
-                    logger.info(f"""Ticker \'{self._ticker}\' already updated.""")
-                    return True
+            # Some data exist in database
+            if all([last_update_candles, start_date_in_db, end_date_in_db]):
+
+                # Check if requested interval is already in datebase
+                if (has_workdays_in_between(self.start_date, start_date_in_db,
+                    self.holidays, consider_oldest_date=True) == False
+                    and has_workdays_in_between(end_date_in_db, self.end_date,
+                    self.holidays, consider_recent_date=True) == False):
+                    logger.info(f"""Ticker \'{self.ticker}\' already updated.""")
+                    return False
 
                 # Database lacks most recent data
-                if compare_dates(self._end_date, final_date_candles, self._holidays) < 0:
-                    self._update_candles_splits_dividends(final_date_candles+timedelta(days=1), self._end_date, split_nomalization_date=initial_date_candles, last_update_date=last_update_candles, interval=interval)
+                if has_workdays_in_between(end_date_in_db, self.end_date, self.holidays,
+                    consider_recent_date=True) == True:
+                    self._update_candles_splits_dividends(end_date_in_db+timedelta(days=1), self.end_date,
+                        split_nomalization_date=start_date_in_db,
+                        last_update_date=last_update_candles)
 
-                # Database lacks older data
-                if compare_dates(self._start_date, initial_date_candles, self._holidays) > 0:
-                    self._update_candles_splits_dividends(self._start_date, initial_date_candles, interval=interval)
+                # Database lacks oldest data
+                if has_workdays_in_between(self.start_date, start_date_in_db,
+                    self.holidays, consider_oldest_date=True) == True:
+                    self._update_candles_splits_dividends(self.start_date,
+                        start_date_in_db-timedelta(days=1))
             else:
-                self._update_candles_splits_dividends(self._start_date, self._end_date, interval=interval)
+                self._update_candles_splits_dividends(self.start_date, self.end_date)
 
-            logger.info(f"""Ticker \'{self._ticker}\' {'daily' if interval=='1d' else 'hourly'} candles update finished.""")
+            logger.info(f"""Ticker \'{self.ticker}\' daily candles update finished.""")
 
         except Exception as error:
-            logger.error(f"""Error updating {'daily' if interval=='1d' else 'hourly'} candles, error: {error}""")
+            logger.exception(f"""Error updating daily candles, error: {error}""")
             sys.exit(c.UPDATING_DB_ERR)
 
         return True
 
-    def _get_data(self, start, end, interval='1d'):
+    # TODO: Mudar split_nomalization_date e last_update_date para None
+    def _update_candles_splits_dividends(self, start_date, end_date,
+        split_nomalization_date=datetime.max, last_update_date=datetime.max):
+        """
+        Update candlesticks, splits and dividends in database.
 
-        ticker = self._ticker
+        Args
+        ----------
+        start_date : `datetime.date`
+            Start date.
+        end_date : `datetime.date`
+            End date.
+        split_nomalization_date : `datetime.date`,
 
-        if self._ordinary_ticker == True:
+        last_update_date : `datetime.date`,
+
+        """
+        update_flag = False
+
+        if split_nomalization_date != datetime.max and split_nomalization_date > start_date:
+            logger.error(f"Error argument \'split_nomalization_date\'=\'{split_nomalization_date}\' is greater than \'start_date\'={start_date}.")
+            sys.exit(c.INVALID_ARGUMENT_ERR)
+
+        if last_update_date != datetime.max and last_update_date < split_nomalization_date:
+            logger.error(f"Error argument \'last_update_date\'=\'{last_update_date}\' is less than \'split_nomalization_date\'={split_nomalization_date}.")
+            sys.exit(c.INVALID_ARGUMENT_ERR)
+
+        if bool(split_nomalization_date != datetime.max) != bool(last_update_date != datetime.max):
+            logger.error(f"Error arguments \'split_nomalization_date\' and \'last_update_date\' must be provided together.")
+            sys.exit(c.INVALID_ARGUMENT_ERR)
+
+        if split_nomalization_date != datetime.max and last_update_date != datetime.max:
+            update_flag = True
+
+        new_candles = self._get_data(start_date, end_date)
+
+        if new_candles.empty:
+            logger.warning(f"""yfinance has no data for ticker \'{self.ticker}\' (\'{start_date.strftime('%Y-%m-%d')}\', \'{end_date.strftime('%Y-%m-%d')}\').""")
+            return False
+
+        if update_flag == True:
+            new_splits, cumulative_splits = self._verify_splits(new_candles, last_update_threshold=last_update_date)
+        else:
+            new_splits, cumulative_splits = self._verify_splits(new_candles)
+
+        new_dividends = self._verify_dividends(new_candles)
+
+        if self.ordinary_ticker == True:
+            new_candles.drop(['Dividends', 'Stock Splits'], axis=1, inplace=True)
+            new_candles.replace(0, np.nan, inplace=True)
+            new_candles.dropna(axis=0, how='any', inplace=True)
+        else:
+            new_candles.drop(new_candles[(new_candles['Open'] == 0) | (new_candles['High'] == 0) | (new_candles['Low'] == 0) | (new_candles['Close'] == 0)].index, inplace=True)
+
+        self._adjust_to_dataframe_constraints(new_candles)
+
+        if new_candles.empty:
+            logger.warning(f"""No valid data to update for ticker \'{self.ticker}\', (\'{start_date.strftime('%Y-%m-%d')}\', \'{end_date.strftime('%Y-%m-%d')}\').""")
+            return False
+
+        # Insert candles
+        TickerManager.db_ticker_model.insert_daily_candles(self.ticker, new_candles)
+
+        # Insert splits
+        if not new_splits.empty:
+            TickerManager.db_ticker_model.upsert_splits(self.ticker, new_splits)
+
+        # Insert dividends
+        if not new_dividends.empty:
+            TickerManager.db_ticker_model.upsert_dividends(self.ticker, new_dividends)
+
+        # Normalize candles
+        if update_flag == True and cumulative_splits != 1.0:
+            TickerManager.db_ticker_model.update_daily_candles_with_split(self.ticker, split_nomalization_date, start_date, cumulative_splits)
+
+    def _get_data(self, start_date, end_date, interval='1d'):
+        """
+        Request Yahoo Finance candlesticks data.
+
+        Closed interval.
+
+        Args
+        ----------
+        start_date : `datetime.date`
+            Start date.
+        end_date : `datetime.date`
+            End date.
+
+        Returns
+        ----------
+        `pandas.DataFrame`
+            DataFrame with candles.
+        """
+        ticker = self.ticker
+
+        if self.ordinary_ticker == True:
             ticker += '.SA'
 
         try:
             msft = yf.Ticker(ticker)
             if interval == '1d':
-                hist = msft.history(start=start.strftime('%Y-%m-%d'), end=end.strftime('%Y-%m-%d'), prepost=True, back_adjust=True, rounding=True)
+                hist = msft.history(start=start_date.strftime('%Y-%m-%d'),
+                    end=(end_date+timedelta(days=1)).strftime('%Y-%m-%d'), prepost=True, back_adjust=True,
+                    rounding=True)
             else:
                 hist = None
         except Exception as error:
@@ -190,7 +321,7 @@ class TickerManager:
 
         return hist
 
-    def _verify_splits(self, data, last_update_threshold=datetime(2200, 1, 1)):
+    def _verify_splits(self, data, last_update_threshold=datetime.max):
 
         cumulative_splits = 1.0
         data2 = data[data['Stock Splits'] != 0].copy()
@@ -204,74 +335,11 @@ class TickerManager:
     def _verify_dividends(self, data):
         return data[data['Dividends'] != 0].copy()
 
-    def _update_candles_splits_dividends(self, start_datetime, end_datetime, split_nomalization_date=datetime(2200, 1, 1), last_update_date=datetime(2200, 1, 1), interval='1d'):
-
-        update_flag = False
-
-        if split_nomalization_date != datetime(2200, 1, 1) and split_nomalization_date > start_datetime:
-            logger.error(f'Error argument \'split_nomalization_date\'=\'{split_nomalization_date}\' is greater than \'start_datetime\'={start_datetime}.')
-            sys.exit(c.INVALID_ARGUMENT_ERR)
-
-        if last_update_date != datetime(2200, 1, 1) and last_update_date < split_nomalization_date:
-            logger.error(f'Error argument \'last_update_date\'=\'{last_update_date}\' is less than \'split_nomalization_date\'={split_nomalization_date}.')
-            sys.exit(c.INVALID_ARGUMENT_ERR)
-
-        if bool(split_nomalization_date != datetime(2200, 1, 1)) != bool(last_update_date != datetime(2200, 1, 1)):
-            logger.error(f'Error arguments \'split_nomalization_date\' and \'last_update_date\' must be provided together.')
-            sys.exit(c.INVALID_ARGUMENT_ERR)
-
-        if split_nomalization_date != datetime(2200, 1, 1) and last_update_date != datetime(2200, 1, 1):
-            update_flag = True
-
-        new_candles = self._get_data(start_datetime, end_datetime, interval)
-
-        if new_candles.empty:
-            logger.warning(f"""yfinance has no data for ticker \'{self._ticker}\' (\'{start_datetime.strftime('%Y-%m-%d')}\', \'{end_datetime.strftime('%Y-%m-%d')}\').""")
-            return False
-
-        if update_flag == True:
-            new_splits, cumulative_splits = self._verify_splits(new_candles, last_update_threshold=last_update_date)
-        else:
-            new_splits, cumulative_splits = self._verify_splits(new_candles)
-
-        new_dividends = self._verify_dividends(new_candles)
-
-        if self._ordinary_ticker == True:
-            new_candles.drop(['Dividends', 'Stock Splits'], axis=1, inplace=True)
-            new_candles.replace(0, np.nan, inplace=True)
-            new_candles.dropna(axis=0, how='any', inplace=True)
-        else:
-            new_candles.drop(new_candles[(new_candles['Open'] == 0) | (new_candles['High'] == 0) | (new_candles['Low'] == 0) | (new_candles['Close'] == 0)].index, inplace=True)
-
-        self._adjust_to_dataframe_constraints(new_candles)
-
-        if new_candles.empty:
-            logger.warning(f"""No valid data to update for ticker \'{self._ticker}\', (\'{start_datetime.strftime('%Y-%m-%d')}\', \'{end_datetime.strftime('%Y-%m-%d')}\').""")
-            return False
-
-        # Insert candles
-        if interval == '1d':
-            TickerManager.db_ticker_model.insert_daily_candles(self._ticker, new_candles)
-
-        # Insert splits
-        if interval == '1d' and not new_splits.empty:
-            TickerManager.db_ticker_model.upsert_splits(self._ticker, new_splits)
-
-        # Insert dividends
-        if interval == '1d' and not new_dividends.empty:
-            TickerManager.db_ticker_model.upsert_dividends(self._ticker, new_dividends)
-
-        # Normalize candles
-        if interval == '1d' and update_flag == True and cumulative_splits != 1.0:
-            TickerManager.db_ticker_model.update_daily_candles_with_split(self._ticker, split_nomalization_date, start_datetime, cumulative_splits)
-
-        return True
-
     def _update_weekly_candles(self):
-        TickerManager.db_ticker_model.delete_weekly_candles(self._ticker)
-        TickerManager.db_ticker_model.create_weekly_candles_from_daily(self._ticker)
+        TickerManager.db_ticker_model.delete_weekly_candles(self.ticker)
+        TickerManager.db_ticker_model.create_weekly_candles_from_daily(self.ticker)
 
-        logger.info(f"""Ticker \'{self._ticker}\' weekly candles update finished.""")
+        logger.info(f"""Ticker \'{self.ticker}\' weekly candles update finished.""")
 
     def _adjust_to_dataframe_constraints(self, df):
 
@@ -282,24 +350,24 @@ class TickerManager:
 
     def generate_features(self):
 
-        if self._ordinary_ticker == True:
+        if self.ordinary_ticker == True:
             self._generate_features(interval='1d', trend_method='ema_derivative', ema_derivative_alpha=0.95, consolidation_tolerance=0.05)
             self._generate_features(interval='1wk', trend_method='ema_derivative', ema_derivative_alpha=0.95, consolidation_tolerance=0.05)
 
     def _generate_features(self, interval = '1d', trend_method='ema_derivative', ema_derivative_alpha=0.9, consolidation_tolerance=0.01):
 
         if trend_method not in ['ema_derivative', 'peaks']:
-            logger.error(f'Program aborted. Error argument \'trend_method\'=\'{trend_method}\' is not valid.')
+            logger.error(f"Program aborted. Error argument \'trend_method\'=\'{trend_method}\' is not valid.")
             sys.exit(c.INVALID_ARGUMENT_ERR)
 
         if ema_derivative_alpha < 0 or ema_derivative_alpha > 1:
-            logger.error(f'Program aborted. Error argument \'ema_72_weight\'=\'{ema_derivative_alpha}\' must be in interval [0,1].')
+            logger.error(f"Program aborted. Error argument \'ema_72_weight\'=\'{ema_derivative_alpha}\' must be in interval [0,1].")
             sys.exit(c.INVALID_ARGUMENT_ERR)
 
         candles_min_peak_distance = 17
         analysis_status = {'UPTREND': 1, 'DOWNTREND': -1, 'CONSOLIDATION': 0}
 
-        candles = TickerManager.db_ticker_model.get_candles_dataframe(self._ticker, None, self._end_date, interval=interval)
+        candles = TickerManager.db_ticker_model.get_candles_dataframe(self.ticker, None, self.end_date, interval=interval)
 
         max_peaks_index = find_peaks(candles['max_price'], distance=candles_min_peak_distance)[0].tolist()
         min_peaks_index = find_peaks(1.0/candles['min_price'], distance=candles_min_peak_distance)[0].tolist()
@@ -439,4 +507,4 @@ class TickerManager:
 
         TickerManager.db_ticker_model.upsert_features(candles, interval=interval)
 
-        logger.info(f"""Ticker \'{self._ticker}\' {'daily' if interval=='1d' else 'weekly'} features generated.""")
+        logger.info(f"""Ticker \'{self.ticker}\' {'daily' if interval=='1d' else 'weekly'} features generated.""")

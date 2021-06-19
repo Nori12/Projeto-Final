@@ -1276,3 +1276,621 @@ TypeError: strptime() argument 1 must be str, not bool
 2021-06-18 19:41:13,539:INFO:__main__:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['HYPE3', 'WEGE3', 'BALM3', 'BALM4', 'PFRM3', 'PNVL3', 'PNVL4', 'RADL3']
 2021-06-18 19:41:13,539:INFO:__main__:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.3, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['HYPE3', 'WEGE3', 'BALM3', 'BALM4', 'BDLL3', 'BDLL4', 'EALT3', 'EALT4', 'INEP3', 'INEP4', 'KEPL3', 'MTSA4', 'NORD3', 'POSI3', 'ROMI3', 'SHUL4', 'TASA3', 'TASA4']
 2021-06-18 19:41:13,540:DEBUG:utils:The function 'ConfigReader.__init__' took 111.74 milliseconds to run.
+2021-06-19 00:57:09,293:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-19 00:57:10,254:INFO:__main__:Program started.
+2021-06-19 00:57:10,265:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-19 00:57:10,266:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-19 00:57:10,266:DEBUG:config_reader:Config file found.
+2021-06-19 00:57:10,272:DEBUG:utils:The function 'ConfigReader.__init__' took 17.90 milliseconds to run.
+2021-06-19 00:58:46,252:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-19 00:58:46,799:INFO:__main__:Program started.
+2021-06-19 00:58:46,807:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-19 00:58:46,808:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-19 00:58:46,808:DEBUG:config_reader:Config file found.
+2021-06-19 00:58:46,812:ERROR:config_reader:Any strategy must have at least one ticker.
+2021-06-19 00:58:46,813:DEBUG:utils:The function 'ConfigReader.__init__' took 13.65 milliseconds to run.
+2021-06-19 01:00:42,797:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-19 01:00:43,317:INFO:__main__:Program started.
+2021-06-19 01:00:43,326:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-19 01:00:43,326:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-19 01:00:43,327:DEBUG:config_reader:Config file found.
+2021-06-19 01:04:24,802:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-19 01:04:25,513:INFO:__main__:Program started.
+2021-06-19 01:04:25,521:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-19 01:04:25,522:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-19 01:04:25,523:DEBUG:config_reader:Config file found.
+2021-06-19 01:05:05,067:ERROR:config_reader:Any strategy must have at least one ticker.
+2021-06-19 01:05:05,071:DEBUG:utils:The function 'ConfigReader.__init__' took 39557.54 milliseconds to run.
+2021-06-19 01:05:12,096:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-19 01:05:13,082:INFO:__main__:Program started.
+2021-06-19 01:05:13,093:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-19 01:05:13,094:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-19 01:05:13,094:DEBUG:config_reader:Config file found.
+2021-06-19 01:05:13,099:ERROR:config_reader:Any strategy must have at least one ticker.
+2021-06-19 01:05:13,099:DEBUG:utils:The function 'ConfigReader.__init__' took 17.19 milliseconds to run.
+2021-06-19 01:05:22,607:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-19 01:05:23,201:INFO:__main__:Program started.
+2021-06-19 01:05:23,210:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-19 01:05:23,210:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-19 01:05:23,211:DEBUG:config_reader:Config file found.
+2021-06-19 01:12:11,313:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-19 01:12:12,088:INFO:__main__:Program started.
+2021-06-19 01:12:12,097:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-19 01:12:12,097:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-19 01:12:12,098:DEBUG:config_reader:Config file found.
+2021-06-19 01:12:58,612:INFO:config_reader:Config file successfully read.
+2021-06-19 01:12:58,612:INFO:config_reader:Total strategies: 2
+2021-06-19 01:12:58,612:INFO:config_reader:Total tickers: 1
+2021-06-19 01:12:58,612:INFO:config_reader:Oldest date: 01/01/2020
+2021-06-19 01:12:58,613:INFO:config_reader:Most recent date: 07/05/2021
+2021-06-19 01:12:58,613:INFO:config_reader:Strategies found:
+2021-06-19 01:12:58,613:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['MGLU3']
+2021-06-19 01:12:58,613:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['MGLU3']
+2021-06-19 01:12:58,613:DEBUG:utils:The function 'ConfigReader.__init__' took 46525.07 milliseconds to run.
+2021-06-19 01:12:58,615:DEBUG:utils:The function 'TickerManager.__init__' took 0.07 milliseconds to run.
+2021-06-19 01:13:02,612:DEBUG:utils:The function 'TickerManager.__init__' took 0.04 milliseconds to run.
+2021-06-19 01:13:20,371:ERROR:ticker_manager:Error updating daily candles, error: Execution failed on sql 'SELECT
+  last_update_daily_candles,
+  initial_date_daily_candles,
+  final_date_daily_candles
+  last_update_weekly_candles,
+  initial_date_weekly_candles,
+  final_date_weekly_candles
+FROM symbol_status
+WHERE ticker = 'MGLU3';': relation "symbol_status" does not exist
+LINE 8: FROM symbol_status
+             ^
+Traceback (most recent call last):
+  File "/Users/atcha/Github/Projeto-Final/venv/lib/python3.9/site-packages/pandas/io/sql.py", line 1697, in execute
+    cur.execute(*args, **kwargs)
+psycopg2.errors.UndefinedTable: relation "symbol_status" does not exist
+LINE 8: FROM symbol_status
+             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/atcha/Github/Projeto-Final/src/ticker_manager.py", line 163, in _update_candles
+    date_range_df = TickerManager.db_ticker_model.get_date_range(self._ticker)
+  File "/Users/atcha/Github/Projeto-Final/src/db_model.py", line 89, in get_date_range
+    df = pd.read_sql_query(query, self._connection)
+  File "/Users/atcha/Github/Projeto-Final/venv/lib/python3.9/site-packages/pandas/io/sql.py", line 377, in read_sql_query
+    return pandas_sql.read_query(
+  File "/Users/atcha/Github/Projeto-Final/venv/lib/python3.9/site-packages/pandas/io/sql.py", line 1743, in read_query
+    cursor = self.execute(*args)
+  File "/Users/atcha/Github/Projeto-Final/venv/lib/python3.9/site-packages/pandas/io/sql.py", line 1709, in execute
+    raise ex from exc
+pandas.io.sql.DatabaseError: Execution failed on sql 'SELECT
+  last_update_daily_candles,
+  initial_date_daily_candles,
+  final_date_daily_candles
+  last_update_weekly_candles,
+  initial_date_weekly_candles,
+  final_date_weekly_candles
+FROM symbol_status
+WHERE ticker = 'MGLU3';': relation "symbol_status" does not exist
+LINE 8: FROM symbol_status
+             ^
+
+2021-06-19 01:22:09,860:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-19 01:22:10,631:INFO:__main__:Program started.
+2021-06-19 01:22:10,640:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-19 01:22:10,641:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-19 01:22:10,641:DEBUG:config_reader:Config file found.
+2021-06-19 01:22:10,658:ERROR:db_model:Holidays table is empty.
+2021-06-19 01:22:10,658:DEBUG:utils:The function 'ConfigReader.__init__' took 26.89 milliseconds to run.
+2021-06-19 01:23:29,025:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-19 01:23:29,732:INFO:__main__:Program started.
+2021-06-19 01:23:29,741:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-19 01:23:29,741:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-19 01:23:29,742:DEBUG:config_reader:Config file found.
+2021-06-19 01:23:29,771:INFO:config_reader:Config file successfully read.
+2021-06-19 01:23:29,771:INFO:config_reader:Total strategies: 2
+2021-06-19 01:23:29,771:INFO:config_reader:Total tickers: 1
+2021-06-19 01:23:29,772:INFO:config_reader:Oldest date: 01/01/2021
+2021-06-19 01:23:29,772:INFO:config_reader:Most recent date: 28/02/2021
+2021-06-19 01:23:29,772:INFO:config_reader:Strategies found:
+2021-06-19 01:23:29,772:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['MGLU3']
+2021-06-19 01:23:29,773:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['MGLU3']
+2021-06-19 01:23:29,773:DEBUG:utils:The function 'ConfigReader.__init__' took 40.41 milliseconds to run.
+2021-06-19 01:23:29,773:DEBUG:utils:The function 'TickerManager.__init__' took 0.06 milliseconds to run.
+2021-06-19 01:23:29,773:DEBUG:utils:The function 'TickerManager.__init__' took less than 10 microseconds to run.
+2021-06-19 01:23:55,067:ERROR:ticker_manager:Error updating daily candles, error: Execution failed on sql 'SELECT
+  last_update_daily_candles,
+  initial_date_daily_candles,
+  final_date_daily_candles
+  last_update_weekly_candles,
+  initial_date_weekly_candles,
+  final_date_weekly_candles
+FROM symbol_status
+WHERE ticker = 'MGLU3';': column "initial_date_daily_candles" does not exist
+LINE 3:   initial_date_daily_candles,
+          ^
+Traceback (most recent call last):
+  File "/Users/atcha/Github/Projeto-Final/venv/lib/python3.9/site-packages/pandas/io/sql.py", line 1697, in execute
+    cur.execute(*args, **kwargs)
+psycopg2.errors.UndefinedColumn: column "initial_date_daily_candles" does not exist
+LINE 3:   initial_date_daily_candles,
+          ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/atcha/Github/Projeto-Final/src/ticker_manager.py", line 163, in _update_candles
+    date_range_df = TickerManager.db_ticker_model.get_date_range(self._ticker)
+  File "/Users/atcha/Github/Projeto-Final/src/db_model.py", line 89, in get_date_range
+    df = pd.read_sql_query(query, self._connection)
+  File "/Users/atcha/Github/Projeto-Final/venv/lib/python3.9/site-packages/pandas/io/sql.py", line 377, in read_sql_query
+    return pandas_sql.read_query(
+  File "/Users/atcha/Github/Projeto-Final/venv/lib/python3.9/site-packages/pandas/io/sql.py", line 1743, in read_query
+    cursor = self.execute(*args)
+  File "/Users/atcha/Github/Projeto-Final/venv/lib/python3.9/site-packages/pandas/io/sql.py", line 1709, in execute
+    raise ex from exc
+pandas.io.sql.DatabaseError: Execution failed on sql 'SELECT
+  last_update_daily_candles,
+  initial_date_daily_candles,
+  final_date_daily_candles
+  last_update_weekly_candles,
+  initial_date_weekly_candles,
+  final_date_weekly_candles
+FROM symbol_status
+WHERE ticker = 'MGLU3';': column "initial_date_daily_candles" does not exist
+LINE 3:   initial_date_daily_candles,
+          ^
+
+2021-06-19 01:25:04,137:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-19 01:25:04,910:INFO:__main__:Program started.
+2021-06-19 01:25:04,923:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-19 01:25:04,923:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-19 01:25:04,924:DEBUG:config_reader:Config file found.
+2021-06-19 01:25:04,952:INFO:config_reader:Config file successfully read.
+2021-06-19 01:25:04,953:INFO:config_reader:Total strategies: 2
+2021-06-19 01:25:04,953:INFO:config_reader:Total tickers: 1
+2021-06-19 01:25:04,953:INFO:config_reader:Oldest date: 01/01/2021
+2021-06-19 01:25:04,954:INFO:config_reader:Most recent date: 28/02/2021
+2021-06-19 01:25:04,954:INFO:config_reader:Strategies found:
+2021-06-19 01:25:04,954:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['MGLU3']
+2021-06-19 01:25:04,954:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['MGLU3']
+2021-06-19 01:25:04,955:DEBUG:utils:The function 'ConfigReader.__init__' took 43.67 milliseconds to run.
+2021-06-19 01:25:04,955:DEBUG:utils:The function 'TickerManager.__init__' took 0.08 milliseconds to run.
+2021-06-19 01:25:04,955:DEBUG:utils:The function 'TickerManager.__init__' took 0.01 milliseconds to run.
+2021-06-19 01:26:21,067:INFO:ticker_manager:Ticker 'MGLU3' daily candles update finished.
+2021-06-19 01:26:21,094:ERROR:db_model:Error executing query "DELETE FROM weekly_candles WHERE ticker = 'MGLU3'", error: column hc.day does not exist
+LINE 9:         SELECT s2.ticker, MIN(hc.day) AS min_date, MAX(hc.da...
+                                      ^
+QUERY:  UPDATE symbol_status s1
+      SET
+        last_update_weekly_candles =
+        CASE WHEN (start_date_weekly_candles <> COALESCE(q.min_date, NOW()) OR end_date_weekly_candles <> COALESCE(q.max_date, NOW())) THEN NOW()
+        ELSE last_update_weekly_candles END,
+        start_date_weekly_candles = q.min_date,
+        end_date_weekly_candles = q.max_date
+      FROM (
+        SELECT s2.ticker, MIN(hc.day) AS min_date, MAX(hc.day) AS max_date FROM symbol_status s2
+        LEFT JOIN weekly_candles hc on hc.ticker = s2.ticker
+        GROUP BY s2.ticker
+      ) q
+      WHERE q.ticker = s1.ticker
+CONTEXT:  PL/pgSQL function update_weekly_symbol_status() line 22 at SQL statement
+
+2021-06-19 01:31:23,867:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-19 01:31:24,618:INFO:__main__:Program started.
+2021-06-19 01:31:24,628:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-19 01:31:24,628:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-19 01:31:24,629:DEBUG:config_reader:Config file found.
+2021-06-19 01:31:24,648:INFO:config_reader:Config file successfully read.
+2021-06-19 01:31:24,648:INFO:config_reader:Total strategies: 2
+2021-06-19 01:31:24,648:INFO:config_reader:Total tickers: 1
+2021-06-19 01:31:24,648:INFO:config_reader:Oldest date: 01/01/2021
+2021-06-19 01:31:24,649:INFO:config_reader:Most recent date: 28/02/2021
+2021-06-19 01:31:24,649:INFO:config_reader:Strategies found:
+2021-06-19 01:31:24,649:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['MGLU3']
+2021-06-19 01:31:24,649:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['MGLU3']
+2021-06-19 01:31:24,649:DEBUG:utils:The function 'ConfigReader.__init__' took 31.30 milliseconds to run.
+2021-06-19 01:31:24,650:DEBUG:utils:The function 'TickerManager.__init__' took 0.06 milliseconds to run.
+2021-06-19 01:31:24,650:DEBUG:utils:The function 'TickerManager.__init__' took less than 10 microseconds to run.
+2021-06-19 01:31:33,934:INFO:ticker_manager:Ticker 'MGLU3' daily candles update finished.
+2021-06-19 01:31:33,938:ERROR:db_model:Error executing query "DELETE FROM weekly_candles WHERE ticker = 'MGLU3'", error: missing FROM-clause entry for table "wc"
+LINE 9:         SELECT s2.ticker, MIN(wc.week) AS min_date, MAX(wc.w...
+                                      ^
+QUERY:  UPDATE symbol_status s1
+      SET
+        last_update_weekly_candles =
+        CASE WHEN (start_date_weekly_candles <> COALESCE(q.min_date, NOW()) OR end_date_weekly_candles <> COALESCE(q.max_date, NOW())) THEN NOW()
+        ELSE last_update_weekly_candles END,
+        start_date_weekly_candles = q.min_date,
+        end_date_weekly_candles = q.max_date
+      FROM (
+        SELECT s2.ticker, MIN(wc.week) AS min_date, MAX(wc.week) AS max_date FROM symbol_status s2
+        LEFT JOIN weekly_candles hc on hc.ticker = s2.ticker
+        GROUP BY s2.ticker
+      ) q
+      WHERE q.ticker = s1.ticker
+CONTEXT:  PL/pgSQL function update_weekly_symbol_status() line 22 at SQL statement
+
+2021-06-19 01:42:17,926:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-19 01:42:36,699:INFO:__main__:Program started.
+2021-06-19 01:42:36,765:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-19 01:42:36,766:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-19 01:42:36,767:DEBUG:config_reader:Config file found.
+2021-06-19 01:42:36,786:INFO:config_reader:Config file successfully read.
+2021-06-19 01:42:36,786:INFO:config_reader:Total strategies: 2
+2021-06-19 01:42:36,786:INFO:config_reader:Total tickers: 1
+2021-06-19 01:42:36,786:INFO:config_reader:Oldest date: 01/01/2021
+2021-06-19 01:42:36,787:INFO:config_reader:Most recent date: 28/02/2021
+2021-06-19 01:42:36,787:INFO:config_reader:Strategies found:
+2021-06-19 01:42:36,787:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['MGLU3']
+2021-06-19 01:42:36,787:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['MGLU3']
+2021-06-19 01:42:36,787:DEBUG:utils:The function 'ConfigReader.__init__' took 88.03 milliseconds to run.
+2021-06-19 01:42:36,788:DEBUG:utils:The function 'TickerManager.__init__' took 0.06 milliseconds to run.
+2021-06-19 01:42:36,788:DEBUG:utils:The function 'TickerManager.__init__' took less than 10 microseconds to run.
+2021-06-19 01:56:22,549:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-19 01:56:33,274:INFO:__main__:Program started.
+2021-06-19 01:56:33,284:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-19 01:56:33,285:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-19 01:56:33,286:DEBUG:config_reader:Config file found.
+2021-06-19 01:56:33,306:INFO:config_reader:Config file successfully read.
+2021-06-19 01:56:33,306:INFO:config_reader:Total strategies: 2
+2021-06-19 01:56:33,306:INFO:config_reader:Total tickers: 1
+2021-06-19 01:56:33,306:INFO:config_reader:Oldest date: 01/01/2021
+2021-06-19 01:56:33,306:INFO:config_reader:Most recent date: 28/02/2021
+2021-06-19 01:56:33,307:INFO:config_reader:Strategies found:
+2021-06-19 01:56:33,307:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['MGLU3']
+2021-06-19 01:56:33,307:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['MGLU3']
+2021-06-19 01:56:33,307:DEBUG:utils:The function 'ConfigReader.__init__' took 32.28 milliseconds to run.
+2021-06-19 01:56:33,307:DEBUG:utils:The function 'TickerManager.__init__' took 0.05 milliseconds to run.
+2021-06-19 01:56:33,308:DEBUG:utils:The function 'TickerManager.__init__' took less than 10 microseconds to run.
+2021-06-19 01:59:18,443:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-19 01:59:29,471:INFO:__main__:Program started.
+2021-06-19 01:59:29,481:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-19 01:59:29,482:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-19 01:59:29,482:DEBUG:config_reader:Config file found.
+2021-06-19 01:59:29,502:INFO:config_reader:Config file successfully read.
+2021-06-19 01:59:29,502:INFO:config_reader:Total strategies: 2
+2021-06-19 01:59:29,502:INFO:config_reader:Total tickers: 1
+2021-06-19 01:59:29,503:INFO:config_reader:Oldest date: 01/01/2021
+2021-06-19 01:59:29,503:INFO:config_reader:Most recent date: 28/02/2021
+2021-06-19 01:59:29,503:INFO:config_reader:Strategies found:
+2021-06-19 01:59:29,503:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['MGLU3']
+2021-06-19 01:59:29,503:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['MGLU3']
+2021-06-19 01:59:29,503:DEBUG:utils:The function 'ConfigReader.__init__' took 31.64 milliseconds to run.
+2021-06-19 01:59:29,504:DEBUG:utils:The function 'TickerManager.__init__' took 0.06 milliseconds to run.
+2021-06-19 01:59:29,504:DEBUG:utils:The function 'TickerManager.__init__' took less than 10 microseconds to run.
+2021-06-19 02:00:05,866:ERROR:db_model:Error executing query "INSERT INTO daily_candles (ticker, day, open_price, max_price, min_price, close_price, volume)
+VALUES
+('MGLU3', '2021-01-04', 25.260000, 25.580000, 24.870000, 25.200000, 25706100),
+('MGLU3', '2021-01-05', 25.100000, 25.180000, 24.340000, 24.760000, 25431900),
+('MGLU3', '2021-01-06', 24.650000, 24.660000, 23.420000, 23.460000, 51799000),
+('MGLU3', '2021-01-07', 23.640000, 23.850000, 22.950000, 23.160000, 42146600),
+('MGLU3', '2021-01-08', 23.190000, 24.300000, 23.020000, 23.840000, 43988100),
+('MGLU3', '2021-01-11', 23.500000, 23.850000, 23.330000, 23.490000, 26648100),
+('MGLU3', '2021-01-12', 23.600000, 24.320000, 23.250000, 24.200000, 35040100),
+('MGLU3', '2021-01-13', 24.200000, 24.200000, 23.550000, 24.020000, 25610200),
+('MGLU3', '2021-01-14', 24.150000, 24.160000, 23.500000, 23.730000, 25548400),
+('MGLU3', '2021-01-15', 23.730000, 24.110000, 23.350000, 23.960000, 32761100),
+('MGLU3', '2021-01-18', 24.050000, 24.650000, 23.910000, 24.450000, 24257200),
+('MGLU3', '2021-01-19', 24.540000, 24.950000, 23.820000, 24.080000, 21025600),
+('MGLU3', '2021-01-20', 24.180000, 25.530000, 24.120000, 25.420000, 48089300),
+('MGLU3', '2021-01-21', 25.400000, 25.650000, 24.850000, 25.490000, 33038900),
+('MGLU3', '2021-01-22', 25.130000, 26.300000, 25.100000, 25.990000, 43004200),
+('MGLU3', '2021-01-26', 26.250000, 27.070000, 25.670000, 25.750000, 44474300),
+('MGLU3', '2021-01-27', 25.720000, 26.390000, 25.350000, 25.790000, 44942000),
+('MGLU3', '2021-01-28', 25.870000, 26.500000, 25.390000, 26.190000, 32819900),
+('MGLU3', '2021-01-29', 25.740000, 26.080000, 25.030000, 25.270000, 36141300),
+('MGLU3', '2021-02-01', 25.680000, 25.740000, 24.750000, 24.930000, 29267700),
+('MGLU3', '2021-02-02', 25.300000, 25.730000, 25.200000, 25.300000, 27563200),
+('MGLU3', '2021-02-03', 25.440000, 25.770000, 25.040000, 25.650000, 20963300),
+('MGLU3', '2021-02-04', 25.640000, 26.200000, 25.160000, 25.310000, 19706400),
+('MGLU3', '2021-02-05', 25.380000, 26.090000, 25.380000, 25.850000, 24918700),
+('MGLU3', '2021-02-08', 25.850000, 26.400000, 25.520000, 26.160000, 25773300),
+('MGLU3', '2021-02-09', 26.160000, 26.450000, 25.900000, 26.240000, 19348100),
+('MGLU3', '2021-02-10', 26.100000, 26.120000, 25.110000, 25.300000, 40037100),
+('MGLU3', '2021-02-11', 25.300000, 25.950000, 25.300000, 25.650000, 20569900),
+('MGLU3', '2021-02-12', 25.520000, 25.980000, 25.350000, 25.910000, 15132400),
+('MGLU3', '2021-02-18', 25.500000, 25.590000, 24.800000, 25.040000, 22577800),
+('MGLU3', '2021-02-19', 24.920000, 25.390000, 24.190000, 24.940000, 38672200),
+('MGLU3', '2021-02-22', 24.230000, 24.520000, 23.660000, 24.250000, 41412400),
+('MGLU3', '2021-02-23', 24.300000, 25.080000, 23.850000, 24.860000, 43889700),
+('MGLU3', '2021-02-24', 24.930000, 25.100000, 24.200000, 24.640000, 37411000),
+('MGLU3', '2021-02-25', 24.590000, 25.020000, 23.810000, 24.050000, 57969900),
+('MGLU3', '2021-02-26', 24.080000, 24.960000, 23.980000, 24.180000, 45690100)
+ON CONFLICT ON CONSTRAINT daily_data_pkey DO NOTHING", error: missing FROM-clause entry for table "hc"
+LINE 4:         LEFT JOIN symbol_status s on s.ticker = hc.ticker
+                                                        ^
+QUERY:  INSERT INTO symbol_status (ticker, last_update_daily_candles, start_date_daily_candles, end_date_daily_candles)
+        SELECT hc.ticker, NOW(), MIN(dc.day), MAX(dc.day)
+        FROM daily_candles dc
+        LEFT JOIN symbol_status s on s.ticker = hc.ticker
+        GROUP BY hc.ticker, s.start_date_daily_candles, s.end_date_daily_candles
+        HAVING MIN(dc.day) <> COALESCE(s.start_date_daily_candles, NOW()) OR MAX(dc.day) <> COALESCE(s.end_date_daily_candles, NOW())
+      ON CONFLICT (ticker)
+      DO UPDATE
+        SET
+          ticker = EXCLUDED.ticker,
+          last_update_daily_candles = EXCLUDED.last_update_daily_candles,
+          start_date_daily_candles = EXCLUDED.start_date_daily_candles,
+          end_date_daily_candles = EXCLUDED.end_date_daily_candles
+CONTEXT:  PL/pgSQL function update_daily_symbol_status() line 6 at SQL statement
+
+2021-06-19 02:04:43,206:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-19 02:04:48,213:INFO:__main__:Program started.
+2021-06-19 02:04:48,223:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-19 02:04:48,223:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-19 02:04:48,224:DEBUG:config_reader:Config file found.
+2021-06-19 02:04:48,253:INFO:config_reader:Config file successfully read.
+2021-06-19 02:04:48,254:INFO:config_reader:Total strategies: 2
+2021-06-19 02:04:48,254:INFO:config_reader:Total tickers: 1
+2021-06-19 02:04:48,254:INFO:config_reader:Oldest date: 01/01/2021
+2021-06-19 02:04:48,254:INFO:config_reader:Most recent date: 28/02/2021
+2021-06-19 02:04:48,255:INFO:config_reader:Strategies found:
+2021-06-19 02:04:48,255:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['MGLU3']
+2021-06-19 02:04:48,255:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['MGLU3']
+2021-06-19 02:04:48,255:DEBUG:utils:The function 'ConfigReader.__init__' took 41.32 milliseconds to run.
+2021-06-19 02:04:48,255:DEBUG:utils:The function 'TickerManager.__init__' took 0.06 milliseconds to run.
+2021-06-19 02:04:48,256:DEBUG:utils:The function 'TickerManager.__init__' took less than 10 microseconds to run.
+2021-06-19 02:06:20,251:INFO:ticker_manager:Ticker 'MGLU3' daily candles update finished.
+2021-06-19 02:06:44,810:INFO:ticker_manager:Ticker 'MGLU3' weekly candles update finished.
+2021-06-19 02:08:29,851:INFO:ticker_manager:Ticker '^BVSP' daily candles update finished.
+2021-06-19 02:09:36,918:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-19 02:09:40,142:INFO:__main__:Program started.
+2021-06-19 02:09:40,152:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-19 02:09:40,152:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-19 02:09:40,153:DEBUG:config_reader:Config file found.
+2021-06-19 02:09:40,178:INFO:config_reader:Config file successfully read.
+2021-06-19 02:09:40,178:INFO:config_reader:Total strategies: 2
+2021-06-19 02:09:40,178:INFO:config_reader:Total tickers: 1
+2021-06-19 02:09:40,179:INFO:config_reader:Oldest date: 01/01/2021
+2021-06-19 02:09:40,179:INFO:config_reader:Most recent date: 28/02/2021
+2021-06-19 02:09:40,179:INFO:config_reader:Strategies found:
+2021-06-19 02:09:40,179:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['MGLU3']
+2021-06-19 02:09:40,179:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['MGLU3']
+2021-06-19 02:09:40,179:DEBUG:utils:The function 'ConfigReader.__init__' took 37.17 milliseconds to run.
+2021-06-19 02:09:40,180:DEBUG:utils:The function 'TickerManager.__init__' took 0.05 milliseconds to run.
+2021-06-19 02:09:40,180:DEBUG:utils:The function 'TickerManager.__init__' took less than 10 microseconds to run.
+2021-06-19 02:12:03,452:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-19 02:12:15,138:INFO:__main__:Program started.
+2021-06-19 02:12:15,147:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-19 02:12:15,147:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-19 02:12:15,148:DEBUG:config_reader:Config file found.
+2021-06-19 02:12:15,167:INFO:config_reader:Config file successfully read.
+2021-06-19 02:12:15,167:INFO:config_reader:Total strategies: 1
+2021-06-19 02:12:15,168:INFO:config_reader:Total tickers: 1
+2021-06-19 02:12:15,168:INFO:config_reader:Oldest date: 01/01/2021
+2021-06-19 02:12:15,168:INFO:config_reader:Most recent date: 28/02/2021
+2021-06-19 02:12:15,168:INFO:config_reader:Strategies found:
+2021-06-19 02:12:15,168:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['MGLU3']
+2021-06-19 02:12:15,168:DEBUG:utils:The function 'ConfigReader.__init__' took 30.08 milliseconds to run.
+2021-06-19 02:12:15,169:DEBUG:utils:The function 'TickerManager.__init__' took 0.06 milliseconds to run.
+2021-06-19 02:12:15,169:DEBUG:utils:The function 'TickerManager.__init__' took less than 10 microseconds to run.
+2021-06-19 02:17:07,694:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-19 02:17:13,598:INFO:__main__:Program started.
+2021-06-19 02:17:13,608:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-19 02:17:13,609:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-19 02:17:13,610:DEBUG:config_reader:Config file found.
+2021-06-19 02:17:13,629:INFO:config_reader:Config file successfully read.
+2021-06-19 02:17:13,630:INFO:config_reader:Total strategies: 1
+2021-06-19 02:17:13,630:INFO:config_reader:Total tickers: 1
+2021-06-19 02:17:13,630:INFO:config_reader:Oldest date: 01/01/2021
+2021-06-19 02:17:13,630:INFO:config_reader:Most recent date: 28/02/2021
+2021-06-19 02:17:13,630:INFO:config_reader:Strategies found:
+2021-06-19 02:17:13,630:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['MGLU3']
+2021-06-19 02:17:13,631:DEBUG:utils:The function 'ConfigReader.__init__' took 31.87 milliseconds to run.
+2021-06-19 02:17:13,631:DEBUG:utils:The function 'TickerManager.__init__' took 0.05 milliseconds to run.
+2021-06-19 02:17:13,631:DEBUG:utils:The function 'TickerManager.__init__' took less than 10 microseconds to run.
+2021-06-19 02:28:59,844:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-19 02:29:06,642:INFO:__main__:Program started.
+2021-06-19 02:29:06,655:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-19 02:29:06,656:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-19 02:29:06,657:DEBUG:config_reader:Config file found.
+2021-06-19 02:29:06,678:INFO:config_reader:Config file successfully read.
+2021-06-19 02:29:06,678:INFO:config_reader:Total strategies: 1
+2021-06-19 02:29:06,678:INFO:config_reader:Total tickers: 1
+2021-06-19 02:29:06,678:INFO:config_reader:Oldest date: 01/01/2021
+2021-06-19 02:29:06,679:INFO:config_reader:Most recent date: 28/02/2021
+2021-06-19 02:29:06,679:INFO:config_reader:Strategies found:
+2021-06-19 02:29:06,679:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['MGLU3']
+2021-06-19 02:29:06,679:DEBUG:utils:The function 'ConfigReader.__init__' took 36.33 milliseconds to run.
+2021-06-19 02:29:06,679:DEBUG:utils:The function 'TickerManager.__init__' took 0.05 milliseconds to run.
+2021-06-19 02:29:06,680:DEBUG:utils:The function 'TickerManager.__init__' took less than 10 microseconds to run.
+2021-06-19 02:34:21,466:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-19 02:34:27,028:INFO:__main__:Program started.
+2021-06-19 02:34:27,040:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-19 02:34:27,041:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-19 02:34:27,042:DEBUG:config_reader:Config file found.
+2021-06-19 02:34:27,082:INFO:config_reader:Config file successfully read.
+2021-06-19 02:34:27,082:INFO:config_reader:Total strategies: 1
+2021-06-19 02:34:27,083:INFO:config_reader:Total tickers: 1
+2021-06-19 02:34:27,083:INFO:config_reader:Oldest date: 01/01/2021
+2021-06-19 02:34:27,083:INFO:config_reader:Most recent date: 28/02/2021
+2021-06-19 02:34:27,084:INFO:config_reader:Strategies found:
+2021-06-19 02:34:27,084:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['MGLU3']
+2021-06-19 02:34:27,085:DEBUG:utils:The function 'ConfigReader.__init__' took 56.16 milliseconds to run.
+2021-06-19 02:34:27,085:DEBUG:utils:The function 'TickerManager.__init__' took 0.09 milliseconds to run.
+2021-06-19 02:34:27,085:DEBUG:utils:The function 'TickerManager.__init__' took 0.02 milliseconds to run.
+2021-06-19 02:35:00,415:INFO:ticker_manager:Ticker 'MGLU3' already updated.
+2021-06-19 02:35:07,416:INFO:ticker_manager:Ticker 'MGLU3' weekly candles update finished.
+2021-06-19 02:35:16,156:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-06-19 02:35:17,542:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-19 02:37:19,556:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-19 02:37:22,162:INFO:__main__:Program started.
+2021-06-19 02:37:22,171:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-19 02:37:22,171:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-19 02:37:22,172:DEBUG:config_reader:Config file found.
+2021-06-19 02:37:22,190:INFO:config_reader:Config file successfully read.
+2021-06-19 02:37:22,190:INFO:config_reader:Total strategies: 1
+2021-06-19 02:37:22,191:INFO:config_reader:Total tickers: 1
+2021-06-19 02:37:22,191:INFO:config_reader:Oldest date: 01/01/2021
+2021-06-19 02:37:22,191:INFO:config_reader:Most recent date: 01/03/2021
+2021-06-19 02:37:22,191:INFO:config_reader:Strategies found:
+2021-06-19 02:37:22,191:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['MGLU3']
+2021-06-19 02:37:22,191:DEBUG:utils:The function 'ConfigReader.__init__' took 29.04 milliseconds to run.
+2021-06-19 02:37:22,192:DEBUG:utils:The function 'TickerManager.__init__' took 0.05 milliseconds to run.
+2021-06-19 02:38:52,733:INFO:ticker_manager:Ticker 'MGLU3' already updated.
+2021-06-19 02:38:54,025:INFO:ticker_manager:Ticker 'MGLU3' weekly candles update finished.
+2021-06-19 02:38:54,143:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-19 02:39:06,292:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-19 02:39:07,246:INFO:__main__:Program started.
+2021-06-19 02:39:07,258:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-19 02:39:07,258:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-19 02:39:07,259:DEBUG:config_reader:Config file found.
+2021-06-19 02:39:07,291:INFO:config_reader:Config file successfully read.
+2021-06-19 02:39:07,291:INFO:config_reader:Total strategies: 1
+2021-06-19 02:39:07,292:INFO:config_reader:Total tickers: 1
+2021-06-19 02:39:07,292:INFO:config_reader:Oldest date: 01/01/2021
+2021-06-19 02:39:07,293:INFO:config_reader:Most recent date: 01/03/2021
+2021-06-19 02:39:07,293:INFO:config_reader:Strategies found:
+2021-06-19 02:39:07,293:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['MGLU3']
+2021-06-19 02:39:07,294:DEBUG:utils:The function 'ConfigReader.__init__' took 47.57 milliseconds to run.
+2021-06-19 02:39:07,294:DEBUG:utils:The function 'TickerManager.__init__' took 0.09 milliseconds to run.
+2021-06-19 02:39:24,920:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-19 02:39:25,464:INFO:__main__:Program started.
+2021-06-19 02:39:25,473:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-19 02:39:25,474:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-19 02:39:25,474:DEBUG:config_reader:Config file found.
+2021-06-19 02:39:25,491:INFO:config_reader:Config file successfully read.
+2021-06-19 02:39:25,491:INFO:config_reader:Total strategies: 1
+2021-06-19 02:39:25,491:INFO:config_reader:Total tickers: 1
+2021-06-19 02:39:25,491:INFO:config_reader:Oldest date: 01/01/2021
+2021-06-19 02:39:25,491:INFO:config_reader:Most recent date: 02/03/2021
+2021-06-19 02:39:25,492:INFO:config_reader:Strategies found:
+2021-06-19 02:39:25,492:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['MGLU3']
+2021-06-19 02:39:25,492:DEBUG:utils:The function 'ConfigReader.__init__' took 27.24 milliseconds to run.
+2021-06-19 02:39:25,492:DEBUG:utils:The function 'TickerManager.__init__' took 0.05 milliseconds to run.
+2021-06-19 02:39:57,419:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-19 02:39:58,048:INFO:__main__:Program started.
+2021-06-19 02:39:58,057:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-19 02:39:58,057:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-19 02:39:58,058:DEBUG:config_reader:Config file found.
+2021-06-19 02:39:58,076:INFO:config_reader:Config file successfully read.
+2021-06-19 02:39:58,076:INFO:config_reader:Total strategies: 1
+2021-06-19 02:39:58,077:INFO:config_reader:Total tickers: 1
+2021-06-19 02:39:58,077:INFO:config_reader:Oldest date: 01/01/2021
+2021-06-19 02:39:58,077:INFO:config_reader:Most recent date: 02/03/2021
+2021-06-19 02:39:58,077:INFO:config_reader:Strategies found:
+2021-06-19 02:39:58,077:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['MGLU3']
+2021-06-19 02:39:58,078:DEBUG:utils:The function 'ConfigReader.__init__' took 29.22 milliseconds to run.
+2021-06-19 02:39:58,078:DEBUG:utils:The function 'TickerManager.__init__' took 0.05 milliseconds to run.
+2021-06-19 02:44:14,450:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-19 02:44:31,524:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-19 02:44:32,345:INFO:__main__:Program started.
+2021-06-19 02:44:32,356:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-19 02:44:32,356:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-19 02:44:32,357:DEBUG:config_reader:Config file found.
+2021-06-19 02:44:32,385:INFO:config_reader:Config file successfully read.
+2021-06-19 02:44:32,385:INFO:config_reader:Total strategies: 1
+2021-06-19 02:44:32,385:INFO:config_reader:Total tickers: 1
+2021-06-19 02:44:32,386:INFO:config_reader:Oldest date: 01/01/2021
+2021-06-19 02:44:32,386:INFO:config_reader:Most recent date: 02/03/2021
+2021-06-19 02:44:32,386:INFO:config_reader:Strategies found:
+2021-06-19 02:44:32,386:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['MGLU3']
+2021-06-19 02:44:32,386:DEBUG:utils:The function 'ConfigReader.__init__' took 40.26 milliseconds to run.
+2021-06-19 02:44:32,387:DEBUG:utils:The function 'TickerManager.__init__' took 0.06 milliseconds to run.
+2021-06-19 02:45:58,116:ERROR:db_model:Error executing query "INSERT INTO daily_candles (ticker, day, open_price, max_price, min_price, close_price, volume)
+VALUES
+('MGLU3', '2021-02-26', 24.080000, 24.960000, 23.980000, 24.180000, 45690100),
+('MGLU3', '2021-03-01', 24.560000, 25.000000, 24.170000, 24.550000, 22131200),
+('MGLU3', '2021-03-02', 24.290000, 24.600000, 23.590000, 24.270000, 35351400)
+;", error: duplicate key value violates unique constraint "daily_data_pkey"
+DETAIL:  Key (ticker, day)=(MGLU3, 2021-02-26 00:00:00) already exists.
+
+2021-06-19 02:47:18,581:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-19 02:47:19,216:INFO:__main__:Program started.
+2021-06-19 02:47:19,224:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-19 02:47:19,225:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-19 02:47:19,225:DEBUG:config_reader:Config file found.
+2021-06-19 02:47:19,243:INFO:config_reader:Config file successfully read.
+2021-06-19 02:47:19,244:INFO:config_reader:Total strategies: 1
+2021-06-19 02:47:19,244:INFO:config_reader:Total tickers: 1
+2021-06-19 02:47:19,244:INFO:config_reader:Oldest date: 01/01/2021
+2021-06-19 02:47:19,244:INFO:config_reader:Most recent date: 02/03/2021
+2021-06-19 02:47:19,244:INFO:config_reader:Strategies found:
+2021-06-19 02:47:19,244:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['MGLU3']
+2021-06-19 02:47:19,245:DEBUG:utils:The function 'ConfigReader.__init__' took 28.65 milliseconds to run.
+2021-06-19 02:47:19,245:DEBUG:utils:The function 'TickerManager.__init__' took 0.05 milliseconds to run.
+2021-06-19 02:47:35,314:INFO:ticker_manager:Ticker 'MGLU3' daily candles update finished.
+2021-06-19 02:47:37,896:INFO:ticker_manager:Ticker 'MGLU3' weekly candles update finished.
+2021-06-19 02:50:57,772:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-19 02:50:58,512:INFO:__main__:Program started.
+2021-06-19 02:50:58,522:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-19 02:50:58,523:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-19 02:50:58,523:DEBUG:config_reader:Config file found.
+2021-06-19 02:50:58,550:INFO:config_reader:Config file successfully read.
+2021-06-19 02:50:58,551:INFO:config_reader:Total strategies: 1
+2021-06-19 02:50:58,551:INFO:config_reader:Total tickers: 1
+2021-06-19 02:50:58,551:INFO:config_reader:Oldest date: 01/01/2021
+2021-06-19 02:50:58,551:INFO:config_reader:Most recent date: 28/02/2021
+2021-06-19 02:50:58,552:INFO:config_reader:Strategies found:
+2021-06-19 02:50:58,552:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['MGLU3']
+2021-06-19 02:50:58,552:DEBUG:utils:The function 'ConfigReader.__init__' took 39.74 milliseconds to run.
+2021-06-19 02:50:58,552:DEBUG:utils:The function 'TickerManager.__init__' took 0.07 milliseconds to run.
+2021-06-19 02:50:59,764:ERROR:ticker_manager:Error updating daily candles, error: 'NoneType' object has no attribute 'to_pydatetime'
+Traceback (most recent call last):
+  File "/Users/atcha/Github/Projeto-Final/src/ticker_manager.py", line 168, in _update_candles
+    start_date_in_db = date_range_df['start_date_daily_candles'][0]\
+AttributeError: 'NoneType' object has no attribute 'to_pydatetime'
+2021-06-19 02:53:13,138:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-19 02:53:13,836:INFO:__main__:Program started.
+2021-06-19 02:53:13,845:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-19 02:53:13,845:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-19 02:53:13,846:DEBUG:config_reader:Config file found.
+2021-06-19 02:53:13,866:INFO:config_reader:Config file successfully read.
+2021-06-19 02:53:13,866:INFO:config_reader:Total strategies: 1
+2021-06-19 02:53:13,867:INFO:config_reader:Total tickers: 1
+2021-06-19 02:53:13,867:INFO:config_reader:Oldest date: 01/01/2021
+2021-06-19 02:53:13,867:INFO:config_reader:Most recent date: 28/02/2021
+2021-06-19 02:53:13,867:INFO:config_reader:Strategies found:
+2021-06-19 02:53:13,867:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['MGLU3']
+2021-06-19 02:53:13,868:DEBUG:utils:The function 'ConfigReader.__init__' took 31.46 milliseconds to run.
+2021-06-19 02:53:13,868:DEBUG:utils:The function 'TickerManager.__init__' took 0.11 milliseconds to run.
+2021-06-19 02:53:23,733:INFO:ticker_manager:Ticker 'MGLU3' daily candles update finished.
+2021-06-19 02:53:23,744:INFO:ticker_manager:Ticker 'MGLU3' weekly candles update finished.
+2021-06-19 02:53:52,806:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-19 02:53:53,608:INFO:__main__:Program started.
+2021-06-19 02:53:53,621:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-19 02:53:53,622:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-19 02:53:53,622:DEBUG:config_reader:Config file found.
+2021-06-19 02:53:53,641:INFO:config_reader:Config file successfully read.
+2021-06-19 02:53:53,641:INFO:config_reader:Total strategies: 1
+2021-06-19 02:53:53,642:INFO:config_reader:Total tickers: 1
+2021-06-19 02:53:53,642:INFO:config_reader:Oldest date: 01/01/2021
+2021-06-19 02:53:53,642:INFO:config_reader:Most recent date: 01/03/2021
+2021-06-19 02:53:53,642:INFO:config_reader:Strategies found:
+2021-06-19 02:53:53,642:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['MGLU3']
+2021-06-19 02:53:53,643:DEBUG:utils:The function 'ConfigReader.__init__' took 34.04 milliseconds to run.
+2021-06-19 02:53:53,643:DEBUG:utils:The function 'TickerManager.__init__' took 0.07 milliseconds to run.
+2021-06-19 02:53:59,497:INFO:ticker_manager:Ticker 'MGLU3' daily candles update finished.
+2021-06-19 02:53:59,518:INFO:ticker_manager:Ticker 'MGLU3' weekly candles update finished.
+2021-06-19 02:55:19,766:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-19 02:55:20,481:INFO:__main__:Program started.
+2021-06-19 02:55:20,491:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-19 02:55:20,491:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-19 02:55:20,492:DEBUG:config_reader:Config file found.
+2021-06-19 02:55:20,511:INFO:config_reader:Config file successfully read.
+2021-06-19 02:55:20,512:INFO:config_reader:Total strategies: 1
+2021-06-19 02:55:20,512:INFO:config_reader:Total tickers: 1
+2021-06-19 02:55:20,512:INFO:config_reader:Oldest date: 31/12/2020
+2021-06-19 02:55:20,512:INFO:config_reader:Most recent date: 01/03/2021
+2021-06-19 02:55:20,513:INFO:config_reader:Strategies found:
+2021-06-19 02:55:20,513:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['MGLU3']
+2021-06-19 02:55:20,513:DEBUG:utils:The function 'ConfigReader.__init__' took 31.20 milliseconds to run.
+2021-06-19 02:55:20,513:DEBUG:utils:The function 'TickerManager.__init__' took 0.05 milliseconds to run.
+2021-06-19 02:55:24,271:INFO:ticker_manager:Ticker 'MGLU3' already updated.
+2021-06-19 02:55:24,300:INFO:ticker_manager:Ticker 'MGLU3' weekly candles update finished.
+2021-06-19 02:55:38,102:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-19 02:55:38,649:INFO:__main__:Program started.
+2021-06-19 02:55:38,658:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-19 02:55:38,659:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-19 02:55:38,659:DEBUG:config_reader:Config file found.
+2021-06-19 02:55:38,677:INFO:config_reader:Config file successfully read.
+2021-06-19 02:55:38,677:INFO:config_reader:Total strategies: 1
+2021-06-19 02:55:38,678:INFO:config_reader:Total tickers: 1
+2021-06-19 02:55:38,678:INFO:config_reader:Oldest date: 30/12/2020
+2021-06-19 02:55:38,678:INFO:config_reader:Most recent date: 01/03/2021
+2021-06-19 02:55:38,678:INFO:config_reader:Strategies found:
+2021-06-19 02:55:38,678:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['MGLU3']
+2021-06-19 02:55:38,679:DEBUG:utils:The function 'ConfigReader.__init__' took 28.98 milliseconds to run.
+2021-06-19 02:55:38,679:DEBUG:utils:The function 'TickerManager.__init__' took 0.06 milliseconds to run.
+2021-06-19 02:55:52,024:INFO:ticker_manager:Ticker 'MGLU3' daily candles update finished.
+2021-06-19 02:55:52,037:INFO:ticker_manager:Ticker 'MGLU3' weekly candles update finished.

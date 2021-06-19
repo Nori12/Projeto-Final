@@ -37,14 +37,14 @@ def run():
     for ticker, date in config.tickers_and_dates.items():
         ticker_managers.append(TickerManager(ticker, date['start_date'], date['end_date']))
 
-    ticker_managers.append(TickerManager('^BVSP', config.min_start_date, config.max_end_date, common_ticker_flag=False)) # IBOVESPA Index
-    ticker_managers.append(TickerManager('BRL=X', config.min_start_date, config.max_end_date, common_ticker_flag=False)) # USD/BRL
+    # ticker_managers.append(TickerManager('^BVSP', config.min_start_date, config.max_end_date, ordinary_ticker=False)) # IBOVESPA Index
+    # ticker_managers.append(TickerManager('BRL=X', config.min_start_date, config.max_end_date, ordinary_ticker=False)) # USD/BRL
 
     # Update data accordingly
     for ticker_manager in ticker_managers:
         ticker_manager.holidays = config.holidays
-        ticker_manager.update_interval()
-        ticker_manager.generate_features()
+        ticker_manager.update()
+        # ticker_manager.generate_features()
 
     # Strategy section
     # for strategy in config.strategies:
@@ -64,8 +64,9 @@ def run():
     #         strategy.save()
 
     # Strategy Analysis section
-    analyzer = StrategyAnalyzer()
-    analyzer.run()
+    # if config.show_results == True:
+    #     analyzer = StrategyAnalyzer()
+    #     analyzer.run()
 
 if __name__ == '__main__':
     run()
