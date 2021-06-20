@@ -4,16 +4,16 @@
         {
             "name": "Andre Moraes",
             "alias": "Tickers: {number_of_tickers}, Risk-Capital: {risk_capital_coefficient}%",
-            "comment": "Test",
+            "comment": "Test PETR4 para verificar tendências.",
             "capital": 100000,
-            "risk_capital_coefficient": 0.20,
+            "risk_capital_coefficient": 0.2,
             "min_order_volume": 1,
             "ticker_min_ann_volume_filter": 1000000,
             "stock_targets": [
                 {
-                    "name": "MGLU3",
-                    "start_date": "30/12/2020",
-                    "end_date": "02/03/2021"
+                    "name":"PETR4",
+                    "start_date":"01/01/2014",
+                    "end_date":"14/06/2021"
                 }
             ]
         }

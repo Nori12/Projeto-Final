@@ -6,7 +6,7 @@ import sys
 from datetime import datetime, timedelta
 
 import constants as c
-from db_model import DBGeneralModel
+from db_model import DBGenericModel
 from utils import RunTime
 
 # Configure Logging
@@ -44,24 +44,31 @@ class ConfigReader:
     config_file_path : `Path`, optional
         Configuration file path.
 
-    Attributes
+    Properties
     ----------
-    _strategies : list of `strategy`
+    strategies : `list` of strategies
         Result parameter that indicated all strategies found in file.
-    _show_results : bool
+    tickers_and_dates : `dict`
+        All tickers from all strategies.
+    min_start_date : `datetime.date`
+        Oldest start date between all tickers and strategies.
+    max_end_date : `datetime.date`
+        Most recent end date between all tickers and strategies.
+    holidays : `list` of `datetime.date`
+        Holidays from database between min_start_date and max_end_date.
+    show_results : bool
         Result parameter that enables further visualization of
         processed data.
-    _db_general_model : `DBGeneralModel`
-        Database connector to get generic information (e.g.,
-        holidays, CDI).
-    _holidays : list of `datetime`
-        Holidays
+
+    Methods
+    ----------
+    No methods.
     """
 
     @RunTime('ConfigReader.__init__')
     def __init__(self,
         config_file_path=Path(__file__).parent.parent/c.CONFIG_PATH/c.CONFIG_FILENAME):
-        self._db_general_model = DBGeneralModel()
+        self._db_generic_model = DBGenericModel()
 
         self._strategies = []
 
@@ -70,15 +77,15 @@ class ConfigReader:
             is_boolean=True, can_be_missed=True, if_missed_default_value=True)
         self._read_strategies()
 
-        holidays = self._db_general_model.get_holidays(
+        holidays = self._db_generic_model.get_holidays(
             self.min_start_date, self.max_end_date)['day'].to_list()
         self._holidays = [holiday.to_pydatetime().date() for holiday in holidays]
 
         # Check if program supports requested dates
         # This constraint is given by the most restrict date interval in cdi and
         # holidays tables
-        min_cdi_date, max_cdi_date = self._db_general_model.get_cdi_interval()
-        min_holiday_date, max_holiday_date = self._db_general_model.\
+        min_cdi_date, max_cdi_date = self._db_generic_model.get_cdi_interval()
+        min_holiday_date, max_holiday_date = self._db_generic_model.\
             get_holidays_interval()
 
         overall_min_date = max(min_cdi_date, min_holiday_date)
@@ -116,14 +123,14 @@ class ConfigReader:
     def strategies(self):
         """
         `list` of `dict` : All strategies interpreted from config file.
-            Structure of dict is similar to config file.
+            Structure of `dict` is similar to config file.
         """
         return self._strategies
 
     @property
     def tickers_and_dates(self):
         """
-        `dict` : All strategies interpreted from config file.
+        `dict` : All tickers from all strategies.
             Format: {'ABCD1': {
                         'start_date': `datetime.date`,
                         'end_date': `datetime.date`}
@@ -180,7 +187,7 @@ class ConfigReader:
 
     @property
     def holidays(self):
-        """list of `datetime.date` : Holidays between min_start_date and max_end_date."""
+        """`list` of `datetime.date` : Holidays between min_start_date and max_end_date."""
         return self._holidays
 
     def load_file(self, config_file_path):
@@ -677,7 +684,7 @@ class ConfigReader:
             tickers = []
             for strat_index in range(strategies_len):
 
-                tickers_per_strat = self._db_general_model.get_tickers(
+                tickers_per_strat = self._db_generic_model.get_tickers(
                     group_params['on_shares'] if not isinstance(group_params['on_shares'], list)
                         else group_params['on_shares'][strat_index],
                     group_params['pn_shares'] if not isinstance(group_params['pn_shares'], list)
