@@ -58,7 +58,7 @@ class DBTickerModel:
             self._cursor.execute(query, params)
             self._connection.commit()
         except Exception as error:
-            logger.error('Error executing query "{}", error: {}'.format(query, error))
+            logger.error('Error executing query "{}", error:\n{}'.format(query, error))
             self._connection.close()
             self._cursor.close()
             sys.exit(c.QUERY_ERR)
@@ -233,7 +233,7 @@ class DBTickerModel:
 
         self._insert_update(query)
 
-    def get_candlesticks(self, ticker, start_date, end_date, interval='1d'):
+    def get_candlesticks(self, ticker, start_date, end_date, days_before_initial_date=0, interval='1d'):
         """
         Get daily or weekly candlesticks.
 
@@ -245,6 +245,8 @@ class DBTickerModel:
             Start date.
         end_date : `datetime.date`
             End date.
+        days_before_initial_date :
+
         interval : str, default '1d'
             Selected interval: '1d', '1wk'.
 
@@ -254,7 +256,7 @@ class DBTickerModel:
             DataFrame with candlestick data.
         """
         if interval not in ['1d', '1wk']:
-            logger.error(f"_Error argument \'interval\'=\'"
+            logger.error(f"Error argument \'interval\'=\'"
                 f"{interval}\' must be \'1d\' or \'1wk\'.")
             sys.exit(c.INVALID_ARGUMENT_ERR)
 
@@ -268,20 +270,15 @@ class DBTickerModel:
         query = f"SELECT ticker, {time_column}, open_price, max_price, min_price, " \
             f"close_price, volume\nFROM {table}\nWHERE\n"
 
-        if start_date is not None:
-            query += f"  (ticker = \'{ticker}\' and {time_column} >= \' " \
-                f"{start_date.strftime('%Y-%m-%d')}\' and {time_column} < " \
-                f"\'{end_date.strftime('%Y-%m-%d')}\')\n"
-        else:
-            query += f"  (ticker = \'{ticker}\' and {time_column} < " \
-                f"\'{end_date.strftime('%Y-%m-%d')}\')\n"
-        query += f";"
+        query += f"  (ticker = \'{ticker}\' and {time_column} >= " \
+            f"\'{(start_date-timedelta(days=days_before_initial_date)).strftime('%Y-%m-%d')}\'" \
+            f" and {time_column} <= \'{end_date.strftime('%Y-%m-%d')}\');"
 
         return pd.read_sql_query(query, self._connection)
 
     def delete_features(self, ticker, interval='1d'):
         """
-        Delete all features of ticker in the specified time interval.
+        Delete all features from given ticker in the specified time interval.
 
         Args
         ----------
@@ -291,7 +288,7 @@ class DBTickerModel:
             Selected interval: '1d', '1wk'.
         """
         if interval not in ['1d', '1wk']:
-            logger.error(f"_Error argument \'interval\'=\'"
+            logger.error(f"Error argument \'interval\'=\'"
                 f"{interval}\' must be \'1d\' or \'1wk\'.")
             sys.exit(c.INVALID_ARGUMENT_ERR)
 
@@ -300,7 +297,9 @@ class DBTickerModel:
         if interval == '1wk':
             table = 'weekly_features'
 
-        query = f"DELETE FROM {table} WHERE ticker = \'{ticker}\';"
+        query = f"DELETE FROM {table}\nWHERE\n"
+        query += f"  ticker = \'{ticker}\';"
+
         self._insert_update(query)
 
     def upsert_features(self, dataframe, interval='1d'):
@@ -317,36 +316,126 @@ class DBTickerModel:
         """
         table = 'daily_features'
         time_column = 'day'
-        pkey_constraint = 'daily_features_pkey'
+        # pkey_constraint = 'daily_features_pkey'
 
         if interval == '1wk':
             table = 'weekly_features'
             time_column = 'week'
-            pkey_constraint = 'weekly_features_pkey'
+            # pkey_constraint = 'weekly_features_pkey'
 
         number_of_rows = len(dataframe)
 
-        query = f"INSERT INTO {table} (ticker, {time_column}, peak, ema_17, ema_72, " \
-            f"up_down_trend_status)\nVALUES\n"
+        query = f"INSERT INTO {table} (ticker, {time_column}, ema_17, ema_72, " \
+            f"target_buy_price, stop_loss, up_down_trend_status)\nVALUES\n"
 
         for n, (_, row) in enumerate(dataframe.iterrows()):
+            query += f"(\'{row['ticker']}\', \'{row[time_column].strftime('%Y-%m-%d')}\', " \
+                f"{row['ema_17']:.2f}, {row['ema_72']:.2f}, {row['target_buy_price']:.2f}, " \
+                f"{row['stop_loss']:.2f}, {row['up_down_trend_status']})"
             if n != number_of_rows - 1:
-                query += f"('{row['ticker']}', '{row[time_column].strftime('%Y-%m-%d')}', " \
-                    f"{row['peak']}, {row['ema_17']:.3f}, {row['ema_72']:.3f}, " \
-                    f"{row['up_down_trend_status']}),\n"
+                query += ',\n'
             else:
-                query += f"('{row['ticker']}', '{row[time_column].strftime('%Y-%m-%d')}', " \
-                    f"{row['peak']}, {row['ema_17']:.3f}, {row['ema_72']:.3f}, " \
-                    f"{row['up_down_trend_status']})\n"
+                query += ';'
 
         query = query.replace('nan', 'NULL')
 
-        query += f"ON CONFLICT ON CONSTRAINT {pkey_constraint} DO\n"
-        query += f"UPDATE SET ticker = EXCLUDED.ticker, {time_column} = EXCLUDED.{time_column}, " \
-            f"peak = EXCLUDED.peak, ema_17 = EXCLUDED.ema_17, ema_72 = EXCLUDED.ema_72, " \
-            f"up_down_trend_status = EXCLUDED.up_down_trend_status;"
+        # query += f"ON CONFLICT ON CONSTRAINT {pkey_constraint} DO\n"
+        # query += f"UPDATE SET ticker = EXCLUDED.ticker, {time_column} = EXCLUDED.{time_column}, " \
+        #     f"peak = EXCLUDED.peak, ema_17 = EXCLUDED.ema_17, ema_72 = EXCLUDED.ema_72, " \
+        #     f"up_down_trend_status = EXCLUDED.up_down_trend_status;"
 
         self._insert_update(query)
+
+    # def upsert_features(self, dataframe, interval='1d'):
+    #     """
+    #     Update/Insert features.
+
+    #     Args
+    #     ----------
+    #     ticker : str
+    #         Ticker name.
+    #     data : `pandas.DataFrame`
+    #         DataFrame of candles with columns 'Open', 'High', 'Low', 'Close'
+    #         and index of dates.
+    #     """
+    #     table = 'daily_features'
+    #     time_column = 'day'
+    #     pkey_constraint = 'daily_features_pkey'
+
+    #     if interval == '1wk':
+    #         table = 'weekly_features'
+    #         time_column = 'week'
+    #         pkey_constraint = 'weekly_features_pkey'
+
+    #     number_of_rows = len(dataframe)
+
+    #     query = f"INSERT INTO {table} (ticker, {time_column}, peak, ema_17, ema_72, " \
+    #         f"up_down_trend_status)\nVALUES\n"
+
+    #     for n, (_, row) in enumerate(dataframe.iterrows()):
+    #         if n != number_of_rows - 1:
+    #             query += f"('{row['ticker']}', '{row[time_column].strftime('%Y-%m-%d')}', " \
+    #                 f"{row['peak']}, {row['ema_17']:.3f}, {row['ema_72']:.3f}, " \
+    #                 f"{row['up_down_trend_status']}),\n"
+    #         else:
+    #             query += f"('{row['ticker']}', '{row[time_column].strftime('%Y-%m-%d')}', " \
+    #                 f"{row['peak']}, {row['ema_17']:.3f}, {row['ema_72']:.3f}, " \
+    #                 f"{row['up_down_trend_status']})\n"
+
+    #     query = query.replace('nan', 'NULL')
+
+    #     query += f"ON CONFLICT ON CONSTRAINT {pkey_constraint} DO\n"
+    #     query += f"UPDATE SET ticker = EXCLUDED.ticker, {time_column} = EXCLUDED.{time_column}, " \
+    #         f"peak = EXCLUDED.peak, ema_17 = EXCLUDED.ema_17, ema_72 = EXCLUDED.ema_72, " \
+    #         f"up_down_trend_status = EXCLUDED.up_down_trend_status;"
+
+    #     self._insert_update(query)
+
+    # def get_candlesticks(self, ticker, start_date, end_date, interval='1d'):
+    #     """
+    #     Get daily or weekly candlesticks.
+
+    #     Args
+    #     ----------
+    #     ticker : str
+    #         Ticker name.
+    #     start_date : `datetime.date`
+    #         Start date.
+    #     end_date : `datetime.date`
+    #         End date.
+    #     interval : str, default '1d'
+    #         Selected interval: '1d', '1wk'.
+
+    #     Returns
+    #     ----------
+    #     `pandas.DataFrame`
+    #         DataFrame with candlestick data.
+    #     """
+    #     if interval not in ['1d', '1wk']:
+    #         logger.error(f"Error argument \'interval\'=\'"
+    #             f"{interval}\' must be \'1d\' or \'1wk\'.")
+    #         sys.exit(c.INVALID_ARGUMENT_ERR)
+
+    #     table = 'daily_candles'
+    #     time_column = 'day'
+
+    #     if interval == '1wk':
+    #         table = 'weekly_candles'
+    #         time_column = 'week'
+
+    #     query = f"SELECT ticker, {time_column}, open_price, max_price, min_price, " \
+    #         f"close_price, volume\nFROM {table}\nWHERE\n"
+
+    #     if start_date is not None:
+    #         query += f"  (ticker = \'{ticker}\' and {time_column} >= \' " \
+    #             f"{start_date.strftime('%Y-%m-%d')}\' and {time_column} < " \
+    #             f"\'{end_date.strftime('%Y-%m-%d')}\')\n"
+    #     else:
+    #         query += f"  (ticker = \'{ticker}\' and {time_column} < " \
+    #             f"\'{end_date.strftime('%Y-%m-%d')}\')\n"
+    #     query += f";"
+
+    #     return pd.read_sql_query(query, self._connection)
 
 class DBGenericModel:
     """Database connection class that handles generic consultations."""
@@ -370,7 +459,7 @@ class DBGenericModel:
         try:
             self._cursor.execute(query, params)
         except Exception as error:
-            logger.error('Error executing query "{}", error: {}'.format(query, error))
+            logger.error('Error executing query "{}", error:\n{}'.format(query, error))
             self._connection.close()
             self._cursor.close()
             # logger.debug('Database \'StockMarket\' connection closed.')
@@ -383,7 +472,7 @@ class DBGenericModel:
             self._cursor.execute(query, params)
             self._connection.commit()
         except Exception as error:
-            logger.error('Error executing query "{}", error: {}'.format(query, error))
+            logger.error('Error executing query "{}", error:\n{}'.format(query, error))
             self._connection.close()
             self._cursor.close()
             sys.exit(c.QUERY_ERR)
@@ -458,55 +547,55 @@ class DBGenericModel:
 
         return df['min_day'][0].to_pydatetime().date(), df['max_day'][0].to_pydatetime().date()
 
-    def get_candles_dataframe(self, tickers_and_dates, interval='1d', days_before_initial_dates=0):
+    # def get_candles_dataframe(self, tickers_and_dates, interval='1d', days_before_initial_dates=0):
 
-        tickers = []
-        initial_dates = []
-        final_dates = []
+    #     tickers = []
+    #     initial_dates = []
+    #     final_dates = []
 
-        for ticker, date in tickers_and_dates.items():
-            tickers.append(ticker)
-            initial_dates.append(date['start_date'])
-            final_dates.append(date['end_date'])
+    #     for ticker, date in tickers_and_dates.items():
+    #         tickers.append(ticker)
+    #         initial_dates.append(date['start_date'])
+    #         final_dates.append(date['end_date'])
 
-        candles_table = 'daily_candles'
-        features_table = 'daily_features'
-        time_column = 'day'
+    #     candles_table = 'daily_candles'
+    #     features_table = 'daily_features'
+    #     time_column = 'day'
 
-        if interval == '1wk':
-            candles_table = 'weekly_candles'
-            features_table = 'weekly_features'
-            time_column = 'week'
+    #     if interval == '1wk':
+    #         candles_table = 'weekly_candles'
+    #         features_table = 'weekly_features'
+    #         time_column = 'week'
 
-        query = f"SELECT \n"
-        query += f"  cand.ticker, \n"
-        query += f"  cand.{time_column}, \n"
-        query += f"  cand.open_price, \n"
-        query += f"  cand.max_price, \n"
-        query += f"  cand.min_price, \n"
-        query += f"  cand.close_price, \n"
-        query += f"  cand.volume, \n"
-        query += f"  feat.peak, \n"
-        query += f"  feat.ema_17, \n"
-        query += f"  feat.ema_72, \n"
-        query += f"  feat.up_down_trend_status\n"
-        query += f"FROM {candles_table} cand\n"
-        query += f"INNER JOIN {features_table} feat ON feat.ticker = cand.ticker AND feat.{time_column} = cand.{time_column}\n"
-        query += f"WHERE\n"
+    #     query = f"SELECT \n"
+    #     query += f"  cand.ticker, \n"
+    #     query += f"  cand.{time_column}, \n"
+    #     query += f"  cand.open_price, \n"
+    #     query += f"  cand.max_price, \n"
+    #     query += f"  cand.min_price, \n"
+    #     query += f"  cand.close_price, \n"
+    #     query += f"  cand.volume, \n"
+    #     query += f"  feat.peak, \n"
+    #     query += f"  feat.ema_17, \n"
+    #     query += f"  feat.ema_72, \n"
+    #     query += f"  feat.up_down_trend_status\n"
+    #     query += f"FROM {candles_table} cand\n"
+    #     query += f"INNER JOIN {features_table} feat ON feat.ticker = cand.ticker AND feat.{time_column} = cand.{time_column}\n"
+    #     query += f"WHERE\n"
 
-        for index, (ticker, initial_date, final_date) in enumerate(zip(tickers, initial_dates, final_dates)):
-            if index == 0:
-                query += f"  (cand.ticker = \'{ticker}\' and cand.{time_column} >= \'{(initial_date - timedelta(days=days_before_initial_dates)).strftime('%Y-%m-%d')}\' and cand.{time_column} < \'{final_date.strftime('%Y-%m-%d')}\')\n"
-            else:
-                query += f"  OR (cand.ticker = \'{ticker}\' and cand.{time_column} >= \'{(initial_date - timedelta(days=days_before_initial_dates)).strftime('%Y-%m-%d')}\' and cand.{time_column} < \'{final_date.strftime('%Y-%m-%d')}\')\n"
+    #     for index, (ticker, initial_date, final_date) in enumerate(zip(tickers, initial_dates, final_dates)):
+    #         if index == 0:
+    #             query += f"  (cand.ticker = \'{ticker}\' and cand.{time_column} >= \'{(initial_date - timedelta(days=days_before_initial_dates)).strftime('%Y-%m-%d')}\' and cand.{time_column} < \'{final_date.strftime('%Y-%m-%d')}\')\n"
+    #         else:
+    #             query += f"  OR (cand.ticker = \'{ticker}\' and cand.{time_column} >= \'{(initial_date - timedelta(days=days_before_initial_dates)).strftime('%Y-%m-%d')}\' and cand.{time_column} < \'{final_date.strftime('%Y-%m-%d')}\')\n"
 
-        query += f";"
+    #     query += f";"
 
-        df = pd.read_sql_query(query, self._connection)
-        df['ticker'] =  df['ticker'].apply(lambda x: x.rstrip())
-        # df.sort_values(['ticker', time_column], axis=0, ascending=True, ignore_index=True, inplace=True)
+    #     df = pd.read_sql_query(query, self._connection)
+    #     df['ticker'] =  df['ticker'].apply(lambda x: x.rstrip())
+    #     # df.sort_values(['ticker', time_column], axis=0, ascending=True, ignore_index=True, inplace=True)
 
-        return df
+    #     return df
 
     def get_tickers(self, on_flag, pn_flag, units_flag, fractional_market=False, sectors=None, subsectors=None, segments=None):
 
@@ -591,7 +680,7 @@ class DBGenericModel:
 
 
 class DBStrategyModel:
-    def __init__(self, name, tickers, initial_dates, final_dates, total_capital, alias=None, comment=None, risk_capital_product=None, min_volume_per_year=0):
+    def __init__(self, name, tickers, start_dates, end_dates, total_capital, alias=None, comment=None, risk_capital_product=None, min_volume_per_year=0):
         try:
             connection = psycopg2.connect(f"dbname='{DB_NAME}' user={DB_USER} host='{DB_HOST}' password={DB_PASS} port='{DB_PORT}'")
             logger.debug(f'Database \'{DB_NAME}\' connected successfully.')
@@ -604,8 +693,8 @@ class DBStrategyModel:
 
         self._name = name
         self._tickers = tickers
-        self._initial_dates = initial_dates
-        self._final_dates = final_dates
+        self._start_dates = start_dates
+        self._end_dates = end_dates
         self._total_capital = total_capital
         self._alias = alias
         self._comment = comment
@@ -644,6 +733,18 @@ class DBStrategyModel:
     def min_volume_per_year(self, min_volume_per_year):
         self._min_volume_per_year = min_volume_per_year
 
+    @property
+    def tickers(self):
+        return self._tickers
+
+    @property
+    def start_dates(self):
+        return self._start_dates
+
+    @property
+    def end_dates(self):
+        return self._end_dates
+
     def __del__(self):
         self._connection.close()
         self._cursor.close()
@@ -653,7 +754,7 @@ class DBStrategyModel:
         try:
             self._cursor.execute(query, params)
         except Exception as error:
-            logger.error('Error executing query "{}", error: {}'.format(query, error))
+            logger.error('Error executing query "{}", error:\n{}'.format(query, error))
             self._connection.close()
             self._cursor.close()
             # logger.debug('Database \'StockMarket\' connection closed.')
@@ -666,7 +767,7 @@ class DBStrategyModel:
             self._cursor.execute(query, params)
             self._connection.commit()
         except Exception as error:
-            logger.error('Error executing query "{}", error: {}'.format(query, error))
+            logger.error('Error executing query "{}", error:\n{}'.format(query, error))
             self._connection.close()
             self._cursor.close()
             sys.exit(c.QUERY_ERR)
@@ -677,7 +778,7 @@ class DBStrategyModel:
             id_of_new_row = self._cursor.fetchone()[0]
             self._connection.commit()
         except Exception as error:
-            logger.error('Error executing query "{}", error: {}'.format(query, error))
+            logger.error('Error executing query "{}", error:\n{}'.format(query, error))
             self._connection.close()
             self._cursor.close()
             sys.exit(c.QUERY_ERR)
@@ -693,6 +794,60 @@ class DBStrategyModel:
         query += f"ORDER BY tic_y.ticker;"
 
         return self._query(query)
+
+    def get_candles_dataframe(self, tickers_and_dates, interval='1d', days_before_initial_dates=0):
+
+        tickers = []
+        start_dates = []
+        end_dates = []
+
+        for ticker, date in tickers_and_dates.items():
+            tickers.append(ticker)
+            start_dates.append(date['start_date'])
+            end_dates.append(date['end_date'])
+
+        candles_table = 'daily_candles'
+        features_table = 'daily_features'
+        time_column = 'day'
+
+        if interval == '1wk':
+            candles_table = 'weekly_candles'
+            features_table = 'weekly_features'
+            time_column = 'week'
+
+        query = f"SELECT \n"
+        query += f"  cand.ticker, \n"
+        query += f"  cand.{time_column}, \n"
+        if interval == '1d':
+            query += f"  cand.open_price, \n"
+            query += f"  cand.max_price, \n"
+            query += f"  cand.min_price, \n"
+            query += f"  cand.close_price, \n"
+        # query += f"  cand.volume, \n"
+        query += f"  feat.ema_17, \n"
+        query += f"  feat.ema_72, \n"
+        if interval == '1d':
+            query += f"  feat.target_buy_price, \n"
+            query += f"  feat.stop_loss, \n"
+        query += f"  feat.up_down_trend_status\n"
+        query += f"FROM {candles_table} cand\n"
+        query += f"INNER JOIN {features_table} feat "
+        query += f"  ON feat.ticker = cand.ticker AND feat.{time_column} = cand.{time_column}\n"
+        query += f"WHERE\n"
+
+        for index, (ticker, start_date, end_date) in enumerate(zip(tickers, start_dates, end_dates)):
+            if index != 0:
+                query += f"  OR "
+            query += f"  (cand.ticker = \'{ticker}\' and cand.{time_column} >= " \
+                f"\'{(start_date - timedelta(days=days_before_initial_dates)).strftime('%Y-%m-%d')}\' " \
+                f"and cand.{time_column} < \'{end_date.strftime('%Y-%m-%d')}\')\n"
+        query += f";"
+
+        df = pd.read_sql_query(query, self._connection)
+        df['ticker'] =  df['ticker'].apply(lambda x: x.rstrip())
+        # df.sort_values(['ticker', time_column], axis=0, ascending=True, ignore_index=True, inplace=True)
+
+        return df
 
     def insert_strategy_results(self, result_parameters, operations, performance_dataframe):
         strategy_id = self._insert_strategy()
@@ -717,9 +872,9 @@ class DBStrategyModel:
 
         number_of_rows = len(self._tickers)
 
-        query = f"INSERT INTO strategy_tickers (strategy_id, ticker, initial_date, final_date)\nVALUES\n"
+        query = f"INSERT INTO strategy_tickers (strategy_id, ticker, start_date, end_date)\nVALUES\n"
 
-        for n, (ticker, initial_date, final_date) in enumerate(zip(self._tickers, self._initial_dates, self._final_dates)):
+        for n, (ticker, initial_date, final_date) in enumerate(zip(self._tickers, self._start_dates, self._end_dates)):
             query += f"({strategy_id}, '{ticker}', '{initial_date.strftime('%Y-%m-%d')}', '{final_date.strftime('%Y-%m-%d')}')\n"
 
             if n != number_of_rows - 1:
@@ -866,7 +1021,7 @@ class DBStrategyAnalyzerModel:
         try:
             self._cursor.execute(query, params)
         except Exception as error:
-            logger.error('Error executing query "{}", error: {}'.format(query, error))
+            logger.error('Error executing query "{}", error:\n{}'.format(query, error))
             self._connection.close()
             self._cursor.close()
             sys.exit(c.QUERY_ERR)

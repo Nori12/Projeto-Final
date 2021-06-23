@@ -5,15 +5,16 @@ from logging.handlers import RotatingFileHandler
 from datetime import datetime
 import random
 from abc import ABC, abstractmethod
-from enum import Enum
 import sys
 import numpy as np
 import math
+import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
 
 from yfinance import ticker
 
 import constants as c
-from utils import RunTime, calculate_maximum_volume, State, calculate_yield_annualized
+from utils import RunTime, calculate_maximum_volume, calculate_yield_annualized, State
 from db_model import DBStrategyModel
 
 # Configure Logging
@@ -435,7 +436,7 @@ class Strategy(ABC):
         pass
 
     @abstractmethod
-    def set_input_data(self, dataframe, interval):
+    def load_data(self):
         pass
 
     @abstractmethod
@@ -448,8 +449,9 @@ class Strategy(ABC):
 
 class AndreMoraesStrategy(Strategy):
 
-    def __init__(self, tickers_and_dates, alias=None, comment=None, total_capital=100000, risk_capital_product=0.10, min_volume_per_year=1000000):
-
+    def __init__(self, tickers_and_dates, alias=None, comment=None, total_capital=100000,
+        risk_capital_product=0.10, min_volume_per_year=1000000):
+        #add self._price_to_emas_tolerance
         if risk_capital_product < 0.0 or risk_capital_product > 1.0:
             logger.error(f"""Parameter \'risk_reference\' must be in the interval [0, 1].""")
             sys.exit(c.INVALID_ARGUMENT_ERR)
@@ -465,9 +467,15 @@ class AndreMoraesStrategy(Strategy):
         self._min_volume_per_year = min_volume_per_year
         self._operations = []
 
+        self._price_to_emas_tolerance = 0.02
+
         self._start_date = None
         self._end_date = None
 
+        self._day_df = None
+        self._week_df = None
+
+        self._tickers_and_dates = tickers_and_dates
         for ticker, date in tickers_and_dates.items():
             self._tickers.append(ticker)
             self._initial_dates.append(date['start_date'])
@@ -478,8 +486,8 @@ class AndreMoraesStrategy(Strategy):
         self._statistics_graph = None
         self._statistics_parameters = {'profit': None, 'max_used_capital': None, 'yield': None, 'annualized_yield': None, 'ibov_yield': None, 'annualized_ibov_yield': None, 'avr_tickers_yield': None, 'annualized_avr_tickers_yield': None, 'volatility': None, 'sharpe_ratio': None}
 
-        if self._min_volume_per_year != 0:
-            self._filter_tickers_per_min_volume()
+        # if self._min_volume_per_year != 0:
+        #     self._filter_tickers_per_min_volume()
 
     @property
     def name(self):
@@ -502,6 +510,10 @@ class AndreMoraesStrategy(Strategy):
     def comment(self, comment):
         self._comment = comment
         self._db_strategy_model.comment = comment
+
+    @property
+    def tickers_and_dates(self):
+        return self._tickers_and_dates
 
     @property
     def tickers(self):
@@ -543,7 +555,6 @@ class AndreMoraesStrategy(Strategy):
 
     @property
     def start_date(self):
-
         if self._operations:
 
             start_dates_list = [operation.start_date for operation in self._operations if operation.start_date is not None]
@@ -595,158 +606,158 @@ class AndreMoraesStrategy(Strategy):
                 self._initial_dates = new_initial_dates
                 self._final_dates = new_final_dates
 
-    def set_input_data(self, dataframe, interval):
-
-        if not (interval in ['1wk', '1d']):
-            logger.error(f'Error argument \'interval\'=\'{interval}\' is not valid.')
-            sys.exit(c.INVALID_ARGUMENT_ERR)
-
-        if interval == '1wk':
-            self._week_df = dataframe
-            self._week_df.sort_values(['ticker', 'week'], axis=0, ascending=True, ignore_index=True, inplace=True)
-        elif interval == '1d':
-            self._day_df = dataframe
-            self._day_df.sort_values(['ticker', 'day'], axis=0, ascending=True, ignore_index=True, inplace=True)
-
-    def _get_capital_per_risk(self, risk):
-        return round(self._risk_capital_product * self._total_capital / risk, 2)
+    @RunTime('AndreMoraesStrategy.load_data')
+    def load_data(self):
+        try:
+            self._day_df = self._db_strategy_model.get_candles_dataframe(self.tickers_and_dates, interval='1d')
+            self._week_df = self._db_strategy_model.get_candles_dataframe(self.tickers_and_dates, interval='1wk')
+        except Exception as error:
+            logger.exception(f"Error loading data, error:\n{error}")
+            sys.exit(c.UPDATING_DB_ERR)
 
     @RunTime('AndreMoraesStrategy.process_operations')
     def process_operations(self):
+        try:
+            minimum_volume_batch = 1
 
-        minimum_volume_batch = 1
+            ticker_priority_list = [self.TickerState(ticker, self._initial_dates[self._tickers.index(ticker)], self._final_dates[self._tickers.index(ticker)]) for ticker in self._tickers]
 
-        ticker_priority_list = [self.TickerState(ticker, self._initial_dates[self._tickers.index(ticker)], self._final_dates[self._tickers.index(ticker)]) for ticker in self._tickers]
+            # Progress logging
+            prog_percent_step = 0.05
+            prog_last_update = prog_percent_step
+            prog_days_interval = (max(self._day_df['day']) - min(self._day_df['day'])).days
+            prog_start_date = min(self._day_df['day'])
 
-        # Progress logging
-        prog_percent_step = 0.05
-        prog_last_update = prog_percent_step
-        prog_days_interval = (max(self._day_df['day']) - min(self._day_df['day'])).days
-        prog_start_date = min(self._day_df['day'])
+            # Iterate over each day chronologically
+            for _, day in self._day_df.sort_values(by=['day'], axis=0, kind='mergesort', ascending=True, ignore_index=True)['day'].drop_duplicates().iteritems():
 
-        # Iterate over each day chronologically
-        for _, day in self._day_df.sort_values(by=['day'], axis=0, kind='mergesort', ascending=True, ignore_index=True)['day'].drop_duplicates().iteritems():
+                completion_percentage = (day - prog_start_date).days / prog_days_interval
+                if completion_percentage >= prog_last_update:
+                    logger.info(f"Processing operations: {prog_last_update * 100:.0f}%.")
+                    prog_last_update += prog_percent_step
 
-            completion_percentage = (day - prog_start_date).days / prog_days_interval
-            if completion_percentage >= prog_last_update:
-                logger.info(f"Processing operations: {prog_last_update * 100:.0f}%.")
-                prog_last_update += prog_percent_step
+                # Some data will be modified during loop
+                ticker_priority_list_copy = ticker_priority_list.copy()
 
-            # Some data will be modified during loop
-            ticker_priority_list_copy = ticker_priority_list.copy()
+                for index, ts in enumerate(ticker_priority_list_copy):
 
-            for index, ts in enumerate(ticker_priority_list_copy):
+                    # This day must be in the user selected bounds for the ticker
+                    if day >= ts.initial_date and day <= ts.final_date:
 
-                # This day must be in the user selected bounds for the ticker
-                if day >= ts.initial_date and day <= ts.final_date:
+                        row =  self._day_df.loc[(self._day_df['day'] == day) & (self._day_df['ticker'] == ts.ticker)].squeeze()
 
-                    row =  self._day_df.loc[(self._day_df['day'] == day) & (self._day_df['ticker'] == ts.ticker)].squeeze()
+                        if row.empty == False:
+                            if (ts.ongoing_operation_flag == False) or (ts.operation is not None and ts.operation.state == State.NOT_STARTED):
+                                # # Check price tendency in Main Graph Time
+                                # if row['up_down_trend_status'] == 1:
 
-                    if row.empty == False:
-                        if (ts.ongoing_operation_flag == False) or (ts.operation is not None and ts.operation.state == State.NOT_STARTED):
-                            # # Check price tendency in Main Graph Time
-                            # if row['up_down_trend_status'] == 1:
+                                # Check if price is next to one EMA in Main Graph Time
+                                if row['close_price'] < max(row['ema_17'], row['ema_72']) * (1+self._price_to_emas_tolerance) and row['close_price'] > min(row['ema_17'], row['ema_72']) * (1-self._price_to_emas_tolerance):
 
-                            # Check if price is next to one EMA in Main Graph Time
-                            if row['close_price'] < max(row['ema_17'], row['ema_72']) * 1.01 and row['close_price'] > min(row['ema_17'], row['ema_72']) * 0.99:
+                                    maj_graph_time_ema_72 = self._week_df.loc[(self._week_df['ticker'] == ts.ticker) & (self._week_df['week'] <= row['day'])].tail(2)['ema_72'].head(1).values[0]
 
-                                maj_graph_time_ema_72 = self._week_df.loc[(self._week_df['ticker'] == ts.ticker) & (self._week_df['week'] <= row['day'])].tail(2)['ema_72'].head(1).values[0]
+                                    maj_graph_time_trend = self._week_df.loc[(self._week_df['ticker'] == ts.ticker) & (self._week_df['week'] <= row['day'])].tail(2)['up_down_trend_status'].head(1).values[0]
 
-                                maj_graph_time_trend = self._week_df.loc[(self._week_df['ticker'] == ts.ticker) & (self._week_df['week'] <= row['day'])].tail(2)['up_down_trend_status'].head(1).values[0]
+                                    # Check if price is greater than EMA_72 in Major Graph Time
+                                    if row['close_price'] > maj_graph_time_ema_72 and maj_graph_time_trend == 1:
 
-                                # Check if price is greater than EMA_72 in Major Graph Time
-                                if row['close_price'] > maj_graph_time_ema_72 and maj_graph_time_trend == 1:
+                                        # Purchase strategic filters satified, but it must exists a stop_loss reference
+                                        if self._day_df.loc[(self._day_df['ticker'] == ts.ticker) & (self._day_df['day'] < row['day']) & (self._day_df['peak'] == -1) & (self._day_df['min_price'] < row['close_price'])].empty == False:
 
-                                    # Purchase strategic filters satified, but it must exists a stop_loss reference
-                                    if self._day_df.loc[(self._day_df['ticker'] == ts.ticker) & (self._day_df['day'] < row['day']) & (self._day_df['peak'] == -1) & (self._day_df['min_price'] < row['close_price'])].empty == False:
+                                            # Set purchase target price by identifying the last maximum peak
+                                            if not self._day_df.loc[(self._day_df['ticker'] == ts.ticker) & (self._day_df['day'] < row['day']) & (self._day_df['peak'] == 1) & (self._day_df['max_price'] > row['close_price'])].empty:
+                                                purchase_target = self._day_df.loc[(self._day_df['ticker'] == ts.ticker) & (self._day_df['day'] < row['day']) & (self._day_df['peak'] == 1) & (self._day_df['max_price'] > row['close_price'])].tail(1)['max_price'].values[0]
+                                                purchase_target = round(purchase_target, 2)
 
-                                        # Set purchase target price by identifying the last maximum peak
-                                        if not self._day_df.loc[(self._day_df['ticker'] == ts.ticker) & (self._day_df['day'] < row['day']) & (self._day_df['peak'] == 1) & (self._day_df['max_price'] > row['close_price'])].empty:
-                                            purchase_target = self._day_df.loc[(self._day_df['ticker'] == ts.ticker) & (self._day_df['day'] < row['day']) & (self._day_df['peak'] == 1) & (self._day_df['max_price'] > row['close_price'])].tail(1)['max_price'].values[0]
-                                            purchase_target = round(purchase_target, 2)
+                                            # If no peak has a maximum greater enough, choose the first past maximum
+                                            elif not self._day_df.loc[(self._day_df['ticker'] == ts.ticker) & (self._day_df['day'] < row['day']) & (self._day_df['max_price'] > row['close_price'])].empty:
+                                                purchase_target = self._day_df.loc[(self._day_df['ticker'] == ts.ticker) & (self._day_df['day'] < row['day']) & (self._day_df['max_price'] > row['close_price'])].tail(1)['max_price'].values[0]
+                                                purchase_target = round(purchase_target, 2)
 
-                                        # If no peak has a maximum greater enough, choose the first past maximum
-                                        elif not self._day_df.loc[(self._day_df['ticker'] == ts.ticker) & (self._day_df['day'] < row['day']) & (self._day_df['max_price'] > row['close_price'])].empty:
-                                            purchase_target = self._day_df.loc[(self._day_df['ticker'] == ts.ticker) & (self._day_df['day'] < row['day']) & (self._day_df['max_price'] > row['close_price'])].tail(1)['max_price'].values[0]
-                                            purchase_target = round(purchase_target, 2)
+                                            # If no maximum peak before, choose current day close_price
+                                            else:
+                                                purchase_target = row['close_price']
 
-                                        # If no maximum peak before, choose current day close_price
+                                            stop_loss = self._day_df.loc[(self._day_df['ticker'] == ts.ticker) & (self._day_df['day'] < row['day']) & (self._day_df['peak'] == -1) & (self._day_df['min_price'] < row['close_price'])].tail(1)['min_price'].values[0]
+
+                                            purchase_target = round(row['close_price'] + (row['close_price']- stop_loss) * 3, 2)
+
+                                            ticker_priority_list[index].operation = Operation(ts.ticker)
+                                            ticker_priority_list[index].operation.target_purchase_price = purchase_target
+                                            ticker_priority_list[index].operation.stop_loss = stop_loss
+                                            ticker_priority_list[index].operation.target_sale_price = round(purchase_target + (purchase_target - stop_loss) * 3, 2)
+                                            ticker_priority_list[index].operation.partial_sale_price = round(purchase_target + (purchase_target - stop_loss), 2)
+                                            ticker_priority_list[index].ongoing_operation_flag = True
+
+                            if ts.ongoing_operation_flag == True:
+
+                                if ts.operation.state == State.NOT_STARTED:
+
+                                    # Check if the target purchase price was hit
+                                    if ts.operation.target_purchase_price >= row['min_price'] and ts.operation.target_purchase_price <= row['max_price']:
+
+                                        available_money = self.available_capital - sum([ts.operation.total_purchase_capital - ts.operation.total_sale_capital for ts in ticker_priority_list if (ts.operation is not None and ts.operation.state == State.OPEN)])
+
+                                        purchase_money = ts.operation.target_purchase_price * calculate_maximum_volume(ts.operation.target_purchase_price, self._get_capital_per_risk((ts.operation.target_purchase_price - ts.operation.stop_loss)/(ts.operation.target_purchase_price)), minimum_volume=minimum_volume_batch)
+
+                                        # Check if there is enough money
+                                        if available_money >= purchase_money:
+                                            ticker_priority_list[index].operation.add_purchase(ts.operation.target_purchase_price, calculate_maximum_volume(ts.operation.target_purchase_price, self._get_capital_per_risk((ts.operation.target_purchase_price - ts.operation.stop_loss)/(ts.operation.target_purchase_price)), minimum_volume=1), row['day'])
                                         else:
-                                            purchase_target = row['close_price']
+                                            ticker_priority_list[index].operation.add_purchase(ts.operation.target_purchase_price, calculate_maximum_volume(ts.operation.target_purchase_price, available_money, minimum_volume=minimum_volume_batch), row['day'])
 
-                                        stop_loss = self._day_df.loc[(self._day_df['ticker'] == ts.ticker) & (self._day_df['day'] < row['day']) & (self._day_df['peak'] == -1) & (self._day_df['min_price'] < row['close_price'])].tail(1)['min_price'].values[0]
+                                elif ts.operation.state == State.OPEN:
 
-                                        purchase_target = round(row['close_price'] + (row['close_price']- stop_loss) * 3, 2)
+                                    # Check if the target STOP LOSS is hit
+                                    if ts.operation.stop_loss >= row['min_price'] and ts.operation.stop_loss <= row['max_price']:
+                                        ticker_priority_list[index].operation.add_sale(ts.operation.stop_loss, ts.operation.total_purchase_volume - ts.operation.total_sale_volume, row['day'], stop_loss_flag=True)
 
-                                        ticker_priority_list[index].operation = Operation(ts.ticker)
-                                        ticker_priority_list[index].operation.target_purchase_price = purchase_target
-                                        ticker_priority_list[index].operation.stop_loss = stop_loss
-                                        ticker_priority_list[index].operation.target_sale_price = round(purchase_target + (purchase_target - stop_loss) * 3, 2)
-                                        ticker_priority_list[index].operation.partial_sale_price = round(purchase_target + (purchase_target - stop_loss), 2)
-                                        ticker_priority_list[index].ongoing_operation_flag = True
+                                    # Check if the target STOP LOSS is skipped
+                                    elif ts.operation.stop_loss > row['max_price']:
+                                        ticker_priority_list[index].operation.add_sale(row['open_price'], ts.operation.total_purchase_volume - ts.operation.total_sale_volume, row['day'], stop_loss_flag=True)
 
-                        if ts.ongoing_operation_flag == True:
+                                    # After hitting the stol loss, the operation can be closed
+                                    if ts.operation.state == State.OPEN:
 
-                            if ts.operation.state == State.NOT_STARTED:
+                                        # Check if the PARTIAL SALE price is hit
+                                        if ts.partial_sale_flag == False and ts.operation.partial_sale_price >= row['min_price'] and ts.operation.partial_sale_price <= row['max_price']:
+                                            ticker_priority_list[index].operation.add_sale(ts.operation.partial_sale_price, math.ceil(ts.operation.purchase_volume[0] / 2), row['day'], partial_sale_flag=True)
+                                            ticker_priority_list[index].partial_sale_flag = True
 
-                                # Check if the target purchase price was hit
-                                if ts.operation.target_purchase_price >= row['min_price'] and ts.operation.target_purchase_price <= row['max_price']:
+                                        # Check if the PARTIAL SALE price is skipped but not TARGET SALE
+                                        elif ts.partial_sale_flag == False and ts.operation.partial_sale_price < row['min_price'] and ts.operation.target_sale_price > row['max_price']:
+                                            ticker_priority_list[index].operation.add_sale(row['open_price'], math.ceil(ts.operation.purchase_volume[0] / 2), row['day'], partial_sale_flag=True)
+                                            ticker_priority_list[index].partial_sale_flag = True
 
-                                    available_money = self.available_capital - sum([ts.operation.total_purchase_capital - ts.operation.total_sale_capital for ts in ticker_priority_list if (ts.operation is not None and ts.operation.state == State.OPEN)])
+                                            # LOG skip cases
 
-                                    purchase_money = ts.operation.target_purchase_price * calculate_maximum_volume(ts.operation.target_purchase_price, self._get_capital_per_risk((ts.operation.target_purchase_price - ts.operation.stop_loss)/(ts.operation.target_purchase_price)), minimum_volume=minimum_volume_batch)
+                                        # Check if the TARGET SALE price is hit
+                                        if ts.operation.target_sale_price >= row['min_price'] and ts.operation.target_sale_price <= row['max_price']:
+                                            ticker_priority_list[index].operation.add_sale(ts.operation.target_sale_price, ts.operation.total_purchase_volume - ts.operation.total_sale_volume, row['day'])
 
-                                    # Check if there is enough money
-                                    if available_money >= purchase_money:
-                                        ticker_priority_list[index].operation.add_purchase(ts.operation.target_purchase_price, calculate_maximum_volume(ts.operation.target_purchase_price, self._get_capital_per_risk((ts.operation.target_purchase_price - ts.operation.stop_loss)/(ts.operation.target_purchase_price)), minimum_volume=1), row['day'])
-                                    else:
-                                        ticker_priority_list[index].operation.add_purchase(ts.operation.target_purchase_price, calculate_maximum_volume(ts.operation.target_purchase_price, available_money, minimum_volume=minimum_volume_batch), row['day'])
+                                        # Check if the TARGET SALE price is skipped
+                                        if ts.operation.target_sale_price < row['min_price']:
+                                            ticker_priority_list[index].operation.add_sale(row['open_price'], ts.operation.total_purchase_volume - ts.operation.total_sale_volume, row['day'])
 
-                            elif ts.operation.state == State.OPEN:
+                                if ticker_priority_list[index].operation.state == State.CLOSE:
+                                    self.operations.append(ticker_priority_list[index].operation)
+                                    ticker_priority_list[index].operation = None
+                                    ticker_priority_list[index].ongoing_operation_flag = False
+                                    ticker_priority_list[index].partial_sale_flag = False
 
-                                # Check if the target STOP LOSS is hit
-                                if ts.operation.stop_loss >= row['min_price'] and ts.operation.stop_loss <= row['max_price']:
-                                    ticker_priority_list[index].operation.add_sale(ts.operation.stop_loss, ts.operation.total_purchase_volume - ts.operation.total_sale_volume, row['day'], stop_loss_flag=True)
+                ticker_priority_list = self._order_by_priority(ticker_priority_list)
 
-                                # Check if the target STOP LOSS is skipped
-                                elif ts.operation.stop_loss > row['max_price']:
-                                    ticker_priority_list[index].operation.add_sale(row['open_price'], ts.operation.total_purchase_volume - ts.operation.total_sale_volume, row['day'], stop_loss_flag=True)
+            # Insert remaining open operations
+            for ts in ticker_priority_list:
+                if ts.operation is not None and ts.operation.state == State.OPEN:
+                    self.operations.append(ts.operation)
 
-                                # After hitting the stol loss, the operation can be closed
-                                if ts.operation.state == State.OPEN:
+        except Exception as error:
+            logger.exception(f"Error processing operations, error:\n{error}")
+            sys.exit(c.UPDATING_DB_ERR)
 
-                                    # Check if the PARTIAL SALE price is hit
-                                    if ts.partial_sale_flag == False and ts.operation.partial_sale_price >= row['min_price'] and ts.operation.partial_sale_price <= row['max_price']:
-                                        ticker_priority_list[index].operation.add_sale(ts.operation.partial_sale_price, math.ceil(ts.operation.purchase_volume[0] / 2), row['day'], partial_sale_flag=True)
-                                        ticker_priority_list[index].partial_sale_flag = True
-
-                                    # Check if the PARTIAL SALE price is skipped but not TARGET SALE
-                                    elif ts.partial_sale_flag == False and ts.operation.partial_sale_price < row['min_price'] and ts.operation.target_sale_price > row['max_price']:
-                                        ticker_priority_list[index].operation.add_sale(row['open_price'], math.ceil(ts.operation.purchase_volume[0] / 2), row['day'], partial_sale_flag=True)
-                                        ticker_priority_list[index].partial_sale_flag = True
-
-                                        # LOG skip cases
-
-                                    # Check if the TARGET SALE price is hit
-                                    if ts.operation.target_sale_price >= row['min_price'] and ts.operation.target_sale_price <= row['max_price']:
-                                        ticker_priority_list[index].operation.add_sale(ts.operation.target_sale_price, ts.operation.total_purchase_volume - ts.operation.total_sale_volume, row['day'])
-
-                                    # Check if the TARGET SALE price is skipped
-                                    if ts.operation.target_sale_price < row['min_price']:
-                                        ticker_priority_list[index].operation.add_sale(row['open_price'], ts.operation.total_purchase_volume - ts.operation.total_sale_volume, row['day'])
-
-                            if ticker_priority_list[index].operation.state == State.CLOSE:
-                                self.operations.append(ticker_priority_list[index].operation)
-                                ticker_priority_list[index].operation = None
-                                ticker_priority_list[index].ongoing_operation_flag = False
-                                ticker_priority_list[index].partial_sale_flag = False
-
-            ticker_priority_list = self._order_by_priority(ticker_priority_list)
-
-        # Insert remaining open operations
-        for ts in ticker_priority_list:
-            if ts.operation is not None and ts.operation.state == State.OPEN:
-                self.operations.append(ts.operation)
+    def _get_capital_per_risk(self, risk):
+        return round(self._risk_capital_product * self._total_capital / risk, 2)
 
     def _order_by_priority(self, ticker_priority_list):
         # Priority:

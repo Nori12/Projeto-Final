@@ -119,29 +119,29 @@ CREATE TABLE holidays (
 CREATE TABLE daily_features (
   ticker VARCHAR(7) REFERENCES symbol(ticker),
   day TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-  peak SMALLINT,
   ema_17 DECIMAL(8, 2),
   ema_72 DECIMAL(8, 2),
+  target_buy_price DECIMAL(8, 2),
+  stop_loss DECIMAL(8, 2),
   up_down_trend_status SMALLINT,
 
   CONSTRAINT daily_features_pkey PRIMARY KEY(ticker, day),
-  CONSTRAINT peak_is_valid CHECK (peak = 1 OR peak = -1 or peak = 0),
   CONSTRAINT greater_than_zero CHECK (ema_17 > 0 AND ema_72 > 0),
-  CONSTRAINT up_down_trend_status_valid CHECK (up_down_trend_status = 1 OR up_down_trend_status = -1 OR up_down_trend_status = 0)
+  CONSTRAINT up_down_trend_status_valid CHECK (up_down_trend_status <= 3 OR up_down_trend_status >= -3)
 );
 
 CREATE TABLE weekly_features (
   ticker VARCHAR(7) REFERENCES symbol(ticker),
   week TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-  peak SMALLINT,
   ema_17 DECIMAL(8, 2),
   ema_72 DECIMAL(8, 2),
+  target_buy_price DECIMAL(8, 2),
+  stop_loss DECIMAL(8, 2),
   up_down_trend_status SMALLINT,
 
   CONSTRAINT weekly_features_pkey PRIMARY KEY(ticker, week),
-  CONSTRAINT peak_is_valid CHECK (peak = 1 OR peak = -1 or peak = 0),
   CONSTRAINT greater_than_zero CHECK (ema_17 > 0 AND ema_72 > 0),
-  CONSTRAINT up_down_trend_status_valid CHECK (up_down_trend_status = 1 OR up_down_trend_status = -1 OR up_down_trend_status = 0)
+  CONSTRAINT up_down_trend_status_valid CHECK (up_down_trend_status <= 3 OR up_down_trend_status >= -3)
 );
 
 CREATE TABLE strategy (
@@ -157,10 +157,10 @@ CREATE TABLE strategy_tickers (
   id SERIAL PRIMARY KEY,
   strategy_id INTEGER REFERENCES strategy(id),
   ticker VARCHAR(7) REFERENCES symbol(ticker),
-  initial_date TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-  final_date TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+  start_date TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+  end_date TIMESTAMP WITHOUT TIME ZONE NOT NULL,
 
-  CONSTRAINT strategy_tickers_uniqueness UNIQUE (strategy_id, ticker, initial_date, final_date)
+  CONSTRAINT strategy_tickers_uniqueness UNIQUE (strategy_id, ticker, start_date, end_date)
 );
 
 CREATE TYPE state_type AS ENUM ('NOT STARTED', 'OPEN', 'CLOSE');

@@ -8,3 +8,4 @@ src/__pycache__/
 src/tempCodeRunnerFile.py
 src/CandleGraphAndStatistics.py
 venv/
+logs/app.log

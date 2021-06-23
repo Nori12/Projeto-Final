@@ -25,6 +25,19 @@ logger.addHandler(file_handler)
 file_handler.setLevel(logging.DEBUG)
 logger.setLevel(logging.DEBUG)
 
+class State(Enum):
+    NOT_STARTED = "NOT STARTED"
+    OPEN = "OPEN"
+    CLOSE = "CLOSE"
+
+class Trend(Enum):
+    UPTREND = 1
+    ALMOST_UPTREND = 0.5
+    CONSOLIDATION = 0
+    ALMOST_DOWNTREND = -0.5
+    DOWNTREND = -1
+    UNDEFINED = 0
+
 class RunTime(ContextDecorator):
     """
     Timing decorator.
@@ -94,11 +107,6 @@ def calculate_maximum_volume(price, max_capital, minimum_volume=100):
     volume = volume - remaining_volume
 
     return volume
-
-class State(Enum):
-    NOT_STARTED = "NOT STARTED"
-    OPEN = "OPEN"
-    CLOSE = "CLOSE"
 
 def calculate_yield_annualized(in_yield, bus_day_count):
 

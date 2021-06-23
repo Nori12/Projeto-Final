@@ -12,7 +12,7 @@ import math
 from bisect import bisect
 
 import constants as c
-from utils import has_workdays_in_between, RunTime
+from utils import has_workdays_in_between, RunTime, Trend
 from db_model import DBTickerModel
 
 # Configure Logging
@@ -143,7 +143,7 @@ class TickerManager:
             if update_happened == True and self._ordinary_ticker == True:
                 self._update_weekly_candles()
         except Exception as error:
-            logger.exception(f"Error updating daily candles, error: {error}")
+            logger.exception(f"Error updating daily candles, error:\n{error}")
             sys.exit(c.UPDATING_DB_ERR)
 
         return update_happened
@@ -360,7 +360,7 @@ class TickerManager:
                 end=(end_date+timedelta(days=1)).strftime('%Y-%m-%d'),
                 prepost=True, back_adjust=True, rounding=True)
         except Exception as error:
-            logger.error('Error getting yfinance data, error: {}'.format(error))
+            logger.error('Error getting yfinance data, error:\n{}'.format(error))
             sys.exit(c.YFINANCE_ERR)
 
         return hist
@@ -427,7 +427,7 @@ class TickerManager:
         logger.info(f"Ticker \'{self.ticker}\' weekly candles recreated.")
 
     @RunTime('TickerManager.generate_features')
-    def generate_features(self, trend_status_ema_weight=0.75, consolidation_tolerance=0.001):
+    def generate_features(self):
         """
         Generate features from daily and weekly candlesticks and save in database.
 
@@ -436,162 +436,229 @@ class TickerManager:
 
         Args
         ----------
-        trend_status_ema_weight : float, default 0.95
-            Low-pass filter coefficient of exponential moving average derivative.
-        consolidation_tolerance : float, default 0.05
-            Tolerance bounds of Consolidation status. It is apllied after the calculation
-            of the Up-Down Trend Coefficient [-1,1].
+
         """
         try:
             if self._ordinary_ticker == True:
 
                 TickerManager.db_ticker_model.delete_features(self.ticker, interval='1d')
-                self._generate_features(interval='1d', trend_status_ema_weight=trend_status_ema_weight,
-                    consolidation_tolerance=consolidation_tolerance)
-
                 TickerManager.db_ticker_model.delete_features(self.ticker, interval='1wk')
-                self._generate_features(interval='1wk', trend_status_ema_weight=trend_status_ema_weight,
-                    consolidation_tolerance=consolidation_tolerance)
+
+                # Prevent algorithm inertia in first values
+                days_before_initial_date = 180
+
+                for interval in ['1d', '1wk']:
+                    time_column = 'week' if interval == '1wk' else 'day'
+
+                    candles_df = TickerManager.db_ticker_model.get_candlesticks(
+                        self.ticker, self.start_date, self.end_date, days_before_initial_date,
+                        interval=interval)
+
+                    trends, target_prices, stop_losses = \
+                        TickerManager.find_target_buy_price_and_trend(candles_df,
+                        close_column_name='close_price', max_colum_name='max_price',
+                        min_column_name='min_price', target_price_margin=0, stop_loss_margin=0)
+
+                    ema_17, ema_72 = TickerManager.find_emas(candles_df['close_price'])
+
+                    features_df = pd.DataFrame({'ticker': self._ticker, time_column: candles_df[time_column],
+                        'target_buy_price': target_prices, 'stop_loss': stop_losses,
+                        'ema_17': ema_17, 'ema_72': ema_72, 'up_down_trend_status': trends})
+
+                    TickerManager.db_ticker_model.upsert_features(features_df, interval=interval)
         except Exception as error:
-            logger.exception(f"Error generating features, error: {error}")
+            logger.exception(f"Error generating features, error:\n{error}")
             sys.exit(c.UPDATING_DB_ERR)
 
-    def _generate_features(self, interval = '1d', trend_status_ema_weight=0.9,
-        consolidation_tolerance=0.05, min_peak_distance=17, lpf_alpha=0.98):
-        """
-        Generate features from given interval and save in database.
-
-        Args
-        ----------
-        interval : str, default '1d'
-            Selected interval: '1d', '1wk'.
-        trend_status_ema_weight : float, default 0.95
-            Weight coefficient of EMA_72 in trend identification.
-        consolidation_tolerance : float, default 0.05
-            Tolerance bounds of Consolidation status. It is apllied after the calculation
-            of the Up-Down Trend Coefficient [-1,1].
-        min_peak_distance : int, default 17
-            Minimum distance between peaks.
-        lpf_alpha : float, default 0.8
-            Low-pass filter coefficient of derivatives.
-        """
-        if interval not in ['1d', '1wk']:
-            logger.error(f"_Error argument \'interval\'=\'"
-                f"{interval}\' must be \'1d\' or \'1wk\'.")
-            sys.exit(c.INVALID_ARGUMENT_ERR)
-
-        if trend_status_ema_weight < 0 or trend_status_ema_weight > 1:
-            logger.error(f"_Error argument \'trend_status_ema_weight\'=\'"
-                f"{trend_status_ema_weight}\' must be in interval [0,1].")
-            sys.exit(c.INVALID_ARGUMENT_ERR)
-
-        analysis_status = {'UPTREND': 1, 'DOWNTREND': -1, 'CONSOLIDATION': 0}
-
-        candles_df = TickerManager.db_ticker_model.get_candlesticks(self.ticker,
-            None, self.end_date, interval=interval)
-
-        max_peaks_index = find_peaks(candles_df['max_price'], distance=min_peak_distance)[0].tolist()
-        min_peaks_index = find_peaks(1.0/candles_df['min_price'], distance=min_peak_distance)[0].tolist()
-
-        # Max an min peaks must be altenate each other.
-        # So delete duplicate sequences of max or min...
-        for i in range(1, len(max_peaks_index)):
-            delete_candidates = [j for j in min_peaks_index if j >= max_peaks_index[i-1] and j < max_peaks_index[i]]
-            if len(delete_candidates) > 1:
-                delete_candidates_values = [candles_df.iloc[i, candles_df.columns.get_loc('min_price')] for i in delete_candidates]
-                delete_candidates.remove(delete_candidates[delete_candidates_values.index(min(delete_candidates_values))])
-                min_peaks_index = [i for i in min_peaks_index if i not in delete_candidates]
-
-        for i in range(1, len(min_peaks_index)):
-            delete_candidates = [j for j in max_peaks_index if j >= min_peaks_index[i-1] and j < min_peaks_index[i]]
-            if len(delete_candidates) > 1:
-                delete_candidates_values = [candles_df.iloc[i, candles_df.columns.get_loc('max_price')] for i in delete_candidates]
-                delete_candidates.remove(delete_candidates[delete_candidates_values.index(max(delete_candidates_values))])
-                max_peaks_index = [i for i in max_peaks_index if i not in delete_candidates]
-
-        peaks = max_peaks_index + min_peaks_index
-        peaks.sort()
-
-        # Remove monotonic peak sequences
-        delete_candidates = []
-        for i in range(len(peaks)):
-            if i >= 2:
-                current_value = 0
-                if peaks[i] in max_peaks_index:
-                    current_value = candles_df.iloc[peaks[i], candles_df.columns.get_loc('max_price')]
-                else:
-                    current_value = candles_df.iloc[peaks[i], candles_df.columns.get_loc('min_price')]
-
-                ultimate_value = 0
-                if peaks[i-1] in max_peaks_index:
-                    ultimate_value = candles_df.iloc[peaks[i-1], candles_df.columns.get_loc('max_price')]
-                else:
-                    ultimate_value = candles_df.iloc[peaks[i-1], candles_df.columns.get_loc('min_price')]
-
-                penultimate_value = 0
-                if peaks[i-2] in max_peaks_index:
-                    penultimate_value = candles_df.iloc[peaks[i-2], candles_df.columns.get_loc('max_price')]
-                else:
-                    penultimate_value = candles_df.iloc[peaks[i-2], candles_df.columns.get_loc('min_price')]
-
-                if ((current_value > ultimate_value and ultimate_value > penultimate_value) or
-                    (current_value < ultimate_value and ultimate_value < penultimate_value)):
-
-                    if peaks[i-1] in max_peaks_index:
-                        max_peaks_index.remove(peaks[i-1])
-                    else:
-                        min_peaks_index.remove(peaks[i-1])
-
-
+    @staticmethod
+    def find_emas(prices_df):
         # Exponential Moving Average
-        ema_17 = candles_df.iloc[:,candles_df.columns.get_loc('close_price')].ewm(span=17, adjust=False).mean()
-        ema_72 = candles_df.iloc[:,candles_df.columns.get_loc('close_price')].ewm(span=72, adjust=False).mean()
+        ema_17 = prices_df.ewm(span=17, adjust=False).mean()
+        ema_72 = prices_df.ewm(span=72, adjust=False).mean()
 
+        return ema_17, ema_72
 
-        # Up-Down-Trend Status
+    @staticmethod
+    def find_target_buy_price_and_trend(prices_df, close_column_name='Close',
+        max_colum_name='High', min_column_name='Low', target_price_margin=0,
+        stop_loss_margin=0, window_size=17):
 
-        # Calculate ema_72 derivative
-        ema_72_derivative_raw = [0]
-        ema_72_derivative_raw.extend([a - b for a, b in zip(ema_72[1:], ema_72[:-1])])
+        minimum_data_points = 2 * window_size
 
-        # Soft low-pass-filter after derivative
-        # ema_72_derivative = [ema_72_derivative_raw[0]]
-        # last_value = ema_72_derivative_raw[0]
-        # for i in range(1, len(ema_72_derivative_raw)):
-        #     value = lpf_alpha * ema_72_derivative_raw[i] + (1-lpf_alpha) * last_value
-        #     ema_72_derivative.append(value)
-        #     last_value = value
-        ema_72_derivative = ema_72_derivative_raw
+        if len(prices_df) < minimum_data_points:
+            return None
 
-        # Calculate ema_17 derivative
-        ema_17_derivative_raw = [0]
-        ema_17_derivative_raw.extend([a - b for a, b in zip(ema_17[1:], ema_17[:-1])])
+        df_length = len(prices_df)
 
-        # Soft low-pass-filter after derivative
-        # ema_17_derivative = [ema_17_derivative_raw[0]]
-        # last_value = ema_17_derivative_raw[0]
-        # for i in range(1, len(ema_17_derivative_raw)):
-        #     value = lpf_alpha * ema_17_derivative_raw[i] + (1-lpf_alpha) * last_value
-        #     ema_17_derivative.append(value)
-        #     last_value = value
-        ema_17_derivative = ema_17_derivative_raw
+        trends = [0] * df_length
+        target_prices = [0] * df_length
+        stop_losses = [0] * df_length
 
-        udt_coef = [trend_status_ema_weight * ema_72_dot + (1 - trend_status_ema_weight) * ema_17_dot for ema_17_dot, ema_72_dot in zip(ema_17_derivative, ema_72_derivative)]
+        undefined_value = 0
 
-        # Equation: alpha * m_72_dot + (1-alpha) * m_17_dot = 0
-        # If > tolerance: UP_TREND
-        # If < -tolerance: DOWN_TREND
-        # Else: CONSOLIDATION
-        udt_status = [analysis_status['UPTREND'] if coef > consolidation_tolerance else analysis_status['DOWNTREND'] if coef < -consolidation_tolerance else analysis_status['CONSOLIDATION'] for coef in udt_coef]
+        update_step = 0.05
+        last_update_percent = update_step
 
+        for index, (date, row) in enumerate(prices_df.iterrows()):
 
-        peaks = [ ['max_price', index, candles_df.iloc[index, candles_df.columns.get_loc('max_price')]] for index in max_peaks_index ] + \
-            [ ['min_price', index, candles_df.iloc[index, candles_df.columns.get_loc('min_price')]] for index in min_peaks_index ]
-        peaks.sort(key=lambda x: x[1])
+            completion_percentage = (index+1)/df_length
+            if completion_percentage >= last_update_percent:
+                print(f"{last_update_percent * 100:.0f}%.")
+                last_update_percent += update_step
 
-        candles_df['peak'] = [1 if index in max_peaks_index else -1 if index in min_peaks_index else 0 for index in range(candles_df.index.size)]
-        candles_df['ema_17'] = ema_17
-        candles_df['ema_72'] = ema_72
-        candles_df['up_down_trend_status'] = udt_status
+            trend = Trend.UNDEFINED.value
+            target_price = undefined_value
+            stop_loss = undefined_value
 
-        TickerManager.db_ticker_model.upsert_features(candles_df, interval=interval)
+            # if date == datetime.strptime("04/04/2019", '%d/%m/%Y'):
+            #     print()
+
+            if index >= minimum_data_points:
+
+                max_prices = prices_df.loc[prices_df.index <= date, [max_colum_name]].squeeze().to_list()
+                min_prices = prices_df.loc[prices_df.index <= date, [min_column_name]].squeeze().to_list()
+
+                _, max_peaks, min_peaks, _, _ = \
+                    TickerManager.find_candles_peaks(max_prices, min_prices, window_size=window_size)
+
+                if len(max_peaks) > 1 and len(min_peaks) > 1:
+                    max_peak_1 = max_peaks[-2]
+                    max_peak_2 = max_peaks[-1]
+                    min_peak_1 = min_peaks[-2]
+                    min_peak_2 = min_peaks[-1]
+
+                    price = row[close_column_name]
+
+                    max_from_max_peaks = max(max_peak_1, max_peak_2)
+                    min_from_max_peaks = min(max_peak_1, max_peak_2)
+                    max_from_min_peaks = max(min_peak_1, min_peak_2)
+                    min_from_min_peaks = min(min_peak_1, min_peak_2)
+
+                    target_price = (1 - target_price_margin) * max_from_max_peaks
+                    stop_loss = (1 - stop_loss_margin) * max_from_min_peaks
+
+                    # Likely uptrend
+                    if (max_peak_1 < max_peak_2 and min_peak_1 < min_peak_2) \
+                        or (max_peak_1 == max_peak_2 and min_peak_1 < min_peak_2) \
+                        or (max_peak_1 < max_peak_2 and min_peak_1 == min_peak_2):
+                        if price > max_from_max_peaks:
+                            trend = Trend.UPTREND.value
+                            last_greater_max = [max_peak for max_peak in sorted(max_peaks)
+                                if max_peak > max_from_max_peaks]
+                            if len(last_greater_max) != 0:
+                                target_price = last_greater_max[0]
+                            else:
+                                target_price = price
+                        elif price >= max_from_min_peaks:
+                            trend = Trend.UPTREND.value
+                        elif price >= min_from_min_peaks:
+                            trend = Trend.ALMOST_UPTREND.value
+                        else:
+                            trend = Trend.ALMOST_DOWNTREND.value
+                    # Likely downtrend
+                    elif (max_peak_1 > max_peak_2 and min_peak_1 > min_peak_2) \
+                        or (max_peak_1 == max_peak_2 and min_peak_1 > min_peak_2) \
+                        or (max_peak_1 > max_peak_2 and min_peak_1 == min_peak_2):
+                        if price < min_from_max_peaks:
+                            trend = Trend.DOWNTREND.value
+                        elif price <= max_from_max_peaks:
+                            trend = Trend.ALMOST_DOWNTREND.value
+                        else:
+                            trend = Trend.ALMOST_UPTREND.value
+                    # Likely consolidation
+                    else:
+                        if price > max_from_max_peaks:
+                            trend = Trend.ALMOST_UPTREND.value
+                            last_greater_max = [max_peak for max_peak in sorted(max_peaks) if max_peak > max_from_max_peaks]
+                            if len(last_greater_max) != 0:
+                                target_price = last_greater_max[0]
+                            else:
+                                target_price = price
+                        elif price < min_from_min_peaks:
+                            trend = Trend.ALMOST_DOWNTREND.value
+                        else:
+                            trend = Trend.CONSOLIDATION.value
+
+            trends[index] = trend
+            target_prices[index] = target_price
+            stop_losses[index] = stop_loss
+
+            # Breakpoint
+            # if date == datetime.strptime("18/04/2022", '%d/%m/%Y'):
+            #     fig, axs = plt.subplots(3)
+            #     x_data = hist.index[0:index+1]
+
+            #     axs[0].plot(x_data, trends[0:index+1])
+            #     axs[1].plot(x_data, target_prices[0:index+1], 'blue')
+            #     axs[1].plot(x_data, stop_losses[0:index+1], 'red')
+            #     axs[2].plot(x_data, max_prices[0:index+1], 'lightblue')
+            #     axs[2].plot(x_data, min_prices[0:index+1], 'orange')
+            #     axs[2].plot(x_data, hist.loc[hist.index[0:index+1], [close_column_name]], 'lightgreen')
+            #     axs[2].plot(hist.index[max_indices], max_peaks, 'bo')
+            #     axs[2].plot(hist.index[min_indices], min_peaks, 'rx')
+
+            #     axs[0].xaxis.set_major_formatter(myFmt)
+            #     axs[1].xaxis.set_major_formatter(myFmt)
+            #     axs[2].xaxis.set_major_formatter(myFmt)
+
+            #     plt.show()
+
+        return trends, target_prices, stop_losses
+
+    @staticmethod
+    def find_candles_peaks(max_prices, min_prices, window_size=17):
+
+        if len(max_prices) != len(min_prices):
+            return None
+
+        votes = np.zeros_like(max_prices)
+        last_windows_index = window_size - 1
+
+        # Create moving windows and detect local minima and local maxima
+        if len(max_prices) > window_size:
+            for i in range(len(max_prices) - window_size):
+                max_subsequence = max_prices[i:i + window_size]
+                min_subsequence = min_prices[i:i + window_size]
+
+                # Vote only if value is not in the window border
+                argmax = np.argmax(max_subsequence)
+                if argmax not in [0, last_windows_index]:
+                    votes[i + argmax] += 1
+
+                argmin = np.argmin(min_subsequence)
+                if argmin not in [0, last_windows_index]:
+                    votes[i + argmin] -= 1
+
+            votes = [vote if abs(vote) >= window_size // 2 else 0 for vote in votes]
+
+            max_peaks_index = [index for index, vote in enumerate(votes) if vote > 0]
+            min_peaks_index = [index for index, vote in enumerate(votes) if vote < 0]
+
+            # Remove non-alternating min peaks
+            for i in range(1, len(max_peaks_index)):
+                min_peaks_between = [min_index for min_index in min_peaks_index
+                    if min_index > max_peaks_index[i-1] and min_index < max_peaks_index[i]]
+                if len(min_peaks_between) > 1:
+                    most_valuabe_peak_votes = max([abs(votes[min_index]) for min_index in min_peaks_between])
+                    for min_peak_between in min_peaks_between:
+                        if abs(votes[min_peak_between]) < most_valuabe_peak_votes:
+                            min_peaks_index.remove(min_peak_between)
+                            votes[min_peak_between] = 0
+
+            # Remove non-alternating max peaks
+            for i in range(1, len(min_peaks_index)):
+                max_peaks_between = [max_index for max_index in max_peaks_index
+                    if max_index > min_peaks_index[i-1] and max_index < min_peaks_index[i]]
+                if len(max_peaks_between) > 1:
+                    most_valuabe_peak_votes = max([abs(votes[max_index]) for max_index in max_peaks_between])
+                    for max_peak_between in max_peaks_between:
+                        if abs(votes[max_peak_between]) < most_valuabe_peak_votes:
+                            max_peaks_index.remove(max_peak_between)
+                            votes[max_peak_between] = 0
+
+            max_peaks_values = [max_prices[max_peak] for max_peak in max_peaks_index]
+            min_peaks_values = [min_prices[min_peak] for min_peak in min_peaks_index]
+        else:
+            return None
+
+        return votes, max_peaks_values, min_peaks_values, max_peaks_index, min_peaks_index

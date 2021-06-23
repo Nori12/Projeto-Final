@@ -27,7 +27,7 @@ logger.setLevel(logging.DEBUG)
 def run():
     logger.info('\nProgram started.')
 
-    general_info = DBGenericModel()
+    # general_info = DBGenericModel()
 
     # Read Config File
     config = cr.ConfigReader()
@@ -46,8 +46,8 @@ def run():
     for ticker_manager in ticker_managers:
         ticker_manager.holidays = config.holidays
         update = ticker_manager.update()
-        # if update == True:
-        ticker_manager.generate_features()
+        if update == True:
+            ticker_manager.generate_features()
 
     # Strategy section
     for strategy in config.strategies:
@@ -59,19 +59,12 @@ def run():
             andre_moraes.alias = strategy['alias']
             andre_moraes.comment = strategy['comment']
 
-            weekly_candles = general_info.get_candles_dataframe(config.tickers_and_dates,
-                interval='1wk')
-            daily_candles = general_info.get_candles_dataframe(config.tickers_and_dates,
-                interval='1d', days_before_initial_dates=180)
-
-            andre_moraes.set_input_data(weekly_candles, interval='1wk')
-            andre_moraes.set_input_data(daily_candles, interval='1d')
-
+            andre_moraes.load_data()
             andre_moraes.process_operations()
             andre_moraes.calculate_statistics()
             andre_moraes.save()
 
-    # Strategy Analysis section
+    # # Strategy Analysis section
     if config.show_results == True:
         analyzer = StrategyAnalyzer()
         analyzer.run()
