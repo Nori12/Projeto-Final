@@ -27,8 +27,6 @@ logger.setLevel(logging.DEBUG)
 def run():
     logger.info('\nProgram started.')
 
-    # general_info = DBGenericModel()
-
     # Read Config File
     config = cr.ConfigReader()
     ticker_managers = []
