@@ -11,9 +11,14 @@
             "ticker_min_ann_volume_filter": 1000000,
             "stock_targets": [
                 {
-                    "name":"PETR4",
-                    "start_date":"01/01/2014",
-                    "end_date":"14/06/2021"
+                    "name": "PETR4",
+                    "start_date": "28/01/2018",
+                    "end_date": "01/01/2019"
+                },
+                {
+                    "name": "MGLU3",
+                    "start_date": "01/03/2018",
+                    "end_date": "01/01/2019"
                 }
             ]
         }

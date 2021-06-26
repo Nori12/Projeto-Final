@@ -57,15 +57,18 @@ def run():
             andre_moraes.alias = strategy['alias']
             andre_moraes.comment = strategy['comment']
 
-            andre_moraes.load_data()
-            andre_moraes.process_operations()
-            andre_moraes.calculate_statistics()
-            andre_moraes.save()
+            # andre_moraes.load_data()
+            # andre_moraes.generator_test()
+            andre_moraes.process_operations_refac()
+
+            # andre_moraes.process_operations()
+            # andre_moraes.calculate_statistics()
+            # andre_moraes.save()
 
     # # Strategy Analysis section
-    if config.show_results == True:
-        analyzer = StrategyAnalyzer()
-        analyzer.run()
+    # if config.show_results == True:
+    #     analyzer = StrategyAnalyzer()
+    #     analyzer.run()
 
 if __name__ == '__main__':
     run()

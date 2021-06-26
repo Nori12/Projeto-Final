@@ -10,12 +10,12 @@ import numpy as np
 import math
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
-
 from yfinance import ticker
+import time
 
 import constants as c
 from utils import RunTime, calculate_maximum_volume, calculate_yield_annualized, State
-from db_model import DBStrategyModel
+from db_model import DBStrategyModel, DBGenericModel
 
 # Configure Logging
 logger = logging.getLogger(__name__)
@@ -482,6 +482,7 @@ class AndreMoraesStrategy(Strategy):
             self._final_dates.append(date['end_date'])
 
         self._db_strategy_model = DBStrategyModel(self._name, self._tickers, self._initial_dates, self._final_dates, self._total_capital, alias=self._alias, comment=self._comment, risk_capital_product=self._risk_capital_product, min_volume_per_year=min_volume_per_year)
+        self._db_generic_model = DBGenericModel()
 
         self._statistics_graph = None
         self._statistics_parameters = {'profit': None, 'max_used_capital': None, 'yield': None, 'annualized_yield': None, 'ibov_yield': None, 'annualized_ibov_yield': None, 'avr_tickers_yield': None, 'annualized_avr_tickers_yield': None, 'volatility': None, 'sharpe_ratio': None}
@@ -606,21 +607,98 @@ class AndreMoraesStrategy(Strategy):
                 self._initial_dates = new_initial_dates
                 self._final_dates = new_final_dates
 
+    class DataGen:
+        def __init__(self, tickers, db_connection, days_batch=30):
+            self.tickers = tickers
+            self.first_date = min(self.tickers.values(), key=lambda x: x['start_date'])['start_date']
+            self.last_date = max(self.tickers.values(), key=lambda x: x['end_date'])['end_date']
+            self.db_connection = db_connection
+            self.days_batch = days_batch
+
+            self._db_generic_model = DBGenericModel()
+            holidays = self._db_generic_model.get_holidays(self.first_date, self.last_date).to_list()
+            self.dates = pd.date_range(start=self.first_date, end=self.last_date, freq='B').to_list()
+            self.dates = [date for date in self.dates if date not in holidays]
+
+            self.dates_length = len(self.dates)
+            self.current_date_index = 0
+
+            self.daily_data = pd.DataFrame()
+            self.weekly_data = pd.DataFrame()
+
+        def __next__(self):
+            return self.run()
+
+        def run(self):
+
+            if self.current_date_index == self.dates_length:
+                raise StopIteration()
+
+            if self.daily_data.empty or \
+                self.daily_data[self.daily_data['day'] >= self.dates[self.current_date_index]].empty:
+
+                next_chunk_end_index = self.current_date_index + self.days_batch - 1 \
+                    if self.current_date_index + self.days_batch - 1 < self.dates_length \
+                    else self.dates_length - 1
+
+                self.daily_data = self.db_connection.get_data_chunk(self.tickers,
+                    self.dates[self.current_date_index],
+                    self.dates[next_chunk_end_index], interval='1d')
+                self.weekly_data = self.db_connection.get_data_chunk(self.tickers,
+                    self.dates[self.current_date_index],
+                    self.dates[next_chunk_end_index], interval='1wk')
+
+            self.current_date_index += 1
+
+            year, week, _ = (self.dates[self.current_date_index-1] - pd.Timedelta(days=7)).isocalendar()
+            return self.daily_data[self.daily_data['day'] == self.dates[self.current_date_index-1]], \
+                self.weekly_data[(self.weekly_data['week'].dt.isocalendar().year == year) \
+                    & (self.weekly_data['week'].dt.isocalendar().week == week)]
+
     @RunTime('AndreMoraesStrategy.load_data')
     def load_data(self):
         try:
-            self._day_df = self._db_strategy_model.get_candles_dataframe(self.tickers_and_dates, interval='1d')
-            self._week_df = self._db_strategy_model.get_candles_dataframe(self.tickers_and_dates, interval='1wk')
+            # self._day_df = self._db_strategy_model.get_candles_dataframe(self.tickers_and_dates, interval='1d')
+            # self._week_df = self._db_strategy_model.get_candles_dataframe(self.tickers_and_dates, interval='1wk')
+            pass
         except Exception as error:
             logger.exception(f"Error loading data, error:\n{error}")
             sys.exit(c.UPDATING_DB_ERR)
+
+    def process_operations_refac(self):
+
+        try:
+
+            data_gen = self.DataGen(self.tickers_and_dates, self._db_strategy_model, days_batch=30)
+
+            t1 = time.process_time()
+
+            while True:
+                try:
+                    day_info, week_info = next(data_gen)
+                    # print(day_info)
+                    # print(week_info)
+                    # print("----------")
+                except StopIteration:
+                    break
+
+            t2 = time.process_time()
+            print(f"Duration: {t2-t1}")
+
+        except StopIteration:
+            pass
+        except Exception as error:
+            logger.exception(f"Error processing operations, error:\n{error}")
+            sys.exit(c.PROCESSING_OPERATIONS_ERR)
+
 
     @RunTime('AndreMoraesStrategy.process_operations')
     def process_operations(self):
         try:
             minimum_volume_batch = 1
 
-            ticker_priority_list = [self.TickerState(ticker, self._initial_dates[self._tickers.index(ticker)], self._final_dates[self._tickers.index(ticker)]) for ticker in self._tickers]
+            ticker_priority_list = [self.TickerState(ticker, self._initial_dates[self._tickers.index(ticker)],
+                self._final_dates[self._tickers.index(ticker)]) for ticker in self._tickers]
 
             # Progress logging
             prog_percent_step = 0.05
@@ -968,3 +1046,4 @@ class AndreMoraesStrategy(Strategy):
         @operation.setter
         def operation(self, operation):
             self._operation = operation
+

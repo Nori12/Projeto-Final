@@ -225,10 +225,10 @@ class DBTickerModel:
         query += f"		(SELECT dc.ticker, DATE_PART('year', dc.day) AS year, DATE_PART('week', dc.day) AS week, MIN(dc.day) AS min_day, MAX(dc.day) AS max_day,\n"
         query += f"			MAX(dc.max_price) AS max_price, MIN(dc.min_price) AS min_price, SUM(dc.volume) AS volume\n"
         query += f"		FROM daily_candles dc\n"
+        query += f"     WHERE dc.ticker = \'{ticker}\'\n"
         query += f"		GROUP BY dc.ticker, DATE_PART('year', dc.day), DATE_PART('week', dc.day)) agg\n"
         query += f"	INNER JOIN daily_candles dc2 ON dc2.ticker = agg.ticker AND dc2.day = agg.min_day) agg2\n"
         query += f"INNER JOIN daily_candles dc3 ON dc3.ticker = agg2.ticker AND dc3.day = agg2.max_day\n"
-        query += f"WHERE dc3.ticker = \'{ticker}\'\n"
         query += f"ON CONFLICT ON CONSTRAINT weekly_data_pkey DO NOTHING;"
 
         self._insert_update(query)
@@ -438,7 +438,7 @@ class DBTickerModel:
     #     return pd.read_sql_query(query, self._connection)
 
 class DBGenericModel:
-    """Database connection class that handles generic consultations."""
+    """Database connection class that handles generic queries."""
     def __init__(self):
         try:
             connection = psycopg2.connect(f"dbname='{DB_NAME}' user={DB_USER} host='{DB_HOST}' password={DB_PASS} port='{DB_PORT}'")
@@ -497,7 +497,7 @@ class DBGenericModel:
         query += f"  day >= \'{start_date.strftime('%Y-%m-%d')}\' and day <= " \
             f"\'{end_date.strftime('%Y-%m-%d')}\';"
 
-        df = pd.read_sql_query(query, self._connection)
+        df = pd.read_sql_query(query, self._connection).squeeze()
 
         if df.empty:
             logger.error(f"Holidays table is empty.")
@@ -795,16 +795,12 @@ class DBStrategyModel:
 
         return self._query(query)
 
-    def get_candles_dataframe(self, tickers_and_dates, interval='1d', days_before_initial_dates=0):
+    def get_data_chunk(self, tickers, start_date, end_date, interval='1d'):
 
-        tickers = []
-        start_dates = []
-        end_dates = []
-
-        for ticker, date in tickers_and_dates.items():
-            tickers.append(ticker)
-            start_dates.append(date['start_date'])
-            end_dates.append(date['end_date'])
+        if interval not in ['1d', '1wk']:
+            logger.error(f"Error argument \'interval\'=\'"
+                f"{interval}\' must be \'1d\' or \'1wk\'.")
+            sys.exit(c.INVALID_ARGUMENT_ERR)
 
         candles_table = 'daily_candles'
         features_table = 'daily_features'
@@ -815,39 +811,99 @@ class DBStrategyModel:
             features_table = 'weekly_features'
             time_column = 'week'
 
-        query = f"SELECT \n"
-        query += f"  cand.ticker, \n"
-        query += f"  cand.{time_column}, \n"
-        if interval == '1d':
-            query += f"  cand.open_price, \n"
-            query += f"  cand.max_price, \n"
-            query += f"  cand.min_price, \n"
-            query += f"  cand.close_price, \n"
-        # query += f"  cand.volume, \n"
-        query += f"  feat.ema_17, \n"
-        query += f"  feat.ema_72, \n"
-        if interval == '1d':
-            query += f"  feat.target_buy_price, \n"
-            query += f"  feat.stop_loss, \n"
+        query = f"SELECT\n"
+        query += f"  cand.ticker,\n"
+        query += f"  cand.{time_column},\n"
+        query += f"  cand.open_price,\n"
+        query += f"  cand.max_price,\n"
+        query += f"  cand.min_price,\n"
+        query += f"  cand.close_price,\n"
+        query += f"  cand.volume, \n"
+        query += f"  feat.ema_17,\n"
+        query += f"  feat.ema_72,\n"
+        query += f"  feat.target_buy_price,\n"
+        query += f"  feat.stop_loss,\n"
         query += f"  feat.up_down_trend_status\n"
         query += f"FROM {candles_table} cand\n"
-        query += f"INNER JOIN {features_table} feat "
+        query += f"INNER JOIN {features_table} feat\n"
         query += f"  ON feat.ticker = cand.ticker AND feat.{time_column} = cand.{time_column}\n"
         query += f"WHERE\n"
+        query += f"  cand.ticker in {str(list(tickers.keys())).replace('[', '(').replace(']', ')')}\n"
 
-        for index, (ticker, start_date, end_date) in enumerate(zip(tickers, start_dates, end_dates)):
-            if index != 0:
-                query += f"  OR "
-            query += f"  (cand.ticker = \'{ticker}\' and cand.{time_column} >= " \
-                f"\'{(start_date - timedelta(days=days_before_initial_dates)).strftime('%Y-%m-%d')}\' " \
-                f"and cand.{time_column} < \'{end_date.strftime('%Y-%m-%d')}\')\n"
-        query += f";"
+        if interval == '1wk':
+            new_start_date = start_date - pd.Timedelta(days=7)
+            query += f"  AND cand.{time_column} >= TO_DATE(CONCAT(EXTRACT(YEAR FROM TIMESTAMP " \
+                f"\'{new_start_date.strftime('%Y-%m-%d')}\'), EXTRACT(WEEK FROM TIMESTAMP " \
+                f"\'{new_start_date.strftime('%Y-%m-%d')}\')), \'IYYYIW\')\n"
+            query += f"  AND cand.{time_column} < TO_DATE(CONCAT(EXTRACT(YEAR FROM TIMESTAMP " \
+                f"\'{end_date.strftime('%Y-%m-%d')}\'), EXTRACT(WEEK FROM TIMESTAMP " \
+                f"\'{end_date.strftime('%Y-%m-%d')}\')), \'IYYYIW\')\n"
+        elif interval == '1d':
+            query += f"  AND cand.{time_column} >= \'{start_date.strftime('%Y-%m-%d')}\'\n"
+            query += f"  AND cand.{time_column} <= \'{end_date.strftime('%Y-%m-%d')}\'\n"
+
+        query += f"ORDER BY cand.{time_column}, cand.ticker;\n"
 
         df = pd.read_sql_query(query, self._connection)
-        df['ticker'] =  df['ticker'].apply(lambda x: x.rstrip())
+        # df['ticker'] =  df['ticker'].apply(lambda x: x.rstrip())
         # df.sort_values(['ticker', time_column], axis=0, ascending=True, ignore_index=True, inplace=True)
 
         return df
+
+    # Reconsider
+    # def get_candles_dataframe(self, tickers_and_dates, interval='1d', days_before_initial_dates=0):
+
+    #     tickers = []
+    #     start_dates = []
+    #     end_dates = []
+
+    #     for ticker, date in tickers_and_dates.items():
+    #         tickers.append(ticker)
+    #         start_dates.append(date['start_date'])
+    #         end_dates.append(date['end_date'])
+
+    #     candles_table = 'daily_candles'
+    #     features_table = 'daily_features'
+    #     time_column = 'day'
+
+    #     if interval == '1wk':
+    #         candles_table = 'weekly_candles'
+    #         features_table = 'weekly_features'
+    #         time_column = 'week'
+
+    #     query = f"SELECT \n"
+    #     query += f"  cand.ticker, \n"
+    #     query += f"  cand.{time_column}, \n"
+    #     if interval == '1d':
+    #         query += f"  cand.open_price, \n"
+    #         query += f"  cand.max_price, \n"
+    #         query += f"  cand.min_price, \n"
+    #         query += f"  cand.close_price, \n"
+    #     # query += f"  cand.volume, \n"
+    #     query += f"  feat.ema_17, \n"
+    #     query += f"  feat.ema_72, \n"
+    #     if interval == '1d':
+    #         query += f"  feat.target_buy_price, \n"
+    #         query += f"  feat.stop_loss, \n"
+    #     query += f"  feat.up_down_trend_status\n"
+    #     query += f"FROM {candles_table} cand\n"
+    #     query += f"INNER JOIN {features_table} feat "
+    #     query += f"  ON feat.ticker = cand.ticker AND feat.{time_column} = cand.{time_column}\n"
+    #     query += f"WHERE\n"
+
+    #     for index, (ticker, start_date, end_date) in enumerate(zip(tickers, start_dates, end_dates)):
+    #         if index != 0:
+    #             query += f"  OR "
+    #         query += f"  (cand.ticker = \'{ticker}\' and cand.{time_column} >= " \
+    #             f"\'{(start_date - timedelta(days=days_before_initial_dates)).strftime('%Y-%m-%d')}\' " \
+    #             f"and cand.{time_column} < \'{end_date.strftime('%Y-%m-%d')}\')\n"
+    #     query += f";"
+
+    #     df = pd.read_sql_query(query, self._connection)
+    #     df['ticker'] =  df['ticker'].apply(lambda x: x.rstrip())
+    #     # df.sort_values(['ticker', time_column], axis=0, ascending=True, ignore_index=True, inplace=True)
+
+    #     return df
 
     def insert_strategy_results(self, result_parameters, operations, performance_dataframe):
         strategy_id = self._insert_strategy()

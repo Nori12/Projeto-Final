@@ -78,7 +78,7 @@ class ConfigReader:
         self._read_strategies()
 
         holidays = self._db_generic_model.get_holidays(
-            self.min_start_date, self.max_end_date)['day'].to_list()
+            self.min_start_date, self.max_end_date).to_list()
         self._holidays = [holiday.to_pydatetime().date() for holiday in holidays]
 
         # Check if program supports requested dates

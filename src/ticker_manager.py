@@ -6,8 +6,6 @@ import logging
 from logging.handlers import RotatingFileHandler
 import sys
 import yfinance as yf
-from scipy.signal import find_peaks
-from scipy.signal import find_peaks
 import math
 from bisect import bisect
 

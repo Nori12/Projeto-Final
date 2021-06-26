@@ -5021,3 +5021,1446 @@ Program started.
 2021-06-20 08:31:50,583:DEBUG:db_model:Database 'StockMarket' connected successfully.
 2021-06-20 08:31:50,720:INFO:strategy_analyzer:Dash is running on http://127.0.0.1:8050/
 
+2021-06-23 14:34:18,610:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-23 14:34:19,979:INFO:__main__:
+Program started.
+2021-06-23 14:34:19,988:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-23 14:34:19,988:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-23 14:34:19,989:DEBUG:config_reader:Config file found.
+2021-06-23 14:34:20,051:INFO:config_reader:Config file successfully read.
+2021-06-23 14:34:20,051:INFO:config_reader:Total strategies: 1
+2021-06-23 14:34:20,052:INFO:config_reader:Total tickers: 1
+2021-06-23 14:34:20,052:INFO:config_reader:Oldest date: 01/01/2014
+2021-06-23 14:34:20,052:INFO:config_reader:Most recent date: 13/06/2021
+2021-06-23 14:34:20,052:INFO:config_reader:Strategies found:
+2021-06-23 14:34:20,052:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['PETR4']
+2021-06-23 14:34:20,053:DEBUG:utils:The function 'ConfigReader.__init__' took 72.80 milliseconds to run.
+2021-06-23 14:34:20,066:INFO:ticker_manager:Ticker 'PETR4' already updated.
+2021-06-23 14:34:20,067:DEBUG:utils:The function 'TickerManager.update' took 13.73 milliseconds to run.
+2021-06-23 14:34:20,072:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-06-23 14:34:20,073:DEBUG:utils:The function 'TickerManager.update' took 5.71 milliseconds to run.
+2021-06-23 14:34:20,078:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-06-23 14:34:20,078:DEBUG:utils:The function 'TickerManager.update' took 5.32 milliseconds to run.
+2021-06-23 14:34:20,087:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-23 14:34:23,391:DEBUG:utils:The function 'AndreMoraesStrategy.load_data' took 93.96 milliseconds to run.
+2021-06-23 14:35:51,770:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-23 14:35:53,087:INFO:__main__:
+Program started.
+2021-06-23 14:35:53,096:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-23 14:35:53,097:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-23 14:35:53,097:DEBUG:config_reader:Config file found.
+2021-06-23 14:35:53,118:INFO:config_reader:Config file successfully read.
+2021-06-23 14:35:53,118:INFO:config_reader:Total strategies: 1
+2021-06-23 14:35:53,118:INFO:config_reader:Total tickers: 1
+2021-06-23 14:35:53,118:INFO:config_reader:Oldest date: 01/01/2014
+2021-06-23 14:35:53,119:INFO:config_reader:Most recent date: 13/06/2021
+2021-06-23 14:35:53,119:INFO:config_reader:Strategies found:
+2021-06-23 14:35:53,119:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['PETR4']
+2021-06-23 14:35:53,119:DEBUG:utils:The function 'ConfigReader.__init__' took 31.93 milliseconds to run.
+2021-06-23 14:35:53,128:INFO:ticker_manager:Ticker 'PETR4' already updated.
+2021-06-23 14:35:53,129:DEBUG:utils:The function 'TickerManager.update' took 9.06 milliseconds to run.
+2021-06-23 14:35:53,135:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-06-23 14:35:53,135:DEBUG:utils:The function 'TickerManager.update' took 6.10 milliseconds to run.
+2021-06-23 14:35:53,142:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-06-23 14:35:53,142:DEBUG:utils:The function 'TickerManager.update' took 7.10 milliseconds to run.
+2021-06-23 14:35:53,151:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-23 14:35:53,200:DEBUG:utils:The function 'AndreMoraesStrategy.load_data' took 48.41 milliseconds to run.
+2021-06-23 14:45:26,869:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-23 14:45:28,596:INFO:__main__:
+Program started.
+2021-06-23 14:45:28,604:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-23 14:45:28,604:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-23 14:45:28,605:DEBUG:config_reader:Config file found.
+2021-06-23 14:45:28,627:INFO:config_reader:Config file successfully read.
+2021-06-23 14:45:28,627:INFO:config_reader:Total strategies: 1
+2021-06-23 14:45:28,628:INFO:config_reader:Total tickers: 1
+2021-06-23 14:45:28,628:INFO:config_reader:Oldest date: 01/01/2014
+2021-06-23 14:45:28,629:INFO:config_reader:Most recent date: 13/06/2021
+2021-06-23 14:45:28,629:INFO:config_reader:Strategies found:
+2021-06-23 14:45:28,629:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['PETR4']
+2021-06-23 14:45:28,630:DEBUG:utils:The function 'ConfigReader.__init__' took 33.74 milliseconds to run.
+2021-06-23 14:45:28,642:INFO:ticker_manager:Ticker 'PETR4' already updated.
+2021-06-23 14:45:28,642:DEBUG:utils:The function 'TickerManager.update' took 11.97 milliseconds to run.
+2021-06-23 14:45:28,649:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-06-23 14:45:28,649:DEBUG:utils:The function 'TickerManager.update' took 6.65 milliseconds to run.
+2021-06-23 14:45:28,655:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-06-23 14:45:28,655:DEBUG:utils:The function 'TickerManager.update' took 5.87 milliseconds to run.
+2021-06-23 14:45:28,664:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-23 14:45:28,719:DEBUG:utils:The function 'AndreMoraesStrategy.load_data' took 54.52 milliseconds to run.
+2021-06-23 21:40:18,840:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-23 21:40:21,182:INFO:__main__:
+Program started.
+2021-06-23 21:40:21,192:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-23 21:40:21,193:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-23 21:40:21,194:DEBUG:config_reader:Config file found.
+2021-06-23 21:40:21,289:INFO:config_reader:Config file successfully read.
+2021-06-23 21:40:21,289:INFO:config_reader:Total strategies: 2
+2021-06-23 21:40:21,289:INFO:config_reader:Total tickers: 23
+2021-06-23 21:40:21,290:INFO:config_reader:Oldest date: 01/01/2014
+2021-06-23 21:40:21,290:INFO:config_reader:Most recent date: 12/06/2021
+2021-06-23 21:40:21,290:INFO:config_reader:Strategies found:
+2021-06-23 21:40:21,291:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['PETR4', 'BALM3', 'BALM4', 'HYPE3', 'PFRM3', 'PNVL3', 'PNVL4', 'RADL3', 'BDLL3', 'BDLL4', 'EALT3', 'EALT4', 'INEP3', 'INEP4', 'KEPL3', 'MTSA4', 'NORD3', 'POSI3', 'ROMI3', 'SHUL4', 'TASA3', 'TASA4', 'WEGE3']
+2021-06-23 21:40:21,291:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['PETR4', 'BALM3', 'BALM4', 'HYPE3', 'PFRM3', 'PNVL3', 'PNVL4', 'RADL3', 'BDLL3', 'BDLL4', 'EALT3', 'EALT4', 'INEP3', 'INEP4', 'KEPL3', 'MTSA4', 'NORD3', 'POSI3', 'ROMI3', 'SHUL4', 'TASA3', 'TASA4', 'WEGE3']
+2021-06-23 21:40:21,292:DEBUG:utils:The function 'ConfigReader.__init__' took 109.23 milliseconds to run.
+2021-06-23 21:40:21,303:INFO:ticker_manager:Ticker 'PETR4' already updated.
+2021-06-23 21:40:21,304:DEBUG:utils:The function 'TickerManager.update' took 10.78 milliseconds to run.
+2021-06-23 21:40:21,850:WARNING:ticker_manager:No valid data to update for ticker 'BALM3', ('2014-01-01', '2017-03-13').
+2021-06-23 21:40:21,850:INFO:ticker_manager:Ticker 'BALM3' did not updated daily candlesticks.
+2021-06-23 21:40:21,850:DEBUG:utils:The function 'TickerManager.update' took 546.33 milliseconds to run.
+2021-06-23 21:40:22,504:INFO:ticker_manager:Ticker 'BALM4' updated daily candlesticks.
+2021-06-23 21:40:22,523:INFO:ticker_manager:Ticker 'BALM4' weekly candles recreated.
+2021-06-23 21:40:22,523:DEBUG:utils:The function 'TickerManager.update' took 672.26 milliseconds to run.
+2021-06-23 21:40:26,719:DEBUG:utils:The function 'TickerManager.generate_features' took 4195.89 milliseconds to run.
+2021-06-23 21:40:28,200:INFO:ticker_manager:Ticker 'HYPE3' updated daily candlesticks.
+2021-06-23 21:40:28,234:INFO:ticker_manager:Ticker 'HYPE3' weekly candles recreated.
+2021-06-23 21:40:28,234:DEBUG:utils:The function 'TickerManager.update' took 1515.15 milliseconds to run.
+2021-06-23 21:41:05,029:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-23 21:41:06,714:INFO:__main__:
+Program started.
+2021-06-23 21:41:06,725:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-23 21:41:06,725:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-23 21:41:06,726:DEBUG:config_reader:Config file found.
+2021-06-23 21:41:06,749:INFO:config_reader:Config file successfully read.
+2021-06-23 21:41:06,750:INFO:config_reader:Total strategies: 1
+2021-06-23 21:41:06,750:INFO:config_reader:Total tickers: 1
+2021-06-23 21:41:06,750:INFO:config_reader:Oldest date: 01/01/2014
+2021-06-23 21:41:06,750:INFO:config_reader:Most recent date: 13/06/2021
+2021-06-23 21:41:06,751:INFO:config_reader:Strategies found:
+2021-06-23 21:41:06,751:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['PETR4']
+2021-06-23 21:41:06,751:DEBUG:utils:The function 'ConfigReader.__init__' took 36.94 milliseconds to run.
+2021-06-23 21:41:06,760:INFO:ticker_manager:Ticker 'PETR4' already updated.
+2021-06-23 21:41:06,761:DEBUG:utils:The function 'TickerManager.update' took 9.02 milliseconds to run.
+2021-06-23 21:41:06,768:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-06-23 21:41:06,768:DEBUG:utils:The function 'TickerManager.update' took 6.86 milliseconds to run.
+2021-06-23 21:41:06,775:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-06-23 21:41:06,775:DEBUG:utils:The function 'TickerManager.update' took 6.98 milliseconds to run.
+2021-06-23 21:41:06,784:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-23 21:42:10,417:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-23 21:42:11,865:INFO:__main__:
+Program started.
+2021-06-23 21:42:11,875:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-23 21:42:11,875:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-23 21:42:11,876:DEBUG:config_reader:Config file found.
+2021-06-23 21:42:11,896:INFO:config_reader:Config file successfully read.
+2021-06-23 21:42:11,896:INFO:config_reader:Total strategies: 1
+2021-06-23 21:42:11,897:INFO:config_reader:Total tickers: 1
+2021-06-23 21:42:11,897:INFO:config_reader:Oldest date: 01/01/2014
+2021-06-23 21:42:11,897:INFO:config_reader:Most recent date: 13/06/2021
+2021-06-23 21:42:11,897:INFO:config_reader:Strategies found:
+2021-06-23 21:42:11,897:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['PETR4']
+2021-06-23 21:42:11,898:DEBUG:utils:The function 'ConfigReader.__init__' took 31.95 milliseconds to run.
+2021-06-23 21:42:11,905:INFO:ticker_manager:Ticker 'PETR4' already updated.
+2021-06-23 21:42:11,905:DEBUG:utils:The function 'TickerManager.update' took 7.45 milliseconds to run.
+2021-06-23 21:42:11,911:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-06-23 21:42:11,911:DEBUG:utils:The function 'TickerManager.update' took 5.80 milliseconds to run.
+2021-06-23 21:42:11,917:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-06-23 21:42:11,917:DEBUG:utils:The function 'TickerManager.update' took 5.36 milliseconds to run.
+2021-06-23 21:42:11,925:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-23 21:42:11,974:DEBUG:utils:The function 'AndreMoraesStrategy.load_data' took 48.84 milliseconds to run.
+2021-06-23 21:42:48,605:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-23 21:42:49,756:INFO:__main__:
+Program started.
+2021-06-23 21:42:49,764:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-23 21:42:49,765:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-23 21:42:49,765:DEBUG:config_reader:Config file found.
+2021-06-23 21:42:49,783:INFO:config_reader:Config file successfully read.
+2021-06-23 21:42:49,784:INFO:config_reader:Total strategies: 1
+2021-06-23 21:42:49,784:INFO:config_reader:Total tickers: 1
+2021-06-23 21:42:49,784:INFO:config_reader:Oldest date: 01/01/2014
+2021-06-23 21:42:49,784:INFO:config_reader:Most recent date: 13/06/2021
+2021-06-23 21:42:49,785:INFO:config_reader:Strategies found:
+2021-06-23 21:42:49,785:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['PETR4']
+2021-06-23 21:42:49,785:DEBUG:utils:The function 'ConfigReader.__init__' took 29.05 milliseconds to run.
+2021-06-23 21:42:49,792:INFO:ticker_manager:Ticker 'PETR4' already updated.
+2021-06-23 21:42:49,792:DEBUG:utils:The function 'TickerManager.update' took 7.10 milliseconds to run.
+2021-06-23 21:42:49,798:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-06-23 21:42:49,798:DEBUG:utils:The function 'TickerManager.update' took 5.34 milliseconds to run.
+2021-06-23 21:42:49,803:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-06-23 21:42:49,803:DEBUG:utils:The function 'TickerManager.update' took 5.30 milliseconds to run.
+2021-06-23 21:42:49,812:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-23 21:42:49,858:DEBUG:utils:The function 'AndreMoraesStrategy.load_data' took 44.97 milliseconds to run.
+2021-06-23 22:05:06,782:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-23 22:05:08,517:INFO:__main__:
+Program started.
+2021-06-23 22:05:08,526:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-23 22:05:08,527:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-23 22:05:08,527:DEBUG:config_reader:Config file found.
+2021-06-23 22:05:08,549:INFO:config_reader:Config file successfully read.
+2021-06-23 22:05:08,549:INFO:config_reader:Total strategies: 1
+2021-06-23 22:05:08,550:INFO:config_reader:Total tickers: 1
+2021-06-23 22:05:08,550:INFO:config_reader:Oldest date: 01/01/2014
+2021-06-23 22:05:08,550:INFO:config_reader:Most recent date: 13/06/2021
+2021-06-23 22:05:08,550:INFO:config_reader:Strategies found:
+2021-06-23 22:05:08,550:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['PETR4']
+2021-06-23 22:05:08,551:DEBUG:utils:The function 'ConfigReader.__init__' took 33.46 milliseconds to run.
+2021-06-23 22:05:08,559:INFO:ticker_manager:Ticker 'PETR4' already updated.
+2021-06-23 22:05:08,559:DEBUG:utils:The function 'TickerManager.update' took 8.14 milliseconds to run.
+2021-06-23 22:05:08,567:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-06-23 22:05:08,567:DEBUG:utils:The function 'TickerManager.update' took 7.51 milliseconds to run.
+2021-06-23 22:05:08,573:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-06-23 22:05:08,573:DEBUG:utils:The function 'TickerManager.update' took 5.54 milliseconds to run.
+2021-06-23 22:05:08,583:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-23 22:05:08,592:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-23 22:06:14,127:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-23 22:06:16,236:INFO:__main__:
+Program started.
+2021-06-23 22:06:16,246:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-23 22:06:16,247:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-23 22:06:16,247:DEBUG:config_reader:Config file found.
+2021-06-23 22:06:16,273:INFO:config_reader:Config file successfully read.
+2021-06-23 22:06:16,274:INFO:config_reader:Total strategies: 1
+2021-06-23 22:06:16,274:INFO:config_reader:Total tickers: 1
+2021-06-23 22:06:16,274:INFO:config_reader:Oldest date: 01/01/2014
+2021-06-23 22:06:16,274:INFO:config_reader:Most recent date: 13/06/2021
+2021-06-23 22:06:16,275:INFO:config_reader:Strategies found:
+2021-06-23 22:06:16,275:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['PETR4']
+2021-06-23 22:06:16,275:DEBUG:utils:The function 'ConfigReader.__init__' took 38.76 milliseconds to run.
+2021-06-23 22:06:16,284:INFO:ticker_manager:Ticker 'PETR4' already updated.
+2021-06-23 22:06:16,285:DEBUG:utils:The function 'TickerManager.update' took 9.10 milliseconds to run.
+2021-06-23 22:06:16,291:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-06-23 22:06:16,292:DEBUG:utils:The function 'TickerManager.update' took 6.78 milliseconds to run.
+2021-06-23 22:06:16,302:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-06-23 22:06:16,303:DEBUG:utils:The function 'TickerManager.update' took 10.71 milliseconds to run.
+2021-06-23 22:06:16,318:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-23 22:06:16,332:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-23 22:06:48,540:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-23 22:06:50,066:INFO:__main__:
+Program started.
+2021-06-23 22:06:50,076:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-23 22:06:50,077:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-23 22:06:50,077:DEBUG:config_reader:Config file found.
+2021-06-23 22:06:50,102:INFO:config_reader:Config file successfully read.
+2021-06-23 22:06:50,102:INFO:config_reader:Total strategies: 1
+2021-06-23 22:06:50,102:INFO:config_reader:Total tickers: 1
+2021-06-23 22:06:50,102:INFO:config_reader:Oldest date: 01/01/2014
+2021-06-23 22:06:50,103:INFO:config_reader:Most recent date: 13/06/2021
+2021-06-23 22:06:50,103:INFO:config_reader:Strategies found:
+2021-06-23 22:06:50,103:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['PETR4']
+2021-06-23 22:06:50,103:DEBUG:utils:The function 'ConfigReader.__init__' took 37.09 milliseconds to run.
+2021-06-23 22:06:50,112:INFO:ticker_manager:Ticker 'PETR4' already updated.
+2021-06-23 22:06:50,112:DEBUG:utils:The function 'TickerManager.update' took 8.42 milliseconds to run.
+2021-06-23 22:06:50,120:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-06-23 22:06:50,120:DEBUG:utils:The function 'TickerManager.update' took 7.42 milliseconds to run.
+2021-06-23 22:06:50,127:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-06-23 22:06:50,128:DEBUG:utils:The function 'TickerManager.update' took 7.19 milliseconds to run.
+2021-06-23 22:06:50,137:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-23 22:06:50,147:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 00:27:37,102:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 00:27:38,795:INFO:__main__:
+Program started.
+2021-06-25 00:27:38,805:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 00:27:38,805:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-25 00:27:38,806:DEBUG:config_reader:Config file found.
+2021-06-25 00:27:38,844:DEBUG:utils:The function 'ConfigReader.__init__' took 48.63 milliseconds to run.
+2021-06-25 00:29:54,901:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 00:29:56,261:INFO:__main__:
+Program started.
+2021-06-25 00:29:56,270:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 00:29:56,270:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-25 00:29:56,270:DEBUG:config_reader:Config file found.
+2021-06-25 00:29:56,294:INFO:config_reader:Config file successfully read.
+2021-06-25 00:29:56,295:INFO:config_reader:Total strategies: 1
+2021-06-25 00:29:56,295:INFO:config_reader:Total tickers: 1
+2021-06-25 00:29:56,295:INFO:config_reader:Oldest date: 01/01/2014
+2021-06-25 00:29:56,295:INFO:config_reader:Most recent date: 13/06/2021
+2021-06-25 00:29:56,295:INFO:config_reader:Strategies found:
+2021-06-25 00:29:56,296:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['PETR4']
+2021-06-25 00:29:56,296:DEBUG:utils:The function 'ConfigReader.__init__' took 34.40 milliseconds to run.
+2021-06-25 00:29:56,304:INFO:ticker_manager:Ticker 'PETR4' already updated.
+2021-06-25 00:29:56,304:DEBUG:utils:The function 'TickerManager.update' took 7.75 milliseconds to run.
+2021-06-25 00:29:56,309:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-06-25 00:29:56,310:DEBUG:utils:The function 'TickerManager.update' took 5.49 milliseconds to run.
+2021-06-25 00:29:56,315:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-06-25 00:29:56,315:DEBUG:utils:The function 'TickerManager.update' took 5.44 milliseconds to run.
+2021-06-25 00:29:56,324:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 00:29:56,332:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 00:30:55,482:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 00:30:57,239:INFO:__main__:
+Program started.
+2021-06-25 00:30:57,249:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 00:30:57,250:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-25 00:30:57,250:DEBUG:config_reader:Config file found.
+2021-06-25 00:30:57,284:INFO:config_reader:Config file successfully read.
+2021-06-25 00:30:57,285:INFO:config_reader:Total strategies: 1
+2021-06-25 00:30:57,286:INFO:config_reader:Total tickers: 1
+2021-06-25 00:30:57,286:INFO:config_reader:Oldest date: 01/01/2014
+2021-06-25 00:30:57,286:INFO:config_reader:Most recent date: 13/06/2021
+2021-06-25 00:30:57,287:INFO:config_reader:Strategies found:
+2021-06-25 00:30:57,288:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['PETR4']
+2021-06-25 00:30:57,289:DEBUG:utils:The function 'ConfigReader.__init__' took 49.22 milliseconds to run.
+2021-06-25 00:30:57,298:INFO:ticker_manager:Ticker 'PETR4' already updated.
+2021-06-25 00:30:57,298:DEBUG:utils:The function 'TickerManager.update' took 8.91 milliseconds to run.
+2021-06-25 00:30:57,307:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-06-25 00:30:57,308:DEBUG:utils:The function 'TickerManager.update' took 9.39 milliseconds to run.
+2021-06-25 00:30:57,315:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-06-25 00:30:57,316:DEBUG:utils:The function 'TickerManager.update' took 7.72 milliseconds to run.
+2021-06-25 00:30:57,332:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 00:30:57,346:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 00:33:07,303:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 00:33:08,961:INFO:__main__:
+Program started.
+2021-06-25 00:33:08,971:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 00:33:08,972:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-25 00:33:08,972:DEBUG:config_reader:Config file found.
+2021-06-25 00:33:08,999:INFO:config_reader:Config file successfully read.
+2021-06-25 00:33:09,000:INFO:config_reader:Total strategies: 1
+2021-06-25 00:33:09,000:INFO:config_reader:Total tickers: 1
+2021-06-25 00:33:09,001:INFO:config_reader:Oldest date: 01/01/2014
+2021-06-25 00:33:09,001:INFO:config_reader:Most recent date: 13/06/2021
+2021-06-25 00:33:09,001:INFO:config_reader:Strategies found:
+2021-06-25 00:33:09,001:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['PETR4']
+2021-06-25 00:33:09,002:DEBUG:utils:The function 'ConfigReader.__init__' took 40.11 milliseconds to run.
+2021-06-25 00:33:09,010:INFO:ticker_manager:Ticker 'PETR4' already updated.
+2021-06-25 00:33:09,010:DEBUG:utils:The function 'TickerManager.update' took 8.47 milliseconds to run.
+2021-06-25 00:33:09,016:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-06-25 00:33:09,017:DEBUG:utils:The function 'TickerManager.update' took 6.27 milliseconds to run.
+2021-06-25 00:33:09,023:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-06-25 00:33:09,023:DEBUG:utils:The function 'TickerManager.update' took 6.13 milliseconds to run.
+2021-06-25 00:33:09,035:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 00:33:09,044:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 00:33:37,581:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 00:33:38,930:INFO:__main__:
+Program started.
+2021-06-25 00:33:38,939:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 00:33:38,939:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-25 00:33:38,940:DEBUG:config_reader:Config file found.
+2021-06-25 00:33:38,964:INFO:config_reader:Config file successfully read.
+2021-06-25 00:33:38,964:INFO:config_reader:Total strategies: 1
+2021-06-25 00:33:38,964:INFO:config_reader:Total tickers: 1
+2021-06-25 00:33:38,965:INFO:config_reader:Oldest date: 01/01/2014
+2021-06-25 00:33:38,965:INFO:config_reader:Most recent date: 13/06/2021
+2021-06-25 00:33:38,965:INFO:config_reader:Strategies found:
+2021-06-25 00:33:38,966:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['PETR4']
+2021-06-25 00:33:38,966:DEBUG:utils:The function 'ConfigReader.__init__' took 35.94 milliseconds to run.
+2021-06-25 00:33:38,974:INFO:ticker_manager:Ticker 'PETR4' already updated.
+2021-06-25 00:33:38,974:DEBUG:utils:The function 'TickerManager.update' took 8.03 milliseconds to run.
+2021-06-25 00:33:38,981:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-06-25 00:33:38,982:DEBUG:utils:The function 'TickerManager.update' took 7.17 milliseconds to run.
+2021-06-25 00:33:38,988:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-06-25 00:33:38,988:DEBUG:utils:The function 'TickerManager.update' took 6.24 milliseconds to run.
+2021-06-25 00:33:38,998:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 00:33:39,006:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 00:34:36,308:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 00:34:38,266:INFO:__main__:
+Program started.
+2021-06-25 00:34:38,274:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 00:34:38,275:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-25 00:34:38,275:DEBUG:config_reader:Config file found.
+2021-06-25 00:34:38,296:INFO:config_reader:Config file successfully read.
+2021-06-25 00:34:38,296:INFO:config_reader:Total strategies: 1
+2021-06-25 00:34:38,297:INFO:config_reader:Total tickers: 1
+2021-06-25 00:34:38,297:INFO:config_reader:Oldest date: 01/01/2014
+2021-06-25 00:34:38,297:INFO:config_reader:Most recent date: 13/06/2021
+2021-06-25 00:34:38,297:INFO:config_reader:Strategies found:
+2021-06-25 00:34:38,297:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['PETR4']
+2021-06-25 00:34:38,297:DEBUG:utils:The function 'ConfigReader.__init__' took 31.34 milliseconds to run.
+2021-06-25 00:34:38,305:INFO:ticker_manager:Ticker 'PETR4' already updated.
+2021-06-25 00:34:38,305:DEBUG:utils:The function 'TickerManager.update' took 7.31 milliseconds to run.
+2021-06-25 00:34:38,311:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-06-25 00:34:38,311:DEBUG:utils:The function 'TickerManager.update' took 5.92 milliseconds to run.
+2021-06-25 00:34:38,317:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-06-25 00:34:38,317:DEBUG:utils:The function 'TickerManager.update' took 5.60 milliseconds to run.
+2021-06-25 00:34:38,326:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 00:34:38,334:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 00:35:09,796:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 00:35:11,045:INFO:__main__:
+Program started.
+2021-06-25 00:35:11,054:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 00:35:11,054:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-25 00:35:11,055:DEBUG:config_reader:Config file found.
+2021-06-25 00:35:11,074:INFO:config_reader:Config file successfully read.
+2021-06-25 00:35:11,075:INFO:config_reader:Total strategies: 1
+2021-06-25 00:35:11,075:INFO:config_reader:Total tickers: 1
+2021-06-25 00:35:11,075:INFO:config_reader:Oldest date: 01/01/2014
+2021-06-25 00:35:11,075:INFO:config_reader:Most recent date: 13/06/2021
+2021-06-25 00:35:11,075:INFO:config_reader:Strategies found:
+2021-06-25 00:35:11,075:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['PETR4']
+2021-06-25 00:35:11,076:DEBUG:utils:The function 'ConfigReader.__init__' took 30.25 milliseconds to run.
+2021-06-25 00:35:11,083:INFO:ticker_manager:Ticker 'PETR4' already updated.
+2021-06-25 00:35:11,083:DEBUG:utils:The function 'TickerManager.update' took 7.12 milliseconds to run.
+2021-06-25 00:35:11,089:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-06-25 00:35:11,089:DEBUG:utils:The function 'TickerManager.update' took 5.47 milliseconds to run.
+2021-06-25 00:35:11,094:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-06-25 00:35:11,094:DEBUG:utils:The function 'TickerManager.update' took 5.15 milliseconds to run.
+2021-06-25 00:35:11,103:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 00:35:11,111:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 00:48:30,706:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 00:48:32,258:INFO:__main__:
+Program started.
+2021-06-25 00:48:32,267:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 00:48:32,267:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-25 00:48:32,268:DEBUG:config_reader:Config file found.
+2021-06-25 00:48:32,288:INFO:config_reader:Config file successfully read.
+2021-06-25 00:48:32,289:INFO:config_reader:Total strategies: 1
+2021-06-25 00:48:32,289:INFO:config_reader:Total tickers: 1
+2021-06-25 00:48:32,289:INFO:config_reader:Oldest date: 01/01/2014
+2021-06-25 00:48:32,289:INFO:config_reader:Most recent date: 13/06/2021
+2021-06-25 00:48:32,289:INFO:config_reader:Strategies found:
+2021-06-25 00:48:32,290:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['PETR4']
+2021-06-25 00:48:32,290:DEBUG:utils:The function 'ConfigReader.__init__' took 31.52 milliseconds to run.
+2021-06-25 00:48:32,297:INFO:ticker_manager:Ticker 'PETR4' already updated.
+2021-06-25 00:48:32,298:DEBUG:utils:The function 'TickerManager.update' took 7.50 milliseconds to run.
+2021-06-25 00:48:32,303:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-06-25 00:48:32,304:DEBUG:utils:The function 'TickerManager.update' took 5.63 milliseconds to run.
+2021-06-25 00:48:32,309:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-06-25 00:48:32,309:DEBUG:utils:The function 'TickerManager.update' took 5.47 milliseconds to run.
+2021-06-25 00:48:32,318:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 00:48:32,326:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 00:48:44,170:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 00:50:20,386:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 00:50:21,732:INFO:__main__:
+Program started.
+2021-06-25 00:50:21,741:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 00:50:21,742:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-25 00:50:21,742:DEBUG:config_reader:Config file found.
+2021-06-25 00:50:21,763:INFO:config_reader:Config file successfully read.
+2021-06-25 00:50:21,763:INFO:config_reader:Total strategies: 1
+2021-06-25 00:50:21,764:INFO:config_reader:Total tickers: 1
+2021-06-25 00:50:21,764:INFO:config_reader:Oldest date: 01/01/2014
+2021-06-25 00:50:21,764:INFO:config_reader:Most recent date: 13/06/2021
+2021-06-25 00:50:21,764:INFO:config_reader:Strategies found:
+2021-06-25 00:50:21,764:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['PETR4']
+2021-06-25 00:50:21,764:DEBUG:utils:The function 'ConfigReader.__init__' took 31.99 milliseconds to run.
+2021-06-25 00:50:21,772:INFO:ticker_manager:Ticker 'PETR4' already updated.
+2021-06-25 00:50:21,772:DEBUG:utils:The function 'TickerManager.update' took 7.39 milliseconds to run.
+2021-06-25 00:50:21,778:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-06-25 00:50:21,778:DEBUG:utils:The function 'TickerManager.update' took 5.65 milliseconds to run.
+2021-06-25 00:50:21,783:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-06-25 00:50:21,784:DEBUG:utils:The function 'TickerManager.update' took 5.47 milliseconds to run.
+2021-06-25 00:50:21,808:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 00:50:21,818:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 00:50:30,608:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 00:52:40,852:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 00:52:42,344:INFO:__main__:
+Program started.
+2021-06-25 00:52:42,354:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 00:52:42,354:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-25 00:52:42,355:DEBUG:config_reader:Config file found.
+2021-06-25 00:52:42,383:INFO:config_reader:Config file successfully read.
+2021-06-25 00:52:42,383:INFO:config_reader:Total strategies: 1
+2021-06-25 00:52:42,383:INFO:config_reader:Total tickers: 1
+2021-06-25 00:52:42,383:INFO:config_reader:Oldest date: 01/01/2014
+2021-06-25 00:52:42,384:INFO:config_reader:Most recent date: 13/06/2021
+2021-06-25 00:52:42,384:INFO:config_reader:Strategies found:
+2021-06-25 00:52:42,384:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['PETR4']
+2021-06-25 00:52:42,384:DEBUG:utils:The function 'ConfigReader.__init__' took 40.34 milliseconds to run.
+2021-06-25 00:52:42,394:INFO:ticker_manager:Ticker 'PETR4' already updated.
+2021-06-25 00:52:42,394:DEBUG:utils:The function 'TickerManager.update' took 9.80 milliseconds to run.
+2021-06-25 00:52:42,401:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-06-25 00:52:42,401:DEBUG:utils:The function 'TickerManager.update' took 6.60 milliseconds to run.
+2021-06-25 00:52:42,407:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-06-25 00:52:42,408:DEBUG:utils:The function 'TickerManager.update' took 6.17 milliseconds to run.
+2021-06-25 00:52:42,417:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 00:52:42,427:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 00:52:42,442:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 00:54:02,815:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 00:54:04,869:INFO:__main__:
+Program started.
+2021-06-25 00:54:04,881:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 00:54:04,882:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-25 00:54:04,883:DEBUG:config_reader:Config file found.
+2021-06-25 00:54:04,917:INFO:config_reader:Config file successfully read.
+2021-06-25 00:54:04,917:INFO:config_reader:Total strategies: 1
+2021-06-25 00:54:04,917:INFO:config_reader:Total tickers: 1
+2021-06-25 00:54:04,918:INFO:config_reader:Oldest date: 01/01/2014
+2021-06-25 00:54:04,918:INFO:config_reader:Most recent date: 13/06/2021
+2021-06-25 00:54:04,918:INFO:config_reader:Strategies found:
+2021-06-25 00:54:04,920:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['PETR4']
+2021-06-25 00:54:04,920:DEBUG:utils:The function 'ConfigReader.__init__' took 50.27 milliseconds to run.
+2021-06-25 00:54:04,932:INFO:ticker_manager:Ticker 'PETR4' already updated.
+2021-06-25 00:54:04,932:DEBUG:utils:The function 'TickerManager.update' took 11.28 milliseconds to run.
+2021-06-25 00:54:04,942:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-06-25 00:54:04,942:DEBUG:utils:The function 'TickerManager.update' took 9.74 milliseconds to run.
+2021-06-25 00:54:04,950:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-06-25 00:54:04,950:DEBUG:utils:The function 'TickerManager.update' took 7.61 milliseconds to run.
+2021-06-25 00:54:04,961:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 00:54:04,975:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 00:54:04,985:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 00:55:29,516:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 00:55:31,578:INFO:__main__:
+Program started.
+2021-06-25 00:55:31,587:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 00:55:31,588:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-25 00:55:31,589:DEBUG:config_reader:Config file found.
+2021-06-25 00:55:31,613:INFO:config_reader:Config file successfully read.
+2021-06-25 00:55:31,614:INFO:config_reader:Total strategies: 1
+2021-06-25 00:55:31,614:INFO:config_reader:Total tickers: 1
+2021-06-25 00:55:31,614:INFO:config_reader:Oldest date: 01/01/2014
+2021-06-25 00:55:31,614:INFO:config_reader:Most recent date: 13/06/2021
+2021-06-25 00:55:31,615:INFO:config_reader:Strategies found:
+2021-06-25 00:55:31,615:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['PETR4']
+2021-06-25 00:55:31,615:DEBUG:utils:The function 'ConfigReader.__init__' took 36.37 milliseconds to run.
+2021-06-25 00:55:31,623:INFO:ticker_manager:Ticker 'PETR4' already updated.
+2021-06-25 00:55:31,623:DEBUG:utils:The function 'TickerManager.update' took 8.12 milliseconds to run.
+2021-06-25 00:55:31,629:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-06-25 00:55:31,630:DEBUG:utils:The function 'TickerManager.update' took 5.82 milliseconds to run.
+2021-06-25 00:55:31,635:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-06-25 00:55:31,635:DEBUG:utils:The function 'TickerManager.update' took 5.47 milliseconds to run.
+2021-06-25 00:55:31,644:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 00:55:31,652:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 00:55:31,661:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 00:57:07,334:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 00:57:09,506:INFO:__main__:
+Program started.
+2021-06-25 00:57:09,515:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 00:57:09,515:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-25 00:57:09,515:DEBUG:config_reader:Config file found.
+2021-06-25 00:57:09,541:INFO:config_reader:Config file successfully read.
+2021-06-25 00:57:09,542:INFO:config_reader:Total strategies: 1
+2021-06-25 00:57:09,542:INFO:config_reader:Total tickers: 1
+2021-06-25 00:57:09,542:INFO:config_reader:Oldest date: 01/01/2014
+2021-06-25 00:57:09,542:INFO:config_reader:Most recent date: 13/06/2021
+2021-06-25 00:57:09,542:INFO:config_reader:Strategies found:
+2021-06-25 00:57:09,542:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['PETR4']
+2021-06-25 00:57:09,543:DEBUG:utils:The function 'ConfigReader.__init__' took 36.59 milliseconds to run.
+2021-06-25 00:57:09,550:INFO:ticker_manager:Ticker 'PETR4' already updated.
+2021-06-25 00:57:09,550:DEBUG:utils:The function 'TickerManager.update' took 7.09 milliseconds to run.
+2021-06-25 00:57:09,556:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-06-25 00:57:09,557:DEBUG:utils:The function 'TickerManager.update' took 6.41 milliseconds to run.
+2021-06-25 00:57:09,562:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-06-25 00:57:09,562:DEBUG:utils:The function 'TickerManager.update' took 5.44 milliseconds to run.
+2021-06-25 00:57:09,571:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 00:57:09,580:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 00:57:09,589:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:04:36,745:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:04:38,099:INFO:__main__:
+Program started.
+2021-06-25 01:04:38,109:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:04:38,110:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-25 01:04:38,110:DEBUG:config_reader:Config file found.
+2021-06-25 01:04:38,139:INFO:config_reader:Config file successfully read.
+2021-06-25 01:04:38,140:INFO:config_reader:Total strategies: 1
+2021-06-25 01:04:38,140:INFO:config_reader:Total tickers: 1
+2021-06-25 01:04:38,140:INFO:config_reader:Oldest date: 01/01/2014
+2021-06-25 01:04:38,141:INFO:config_reader:Most recent date: 13/06/2021
+2021-06-25 01:04:38,141:INFO:config_reader:Strategies found:
+2021-06-25 01:04:38,141:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['PETR4']
+2021-06-25 01:04:38,141:DEBUG:utils:The function 'ConfigReader.__init__' took 42.27 milliseconds to run.
+2021-06-25 01:04:38,150:INFO:ticker_manager:Ticker 'PETR4' already updated.
+2021-06-25 01:04:38,151:DEBUG:utils:The function 'TickerManager.update' took 8.96 milliseconds to run.
+2021-06-25 01:04:38,158:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-06-25 01:04:38,159:DEBUG:utils:The function 'TickerManager.update' took 7.61 milliseconds to run.
+2021-06-25 01:04:38,165:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-06-25 01:04:38,165:DEBUG:utils:The function 'TickerManager.update' took 6.64 milliseconds to run.
+2021-06-25 01:04:38,175:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:04:38,186:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:04:38,201:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:05:29,438:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:05:30,688:INFO:__main__:
+Program started.
+2021-06-25 01:05:30,698:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:05:30,698:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-25 01:05:30,699:DEBUG:config_reader:Config file found.
+2021-06-25 01:05:30,723:INFO:config_reader:Config file successfully read.
+2021-06-25 01:05:30,724:INFO:config_reader:Total strategies: 1
+2021-06-25 01:05:30,724:INFO:config_reader:Total tickers: 1
+2021-06-25 01:05:30,724:INFO:config_reader:Oldest date: 01/01/2014
+2021-06-25 01:05:30,725:INFO:config_reader:Most recent date: 13/06/2021
+2021-06-25 01:05:30,725:INFO:config_reader:Strategies found:
+2021-06-25 01:05:30,725:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['PETR4']
+2021-06-25 01:05:30,725:DEBUG:utils:The function 'ConfigReader.__init__' took 37.02 milliseconds to run.
+2021-06-25 01:05:30,734:INFO:ticker_manager:Ticker 'PETR4' already updated.
+2021-06-25 01:05:30,734:DEBUG:utils:The function 'TickerManager.update' took 8.48 milliseconds to run.
+2021-06-25 01:05:30,740:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-06-25 01:05:30,741:DEBUG:utils:The function 'TickerManager.update' took 6.18 milliseconds to run.
+2021-06-25 01:05:30,747:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-06-25 01:05:30,747:DEBUG:utils:The function 'TickerManager.update' took 6.28 milliseconds to run.
+2021-06-25 01:05:30,757:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:05:30,769:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:05:30,786:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:09:38,857:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:09:40,332:INFO:__main__:
+Program started.
+2021-06-25 01:09:40,340:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:09:40,341:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-25 01:09:40,341:DEBUG:config_reader:Config file found.
+2021-06-25 01:09:40,367:INFO:config_reader:Config file successfully read.
+2021-06-25 01:09:40,367:INFO:config_reader:Total strategies: 1
+2021-06-25 01:09:40,368:INFO:config_reader:Total tickers: 1
+2021-06-25 01:09:40,368:INFO:config_reader:Oldest date: 01/01/2014
+2021-06-25 01:09:40,368:INFO:config_reader:Most recent date: 13/06/2021
+2021-06-25 01:09:40,368:INFO:config_reader:Strategies found:
+2021-06-25 01:09:40,368:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['PETR4']
+2021-06-25 01:09:40,368:DEBUG:utils:The function 'ConfigReader.__init__' took 36.42 milliseconds to run.
+2021-06-25 01:09:40,376:INFO:ticker_manager:Ticker 'PETR4' already updated.
+2021-06-25 01:09:40,376:DEBUG:utils:The function 'TickerManager.update' took 7.41 milliseconds to run.
+2021-06-25 01:09:40,383:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-06-25 01:09:40,384:DEBUG:utils:The function 'TickerManager.update' took 7.40 milliseconds to run.
+2021-06-25 01:09:40,390:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-06-25 01:09:40,390:DEBUG:utils:The function 'TickerManager.update' took 5.99 milliseconds to run.
+2021-06-25 01:09:40,401:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:09:40,410:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:09:40,420:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:10:27,838:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:10:29,419:INFO:__main__:
+Program started.
+2021-06-25 01:10:29,429:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:10:29,430:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-25 01:10:29,430:DEBUG:config_reader:Config file found.
+2021-06-25 01:10:29,455:INFO:config_reader:Config file successfully read.
+2021-06-25 01:10:29,455:INFO:config_reader:Total strategies: 1
+2021-06-25 01:10:29,456:INFO:config_reader:Total tickers: 1
+2021-06-25 01:10:29,456:INFO:config_reader:Oldest date: 01/01/2014
+2021-06-25 01:10:29,456:INFO:config_reader:Most recent date: 13/06/2021
+2021-06-25 01:10:29,457:INFO:config_reader:Strategies found:
+2021-06-25 01:10:29,457:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['PETR4']
+2021-06-25 01:10:29,457:DEBUG:utils:The function 'ConfigReader.__init__' took 37.35 milliseconds to run.
+2021-06-25 01:10:29,466:INFO:ticker_manager:Ticker 'PETR4' already updated.
+2021-06-25 01:10:29,467:DEBUG:utils:The function 'TickerManager.update' took 9.19 milliseconds to run.
+2021-06-25 01:10:29,476:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-06-25 01:10:29,477:DEBUG:utils:The function 'TickerManager.update' took 9.73 milliseconds to run.
+2021-06-25 01:10:29,484:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-06-25 01:10:29,484:DEBUG:utils:The function 'TickerManager.update' took 6.64 milliseconds to run.
+2021-06-25 01:10:29,493:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:10:29,502:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:10:29,511:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:12:10,510:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:12:11,639:INFO:__main__:
+Program started.
+2021-06-25 01:12:11,647:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:12:11,647:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-25 01:12:11,648:DEBUG:config_reader:Config file found.
+2021-06-25 01:12:11,670:INFO:config_reader:Config file successfully read.
+2021-06-25 01:12:11,670:INFO:config_reader:Total strategies: 1
+2021-06-25 01:12:11,671:INFO:config_reader:Total tickers: 1
+2021-06-25 01:12:11,671:INFO:config_reader:Oldest date: 01/01/2014
+2021-06-25 01:12:11,671:INFO:config_reader:Most recent date: 13/06/2021
+2021-06-25 01:12:11,671:INFO:config_reader:Strategies found:
+2021-06-25 01:12:11,671:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['PETR4']
+2021-06-25 01:12:11,672:DEBUG:utils:The function 'ConfigReader.__init__' took 32.82 milliseconds to run.
+2021-06-25 01:12:11,680:INFO:ticker_manager:Ticker 'PETR4' already updated.
+2021-06-25 01:12:11,680:DEBUG:utils:The function 'TickerManager.update' took 8.05 milliseconds to run.
+2021-06-25 01:12:11,687:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-06-25 01:12:11,687:DEBUG:utils:The function 'TickerManager.update' took 6.73 milliseconds to run.
+2021-06-25 01:12:11,696:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-06-25 01:12:11,697:DEBUG:utils:The function 'TickerManager.update' took 9.51 milliseconds to run.
+2021-06-25 01:12:11,710:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:12:11,718:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:12:11,730:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:12:59,452:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:13:00,848:INFO:__main__:
+Program started.
+2021-06-25 01:13:00,857:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:13:00,857:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-25 01:13:00,858:DEBUG:config_reader:Config file found.
+2021-06-25 01:13:00,878:INFO:config_reader:Config file successfully read.
+2021-06-25 01:13:00,878:INFO:config_reader:Total strategies: 1
+2021-06-25 01:13:00,879:INFO:config_reader:Total tickers: 1
+2021-06-25 01:13:00,879:INFO:config_reader:Oldest date: 01/01/2014
+2021-06-25 01:13:00,879:INFO:config_reader:Most recent date: 13/06/2021
+2021-06-25 01:13:00,879:INFO:config_reader:Strategies found:
+2021-06-25 01:13:00,879:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['PETR4']
+2021-06-25 01:13:00,880:DEBUG:utils:The function 'ConfigReader.__init__' took 31.29 milliseconds to run.
+2021-06-25 01:13:00,887:INFO:ticker_manager:Ticker 'PETR4' already updated.
+2021-06-25 01:13:00,887:DEBUG:utils:The function 'TickerManager.update' took 7.16 milliseconds to run.
+2021-06-25 01:13:00,895:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-06-25 01:13:00,896:DEBUG:utils:The function 'TickerManager.update' took 8.24 milliseconds to run.
+2021-06-25 01:13:00,909:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-06-25 01:13:00,910:DEBUG:utils:The function 'TickerManager.update' took 13.88 milliseconds to run.
+2021-06-25 01:13:00,921:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:13:00,931:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:13:00,940:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:16:42,544:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:16:44,093:INFO:__main__:
+Program started.
+2021-06-25 01:16:44,104:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:16:44,105:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-25 01:16:44,106:DEBUG:config_reader:Config file found.
+2021-06-25 01:16:44,130:INFO:config_reader:Config file successfully read.
+2021-06-25 01:16:44,130:INFO:config_reader:Total strategies: 1
+2021-06-25 01:16:44,130:INFO:config_reader:Total tickers: 2
+2021-06-25 01:16:44,130:INFO:config_reader:Oldest date: 01/01/2018
+2021-06-25 01:16:44,130:INFO:config_reader:Most recent date: 31/12/2018
+2021-06-25 01:16:44,131:INFO:config_reader:Strategies found:
+2021-06-25 01:16:44,131:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['PETR4', 'MGLU3']
+2021-06-25 01:16:44,131:DEBUG:utils:The function 'ConfigReader.__init__' took 37.74 milliseconds to run.
+2021-06-25 01:16:44,138:INFO:ticker_manager:Ticker 'PETR4' already updated.
+2021-06-25 01:16:44,138:DEBUG:utils:The function 'TickerManager.update' took 6.60 milliseconds to run.
+2021-06-25 01:16:44,849:INFO:ticker_manager:Ticker 'MGLU3' updated daily candlesticks.
+2021-06-25 01:16:44,858:INFO:ticker_manager:Ticker 'MGLU3' weekly candles recreated.
+2021-06-25 01:16:44,858:DEBUG:utils:The function 'TickerManager.update' took 719.85 milliseconds to run.
+2021-06-25 01:16:48,105:DEBUG:utils:The function 'TickerManager.generate_features' took 3246.80 milliseconds to run.
+2021-06-25 01:16:48,110:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-06-25 01:16:48,111:DEBUG:utils:The function 'TickerManager.update' took 5.18 milliseconds to run.
+2021-06-25 01:16:48,115:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-06-25 01:16:48,116:DEBUG:utils:The function 'TickerManager.update' took 4.75 milliseconds to run.
+2021-06-25 01:16:48,124:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:16:48,133:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:16:48,142:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:26:21,028:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:26:22,791:INFO:__main__:
+Program started.
+2021-06-25 01:26:22,802:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:26:22,803:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-25 01:26:22,803:DEBUG:config_reader:Config file found.
+2021-06-25 01:26:22,829:INFO:config_reader:Config file successfully read.
+2021-06-25 01:26:22,830:INFO:config_reader:Total strategies: 1
+2021-06-25 01:26:22,830:INFO:config_reader:Total tickers: 2
+2021-06-25 01:26:22,831:INFO:config_reader:Oldest date: 01/01/2018
+2021-06-25 01:26:22,831:INFO:config_reader:Most recent date: 31/12/2018
+2021-06-25 01:26:22,831:INFO:config_reader:Strategies found:
+2021-06-25 01:26:22,832:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['PETR4', 'MGLU3']
+2021-06-25 01:26:22,832:DEBUG:utils:The function 'ConfigReader.__init__' took 40.16 milliseconds to run.
+2021-06-25 01:26:22,839:INFO:ticker_manager:Ticker 'PETR4' already updated.
+2021-06-25 01:26:22,840:DEBUG:utils:The function 'TickerManager.update' took 7.49 milliseconds to run.
+2021-06-25 01:26:22,845:INFO:ticker_manager:Ticker 'MGLU3' already updated.
+2021-06-25 01:26:22,845:DEBUG:utils:The function 'TickerManager.update' took 5.38 milliseconds to run.
+2021-06-25 01:26:22,853:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-06-25 01:26:22,853:DEBUG:utils:The function 'TickerManager.update' took 7.41 milliseconds to run.
+2021-06-25 01:26:22,858:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-06-25 01:26:22,859:DEBUG:utils:The function 'TickerManager.update' took 5.45 milliseconds to run.
+2021-06-25 01:26:22,867:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:26:22,876:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:26:22,887:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:32:42,420:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:32:44,178:INFO:__main__:
+Program started.
+2021-06-25 01:32:44,191:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:32:44,192:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-25 01:32:44,192:DEBUG:config_reader:Config file found.
+2021-06-25 01:32:44,216:INFO:config_reader:Config file successfully read.
+2021-06-25 01:32:44,216:INFO:config_reader:Total strategies: 1
+2021-06-25 01:32:44,217:INFO:config_reader:Total tickers: 2
+2021-06-25 01:32:44,217:INFO:config_reader:Oldest date: 01/01/2018
+2021-06-25 01:32:44,217:INFO:config_reader:Most recent date: 31/12/2018
+2021-06-25 01:32:44,218:INFO:config_reader:Strategies found:
+2021-06-25 01:32:44,219:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['PETR4', 'MGLU3']
+2021-06-25 01:32:44,219:DEBUG:utils:The function 'ConfigReader.__init__' took 40.71 milliseconds to run.
+2021-06-25 01:32:44,231:INFO:ticker_manager:Ticker 'PETR4' already updated.
+2021-06-25 01:32:44,231:DEBUG:utils:The function 'TickerManager.update' took 11.14 milliseconds to run.
+2021-06-25 01:32:44,240:INFO:ticker_manager:Ticker 'MGLU3' already updated.
+2021-06-25 01:32:44,240:DEBUG:utils:The function 'TickerManager.update' took 8.88 milliseconds to run.
+2021-06-25 01:32:44,246:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-06-25 01:32:44,246:DEBUG:utils:The function 'TickerManager.update' took 5.84 milliseconds to run.
+2021-06-25 01:32:44,252:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-06-25 01:32:44,253:DEBUG:utils:The function 'TickerManager.update' took 5.86 milliseconds to run.
+2021-06-25 01:32:44,264:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:32:44,273:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:32:44,282:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:33:08,618:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:33:09,799:INFO:__main__:
+Program started.
+2021-06-25 01:33:09,807:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:33:09,808:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-25 01:33:09,808:DEBUG:config_reader:Config file found.
+2021-06-25 01:33:09,827:INFO:config_reader:Config file successfully read.
+2021-06-25 01:33:09,828:INFO:config_reader:Total strategies: 1
+2021-06-25 01:33:09,828:INFO:config_reader:Total tickers: 2
+2021-06-25 01:33:09,828:INFO:config_reader:Oldest date: 01/01/2018
+2021-06-25 01:33:09,828:INFO:config_reader:Most recent date: 31/12/2018
+2021-06-25 01:33:09,828:INFO:config_reader:Strategies found:
+2021-06-25 01:33:09,829:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['PETR4', 'MGLU3']
+2021-06-25 01:33:09,829:DEBUG:utils:The function 'ConfigReader.__init__' took 29.60 milliseconds to run.
+2021-06-25 01:33:09,835:INFO:ticker_manager:Ticker 'PETR4' already updated.
+2021-06-25 01:33:09,836:DEBUG:utils:The function 'TickerManager.update' took 6.75 milliseconds to run.
+2021-06-25 01:33:09,841:INFO:ticker_manager:Ticker 'MGLU3' already updated.
+2021-06-25 01:33:09,841:DEBUG:utils:The function 'TickerManager.update' took 4.59 milliseconds to run.
+2021-06-25 01:33:09,845:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-06-25 01:33:09,846:DEBUG:utils:The function 'TickerManager.update' took 4.69 milliseconds to run.
+2021-06-25 01:33:09,850:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-06-25 01:33:09,851:DEBUG:utils:The function 'TickerManager.update' took 4.76 milliseconds to run.
+2021-06-25 01:33:09,859:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:33:09,867:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:33:09,876:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:34:26,882:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:34:28,145:INFO:__main__:
+Program started.
+2021-06-25 01:34:28,153:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:34:28,154:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-25 01:34:28,154:DEBUG:config_reader:Config file found.
+2021-06-25 01:34:28,174:INFO:config_reader:Config file successfully read.
+2021-06-25 01:34:28,174:INFO:config_reader:Total strategies: 1
+2021-06-25 01:34:28,175:INFO:config_reader:Total tickers: 2
+2021-06-25 01:34:28,175:INFO:config_reader:Oldest date: 01/01/2018
+2021-06-25 01:34:28,175:INFO:config_reader:Most recent date: 31/12/2018
+2021-06-25 01:34:28,175:INFO:config_reader:Strategies found:
+2021-06-25 01:34:28,175:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['PETR4', 'MGLU3']
+2021-06-25 01:34:28,176:DEBUG:utils:The function 'ConfigReader.__init__' took 30.71 milliseconds to run.
+2021-06-25 01:34:28,182:INFO:ticker_manager:Ticker 'PETR4' already updated.
+2021-06-25 01:34:28,183:DEBUG:utils:The function 'TickerManager.update' took 6.72 milliseconds to run.
+2021-06-25 01:34:28,187:INFO:ticker_manager:Ticker 'MGLU3' already updated.
+2021-06-25 01:34:28,188:DEBUG:utils:The function 'TickerManager.update' took 4.89 milliseconds to run.
+2021-06-25 01:34:28,193:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-06-25 01:34:28,193:DEBUG:utils:The function 'TickerManager.update' took 5.06 milliseconds to run.
+2021-06-25 01:34:28,198:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-06-25 01:34:28,198:DEBUG:utils:The function 'TickerManager.update' took 4.84 milliseconds to run.
+2021-06-25 01:34:28,207:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:34:28,216:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:34:28,227:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:34:46,371:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:34:47,527:INFO:__main__:
+Program started.
+2021-06-25 01:34:47,536:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:34:47,536:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-25 01:34:47,537:DEBUG:config_reader:Config file found.
+2021-06-25 01:34:47,558:INFO:config_reader:Config file successfully read.
+2021-06-25 01:34:47,559:INFO:config_reader:Total strategies: 1
+2021-06-25 01:34:47,559:INFO:config_reader:Total tickers: 2
+2021-06-25 01:34:47,559:INFO:config_reader:Oldest date: 01/01/2018
+2021-06-25 01:34:47,560:INFO:config_reader:Most recent date: 31/12/2018
+2021-06-25 01:34:47,560:INFO:config_reader:Strategies found:
+2021-06-25 01:34:47,560:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['PETR4', 'MGLU3']
+2021-06-25 01:34:47,560:DEBUG:utils:The function 'ConfigReader.__init__' took 32.50 milliseconds to run.
+2021-06-25 01:34:47,567:INFO:ticker_manager:Ticker 'PETR4' already updated.
+2021-06-25 01:34:47,568:DEBUG:utils:The function 'TickerManager.update' took 7.02 milliseconds to run.
+2021-06-25 01:34:47,572:INFO:ticker_manager:Ticker 'MGLU3' already updated.
+2021-06-25 01:34:47,572:DEBUG:utils:The function 'TickerManager.update' took 4.67 milliseconds to run.
+2021-06-25 01:34:47,577:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-06-25 01:34:47,578:DEBUG:utils:The function 'TickerManager.update' took 5.06 milliseconds to run.
+2021-06-25 01:34:47,583:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-06-25 01:34:47,583:DEBUG:utils:The function 'TickerManager.update' took 4.86 milliseconds to run.
+2021-06-25 01:34:47,591:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:34:47,600:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:34:47,609:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:35:56,837:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:35:58,394:INFO:__main__:
+Program started.
+2021-06-25 01:35:58,403:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:35:58,403:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-25 01:35:58,404:DEBUG:config_reader:Config file found.
+2021-06-25 01:35:58,424:INFO:config_reader:Config file successfully read.
+2021-06-25 01:35:58,424:INFO:config_reader:Total strategies: 1
+2021-06-25 01:35:58,425:INFO:config_reader:Total tickers: 2
+2021-06-25 01:35:58,425:INFO:config_reader:Oldest date: 01/01/2018
+2021-06-25 01:35:58,425:INFO:config_reader:Most recent date: 31/12/2018
+2021-06-25 01:35:58,425:INFO:config_reader:Strategies found:
+2021-06-25 01:35:58,425:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['PETR4', 'MGLU3']
+2021-06-25 01:35:58,426:DEBUG:utils:The function 'ConfigReader.__init__' took 31.53 milliseconds to run.
+2021-06-25 01:35:58,433:INFO:ticker_manager:Ticker 'PETR4' already updated.
+2021-06-25 01:35:58,433:DEBUG:utils:The function 'TickerManager.update' took 6.99 milliseconds to run.
+2021-06-25 01:35:58,438:INFO:ticker_manager:Ticker 'MGLU3' already updated.
+2021-06-25 01:35:58,438:DEBUG:utils:The function 'TickerManager.update' took 4.72 milliseconds to run.
+2021-06-25 01:35:58,443:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-06-25 01:35:58,444:DEBUG:utils:The function 'TickerManager.update' took 5.43 milliseconds to run.
+2021-06-25 01:35:58,448:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-06-25 01:35:58,449:DEBUG:utils:The function 'TickerManager.update' took 4.95 milliseconds to run.
+2021-06-25 01:35:58,458:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:35:58,467:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:35:58,476:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:36:45,470:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:36:46,834:INFO:__main__:
+Program started.
+2021-06-25 01:36:46,842:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:36:46,843:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-25 01:36:46,844:DEBUG:config_reader:Config file found.
+2021-06-25 01:36:46,864:INFO:config_reader:Config file successfully read.
+2021-06-25 01:36:46,864:INFO:config_reader:Total strategies: 1
+2021-06-25 01:36:46,865:INFO:config_reader:Total tickers: 2
+2021-06-25 01:36:46,865:INFO:config_reader:Oldest date: 01/01/2018
+2021-06-25 01:36:46,865:INFO:config_reader:Most recent date: 31/12/2018
+2021-06-25 01:36:46,865:INFO:config_reader:Strategies found:
+2021-06-25 01:36:46,865:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['PETR4', 'MGLU3']
+2021-06-25 01:36:46,865:DEBUG:utils:The function 'ConfigReader.__init__' took 31.28 milliseconds to run.
+2021-06-25 01:36:46,880:INFO:ticker_manager:Ticker 'PETR4' already updated.
+2021-06-25 01:36:46,880:DEBUG:utils:The function 'TickerManager.update' took 14.39 milliseconds to run.
+2021-06-25 01:36:46,893:INFO:ticker_manager:Ticker 'MGLU3' already updated.
+2021-06-25 01:36:46,894:DEBUG:utils:The function 'TickerManager.update' took 13.07 milliseconds to run.
+2021-06-25 01:36:46,902:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-06-25 01:36:46,903:DEBUG:utils:The function 'TickerManager.update' took 8.64 milliseconds to run.
+2021-06-25 01:36:46,911:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-06-25 01:36:46,911:DEBUG:utils:The function 'TickerManager.update' took 8.38 milliseconds to run.
+2021-06-25 01:36:46,924:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:36:46,943:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:36:46,954:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:39:12,510:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:39:14,105:INFO:__main__:
+Program started.
+2021-06-25 01:39:14,117:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:39:14,117:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-25 01:39:14,117:DEBUG:config_reader:Config file found.
+2021-06-25 01:39:14,144:INFO:config_reader:Config file successfully read.
+2021-06-25 01:39:14,145:INFO:config_reader:Total strategies: 1
+2021-06-25 01:39:14,145:INFO:config_reader:Total tickers: 2
+2021-06-25 01:39:14,145:INFO:config_reader:Oldest date: 01/01/2018
+2021-06-25 01:39:14,145:INFO:config_reader:Most recent date: 31/12/2018
+2021-06-25 01:39:14,145:INFO:config_reader:Strategies found:
+2021-06-25 01:39:14,146:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['PETR4', 'MGLU3']
+2021-06-25 01:39:14,146:DEBUG:utils:The function 'ConfigReader.__init__' took 40.57 milliseconds to run.
+2021-06-25 01:39:14,155:INFO:ticker_manager:Ticker 'PETR4' already updated.
+2021-06-25 01:39:14,156:DEBUG:utils:The function 'TickerManager.update' took 9.50 milliseconds to run.
+2021-06-25 01:39:14,161:INFO:ticker_manager:Ticker 'MGLU3' already updated.
+2021-06-25 01:39:14,162:DEBUG:utils:The function 'TickerManager.update' took 5.67 milliseconds to run.
+2021-06-25 01:39:14,171:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-06-25 01:39:14,171:DEBUG:utils:The function 'TickerManager.update' took 8.82 milliseconds to run.
+2021-06-25 01:39:14,177:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-06-25 01:39:14,177:DEBUG:utils:The function 'TickerManager.update' took 5.88 milliseconds to run.
+2021-06-25 01:39:14,192:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:39:14,207:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:39:14,221:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:41:00,661:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:41:02,161:INFO:__main__:
+Program started.
+2021-06-25 01:41:02,170:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:41:02,171:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-25 01:41:02,171:DEBUG:config_reader:Config file found.
+2021-06-25 01:41:02,193:INFO:config_reader:Config file successfully read.
+2021-06-25 01:41:02,194:INFO:config_reader:Total strategies: 1
+2021-06-25 01:41:02,194:INFO:config_reader:Total tickers: 2
+2021-06-25 01:41:02,195:INFO:config_reader:Oldest date: 01/03/2018
+2021-06-25 01:41:02,196:INFO:config_reader:Most recent date: 31/12/2018
+2021-06-25 01:41:02,196:INFO:config_reader:Strategies found:
+2021-06-25 01:41:02,196:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['PETR4', 'MGLU3']
+2021-06-25 01:41:02,196:DEBUG:utils:The function 'ConfigReader.__init__' took 35.13 milliseconds to run.
+2021-06-25 01:41:02,204:INFO:ticker_manager:Ticker 'PETR4' already updated.
+2021-06-25 01:41:02,204:DEBUG:utils:The function 'TickerManager.update' took 7.19 milliseconds to run.
+2021-06-25 01:41:02,209:INFO:ticker_manager:Ticker 'MGLU3' already updated.
+2021-06-25 01:41:02,209:DEBUG:utils:The function 'TickerManager.update' took 4.62 milliseconds to run.
+2021-06-25 01:41:02,215:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-06-25 01:41:02,216:DEBUG:utils:The function 'TickerManager.update' took 6.40 milliseconds to run.
+2021-06-25 01:41:02,221:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-06-25 01:41:02,221:DEBUG:utils:The function 'TickerManager.update' took 5.34 milliseconds to run.
+2021-06-25 01:41:02,231:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:41:02,240:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 01:41:02,249:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 17:46:39,139:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 17:46:41,257:INFO:__main__:
+Program started.
+2021-06-25 17:46:41,266:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 17:46:41,267:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-25 17:46:41,268:DEBUG:config_reader:Config file found.
+2021-06-25 17:46:41,337:INFO:config_reader:Config file successfully read.
+2021-06-25 17:46:41,337:INFO:config_reader:Total strategies: 1
+2021-06-25 17:46:41,338:INFO:config_reader:Total tickers: 2
+2021-06-25 17:46:41,338:INFO:config_reader:Oldest date: 01/03/2018
+2021-06-25 17:46:41,338:INFO:config_reader:Most recent date: 31/12/2018
+2021-06-25 17:46:41,338:INFO:config_reader:Strategies found:
+2021-06-25 17:46:41,338:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['PETR4', 'MGLU3']
+2021-06-25 17:46:41,339:DEBUG:utils:The function 'ConfigReader.__init__' took 80.76 milliseconds to run.
+2021-06-25 17:46:41,353:INFO:ticker_manager:Ticker 'PETR4' already updated.
+2021-06-25 17:46:41,353:DEBUG:utils:The function 'TickerManager.update' took 14.38 milliseconds to run.
+2021-06-25 17:46:41,358:INFO:ticker_manager:Ticker 'MGLU3' already updated.
+2021-06-25 17:46:41,358:DEBUG:utils:The function 'TickerManager.update' took 5.01 milliseconds to run.
+2021-06-25 17:46:41,363:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-06-25 17:46:41,364:DEBUG:utils:The function 'TickerManager.update' took 4.96 milliseconds to run.
+2021-06-25 17:46:41,368:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-06-25 17:46:41,369:DEBUG:utils:The function 'TickerManager.update' took 4.75 milliseconds to run.
+2021-06-25 17:46:41,377:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 17:46:41,385:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 17:46:41,394:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 17:51:52,526:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 17:51:54,074:INFO:__main__:
+Program started.
+2021-06-25 17:51:54,083:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 17:51:54,083:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-25 17:51:54,084:DEBUG:config_reader:Config file found.
+2021-06-25 17:51:54,104:INFO:config_reader:Config file successfully read.
+2021-06-25 17:51:54,105:INFO:config_reader:Total strategies: 1
+2021-06-25 17:51:54,105:INFO:config_reader:Total tickers: 2
+2021-06-25 17:51:54,105:INFO:config_reader:Oldest date: 01/03/2018
+2021-06-25 17:51:54,105:INFO:config_reader:Most recent date: 31/12/2018
+2021-06-25 17:51:54,105:INFO:config_reader:Strategies found:
+2021-06-25 17:51:54,106:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['PETR4', 'MGLU3']
+2021-06-25 17:51:54,106:DEBUG:utils:The function 'ConfigReader.__init__' took 31.29 milliseconds to run.
+2021-06-25 17:51:54,112:INFO:ticker_manager:Ticker 'PETR4' already updated.
+2021-06-25 17:51:54,113:DEBUG:utils:The function 'TickerManager.update' took 6.36 milliseconds to run.
+2021-06-25 17:51:54,117:INFO:ticker_manager:Ticker 'MGLU3' already updated.
+2021-06-25 17:51:54,117:DEBUG:utils:The function 'TickerManager.update' took 4.53 milliseconds to run.
+2021-06-25 17:51:54,122:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-06-25 17:51:54,122:DEBUG:utils:The function 'TickerManager.update' took 4.68 milliseconds to run.
+2021-06-25 17:51:54,127:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-06-25 17:51:54,127:DEBUG:utils:The function 'TickerManager.update' took 4.69 milliseconds to run.
+2021-06-25 17:51:54,137:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 17:51:54,146:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 17:51:54,156:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 17:54:21,658:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 17:54:23,437:INFO:__main__:
+Program started.
+2021-06-25 17:54:23,448:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 17:54:23,448:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-25 17:54:23,449:DEBUG:config_reader:Config file found.
+2021-06-25 17:54:23,474:INFO:config_reader:Config file successfully read.
+2021-06-25 17:54:23,480:INFO:config_reader:Total strategies: 1
+2021-06-25 17:54:23,480:INFO:config_reader:Total tickers: 2
+2021-06-25 17:54:23,480:INFO:config_reader:Oldest date: 01/01/2018
+2021-06-25 17:54:23,480:INFO:config_reader:Most recent date: 31/12/2018
+2021-06-25 17:54:23,481:INFO:config_reader:Strategies found:
+2021-06-25 17:54:23,481:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['PETR4', 'MGLU3']
+2021-06-25 17:54:23,481:DEBUG:utils:The function 'ConfigReader.__init__' took 43.14 milliseconds to run.
+2021-06-25 17:54:23,489:INFO:ticker_manager:Ticker 'PETR4' already updated.
+2021-06-25 17:54:23,489:DEBUG:utils:The function 'TickerManager.update' took 7.55 milliseconds to run.
+2021-06-25 17:54:23,495:INFO:ticker_manager:Ticker 'MGLU3' already updated.
+2021-06-25 17:54:23,496:DEBUG:utils:The function 'TickerManager.update' took 6.40 milliseconds to run.
+2021-06-25 17:54:23,501:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-06-25 17:54:23,501:DEBUG:utils:The function 'TickerManager.update' took 5.70 milliseconds to run.
+2021-06-25 17:54:23,506:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-06-25 17:54:23,506:DEBUG:utils:The function 'TickerManager.update' took 4.76 milliseconds to run.
+2021-06-25 17:54:23,515:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 17:54:23,523:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 17:54:23,532:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 17:59:47,217:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 17:59:48,827:INFO:__main__:
+Program started.
+2021-06-25 17:59:48,836:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 17:59:48,836:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-25 17:59:48,837:DEBUG:config_reader:Config file found.
+2021-06-25 17:59:48,858:INFO:config_reader:Config file successfully read.
+2021-06-25 17:59:48,859:INFO:config_reader:Total strategies: 1
+2021-06-25 17:59:48,859:INFO:config_reader:Total tickers: 2
+2021-06-25 17:59:48,859:INFO:config_reader:Oldest date: 01/01/2018
+2021-06-25 17:59:48,859:INFO:config_reader:Most recent date: 31/12/2018
+2021-06-25 17:59:48,859:INFO:config_reader:Strategies found:
+2021-06-25 17:59:48,860:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['PETR4', 'MGLU3']
+2021-06-25 17:59:48,860:DEBUG:utils:The function 'ConfigReader.__init__' took 32.24 milliseconds to run.
+2021-06-25 17:59:48,867:INFO:ticker_manager:Ticker 'PETR4' already updated.
+2021-06-25 17:59:48,867:DEBUG:utils:The function 'TickerManager.update' took 6.88 milliseconds to run.
+2021-06-25 17:59:48,873:INFO:ticker_manager:Ticker 'MGLU3' already updated.
+2021-06-25 17:59:48,873:DEBUG:utils:The function 'TickerManager.update' took 6.00 milliseconds to run.
+2021-06-25 17:59:48,879:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-06-25 17:59:48,880:DEBUG:utils:The function 'TickerManager.update' took 6.10 milliseconds to run.
+2021-06-25 17:59:48,884:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-06-25 17:59:48,885:DEBUG:utils:The function 'TickerManager.update' took 4.71 milliseconds to run.
+2021-06-25 17:59:48,894:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 17:59:48,903:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 17:59:48,914:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 18:07:19,155:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 18:07:28,895:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 18:07:55,400:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 18:07:56,919:INFO:__main__:
+Program started.
+2021-06-25 18:07:56,928:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 18:07:56,929:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-25 18:07:56,930:DEBUG:config_reader:Config file found.
+2021-06-25 18:07:56,950:INFO:config_reader:Config file successfully read.
+2021-06-25 18:07:56,950:INFO:config_reader:Total strategies: 1
+2021-06-25 18:07:56,950:INFO:config_reader:Total tickers: 2
+2021-06-25 18:07:56,951:INFO:config_reader:Oldest date: 01/01/2018
+2021-06-25 18:07:56,951:INFO:config_reader:Most recent date: 31/12/2018
+2021-06-25 18:07:56,951:INFO:config_reader:Strategies found:
+2021-06-25 18:07:56,951:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['PETR4', 'MGLU3']
+2021-06-25 18:07:56,951:DEBUG:utils:The function 'ConfigReader.__init__' took 32.11 milliseconds to run.
+2021-06-25 18:07:56,958:INFO:ticker_manager:Ticker 'PETR4' already updated.
+2021-06-25 18:07:56,958:DEBUG:utils:The function 'TickerManager.update' took 6.63 milliseconds to run.
+2021-06-25 18:07:56,963:INFO:ticker_manager:Ticker 'MGLU3' already updated.
+2021-06-25 18:07:56,963:DEBUG:utils:The function 'TickerManager.update' took 4.36 milliseconds to run.
+2021-06-25 18:07:56,967:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-06-25 18:07:56,968:DEBUG:utils:The function 'TickerManager.update' took 4.53 milliseconds to run.
+2021-06-25 18:07:56,972:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-06-25 18:07:56,972:DEBUG:utils:The function 'TickerManager.update' took 4.54 milliseconds to run.
+2021-06-25 18:07:56,981:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 18:07:56,990:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 18:07:56,999:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 18:08:42,741:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 18:08:44,289:INFO:__main__:
+Program started.
+2021-06-25 18:08:44,298:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 18:08:44,299:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-25 18:08:44,300:DEBUG:config_reader:Config file found.
+2021-06-25 18:08:44,323:INFO:config_reader:Config file successfully read.
+2021-06-25 18:08:44,324:INFO:config_reader:Total strategies: 1
+2021-06-25 18:08:44,324:INFO:config_reader:Total tickers: 2
+2021-06-25 18:08:44,324:INFO:config_reader:Oldest date: 01/01/2018
+2021-06-25 18:08:44,324:INFO:config_reader:Most recent date: 31/12/2018
+2021-06-25 18:08:44,324:INFO:config_reader:Strategies found:
+2021-06-25 18:08:44,325:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['PETR4', 'MGLU3']
+2021-06-25 18:08:44,325:DEBUG:utils:The function 'ConfigReader.__init__' took 35.32 milliseconds to run.
+2021-06-25 18:08:44,333:INFO:ticker_manager:Ticker 'PETR4' already updated.
+2021-06-25 18:08:44,333:DEBUG:utils:The function 'TickerManager.update' took 7.63 milliseconds to run.
+2021-06-25 18:08:44,339:INFO:ticker_manager:Ticker 'MGLU3' already updated.
+2021-06-25 18:08:44,339:DEBUG:utils:The function 'TickerManager.update' took 6.21 milliseconds to run.
+2021-06-25 18:08:44,345:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-06-25 18:08:44,345:DEBUG:utils:The function 'TickerManager.update' took 5.64 milliseconds to run.
+2021-06-25 18:08:44,350:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-06-25 18:08:44,350:DEBUG:utils:The function 'TickerManager.update' took 4.71 milliseconds to run.
+2021-06-25 18:08:44,360:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 18:08:44,371:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 18:08:44,381:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 18:09:16,593:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 18:09:18,793:INFO:__main__:
+Program started.
+2021-06-25 18:09:18,802:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 18:09:18,803:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-25 18:09:18,803:DEBUG:config_reader:Config file found.
+2021-06-25 18:09:18,840:INFO:config_reader:Config file successfully read.
+2021-06-25 18:09:18,840:INFO:config_reader:Total strategies: 1
+2021-06-25 18:09:18,841:INFO:config_reader:Total tickers: 2
+2021-06-25 18:09:18,841:INFO:config_reader:Oldest date: 01/01/2018
+2021-06-25 18:09:18,841:INFO:config_reader:Most recent date: 31/12/2018
+2021-06-25 18:09:18,841:INFO:config_reader:Strategies found:
+2021-06-25 18:09:18,841:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['PETR4', 'MGLU3']
+2021-06-25 18:09:18,841:DEBUG:utils:The function 'ConfigReader.__init__' took 47.71 milliseconds to run.
+2021-06-25 18:09:18,852:INFO:ticker_manager:Ticker 'PETR4' already updated.
+2021-06-25 18:09:18,852:DEBUG:utils:The function 'TickerManager.update' took 10.26 milliseconds to run.
+2021-06-25 18:09:18,857:INFO:ticker_manager:Ticker 'MGLU3' already updated.
+2021-06-25 18:09:18,857:DEBUG:utils:The function 'TickerManager.update' took 4.97 milliseconds to run.
+2021-06-25 18:09:18,865:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-06-25 18:09:18,865:DEBUG:utils:The function 'TickerManager.update' took 7.97 milliseconds to run.
+2021-06-25 18:09:18,872:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-06-25 18:09:18,873:DEBUG:utils:The function 'TickerManager.update' took 6.93 milliseconds to run.
+2021-06-25 18:09:18,886:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 18:09:18,897:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 18:09:18,913:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 18:09:59,492:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 18:10:01,157:INFO:__main__:
+Program started.
+2021-06-25 18:10:01,166:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 18:10:01,166:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-25 18:10:01,167:DEBUG:config_reader:Config file found.
+2021-06-25 18:10:01,191:INFO:config_reader:Config file successfully read.
+2021-06-25 18:10:01,192:INFO:config_reader:Total strategies: 1
+2021-06-25 18:10:01,192:INFO:config_reader:Total tickers: 2
+2021-06-25 18:10:01,192:INFO:config_reader:Oldest date: 05/01/2018
+2021-06-25 18:10:01,192:INFO:config_reader:Most recent date: 31/12/2018
+2021-06-25 18:10:01,192:INFO:config_reader:Strategies found:
+2021-06-25 18:10:01,193:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['PETR4', 'MGLU3']
+2021-06-25 18:10:01,193:DEBUG:utils:The function 'ConfigReader.__init__' took 35.16 milliseconds to run.
+2021-06-25 18:10:01,199:INFO:ticker_manager:Ticker 'PETR4' already updated.
+2021-06-25 18:10:01,199:DEBUG:utils:The function 'TickerManager.update' took 6.29 milliseconds to run.
+2021-06-25 18:10:01,207:INFO:ticker_manager:Ticker 'MGLU3' already updated.
+2021-06-25 18:10:01,207:DEBUG:utils:The function 'TickerManager.update' took 7.62 milliseconds to run.
+2021-06-25 18:10:01,212:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-06-25 18:10:01,213:DEBUG:utils:The function 'TickerManager.update' took 5.15 milliseconds to run.
+2021-06-25 18:10:01,218:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-06-25 18:10:01,218:DEBUG:utils:The function 'TickerManager.update' took 5.06 milliseconds to run.
+2021-06-25 18:10:01,228:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 18:10:01,237:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 18:10:01,246:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 18:10:27,254:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 18:10:28,386:INFO:__main__:
+Program started.
+2021-06-25 18:10:28,394:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 18:10:28,395:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-25 18:10:28,395:DEBUG:config_reader:Config file found.
+2021-06-25 18:10:28,414:INFO:config_reader:Config file successfully read.
+2021-06-25 18:10:28,415:INFO:config_reader:Total strategies: 1
+2021-06-25 18:10:28,415:INFO:config_reader:Total tickers: 2
+2021-06-25 18:10:28,415:INFO:config_reader:Oldest date: 08/01/2018
+2021-06-25 18:10:28,415:INFO:config_reader:Most recent date: 31/12/2018
+2021-06-25 18:10:28,415:INFO:config_reader:Strategies found:
+2021-06-25 18:10:28,416:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['PETR4', 'MGLU3']
+2021-06-25 18:10:28,416:DEBUG:utils:The function 'ConfigReader.__init__' took 29.25 milliseconds to run.
+2021-06-25 18:10:28,422:INFO:ticker_manager:Ticker 'PETR4' already updated.
+2021-06-25 18:10:28,422:DEBUG:utils:The function 'TickerManager.update' took 6.27 milliseconds to run.
+2021-06-25 18:10:28,427:INFO:ticker_manager:Ticker 'MGLU3' already updated.
+2021-06-25 18:10:28,427:DEBUG:utils:The function 'TickerManager.update' took 4.57 milliseconds to run.
+2021-06-25 18:10:28,432:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-06-25 18:10:28,432:DEBUG:utils:The function 'TickerManager.update' took 4.60 milliseconds to run.
+2021-06-25 18:10:28,436:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-06-25 18:10:28,437:DEBUG:utils:The function 'TickerManager.update' took 4.54 milliseconds to run.
+2021-06-25 18:10:28,445:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 18:10:28,453:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 18:10:28,461:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 18:27:48,375:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 18:27:49,889:INFO:__main__:
+Program started.
+2021-06-25 18:27:49,898:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 18:27:49,898:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-25 18:27:49,899:DEBUG:config_reader:Config file found.
+2021-06-25 18:27:49,922:INFO:config_reader:Config file successfully read.
+2021-06-25 18:27:49,922:INFO:config_reader:Total strategies: 1
+2021-06-25 18:27:49,923:INFO:config_reader:Total tickers: 2
+2021-06-25 18:27:49,923:INFO:config_reader:Oldest date: 08/01/2018
+2021-06-25 18:27:49,923:INFO:config_reader:Most recent date: 31/12/2018
+2021-06-25 18:27:49,924:INFO:config_reader:Strategies found:
+2021-06-25 18:27:49,924:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['PETR4', 'MGLU3']
+2021-06-25 18:27:49,924:DEBUG:utils:The function 'ConfigReader.__init__' took 34.76 milliseconds to run.
+2021-06-25 18:27:49,931:INFO:ticker_manager:Ticker 'PETR4' already updated.
+2021-06-25 18:27:49,931:DEBUG:utils:The function 'TickerManager.update' took 6.54 milliseconds to run.
+2021-06-25 18:27:49,936:INFO:ticker_manager:Ticker 'MGLU3' already updated.
+2021-06-25 18:27:49,936:DEBUG:utils:The function 'TickerManager.update' took 5.11 milliseconds to run.
+2021-06-25 18:27:49,942:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-06-25 18:27:49,942:DEBUG:utils:The function 'TickerManager.update' took 5.45 milliseconds to run.
+2021-06-25 18:27:49,947:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-06-25 18:27:49,947:DEBUG:utils:The function 'TickerManager.update' took 4.65 milliseconds to run.
+2021-06-25 18:27:49,955:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 18:27:49,964:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 18:27:49,973:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 23:05:47,421:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 23:05:49,567:INFO:__main__:
+Program started.
+2021-06-25 23:05:49,577:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 23:05:49,577:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-25 23:05:49,579:DEBUG:config_reader:Config file found.
+2021-06-25 23:05:49,611:INFO:config_reader:Config file successfully read.
+2021-06-25 23:05:49,611:INFO:config_reader:Total strategies: 1
+2021-06-25 23:05:49,612:INFO:config_reader:Total tickers: 2
+2021-06-25 23:05:49,612:INFO:config_reader:Oldest date: 08/01/2018
+2021-06-25 23:05:49,613:INFO:config_reader:Most recent date: 31/12/2018
+2021-06-25 23:05:49,613:INFO:config_reader:Strategies found:
+2021-06-25 23:05:49,613:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['PETR4', 'MGLU3']
+2021-06-25 23:05:49,614:DEBUG:utils:The function 'ConfigReader.__init__' took 46.38 milliseconds to run.
+2021-06-25 23:05:49,628:INFO:ticker_manager:Ticker 'PETR4' already updated.
+2021-06-25 23:05:49,629:DEBUG:utils:The function 'TickerManager.update' took 14.41 milliseconds to run.
+2021-06-25 23:05:49,638:INFO:ticker_manager:Ticker 'MGLU3' already updated.
+2021-06-25 23:05:49,639:DEBUG:utils:The function 'TickerManager.update' took 9.61 milliseconds to run.
+2021-06-25 23:05:49,651:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-06-25 23:05:49,652:DEBUG:utils:The function 'TickerManager.update' took 12.64 milliseconds to run.
+2021-06-25 23:05:49,662:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-06-25 23:05:49,663:DEBUG:utils:The function 'TickerManager.update' took 9.92 milliseconds to run.
+2021-06-25 23:05:49,678:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 23:05:49,695:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 23:05:49,706:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 23:09:07,975:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 23:09:09,280:INFO:__main__:
+Program started.
+2021-06-25 23:09:09,289:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 23:09:09,290:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-25 23:09:09,290:DEBUG:config_reader:Config file found.
+2021-06-25 23:09:09,314:INFO:config_reader:Config file successfully read.
+2021-06-25 23:09:09,315:INFO:config_reader:Total strategies: 1
+2021-06-25 23:09:09,315:INFO:config_reader:Total tickers: 2
+2021-06-25 23:09:09,315:INFO:config_reader:Oldest date: 08/01/2018
+2021-06-25 23:09:09,315:INFO:config_reader:Most recent date: 31/12/2018
+2021-06-25 23:09:09,316:INFO:config_reader:Strategies found:
+2021-06-25 23:09:09,316:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['PETR4', 'MGLU3']
+2021-06-25 23:09:09,316:DEBUG:utils:The function 'ConfigReader.__init__' took 36.11 milliseconds to run.
+2021-06-25 23:09:09,324:INFO:ticker_manager:Ticker 'PETR4' already updated.
+2021-06-25 23:09:09,325:DEBUG:utils:The function 'TickerManager.update' took 8.04 milliseconds to run.
+2021-06-25 23:09:09,331:INFO:ticker_manager:Ticker 'MGLU3' already updated.
+2021-06-25 23:09:09,331:DEBUG:utils:The function 'TickerManager.update' took 6.53 milliseconds to run.
+2021-06-25 23:09:09,338:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-06-25 23:09:09,338:DEBUG:utils:The function 'TickerManager.update' took 6.42 milliseconds to run.
+2021-06-25 23:09:09,343:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-06-25 23:09:09,344:DEBUG:utils:The function 'TickerManager.update' took 5.50 milliseconds to run.
+2021-06-25 23:09:09,353:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 23:09:09,363:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 23:09:09,373:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 23:13:39,494:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 23:13:40,934:INFO:__main__:
+Program started.
+2021-06-25 23:13:40,944:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 23:13:40,944:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-25 23:13:40,945:DEBUG:config_reader:Config file found.
+2021-06-25 23:13:40,969:INFO:config_reader:Config file successfully read.
+2021-06-25 23:13:40,969:INFO:config_reader:Total strategies: 1
+2021-06-25 23:13:40,969:INFO:config_reader:Total tickers: 2
+2021-06-25 23:13:40,969:INFO:config_reader:Oldest date: 08/01/2018
+2021-06-25 23:13:40,970:INFO:config_reader:Most recent date: 31/12/2018
+2021-06-25 23:13:40,970:INFO:config_reader:Strategies found:
+2021-06-25 23:13:40,970:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['PETR4', 'MGLU3']
+2021-06-25 23:13:40,970:DEBUG:utils:The function 'ConfigReader.__init__' took 35.54 milliseconds to run.
+2021-06-25 23:13:40,977:INFO:ticker_manager:Ticker 'PETR4' already updated.
+2021-06-25 23:13:40,978:DEBUG:utils:The function 'TickerManager.update' took 7.26 milliseconds to run.
+2021-06-25 23:13:40,983:INFO:ticker_manager:Ticker 'MGLU3' already updated.
+2021-06-25 23:13:40,983:DEBUG:utils:The function 'TickerManager.update' took 5.05 milliseconds to run.
+2021-06-25 23:13:40,989:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-06-25 23:13:40,989:DEBUG:utils:The function 'TickerManager.update' took 5.69 milliseconds to run.
+2021-06-25 23:13:40,995:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-06-25 23:13:40,996:DEBUG:utils:The function 'TickerManager.update' took 6.23 milliseconds to run.
+2021-06-25 23:13:41,006:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 23:13:41,016:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 23:13:41,026:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 23:14:07,898:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 23:14:09,414:INFO:__main__:
+Program started.
+2021-06-25 23:14:09,423:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 23:14:09,424:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-25 23:14:09,424:DEBUG:config_reader:Config file found.
+2021-06-25 23:14:09,445:INFO:config_reader:Config file successfully read.
+2021-06-25 23:14:09,445:INFO:config_reader:Total strategies: 1
+2021-06-25 23:14:09,445:INFO:config_reader:Total tickers: 2
+2021-06-25 23:14:09,445:INFO:config_reader:Oldest date: 08/01/2018
+2021-06-25 23:14:09,446:INFO:config_reader:Most recent date: 31/12/2018
+2021-06-25 23:14:09,446:INFO:config_reader:Strategies found:
+2021-06-25 23:14:09,446:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['PETR4', 'MGLU3']
+2021-06-25 23:14:09,446:DEBUG:utils:The function 'ConfigReader.__init__' took 31.45 milliseconds to run.
+2021-06-25 23:14:09,454:INFO:ticker_manager:Ticker 'PETR4' already updated.
+2021-06-25 23:14:09,454:DEBUG:utils:The function 'TickerManager.update' took 7.30 milliseconds to run.
+2021-06-25 23:14:09,459:INFO:ticker_manager:Ticker 'MGLU3' already updated.
+2021-06-25 23:14:09,459:DEBUG:utils:The function 'TickerManager.update' took 5.10 milliseconds to run.
+2021-06-25 23:14:09,464:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-06-25 23:14:09,465:DEBUG:utils:The function 'TickerManager.update' took 5.21 milliseconds to run.
+2021-06-25 23:14:09,470:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-06-25 23:14:09,470:DEBUG:utils:The function 'TickerManager.update' took 5.08 milliseconds to run.
+2021-06-25 23:14:09,478:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 23:14:09,487:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 23:14:09,496:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 23:20:06,585:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 23:20:09,060:INFO:__main__:
+Program started.
+2021-06-25 23:20:09,080:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 23:20:09,080:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-25 23:20:09,081:DEBUG:config_reader:Config file found.
+2021-06-25 23:20:09,207:INFO:config_reader:Config file successfully read.
+2021-06-25 23:20:09,207:INFO:config_reader:Total strategies: 1
+2021-06-25 23:20:09,207:INFO:config_reader:Total tickers: 2
+2021-06-25 23:20:09,208:INFO:config_reader:Oldest date: 08/01/2018
+2021-06-25 23:20:09,208:INFO:config_reader:Most recent date: 31/12/2018
+2021-06-25 23:20:09,208:INFO:config_reader:Strategies found:
+2021-06-25 23:20:09,209:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['PETR4', 'MGLU3']
+2021-06-25 23:20:09,209:DEBUG:utils:The function 'ConfigReader.__init__' took 148.74 milliseconds to run.
+2021-06-25 23:20:09,218:INFO:ticker_manager:Ticker 'PETR4' already updated.
+2021-06-25 23:20:09,218:DEBUG:utils:The function 'TickerManager.update' took 8.38 milliseconds to run.
+2021-06-25 23:20:09,229:INFO:ticker_manager:Ticker 'MGLU3' already updated.
+2021-06-25 23:20:09,229:DEBUG:utils:The function 'TickerManager.update' took 10.20 milliseconds to run.
+2021-06-25 23:20:09,236:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-06-25 23:20:09,236:DEBUG:utils:The function 'TickerManager.update' took 7.19 milliseconds to run.
+2021-06-25 23:20:09,242:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-06-25 23:20:09,242:DEBUG:utils:The function 'TickerManager.update' took 5.60 milliseconds to run.
+2021-06-25 23:20:09,265:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 23:20:09,278:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 23:20:09,292:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 23:20:45,027:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 23:20:46,463:INFO:__main__:
+Program started.
+2021-06-25 23:20:46,472:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 23:20:46,472:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-25 23:20:46,473:DEBUG:config_reader:Config file found.
+2021-06-25 23:20:46,494:INFO:config_reader:Config file successfully read.
+2021-06-25 23:20:46,494:INFO:config_reader:Total strategies: 1
+2021-06-25 23:20:46,494:INFO:config_reader:Total tickers: 2
+2021-06-25 23:20:46,495:INFO:config_reader:Oldest date: 08/01/2018
+2021-06-25 23:20:46,495:INFO:config_reader:Most recent date: 31/12/2018
+2021-06-25 23:20:46,495:INFO:config_reader:Strategies found:
+2021-06-25 23:20:46,495:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['PETR4', 'MGLU3']
+2021-06-25 23:20:46,496:DEBUG:utils:The function 'ConfigReader.__init__' took 32.43 milliseconds to run.
+2021-06-25 23:20:46,503:INFO:ticker_manager:Ticker 'PETR4' already updated.
+2021-06-25 23:20:46,504:DEBUG:utils:The function 'TickerManager.update' took 7.96 milliseconds to run.
+2021-06-25 23:20:46,509:INFO:ticker_manager:Ticker 'MGLU3' already updated.
+2021-06-25 23:20:46,510:DEBUG:utils:The function 'TickerManager.update' took 5.40 milliseconds to run.
+2021-06-25 23:20:46,515:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-06-25 23:20:46,516:DEBUG:utils:The function 'TickerManager.update' took 5.79 milliseconds to run.
+2021-06-25 23:20:46,524:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-06-25 23:20:46,524:DEBUG:utils:The function 'TickerManager.update' took 8.18 milliseconds to run.
+2021-06-25 23:20:46,539:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 23:20:46,550:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 23:20:46,561:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 23:28:17,643:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 23:28:19,595:INFO:__main__:
+Program started.
+2021-06-25 23:28:19,604:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 23:28:19,605:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-25 23:28:19,605:DEBUG:config_reader:Config file found.
+2021-06-25 23:28:19,639:INFO:config_reader:Config file successfully read.
+2021-06-25 23:28:19,640:INFO:config_reader:Total strategies: 1
+2021-06-25 23:28:19,640:INFO:config_reader:Total tickers: 2
+2021-06-25 23:28:19,640:INFO:config_reader:Oldest date: 08/01/2018
+2021-06-25 23:28:19,640:INFO:config_reader:Most recent date: 31/12/2018
+2021-06-25 23:28:19,641:INFO:config_reader:Strategies found:
+2021-06-25 23:28:19,641:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['PETR4', 'MGLU3']
+2021-06-25 23:28:19,641:DEBUG:utils:The function 'ConfigReader.__init__' took 45.93 milliseconds to run.
+2021-06-25 23:28:19,649:INFO:ticker_manager:Ticker 'PETR4' already updated.
+2021-06-25 23:28:19,649:DEBUG:utils:The function 'TickerManager.update' took 7.62 milliseconds to run.
+2021-06-25 23:28:19,655:INFO:ticker_manager:Ticker 'MGLU3' already updated.
+2021-06-25 23:28:19,655:DEBUG:utils:The function 'TickerManager.update' took 6.37 milliseconds to run.
+2021-06-25 23:28:19,661:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-06-25 23:28:19,662:DEBUG:utils:The function 'TickerManager.update' took 6.05 milliseconds to run.
+2021-06-25 23:28:19,667:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-06-25 23:28:19,668:DEBUG:utils:The function 'TickerManager.update' took 5.80 milliseconds to run.
+2021-06-25 23:28:19,678:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 23:28:19,690:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 23:28:19,699:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 23:31:12,241:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 23:31:14,439:INFO:__main__:
+Program started.
+2021-06-25 23:31:14,465:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 23:31:14,466:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-25 23:31:14,466:DEBUG:config_reader:Config file found.
+2021-06-25 23:31:14,517:INFO:config_reader:Config file successfully read.
+2021-06-25 23:31:14,518:INFO:config_reader:Total strategies: 1
+2021-06-25 23:31:14,518:INFO:config_reader:Total tickers: 2
+2021-06-25 23:31:14,519:INFO:config_reader:Oldest date: 28/01/2018
+2021-06-25 23:31:14,519:INFO:config_reader:Most recent date: 31/12/2018
+2021-06-25 23:31:14,519:INFO:config_reader:Strategies found:
+2021-06-25 23:31:14,519:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['PETR4', 'MGLU3']
+2021-06-25 23:31:14,520:DEBUG:utils:The function 'ConfigReader.__init__' took 80.56 milliseconds to run.
+2021-06-25 23:31:14,540:INFO:ticker_manager:Ticker 'PETR4' already updated.
+2021-06-25 23:31:14,541:DEBUG:utils:The function 'TickerManager.update' took 16.55 milliseconds to run.
+2021-06-25 23:31:14,552:INFO:ticker_manager:Ticker 'MGLU3' already updated.
+2021-06-25 23:31:14,552:DEBUG:utils:The function 'TickerManager.update' took 11.34 milliseconds to run.
+2021-06-25 23:31:14,559:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-06-25 23:31:14,559:DEBUG:utils:The function 'TickerManager.update' took 6.84 milliseconds to run.
+2021-06-25 23:31:14,568:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-06-25 23:31:14,568:DEBUG:utils:The function 'TickerManager.update' took 8.69 milliseconds to run.
+2021-06-25 23:31:14,580:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 23:31:14,590:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 23:31:14,603:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 23:33:50,251:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 23:33:51,713:INFO:__main__:
+Program started.
+2021-06-25 23:33:51,722:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 23:33:51,722:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-25 23:33:51,723:DEBUG:config_reader:Config file found.
+2021-06-25 23:33:51,744:INFO:config_reader:Config file successfully read.
+2021-06-25 23:33:51,744:INFO:config_reader:Total strategies: 1
+2021-06-25 23:33:51,744:INFO:config_reader:Total tickers: 2
+2021-06-25 23:33:51,745:INFO:config_reader:Oldest date: 28/01/2018
+2021-06-25 23:33:51,745:INFO:config_reader:Most recent date: 31/12/2018
+2021-06-25 23:33:51,745:INFO:config_reader:Strategies found:
+2021-06-25 23:33:51,745:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['PETR4', 'MGLU3']
+2021-06-25 23:33:51,745:DEBUG:utils:The function 'ConfigReader.__init__' took 32.10 milliseconds to run.
+2021-06-25 23:33:51,752:INFO:ticker_manager:Ticker 'PETR4' already updated.
+2021-06-25 23:33:51,752:DEBUG:utils:The function 'TickerManager.update' took 6.46 milliseconds to run.
+2021-06-25 23:33:51,757:INFO:ticker_manager:Ticker 'MGLU3' already updated.
+2021-06-25 23:33:51,757:DEBUG:utils:The function 'TickerManager.update' took 4.53 milliseconds to run.
+2021-06-25 23:33:51,762:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-06-25 23:33:51,762:DEBUG:utils:The function 'TickerManager.update' took 4.83 milliseconds to run.
+2021-06-25 23:33:51,767:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-06-25 23:33:51,767:DEBUG:utils:The function 'TickerManager.update' took 4.88 milliseconds to run.
+2021-06-25 23:33:51,781:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 23:33:51,792:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 23:33:51,801:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 23:38:36,844:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 23:38:38,242:INFO:__main__:
+Program started.
+2021-06-25 23:38:38,251:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 23:38:38,251:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-25 23:38:38,252:DEBUG:config_reader:Config file found.
+2021-06-25 23:38:38,272:INFO:config_reader:Config file successfully read.
+2021-06-25 23:38:38,272:INFO:config_reader:Total strategies: 1
+2021-06-25 23:38:38,273:INFO:config_reader:Total tickers: 2
+2021-06-25 23:38:38,273:INFO:config_reader:Oldest date: 28/01/2018
+2021-06-25 23:38:38,273:INFO:config_reader:Most recent date: 31/12/2018
+2021-06-25 23:38:38,273:INFO:config_reader:Strategies found:
+2021-06-25 23:38:38,273:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['PETR4', 'MGLU3']
+2021-06-25 23:38:38,274:DEBUG:utils:The function 'ConfigReader.__init__' took 31.55 milliseconds to run.
+2021-06-25 23:38:38,280:INFO:ticker_manager:Ticker 'PETR4' already updated.
+2021-06-25 23:38:38,281:DEBUG:utils:The function 'TickerManager.update' took 6.64 milliseconds to run.
+2021-06-25 23:38:38,285:INFO:ticker_manager:Ticker 'MGLU3' already updated.
+2021-06-25 23:38:38,286:DEBUG:utils:The function 'TickerManager.update' took 4.83 milliseconds to run.
+2021-06-25 23:38:38,291:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-06-25 23:38:38,291:DEBUG:utils:The function 'TickerManager.update' took 5.28 milliseconds to run.
+2021-06-25 23:38:38,296:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-06-25 23:38:38,297:DEBUG:utils:The function 'TickerManager.update' took 5.19 milliseconds to run.
+2021-06-25 23:38:38,306:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 23:38:38,316:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 23:38:38,326:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 23:40:04,203:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 23:40:05,745:INFO:__main__:
+Program started.
+2021-06-25 23:40:05,755:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 23:40:05,756:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-25 23:40:05,756:DEBUG:config_reader:Config file found.
+2021-06-25 23:40:05,782:INFO:config_reader:Config file successfully read.
+2021-06-25 23:40:05,782:INFO:config_reader:Total strategies: 1
+2021-06-25 23:40:05,783:INFO:config_reader:Total tickers: 2
+2021-06-25 23:40:05,783:INFO:config_reader:Oldest date: 28/01/2018
+2021-06-25 23:40:05,783:INFO:config_reader:Most recent date: 31/12/2018
+2021-06-25 23:40:05,783:INFO:config_reader:Strategies found:
+2021-06-25 23:40:05,784:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['PETR4', 'MGLU3']
+2021-06-25 23:40:05,784:DEBUG:utils:The function 'ConfigReader.__init__' took 38.55 milliseconds to run.
+2021-06-25 23:40:05,791:INFO:ticker_manager:Ticker 'PETR4' already updated.
+2021-06-25 23:40:05,791:DEBUG:utils:The function 'TickerManager.update' took 6.83 milliseconds to run.
+2021-06-25 23:40:05,796:INFO:ticker_manager:Ticker 'MGLU3' already updated.
+2021-06-25 23:40:05,796:DEBUG:utils:The function 'TickerManager.update' took 4.63 milliseconds to run.
+2021-06-25 23:40:05,801:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-06-25 23:40:05,801:DEBUG:utils:The function 'TickerManager.update' took 5.22 milliseconds to run.
+2021-06-25 23:40:05,807:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-06-25 23:40:05,807:DEBUG:utils:The function 'TickerManager.update' took 5.80 milliseconds to run.
+2021-06-25 23:40:05,816:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 23:40:05,825:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 23:40:05,834:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 23:40:57,443:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 23:40:58,713:INFO:__main__:
+Program started.
+2021-06-25 23:40:58,723:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 23:40:58,723:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-06-25 23:40:58,724:DEBUG:config_reader:Config file found.
+2021-06-25 23:40:58,745:INFO:config_reader:Config file successfully read.
+2021-06-25 23:40:58,745:INFO:config_reader:Total strategies: 1
+2021-06-25 23:40:58,745:INFO:config_reader:Total tickers: 2
+2021-06-25 23:40:58,745:INFO:config_reader:Oldest date: 28/01/2018
+2021-06-25 23:40:58,746:INFO:config_reader:Most recent date: 31/12/2018
+2021-06-25 23:40:58,746:INFO:config_reader:Strategies found:
+2021-06-25 23:40:58,746:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.2, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['PETR4', 'MGLU3']
+2021-06-25 23:40:58,746:DEBUG:utils:The function 'ConfigReader.__init__' took 32.50 milliseconds to run.
+2021-06-25 23:40:58,754:INFO:ticker_manager:Ticker 'PETR4' already updated.
+2021-06-25 23:40:58,754:DEBUG:utils:The function 'TickerManager.update' took 7.57 milliseconds to run.
+2021-06-25 23:40:58,759:INFO:ticker_manager:Ticker 'MGLU3' already updated.
+2021-06-25 23:40:58,759:DEBUG:utils:The function 'TickerManager.update' took 5.20 milliseconds to run.
+2021-06-25 23:40:58,765:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-06-25 23:40:58,765:DEBUG:utils:The function 'TickerManager.update' took 5.34 milliseconds to run.
+2021-06-25 23:40:58,771:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-06-25 23:40:58,771:DEBUG:utils:The function 'TickerManager.update' took 6.02 milliseconds to run.
+2021-06-25 23:40:58,780:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 23:40:58,789:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-06-25 23:40:58,797:DEBUG:db_model:Database 'StockMarket' connected successfully.
