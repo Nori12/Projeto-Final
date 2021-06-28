@@ -52,23 +52,20 @@ def run():
         if strategy['name'] == 'Andre Moraes':
             andre_moraes = AndreMoraesStrategy(
                 strategy['tickers'],
+                min_order_volume=strategy['min_order_volume'],
                 total_capital=strategy['capital'],
                 risk_capital_product=strategy['risk_capital_coefficient'])
             andre_moraes.alias = strategy['alias']
             andre_moraes.comment = strategy['comment']
 
-            # andre_moraes.load_data()
-            # andre_moraes.generator_test()
-            andre_moraes.process_operations_refac()
-
-            # andre_moraes.process_operations()
-            # andre_moraes.calculate_statistics()
+            andre_moraes.process_operations()
+            andre_moraes.calculate_statistics()
             # andre_moraes.save()
 
     # # Strategy Analysis section
-    # if config.show_results == True:
-    #     analyzer = StrategyAnalyzer()
-    #     analyzer.run()
+    if config.show_results == True:
+        analyzer = StrategyAnalyzer()
+        analyzer.run()
 
 if __name__ == '__main__':
     run()
