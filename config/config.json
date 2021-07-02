@@ -11,47 +11,7 @@
             "ticker_min_ann_volume_filter": 1000000,
             "stock_targets": [
                 {
-                    "name":"MGLU3",
-                    "start_date":"01/01/2017",
-                    "end_date":"14/06/2021"
-                },
-                {
-                    "name":"VALE3",
-                    "start_date":"01/01/2017",
-                    "end_date":"14/06/2021"
-                },
-                {
-                    "name":"PETR4",
-                    "start_date":"01/01/2017",
-                    "end_date":"14/06/2021"
-                },
-                {
-                    "name":"WEGE3",
-                    "start_date":"01/01/2017",
-                    "end_date":"14/06/2021"
-                },
-                {
-                    "name":"BBAS3",
-                    "start_date":"01/01/2017",
-                    "end_date":"14/06/2021"
-                },
-                {
                     "name":"BBDC3",
-                    "start_date":"01/01/2017",
-                    "end_date":"14/06/2021"
-                },
-                {
-                    "name":"EMBR3",
-                    "start_date":"01/01/2017",
-                    "end_date":"14/06/2021"
-                },
-                {
-                    "name":"GGBR4",
-                    "start_date":"01/01/2017",
-                    "end_date":"14/06/2021"
-                },
-                {
-                    "name":"AZUL4",
                     "start_date":"01/01/2017",
                     "end_date":"14/06/2021"
                 }

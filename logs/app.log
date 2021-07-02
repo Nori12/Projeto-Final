@@ -10129,3 +10129,438 @@ VALUES
 (43, '2021-02-23', 'S', 19.23, -90910, True, False);", error:
 smallint out of range
 
+2021-07-01 23:14:43,443:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-01 23:14:44,192:INFO:__main__:
+Program started.
+2021-07-01 23:14:44,201:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-01 23:14:44,201:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-01 23:14:44,202:DEBUG:config_reader:Config file found.
+2021-07-01 23:14:44,251:INFO:config_reader:Config file successfully read.
+2021-07-01 23:14:44,251:INFO:config_reader:Total strategies: 1
+2021-07-01 23:14:44,251:INFO:config_reader:Total tickers: 1
+2021-07-01 23:14:44,251:INFO:config_reader:Oldest date: 01/01/2017
+2021-07-01 23:14:44,252:INFO:config_reader:Most recent date: 13/06/2021
+2021-07-01 23:14:44,252:INFO:config_reader:Strategies found:
+2021-07-01 23:14:44,252:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.1, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['BBDC3']
+2021-07-01 23:14:44,252:DEBUG:utils:The function 'ConfigReader.__init__' took 59.72 milliseconds to run.
+2021-07-01 23:14:44,262:INFO:ticker_manager:Ticker 'BBDC3' already updated.
+2021-07-01 23:14:44,262:DEBUG:utils:The function 'TickerManager.update' took 9.41 milliseconds to run.
+2021-07-01 23:14:44,267:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-07-01 23:14:44,267:DEBUG:utils:The function 'TickerManager.update' took 5.11 milliseconds to run.
+2021-07-01 23:14:44,272:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-07-01 23:14:44,272:DEBUG:utils:The function 'TickerManager.update' took 5.00 milliseconds to run.
+2021-07-01 23:14:44,281:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-01 23:14:44,289:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-01 23:14:44,298:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-01 23:43:51,759:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-01 23:43:52,368:INFO:__main__:
+Program started.
+2021-07-01 23:43:52,377:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-01 23:43:52,377:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-01 23:43:52,378:DEBUG:config_reader:Config file found.
+2021-07-01 23:43:52,398:INFO:config_reader:Config file successfully read.
+2021-07-01 23:43:52,398:INFO:config_reader:Total strategies: 1
+2021-07-01 23:43:52,398:INFO:config_reader:Total tickers: 1
+2021-07-01 23:43:52,398:INFO:config_reader:Oldest date: 01/01/2017
+2021-07-01 23:43:52,398:INFO:config_reader:Most recent date: 13/06/2021
+2021-07-01 23:43:52,399:INFO:config_reader:Strategies found:
+2021-07-01 23:43:52,399:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.1, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['BBDC3']
+2021-07-01 23:43:52,399:DEBUG:utils:The function 'ConfigReader.__init__' took 30.32 milliseconds to run.
+2021-07-01 23:43:52,406:INFO:ticker_manager:Ticker 'BBDC3' already updated.
+2021-07-01 23:43:52,406:DEBUG:utils:The function 'TickerManager.update' took 6.73 milliseconds to run.
+2021-07-01 23:43:52,411:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-07-01 23:43:52,411:DEBUG:utils:The function 'TickerManager.update' took 5.10 milliseconds to run.
+2021-07-01 23:43:52,417:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-07-01 23:43:52,417:DEBUG:utils:The function 'TickerManager.update' took 5.44 milliseconds to run.
+2021-07-01 23:43:52,426:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-01 23:43:52,435:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-01 23:43:52,445:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-01 23:48:30,348:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-01 23:48:30,980:INFO:__main__:
+Program started.
+2021-07-01 23:48:30,989:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-01 23:48:30,989:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-01 23:48:30,989:DEBUG:config_reader:Config file found.
+2021-07-01 23:48:31,009:INFO:config_reader:Config file successfully read.
+2021-07-01 23:48:31,010:INFO:config_reader:Total strategies: 1
+2021-07-01 23:48:31,010:INFO:config_reader:Total tickers: 1
+2021-07-01 23:48:31,010:INFO:config_reader:Oldest date: 01/01/2017
+2021-07-01 23:48:31,010:INFO:config_reader:Most recent date: 13/06/2021
+2021-07-01 23:48:31,010:INFO:config_reader:Strategies found:
+2021-07-01 23:48:31,011:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.1, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['BBDC3']
+2021-07-01 23:48:31,011:DEBUG:utils:The function 'ConfigReader.__init__' took 30.61 milliseconds to run.
+2021-07-01 23:48:32,936:INFO:ticker_manager:Ticker 'BBDC3' updated daily candlesticks.
+2021-07-01 23:48:32,954:INFO:ticker_manager:Ticker 'BBDC3' weekly candles recreated.
+2021-07-01 23:48:32,955:DEBUG:utils:The function 'TickerManager.update' took 1943.70 milliseconds to run.
+2021-07-01 23:48:32,955:INFO:ticker_manager:Generating features for ticker 'BBDC3'.
+2021-07-01 23:52:14,045:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-01 23:52:14,780:INFO:__main__:
+Program started.
+2021-07-01 23:52:14,788:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-01 23:52:14,789:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-01 23:52:14,789:DEBUG:config_reader:Config file found.
+2021-07-01 23:52:14,808:INFO:config_reader:Config file successfully read.
+2021-07-01 23:52:14,809:INFO:config_reader:Total strategies: 1
+2021-07-01 23:52:14,809:INFO:config_reader:Total tickers: 1
+2021-07-01 23:52:14,809:INFO:config_reader:Oldest date: 01/01/2017
+2021-07-01 23:52:14,809:INFO:config_reader:Most recent date: 13/06/2021
+2021-07-01 23:52:14,809:INFO:config_reader:Strategies found:
+2021-07-01 23:52:14,810:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.1, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['BBDC3']
+2021-07-01 23:52:14,810:DEBUG:utils:The function 'ConfigReader.__init__' took 29.47 milliseconds to run.
+2021-07-01 23:52:14,816:INFO:ticker_manager:Ticker 'BBDC3' already updated.
+2021-07-01 23:52:14,817:DEBUG:utils:The function 'TickerManager.update' took 6.68 milliseconds to run.
+2021-07-01 23:52:16,691:INFO:ticker_manager:Ticker '^BVSP' updated daily candlesticks.
+2021-07-01 23:52:16,691:DEBUG:utils:The function 'TickerManager.update' took 1874.36 milliseconds to run.
+2021-07-01 23:52:16,691:INFO:ticker_manager:Generating features for ticker '^BVSP'.
+2021-07-01 23:52:16,692:DEBUG:utils:The function 'TickerManager.generate_features' took 0.24 milliseconds to run.
+2021-07-01 23:52:18,253:INFO:ticker_manager:Ticker 'BRL=X' updated daily candlesticks.
+2021-07-01 23:52:18,253:DEBUG:utils:The function 'TickerManager.update' took 1561.12 milliseconds to run.
+2021-07-01 23:52:18,253:INFO:ticker_manager:Generating features for ticker 'BRL=X'.
+2021-07-01 23:52:18,253:DEBUG:utils:The function 'TickerManager.generate_features' took 0.17 milliseconds to run.
+2021-07-01 23:52:18,262:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-01 23:52:18,271:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-01 23:52:18,280:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-01 23:52:18,339:ERROR:strategy:Error processing operations, error:
+Can only use .dt accessor with datetimelike values
+Traceback (most recent call last):
+  File "/Users/atcha/Github/Projeto-Final/src/strategy.py", line 679, in process_operations
+    day_info, week_info = next(data_gen)
+  File "/Users/atcha/Github/Projeto-Final/src/strategy.py", line 631, in __next__
+    return self.run()
+  File "/Users/atcha/Github/Projeto-Final/src/strategy.py", line 656, in run
+    self.weekly_data[(self.weekly_data['week'].dt.isocalendar().year == year) \
+  File "/Users/atcha/Github/Projeto-Final/venv/lib/python3.9/site-packages/pandas/core/generic.py", line 5461, in __getattr__
+    return object.__getattribute__(self, name)
+  File "/Users/atcha/Github/Projeto-Final/venv/lib/python3.9/site-packages/pandas/core/accessor.py", line 180, in __get__
+    accessor_obj = self._accessor(obj)
+  File "/Users/atcha/Github/Projeto-Final/venv/lib/python3.9/site-packages/pandas/core/indexes/accessors.py", line 494, in __new__
+    raise AttributeError("Can only use .dt accessor with datetimelike values")
+AttributeError: Can only use .dt accessor with datetimelike values
+2021-07-01 23:52:18,344:DEBUG:utils:The function 'AndreMoraesStrategy.process_operations' took 72.38 milliseconds to run.
+2021-07-01 23:53:08,092:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-01 23:53:08,673:INFO:__main__:
+Program started.
+2021-07-01 23:53:08,681:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-01 23:53:08,681:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-01 23:53:08,682:DEBUG:config_reader:Config file found.
+2021-07-01 23:53:08,700:INFO:config_reader:Config file successfully read.
+2021-07-01 23:53:08,701:INFO:config_reader:Total strategies: 1
+2021-07-01 23:53:08,701:INFO:config_reader:Total tickers: 1
+2021-07-01 23:53:08,701:INFO:config_reader:Oldest date: 01/01/2017
+2021-07-01 23:53:08,701:INFO:config_reader:Most recent date: 13/06/2021
+2021-07-01 23:53:08,701:INFO:config_reader:Strategies found:
+2021-07-01 23:53:08,701:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.1, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['BBDC3']
+2021-07-01 23:53:08,702:DEBUG:utils:The function 'ConfigReader.__init__' took 28.50 milliseconds to run.
+2021-07-01 23:53:10,454:INFO:ticker_manager:Ticker 'BBDC3' updated daily candlesticks.
+2021-07-01 23:53:10,465:INFO:ticker_manager:Ticker 'BBDC3' weekly candles recreated.
+2021-07-01 23:53:10,465:DEBUG:utils:The function 'TickerManager.update' took 1763.29 milliseconds to run.
+2021-07-01 23:53:10,465:INFO:ticker_manager:Generating features for ticker 'BBDC3'.
+2021-07-01 23:53:39,480:ERROR:ticker_manager:Error generating features, error:
+x and y must have same first dimension, but have shapes (978, 1) and (977,)
+Traceback (most recent call last):
+  File "/Users/atcha/Github/Projeto-Final/src/ticker_manager.py", line 456, in generate_features
+    TickerManager.find_target_buy_price_and_trend(candles_df,
+  File "/Users/atcha/Github/Projeto-Final/src/ticker_manager.py", line 600, in find_target_buy_price_and_trend
+    axs[0].plot(x_data, trends[0:index+1])
+  File "/Users/atcha/Github/Projeto-Final/venv/lib/python3.9/site-packages/matplotlib/axes/_axes.py", line 1605, in plot
+    lines = [*self._get_lines(*args, data=data, **kwargs)]
+  File "/Users/atcha/Github/Projeto-Final/venv/lib/python3.9/site-packages/matplotlib/axes/_base.py", line 315, in __call__
+    yield from self._plot_args(this, kwargs)
+  File "/Users/atcha/Github/Projeto-Final/venv/lib/python3.9/site-packages/matplotlib/axes/_base.py", line 501, in _plot_args
+    raise ValueError(f"x and y must have same first dimension, but "
+ValueError: x and y must have same first dimension, but have shapes (978, 1) and (977,)
+2021-07-01 23:53:39,490:DEBUG:utils:The function 'TickerManager.generate_features' took 29024.54 milliseconds to run.
+2021-07-01 23:54:29,632:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-01 23:54:30,212:INFO:__main__:
+Program started.
+2021-07-01 23:54:30,221:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-01 23:54:30,222:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-01 23:54:30,222:DEBUG:config_reader:Config file found.
+2021-07-01 23:54:30,242:INFO:config_reader:Config file successfully read.
+2021-07-01 23:54:30,242:INFO:config_reader:Total strategies: 1
+2021-07-01 23:54:30,243:INFO:config_reader:Total tickers: 1
+2021-07-01 23:54:30,243:INFO:config_reader:Oldest date: 01/01/2017
+2021-07-01 23:54:30,243:INFO:config_reader:Most recent date: 13/06/2021
+2021-07-01 23:54:30,243:INFO:config_reader:Strategies found:
+2021-07-01 23:54:30,244:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.1, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['BBDC3']
+2021-07-01 23:54:30,244:DEBUG:utils:The function 'ConfigReader.__init__' took 31.96 milliseconds to run.
+2021-07-01 23:54:32,133:INFO:ticker_manager:Ticker 'BBDC3' updated daily candlesticks.
+2021-07-01 23:54:32,148:INFO:ticker_manager:Ticker 'BBDC3' weekly candles recreated.
+2021-07-01 23:54:32,149:DEBUG:utils:The function 'TickerManager.update' took 1904.34 milliseconds to run.
+2021-07-01 23:54:32,150:INFO:ticker_manager:Generating features for ticker 'BBDC3'.
+2021-07-01 23:56:07,037:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-01 23:56:07,698:INFO:__main__:
+Program started.
+2021-07-01 23:56:07,706:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-01 23:56:07,707:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-01 23:56:07,707:DEBUG:config_reader:Config file found.
+2021-07-01 23:56:07,726:INFO:config_reader:Config file successfully read.
+2021-07-01 23:56:07,727:INFO:config_reader:Total strategies: 1
+2021-07-01 23:56:07,727:INFO:config_reader:Total tickers: 1
+2021-07-01 23:56:07,727:INFO:config_reader:Oldest date: 01/01/2017
+2021-07-01 23:56:07,727:INFO:config_reader:Most recent date: 13/06/2021
+2021-07-01 23:56:07,728:INFO:config_reader:Strategies found:
+2021-07-01 23:56:07,728:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.1, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['BBDC3']
+2021-07-01 23:56:07,728:DEBUG:utils:The function 'ConfigReader.__init__' took 29.88 milliseconds to run.
+2021-07-01 23:56:09,768:INFO:ticker_manager:Ticker 'BBDC3' updated daily candlesticks.
+2021-07-01 23:56:09,781:INFO:ticker_manager:Ticker 'BBDC3' weekly candles recreated.
+2021-07-01 23:56:09,781:DEBUG:utils:The function 'TickerManager.update' took 2052.57 milliseconds to run.
+2021-07-01 23:56:09,781:INFO:ticker_manager:Generating features for ticker 'BBDC3'.
+2021-07-01 23:56:42,853:ERROR:ticker_manager:Error generating features, error:
+x and y must have same first dimension, but have shapes (978,) and (977,)
+Traceback (most recent call last):
+  File "/Users/atcha/Github/Projeto-Final/src/ticker_manager.py", line 456, in generate_features
+    TickerManager.find_target_buy_price_and_trend(candles_df,
+  File "/Users/atcha/Github/Projeto-Final/src/ticker_manager.py", line 600, in find_target_buy_price_and_trend
+    axs[0].plot(x_data, trends[0:index+1])
+  File "/Users/atcha/Github/Projeto-Final/venv/lib/python3.9/site-packages/matplotlib/axes/_axes.py", line 1605, in plot
+    lines = [*self._get_lines(*args, data=data, **kwargs)]
+  File "/Users/atcha/Github/Projeto-Final/venv/lib/python3.9/site-packages/matplotlib/axes/_base.py", line 315, in __call__
+    yield from self._plot_args(this, kwargs)
+  File "/Users/atcha/Github/Projeto-Final/venv/lib/python3.9/site-packages/matplotlib/axes/_base.py", line 501, in _plot_args
+    raise ValueError(f"x and y must have same first dimension, but "
+ValueError: x and y must have same first dimension, but have shapes (978,) and (977,)
+2021-07-01 23:56:42,858:DEBUG:utils:The function 'TickerManager.generate_features' took 33077.04 milliseconds to run.
+2021-07-01 23:57:26,504:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-01 23:57:27,128:INFO:__main__:
+Program started.
+2021-07-01 23:57:27,138:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-01 23:57:27,138:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-01 23:57:27,139:DEBUG:config_reader:Config file found.
+2021-07-01 23:57:27,158:INFO:config_reader:Config file successfully read.
+2021-07-01 23:57:27,158:INFO:config_reader:Total strategies: 1
+2021-07-01 23:57:27,158:INFO:config_reader:Total tickers: 1
+2021-07-01 23:57:27,158:INFO:config_reader:Oldest date: 01/01/2017
+2021-07-01 23:57:27,159:INFO:config_reader:Most recent date: 13/06/2021
+2021-07-01 23:57:27,159:INFO:config_reader:Strategies found:
+2021-07-01 23:57:27,159:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.1, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['BBDC3']
+2021-07-01 23:57:27,159:DEBUG:utils:The function 'ConfigReader.__init__' took 30.31 milliseconds to run.
+2021-07-01 23:57:29,053:INFO:ticker_manager:Ticker 'BBDC3' updated daily candlesticks.
+2021-07-01 23:57:29,064:INFO:ticker_manager:Ticker 'BBDC3' weekly candles recreated.
+2021-07-01 23:57:29,065:DEBUG:utils:The function 'TickerManager.update' took 1905.27 milliseconds to run.
+2021-07-01 23:57:29,066:INFO:ticker_manager:Generating features for ticker 'BBDC3'.
+2021-07-01 23:59:43,954:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-01 23:59:44,772:INFO:__main__:
+Program started.
+2021-07-01 23:59:44,783:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-01 23:59:44,784:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-01 23:59:44,784:DEBUG:config_reader:Config file found.
+2021-07-01 23:59:44,806:INFO:config_reader:Config file successfully read.
+2021-07-01 23:59:44,806:INFO:config_reader:Total strategies: 1
+2021-07-01 23:59:44,807:INFO:config_reader:Total tickers: 1
+2021-07-01 23:59:44,807:INFO:config_reader:Oldest date: 01/01/2017
+2021-07-01 23:59:44,807:INFO:config_reader:Most recent date: 13/06/2021
+2021-07-01 23:59:44,807:INFO:config_reader:Strategies found:
+2021-07-01 23:59:44,807:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.1, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['BBDC3']
+2021-07-01 23:59:44,808:DEBUG:utils:The function 'ConfigReader.__init__' took 35.24 milliseconds to run.
+2021-07-01 23:59:46,618:INFO:ticker_manager:Ticker 'BBDC3' updated daily candlesticks.
+2021-07-01 23:59:46,632:INFO:ticker_manager:Ticker 'BBDC3' weekly candles recreated.
+2021-07-01 23:59:46,632:DEBUG:utils:The function 'TickerManager.update' took 1824.14 milliseconds to run.
+2021-07-01 23:59:46,632:INFO:ticker_manager:Generating features for ticker 'BBDC3'.
+2021-07-02 00:00:21,519:ERROR:ticker_manager:Error generating features, error:
+x and y must have same first dimension, but have shapes (978,) and (977,)
+Traceback (most recent call last):
+  File "/Users/atcha/Github/Projeto-Final/src/ticker_manager.py", line 456, in generate_features
+    TickerManager.find_target_buy_price_and_trend(candles_df,
+  File "/Users/atcha/Github/Projeto-Final/src/ticker_manager.py", line 600, in find_target_buy_price_and_trend
+    axs[0].plot(x_data, trends[0:index+1])
+  File "/Users/atcha/Github/Projeto-Final/venv/lib/python3.9/site-packages/matplotlib/axes/_axes.py", line 1605, in plot
+    lines = [*self._get_lines(*args, data=data, **kwargs)]
+  File "/Users/atcha/Github/Projeto-Final/venv/lib/python3.9/site-packages/matplotlib/axes/_base.py", line 315, in __call__
+    yield from self._plot_args(this, kwargs)
+  File "/Users/atcha/Github/Projeto-Final/venv/lib/python3.9/site-packages/matplotlib/axes/_base.py", line 501, in _plot_args
+    raise ValueError(f"x and y must have same first dimension, but "
+ValueError: x and y must have same first dimension, but have shapes (978,) and (977,)
+2021-07-02 00:00:21,525:DEBUG:utils:The function 'TickerManager.generate_features' took 34892.76 milliseconds to run.
+2021-07-02 00:01:27,961:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-02 00:01:28,552:INFO:__main__:
+Program started.
+2021-07-02 00:01:28,563:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-02 00:01:28,563:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-02 00:01:28,563:DEBUG:config_reader:Config file found.
+2021-07-02 00:01:28,586:INFO:config_reader:Config file successfully read.
+2021-07-02 00:01:28,586:INFO:config_reader:Total strategies: 1
+2021-07-02 00:01:28,586:INFO:config_reader:Total tickers: 1
+2021-07-02 00:01:28,587:INFO:config_reader:Oldest date: 01/01/2017
+2021-07-02 00:01:28,587:INFO:config_reader:Most recent date: 13/06/2021
+2021-07-02 00:01:28,587:INFO:config_reader:Strategies found:
+2021-07-02 00:01:28,587:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.1, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['BBDC3']
+2021-07-02 00:01:28,587:DEBUG:utils:The function 'ConfigReader.__init__' took 34.85 milliseconds to run.
+2021-07-02 00:01:30,321:INFO:ticker_manager:Ticker 'BBDC3' updated daily candlesticks.
+2021-07-02 00:01:30,333:INFO:ticker_manager:Ticker 'BBDC3' weekly candles recreated.
+2021-07-02 00:01:30,333:DEBUG:utils:The function 'TickerManager.update' took 1745.77 milliseconds to run.
+2021-07-02 00:01:30,334:INFO:ticker_manager:Generating features for ticker 'BBDC3'.
+2021-07-02 00:03:52,677:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-02 00:03:53,540:INFO:__main__:
+Program started.
+2021-07-02 00:03:53,551:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-02 00:03:53,552:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-02 00:03:53,552:DEBUG:config_reader:Config file found.
+2021-07-02 00:03:53,579:INFO:config_reader:Config file successfully read.
+2021-07-02 00:03:53,579:INFO:config_reader:Total strategies: 1
+2021-07-02 00:03:53,579:INFO:config_reader:Total tickers: 1
+2021-07-02 00:03:53,580:INFO:config_reader:Oldest date: 01/01/2017
+2021-07-02 00:03:53,580:INFO:config_reader:Most recent date: 13/06/2021
+2021-07-02 00:03:53,580:INFO:config_reader:Strategies found:
+2021-07-02 00:03:53,580:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.1, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['BBDC3']
+2021-07-02 00:03:53,580:DEBUG:utils:The function 'ConfigReader.__init__' took 40.50 milliseconds to run.
+2021-07-02 00:03:55,786:INFO:ticker_manager:Ticker 'BBDC3' updated daily candlesticks.
+2021-07-02 00:03:55,815:INFO:ticker_manager:Ticker 'BBDC3' weekly candles recreated.
+2021-07-02 00:03:55,816:DEBUG:utils:The function 'TickerManager.update' took 2235.13 milliseconds to run.
+2021-07-02 00:03:55,817:INFO:ticker_manager:Generating features for ticker 'BBDC3'.
+2021-07-02 09:46:36,365:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-02 09:46:37,285:INFO:__main__:
+Program started.
+2021-07-02 09:46:37,295:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-02 09:46:37,296:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-02 09:46:37,296:DEBUG:config_reader:Config file found.
+2021-07-02 09:46:37,351:INFO:config_reader:Config file successfully read.
+2021-07-02 09:46:37,351:INFO:config_reader:Total strategies: 1
+2021-07-02 09:46:37,352:INFO:config_reader:Total tickers: 1
+2021-07-02 09:46:37,352:INFO:config_reader:Oldest date: 01/01/2017
+2021-07-02 09:46:37,352:INFO:config_reader:Most recent date: 13/06/2021
+2021-07-02 09:46:37,353:INFO:config_reader:Strategies found:
+2021-07-02 09:46:37,353:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.1, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['BBDC3']
+2021-07-02 09:46:37,353:DEBUG:utils:The function 'ConfigReader.__init__' took 67.89 milliseconds to run.
+2021-07-02 09:46:39,056:INFO:ticker_manager:Ticker 'BBDC3' updated daily candlesticks.
+2021-07-02 09:46:39,068:INFO:ticker_manager:Ticker 'BBDC3' weekly candles recreated.
+2021-07-02 09:46:39,069:DEBUG:utils:The function 'TickerManager.update' took 1715.41 milliseconds to run.
+2021-07-02 09:46:39,069:INFO:ticker_manager:Generating features for ticker 'BBDC3'.
+2021-07-02 09:46:49,940:ERROR:ticker_manager:Found max peak less than or equal to min peak.(Ticker: 'BBDC3', day: '2019-04-10 00:00:00')
+2021-07-02 09:46:49,940:DEBUG:utils:The function 'TickerManager.generate_features' took 10871.37 milliseconds to run.
+2021-07-02 09:47:09,154:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-02 09:47:09,840:INFO:__main__:
+Program started.
+2021-07-02 09:47:09,849:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-02 09:47:09,850:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-02 09:47:09,850:DEBUG:config_reader:Config file found.
+2021-07-02 09:47:09,870:INFO:config_reader:Config file successfully read.
+2021-07-02 09:47:09,870:INFO:config_reader:Total strategies: 1
+2021-07-02 09:47:09,871:INFO:config_reader:Total tickers: 1
+2021-07-02 09:47:09,871:INFO:config_reader:Oldest date: 01/01/2017
+2021-07-02 09:47:09,871:INFO:config_reader:Most recent date: 13/06/2021
+2021-07-02 09:47:09,871:INFO:config_reader:Strategies found:
+2021-07-02 09:47:09,871:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.1, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['BBDC3']
+2021-07-02 09:47:09,871:DEBUG:utils:The function 'ConfigReader.__init__' took 31.10 milliseconds to run.
+2021-07-02 09:47:12,164:INFO:ticker_manager:Ticker 'BBDC3' updated daily candlesticks.
+2021-07-02 09:47:12,179:INFO:ticker_manager:Ticker 'BBDC3' weekly candles recreated.
+2021-07-02 09:47:12,179:DEBUG:utils:The function 'TickerManager.update' took 2307.25 milliseconds to run.
+2021-07-02 09:47:12,179:INFO:ticker_manager:Generating features for ticker 'BBDC3'.
+2021-07-02 09:54:01,965:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-02 09:54:02,844:INFO:__main__:
+Program started.
+2021-07-02 09:54:02,859:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-02 09:54:02,859:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-02 09:54:02,861:DEBUG:config_reader:Config file found.
+2021-07-02 09:54:02,885:INFO:config_reader:Config file successfully read.
+2021-07-02 09:54:02,886:INFO:config_reader:Total strategies: 1
+2021-07-02 09:54:02,886:INFO:config_reader:Total tickers: 1
+2021-07-02 09:54:02,886:INFO:config_reader:Oldest date: 01/01/2017
+2021-07-02 09:54:02,886:INFO:config_reader:Most recent date: 13/06/2021
+2021-07-02 09:54:02,886:INFO:config_reader:Strategies found:
+2021-07-02 09:54:02,886:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.1, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['BBDC3']
+2021-07-02 09:54:02,887:DEBUG:utils:The function 'ConfigReader.__init__' took 42.07 milliseconds to run.
+2021-07-02 09:54:04,881:INFO:ticker_manager:Ticker 'BBDC3' updated daily candlesticks.
+2021-07-02 09:54:04,894:INFO:ticker_manager:Ticker 'BBDC3' weekly candles recreated.
+2021-07-02 09:54:04,895:DEBUG:utils:The function 'TickerManager.update' took 2007.73 milliseconds to run.
+2021-07-02 09:54:04,896:INFO:ticker_manager:Generating features for ticker 'BBDC3'.
+2021-07-02 09:54:58,515:ERROR:ticker_manager:Found max peak less than or equal to min peak. (Ticker: 'BBDC3', day: '2019-04-10 00:00:00')
+2021-07-02 09:54:58,515:DEBUG:utils:The function 'TickerManager.generate_features' took 53619.93 milliseconds to run.
+2021-07-02 09:55:14,384:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-02 09:55:15,140:INFO:__main__:
+Program started.
+2021-07-02 09:55:15,149:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-02 09:55:15,149:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-02 09:55:15,150:DEBUG:config_reader:Config file found.
+2021-07-02 09:55:15,170:INFO:config_reader:Config file successfully read.
+2021-07-02 09:55:15,170:INFO:config_reader:Total strategies: 1
+2021-07-02 09:55:15,171:INFO:config_reader:Total tickers: 1
+2021-07-02 09:55:15,171:INFO:config_reader:Oldest date: 01/01/2017
+2021-07-02 09:55:15,171:INFO:config_reader:Most recent date: 13/06/2021
+2021-07-02 09:55:15,171:INFO:config_reader:Strategies found:
+2021-07-02 09:55:15,171:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.1, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['BBDC3']
+2021-07-02 09:55:15,171:DEBUG:utils:The function 'ConfigReader.__init__' took 31.19 milliseconds to run.
+2021-07-02 09:55:16,777:INFO:ticker_manager:Ticker 'BBDC3' updated daily candlesticks.
+2021-07-02 09:55:16,790:INFO:ticker_manager:Ticker 'BBDC3' weekly candles recreated.
+2021-07-02 09:55:16,790:DEBUG:utils:The function 'TickerManager.update' took 1618.43 milliseconds to run.
+2021-07-02 09:55:16,791:INFO:ticker_manager:Generating features for ticker 'BBDC3'.
+2021-07-02 10:17:20,432:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-02 10:17:21,209:INFO:__main__:
+Program started.
+2021-07-02 10:17:21,218:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-02 10:17:21,218:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-02 10:17:21,219:DEBUG:config_reader:Config file found.
+2021-07-02 10:17:21,247:INFO:config_reader:Config file successfully read.
+2021-07-02 10:17:21,248:INFO:config_reader:Total strategies: 1
+2021-07-02 10:17:21,248:INFO:config_reader:Total tickers: 1
+2021-07-02 10:17:21,248:INFO:config_reader:Oldest date: 01/01/2017
+2021-07-02 10:17:21,248:INFO:config_reader:Most recent date: 13/06/2021
+2021-07-02 10:17:21,249:INFO:config_reader:Strategies found:
+2021-07-02 10:17:21,249:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.1, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['BBDC3']
+2021-07-02 10:17:21,249:DEBUG:utils:The function 'ConfigReader.__init__' took 39.66 milliseconds to run.
+2021-07-02 10:17:23,085:INFO:ticker_manager:Ticker 'BBDC3' updated daily candlesticks.
+2021-07-02 10:17:23,096:INFO:ticker_manager:Ticker 'BBDC3' weekly candles recreated.
+2021-07-02 10:17:23,096:DEBUG:utils:The function 'TickerManager.update' took 1846.84 milliseconds to run.
+2021-07-02 10:17:23,096:INFO:ticker_manager:Generating features for ticker 'BBDC3'.
+2021-07-02 10:18:25,355:ERROR:ticker_manager:Error generating features, error:
+'day'
+Traceback (most recent call last):
+  File "/Users/atcha/Github/Projeto-Final/venv/lib/python3.9/site-packages/pandas/core/indexes/base.py", line 3080, in get_loc
+    return self._engine.get_loc(casted_key)
+  File "pandas/_libs/index.pyx", line 70, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/index.pyx", line 101, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/hashtable_class_helper.pxi", line 4554, in pandas._libs.hashtable.PyObjectHashTable.get_item
+  File "pandas/_libs/hashtable_class_helper.pxi", line 4562, in pandas._libs.hashtable.PyObjectHashTable.get_item
+KeyError: 'day'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/atcha/Github/Projeto-Final/src/ticker_manager.py", line 456, in generate_features
+    self.find_target_buy_price_and_trend(candles_df, time_column_name=time_column,
+  File "/Users/atcha/Github/Projeto-Final/src/ticker_manager.py", line 605, in find_target_buy_price_and_trend
+    if prices_df.loc[prices_df.index[index]]['day'] == pd.Timestamp('2019-04-10T00'):
+  File "/Users/atcha/Github/Projeto-Final/venv/lib/python3.9/site-packages/pandas/core/series.py", line 853, in __getitem__
+    return self._get_value(key)
+  File "/Users/atcha/Github/Projeto-Final/venv/lib/python3.9/site-packages/pandas/core/series.py", line 961, in _get_value
+    loc = self.index.get_loc(label)
+  File "/Users/atcha/Github/Projeto-Final/venv/lib/python3.9/site-packages/pandas/core/indexes/base.py", line 3082, in get_loc
+    raise KeyError(key) from err
+KeyError: 'day'
+2021-07-02 10:18:25,360:DEBUG:utils:The function 'TickerManager.generate_features' took 62263.26 milliseconds to run.
+2021-07-02 10:19:57,893:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-02 10:19:58,644:INFO:__main__:
+Program started.
+2021-07-02 10:19:58,653:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-02 10:19:58,654:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-02 10:19:58,654:DEBUG:config_reader:Config file found.
+2021-07-02 10:19:58,674:INFO:config_reader:Config file successfully read.
+2021-07-02 10:19:58,675:INFO:config_reader:Total strategies: 1
+2021-07-02 10:19:58,675:INFO:config_reader:Total tickers: 1
+2021-07-02 10:19:58,675:INFO:config_reader:Oldest date: 01/01/2017
+2021-07-02 10:19:58,675:INFO:config_reader:Most recent date: 13/06/2021
+2021-07-02 10:19:58,675:INFO:config_reader:Strategies found:
+2021-07-02 10:19:58,676:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.1, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['BBDC3']
+2021-07-02 10:19:58,676:DEBUG:utils:The function 'ConfigReader.__init__' took 30.97 milliseconds to run.
+2021-07-02 10:20:00,341:INFO:ticker_manager:Ticker 'BBDC3' updated daily candlesticks.
+2021-07-02 10:20:00,352:INFO:ticker_manager:Ticker 'BBDC3' weekly candles recreated.
+2021-07-02 10:20:00,353:DEBUG:utils:The function 'TickerManager.update' took 1676.46 milliseconds to run.
+2021-07-02 10:20:00,353:INFO:ticker_manager:Generating features for ticker 'BBDC3'.
+2021-07-02 10:20:35,166:DEBUG:utils:The function 'TickerManager.generate_features' took 34813.23 milliseconds to run.
+2021-07-02 10:20:36,671:INFO:ticker_manager:Ticker '^BVSP' updated daily candlesticks.
+2021-07-02 10:20:36,672:DEBUG:utils:The function 'TickerManager.update' took 1505.42 milliseconds to run.
+2021-07-02 10:20:36,672:INFO:ticker_manager:Generating features for ticker '^BVSP'.
+2021-07-02 10:20:36,672:DEBUG:utils:The function 'TickerManager.generate_features' took 0.20 milliseconds to run.
+2021-07-02 10:20:38,108:INFO:ticker_manager:Ticker 'BRL=X' updated daily candlesticks.
+2021-07-02 10:20:38,108:DEBUG:utils:The function 'TickerManager.update' took 1435.55 milliseconds to run.
+2021-07-02 10:20:38,108:INFO:ticker_manager:Generating features for ticker 'BRL=X'.
+2021-07-02 10:20:38,108:DEBUG:utils:The function 'TickerManager.generate_features' took 0.20 milliseconds to run.
+2021-07-02 10:20:38,173:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-02 10:20:38,182:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-02 10:20:38,190:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-02 10:21:20,944:DEBUG:utils:The function 'AndreMoraesStrategy.process_operations' took 42762.15 milliseconds to run.
+2021-07-02 10:21:21,021:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-02 10:21:42,150:DEBUG:utils:The function 'AndreMoraesStrategy.calculate_statistics' took 21205.19 milliseconds to run.
+2021-07-02 10:21:42,757:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-02 10:21:42,872:INFO:strategy_analyzer:Dash is running on http://127.0.0.1:8050/
+

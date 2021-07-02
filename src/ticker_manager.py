@@ -453,7 +453,7 @@ class TickerManager:
                         interval=interval)
 
                     trends, target_prices, stop_losses, peaks = \
-                        TickerManager.find_target_buy_price_and_trend(candles_df,
+                        self.find_target_buy_price_and_trend(candles_df, time_column_name=time_column,
                         close_column_name='close_price', max_colum_name='max_price',
                         min_column_name='min_price', target_price_margin=0.20, stop_loss_margin=0)
 
@@ -477,10 +477,9 @@ class TickerManager:
 
         return ema_17, ema_72
 
-    @staticmethod
-    def find_target_buy_price_and_trend(prices_df, close_column_name='Close',
-        max_colum_name='High', min_column_name='Low', target_price_margin=0,
-        stop_loss_margin=0, window_size=17):
+    def find_target_buy_price_and_trend(self, prices_df, close_column_name='Close',
+        time_column_name = 'day', max_colum_name='High', min_column_name='Low',
+        target_price_margin=0, stop_loss_margin=0, window_size=17):
 
         minimum_data_points = 2 * window_size
 
@@ -537,6 +536,17 @@ class TickerManager:
                     max_from_min_peaks = max(min_peak_1, min_peak_2)
                     min_from_min_peaks = min(min_peak_1, min_peak_2)
 
+                    if (max_from_max_peaks <= min_from_min_peaks):
+                        logger.error(f"Found min peak greater than or equal to max peak. "
+                            f"(Ticker: \'{self.ticker}\', {time_column_name}: "
+                            f"\'{pd.to_datetime(row['day'], format='%d/%m/%Y')}\')")
+                        sys.exit(c.INVALID_PEAK_ERR)
+                    elif (min_from_max_peaks <= min_from_min_peaks):
+                        logger.error(f"Found max peak less than or equal to min peak. "
+                            f"(Ticker: \'{self.ticker}\', {time_column_name}: "
+                            f"\'{pd.to_datetime(row['day'], format='%d/%m/%Y')}\')")
+                        sys.exit(c.INVALID_PEAK_ERR)
+
                     middle_point = (max_from_max_peaks + max_from_min_peaks) / 2
                     half_distance = max_from_max_peaks - middle_point
 
@@ -592,9 +602,10 @@ class TickerManager:
             stop_losses[index] = stop_loss
 
             # Breakpoint
-            # if prices_df.loc[prices_df.index[index]]['day'] == pd.Timestamp('2019-05-22T00'):
+            # if prices_df.loc[prices_df.index[index]]['day'] == pd.Timestamp('2019-04-10T00'):
             #     fig, axs = plt.subplots(3)
             #     x_data = prices_df.index[0:index+1]
+            #     # x_data = prices_df.loc[0:index+1, ['day']].squeeze().to_list()
 
             #     axs[0].plot(x_data, trends[0:index+1])
             #     axs[1].plot(x_data, target_prices[0:index+1], 'blue')
@@ -647,6 +658,32 @@ class TickerManager:
             max_peaks_index = [index for index, vote in enumerate(votes) if vote > 0]
             min_peaks_index = [index for index, vote in enumerate(votes) if vote < 0]
 
+            # # Remove non-alternating min peaks
+            # for i in range(1, len(max_peaks_index)):
+            #     min_peaks_between = [min_index for min_index in min_peaks_index
+            #         if min_index > max_peaks_index[i-1] and min_index < max_peaks_index[i]]
+            #     if len(min_peaks_between) > 1:
+            #         most_valuabe_peak_votes = max([abs(votes[min_index]) for min_index in min_peaks_between])
+            #         for min_peak_between in min_peaks_between:
+            #             if abs(votes[min_peak_between]) < most_valuabe_peak_votes:
+            #                 min_peaks_index.remove(min_peak_between)
+            #                 votes[min_peak_between] = 0
+
+
+            # # Remove non-alternating max peaks
+            # for i in range(1, len(min_peaks_index)):
+            #     max_peaks_between = [max_index for max_index in max_peaks_index
+            #         if max_index > min_peaks_index[i-1] and max_index < min_peaks_index[i]]
+            #     if len(max_peaks_between) > 1:
+            #         most_valuabe_peak_votes = max([abs(votes[max_index]) for max_index in max_peaks_between])
+            #         for max_peak_between in max_peaks_between:
+            #             if abs(votes[max_peak_between]) < most_valuabe_peak_votes:
+            #                 max_peaks_index.remove(max_peak_between)
+            #                 votes[max_peak_between] = 0
+
+            min_peaks_to_remove = []
+            max_peaks_to_remove = []
+
             # Remove non-alternating min peaks
             for i in range(1, len(max_peaks_index)):
                 min_peaks_between = [min_index for min_index in min_peaks_index
@@ -655,8 +692,49 @@ class TickerManager:
                     most_valuabe_peak_votes = max([abs(votes[min_index]) for min_index in min_peaks_between])
                     for min_peak_between in min_peaks_between:
                         if abs(votes[min_peak_between]) < most_valuabe_peak_votes:
-                            min_peaks_index.remove(min_peak_between)
-                            votes[min_peak_between] = 0
+                            # min_peaks_index.remove(min_peak_between)
+                            # votes[min_peak_between] = 0
+                            min_peaks_to_remove.append(min_peak_between)
+                # No min peaks between means two consecutives max peaks, so one
+                # must be removed. Maybe both.
+                elif len(min_peaks_between) == 0:
+                    # First priority is to remove the max peak(s) less than the last valid min peak
+                    last_valid_min_peaks = [min_peak for min_peak in min_peaks_index
+                        if min_peak < max_peaks_index[i-1]]
+                    last_valid_min_peak = 0
+                    if len(last_valid_min_peaks) > 0:
+                        last_valid_min_peak = min_prices[last_valid_min_peaks[-1]]
+
+                    if max_prices[max_peaks_index[i-1]] < last_valid_min_peak or \
+                        max_prices[max_peaks_index[i]] < last_valid_min_peak:
+                        if max_prices[max_peaks_index[i-1]] < last_valid_min_peak:
+                            max_peaks_to_remove.append(max_peaks_index[i-1])
+                        if max_prices[max_peaks_index[i]] < last_valid_min_peak:
+                            max_peaks_to_remove.append(max_peaks_index[i])
+                    # Second priority is to remove the least voted peak
+                    elif abs(votes[max_peaks_index[i-1]]) < abs(votes[max_peaks_index[i]]):
+                        max_peaks_to_remove.append(max_peaks_index[i-1])
+                    elif abs(votes[max_peaks_index[i-1]]) > abs(votes[max_peaks_index[i]]):
+                        max_peaks_to_remove.append(max_peaks_index[i])
+                    # Third priority is to remove the smallest peak in magnitude
+                    else:
+                        if max_prices[max_peaks_index[i-1]] < max_prices[max_peaks_index[i]]:
+                            max_peaks_to_remove.append(max_peaks_index[i-1])
+                        elif max_prices[max_peaks_index[i-1]] > max_prices[max_peaks_index[i]]:
+                            max_peaks_to_remove.append(max_peaks_index[i])
+                        # Draw: remove the oldest
+                        else:
+                            max_peaks_to_remove.append(max_peaks_index[i-1])
+
+            # Loose!
+            for del_index in max_peaks_to_remove:
+                max_peaks_index.remove(del_index)
+                votes[del_index] = 0
+            for del_index in min_peaks_to_remove:
+                min_peaks_index.remove(del_index)
+                votes[del_index] = 0
+            min_peaks_to_remove = []
+            max_peaks_to_remove = []
 
             # Remove non-alternating max peaks
             for i in range(1, len(min_peaks_index)):
@@ -668,6 +746,43 @@ class TickerManager:
                         if abs(votes[max_peak_between]) < most_valuabe_peak_votes:
                             max_peaks_index.remove(max_peak_between)
                             votes[max_peak_between] = 0
+                # No max peaks between means two consecutives min peaks, so one must be removed
+                elif len(max_peaks_between) == 0:
+                    # First priority is to remove the min peak(s) greater than the last valid max peak
+                    last_valid_max_peaks = [max_peak for max_peak in max_peaks_index
+                        if max_peak < min_peaks_index[i-1]]
+                    last_valid_max_peak = 0
+                    if len(last_valid_max_peaks) > 0:
+                        last_valid_max_peak = max_prices[last_valid_max_peaks[-1]]
+
+                    if min_prices[min_peaks_index[i-1]] > last_valid_max_peak or \
+                        min_prices[min_peaks_index[i]] > last_valid_max_peak:
+                        if min_prices[min_peaks_index[i-1]] > last_valid_max_peak:
+                            min_peaks_to_remove.append(min_peaks_index[i-1])
+                        if min_prices[min_peaks_index[i]] > last_valid_max_peak:
+                            min_peaks_to_remove.append(min_peaks_index[i])
+                    # Second priority is to remove the least voted peak
+                    elif abs(votes[min_peaks_index[i-1]]) < abs(votes[min_peaks_index[i]]):
+                        min_peaks_to_remove.append(min_peaks_index[i-1])
+                    elif abs(votes[min_peaks_index[i-1]]) > abs(votes[min_peaks_index[i]]):
+                        min_peaks_to_remove.append(min_peaks_index[i])
+                    # Third priority is to remove the greatest peak in magnitude
+                    else:
+                        if min_prices[min_peaks_index[i-1]] > min_prices[min_peaks_index[i]]:
+                            min_peaks_to_remove.append(min_peaks_index[i-1])
+                        elif min_prices[min_peaks_index[i-1]] < min_prices[min_peaks_index[i]]:
+                            min_peaks_to_remove.append(min_peaks_index[i])
+                        # Draw: remove the oldest
+                        else:
+                            min_peaks_to_remove.append(min_peaks_index[i-1])
+
+            # Loose!
+            for del_index in max_peaks_to_remove:
+                max_peaks_index.remove(del_index)
+                votes[del_index] = 0
+            for del_index in min_peaks_to_remove:
+                min_peaks_index.remove(del_index)
+                votes[del_index] = 0
 
             max_peaks_values = [max_prices[max_peak] for max_peak in max_peaks_index]
             min_peaks_values = [min_prices[min_peak] for min_peak in min_peaks_index]

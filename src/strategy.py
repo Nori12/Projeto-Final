@@ -761,6 +761,9 @@ class AndreMoraesStrategy(Strategy):
                                                 (ts.operation.target_purchase_price - ts.operation.stop_loss)/ \
                                                 (ts.operation.target_purchase_price)), minimum_volume=self.min_order_volume)
 
+                                            if day == pd.Timestamp('2021-02-22T00'):
+                                                print()
+
                                             # Check if there is enough money
                                             if available_money >= purchase_money:
                                                 ticker_priority_list[index].operation.add_purchase(
