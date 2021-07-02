@@ -8,6 +8,8 @@ import sys
 import yfinance as yf
 import math
 from bisect import bisect
+import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
 
 import constants as c
 from utils import has_workdays_in_between, RunTime, Trend
@@ -431,12 +433,10 @@ class TickerManager:
 
         Only works for ordinary tickers.
         Delete all previous features of given ticker.
-
-        Args
-        ----------
-
         """
         try:
+            logger.info(f"Generating features for ticker \'{self.ticker}\'.")
+
             if self._ordinary_ticker == True:
 
                 TickerManager.db_ticker_model.delete_features(self.ticker, interval='1d')
@@ -452,16 +452,17 @@ class TickerManager:
                         self.ticker, self.start_date, self.end_date, days_before_initial_date,
                         interval=interval)
 
-                    trends, target_prices, stop_losses = \
+                    trends, target_prices, stop_losses, peaks = \
                         TickerManager.find_target_buy_price_and_trend(candles_df,
                         close_column_name='close_price', max_colum_name='max_price',
-                        min_column_name='min_price', target_price_margin=0, stop_loss_margin=0)
+                        min_column_name='min_price', target_price_margin=0.20, stop_loss_margin=0)
 
                     ema_17, ema_72 = TickerManager.find_emas(candles_df['close_price'])
 
                     features_df = pd.DataFrame({'ticker': self._ticker, time_column: candles_df[time_column],
                         'target_buy_price': target_prices, 'stop_loss': stop_losses,
-                        'ema_17': ema_17, 'ema_72': ema_72, 'up_down_trend_status': trends})
+                        'ema_17': ema_17, 'ema_72': ema_72, 'up_down_trend_status': trends,
+                        'peak': peaks})
 
                     TickerManager.db_ticker_model.upsert_features(features_df, interval=interval)
         except Exception as error:
@@ -491,13 +492,14 @@ class TickerManager:
         trends = [0] * df_length
         target_prices = [0] * df_length
         stop_losses = [0] * df_length
+        peaks = [0] * df_length
 
         undefined_value = 0
 
         update_step = 0.05
         last_update_percent = update_step
 
-        for index, (date, row) in enumerate(prices_df.iterrows()):
+        for index, row in prices_df.iterrows():
 
             completion_percentage = (index+1)/df_length
             if completion_percentage >= last_update_percent:
@@ -508,16 +510,19 @@ class TickerManager:
             target_price = undefined_value
             stop_loss = undefined_value
 
-            # if date == datetime.strptime("04/04/2019", '%d/%m/%Y'):
+            # if prices_df.loc[prices_df.index[index]]['day'] == pd.Timestamp('2019-05-21T00'):
             #     print()
 
             if index >= minimum_data_points:
 
-                max_prices = prices_df.loc[prices_df.index <= date, [max_colum_name]].squeeze().to_list()
-                min_prices = prices_df.loc[prices_df.index <= date, [min_column_name]].squeeze().to_list()
+                max_prices = prices_df.loc[prices_df.index <= index, [max_colum_name]] \
+                    .squeeze().to_list()
+                min_prices = prices_df.loc[prices_df.index <= index, [min_column_name]] \
+                    .squeeze().to_list()
 
-                _, max_peaks, min_peaks, _, _ = \
-                    TickerManager.find_candles_peaks(max_prices, min_prices, window_size=window_size)
+                max_peaks, min_peaks, max_peaks_index, min_peaks_index = \
+                    TickerManager.find_candles_peaks(max_prices, min_prices,
+                    window_size=window_size)
 
                 if len(max_peaks) > 1 and len(min_peaks) > 1:
                     max_peak_1 = max_peaks[-2]
@@ -532,8 +537,11 @@ class TickerManager:
                     max_from_min_peaks = max(min_peak_1, min_peak_2)
                     min_from_min_peaks = min(min_peak_1, min_peak_2)
 
-                    target_price = (1 - target_price_margin) * max_from_max_peaks
-                    stop_loss = (1 - stop_loss_margin) * max_from_min_peaks
+                    middle_point = (max_from_max_peaks + max_from_min_peaks) / 2
+                    half_distance = max_from_max_peaks - middle_point
+
+                    target_price = round(max_from_max_peaks - (target_price_margin * half_distance), 2)
+                    stop_loss = round(max_from_min_peaks + (stop_loss_margin * half_distance), 2)
 
                     # Likely uptrend
                     if (max_peak_1 < max_peak_2 and min_peak_1 < min_peak_2) \
@@ -567,7 +575,9 @@ class TickerManager:
                     else:
                         if price > max_from_max_peaks:
                             trend = Trend.ALMOST_UPTREND.value
-                            last_greater_max = [max_peak for max_peak in sorted(max_peaks) if max_peak > max_from_max_peaks]
+                            last_greater_max = [max_peak
+                                for max_peak in sorted(max_peaks)
+                                if max_peak > max_from_max_peaks]
                             if len(last_greater_max) != 0:
                                 target_price = last_greater_max[0]
                             else:
@@ -582,26 +592,31 @@ class TickerManager:
             stop_losses[index] = stop_loss
 
             # Breakpoint
-            # if date == datetime.strptime("18/04/2022", '%d/%m/%Y'):
+            # if prices_df.loc[prices_df.index[index]]['day'] == pd.Timestamp('2019-05-22T00'):
             #     fig, axs = plt.subplots(3)
-            #     x_data = hist.index[0:index+1]
+            #     x_data = prices_df.index[0:index+1]
 
             #     axs[0].plot(x_data, trends[0:index+1])
             #     axs[1].plot(x_data, target_prices[0:index+1], 'blue')
             #     axs[1].plot(x_data, stop_losses[0:index+1], 'red')
             #     axs[2].plot(x_data, max_prices[0:index+1], 'lightblue')
             #     axs[2].plot(x_data, min_prices[0:index+1], 'orange')
-            #     axs[2].plot(x_data, hist.loc[hist.index[0:index+1], [close_column_name]], 'lightgreen')
-            #     axs[2].plot(hist.index[max_indices], max_peaks, 'bo')
-            #     axs[2].plot(hist.index[min_indices], min_peaks, 'rx')
-
+            #     axs[2].plot(x_data, prices_df.loc[prices_df.index[0:index+1], [close_column_name]], 'lightgreen')
+            #     axs[2].plot(prices_df.index[max_peaks_index], max_peaks, 'bo')
+            #     axs[2].plot(prices_df.index[min_peaks_index], min_peaks, 'rx')
+            #     myFmt = mdates.DateFormatter('%d/%m/%Y')
             #     axs[0].xaxis.set_major_formatter(myFmt)
             #     axs[1].xaxis.set_major_formatter(myFmt)
             #     axs[2].xaxis.set_major_formatter(myFmt)
 
             #     plt.show()
 
-        return trends, target_prices, stop_losses
+        for i, peak_index in enumerate(max_peaks_index):
+            peaks[peak_index] = max_peaks[i]
+        for i, peak_index in enumerate(min_peaks_index):
+            peaks[peak_index] = min_peaks[i]
+
+        return trends, target_prices, stop_losses, peaks
 
     @staticmethod
     def find_candles_peaks(max_prices, min_prices, window_size=17):
@@ -659,4 +674,4 @@ class TickerManager:
         else:
             return None
 
-        return votes, max_peaks_values, min_peaks_values, max_peaks_index, min_peaks_index
+        return max_peaks_values, min_peaks_values, max_peaks_index, min_peaks_index

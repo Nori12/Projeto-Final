@@ -60,9 +60,9 @@ def run():
 
             andre_moraes.process_operations()
             andre_moraes.calculate_statistics()
-            # andre_moraes.save()
+            andre_moraes.save()
 
-    # # Strategy Analysis section
+    # Strategy Analysis section
     if config.show_results == True:
         analyzer = StrategyAnalyzer()
         analyzer.run()

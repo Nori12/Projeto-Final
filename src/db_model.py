@@ -217,18 +217,26 @@ class DBTickerModel:
         ticker : str
             Ticker name.
         """
-        query = f"INSERT INTO weekly_candles (ticker, week, open_price, max_price, min_price, close_price, volume)\n"
-        query += f"SELECT agg2.ticker, agg2.min_day, agg2.open_price, agg2.max_price, agg2.min_price, dc3.close_price, agg2.volume\n"
+        query = f"INSERT INTO weekly_candles (ticker, week, open_price, max_price, " \
+            f"min_price, close_price, volume)\n"
+        query += f"SELECT agg2.ticker, agg2.min_day, agg2.open_price, agg2.max_price, " \
+            f"agg2.min_price, dc3.close_price, agg2.volume\n"
         query += f"FROM\n"
-        query += f"	(SELECT agg.ticker, agg.min_day, dc2.open_price, agg.max_price, agg.min_price, agg.volume, agg.max_day\n"
+        query += f"	(SELECT agg.ticker, agg.min_day, dc2.open_price, agg.max_price, " \
+            f"agg.min_price, agg.volume, agg.max_day\n"
         query += f"	FROM\n"
-        query += f"		(SELECT dc.ticker, DATE_PART('year', dc.day) AS year, DATE_PART('week', dc.day) AS week, MIN(dc.day) AS min_day, MAX(dc.day) AS max_day,\n"
-        query += f"			MAX(dc.max_price) AS max_price, MIN(dc.min_price) AS min_price, SUM(dc.volume) AS volume\n"
+        query += f"		(SELECT dc.ticker, DATE_PART('year', dc.day) AS year, DATE_PART" \
+            f"('week', dc.day) AS week, MIN(dc.day) AS min_day, MAX(dc.day) AS max_day,\n"
+        query += f"			MAX(dc.max_price) AS max_price, MIN(dc.min_price) AS min_price, " \
+            f"SUM(dc.volume) AS volume\n"
         query += f"		FROM daily_candles dc\n"
         query += f"     WHERE dc.ticker = \'{ticker}\'\n"
-        query += f"		GROUP BY dc.ticker, DATE_PART('year', dc.day), DATE_PART('week', dc.day)) agg\n"
-        query += f"	INNER JOIN daily_candles dc2 ON dc2.ticker = agg.ticker AND dc2.day = agg.min_day) agg2\n"
-        query += f"INNER JOIN daily_candles dc3 ON dc3.ticker = agg2.ticker AND dc3.day = agg2.max_day\n"
+        query += f"		GROUP BY dc.ticker, DATE_PART('year', dc.day), DATE_PART" \
+            f"('week', dc.day)) agg\n"
+        query += f"	INNER JOIN daily_candles dc2 ON dc2.ticker = agg.ticker AND " \
+            f"dc2.day = agg.min_day) agg2\n"
+        query += f"INNER JOIN daily_candles dc3 ON dc3.ticker = agg2.ticker AND " \
+            f"dc3.day = agg2.max_day\n"
         query += f"ON CONFLICT ON CONSTRAINT weekly_data_pkey DO NOTHING;"
 
         self._insert_update(query)
@@ -305,33 +313,23 @@ class DBTickerModel:
     def upsert_features(self, dataframe, interval='1d'):
         """
         Update/Insert features.
-
-        Args
-        ----------
-        ticker : str
-            Ticker name.
-        data : `pandas.DataFrame`
-            DataFrame of candles with columns 'Open', 'High', 'Low', 'Close'
-            and index of dates.
         """
         table = 'daily_features'
         time_column = 'day'
-        # pkey_constraint = 'daily_features_pkey'
 
         if interval == '1wk':
             table = 'weekly_features'
             time_column = 'week'
-            # pkey_constraint = 'weekly_features_pkey'
 
         number_of_rows = len(dataframe)
 
         query = f"INSERT INTO {table} (ticker, {time_column}, ema_17, ema_72, " \
-            f"target_buy_price, stop_loss, up_down_trend_status)\nVALUES\n"
+            f"target_buy_price, stop_loss, up_down_trend_status, peak)\nVALUES\n"
 
         for n, (_, row) in enumerate(dataframe.iterrows()):
             query += f"(\'{row['ticker']}\', \'{row[time_column].strftime('%Y-%m-%d')}\', " \
                 f"{row['ema_17']:.2f}, {row['ema_72']:.2f}, {row['target_buy_price']:.2f}, " \
-                f"{row['stop_loss']:.2f}, {row['up_down_trend_status']})"
+                f"{row['stop_loss']:.2f}, {row['up_down_trend_status']}, {row['peak']:.2f})"
             if n != number_of_rows - 1:
                 query += ',\n'
             else:
@@ -441,7 +439,8 @@ class DBGenericModel:
     """Database connection class that handles generic queries."""
     def __init__(self):
         try:
-            connection = psycopg2.connect(f"dbname='{DB_NAME}' user={DB_USER} host='{DB_HOST}' password={DB_PASS} port='{DB_PORT}'")
+            connection = psycopg2.connect(f"dbname='{DB_NAME}' user={DB_USER} " \
+                f"host='{DB_HOST}' password={DB_PASS} port='{DB_PORT}'")
             logger.debug(f'Database \'{DB_NAME}\' connected successfully.')
         except:
             logger.error(f'Database \'{DB_NAME}\' connection failed.')
@@ -597,7 +596,8 @@ class DBGenericModel:
 
     #     return df
 
-    def get_tickers(self, on_flag, pn_flag, units_flag, fractional_market=False, sectors=None, subsectors=None, segments=None):
+    def get_tickers(self, on_flag, pn_flag, units_flag, fractional_market=False,
+        sectors=None, subsectors=None, segments=None):
 
         if not any([on_flag, pn_flag, units_flag]):
             logger.error('Program aborted. At least one filter is required.')
@@ -682,7 +682,8 @@ class DBGenericModel:
 class DBStrategyModel:
     def __init__(self, name, tickers, start_dates, end_dates, total_capital, alias=None, comment=None, risk_capital_product=None, min_volume_per_year=0):
         try:
-            connection = psycopg2.connect(f"dbname='{DB_NAME}' user={DB_USER} host='{DB_HOST}' password={DB_PASS} port='{DB_PORT}'")
+            connection = psycopg2.connect(f"dbname='{DB_NAME}' user={DB_USER} " \
+                f"host='{DB_HOST}' password={DB_PASS} port='{DB_PORT}'")
             logger.debug(f'Database \'{DB_NAME}\' connected successfully.')
         except:
             logger.error(f'Database \'{DB_NAME}\' connection failed.')
@@ -788,7 +789,8 @@ class DBStrategyModel:
     def get_tickers_above_min_volume(self):
         query = f"SELECT DISTINCT tic_y.ticker\n"
         query += f"FROM\n"
-        query += f"(SELECT dc.ticker, EXTRACT(YEAR FROM dc.day), ROUND(AVG(dc.volume), 0) FROM daily_candles dc\n"
+        query += f"(SELECT dc.ticker, EXTRACT(YEAR FROM dc.day), ROUND(AVG(dc.volume), 0) " \
+            f"FROM daily_candles dc\n"
         query += f"GROUP BY dc.ticker, EXTRACT(YEAR FROM dc.day)\n"
         query += f"HAVING ROUND(AVG(dc.volume), 0) > {self._min_volume_per_year}) tic_y\n"
         query += f"ORDER BY tic_y.ticker;"
@@ -913,7 +915,8 @@ class DBStrategyModel:
         self._insert_strategy_performance(strategy_id, performance_dataframe)
 
     def _insert_strategy(self):
-        query = f"INSERT INTO strategy (name, alias, comment, total_capital, risk_capital_product)\nVALUES\n"
+        query = f"INSERT INTO strategy (name, alias, comment, total_capital, " \
+            f"risk_capital_product)\nVALUES\n"
 
         query += f"(\'{self._name}\', \'{self._alias if self._alias is not None else ''}\', " \
             f"\'{self._comment if self._comment is not None else ''}\', {self._total_capital}, " \
@@ -930,8 +933,10 @@ class DBStrategyModel:
 
         query = f"INSERT INTO strategy_tickers (strategy_id, ticker, start_date, end_date)\nVALUES\n"
 
-        for n, (ticker, initial_date, final_date) in enumerate(zip(self._tickers, self._start_dates, self._end_dates)):
-            query += f"({strategy_id}, '{ticker}', '{initial_date.strftime('%Y-%m-%d')}', '{final_date.strftime('%Y-%m-%d')}')\n"
+        for n, (ticker, initial_date, final_date) in \
+            enumerate(zip(self._tickers, self._start_dates, self._end_dates)):
+            query += f"({strategy_id}, '{ticker}', '{initial_date.strftime('%Y-%m-%d')}', " \
+                f"'{final_date.strftime('%Y-%m-%d')}')\n"
 
             if n != number_of_rows - 1:
                 query += ',\n'
@@ -1003,7 +1008,9 @@ class DBStrategyModel:
         self._insert_update(query)
 
     def _insert_strategy_statistics(self, strategy_id, result_parameters):
-        query = f"INSERT INTO strategy_statistics (strategy_id, volatility, sharpe_ratio, profit, max_used_capital, yield, annualized_yield, ibov_yield, annualized_ibov_yield, avr_tickers_yield, annualized_avr_tickers_yield)\nVALUES\n"
+        query = f"INSERT INTO strategy_statistics (strategy_id, volatility, sharpe_ratio, " \
+            f"profit, max_used_capital, yield, annualized_yield, ibov_yield, " \
+            f"annualized_ibov_yield, avr_tickers_yield, annualized_avr_tickers_yield)\nVALUES\n"
 
         query += f"  ({strategy_id}, {result_parameters['volatility']}, " \
             f"{result_parameters['sharpe_ratio']}, {result_parameters['profit']}, " \
@@ -1015,12 +1022,14 @@ class DBStrategyModel:
         self._insert_update(query)
 
     def _insert_strategy_performance(self, strategy_id, performance_dataframe):
-        query = f"INSERT INTO strategy_performance (strategy_id, day, capital, capital_in_use, tickers_average, ibov)\nVALUES\n"
+        query = f"INSERT INTO strategy_performance (strategy_id, day, capital, " \
+            f"capital_in_use, tickers_average, ibov)\nVALUES\n"
 
         number_of_rows = len(performance_dataframe)
 
         for n, (_, row) in enumerate(performance_dataframe.iterrows()):
-            query += f"  ({strategy_id}, \'{row['day'].to_pydatetime().strftime('%Y-%m-%d')}\', {row['capital']}, {row['capital_in_use']}, {row['tickers_average']}, {row['ibov']})"
+            query += f"  ({strategy_id}, \'{row['day'].to_pydatetime().strftime('%Y-%m-%d')}\', " \
+                f"{row['capital']}, {row['capital_in_use']}, {row['tickers_average']}, {row['ibov']})"
 
             if n != number_of_rows - 1:
                 query += ',\n'
@@ -1060,7 +1069,8 @@ class DBStrategyModel:
 class DBStrategyAnalyzerModel:
     def __init__(self):
         try:
-            connection = psycopg2.connect(f"dbname='{DB_NAME}' user={DB_USER} host='{DB_HOST}' password={DB_PASS} port='{DB_PORT}'")
+            connection = psycopg2.connect(f"dbname='{DB_NAME}' user={DB_USER} " \
+                f"host='{DB_HOST}' password={DB_PASS} port='{DB_PORT}'")
             logger.debug(f'Database \'{DB_NAME}\' connected successfully.')
         except:
             logger.error(f'Database \'{DB_NAME}\' connection failed.')
@@ -1109,7 +1119,9 @@ class DBStrategyAnalyzerModel:
         return df
 
     def get_strategy_statistics(self, strategy_id):
-        query = f"SELECT ss.volatility, ss.sharpe_ratio, ss.profit, ss.max_used_capital, ss.yield, ss.annualized_yield, ss.ibov_yield, ss.annualized_ibov_yield, ss.avr_tickers_yield, ss.annualized_avr_tickers_yield\n"
+        query = f"SELECT ss.volatility, ss.sharpe_ratio, ss.profit, ss.max_used_capital, " \
+            f"ss.yield, ss.annualized_yield, ss.ibov_yield, ss.annualized_ibov_yield, " \
+            f"ss.avr_tickers_yield, ss.annualized_avr_tickers_yield\n"
         query += f"FROM strategy_statistics ss\n"
         query += f"INNER JOIN strategy s ON s.id = ss.strategy_id\n"
         query += f"WHERE s.id = {strategy_id};"
@@ -1119,7 +1131,7 @@ class DBStrategyAnalyzerModel:
         return df
 
     def get_strategy_tickers(self, strategy_id):
-        query = f"SELECT ticker, initial_date, final_date\n"
+        query = f"SELECT ticker, start_date, end_date\n"
         query += f"FROM strategy_tickers st\n"
         query += f"INNER JOIN strategy s ON s.id = st.strategy_id\n"
         query += f"WHERE\n"
@@ -1131,14 +1143,15 @@ class DBStrategyAnalyzerModel:
 
         return df
 
-    def get_ticker_prices_and_features(self, ticker, initial_date, final_date):
-        query = f"SELECT dc.day, dc.close_price, df.peak, df.ema_17, df.ema_72, df.up_down_trend_status\n"
+    def get_ticker_prices_and_features(self, ticker, start_date, end_date):
+        query = f"SELECT dc.day, dc.close_price, df.ema_17, df.ema_72, " \
+            f"df.up_down_trend_status, df.target_buy_price, df.stop_loss, df.peak\n"
         query += f"FROM daily_candles dc\n"
         query += f"INNER JOIN daily_features df ON df.ticker = dc.ticker AND df.day = dc.day\n"
         query += f"WHERE \n"
         query += f"  dc.ticker = \'{ticker}\'\n"
-        query += f"  AND dc.day >= \'{initial_date.to_pydatetime().strftime('%Y-%m-%d')}\'\n"
-        query += f"  AND dc.day < \'{final_date.to_pydatetime().strftime('%Y-%m-%d')}\'\n"
+        query += f"  AND dc.day >= \'{start_date.to_pydatetime().strftime('%Y-%m-%d')}\'\n"
+        query += f"  AND dc.day < \'{end_date.to_pydatetime().strftime('%Y-%m-%d')}\'\n"
         query += f"ORDER BY dc.day ASC;"
 
         df = pd.read_sql_query(query, self._connection)
@@ -1146,7 +1159,8 @@ class DBStrategyAnalyzerModel:
         return df
 
     def get_operations(self, strategy_id, ticker):
-        query = f"SELECT o.ticker, o.id as operation_id, neg.day, neg.price, neg.volume, neg.order_type\n"
+        query = f"SELECT o.ticker, o.id as operation_id, neg.day, neg.price, neg.volume, " \
+            f"neg.order_type\n"
         query += f"FROM operation o\n"
         query += f"INNER JOIN strategy s on s.id = o.strategy_id\n"
         query += f"INNER JOIN\n"

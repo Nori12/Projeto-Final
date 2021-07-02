@@ -1,3 +1,4 @@
+from os import close
 from pathlib import Path
 import pandas as pd
 import logging
@@ -10,8 +11,9 @@ import numpy as np
 import math
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
-from yfinance import ticker
-import time
+# from yfinance import ticker
+# import time
+from operator import add
 
 import constants as c
 from utils import RunTime, calculate_maximum_volume, calculate_yield_annualized, State
@@ -458,13 +460,13 @@ class AndreMoraesStrategy(Strategy):
         self._min_volume_per_year = min_volume_per_year
         self._operations = []
 
-        self.price_to_emas_tolerance = 0.02
+        self.price_to_emas_tolerance = 0.05
 
         self._start_date = None
         self._end_date = None
 
-        self._day_df = None
-        self._week_df = None
+        # self._day_df = None
+        # self._week_df = None
 
         self._tickers_and_dates = tickers
         for ticker, date in tickers.items():
@@ -529,7 +531,7 @@ class AndreMoraesStrategy(Strategy):
 
     @property
     def total_capital(self):
-        return self.total_capital
+        return self._total_capital
 
     @property
     def available_capital(self):
@@ -684,6 +686,9 @@ class AndreMoraesStrategy(Strategy):
                         day = day_info.head(1)['day'].squeeze()
 
                         for index, ts in enumerate(ticker_priority_list_cp):
+
+                            if day_info[(day_info['ticker'] == ts.ticker)].empty:
+                                continue
 
                             if day >= ts.initial_date and day <= ts.final_date:
 
@@ -872,144 +877,272 @@ class AndreMoraesStrategy(Strategy):
         return new_list
 
     def save(self):
-        self._db_strategy_model.insert_strategy_results(self._statistics_parameters, self.operations, self._statistics_graph)
+        self._db_strategy_model.insert_strategy_results(self._statistics_parameters,
+            self.operations, self._statistics_graph)
 
+    @RunTime('AndreMoraesStrategy.calculate_statistics')
     def calculate_statistics(self):
-        self._calculate_statistics_graph()
-        self._calculate_statistics_parameters()
+        """
+        Calculate statistics.
 
-    def _calculate_statistics_graph(self):
+        Capital (day),
+        Capital in use (day),
+        Tickers average (day),
+        Ticker average annualized (day),
+        IBOV (day),
 
-        statistics = pd.DataFrame(columns=['day', 'capital', 'capital_in_use', 'tickers_average', 'ibov'])
+        Profit,
+        Maximum used capital,
+        Volatility,
+        Sharpe Ratio
+        Yield,
+        Annualized Yield,
+        IBOV Yield,
+        Annualized IBOV Yield,
+        Average Tickers Yield,
+        Annualized Average Tickers Yield.
+        """
+        try:
+            self._calc_performance(days_batch=30)
+            self._calc_statistics_params()
+        except Exception as error:
+            logger.exception(f"Error calculating statistics, error:\n{error}")
+            sys.exit(c.PROCESSING_OPERATIONS_ERR)
 
-        holidays = self._db_generic_model.get_holidays(self.first_date, self.last_date).to_list()
-        self.dates = pd.date_range(start=self.first_date, end=self.last_date, freq='B').to_list()
-        self.dates = [date for date in self.dates if date not in holidays]
+    def _calc_performance(self, days_batch=30):
+        """
+        Calculate time domain performance indicators.
 
-        statistics['day'] = self.dates
+        Capital, capital in use, tickers average, IBOV.
 
-        statistics.reset_index(inplace=True)
+        Set _statistics_graph dataframe with columns 'day', 'capital', 'capital_in_use',
+        'tickers_average', 'ibov'.
 
-        ibov_data = self._db_strategy_model.get_ticker_price('^BVSP', pd.to_datetime(statistics['day']. \
-            head(1).values[0]), pd.to_datetime(statistics['day'].tail(1).values[0]))
+        Args
+        ----------
+        days_batch : int, default 30
+            Data chunk size when requesting to database.
+        """
+        statistics = pd.DataFrame(columns=['day', 'capital', 'capital_in_use',
+            'tickers_average', 'ibov'])
 
-        statistics['ibov'] = ibov_data.sort_values(by='day', axis=0, ascending=True, ignore_index=True)['close_price']
+        data_gen = self.DataGen(self.tickers_and_dates, self._db_strategy_model,
+            days_batch=days_batch)
+        close_prices = {key: [] for key in self.tickers_and_dates}
+        last_price = 0.0
+        dates = []
+        while True:
+            try:
+                day_info, _ = next(data_gen)
 
-        statistics['tickers_average'] = self._calculate_average_tickers_yield(statistics)
+                if not day_info.empty:
+                    day = day_info.head(1)['day'].squeeze()
+                    dates.append(day)
 
-        statistics['capital'], statistics['capital_in_use'] = self._calculate_capital_usage(statistics)
+                    for ticker, tck_dates in self.tickers_and_dates.items():
+                        if day >= tck_dates['start_date'] and day <= tck_dates['end_date']:
+                            close_price = day_info[(day_info['ticker'] == ticker)] \
+                                ['close_price'].squeeze()
+
+                            if (not isinstance(close_price, pd.Series)) and \
+                                (close_price is not None):
+                                close_prices[ticker].append(close_price)
+                                last_price = close_price
+                            else:
+                                close_prices[ticker].append(last_price)
+                                logger.debug(f"Ticker \'{ticker}\' has no close_price for "
+                                    f"day \'{day.strftime('%d/%m/%Y')}\'.")
+                        else:
+                            close_prices[ticker].append(np.nan)
+
+            except StopIteration:
+                break
+
+        statistics['day'] = dates
+
+        ibov_data = self._db_strategy_model.get_ticker_price('^BVSP', \
+            pd.to_datetime(self.first_date), pd.to_datetime(self.last_date))
+
+        # statistics['ibov'] = ibov_data.sort_values(by='day', axis=0, ascending=True, ignore_index=True)['close_price']
+        statistics['ibov'] = ibov_data['close_price']
+
+        statistics['tickers_average'] = AndreMoraesStrategy.tickers_yield(
+            close_prices, precision=4)
+
+        statistics['capital'], statistics['capital_in_use'] = self._calc_capital_usage(
+            dates, close_prices)
 
         statistics.fillna(method='ffill', inplace=True)
 
         self._statistics_graph = statistics
 
-    def _calculate_statistics_parameters(self):
+    def _calc_statistics_params(self):
+
+        money_precision = 2
+        real_precision = 4
 
         # Profit
         last_capital_value = self._statistics_graph['capital'].tail(1).values[0]
 
         self._statistics_parameters['profit'] = \
-            round(last_capital_value - self._total_capital, 2)
+            round(last_capital_value - self._total_capital, money_precision)
 
         # Maximum Capital Used
         self._statistics_parameters['max_used_capital'] = \
-            round(max(self._statistics_graph['capital_in_use']), 2)
+            round(max(self._statistics_graph['capital_in_use']), money_precision)
 
         # Yield
         self._statistics_parameters['yield'] = \
-            round(self._statistics_parameters['profit'] / self._total_capital, 4)
+            round(self._statistics_parameters['profit'] / self._total_capital,
+                real_precision)
 
         # Annualized Yield
         bus_day_count = len(self._statistics_graph)
 
         self._statistics_parameters['annualized_yield'] = round(
-            calculate_yield_annualized(self._statistics_parameters['yield'], bus_day_count), 4)
+            calculate_yield_annualized(self._statistics_parameters['yield'],
+                bus_day_count), real_precision)
 
         # IBOV Yield
         first_ibov_value = self._statistics_graph['ibov'].head(1).values[0]
         last_ibov_value = self._statistics_graph['ibov'].tail(1).values[0]
         ibov_yield = (last_ibov_value / first_ibov_value) - 1
 
-        self._statistics_parameters['ibov_yield'] = round(ibov_yield, 4)
+        self._statistics_parameters['ibov_yield'] = round(ibov_yield, real_precision)
 
         # Annualized IBOV Yield
         self._statistics_parameters['annualized_ibov_yield'] = round(
-            calculate_yield_annualized(self._statistics_parameters['ibov_yield'], bus_day_count), 4)
+            calculate_yield_annualized(self._statistics_parameters['ibov_yield'],
+                bus_day_count), real_precision)
 
         # Average Tickers Yield
-        first_avr_tickers_value = self._statistics_graph['tickers_average'].head(1).values[0]
-        last_avr_tickers_value = self._statistics_graph['tickers_average'].tail(1).values[0]
-        avr_tickers_yield = (last_avr_tickers_value / first_avr_tickers_value) - 1
-
-        self._statistics_parameters['avr_tickers_yield'] = round(avr_tickers_yield, 4)
+        # first_avr_tickers_value = self._statistics_graph['tickers_average'].head(1).values[0]
+        last_avr_tickers_value = self._statistics_graph['tickers_average'].tail(1).squeeze()
+        avr_tickers_yield = last_avr_tickers_value
+        self._statistics_parameters['avr_tickers_yield'] = round(avr_tickers_yield,
+            real_precision)
 
         # Annualized Average Tickers Yield
         self._statistics_parameters['annualized_avr_tickers_yield'] = round(
-            calculate_yield_annualized(self._statistics_parameters['avr_tickers_yield'], bus_day_count), 4)
+            calculate_yield_annualized(self._statistics_parameters['avr_tickers_yield'],
+                bus_day_count), real_precision)
 
         # Volatility
-        returns = self._statistics_graph['capital'] / self._statistics_graph['capital'][0] - 1
-        self._statistics_parameters['volatility'] = returns.describe().loc[['std']].squeeze()
+        temp = self._statistics_graph['capital'] / self._statistics_graph['capital'][0] - 1
+        self._statistics_parameters['volatility'] = round(temp.describe().loc[['std']].
+            squeeze(), real_precision)
 
         # Sharpe Ration
         # Risk-free yield by CDI index
+        cdi_df = self._db_strategy_model.get_cdi_index(min(self._initial_dates),
+            max(self._final_dates))
 
-        cdi_df = self._db_strategy_model.get_cdi_index(min(self._initial_dates), max(self._final_dates))
+        if self._statistics_parameters['volatility'] != 0.0:
+            self._statistics_parameters['sharpe_ratio'] = round(
+                (self._statistics_parameters['yield'] - (cdi_df['cumulative'].tail(1).squeeze() \
+                - 1.0)) / self._statistics_parameters['volatility'], real_precision)
+        else:
+            self._statistics_parameters['sharpe_ratio'] = 0.0
 
-        self._statistics_parameters['sharpe_ratio'] = (self._statistics_parameters['yield'] \
-            - (cdi_df['cumulative'].tail(1).squeeze() - 1.0)) \
-            / self._statistics_parameters['volatility']
+    # TODO: Solve cumulative numeric error.
+    @staticmethod
+    def tickers_yield(close_prices, precision=4):
+        """
+        Calculate average tickers yield.
 
-    # TODO: Refactor. Remove self._day_df references. Use generator instead.
-    def _calculate_average_tickers_yield(self, statistics):
+        If more than one ticker is available during an interval, the result yield
+        during that interval is calculated by the simple average of those particular
+        yields.
 
-        tickers_data = [None] * len(statistics)
-        tickers_first_values = [None] * len(self._tickers)
-        tickers_first_values_flag = [False] * len(self._tickers)
+        Handle late start tickers.
 
-        # Iterate over each day chronologically
-        for day_index, day in statistics['day'].iteritems():
+        Args
+        ----------
+        close_prices : `dict` of `list`
+            Tickers prices. Prices `list` must have the same length.
+        precision : int, default 4
+            Output final precision.
 
-            relative_yield = [None] * len(self._tickers)
+        Returns
+        ----------
+        `list` of float
+            Average yield. Same length as prices.
+        """
+        # Get yield relative to previous day
+        norm_prices = {ticker: [np.nan]*len(prices) for ticker, prices in close_prices.items()}
+        for ticker in close_prices:
+            first_price = 0
+            for index, value in enumerate(close_prices[ticker]):
+                first_price = np.float64(value)
+                first_index = index
+                if first_price is not np.nan:
+                    break
 
-            for ticker_index, ticker in enumerate(self._tickers):
+            for index, price in enumerate(close_prices[ticker]):
+                if index > first_index:
+                    norm_prices[ticker][index] = price/close_prices[ticker][index-1] - 1
+                    # norm_prices[ticker][index] = round(
+                        # price / close_prices[ticker][index-1] - 1.0, precision+2)
+                    # norm_prices[ticker][index] = round(np.float64(price) / \
+                        # np.float64(close_prices[ticker][index-1]) - np.float64(1.0), precision+2)
 
-                if tickers_first_values_flag[ticker_index] == False and \
-                    day >= self._day_df.loc[self._day_df['ticker'] == ticker, ['day']].squeeze().values[0]:
-                    tickers_first_values[ticker_index] = self._day_df.loc[(self._day_df['day'] == day) \
-                    & (self._day_df['ticker'] == ticker)]['close_price'].head(1).values[0]
-                    tickers_first_values_flag[ticker_index] = True
+        # Get average yield by integrating daily yields
+        result_yield = []
+        cumulative = np.float64(1.0)
+        for index in range(len( norm_prices[tuple(norm_prices.keys())[0]] )):
+            partial_sum = 0
+            partial_weight = 0
+            for ticker in norm_prices:
+                if norm_prices[ticker][index] is not np.nan:
+                    partial_sum += norm_prices[ticker][index]
+                    partial_weight += 1
+            partial_weight = partial_weight if partial_weight > 0 else 1
 
-                # This day must be in the user selected bounds for the ticker
-                if day >= self._day_df.loc[self._day_df['ticker'] == ticker, ['day']].squeeze().values[0] \
-                    and day < self._final_dates[ticker_index]:
-                    if not self._day_df.loc[(self._day_df['day'] == day) & \
-                        (self._day_df['ticker'] == ticker)].empty:
-                        relative_yield[ticker_index] = self._day_df.loc[(self._day_df['day'] == day) \
-                            & (self._day_df['ticker'] == ticker)]['close_price'].head(1).values[0] \
-                            / tickers_first_values[ticker_index]
-            tickers_data[day_index] = round(sum(list(filter(None, relative_yield))) / len(relative_yield), 4)
+            cumulative *= round(1.0 + partial_sum / partial_weight, precision+2)
+            # cumulative *= 1 + partial_sum / partial_weight
+            result_yield.append(round(cumulative - 1, precision))
 
-        return tickers_data
+        return result_yield
 
     # TODO: Iterate over generator to remove self._day_df references .
-    def _calculate_capital_usage(self, statistics):
+    def _calc_capital_usage(self, dates, close_prices):
+        """
+        Calculate capital usage per day.
 
-        capital = [None] * len(statistics)
-        capital_in_use = [None] * len(statistics)
+        Capital: total non-using money plus money in stocks.
+        Capital in use: total ongoing purchase money.
 
-        current_capital = self._total_capital
+        Args
+        ----------
+        dates: `list` of `pd.Timestamp`
+            Dates.
+        close_prices : `dict` of `list`
+            Tickers prices. Prices `list` and `dates` must have the same length.
+
+        Returns
+        ----------
+        `list` of float
+            Capital.
+        `list` of float
+            Capital in use.
+        """
+
+        capital = [None] * len(dates)
+        capital_in_use = [None] * len(dates)
+
+        current_capital = self.total_capital
         current_capital_in_use = 0.0
 
         # Iterate over each day chronologically
-        for day_index, day in statistics['day'].iteritems():
+        # for day_index, day in statistics['day'].iteritems():
+        for day_index, day in enumerate(dates):
 
             holding_papers_capital = 0.0
 
             for oper in self._operations:
-
                 # Compute purchases debts
-                for p_price, p_volume, p_day in zip(oper.purchase_price, oper.purchase_volume, oper.purchase_datetime):
+                for p_price, p_volume, p_day in zip(oper.purchase_price, oper.purchase_volume, \
+                    oper.purchase_datetime):
                     if day == p_day:
                         amount = round(p_price * p_volume, 2)
 
@@ -1017,7 +1150,8 @@ class AndreMoraesStrategy(Strategy):
                         current_capital_in_use += amount
 
                 # Compute sale credits
-                for s_price, s_volume, s_day in zip(oper.sale_price, oper.sale_volume, oper.sale_datetime):
+                for s_price, s_volume, s_day in zip(oper.sale_price, oper.sale_volume, \
+                    oper.sale_datetime):
                     if day == s_day:
                         amount = round(s_price * s_volume, 2)
 
@@ -1025,19 +1159,26 @@ class AndreMoraesStrategy(Strategy):
                         current_capital_in_use -= amount
 
                 #Compute holding papers prices
-                if (oper.state == State.OPEN and day >= oper.start_date) or (oper.state == State.CLOSE and day >= oper.start_date and day < oper.end_date):
+                if (oper.state == State.OPEN and day >= oper.start_date) or \
+                    (oper.state == State.CLOSE and day >= oper.start_date and day < oper.end_date):
 
-                    bought_volume = sum([p_volume for p_date, p_volume in zip(oper.purchase_datetime, oper.purchase_volume) if p_date <= day])
-                    sold_volume = sum([s_volume for s_date, s_volume in zip(oper.sale_datetime, oper.sale_volume) if s_date <= day])
+                    bought_volume = sum([p_volume for p_date, p_volume in \
+                        zip(oper.purchase_datetime, oper.purchase_volume) if p_date <= day])
+                    sold_volume = sum([s_volume for s_date, s_volume in \
+                        zip(oper.sale_datetime, oper.sale_volume) if s_date <= day])
                     papers_in_hands = bought_volume - sold_volume
 
-                    if not self._day_df.loc[(self._day_df['day'] == day) & (self._day_df['ticker'] == oper.ticker)].empty:
-                        price = self._day_df.loc[(self._day_df['day'] == day) & (self._day_df['ticker'] == oper.ticker)]['close_price'].head(1).values[0]
+                    # if not self._day_df.loc[(self._day_df['day'] == day) & \
+                    #     (self._day_df['ticker'] == oper.ticker)].empty:
+                    #     price = self._day_df.loc[(self._day_df['day'] == day) & \
+                    #         (self._day_df['ticker'] == oper.ticker)]['close_price'].head(1).values[0]
+                    # # Set last price
+                    # else:
+                    #     last_day = statistics.iloc[day_index-1]['day']
+                    #     price = self._day_df.loc[(self._day_df['day'] == last_day) & \
+                    #         (self._day_df['ticker'] == oper.ticker)]['close_price'].head(1).values[0]
 
-                    # Set last price
-                    else:
-                        last_day = statistics.iloc[day_index-1]['day']
-                        price = self._day_df.loc[(self._day_df['day'] == last_day) & (self._day_df['ticker'] == oper.ticker)]['close_price'].head(1).values[0]
+                    price = close_prices[oper.ticker][day_index]
                     holding_papers_capital += round(price * papers_in_hands, 2)
 
             capital[day_index] = round(current_capital + holding_papers_capital, 2)

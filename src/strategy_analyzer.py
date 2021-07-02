@@ -9,6 +9,7 @@ import dash_table
 import pandas as pd
 import plotly.graph_objs as go
 import numpy as np
+import sys
 
 import constants as c
 from db_model import DBStrategyAnalyzerModel
@@ -42,7 +43,12 @@ class StrategyAnalyzer:
 
         if strategy_id == None:
             # Pick last strategy
-            self._strategy_id = self._db_strategy_analyzer_model.get_strategy_ids()['id'][0]
+            strategies = self._db_strategy_analyzer_model.get_strategy_ids()
+            if not strategies.empty:
+                self._strategy_id = strategies['id'][0]
+            else:
+                logger.warning(f"No strategy in database.")
+                sys.exit(c.NO_STRATEGY_WAR)
         else:
             self._strategy_id = strategy_id
 
@@ -80,7 +86,7 @@ class StrategyAnalyzer:
         neutral_operations = operations_stats[operations_stats['status'] == 'NEUTRAL']['number'].squeeze() if operations_stats[operations_stats['status'] == 'NEUTRAL'].empty == False else 0
         open_operations = operations_stats[operations_stats['status'] == 'OPEN']['number'].squeeze() if operations_stats[operations_stats['status'] == 'OPEN'].empty == False else 0
 
-        strategy_data = [min(self._tickers_and_dates['initial_date']).strftime('%d/%m/%Y'), max(self._tickers_and_dates['final_date']).strftime('%d/%m/%Y'), strategy_raw['total_capital'][0], strategy_raw['risk_capital_product'][0], strategy_raw['number_or_tickers'][0], total_operations, succesful_operations, failed_operations, neutral_operations, open_operations]
+        strategy_data = [min(self._tickers_and_dates['start_date']).strftime('%d/%m/%Y'), max(self._tickers_and_dates['end_date']).strftime('%d/%m/%Y'), strategy_raw['total_capital'][0], strategy_raw['risk_capital_product'][0], strategy_raw['number_or_tickers'][0], total_operations, succesful_operations, failed_operations, neutral_operations, open_operations]
 
         self._strategy = pd.DataFrame(data={'parameter': strategy_parameters})
         self._strategy['data'] = strategy_data
@@ -127,8 +133,10 @@ class StrategyAnalyzer:
 
         if self._performance['tickers_average'][0] == 1.0:
             self._performance['tickers_average'] = round((self._performance['tickers_average'] - 1) * 100, 2)
+        elif self._performance['tickers_average'][0] == 0.0:
+            self._performance['tickers_average'] = round((self._performance['tickers_average']) * 100, 2)
 
-        cdi_df = self._db_strategy_analyzer_model.get_cdi_index(min(self._tickers_and_dates['initial_date']), max(self._tickers_and_dates['final_date']))
+        cdi_df = self._db_strategy_analyzer_model.get_cdi_index(min(self._tickers_and_dates['start_date']), max(self._tickers_and_dates['end_date']))
 
         cdi_df['cumulative'] = cdi_df['cumulative'] - 1.0
 
@@ -202,7 +210,7 @@ class StrategyAnalyzer:
                                                     color='rgb(144, 144, 144)'
                                                 ),
                                                 hovertemplate="%{y:.2f}%",
-                                                visible="legendonly"
+                                                # visible="legendonly"
                                             ),
                                         ],
                                         layout=dict(
@@ -348,9 +356,14 @@ class StrategyAnalyzer:
         partial_sale_marker_color = 'LightSkyBlue'
         target_sale_marker_color = 'Blue'
 
-        ticker_prices = self._db_strategy_analyzer_model.get_ticker_prices_and_features(ticker, pd.to_datetime(self._tickers_and_dates.loc[self._tickers_and_dates['ticker'] == ticker]['initial_date'].values[0]), pd.to_datetime(self._tickers_and_dates.loc[self._tickers_and_dates['ticker'] == ticker]['final_date'].values[0]))
+        ticker_prices = self._db_strategy_analyzer_model.get_ticker_prices_and_features(
+            ticker, pd.to_datetime(self._tickers_and_dates.loc[self._tickers_and_dates \
+            ['ticker'] == ticker]['start_date'].values[0]), pd.to_datetime(
+            self._tickers_and_dates.loc[self._tickers_and_dates['ticker'] == ticker] \
+            ['end_date'].values[0]))
 
-        operations_raw = self._db_strategy_analyzer_model.get_operations(self._strategy_id, ticker)
+        operations_raw = self._db_strategy_analyzer_model.get_operations(self._strategy_id,
+            ticker)
 
         # Ticker prices
         operations_data = [{
@@ -382,8 +395,8 @@ class StrategyAnalyzer:
         # Ticker peaks
         operations_data.append({
             "name": "Peaks",
-            "x": ticker_prices.loc[(ticker_prices['peak'] != 0)]['day'],
-            "y": ticker_prices.loc[(ticker_prices['peak'] != 0)]['close_price'],
+            "x": ticker_prices.loc[ticker_prices['peak'] != 0]['day'],
+            "y": ticker_prices.loc[ticker_prices['peak'] != 0]['peak'],
             "mode": "markers",
             "showlegend": True,
             "visible": "legendonly",
@@ -408,6 +421,28 @@ class StrategyAnalyzer:
             "y": ticker_prices['ema_72'],
             "mode": "lines",
             "line": {"color": "yellow"},
+            "visible": "legendonly"
+        })
+
+        # Ticker Target Purchase Price
+        operations_data.append({
+            "name": "Buy Price",
+            "x": ticker_prices['day'],
+            "y": ticker_prices['target_buy_price'],
+            "mode": "lines",
+            "line": {"color": "lightblue"},
+            "showlegend": True,
+            "visible": "legendonly"
+        })
+
+        # Ticker Stop Loss
+        operations_data.append({
+            "name": "Stop Loss",
+            "x": ticker_prices['day'],
+            "y": ticker_prices['stop_loss'],
+            "mode": "lines",
+            "line": {"color": "darksalmon"},
+            "showlegend": True,
             "visible": "legendonly"
         })
 

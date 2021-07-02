@@ -4,21 +4,56 @@
         {
             "name": "Andre Moraes",
             "alias": "Tickers: {number_of_tickers}, Risk-Capital: {risk_capital_coefficient}%",
-            "comment": "Test PETR4 para verificar tendências.",
+            "comment": "Ajuste na margem de preço alvo e stop loss.",
             "capital": 100000,
             "risk_capital_coefficient": 0.1,
             "min_order_volume": 1,
             "ticker_min_ann_volume_filter": 1000000,
             "stock_targets": [
                 {
-                    "name": "PETR4",
-                    "start_date": "28/01/2018",
-                    "end_date": "01/01/2019"
+                    "name":"MGLU3",
+                    "start_date":"01/01/2017",
+                    "end_date":"14/06/2021"
                 },
                 {
-                    "name": "MGLU3",
-                    "start_date": "01/03/2018",
-                    "end_date": "01/01/2019"
+                    "name":"VALE3",
+                    "start_date":"01/01/2017",
+                    "end_date":"14/06/2021"
+                },
+                {
+                    "name":"PETR4",
+                    "start_date":"01/01/2017",
+                    "end_date":"14/06/2021"
+                },
+                {
+                    "name":"WEGE3",
+                    "start_date":"01/01/2017",
+                    "end_date":"14/06/2021"
+                },
+                {
+                    "name":"BBAS3",
+                    "start_date":"01/01/2017",
+                    "end_date":"14/06/2021"
+                },
+                {
+                    "name":"BBDC3",
+                    "start_date":"01/01/2017",
+                    "end_date":"14/06/2021"
+                },
+                {
+                    "name":"EMBR3",
+                    "start_date":"01/01/2017",
+                    "end_date":"14/06/2021"
+                },
+                {
+                    "name":"GGBR4",
+                    "start_date":"01/01/2017",
+                    "end_date":"14/06/2021"
+                },
+                {
+                    "name":"AZUL4",
+                    "start_date":"01/01/2017",
+                    "end_date":"14/06/2021"
                 }
             ]
         }
