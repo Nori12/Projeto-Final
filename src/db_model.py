@@ -278,10 +278,11 @@ class DBTickerModel:
         query = f"SELECT ticker, {time_column}, open_price, max_price, min_price, " \
             f"close_price, volume\nFROM {table}\nWHERE\n"
 
-        query += f"  (ticker = \'{ticker}\' and {time_column} >= " \
+        query += f"  (ticker = \'{ticker}\' AND {time_column} >= " \
             f"\'{(start_date-timedelta(days=days_before_initial_date)).strftime('%Y-%m-%d')}\'" \
-            f" and {time_column} <= \'{end_date.strftime('%Y-%m-%d')}\');"
+            f" AND {time_column} <= \'{end_date.strftime('%Y-%m-%d')}\')"
 
+        query += f"ORDER BY ticker, {time_column};"
         return pd.read_sql_query(query, self._connection)
 
     def delete_features(self, ticker, interval='1d'):

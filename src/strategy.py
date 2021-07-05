@@ -16,7 +16,7 @@ import matplotlib.dates as mdates
 from operator import add
 
 import constants as c
-from utils import RunTime, calculate_maximum_volume, calculate_yield_annualized, State
+from utils import RunTime, calculate_maximum_volume, calculate_yield_annualized, State, Trend
 from db_model import DBStrategyModel, DBGenericModel
 
 # Configure Logging
@@ -722,7 +722,8 @@ class AndreMoraesStrategy(Strategy):
                                     is not None and ts.operation.state == State.NOT_STARTED):
 
                                     # Strategy core rules
-                                    if (up_down_trend_status_day == 1 and up_down_trend_status_week == 1) \
+                                    if (up_down_trend_status_day >= Trend.ALMOST_UPTREND.value \
+                                        and up_down_trend_status_week >= Trend.ALMOST_UPTREND.value) \
                                         and (close_price_day < max(ema_17_day, ema_72_day)*(1+self.price_to_emas_tolerance) \
                                         and close_price_day > min(ema_17_day, ema_72_day)*(1-self.price_to_emas_tolerance)) \
                                         and (close_price_day > ema_72_week):
@@ -761,8 +762,8 @@ class AndreMoraesStrategy(Strategy):
                                                 (ts.operation.target_purchase_price - ts.operation.stop_loss)/ \
                                                 (ts.operation.target_purchase_price)), minimum_volume=self.min_order_volume)
 
-                                            if day == pd.Timestamp('2021-02-22T00'):
-                                                print()
+                                            # if day == pd.Timestamp('2021-02-22T00'):
+                                            #     print()
 
                                             # Check if there is enough money
                                             if available_money >= purchase_money:

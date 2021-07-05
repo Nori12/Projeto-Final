@@ -59,7 +59,10 @@ class ConfigReader:
     show_results : bool
         Result parameter that enables further visualization of
         processed data.
-
+    min_risk : float
+        Minimum risk per operation.
+    min_risk : float
+        Maximum risk per operation.
     Methods
     ----------
     No methods.
@@ -75,6 +78,10 @@ class ConfigReader:
         self.load_file(config_file_path)
         self._show_results = self.read_parameter('show_results', origin='root',
             is_boolean=True, can_be_missed=True, if_missed_default_value=True)
+        self._min_risk = self.read_parameter('min_risk', origin='root',
+            can_be_missed=True, can_be_none=False, if_missed_default_value=True)
+        self._max_risk = self.read_parameter('max_risk', origin='root',
+            can_be_missed=True, can_be_none=False, if_missed_default_value=True)
         self._read_strategies()
 
         holidays = self._db_generic_model.get_holidays(
@@ -184,6 +191,16 @@ class ConfigReader:
     def show_results(self):
         """bool : Indicates if show result dashboard by the end of the program."""
         return self._show_results
+
+    @property
+    def min_risk(self):
+        """float : Minimum risk per operation."""
+        return self._min_risk
+
+    @property
+    def max_risk(self):
+        """float : Maximum risk per operation."""
+        return self._max_risk
 
     @property
     def holidays(self):

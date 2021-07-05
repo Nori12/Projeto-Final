@@ -1,17 +1,19 @@
 {
     "show_results": true,
+    "min_risk": 0.12,
+    "max_risk": 0.20,
     "strategies":[
         {
             "name": "Andre Moraes",
             "alias": "Tickers: {number_of_tickers}, Risk-Capital: {risk_capital_coefficient}%",
             "comment": "Ajuste na margem de preço alvo e stop loss.",
             "capital": 100000,
-            "risk_capital_coefficient": 0.1,
+            "risk_capital_coefficient": 0.01,
             "min_order_volume": 1,
             "ticker_min_ann_volume_filter": 1000000,
             "stock_targets": [
                 {
-                    "name":"BBDC3",
+                    "name":"MGLU3",
                     "start_date":"01/01/2017",
                     "end_date":"14/06/2021"
                 }

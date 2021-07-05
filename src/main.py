@@ -41,11 +41,14 @@ def run():
         config.max_end_date, ordinary_ticker=False)) # USD/BRL
 
     # Update and generate features
-    for ticker_manager in ticker_managers:
-        ticker_manager.holidays = config.holidays
-        update = ticker_manager.update()
+    for tm in ticker_managers:
+        tm.holidays = config.holidays
+        tm.min_risk = config.min_risk
+        tm.max_risk = config.max_risk
+
+        update = tm.update()
         if update == True:
-            ticker_manager.generate_features()
+            tm.generate_features()
 
     # Strategy section
     for strategy in config.strategies:
