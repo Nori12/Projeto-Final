@@ -191,7 +191,7 @@ CREATE TABLE negotiation (
   day TIMESTAMP WITHOUT TIME ZONE NOT NULL,
   buy_sell_flag trade_type NOT NULL,
   price DECIMAL(8, 2) NOT NULL,
-  volume SMALLINT NOT NULL,
+  volume BIGINT NOT NULL,
   stop_flag BOOLEAN NOT NULL,
   partial_sale_flag BOOLEAN NOT NULL,
 

@@ -53,17 +53,19 @@ def run():
     # Strategy section
     for strategy in config.strategies:
         if strategy['name'] == 'Andre Moraes':
-            andre_moraes = AndreMoraesStrategy(
+            am = AndreMoraesStrategy(
                 strategy['tickers'],
                 min_order_volume=strategy['min_order_volume'],
                 total_capital=strategy['capital'],
                 risk_capital_product=strategy['risk_capital_coefficient'])
-            andre_moraes.alias = strategy['alias']
-            andre_moraes.comment = strategy['comment']
+            am.alias = strategy['alias']
+            am.comment = strategy['comment']
+            am.partial_sale = strategy['partial_sale']
+            am.ema_tolerance = strategy['ema_tolerance']
 
-            andre_moraes.process_operations()
-            andre_moraes.calculate_statistics()
-            andre_moraes.save()
+            am.process_operations()
+            am.calculate_statistics()
+            am.save()
 
     # Strategy Analysis section
     if config.show_results == True:

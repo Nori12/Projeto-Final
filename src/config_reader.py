@@ -413,6 +413,12 @@ class ConfigReader:
                 volume_filter = self.read_parameter(
                     'ticker_min_ann_volume_filter', strategy_batch, can_be_list=True,
                     can_be_missed=True, if_missed_default_value=0)
+                partial_sale = self.read_parameter(
+                    'partial_sale', strategy_batch, is_boolean=True, can_be_list=True,
+                    can_be_missed=True, can_be_none=False, if_missed_default_value=True)
+                ema_tolerance = self.read_parameter(
+                    'ema_tolerance', strategy_batch, can_be_list=True,
+                    can_be_missed=True, can_be_none=False, if_missed_default_value=0.0)
 
                 ConfigReader.add_param_to_strategies('name', name, strategies)
                 ConfigReader.add_param_to_strategies('alias', alias, strategies)
@@ -424,6 +430,10 @@ class ConfigReader:
                     strategies)
                 ConfigReader.add_param_to_strategies('ticker_min_ann_volume_filter',
                     volume_filter, strategies)
+                ConfigReader.add_param_to_strategies('partial_sale',
+                    partial_sale, strategies)
+                ConfigReader.add_param_to_strategies('ema_tolerance',
+                    ema_tolerance, strategies)
 
                 individual_tickers = ConfigReader.read_individual_tickers('stock_targets',
                     origin=strategy_batch)
