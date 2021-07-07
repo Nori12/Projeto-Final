@@ -836,12 +836,37 @@ class DBStrategyModel:
 
         if interval == '1wk':
             new_start_date = start_date - pd.Timedelta(days=7)
-            query += f"  AND cand.{time_column} >= TO_DATE(CONCAT(EXTRACT(YEAR FROM TIMESTAMP " \
+            # query += f"  AND cand.{time_column} >= TO_DATE(CONCAT(EXTRACT(YEAR FROM TIMESTAMP " \
+            #     f"\'{new_start_date.strftime('%Y-%m-%d')}\'), EXTRACT(WEEK FROM TIMESTAMP " \
+            #     f"\'{new_start_date.strftime('%Y-%m-%d')}\')), \'IYYYIW\')\n"
+            query += f"  AND cand.week >= \n"
+            query += f"    CASE\n"
+            query += f"        WHEN EXTRACT(MONTH FROM TIMESTAMP " \
+                f"\'{new_start_date.strftime('%Y-%m-%d')}\') = 12 AND EXTRACT(WEEK " \
+                f"FROM TIMESTAMP \'{new_start_date.strftime('%Y-%m-%d')}\') = 1\n"
+            query += f"        THEN TO_DATE(CONCAT(EXTRACT(YEAR FROM TIMESTAMP \'" \
+                f"{new_start_date.strftime('%Y-%m-%d')}\')+1, EXTRACT(WEEK FROM TIMESTAMP " \
+                f"\'{new_start_date.strftime('%Y-%m-%d')}\')), \'IYYYIW\')\n"
+            query += f"        ELSE TO_DATE(CONCAT(EXTRACT(YEAR FROM TIMESTAMP " \
                 f"\'{new_start_date.strftime('%Y-%m-%d')}\'), EXTRACT(WEEK FROM TIMESTAMP " \
                 f"\'{new_start_date.strftime('%Y-%m-%d')}\')), \'IYYYIW\')\n"
-            query += f"  AND cand.{time_column} < TO_DATE(CONCAT(EXTRACT(YEAR FROM TIMESTAMP " \
+            query += f"    END\n"
+
+            # query += f"  AND cand.{time_column} < TO_DATE(CONCAT(EXTRACT(YEAR FROM TIMESTAMP " \
+            #     f"\'{end_date.strftime('%Y-%m-%d')}\'), EXTRACT(WEEK FROM TIMESTAMP " \
+            #     f"\'{end_date.strftime('%Y-%m-%d')}\')), \'IYYYIW\')\n"
+            query += f"  AND cand.week < \n"
+            query += f"  CASE \n"
+            query += f"    WHEN EXTRACT(MONTH FROM TIMESTAMP \'" \
+                f"{end_date.strftime('%Y-%m-%d')}\') = 12 AND EXTRACT(WEEK FROM TIMESTAMP" \
+                f" \'{end_date.strftime('%Y-%m-%d')}\') = 1\n"
+            query += f"      THEN TO_DATE(CONCAT(EXTRACT(YEAR FROM TIMESTAMP \'" \
+                f"{end_date.strftime('%Y-%m-%d')}\')+1, EXTRACT(WEEK FROM TIMESTAMP " \
+                f"\'{end_date.strftime('%Y-%m-%d')}\')), \'IYYYIW\')\n"
+            query += f"    ELSE TO_DATE(CONCAT(EXTRACT(YEAR FROM TIMESTAMP " \
                 f"\'{end_date.strftime('%Y-%m-%d')}\'), EXTRACT(WEEK FROM TIMESTAMP " \
                 f"\'{end_date.strftime('%Y-%m-%d')}\')), \'IYYYIW\')\n"
+            query += f"  END\n"
         elif interval == '1d':
             query += f"  AND cand.{time_column} >= \'{start_date.strftime('%Y-%m-%d')}\'\n"
             query += f"  AND cand.{time_column} <= \'{end_date.strftime('%Y-%m-%d')}\'\n"

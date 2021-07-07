@@ -57,7 +57,8 @@ def run():
                 strategy['tickers'],
                 min_order_volume=strategy['min_order_volume'],
                 total_capital=strategy['capital'],
-                risk_capital_product=strategy['risk_capital_coefficient'])
+                risk_capital_product=strategy['risk_capital_coefficient'],
+                min_volume_per_year=strategy['ticker_min_ann_volume_filter'])
             am.alias = strategy['alias']
             am.comment = strategy['comment']
             am.partial_sale = strategy['partial_sale']

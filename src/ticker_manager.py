@@ -803,6 +803,8 @@ class TickerManager:
         max_stop_loss = target_buy_price * (1 - min_risk)
         min_stop_loss = target_buy_price * (1 - max_risk)
 
+        if min_stop_loss > threshold_1:
+            stop_loss = min_stop_loss
         if max_stop_loss >= threshold_1 and threshold_1 >= min_stop_loss:
             stop_loss = threshold_1
         else:
@@ -830,26 +832,27 @@ class TickerManager:
     def get_purchase_price(price, max_from_max_peaks, min_from_max_peaks,
         max_from_min_peaks, min_from_min_peaks, all_max_peaks_values, margin_from_peak=0.0):
 
-        target_price = 0.0
-        threshold_1 = max_from_max_peaks
-        threshold_2 = max(min_from_max_peaks, max_from_min_peaks)
-        threshold_3 = min(min_from_max_peaks, max_from_min_peaks)
-        threshold_4 = min_from_min_peaks
+        target_price = max_from_max_peaks
+        # target_price = 0.0
+        # threshold_1 = max_from_max_peaks
+        # threshold_2 = max(min_from_max_peaks, max_from_min_peaks)
+        # threshold_3 = min(min_from_max_peaks, max_from_min_peaks)
+        # threshold_4 = min_from_min_peaks
 
-        if price > threshold_1:
-            last_greater_max = [max_peak for max_peak in sorted(all_max_peaks_values)
-                if max_peak > price]
-            if len(last_greater_max) != 0:
-                target_price = last_greater_max[0]
-            else:
-                target_price = price
-        elif price > threshold_2:
-            target_price = threshold_1
-        elif price > threshold_3:
-            target_price = threshold_2
-        elif price > threshold_4:
-            target_price = threshold_3
-        else:
-            target_price = threshold_4
+        # if price > threshold_1:
+        #     last_greater_max = [max_peak for max_peak in sorted(all_max_peaks_values)
+        #         if max_peak > price]
+        #     if len(last_greater_max) != 0:
+        #         target_price = last_greater_max[0]
+        #     else:
+        #         target_price = price
+        # elif price > threshold_2:
+        #     target_price = threshold_1
+        # elif price > threshold_3:
+        #     target_price = threshold_2
+        # elif price > threshold_4:
+        #     target_price = threshold_3
+        # else:
+        #     target_price = threshold_4
 
         return round(target_price, 2)

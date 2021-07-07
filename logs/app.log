@@ -1988,3 +1988,951 @@ Program started.
 2021-07-05 18:48:07,887:DEBUG:db_model:Database 'StockMarket' connected successfully.
 2021-07-05 18:48:08,009:INFO:strategy_analyzer:Dash is running on http://127.0.0.1:8050/
 
+2021-07-06 17:18:17,073:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 17:18:17,933:INFO:__main__:
+Program started.
+2021-07-06 17:18:17,942:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 17:18:17,942:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-06 17:18:17,943:DEBUG:config_reader:Config file found.
+2021-07-06 17:18:18,083:INFO:config_reader:Config file successfully read.
+2021-07-06 17:18:18,084:INFO:config_reader:Total strategies: 1
+2021-07-06 17:18:18,084:INFO:config_reader:Total tickers: 10
+2021-07-06 17:18:18,085:INFO:config_reader:Oldest date: 01/01/2014
+2021-07-06 17:18:18,085:INFO:config_reader:Most recent date: 31/12/2019
+2021-07-06 17:18:18,085:INFO:config_reader:Strategies found:
+2021-07-06 17:18:18,086:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.03, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['MGLU3', 'VALE3', 'PETR4', 'WEGE3', 'BBAS3', 'BBDC3', 'EMBR3', 'GGBR4', 'AZUL4', 'ATOM3']
+2021-07-06 17:18:18,086:DEBUG:utils:The function 'ConfigReader.__init__' took 153.30 milliseconds to run.
+2021-07-06 17:18:18,140:INFO:ticker_manager:Ticker 'MGLU3' already updated.
+2021-07-06 17:18:18,141:DEBUG:utils:The function 'TickerManager.update' took 53.52 milliseconds to run.
+2021-07-06 17:18:18,149:INFO:ticker_manager:Ticker 'VALE3' already updated.
+2021-07-06 17:18:18,149:DEBUG:utils:The function 'TickerManager.update' took 8.16 milliseconds to run.
+2021-07-06 17:18:18,157:INFO:ticker_manager:Ticker 'PETR4' already updated.
+2021-07-06 17:18:18,157:DEBUG:utils:The function 'TickerManager.update' took 7.42 milliseconds to run.
+2021-07-06 17:18:18,166:INFO:ticker_manager:Ticker 'WEGE3' already updated.
+2021-07-06 17:18:18,167:DEBUG:utils:The function 'TickerManager.update' took 9.31 milliseconds to run.
+2021-07-06 17:18:18,178:INFO:ticker_manager:Ticker 'BBAS3' already updated.
+2021-07-06 17:18:18,179:DEBUG:utils:The function 'TickerManager.update' took 11.92 milliseconds to run.
+2021-07-06 17:18:18,191:INFO:ticker_manager:Ticker 'BBDC3' already updated.
+2021-07-06 17:18:18,191:DEBUG:utils:The function 'TickerManager.update' took 12.20 milliseconds to run.
+2021-07-06 17:18:18,204:INFO:ticker_manager:Ticker 'EMBR3' already updated.
+2021-07-06 17:18:18,204:DEBUG:utils:The function 'TickerManager.update' took 12.68 milliseconds to run.
+2021-07-06 17:18:18,214:INFO:ticker_manager:Ticker 'GGBR4' already updated.
+2021-07-06 17:18:18,214:DEBUG:utils:The function 'TickerManager.update' took 9.40 milliseconds to run.
+2021-07-06 17:18:18,871:WARNING:ticker_manager:Yahoo Finance has no data for ticker 'AZUL4' ('2014-01-01', '2017-04-10').
+2021-07-06 17:18:18,871:INFO:ticker_manager:Ticker 'AZUL4' did not updated daily candlesticks.
+2021-07-06 17:18:18,872:DEBUG:utils:The function 'TickerManager.update' took 655.68 milliseconds to run.
+2021-07-06 17:18:21,109:INFO:ticker_manager:Ticker 'ATOM3' updated daily candlesticks.
+2021-07-06 17:18:21,133:INFO:ticker_manager:Ticker 'ATOM3' weekly candles recreated.
+2021-07-06 17:18:21,133:DEBUG:utils:The function 'TickerManager.update' took 2261.53 milliseconds to run.
+2021-07-06 17:18:21,134:INFO:ticker_manager:Generating features for ticker 'ATOM3'.
+2021-07-06 17:19:26,213:DEBUG:utils:The function 'TickerManager.generate_features' took 65079.05 milliseconds to run.
+2021-07-06 17:19:26,219:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-07-06 17:19:26,219:DEBUG:utils:The function 'TickerManager.update' took 5.79 milliseconds to run.
+2021-07-06 17:19:26,224:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-07-06 17:19:26,225:DEBUG:utils:The function 'TickerManager.update' took 5.39 milliseconds to run.
+2021-07-06 17:19:26,300:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 17:19:26,309:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 17:21:41,070:INFO:strategy:'Andre Moraes': Removing tickers which the average volume negotiation per year is less than 1000000.
+2021-07-06 17:22:21,689:INFO:strategy:'Andre Moraes': Removed tickers: 'ATOM3'
+2021-07-06 17:40:32,311:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 17:40:33,242:INFO:__main__:
+Program started.
+2021-07-06 17:40:33,316:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 17:40:33,316:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-06 17:40:33,317:DEBUG:config_reader:Config file found.
+2021-07-06 17:40:33,345:INFO:config_reader:Config file successfully read.
+2021-07-06 17:40:33,345:INFO:config_reader:Total strategies: 1
+2021-07-06 17:40:33,345:INFO:config_reader:Total tickers: 9
+2021-07-06 17:40:33,345:INFO:config_reader:Oldest date: 01/01/2014
+2021-07-06 17:40:33,345:INFO:config_reader:Most recent date: 31/12/2019
+2021-07-06 17:40:33,346:INFO:config_reader:Strategies found:
+2021-07-06 17:40:33,346:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.01, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['MGLU3', 'VALE3', 'PETR4', 'WEGE3', 'BBAS3', 'BBDC3', 'EMBR3', 'GGBR4', 'AZUL4']
+2021-07-06 17:40:33,346:DEBUG:utils:The function 'ConfigReader.__init__' took 103.66 milliseconds to run.
+2021-07-06 17:40:33,355:INFO:ticker_manager:Ticker 'MGLU3' already updated.
+2021-07-06 17:40:33,355:DEBUG:utils:The function 'TickerManager.update' took 8.30 milliseconds to run.
+2021-07-06 17:40:33,361:INFO:ticker_manager:Ticker 'VALE3' already updated.
+2021-07-06 17:40:33,362:DEBUG:utils:The function 'TickerManager.update' took 6.66 milliseconds to run.
+2021-07-06 17:40:33,368:INFO:ticker_manager:Ticker 'PETR4' already updated.
+2021-07-06 17:40:33,369:DEBUG:utils:The function 'TickerManager.update' took 6.54 milliseconds to run.
+2021-07-06 17:40:33,375:INFO:ticker_manager:Ticker 'WEGE3' already updated.
+2021-07-06 17:40:33,375:DEBUG:utils:The function 'TickerManager.update' took 6.32 milliseconds to run.
+2021-07-06 17:40:33,381:INFO:ticker_manager:Ticker 'BBAS3' already updated.
+2021-07-06 17:40:33,381:DEBUG:utils:The function 'TickerManager.update' took 5.51 milliseconds to run.
+2021-07-06 17:40:33,387:INFO:ticker_manager:Ticker 'BBDC3' already updated.
+2021-07-06 17:40:33,388:DEBUG:utils:The function 'TickerManager.update' took 6.76 milliseconds to run.
+2021-07-06 17:40:33,393:INFO:ticker_manager:Ticker 'EMBR3' already updated.
+2021-07-06 17:40:33,394:DEBUG:utils:The function 'TickerManager.update' took 5.20 milliseconds to run.
+2021-07-06 17:40:33,399:INFO:ticker_manager:Ticker 'GGBR4' already updated.
+2021-07-06 17:40:33,399:DEBUG:utils:The function 'TickerManager.update' took 5.46 milliseconds to run.
+2021-07-06 17:40:33,879:WARNING:ticker_manager:Yahoo Finance has no data for ticker 'AZUL4' ('2014-01-01', '2017-04-10').
+2021-07-06 17:40:33,880:INFO:ticker_manager:Ticker 'AZUL4' did not updated daily candlesticks.
+2021-07-06 17:40:33,880:DEBUG:utils:The function 'TickerManager.update' took 480.44 milliseconds to run.
+2021-07-06 17:40:33,886:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-07-06 17:40:33,887:DEBUG:utils:The function 'TickerManager.update' took 6.24 milliseconds to run.
+2021-07-06 17:40:33,894:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-07-06 17:40:33,894:DEBUG:utils:The function 'TickerManager.update' took 7.52 milliseconds to run.
+2021-07-06 17:40:33,906:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 17:40:33,916:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 17:40:39,291:INFO:strategy:'Andre Moraes': No tickers to remove.
+2021-07-06 17:40:45,234:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 17:41:12,022:ERROR:strategy:Error processing operations, error:
+'TickerState' object has no attribute 'peaks_after_operation'
+Traceback (most recent call last):
+  File "/Users/atcha/Github/Projeto-Final/src/strategy.py", line 723, in process_operations
+    ticker_priority_list[index].peaks_after_operation += 1
+AttributeError: 'TickerState' object has no attribute 'peaks_after_operation'
+2021-07-06 17:41:13,781:DEBUG:utils:The function 'AndreMoraesStrategy.process_operations' took 28562.40 milliseconds to run.
+2021-07-06 17:41:38,333:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 17:41:39,009:INFO:__main__:
+Program started.
+2021-07-06 17:41:39,021:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 17:41:39,022:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-06 17:41:39,023:DEBUG:config_reader:Config file found.
+2021-07-06 17:41:39,047:INFO:config_reader:Config file successfully read.
+2021-07-06 17:41:39,047:INFO:config_reader:Total strategies: 1
+2021-07-06 17:41:39,047:INFO:config_reader:Total tickers: 9
+2021-07-06 17:41:39,048:INFO:config_reader:Oldest date: 01/01/2014
+2021-07-06 17:41:39,048:INFO:config_reader:Most recent date: 31/12/2019
+2021-07-06 17:41:39,048:INFO:config_reader:Strategies found:
+2021-07-06 17:41:39,048:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.01, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['MGLU3', 'VALE3', 'PETR4', 'WEGE3', 'BBAS3', 'BBDC3', 'EMBR3', 'GGBR4', 'AZUL4']
+2021-07-06 17:41:39,048:DEBUG:utils:The function 'ConfigReader.__init__' took 38.60 milliseconds to run.
+2021-07-06 17:41:39,057:INFO:ticker_manager:Ticker 'MGLU3' already updated.
+2021-07-06 17:41:39,057:DEBUG:utils:The function 'TickerManager.update' took 7.86 milliseconds to run.
+2021-07-06 17:41:39,063:INFO:ticker_manager:Ticker 'VALE3' already updated.
+2021-07-06 17:41:39,063:DEBUG:utils:The function 'TickerManager.update' took 5.83 milliseconds to run.
+2021-07-06 17:41:39,068:INFO:ticker_manager:Ticker 'PETR4' already updated.
+2021-07-06 17:41:39,069:DEBUG:utils:The function 'TickerManager.update' took 5.45 milliseconds to run.
+2021-07-06 17:41:39,074:INFO:ticker_manager:Ticker 'WEGE3' already updated.
+2021-07-06 17:41:39,074:DEBUG:utils:The function 'TickerManager.update' took 5.35 milliseconds to run.
+2021-07-06 17:41:39,082:INFO:ticker_manager:Ticker 'BBAS3' already updated.
+2021-07-06 17:41:39,083:DEBUG:utils:The function 'TickerManager.update' took 8.02 milliseconds to run.
+2021-07-06 17:41:39,088:INFO:ticker_manager:Ticker 'BBDC3' already updated.
+2021-07-06 17:41:39,088:DEBUG:utils:The function 'TickerManager.update' took 5.54 milliseconds to run.
+2021-07-06 17:41:39,094:INFO:ticker_manager:Ticker 'EMBR3' already updated.
+2021-07-06 17:41:39,094:DEBUG:utils:The function 'TickerManager.update' took 5.74 milliseconds to run.
+2021-07-06 17:41:39,100:INFO:ticker_manager:Ticker 'GGBR4' already updated.
+2021-07-06 17:41:39,100:DEBUG:utils:The function 'TickerManager.update' took 5.31 milliseconds to run.
+2021-07-06 17:41:39,988:WARNING:ticker_manager:Yahoo Finance has no data for ticker 'AZUL4' ('2014-01-01', '2017-04-10').
+2021-07-06 17:41:39,989:INFO:ticker_manager:Ticker 'AZUL4' did not updated daily candlesticks.
+2021-07-06 17:41:39,989:DEBUG:utils:The function 'TickerManager.update' took 888.80 milliseconds to run.
+2021-07-06 17:41:39,997:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-07-06 17:41:39,997:DEBUG:utils:The function 'TickerManager.update' took 8.33 milliseconds to run.
+2021-07-06 17:41:40,012:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-07-06 17:41:40,012:DEBUG:utils:The function 'TickerManager.update' took 14.55 milliseconds to run.
+2021-07-06 17:41:40,028:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 17:41:40,041:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 17:41:40,052:INFO:strategy:'Andre Moraes': No tickers to remove.
+2021-07-06 17:41:40,062:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 17:47:28,431:DEBUG:utils:The function 'AndreMoraesStrategy.process_operations' took 348378.23 milliseconds to run.
+2021-07-06 17:47:28,536:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 17:48:21,225:DEBUG:utils:The function 'AndreMoraesStrategy.calculate_statistics' took 52791.47 milliseconds to run.
+2021-07-06 17:48:22,154:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 17:48:22,299:INFO:strategy_analyzer:Dash is running on http://127.0.0.1:8050/
+
+2021-07-06 17:57:33,131:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 17:57:34,133:INFO:__main__:
+Program started.
+2021-07-06 17:57:34,143:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 17:57:34,143:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-06 17:57:34,144:DEBUG:config_reader:Config file found.
+2021-07-06 17:57:34,170:INFO:config_reader:Config file successfully read.
+2021-07-06 17:57:34,171:INFO:config_reader:Total strategies: 1
+2021-07-06 17:57:34,171:INFO:config_reader:Total tickers: 1
+2021-07-06 17:57:34,172:INFO:config_reader:Oldest date: 01/01/2014
+2021-07-06 17:57:34,172:INFO:config_reader:Most recent date: 31/12/2019
+2021-07-06 17:57:34,172:INFO:config_reader:Strategies found:
+2021-07-06 17:57:34,172:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.01, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['BBDC3']
+2021-07-06 17:57:34,172:DEBUG:utils:The function 'ConfigReader.__init__' took 38.64 milliseconds to run.
+2021-07-06 17:57:34,183:INFO:ticker_manager:Ticker 'BBDC3' already updated.
+2021-07-06 17:57:34,183:DEBUG:utils:The function 'TickerManager.update' took 10.11 milliseconds to run.
+2021-07-06 17:57:34,189:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-07-06 17:57:34,190:DEBUG:utils:The function 'TickerManager.update' took 6.35 milliseconds to run.
+2021-07-06 17:57:34,197:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-07-06 17:57:34,197:DEBUG:utils:The function 'TickerManager.update' took 7.12 milliseconds to run.
+2021-07-06 17:57:34,206:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 17:57:34,215:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 17:57:34,227:INFO:strategy:'Andre Moraes': No tickers to remove.
+2021-07-06 17:57:34,239:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 18:01:22,843:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 18:01:23,988:INFO:__main__:
+Program started.
+2021-07-06 18:01:24,008:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 18:01:24,009:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-06 18:01:24,010:DEBUG:config_reader:Config file found.
+2021-07-06 18:01:24,077:INFO:config_reader:Config file successfully read.
+2021-07-06 18:01:24,078:INFO:config_reader:Total strategies: 1
+2021-07-06 18:01:24,080:INFO:config_reader:Total tickers: 1
+2021-07-06 18:01:24,083:INFO:config_reader:Oldest date: 01/01/2014
+2021-07-06 18:01:24,083:INFO:config_reader:Most recent date: 31/12/2019
+2021-07-06 18:01:24,084:INFO:config_reader:Strategies found:
+2021-07-06 18:01:24,084:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.01, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['BBDC3']
+2021-07-06 18:01:24,085:DEBUG:utils:The function 'ConfigReader.__init__' took 96.32 milliseconds to run.
+2021-07-06 18:01:24,129:INFO:ticker_manager:Ticker 'BBDC3' already updated.
+2021-07-06 18:01:24,132:DEBUG:utils:The function 'TickerManager.update' took 45.73 milliseconds to run.
+2021-07-06 18:01:24,147:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-07-06 18:01:24,147:DEBUG:utils:The function 'TickerManager.update' took 14.88 milliseconds to run.
+2021-07-06 18:01:24,158:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-07-06 18:01:24,159:DEBUG:utils:The function 'TickerManager.update' took 10.38 milliseconds to run.
+2021-07-06 18:01:24,174:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 18:01:24,189:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 18:01:24,208:INFO:strategy:'Andre Moraes': No tickers to remove.
+2021-07-06 18:01:24,227:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 18:02:02,557:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 18:02:03,212:INFO:__main__:
+Program started.
+2021-07-06 18:02:03,222:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 18:02:03,223:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-06 18:02:03,223:DEBUG:config_reader:Config file found.
+2021-07-06 18:02:03,247:INFO:config_reader:Config file successfully read.
+2021-07-06 18:02:03,247:INFO:config_reader:Total strategies: 1
+2021-07-06 18:02:03,248:INFO:config_reader:Total tickers: 1
+2021-07-06 18:02:03,248:INFO:config_reader:Oldest date: 01/01/2014
+2021-07-06 18:02:03,248:INFO:config_reader:Most recent date: 31/12/2019
+2021-07-06 18:02:03,248:INFO:config_reader:Strategies found:
+2021-07-06 18:02:03,248:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.01, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['BBDC3']
+2021-07-06 18:02:03,249:DEBUG:utils:The function 'ConfigReader.__init__' took 35.81 milliseconds to run.
+2021-07-06 18:02:03,257:INFO:ticker_manager:Ticker 'BBDC3' already updated.
+2021-07-06 18:02:03,257:DEBUG:utils:The function 'TickerManager.update' took 8.44 milliseconds to run.
+2021-07-06 18:02:03,264:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-07-06 18:02:03,264:DEBUG:utils:The function 'TickerManager.update' took 6.52 milliseconds to run.
+2021-07-06 18:02:03,270:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-07-06 18:02:03,271:DEBUG:utils:The function 'TickerManager.update' took 6.21 milliseconds to run.
+2021-07-06 18:02:03,280:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 18:02:03,289:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 18:02:03,301:INFO:strategy:'Andre Moraes': No tickers to remove.
+2021-07-06 18:02:03,311:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 18:03:09,641:DEBUG:utils:The function 'AndreMoraesStrategy.process_operations' took 66339.32 milliseconds to run.
+2021-07-06 18:03:09,720:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 18:03:42,802:DEBUG:utils:The function 'AndreMoraesStrategy.calculate_statistics' took 33160.74 milliseconds to run.
+2021-07-06 18:03:43,601:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 18:03:43,729:INFO:strategy_analyzer:Dash is running on http://127.0.0.1:8050/
+
+2021-07-06 18:17:09,549:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 18:17:10,477:INFO:__main__:
+Program started.
+2021-07-06 18:17:10,494:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 18:17:10,495:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-06 18:17:10,495:DEBUG:config_reader:Config file found.
+2021-07-06 18:17:10,537:INFO:config_reader:Config file successfully read.
+2021-07-06 18:17:10,537:INFO:config_reader:Total strategies: 1
+2021-07-06 18:17:10,538:INFO:config_reader:Total tickers: 1
+2021-07-06 18:17:10,538:INFO:config_reader:Oldest date: 01/01/2014
+2021-07-06 18:17:10,539:INFO:config_reader:Most recent date: 31/12/2019
+2021-07-06 18:17:10,539:INFO:config_reader:Strategies found:
+2021-07-06 18:17:10,539:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.01, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['BBDC3']
+2021-07-06 18:17:10,540:DEBUG:utils:The function 'ConfigReader.__init__' took 62.50 milliseconds to run.
+2021-07-06 18:17:10,553:INFO:ticker_manager:Ticker 'BBDC3' already updated.
+2021-07-06 18:17:10,554:DEBUG:utils:The function 'TickerManager.update' took 13.01 milliseconds to run.
+2021-07-06 18:17:10,564:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-07-06 18:17:10,566:DEBUG:utils:The function 'TickerManager.update' took 11.74 milliseconds to run.
+2021-07-06 18:17:10,578:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-07-06 18:17:10,578:DEBUG:utils:The function 'TickerManager.update' took 11.67 milliseconds to run.
+2021-07-06 18:17:10,594:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 18:17:10,606:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 18:17:10,625:INFO:strategy:'Andre Moraes': No tickers to remove.
+2021-07-06 18:17:10,638:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 18:29:49,948:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 18:29:50,788:INFO:__main__:
+Program started.
+2021-07-06 18:29:50,805:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 18:29:50,806:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-06 18:29:50,807:DEBUG:config_reader:Config file found.
+2021-07-06 18:29:50,838:INFO:config_reader:Config file successfully read.
+2021-07-06 18:29:50,838:INFO:config_reader:Total strategies: 1
+2021-07-06 18:29:50,839:INFO:config_reader:Total tickers: 1
+2021-07-06 18:29:50,839:INFO:config_reader:Oldest date: 01/01/2014
+2021-07-06 18:29:50,839:INFO:config_reader:Most recent date: 31/12/2019
+2021-07-06 18:29:50,840:INFO:config_reader:Strategies found:
+2021-07-06 18:29:50,840:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.01, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['BBDC3']
+2021-07-06 18:29:50,840:DEBUG:utils:The function 'ConfigReader.__init__' took 51.40 milliseconds to run.
+2021-07-06 18:29:50,851:INFO:ticker_manager:Ticker 'BBDC3' already updated.
+2021-07-06 18:29:50,851:DEBUG:utils:The function 'TickerManager.update' took 10.60 milliseconds to run.
+2021-07-06 18:29:50,857:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-07-06 18:29:50,857:DEBUG:utils:The function 'TickerManager.update' took 5.91 milliseconds to run.
+2021-07-06 18:29:50,863:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-07-06 18:29:50,864:DEBUG:utils:The function 'TickerManager.update' took 5.97 milliseconds to run.
+2021-07-06 18:29:50,872:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 18:29:50,887:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 18:29:50,901:INFO:strategy:'Andre Moraes': No tickers to remove.
+2021-07-06 18:29:50,915:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 18:32:02,278:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 18:32:03,637:INFO:__main__:
+Program started.
+2021-07-06 18:32:03,654:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 18:32:03,655:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-06 18:32:03,656:DEBUG:config_reader:Config file found.
+2021-07-06 18:32:03,693:INFO:config_reader:Config file successfully read.
+2021-07-06 18:32:03,694:INFO:config_reader:Total strategies: 1
+2021-07-06 18:32:03,694:INFO:config_reader:Total tickers: 1
+2021-07-06 18:32:03,695:INFO:config_reader:Oldest date: 01/01/2014
+2021-07-06 18:32:03,695:INFO:config_reader:Most recent date: 31/12/2019
+2021-07-06 18:32:03,695:INFO:config_reader:Strategies found:
+2021-07-06 18:32:03,696:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.01, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['BBDC3']
+2021-07-06 18:32:03,696:DEBUG:utils:The function 'ConfigReader.__init__' took 58.46 milliseconds to run.
+2021-07-06 18:32:03,709:INFO:ticker_manager:Ticker 'BBDC3' already updated.
+2021-07-06 18:32:03,710:DEBUG:utils:The function 'TickerManager.update' took 12.99 milliseconds to run.
+2021-07-06 18:32:03,720:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-07-06 18:32:03,720:DEBUG:utils:The function 'TickerManager.update' took 10.07 milliseconds to run.
+2021-07-06 18:32:03,730:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-07-06 18:32:03,731:DEBUG:utils:The function 'TickerManager.update' took 9.90 milliseconds to run.
+2021-07-06 18:32:03,746:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 18:32:03,761:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 18:32:03,786:INFO:strategy:'Andre Moraes': No tickers to remove.
+2021-07-06 18:32:03,806:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 18:33:12,697:DEBUG:utils:The function 'AndreMoraesStrategy.process_operations' took 68909.87 milliseconds to run.
+2021-07-06 18:33:12,822:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 18:33:48,695:DEBUG:utils:The function 'AndreMoraesStrategy.calculate_statistics' took 35997.68 milliseconds to run.
+2021-07-06 18:33:49,671:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 18:33:49,818:INFO:strategy_analyzer:Dash is running on http://127.0.0.1:8050/
+
+2021-07-06 18:38:42,564:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 18:38:43,490:INFO:__main__:
+Program started.
+2021-07-06 18:38:43,499:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 18:38:43,500:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-06 18:38:43,501:DEBUG:config_reader:Config file found.
+2021-07-06 18:38:43,526:INFO:config_reader:Config file successfully read.
+2021-07-06 18:38:43,526:INFO:config_reader:Total strategies: 1
+2021-07-06 18:38:43,526:INFO:config_reader:Total tickers: 9
+2021-07-06 18:38:43,526:INFO:config_reader:Oldest date: 01/01/2014
+2021-07-06 18:38:43,527:INFO:config_reader:Most recent date: 31/12/2019
+2021-07-06 18:38:43,527:INFO:config_reader:Strategies found:
+2021-07-06 18:38:43,527:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.01, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['MGLU3', 'VALE3', 'PETR4', 'WEGE3', 'BBAS3', 'BBDC3', 'EMBR3', 'GGBR4', 'AZUL4']
+2021-07-06 18:38:43,527:DEBUG:utils:The function 'ConfigReader.__init__' took 36.63 milliseconds to run.
+2021-07-06 18:38:43,535:INFO:ticker_manager:Ticker 'MGLU3' already updated.
+2021-07-06 18:38:43,535:DEBUG:utils:The function 'TickerManager.update' took 7.78 milliseconds to run.
+2021-07-06 18:38:43,541:INFO:ticker_manager:Ticker 'VALE3' already updated.
+2021-07-06 18:38:43,542:DEBUG:utils:The function 'TickerManager.update' took 5.79 milliseconds to run.
+2021-07-06 18:38:43,547:INFO:ticker_manager:Ticker 'PETR4' already updated.
+2021-07-06 18:38:43,547:DEBUG:utils:The function 'TickerManager.update' took 5.66 milliseconds to run.
+2021-07-06 18:38:43,553:INFO:ticker_manager:Ticker 'WEGE3' already updated.
+2021-07-06 18:38:43,553:DEBUG:utils:The function 'TickerManager.update' took 5.54 milliseconds to run.
+2021-07-06 18:38:43,559:INFO:ticker_manager:Ticker 'BBAS3' already updated.
+2021-07-06 18:38:43,559:DEBUG:utils:The function 'TickerManager.update' took 5.40 milliseconds to run.
+2021-07-06 18:38:43,565:INFO:ticker_manager:Ticker 'BBDC3' already updated.
+2021-07-06 18:38:43,565:DEBUG:utils:The function 'TickerManager.update' took 5.91 milliseconds to run.
+2021-07-06 18:38:43,571:INFO:ticker_manager:Ticker 'EMBR3' already updated.
+2021-07-06 18:38:43,571:DEBUG:utils:The function 'TickerManager.update' took 5.88 milliseconds to run.
+2021-07-06 18:38:43,577:INFO:ticker_manager:Ticker 'GGBR4' already updated.
+2021-07-06 18:38:43,577:DEBUG:utils:The function 'TickerManager.update' took 5.80 milliseconds to run.
+2021-07-06 18:38:44,335:WARNING:ticker_manager:Yahoo Finance has no data for ticker 'AZUL4' ('2014-01-01', '2017-04-10').
+2021-07-06 18:38:44,336:INFO:ticker_manager:Ticker 'AZUL4' did not updated daily candlesticks.
+2021-07-06 18:38:44,336:DEBUG:utils:The function 'TickerManager.update' took 758.54 milliseconds to run.
+2021-07-06 18:38:44,343:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-07-06 18:38:44,343:DEBUG:utils:The function 'TickerManager.update' took 6.14 milliseconds to run.
+2021-07-06 18:38:44,348:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-07-06 18:38:44,349:DEBUG:utils:The function 'TickerManager.update' took 5.46 milliseconds to run.
+2021-07-06 18:38:44,358:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 18:38:44,367:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 18:38:44,377:INFO:strategy:'Andre Moraes': No tickers to remove.
+2021-07-06 18:38:44,387:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 18:43:24,572:DEBUG:utils:The function 'AndreMoraesStrategy.process_operations' took 280193.49 milliseconds to run.
+2021-07-06 18:43:24,644:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 18:44:15,200:DEBUG:utils:The function 'AndreMoraesStrategy.calculate_statistics' took 50628.24 milliseconds to run.
+2021-07-06 18:44:16,035:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 18:44:16,165:INFO:strategy_analyzer:Dash is running on http://127.0.0.1:8050/
+
+2021-07-06 21:28:02,532:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 21:28:03,331:INFO:__main__:
+Program started.
+2021-07-06 21:28:03,340:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 21:28:03,340:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-06 21:28:03,340:DEBUG:config_reader:Config file found.
+2021-07-06 21:28:03,361:INFO:config_reader:Config file successfully read.
+2021-07-06 21:28:03,362:INFO:config_reader:Total strategies: 1
+2021-07-06 21:28:03,362:INFO:config_reader:Total tickers: 1
+2021-07-06 21:28:03,362:INFO:config_reader:Oldest date: 01/01/2014
+2021-07-06 21:28:03,362:INFO:config_reader:Most recent date: 31/12/2019
+2021-07-06 21:28:03,363:INFO:config_reader:Strategies found:
+2021-07-06 21:28:03,363:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.01, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['BBDC3']
+2021-07-06 21:28:03,363:DEBUG:utils:The function 'ConfigReader.__init__' took 31.67 milliseconds to run.
+2021-07-06 21:28:05,609:INFO:ticker_manager:Ticker 'BBDC3' updated daily candlesticks.
+2021-07-06 21:28:05,622:INFO:ticker_manager:Ticker 'BBDC3' weekly candles recreated.
+2021-07-06 21:28:05,622:DEBUG:utils:The function 'TickerManager.update' took 2258.54 milliseconds to run.
+2021-07-06 21:28:05,622:INFO:ticker_manager:Generating features for ticker 'BBDC3'.
+2021-07-06 21:29:06,147:DEBUG:utils:The function 'TickerManager.generate_features' took 60525.28 milliseconds to run.
+2021-07-06 21:29:08,393:INFO:ticker_manager:Ticker '^BVSP' updated daily candlesticks.
+2021-07-06 21:29:08,393:DEBUG:utils:The function 'TickerManager.update' took 2245.16 milliseconds to run.
+2021-07-06 21:29:08,393:INFO:ticker_manager:Generating features for ticker '^BVSP'.
+2021-07-06 21:29:08,393:DEBUG:utils:The function 'TickerManager.generate_features' took 0.21 milliseconds to run.
+2021-07-06 21:29:10,144:INFO:ticker_manager:Ticker 'BRL=X' updated daily candlesticks.
+2021-07-06 21:29:10,144:DEBUG:utils:The function 'TickerManager.update' took 1750.83 milliseconds to run.
+2021-07-06 21:29:10,145:INFO:ticker_manager:Generating features for ticker 'BRL=X'.
+2021-07-06 21:29:10,145:DEBUG:utils:The function 'TickerManager.generate_features' took 0.21 milliseconds to run.
+2021-07-06 21:29:10,217:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 21:29:10,229:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 21:29:10,235:INFO:strategy:'Andre Moraes': No tickers to remove.
+2021-07-06 21:29:10,243:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 21:30:11,069:DEBUG:utils:The function 'AndreMoraesStrategy.process_operations' took 60834.00 milliseconds to run.
+2021-07-06 21:30:11,144:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 21:30:42,621:DEBUG:utils:The function 'AndreMoraesStrategy.calculate_statistics' took 31551.36 milliseconds to run.
+2021-07-06 21:30:43,865:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 21:30:43,984:INFO:strategy_analyzer:Dash is running on http://127.0.0.1:8050/
+
+2021-07-06 21:37:32,314:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 21:37:32,956:INFO:__main__:
+Program started.
+2021-07-06 21:37:32,966:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 21:37:32,966:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-06 21:37:32,967:DEBUG:config_reader:Config file found.
+2021-07-06 21:37:32,989:INFO:config_reader:Config file successfully read.
+2021-07-06 21:37:32,989:INFO:config_reader:Total strategies: 1
+2021-07-06 21:37:32,989:INFO:config_reader:Total tickers: 9
+2021-07-06 21:37:32,989:INFO:config_reader:Oldest date: 01/01/2014
+2021-07-06 21:37:32,990:INFO:config_reader:Most recent date: 31/12/2019
+2021-07-06 21:37:32,990:INFO:config_reader:Strategies found:
+2021-07-06 21:37:32,990:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.01, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['MGLU3', 'VALE3', 'PETR4', 'WEGE3', 'BBAS3', 'BBDC3', 'EMBR3', 'GGBR4', 'AZUL4']
+2021-07-06 21:37:32,990:DEBUG:utils:The function 'ConfigReader.__init__' took 33.37 milliseconds to run.
+2021-07-06 21:37:35,622:INFO:ticker_manager:Ticker 'MGLU3' updated daily candlesticks.
+2021-07-06 21:37:35,637:INFO:ticker_manager:Ticker 'MGLU3' weekly candles recreated.
+2021-07-06 21:37:35,638:DEBUG:utils:The function 'TickerManager.update' took 2647.24 milliseconds to run.
+2021-07-06 21:37:35,638:INFO:ticker_manager:Generating features for ticker 'MGLU3'.
+2021-07-06 21:38:37,034:DEBUG:utils:The function 'TickerManager.generate_features' took 61395.72 milliseconds to run.
+2021-07-06 21:38:39,542:INFO:ticker_manager:Ticker 'VALE3' updated daily candlesticks.
+2021-07-06 21:38:39,554:INFO:ticker_manager:Ticker 'VALE3' weekly candles recreated.
+2021-07-06 21:38:39,554:DEBUG:utils:The function 'TickerManager.update' took 2519.93 milliseconds to run.
+2021-07-06 21:38:39,554:INFO:ticker_manager:Generating features for ticker 'VALE3'.
+2021-07-06 21:39:41,831:DEBUG:utils:The function 'TickerManager.generate_features' took 62276.43 milliseconds to run.
+2021-07-06 21:39:44,012:INFO:ticker_manager:Ticker 'PETR4' updated daily candlesticks.
+2021-07-06 21:39:44,027:INFO:ticker_manager:Ticker 'PETR4' weekly candles recreated.
+2021-07-06 21:39:44,028:DEBUG:utils:The function 'TickerManager.update' took 2196.60 milliseconds to run.
+2021-07-06 21:39:44,028:INFO:ticker_manager:Generating features for ticker 'PETR4'.
+2021-07-06 21:40:47,674:DEBUG:utils:The function 'TickerManager.generate_features' took 63645.69 milliseconds to run.
+2021-07-06 21:40:49,586:INFO:ticker_manager:Ticker 'WEGE3' updated daily candlesticks.
+2021-07-06 21:40:49,600:INFO:ticker_manager:Ticker 'WEGE3' weekly candles recreated.
+2021-07-06 21:40:49,600:DEBUG:utils:The function 'TickerManager.update' took 1926.20 milliseconds to run.
+2021-07-06 21:40:49,600:INFO:ticker_manager:Generating features for ticker 'WEGE3'.
+2021-07-06 21:41:50,699:DEBUG:utils:The function 'TickerManager.generate_features' took 61098.69 milliseconds to run.
+2021-07-06 21:41:53,110:INFO:ticker_manager:Ticker 'BBAS3' updated daily candlesticks.
+2021-07-06 21:41:53,124:INFO:ticker_manager:Ticker 'BBAS3' weekly candles recreated.
+2021-07-06 21:41:53,124:DEBUG:utils:The function 'TickerManager.update' took 2424.64 milliseconds to run.
+2021-07-06 21:41:53,124:INFO:ticker_manager:Generating features for ticker 'BBAS3'.
+2021-07-06 21:42:52,157:DEBUG:utils:The function 'TickerManager.generate_features' took 59032.59 milliseconds to run.
+2021-07-06 21:42:52,163:INFO:ticker_manager:Ticker 'BBDC3' already updated.
+2021-07-06 21:42:52,163:DEBUG:utils:The function 'TickerManager.update' took 5.49 milliseconds to run.
+2021-07-06 21:42:53,917:INFO:ticker_manager:Ticker 'EMBR3' updated daily candlesticks.
+2021-07-06 21:42:53,931:INFO:ticker_manager:Ticker 'EMBR3' weekly candles recreated.
+2021-07-06 21:42:53,932:DEBUG:utils:The function 'TickerManager.update' took 1768.77 milliseconds to run.
+2021-07-06 21:42:53,932:INFO:ticker_manager:Generating features for ticker 'EMBR3'.
+2021-07-06 21:43:56,746:DEBUG:utils:The function 'TickerManager.generate_features' took 62813.86 milliseconds to run.
+2021-07-06 21:43:59,000:INFO:ticker_manager:Ticker 'GGBR4' updated daily candlesticks.
+2021-07-06 21:43:59,018:INFO:ticker_manager:Ticker 'GGBR4' weekly candles recreated.
+2021-07-06 21:43:59,019:DEBUG:utils:The function 'TickerManager.update' took 2272.44 milliseconds to run.
+2021-07-06 21:43:59,019:INFO:ticker_manager:Generating features for ticker 'GGBR4'.
+2021-07-06 21:45:02,120:DEBUG:utils:The function 'TickerManager.generate_features' took 63101.11 milliseconds to run.
+2021-07-06 21:45:03,249:INFO:ticker_manager:Ticker 'AZUL4' updated daily candlesticks.
+2021-07-06 21:45:03,260:INFO:ticker_manager:Ticker 'AZUL4' weekly candles recreated.
+2021-07-06 21:45:03,260:DEBUG:utils:The function 'TickerManager.update' took 1139.99 milliseconds to run.
+2021-07-06 21:45:03,261:INFO:ticker_manager:Generating features for ticker 'AZUL4'.
+2021-07-06 21:45:19,053:DEBUG:utils:The function 'TickerManager.generate_features' took 15792.20 milliseconds to run.
+2021-07-06 21:45:19,060:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-07-06 21:45:19,061:DEBUG:utils:The function 'TickerManager.update' took 7.37 milliseconds to run.
+2021-07-06 21:45:19,067:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-07-06 21:45:19,067:DEBUG:utils:The function 'TickerManager.update' took 6.22 milliseconds to run.
+2021-07-06 21:45:19,159:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 21:45:19,169:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 21:45:19,183:INFO:strategy:'Andre Moraes': No tickers to remove.
+2021-07-06 21:45:19,193:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 21:50:05,698:DEBUG:utils:The function 'AndreMoraesStrategy.process_operations' took 286514.89 milliseconds to run.
+2021-07-06 21:50:05,799:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 21:50:56,384:DEBUG:utils:The function 'AndreMoraesStrategy.calculate_statistics' took 50684.89 milliseconds to run.
+2021-07-06 21:50:57,225:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 21:50:57,347:INFO:strategy_analyzer:Dash is running on http://127.0.0.1:8050/
+
+2021-07-06 22:49:54,267:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 22:49:55,027:INFO:__main__:
+Program started.
+2021-07-06 22:49:55,036:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 22:49:55,037:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-06 22:49:55,037:DEBUG:config_reader:Config file found.
+2021-07-06 22:49:55,071:INFO:config_reader:Config file successfully read.
+2021-07-06 22:49:55,071:INFO:config_reader:Total strategies: 1
+2021-07-06 22:49:55,072:INFO:config_reader:Total tickers: 9
+2021-07-06 22:49:55,072:INFO:config_reader:Oldest date: 01/01/2014
+2021-07-06 22:49:55,072:INFO:config_reader:Most recent date: 31/12/2019
+2021-07-06 22:49:55,073:INFO:config_reader:Strategies found:
+2021-07-06 22:49:55,073:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.01, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['MGLU3', 'VALE3', 'PETR4', 'WEGE3', 'BBAS3', 'BBDC3', 'EMBR3', 'GGBR4', 'AZUL4']
+2021-07-06 22:49:55,073:DEBUG:utils:The function 'ConfigReader.__init__' took 45.86 milliseconds to run.
+2021-07-06 22:49:57,134:INFO:ticker_manager:Ticker 'MGLU3' updated daily candlesticks.
+2021-07-06 22:49:57,147:INFO:ticker_manager:Ticker 'MGLU3' weekly candles recreated.
+2021-07-06 22:49:57,147:DEBUG:utils:The function 'TickerManager.update' took 2073.31 milliseconds to run.
+2021-07-06 22:49:57,148:INFO:ticker_manager:Generating features for ticker 'MGLU3'.
+2021-07-06 22:51:01,840:DEBUG:utils:The function 'TickerManager.generate_features' took 64692.16 milliseconds to run.
+2021-07-06 22:51:03,652:INFO:ticker_manager:Ticker 'VALE3' updated daily candlesticks.
+2021-07-06 22:51:03,664:INFO:ticker_manager:Ticker 'VALE3' weekly candles recreated.
+2021-07-06 22:51:03,665:DEBUG:utils:The function 'TickerManager.update' took 1824.48 milliseconds to run.
+2021-07-06 22:51:03,665:INFO:ticker_manager:Generating features for ticker 'VALE3'.
+2021-07-06 22:52:07,433:DEBUG:utils:The function 'TickerManager.generate_features' took 63767.80 milliseconds to run.
+2021-07-06 22:52:09,881:INFO:ticker_manager:Ticker 'PETR4' updated daily candlesticks.
+2021-07-06 22:52:09,897:INFO:ticker_manager:Ticker 'PETR4' weekly candles recreated.
+2021-07-06 22:52:09,898:DEBUG:utils:The function 'TickerManager.update' took 2463.95 milliseconds to run.
+2021-07-06 22:52:09,898:INFO:ticker_manager:Generating features for ticker 'PETR4'.
+2021-07-06 22:53:20,567:DEBUG:utils:The function 'TickerManager.generate_features' took 70669.50 milliseconds to run.
+2021-07-06 22:53:22,820:INFO:ticker_manager:Ticker 'WEGE3' updated daily candlesticks.
+2021-07-06 22:53:22,835:INFO:ticker_manager:Ticker 'WEGE3' weekly candles recreated.
+2021-07-06 22:53:22,836:DEBUG:utils:The function 'TickerManager.update' took 2268.18 milliseconds to run.
+2021-07-06 22:53:22,836:INFO:ticker_manager:Generating features for ticker 'WEGE3'.
+2021-07-06 22:54:40,631:DEBUG:utils:The function 'TickerManager.generate_features' took 77794.81 milliseconds to run.
+2021-07-06 22:54:42,727:INFO:ticker_manager:Ticker 'BBAS3' updated daily candlesticks.
+2021-07-06 22:54:42,740:INFO:ticker_manager:Ticker 'BBAS3' weekly candles recreated.
+2021-07-06 22:54:42,740:DEBUG:utils:The function 'TickerManager.update' took 2107.31 milliseconds to run.
+2021-07-06 22:54:42,740:INFO:ticker_manager:Generating features for ticker 'BBAS3'.
+2021-07-06 22:56:30,637:DEBUG:utils:The function 'TickerManager.generate_features' took 107896.53 milliseconds to run.
+2021-07-06 22:56:32,664:INFO:ticker_manager:Ticker 'BBDC3' updated daily candlesticks.
+2021-07-06 22:56:32,678:INFO:ticker_manager:Ticker 'BBDC3' weekly candles recreated.
+2021-07-06 22:56:32,678:DEBUG:utils:The function 'TickerManager.update' took 2039.93 milliseconds to run.
+2021-07-06 22:56:32,678:INFO:ticker_manager:Generating features for ticker 'BBDC3'.
+2021-07-06 22:57:38,602:DEBUG:utils:The function 'TickerManager.generate_features' took 65923.46 milliseconds to run.
+2021-07-06 22:57:41,119:INFO:ticker_manager:Ticker 'EMBR3' updated daily candlesticks.
+2021-07-06 22:57:41,133:INFO:ticker_manager:Ticker 'EMBR3' weekly candles recreated.
+2021-07-06 22:57:41,134:DEBUG:utils:The function 'TickerManager.update' took 2531.66 milliseconds to run.
+2021-07-06 22:57:41,134:INFO:ticker_manager:Generating features for ticker 'EMBR3'.
+2021-07-06 22:58:48,372:DEBUG:utils:The function 'TickerManager.generate_features' took 67237.59 milliseconds to run.
+2021-07-06 22:58:50,390:INFO:ticker_manager:Ticker 'GGBR4' updated daily candlesticks.
+2021-07-06 22:58:50,405:INFO:ticker_manager:Ticker 'GGBR4' weekly candles recreated.
+2021-07-06 22:58:50,406:DEBUG:utils:The function 'TickerManager.update' took 2033.68 milliseconds to run.
+2021-07-06 22:58:50,406:INFO:ticker_manager:Generating features for ticker 'GGBR4'.
+2021-07-06 22:59:59,993:DEBUG:utils:The function 'TickerManager.generate_features' took 69586.77 milliseconds to run.
+2021-07-06 23:00:01,142:INFO:ticker_manager:Ticker 'AZUL4' updated daily candlesticks.
+2021-07-06 23:00:01,154:INFO:ticker_manager:Ticker 'AZUL4' weekly candles recreated.
+2021-07-06 23:00:01,155:DEBUG:utils:The function 'TickerManager.update' took 1161.43 milliseconds to run.
+2021-07-06 23:00:01,155:INFO:ticker_manager:Generating features for ticker 'AZUL4'.
+2021-07-06 23:00:17,728:DEBUG:utils:The function 'TickerManager.generate_features' took 16573.19 milliseconds to run.
+2021-07-06 23:00:20,099:INFO:ticker_manager:Ticker '^BVSP' updated daily candlesticks.
+2021-07-06 23:00:20,099:DEBUG:utils:The function 'TickerManager.update' took 2370.41 milliseconds to run.
+2021-07-06 23:00:20,099:INFO:ticker_manager:Generating features for ticker '^BVSP'.
+2021-07-06 23:00:20,100:DEBUG:utils:The function 'TickerManager.generate_features' took 0.27 milliseconds to run.
+2021-07-06 23:00:22,356:INFO:ticker_manager:Ticker 'BRL=X' updated daily candlesticks.
+2021-07-06 23:00:22,356:DEBUG:utils:The function 'TickerManager.update' took 2256.61 milliseconds to run.
+2021-07-06 23:00:22,357:INFO:ticker_manager:Generating features for ticker 'BRL=X'.
+2021-07-06 23:00:22,357:DEBUG:utils:The function 'TickerManager.generate_features' took 0.20 milliseconds to run.
+2021-07-06 23:00:22,449:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 23:00:22,476:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 23:00:22,496:INFO:strategy:'Andre Moraes': No tickers to remove.
+2021-07-06 23:00:22,507:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 23:06:26,203:DEBUG:utils:The function 'AndreMoraesStrategy.process_operations' took 363706.17 milliseconds to run.
+2021-07-06 23:06:26,305:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 23:07:20,831:DEBUG:utils:The function 'AndreMoraesStrategy.calculate_statistics' took 54624.98 milliseconds to run.
+2021-07-06 23:07:21,657:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 23:07:21,780:INFO:strategy_analyzer:Dash is running on http://127.0.0.1:8050/
+
+2021-07-06 23:28:07,002:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 23:28:07,795:INFO:__main__:
+Program started.
+2021-07-06 23:28:07,804:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 23:28:07,805:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-06 23:28:07,805:DEBUG:config_reader:Config file found.
+2021-07-06 23:28:07,826:INFO:config_reader:Config file successfully read.
+2021-07-06 23:28:07,826:INFO:config_reader:Total strategies: 1
+2021-07-06 23:28:07,826:INFO:config_reader:Total tickers: 1
+2021-07-06 23:28:07,826:INFO:config_reader:Oldest date: 01/01/2014
+2021-07-06 23:28:07,827:INFO:config_reader:Most recent date: 31/12/2019
+2021-07-06 23:28:07,827:INFO:config_reader:Strategies found:
+2021-07-06 23:28:07,827:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.01, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['WEGE3']
+2021-07-06 23:28:07,827:DEBUG:utils:The function 'ConfigReader.__init__' took 31.34 milliseconds to run.
+2021-07-06 23:28:07,835:INFO:ticker_manager:Ticker 'WEGE3' already updated.
+2021-07-06 23:28:07,835:DEBUG:utils:The function 'TickerManager.update' took 7.73 milliseconds to run.
+2021-07-06 23:28:07,841:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-07-06 23:28:07,841:DEBUG:utils:The function 'TickerManager.update' took 5.73 milliseconds to run.
+2021-07-06 23:28:07,847:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-07-06 23:28:07,847:DEBUG:utils:The function 'TickerManager.update' took 5.64 milliseconds to run.
+2021-07-06 23:28:07,856:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 23:28:07,864:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 23:28:07,875:INFO:strategy:'Andre Moraes': No tickers to remove.
+2021-07-06 23:28:07,884:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 23:29:25,979:DEBUG:utils:The function 'AndreMoraesStrategy.process_operations' took 78104.06 milliseconds to run.
+2021-07-06 23:29:26,071:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 23:30:00,800:DEBUG:utils:The function 'AndreMoraesStrategy.calculate_statistics' took 34819.60 milliseconds to run.
+2021-07-06 23:30:01,728:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 23:30:01,958:INFO:strategy_analyzer:Dash is running on http://127.0.0.1:8050/
+
+2021-07-06 23:32:48,253:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 23:32:49,089:INFO:__main__:
+Program started.
+2021-07-06 23:32:49,098:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 23:32:49,099:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-06 23:32:49,100:DEBUG:config_reader:Config file found.
+2021-07-06 23:32:49,122:INFO:config_reader:Config file successfully read.
+2021-07-06 23:32:49,122:INFO:config_reader:Total strategies: 1
+2021-07-06 23:32:49,123:INFO:config_reader:Total tickers: 1
+2021-07-06 23:32:49,123:INFO:config_reader:Oldest date: 01/01/2019
+2021-07-06 23:32:49,123:INFO:config_reader:Most recent date: 31/12/2019
+2021-07-06 23:32:49,123:INFO:config_reader:Strategies found:
+2021-07-06 23:32:49,123:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.01, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['WEGE3']
+2021-07-06 23:32:49,124:DEBUG:utils:The function 'ConfigReader.__init__' took 34.73 milliseconds to run.
+2021-07-06 23:32:49,132:INFO:ticker_manager:Ticker 'WEGE3' already updated.
+2021-07-06 23:32:49,133:DEBUG:utils:The function 'TickerManager.update' took 8.61 milliseconds to run.
+2021-07-06 23:32:49,138:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-07-06 23:32:49,139:DEBUG:utils:The function 'TickerManager.update' took 5.59 milliseconds to run.
+2021-07-06 23:32:49,144:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-07-06 23:32:49,145:DEBUG:utils:The function 'TickerManager.update' took 5.64 milliseconds to run.
+2021-07-06 23:32:49,155:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 23:32:49,164:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 23:32:49,176:INFO:strategy:'Andre Moraes': No tickers to remove.
+2021-07-06 23:32:49,186:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 23:34:36,731:DEBUG:utils:The function 'AndreMoraesStrategy.process_operations' took 107554.96 milliseconds to run.
+2021-07-06 23:34:36,907:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 23:34:42,517:DEBUG:utils:The function 'AndreMoraesStrategy.calculate_statistics' took 5779.92 milliseconds to run.
+2021-07-06 23:34:42,670:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 23:34:42,781:INFO:strategy_analyzer:Dash is running on http://127.0.0.1:8050/
+
+2021-07-06 23:35:25,428:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 23:35:26,414:INFO:__main__:
+Program started.
+2021-07-06 23:35:26,424:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 23:35:26,425:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-06 23:35:26,426:DEBUG:config_reader:Config file found.
+2021-07-06 23:35:26,464:INFO:config_reader:Config file successfully read.
+2021-07-06 23:35:26,464:INFO:config_reader:Total strategies: 1
+2021-07-06 23:35:26,464:INFO:config_reader:Total tickers: 1
+2021-07-06 23:35:26,465:INFO:config_reader:Oldest date: 01/01/2019
+2021-07-06 23:35:26,465:INFO:config_reader:Most recent date: 31/12/2019
+2021-07-06 23:35:26,465:INFO:config_reader:Strategies found:
+2021-07-06 23:35:26,465:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.01, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['WEGE3']
+2021-07-06 23:35:26,466:DEBUG:utils:The function 'ConfigReader.__init__' took 50.67 milliseconds to run.
+2021-07-06 23:35:26,474:INFO:ticker_manager:Ticker 'WEGE3' already updated.
+2021-07-06 23:35:26,475:DEBUG:utils:The function 'TickerManager.update' took 8.41 milliseconds to run.
+2021-07-06 23:35:26,483:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-07-06 23:35:26,483:DEBUG:utils:The function 'TickerManager.update' took 8.53 milliseconds to run.
+2021-07-06 23:35:26,489:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-07-06 23:35:26,489:DEBUG:utils:The function 'TickerManager.update' took 5.54 milliseconds to run.
+2021-07-06 23:35:26,501:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 23:35:26,513:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 23:35:26,530:INFO:strategy:'Andre Moraes': No tickers to remove.
+2021-07-06 23:35:26,546:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 23:36:56,253:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 23:36:57,003:INFO:__main__:
+Program started.
+2021-07-06 23:36:57,012:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 23:36:57,012:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-06 23:36:57,013:DEBUG:config_reader:Config file found.
+2021-07-06 23:36:57,034:INFO:config_reader:Config file successfully read.
+2021-07-06 23:36:57,035:INFO:config_reader:Total strategies: 1
+2021-07-06 23:36:57,035:INFO:config_reader:Total tickers: 1
+2021-07-06 23:36:57,035:INFO:config_reader:Oldest date: 01/01/2019
+2021-07-06 23:36:57,036:INFO:config_reader:Most recent date: 31/12/2019
+2021-07-06 23:36:57,036:INFO:config_reader:Strategies found:
+2021-07-06 23:36:57,036:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.01, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['WEGE3']
+2021-07-06 23:36:57,037:DEBUG:utils:The function 'ConfigReader.__init__' took 32.97 milliseconds to run.
+2021-07-06 23:36:57,044:INFO:ticker_manager:Ticker 'WEGE3' already updated.
+2021-07-06 23:36:57,044:DEBUG:utils:The function 'TickerManager.update' took 7.28 milliseconds to run.
+2021-07-06 23:36:57,050:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-07-06 23:36:57,050:DEBUG:utils:The function 'TickerManager.update' took 5.75 milliseconds to run.
+2021-07-06 23:36:57,055:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-07-06 23:36:57,056:DEBUG:utils:The function 'TickerManager.update' took 5.01 milliseconds to run.
+2021-07-06 23:36:57,065:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 23:36:57,073:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 23:36:57,084:INFO:strategy:'Andre Moraes': No tickers to remove.
+2021-07-06 23:36:57,093:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 23:38:54,139:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 23:38:54,916:INFO:__main__:
+Program started.
+2021-07-06 23:38:54,927:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 23:38:54,927:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-06 23:38:54,928:DEBUG:config_reader:Config file found.
+2021-07-06 23:38:54,952:INFO:config_reader:Config file successfully read.
+2021-07-06 23:38:54,952:INFO:config_reader:Total strategies: 1
+2021-07-06 23:38:54,952:INFO:config_reader:Total tickers: 1
+2021-07-06 23:38:54,953:INFO:config_reader:Oldest date: 01/01/2019
+2021-07-06 23:38:54,953:INFO:config_reader:Most recent date: 31/12/2019
+2021-07-06 23:38:54,953:INFO:config_reader:Strategies found:
+2021-07-06 23:38:54,953:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.01, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['WEGE3']
+2021-07-06 23:38:54,954:DEBUG:utils:The function 'ConfigReader.__init__' took 37.71 milliseconds to run.
+2021-07-06 23:38:54,962:INFO:ticker_manager:Ticker 'WEGE3' already updated.
+2021-07-06 23:38:54,963:DEBUG:utils:The function 'TickerManager.update' took 8.14 milliseconds to run.
+2021-07-06 23:38:54,969:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-07-06 23:38:54,969:DEBUG:utils:The function 'TickerManager.update' took 6.07 milliseconds to run.
+2021-07-06 23:38:54,974:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-07-06 23:38:54,975:DEBUG:utils:The function 'TickerManager.update' took 5.52 milliseconds to run.
+2021-07-06 23:38:54,985:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 23:38:54,994:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-06 23:38:55,005:INFO:strategy:'Andre Moraes': No tickers to remove.
+2021-07-06 23:38:55,014:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-07 00:23:03,763:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-07 00:23:18,161:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-07 00:23:18,927:INFO:__main__:
+Program started.
+2021-07-07 00:23:18,938:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-07 00:23:18,938:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-07 00:23:18,939:DEBUG:config_reader:Config file found.
+2021-07-07 00:23:18,961:INFO:config_reader:Config file successfully read.
+2021-07-07 00:23:18,961:INFO:config_reader:Total strategies: 1
+2021-07-07 00:23:18,961:INFO:config_reader:Total tickers: 1
+2021-07-07 00:23:18,962:INFO:config_reader:Oldest date: 01/01/2019
+2021-07-07 00:23:18,962:INFO:config_reader:Most recent date: 31/12/2019
+2021-07-07 00:23:18,962:INFO:config_reader:Strategies found:
+2021-07-07 00:23:18,962:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.01, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['WEGE3']
+2021-07-07 00:23:18,962:DEBUG:utils:The function 'ConfigReader.__init__' took 35.02 milliseconds to run.
+2021-07-07 00:23:18,969:INFO:ticker_manager:Ticker 'WEGE3' already updated.
+2021-07-07 00:23:18,970:DEBUG:utils:The function 'TickerManager.update' took 7.09 milliseconds to run.
+2021-07-07 00:23:18,975:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-07-07 00:23:18,976:DEBUG:utils:The function 'TickerManager.update' took 5.57 milliseconds to run.
+2021-07-07 00:23:18,981:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-07-07 00:23:18,981:DEBUG:utils:The function 'TickerManager.update' took 5.15 milliseconds to run.
+2021-07-07 00:23:18,990:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-07 00:23:18,999:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-07 00:23:19,010:INFO:strategy:'Andre Moraes': No tickers to remove.
+2021-07-07 00:23:19,020:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-07 00:25:39,465:DEBUG:utils:The function 'AndreMoraesStrategy.process_operations' took 140454.68 milliseconds to run.
+2021-07-07 00:25:39,632:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-07 00:25:46,012:DEBUG:utils:The function 'AndreMoraesStrategy.calculate_statistics' took 6543.35 milliseconds to run.
+2021-07-07 00:25:46,162:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-07 00:25:46,273:INFO:strategy_analyzer:Dash is running on http://127.0.0.1:8050/
+
+2021-07-07 00:27:48,965:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-07 00:27:50,000:INFO:__main__:
+Program started.
+2021-07-07 00:27:50,032:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-07 00:27:50,033:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-07 00:27:50,034:DEBUG:config_reader:Config file found.
+2021-07-07 00:27:50,081:INFO:config_reader:Config file successfully read.
+2021-07-07 00:27:50,082:INFO:config_reader:Total strategies: 1
+2021-07-07 00:27:50,082:INFO:config_reader:Total tickers: 1
+2021-07-07 00:27:50,083:INFO:config_reader:Oldest date: 01/01/2014
+2021-07-07 00:27:50,083:INFO:config_reader:Most recent date: 31/12/2019
+2021-07-07 00:27:50,083:INFO:config_reader:Strategies found:
+2021-07-07 00:27:50,084:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.01, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['WEGE3']
+2021-07-07 00:27:50,085:DEBUG:utils:The function 'ConfigReader.__init__' took 83.74 milliseconds to run.
+2021-07-07 00:27:50,102:INFO:ticker_manager:Ticker 'WEGE3' already updated.
+2021-07-07 00:27:50,103:DEBUG:utils:The function 'TickerManager.update' took 17.20 milliseconds to run.
+2021-07-07 00:27:50,114:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-07-07 00:27:50,114:DEBUG:utils:The function 'TickerManager.update' took 10.84 milliseconds to run.
+2021-07-07 00:27:50,128:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-07-07 00:27:50,128:DEBUG:utils:The function 'TickerManager.update' took 13.42 milliseconds to run.
+2021-07-07 00:27:50,149:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-07 00:27:50,158:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-07 00:27:50,172:INFO:strategy:'Andre Moraes': No tickers to remove.
+2021-07-07 00:27:50,190:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-07 00:29:02,929:DEBUG:utils:The function 'AndreMoraesStrategy.process_operations' took 72756.49 milliseconds to run.
+2021-07-07 00:29:03,014:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-07 00:29:40,621:DEBUG:utils:The function 'AndreMoraesStrategy.calculate_statistics' took 37689.72 milliseconds to run.
+2021-07-07 00:29:41,560:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-07 00:29:41,720:INFO:strategy_analyzer:Dash is running on http://127.0.0.1:8050/
+
+2021-07-07 00:38:40,642:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-07 00:38:41,549:INFO:__main__:
+Program started.
+2021-07-07 00:38:41,573:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-07 00:38:41,574:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-07 00:38:41,574:DEBUG:config_reader:Config file found.
+2021-07-07 00:38:41,601:INFO:config_reader:Config file successfully read.
+2021-07-07 00:38:41,602:INFO:config_reader:Total strategies: 1
+2021-07-07 00:38:41,602:INFO:config_reader:Total tickers: 1
+2021-07-07 00:38:41,602:INFO:config_reader:Oldest date: 01/01/2014
+2021-07-07 00:38:41,603:INFO:config_reader:Most recent date: 31/12/2019
+2021-07-07 00:38:41,603:INFO:config_reader:Strategies found:
+2021-07-07 00:38:41,604:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.01, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['WEGE3']
+2021-07-07 00:38:41,604:DEBUG:utils:The function 'ConfigReader.__init__' took 53.81 milliseconds to run.
+2021-07-07 00:38:41,613:INFO:ticker_manager:Ticker 'WEGE3' already updated.
+2021-07-07 00:38:41,613:DEBUG:utils:The function 'TickerManager.update' took 8.76 milliseconds to run.
+2021-07-07 00:38:41,621:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-07-07 00:38:41,621:DEBUG:utils:The function 'TickerManager.update' took 7.55 milliseconds to run.
+2021-07-07 00:38:41,631:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-07-07 00:38:41,632:DEBUG:utils:The function 'TickerManager.update' took 10.17 milliseconds to run.
+2021-07-07 00:38:41,643:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-07 00:38:41,654:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-07 00:38:41,667:INFO:strategy:'Andre Moraes': No tickers to remove.
+2021-07-07 00:38:41,678:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-07 00:39:49,579:DEBUG:utils:The function 'AndreMoraesStrategy.process_operations' took 67910.46 milliseconds to run.
+2021-07-07 00:39:49,656:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-07 00:40:21,728:DEBUG:utils:The function 'AndreMoraesStrategy.calculate_statistics' took 32149.15 milliseconds to run.
+2021-07-07 00:40:22,535:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-07 00:40:22,660:INFO:strategy_analyzer:Dash is running on http://127.0.0.1:8050/
+
+2021-07-07 00:47:10,726:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-07 00:47:11,306:INFO:__main__:
+Program started.
+2021-07-07 00:47:11,315:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-07 00:47:11,316:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-07 00:47:11,316:DEBUG:config_reader:Config file found.
+2021-07-07 00:47:11,336:INFO:config_reader:Config file successfully read.
+2021-07-07 00:47:11,337:INFO:config_reader:Total strategies: 1
+2021-07-07 00:47:11,337:INFO:config_reader:Total tickers: 9
+2021-07-07 00:47:11,337:INFO:config_reader:Oldest date: 01/01/2015
+2021-07-07 00:47:11,337:INFO:config_reader:Most recent date: 31/12/2019
+2021-07-07 00:47:11,337:INFO:config_reader:Strategies found:
+2021-07-07 00:47:11,337:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.01, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['MGLU3', 'VALE3', 'PETR4', 'WEGE3', 'BBAS3', 'BBDC3', 'EMBR3', 'GGBR4', 'AZUL4']
+2021-07-07 00:47:11,338:DEBUG:utils:The function 'ConfigReader.__init__' took 31.11 milliseconds to run.
+2021-07-07 00:47:11,345:INFO:ticker_manager:Ticker 'MGLU3' already updated.
+2021-07-07 00:47:11,345:DEBUG:utils:The function 'TickerManager.update' took 7.30 milliseconds to run.
+2021-07-07 00:47:11,350:INFO:ticker_manager:Ticker 'VALE3' already updated.
+2021-07-07 00:47:11,351:DEBUG:utils:The function 'TickerManager.update' took 5.08 milliseconds to run.
+2021-07-07 00:47:11,356:INFO:ticker_manager:Ticker 'PETR4' already updated.
+2021-07-07 00:47:11,356:DEBUG:utils:The function 'TickerManager.update' took 4.99 milliseconds to run.
+2021-07-07 00:47:11,361:INFO:ticker_manager:Ticker 'WEGE3' already updated.
+2021-07-07 00:47:11,361:DEBUG:utils:The function 'TickerManager.update' took 5.01 milliseconds to run.
+2021-07-07 00:47:11,366:INFO:ticker_manager:Ticker 'BBAS3' already updated.
+2021-07-07 00:47:11,366:DEBUG:utils:The function 'TickerManager.update' took 5.07 milliseconds to run.
+2021-07-07 00:47:11,371:INFO:ticker_manager:Ticker 'BBDC3' already updated.
+2021-07-07 00:47:11,371:DEBUG:utils:The function 'TickerManager.update' took 4.89 milliseconds to run.
+2021-07-07 00:47:11,378:INFO:ticker_manager:Ticker 'EMBR3' already updated.
+2021-07-07 00:47:11,378:DEBUG:utils:The function 'TickerManager.update' took 6.76 milliseconds to run.
+2021-07-07 00:47:11,384:INFO:ticker_manager:Ticker 'GGBR4' already updated.
+2021-07-07 00:47:11,385:DEBUG:utils:The function 'TickerManager.update' took 5.51 milliseconds to run.
+2021-07-07 00:47:11,766:WARNING:ticker_manager:Yahoo Finance has no data for ticker 'AZUL4' ('2015-01-01', '2017-04-10').
+2021-07-07 00:47:11,767:INFO:ticker_manager:Ticker 'AZUL4' did not updated daily candlesticks.
+2021-07-07 00:47:11,767:DEBUG:utils:The function 'TickerManager.update' took 382.33 milliseconds to run.
+2021-07-07 00:47:11,773:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-07-07 00:47:11,774:DEBUG:utils:The function 'TickerManager.update' took 7.07 milliseconds to run.
+2021-07-07 00:47:11,782:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-07-07 00:47:11,783:DEBUG:utils:The function 'TickerManager.update' took 7.87 milliseconds to run.
+2021-07-07 00:47:11,793:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-07 00:47:11,803:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-07 00:47:11,815:INFO:strategy:'Andre Moraes': No tickers to remove.
+2021-07-07 00:47:11,825:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-07 00:50:11,204:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-07 00:50:11,993:INFO:__main__:
+Program started.
+2021-07-07 00:50:12,004:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-07 00:50:12,005:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-07 00:50:12,005:DEBUG:config_reader:Config file found.
+2021-07-07 00:50:12,031:INFO:config_reader:Config file successfully read.
+2021-07-07 00:50:12,032:INFO:config_reader:Total strategies: 1
+2021-07-07 00:50:12,032:INFO:config_reader:Total tickers: 9
+2021-07-07 00:50:12,032:INFO:config_reader:Oldest date: 01/01/2015
+2021-07-07 00:50:12,032:INFO:config_reader:Most recent date: 31/12/2019
+2021-07-07 00:50:12,033:INFO:config_reader:Strategies found:
+2021-07-07 00:50:12,033:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.01, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['MGLU3', 'VALE3', 'PETR4', 'WEGE3', 'BBAS3', 'BBDC3', 'EMBR3', 'GGBR4', 'AZUL4']
+2021-07-07 00:50:12,033:DEBUG:utils:The function 'ConfigReader.__init__' took 39.70 milliseconds to run.
+2021-07-07 00:50:12,042:INFO:ticker_manager:Ticker 'MGLU3' already updated.
+2021-07-07 00:50:12,043:DEBUG:utils:The function 'TickerManager.update' took 9.06 milliseconds to run.
+2021-07-07 00:50:12,050:INFO:ticker_manager:Ticker 'VALE3' already updated.
+2021-07-07 00:50:12,050:DEBUG:utils:The function 'TickerManager.update' took 7.17 milliseconds to run.
+2021-07-07 00:50:12,058:INFO:ticker_manager:Ticker 'PETR4' already updated.
+2021-07-07 00:50:12,059:DEBUG:utils:The function 'TickerManager.update' took 8.13 milliseconds to run.
+2021-07-07 00:50:12,065:INFO:ticker_manager:Ticker 'WEGE3' already updated.
+2021-07-07 00:50:12,066:DEBUG:utils:The function 'TickerManager.update' took 6.78 milliseconds to run.
+2021-07-07 00:50:12,073:INFO:ticker_manager:Ticker 'BBAS3' already updated.
+2021-07-07 00:50:12,073:DEBUG:utils:The function 'TickerManager.update' took 7.12 milliseconds to run.
+2021-07-07 00:50:12,080:INFO:ticker_manager:Ticker 'BBDC3' already updated.
+2021-07-07 00:50:12,080:DEBUG:utils:The function 'TickerManager.update' took 6.24 milliseconds to run.
+2021-07-07 00:50:12,088:INFO:ticker_manager:Ticker 'EMBR3' already updated.
+2021-07-07 00:50:12,088:DEBUG:utils:The function 'TickerManager.update' took 7.79 milliseconds to run.
+2021-07-07 00:50:12,095:INFO:ticker_manager:Ticker 'GGBR4' already updated.
+2021-07-07 00:50:12,095:DEBUG:utils:The function 'TickerManager.update' took 6.50 milliseconds to run.
+2021-07-07 00:50:12,467:WARNING:ticker_manager:Yahoo Finance has no data for ticker 'AZUL4' ('2015-01-01', '2017-04-10').
+2021-07-07 00:50:12,467:INFO:ticker_manager:Ticker 'AZUL4' did not updated daily candlesticks.
+2021-07-07 00:50:12,467:DEBUG:utils:The function 'TickerManager.update' took 372.02 milliseconds to run.
+2021-07-07 00:50:12,479:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-07-07 00:50:12,480:DEBUG:utils:The function 'TickerManager.update' took 12.28 milliseconds to run.
+2021-07-07 00:50:12,486:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-07-07 00:50:12,486:DEBUG:utils:The function 'TickerManager.update' took 6.07 milliseconds to run.
+2021-07-07 00:50:12,496:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-07 00:50:12,507:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-07 00:50:12,520:INFO:strategy:'Andre Moraes': No tickers to remove.
+2021-07-07 00:50:12,530:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-07 00:52:19,911:DEBUG:strategy:Stop loss skipped: 'GGBR4', '2017-05-18'.
+2021-07-07 00:53:02,406:DEBUG:strategy:Partial sale skipped: 'PETR4', '2018-03-06'.
+2021-07-07 00:53:58,394:DEBUG:strategy:Partial sale skipped: 'BBDC3', '2019-01-31'.
+2021-07-07 00:54:58,746:DEBUG:utils:The function 'AndreMoraesStrategy.process_operations' took 286225.49 milliseconds to run.
+2021-07-07 00:54:58,879:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-07 00:55:46,097:DEBUG:utils:The function 'AndreMoraesStrategy.calculate_statistics' took 47350.72 milliseconds to run.
+2021-07-07 00:55:46,884:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-07 00:55:47,019:INFO:strategy_analyzer:Dash is running on http://127.0.0.1:8050/
+
+2021-07-07 00:59:05,794:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-07 00:59:06,404:INFO:__main__:
+Program started.
+2021-07-07 00:59:06,412:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-07 00:59:06,413:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-07 00:59:06,413:DEBUG:config_reader:Config file found.
+2021-07-07 00:59:06,435:INFO:config_reader:Config file successfully read.
+2021-07-07 00:59:06,436:INFO:config_reader:Total strategies: 1
+2021-07-07 00:59:06,436:INFO:config_reader:Total tickers: 9
+2021-07-07 00:59:06,436:INFO:config_reader:Oldest date: 01/01/2015
+2021-07-07 00:59:06,436:INFO:config_reader:Most recent date: 31/12/2019
+2021-07-07 00:59:06,436:INFO:config_reader:Strategies found:
+2021-07-07 00:59:06,437:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.0258, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['MGLU3', 'VALE3', 'PETR4', 'WEGE3', 'BBAS3', 'BBDC3', 'EMBR3', 'GGBR4', 'AZUL4']
+2021-07-07 00:59:06,437:DEBUG:utils:The function 'ConfigReader.__init__' took 32.56 milliseconds to run.
+2021-07-07 00:59:06,445:INFO:ticker_manager:Ticker 'MGLU3' already updated.
+2021-07-07 00:59:06,445:DEBUG:utils:The function 'TickerManager.update' took 7.60 milliseconds to run.
+2021-07-07 00:59:06,451:INFO:ticker_manager:Ticker 'VALE3' already updated.
+2021-07-07 00:59:06,451:DEBUG:utils:The function 'TickerManager.update' took 6.14 milliseconds to run.
+2021-07-07 00:59:06,457:INFO:ticker_manager:Ticker 'PETR4' already updated.
+2021-07-07 00:59:06,457:DEBUG:utils:The function 'TickerManager.update' took 5.19 milliseconds to run.
+2021-07-07 00:59:06,462:INFO:ticker_manager:Ticker 'WEGE3' already updated.
+2021-07-07 00:59:06,462:DEBUG:utils:The function 'TickerManager.update' took 5.13 milliseconds to run.
+2021-07-07 00:59:06,468:INFO:ticker_manager:Ticker 'BBAS3' already updated.
+2021-07-07 00:59:06,468:DEBUG:utils:The function 'TickerManager.update' took 5.39 milliseconds to run.
+2021-07-07 00:59:06,473:INFO:ticker_manager:Ticker 'BBDC3' already updated.
+2021-07-07 00:59:06,473:DEBUG:utils:The function 'TickerManager.update' took 5.18 milliseconds to run.
+2021-07-07 00:59:06,478:INFO:ticker_manager:Ticker 'EMBR3' already updated.
+2021-07-07 00:59:06,478:DEBUG:utils:The function 'TickerManager.update' took 4.89 milliseconds to run.
+2021-07-07 00:59:06,484:INFO:ticker_manager:Ticker 'GGBR4' already updated.
+2021-07-07 00:59:06,484:DEBUG:utils:The function 'TickerManager.update' took 5.59 milliseconds to run.
+2021-07-07 00:59:07,311:WARNING:ticker_manager:Yahoo Finance has no data for ticker 'AZUL4' ('2015-01-01', '2017-04-10').
+2021-07-07 00:59:07,312:INFO:ticker_manager:Ticker 'AZUL4' did not updated daily candlesticks.
+2021-07-07 00:59:07,312:DEBUG:utils:The function 'TickerManager.update' took 827.42 milliseconds to run.
+2021-07-07 00:59:07,319:INFO:ticker_manager:Ticker '^BVSP' already updated.
+2021-07-07 00:59:07,320:DEBUG:utils:The function 'TickerManager.update' took 6.60 milliseconds to run.
+2021-07-07 00:59:07,325:INFO:ticker_manager:Ticker 'BRL=X' already updated.
+2021-07-07 00:59:07,326:DEBUG:utils:The function 'TickerManager.update' took 5.91 milliseconds to run.
+2021-07-07 00:59:07,337:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-07 00:59:07,347:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-07 00:59:07,359:INFO:strategy:'Andre Moraes': No tickers to remove.
+2021-07-07 00:59:07,369:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-07 01:01:04,223:DEBUG:strategy:Stop loss skipped: 'GGBR4', '2017-05-18'.
+2021-07-07 01:01:42,019:DEBUG:strategy:Target sale skipped: 'PETR4', '2018-03-06'.
+2021-07-07 01:02:28,357:DEBUG:strategy:Target sale skipped: 'BBDC3', '2019-01-31'.
+2021-07-07 01:03:20,700:DEBUG:utils:The function 'AndreMoraesStrategy.process_operations' took 253340.32 milliseconds to run.
+2021-07-07 01:03:20,784:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-07 01:04:07,749:DEBUG:utils:The function 'AndreMoraesStrategy.calculate_statistics' took 47049.19 milliseconds to run.
+2021-07-07 01:04:08,574:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-07 01:04:08,707:INFO:strategy_analyzer:Dash is running on http://127.0.0.1:8050/
+
+2021-07-07 01:09:18,643:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-07 01:09:19,367:INFO:__main__:
+Program started.
+2021-07-07 01:09:19,377:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-07 01:09:19,377:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-07 01:09:19,378:DEBUG:config_reader:Config file found.
+2021-07-07 01:09:19,419:INFO:config_reader:Config file successfully read.
+2021-07-07 01:09:19,419:INFO:config_reader:Total strategies: 1
+2021-07-07 01:09:19,419:INFO:config_reader:Total tickers: 328
+2021-07-07 01:09:19,420:INFO:config_reader:Oldest date: 01/01/2014
+2021-07-07 01:09:19,420:INFO:config_reader:Most recent date: 31/12/2019
+2021-07-07 01:09:19,420:INFO:config_reader:Strategies found:
+2021-07-07 01:09:19,420:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.01, Ticker Min Ann Volume Filter: 1000000, Min Order Volume: 1, Tickers: ['AALR3', 'ABCB4', 'ABEV3', 'AFLT3', 'AGRO3', 'ALPA3', 'ALPA4', 'ALPK3', 'ALSO3', 'ALUP11', 'ALUP3', 'ALUP4', 'AMAR3', 'ANIM3', 'APER3', 'ARZZ3', 'ATMP3', 'ATOM3', 'AZEV3', 'AZEV4', 'AZUL4', 'B3SA3', 'BALM3', 'BALM4', 'BAUH4', 'BAZA3', 'BBAS3', 'BBDC3', 'BBDC4', 'BBRK3', 'BBSE3', 'BDLL3', 'BDLL4', 'BEEF3', 'BEES3', 'BEES4', 'BGIP4', 'BIDI11', 'BIDI3', 'BIDI4', 'BIOM3', 'BKBR3', 'BMEB3', 'BMEB4', 'BMGB4', 'BMKS3', 'BOBR4', 'BPAC11', 'BPAC3', 'BPAN4', 'BRAP3', 'BRAP4', 'BRDT3', 'BRFS3', 'BRGE3', 'BRIV3', 'BRIV4', 'BRKM3', 'BRML3', 'BRPR3', 'BRSR3', 'BSEV3', 'BSLI3', 'BSLI4', 'BTOW3', 'BTTL3', 'CAMB3', 'CAML3', 'CARD3', 'CBEE3', 'CCPR3', 'CCRO3', 'CEAB3', 'CEBR3', 'CEDO3', 'CEDO4', 'CEEB3', 'CESP3', 'CGRA3', 'CGRA4', 'CIEL3', 'CLSC4', 'CMIG3', 'CMIG4', 'COGN3', 'CPFE3', 'CPLE11', 'CPLE3', 'CRDE3', 'CRFB3', 'CRIV3', 'CSAN3', 'CSMG3', 'CSNA3', 'CSRN3', 'CTKA3', 'CTKA4', 'CTNM4', 'CTSA3', 'CTSA4', 'CVCB3', 'CYRE3', 'DASA3', 'DIRR3', 'DMMO3', 'DOHL4', 'DTCY3', 'DTEX3', 'EALT3', 'EALT4', 'ECOR3', 'EGIE3', 'EKTR3', 'EKTR4', 'ELET3', 'EMAE4', 'EMBR3', 'ENAT3', 'ENBR3', 'ENEV3', 'ENGI11', 'ENGI3', 'ENGI4', 'ENMT3', 'EQPA3', 'EQTL3', 'ETER3', 'EUCA3', 'EUCA4', 'EVEN3', 'EZTC3', 'FESA4', 'FHER3', 'FLRY3', 'FRAS3', 'FRTA3', 'GEPA4', 'GFSA3', 'GGBR3', 'GGBR4', 'GNDI3', 'GOAU3', 'GOAU4', 'GOLL4', 'GPAR3', 'GPCP3', 'GPCP4', 'GRND3', 'GUAR3', 'HAGA3', 'HAGA4', 'HAPV3', 'HBOR3', 'HETA4', 'HGTX3', 'HOOT4', 'HYPE3', 'IGBR3', 'IGTA3', 'INEP3', 'INEP4', 'IRBR3', 'ITSA3', 'ITSA4', 'ITUB3', 'ITUB4', 'JBDU3', 'JBDU4', 'JBSS3', 'JHSF3', 'JOPA3', 'JPSA3', 'JSLG3', 'KEPL3', 'KLBN11', 'KLBN3', 'KLBN4', 'LAME3', 'LAME4', 'LCAM3', 'LEVE3', 'LIGT3', 'LINX3', 'LLIS3', 'LOGG3', 'LOGN3', 'LPSB3', 'LREN3', 'LUPA3', 'LUXM4', 'LWSA3', 'MDIA3', 'MDNE3', 'MEAL3', 'MERC3', 'MERC4', 'MGEL4', 'MGLU3', 'MILS3', 'MMXM3', 'MNDL3', 'MNPR3', 'MOVI3', 'MRFG3', 'MRVE3', 'MTIG4', 'MTRE3', 'MTSA4', 'MULT3', 'MWET3', 'MWET4', 'MYPK3', 'NEOE3', 'NORD3', 'NTCO3', 'NUTR3', 'ODPV3', 'OFSA3', 'OIBR3', 'OIBR4', 'OMGE3', 'OSXB3', 'PARD3', 'PATI3', 'PCAR3', 'PDGR3', 'PEAB3', 'PETR3', 'PETR4', 'PFRM3', 'PINE4', 'PLAS3', 'PMAM3', 'PNVL3', 'PNVL4', 'POMO3', 'POMO4', 'POSI3', 'PPLA11', 'PRIO3', 'PRNR3', 'PSSA3', 'PTBL3', 'PTNT3', 'PTNT4', 'QUAL3', 'RADL3', 'RAIL3', 'RANI3', 'RAPT3', 'RAPT4', 'RCSL3', 'RCSL4', 'RDNI3', 'REDE3', 'RENT3', 'RNEW11', 'RNEW3', 'RNEW4', 'ROMI3', 'RPAD3', 'RPMG3', 'RSID3', 'SANB11', 'SANB3', 'SANB4', 'SAPR11', 'SAPR3', 'SAPR4', 'SBSP3', 'SCAR3', 'SEER3', 'SGPS3', 'SHOW3', 'SHUL4', 'SLCE3', 'SLED3', 'SLED4', 'SMLS3', 'SMTO3', 'SNSY3', 'SQIA3', 'STBP3', 'SULA11', 'SULA3', 'SULA4', 'SUZB3', 'TAEE11', 'TAEE3', 'TAEE4', 'TASA3', 'TASA4', 'TCNO3', 'TCNO4', 'TCSA3', 'TECN3', 'TEKA4', 'TELB3', 'TELB4', 'TEND3', 'TESA3', 'TGMA3', 'TKNO4', 'TOTS3', 'TPIS3', 'TRIS3', 'TRPL3', 'TRPL4', 'TUPY3', 'TXRX3', 'TXRX4', 'UCAS3', 'UGPA3', 'UNIP3', 'USIM3', 'VALE3', 'VIVA3', 'VIVR3', 'VIVT3', 'VLID3', 'VULC3', 'VVAR3', 'WEGE3', 'WHRL3', 'WHRL4', 'WIZS3', 'WLMM4', 'YDUQ3']
+2021-07-07 01:09:19,420:DEBUG:utils:The function 'ConfigReader.__init__' took 52.91 milliseconds to run.
+2021-07-07 01:09:20,968:INFO:ticker_manager:Ticker 'AALR3' updated daily candlesticks.
+2021-07-07 01:09:20,983:INFO:ticker_manager:Ticker 'AALR3' weekly candles recreated.
+2021-07-07 01:09:20,983:DEBUG:utils:The function 'TickerManager.update' took 1558.05 milliseconds to run.
+2021-07-07 01:09:20,984:INFO:ticker_manager:Generating features for ticker 'AALR3'.
+2021-07-07 01:09:42,453:DEBUG:utils:The function 'TickerManager.generate_features' took 21469.71 milliseconds to run.
+2021-07-07 01:09:44,770:INFO:ticker_manager:Ticker 'ABCB4' updated daily candlesticks.
+2021-07-07 01:09:44,785:INFO:ticker_manager:Ticker 'ABCB4' weekly candles recreated.
+2021-07-07 01:09:44,786:DEBUG:utils:The function 'TickerManager.update' took 2332.02 milliseconds to run.
+2021-07-07 01:09:44,786:INFO:ticker_manager:Generating features for ticker 'ABCB4'.
+2021-07-07 01:10:45,618:DEBUG:utils:The function 'TickerManager.generate_features' took 60832.27 milliseconds to run.
+2021-07-07 01:10:47,543:INFO:ticker_manager:Ticker 'ABEV3' updated daily candlesticks.
+2021-07-07 01:10:47,558:INFO:ticker_manager:Ticker 'ABEV3' weekly candles recreated.
+2021-07-07 01:10:47,559:DEBUG:utils:The function 'TickerManager.update' took 1939.61 milliseconds to run.
+2021-07-07 01:10:47,559:INFO:ticker_manager:Generating features for ticker 'ABEV3'.
+2021-07-07 01:11:49,410:DEBUG:utils:The function 'TickerManager.generate_features' took 61851.32 milliseconds to run.
+2021-07-07 01:11:50,634:INFO:ticker_manager:Ticker 'AFLT3' updated daily candlesticks.
+2021-07-07 01:11:50,646:INFO:ticker_manager:Ticker 'AFLT3' weekly candles recreated.
+2021-07-07 01:11:50,646:DEBUG:utils:The function 'TickerManager.update' took 1235.52 milliseconds to run.
+2021-07-07 01:11:50,646:INFO:ticker_manager:Generating features for ticker 'AFLT3'.
+2021-07-07 01:11:59,003:DEBUG:utils:The function 'TickerManager.generate_features' took 8356.77 milliseconds to run.
+2021-07-07 01:12:01,062:INFO:ticker_manager:Ticker 'AGRO3' updated daily candlesticks.
+2021-07-07 01:12:01,076:INFO:ticker_manager:Ticker 'AGRO3' weekly candles recreated.
+2021-07-07 01:12:01,076:DEBUG:utils:The function 'TickerManager.update' took 2072.99 milliseconds to run.
+2021-07-07 01:12:01,077:INFO:ticker_manager:Generating features for ticker 'AGRO3'.
+2021-07-07 01:13:00,777:DEBUG:utils:The function 'TickerManager.generate_features' took 59700.63 milliseconds to run.
+2021-07-07 01:13:02,361:INFO:ticker_manager:Ticker 'ALPA3' updated daily candlesticks.
+2021-07-07 01:13:02,376:INFO:ticker_manager:Ticker 'ALPA3' weekly candles recreated.
+2021-07-07 01:13:02,376:DEBUG:utils:The function 'TickerManager.update' took 1598.72 milliseconds to run.
+2021-07-07 01:13:02,377:INFO:ticker_manager:Generating features for ticker 'ALPA3'.
+2021-07-07 01:13:49,889:DEBUG:utils:The function 'TickerManager.generate_features' took 47512.10 milliseconds to run.
+2021-07-07 01:13:51,907:INFO:ticker_manager:Ticker 'ALPA4' updated daily candlesticks.
+2021-07-07 01:13:51,924:INFO:ticker_manager:Ticker 'ALPA4' weekly candles recreated.
+2021-07-07 01:13:51,924:DEBUG:utils:The function 'TickerManager.update' took 2035.10 milliseconds to run.
+2021-07-07 01:13:51,925:INFO:ticker_manager:Generating features for ticker 'ALPA4'.
+2021-07-07 01:14:55,213:DEBUG:utils:The function 'TickerManager.generate_features' took 63287.90 milliseconds to run.
+2021-07-07 01:14:55,477:WARNING:ticker_manager:Yahoo Finance has no data for ticker 'ALPK3' ('2014-01-01', '2019-12-31').
+2021-07-07 01:14:55,477:INFO:ticker_manager:Ticker 'ALPK3' did not updated daily candlesticks.
+2021-07-07 01:14:55,477:DEBUG:utils:The function 'TickerManager.update' took 264.31 milliseconds to run.
+2021-07-07 01:14:57,128:INFO:ticker_manager:Ticker 'ALSO3' updated daily candlesticks.
+2021-07-07 01:14:57,146:INFO:ticker_manager:Ticker 'ALSO3' weekly candles recreated.
+2021-07-07 01:14:57,146:DEBUG:utils:The function 'TickerManager.update' took 1668.41 milliseconds to run.
+2021-07-07 01:14:57,146:INFO:ticker_manager:Generating features for ticker 'ALSO3'.
