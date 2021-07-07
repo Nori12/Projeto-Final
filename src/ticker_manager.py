@@ -80,9 +80,9 @@ class TickerManager:
 
     Methods
     ----------
-    update()
+    bool : update()
         Update ticker data.
-    generate_features(trend_status_ema_weight=0.95, consolidation_tolerance=0.05,
+    bool : generate_features(trend_status_ema_weight=0.95, consolidation_tolerance=0.05,
         lpf_alpha=0.8)
         Generate features from daily and weekly candlesticks and save in database.
     """
@@ -430,6 +430,7 @@ class TickerManager:
         candles_df : `pandas.DataFrame`
             DataFrame of candles with columns 'Open', 'High', 'Low', 'Close'.
         """
+
         candles_df['Low'] = candles_df.apply(lambda x:
             x['Close'] if x['Low'] > x['Close'] else x['Low'], axis=1)
         candles_df['Low'] = candles_df.apply(lambda x:
@@ -438,6 +439,10 @@ class TickerManager:
             x['Close'] if x['High'] < x['Close'] else x['High'], axis=1)
         candles_df['High'] = candles_df.apply(lambda x:
             x['Open'] if x['High'] < x['Open'] else x['High'], axis=1)
+
+        candles_df.drop(candles_df.loc[(candles_df['Open'] < 0.0) | \
+            (candles_df['High'] < 0.0) | (candles_df['Low'] < 0.0) | \
+            (candles_df['Close'] < 0.0)].index, inplace=True)
 
     def _update_weekly_candles(self):
         """
@@ -457,6 +462,11 @@ class TickerManager:
 
         Only works for ordinary tickers.
         Delete all previous features of given ticker.
+
+        Returns
+        ----------
+        bool
+            True if features were generate, False if not.
         """
         try:
             logger.info(f"Generating features for ticker \'{self.ticker}\'.")
@@ -484,15 +494,19 @@ class TickerManager:
 
                     ema_17, ema_72 = TickerManager.find_emas(candles_df['close_price'])
 
-                    features_df = pd.DataFrame({'ticker': self._ticker, time_column: candles_df[time_column],
-                        'target_buy_price': target_prices, 'stop_loss': stop_losses,
-                        'ema_17': ema_17, 'ema_72': ema_72, 'up_down_trend_status': trends,
-                        'peak': peaks})
-
-                    TickerManager.db_ticker_model.upsert_features(features_df, interval=interval)
+                    if trends is not None:
+                        features_df = pd.DataFrame({'ticker': self._ticker, time_column: candles_df[time_column],
+                            'target_buy_price': target_prices, 'stop_loss': stop_losses,
+                            'ema_17': ema_17, 'ema_72': ema_72, 'up_down_trend_status': trends,
+                            'peak': peaks})
+                        TickerManager.db_ticker_model.upsert_features(features_df, interval=interval)
+                    else:
+                        return False
         except Exception as error:
             logger.exception(f"Error generating features, error:\n{error}")
             sys.exit(c.UPDATING_DB_ERR)
+
+        return True
 
     @staticmethod
     def find_emas(prices_df):
@@ -513,7 +527,9 @@ class TickerManager:
         minimum_data_points = 2 * window_size
 
         if len(prices_df) < minimum_data_points:
-            return None
+            logger.info(f"Can not generate features for ticker \'{self.ticker}\'. "
+                f"Less than {minimum_data_points} candles found.")
+            return None, None, None, None
 
         df_length = len(prices_df)
 
