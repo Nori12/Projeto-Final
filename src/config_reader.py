@@ -63,6 +63,11 @@ class ConfigReader:
         Minimum risk per operation.
     min_risk : float
         Maximum risk per operation.
+    pruchase_margin : float
+        Percentage margin aplied on target purchase price.
+    stop_margin : float
+        Percentage margin aplied on stop loss price.
+
     Methods
     ----------
     No methods.
@@ -82,6 +87,11 @@ class ConfigReader:
             can_be_missed=True, can_be_none=False, if_missed_default_value=True)
         self._max_risk = self.read_parameter('max_risk', origin='root',
             can_be_missed=True, can_be_none=False, if_missed_default_value=True)
+        self._purchase_margin = self.read_parameter('purchase_margin', origin='root',
+            can_be_missed=True, can_be_none=False, if_missed_default_value=0.0)
+        self._stop_margin = self.read_parameter('stop_margin', origin='root',
+            can_be_missed=True, can_be_none=False, if_missed_default_value=0.0)
+
         self._read_strategies()
 
         holidays = self._db_generic_model.get_holidays(
@@ -201,6 +211,16 @@ class ConfigReader:
     def max_risk(self):
         """float : Maximum risk per operation."""
         return self._max_risk
+
+    @property
+    def purchase_margin(self):
+        """float : Percentage margin aplied on target purchase price."""
+        return self._purchase_margin
+
+    @property
+    def stop_margin(self):
+        """float : Percentage margin aplied on stop loss price."""
+        return self._stop_margin
 
     @property
     def holidays(self):
@@ -415,10 +435,22 @@ class ConfigReader:
                     can_be_missed=True, if_missed_default_value=0)
                 partial_sale = self.read_parameter(
                     'partial_sale', strategy_batch, is_boolean=True, can_be_list=True,
-                    can_be_missed=True, can_be_none=False, if_missed_default_value=True)
+                    can_be_missed=True, if_missed_default_value=True)
                 ema_tolerance = self.read_parameter(
                     'ema_tolerance', strategy_batch, can_be_list=True,
-                    can_be_missed=True, can_be_none=False, if_missed_default_value=0.0)
+                    can_be_missed=True, if_missed_default_value=0.0)
+                min_risk = self.read_parameter(
+                    'min_risk', strategy_batch, can_be_list=True,
+                    can_be_missed=True, if_missed_default_value=0.0)
+                max_risk = self.read_parameter(
+                    'max_risk', strategy_batch, can_be_list=True,
+                    can_be_missed=True, if_missed_default_value=0.0)
+                purchase_margin = self.read_parameter(
+                    'purchase_margin', strategy_batch, can_be_list=True,
+                    can_be_missed=True, if_missed_default_value=0.0)
+                stop_margin = self.read_parameter(
+                    'stop_margin', strategy_batch, can_be_list=True,
+                    can_be_missed=True, if_missed_default_value=0.0)
 
                 ConfigReader.add_param_to_strategies('name', name, strategies)
                 ConfigReader.add_param_to_strategies('alias', alias, strategies)
@@ -434,6 +466,14 @@ class ConfigReader:
                     partial_sale, strategies)
                 ConfigReader.add_param_to_strategies('ema_tolerance',
                     ema_tolerance, strategies)
+                ConfigReader.add_param_to_strategies('min_risk',
+                    min_risk, strategies)
+                ConfigReader.add_param_to_strategies('max_risk',
+                    max_risk, strategies)
+                ConfigReader.add_param_to_strategies('purchase_margin',
+                    purchase_margin, strategies)
+                ConfigReader.add_param_to_strategies('stop_margin',
+                    stop_margin, strategies)
 
                 individual_tickers = ConfigReader.read_individual_tickers('stock_targets',
                     origin=strategy_batch)

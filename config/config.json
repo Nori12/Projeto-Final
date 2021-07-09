@@ -1,18 +1,22 @@
 {
     "show_results": true,
-    "min_risk": 0.06,
-    "max_risk": 0.20,
+    "min_risk": 0.01,
+    "max_risk": 0.25,
     "strategies":[
         {
             "name": "Andre Moraes",
             "alias": "Tickers: {number_of_tickers}, Risk-Capital: {risk_capital_coefficient}%.",
-            "comment": "Test.",
+            "comment": "Purchase Margin test.",
             "capital": 100000,
-            "risk_capital_coefficient": 0.01,
+            "risk_capital_coefficient": 0.005,
             "min_order_volume": 1,
-            "ticker_min_ann_volume_filter": 1000000,
+            "ticker_min_ann_volume_filter": 0,
             "partial_sale" : false,
-            "ema_tolerance" : 0.01,
+            "ema_tolerance" : 0.015,
+            "min_risk": 0.06,
+            "max_risk": 0.15,
+            "purchase_margin" : 0.01,
+            "stop_margin" : 0.01,
             "group_target":
             {
                 "on_shares": true,
@@ -22,8 +26,8 @@
                 "sector": null,
                 "subsector": null,
                 "segment": null,
-                "start_date": "01/01/2014",
-                "end_date": "01/01/2020"
+                "start_date": "01/01/2010",
+                "end_date": "14/06/2021"
             }
         }
     ]

@@ -439,6 +439,26 @@ class Strategy(ABC):
         pass
 
 class AndreMoraesStrategy(Strategy):
+    """
+
+    Properties
+    ----------
+    min_risk : float
+        Minimum risk per operation.
+    min_risk : float
+        Maximum risk per operation.
+    purchase_margin : float
+        Percentage margin aplied on target purchase price.
+    stop_margin : float
+        Percentage margin aplied on stop loss price.
+
+    total_strategies : int
+        Total Strategy's instanced.
+    strategy_number : int
+        Number of this instance.
+    """
+
+    total_strategies = 0
 
     def __init__(self, tickers, alias=None, comment=None, min_order_volume=1,
         total_capital=100000, risk_capital_product=0.10, min_volume_per_year=1000000):
@@ -462,6 +482,10 @@ class AndreMoraesStrategy(Strategy):
         self._start_date = None
         self._end_date = None
         self.min_peaks_after_operation = 3
+        self._min_risk = 0.01
+        self._max_risk = 1.00
+        self._purchase_margin = 0.0
+        self._stop_margin = 0.0
 
         self._tickers_and_dates = tickers
         for ticker, date in tickers.items():
@@ -485,6 +509,10 @@ class AndreMoraesStrategy(Strategy):
 
         if self._min_volume_per_year != 0:
             self._filter_tickers_per_min_volume()
+
+        AndreMoraesStrategy.total_strategies += 1
+        self.strategy_number = AndreMoraesStrategy.total_strategies
+
 
     @property
     def name(self):
@@ -561,6 +589,42 @@ class AndreMoraesStrategy(Strategy):
     @ema_tolerance.setter
     def ema_tolerance(self, ema_tolerance):
         self._ema_tolerance = ema_tolerance
+
+    @property
+    def min_risk(self):
+        """float : Minimum risk per operation."""
+        return self._min_risk
+
+    @min_risk.setter
+    def min_risk(self, min_risk):
+        self._min_risk = min_risk
+
+    @property
+    def max_risk(self):
+        """float : Maximum risk per operation."""
+        return self._max_risk
+
+    @max_risk.setter
+    def max_risk(self, max_risk):
+        self._max_risk = max_risk
+
+    @property
+    def purchase_margin(self):
+        """float : Percentage margin aplied on target purchase price."""
+        return self._purchase_margin
+
+    @purchase_margin.setter
+    def purchase_margin(self, purchase_margin):
+        self._purchase_margin = purchase_margin
+
+    @property
+    def stop_margin(self):
+        """float : Percentage margin aplied on stop loss price."""
+        return self._stop_margin
+
+    @stop_margin.setter
+    def stop_margin(self, stop_margin):
+        self._stop_margin = stop_margin
 
     @property
     def operations(self):
@@ -672,9 +736,18 @@ class AndreMoraesStrategy(Strategy):
 
             data_gen = self.DataGen(self.tickers_and_dates, self._db_strategy_model, days_batch=30)
 
+            # update_step = 0.10
+            # last_update_percent = update_step
+            print(f"\nStrategy: {self.name} ({self.strategy_number}/{AndreMoraesStrategy.total_strategies})")
+
             while True:
                 try:
                     day_info, week_info = next(data_gen)
+
+                    # completion_percentage = (index+1)/df_length
+                    # if completion_percentage + 1e-5 >= last_update_percent:
+                    #     print(f"{last_update_percent * 100:.0f}%.")
+                    #     last_update_percent += update_step
 
                     # List will be modified during loop
                     ticker_priority_list_cp = ticker_priority_list.copy()
@@ -687,18 +760,16 @@ class AndreMoraesStrategy(Strategy):
 
                             if day_info[(day_info['ticker'] == ts.ticker)].empty:
                                 continue
+                            if week_info[(week_info['ticker'] == ts.ticker)].empty:
+                                logger.info(f"Could not get last week for ticker \'{ts.ticker}\' " \
+                                    f"(week before day \'{day.strftime('%Y-%m-%d')}\').")
+                                continue
 
                             if day >= ts.initial_date and day <= ts.final_date:
-
-                                # DEBUG
-                                # if day == pd.to_datetime('2018-04-24', format='%Y-%m-%d'):
-                                #     print()
-
                                 open_price_day = day_info[(day_info['ticker'] == ts.ticker)]['open_price'].squeeze()
                                 max_price_day = day_info[(day_info['ticker'] == ts.ticker)]['max_price'].squeeze()
                                 min_price_day = day_info[(day_info['ticker'] == ts.ticker)]['min_price'].squeeze()
                                 close_price_day = day_info[(day_info['ticker'] == ts.ticker)]['close_price'].squeeze()
-                                # volume_day = day_info[(day_info['ticker'] == ts.ticker)]['volume'].squeeze()
                                 ema_17_day = day_info[(day_info['ticker'] == ts.ticker)]['ema_17'].squeeze()
                                 ema_72_day = day_info[(day_info['ticker'] == ts.ticker)]['ema_72'].squeeze()
                                 target_buy_price_day = day_info[(day_info['ticker'] == ts.ticker)]['target_buy_price'].squeeze()
@@ -706,25 +777,17 @@ class AndreMoraesStrategy(Strategy):
                                 up_down_trend_status_day = day_info[(day_info['ticker'] == ts.ticker)]['up_down_trend_status'].squeeze()
                                 peak_day = day_info[(day_info['ticker'] == ts.ticker)]['peak'].squeeze()
 
-                                # open_price_week = week_info[(week_info['ticker'] == ts.ticker)]['open_price'].squeeze()
-                                # max_price_week = week_info[(week_info['ticker'] == ts.ticker)]['max_price'].squeeze()
-                                # min_price_week = week_info[(week_info['ticker'] == ts.ticker)]['min_price'].squeeze()
-                                # close_price_week = week_info[(week_info['ticker'] == ts.ticker)]['close_price'].squeeze()
-                                # volume_week = week_info[(week_info['ticker'] == ts.ticker)]['volume'].squeeze()
-                                # ema_17_week = week_info[(week_info['ticker'] == ts.ticker)]['ema_17'].squeeze()
                                 ema_72_week = week_info[(week_info['ticker'] == ts.ticker)]['ema_72'].squeeze()
-                                # target_buy_price_week = week_info[(week_info['ticker'] == ts.ticker)]['target_buy_price'].squeeze()
-                                # stop_loss_week = week_info[(week_info['ticker'] == ts.ticker)]['stop_loss'].squeeze()
-                                # up_down_trend_status_week = week_info[(week_info['ticker'] == ts.ticker)]['up_down_trend_status'].squeeze()
-                                # peak_week = week_info[(week_info['ticker'] == ts.ticker)]['peak'].squeeze()
 
+                                # DEBUG
                                 # if day == pd.Timestamp('2019-12-16'):
                                 #     print()
 
-                                if peak_day > 0.00:
+                                if peak_day > 0.0:
                                     ticker_priority_list[index].peaks_after_operation += 1
 
                                 if (ts.ongoing_operation_flag == False):
+                                    target_buy_price_day = target_buy_price_day * (1 + self.purchase_margin)
                                     # Strategy business rules
                                     if (up_down_trend_status_day >= Trend.ALMOST_UPTREND.value) \
                                         and (min_price_day < max(ema_17_day, ema_72_day)*(1+self.ema_tolerance) \
@@ -733,7 +796,14 @@ class AndreMoraesStrategy(Strategy):
                                         and (target_buy_price_day > min_price_day and target_buy_price_day < max_price_day) \
                                         and (ticker_priority_list[index].peaks_after_operation >= self.min_peaks_after_operation):
 
-                                        if target_buy_price_day != 0 and stop_loss_day != 0:
+                                        if target_buy_price_day > 0 and stop_loss_day > 0:
+
+                                            # Correct operation prices
+                                            stop_loss_day = round(stop_loss_day * (1 + self.stop_margin), 2)
+                                            if (target_buy_price_day - stop_loss_day) / target_buy_price_day > self.max_risk:
+                                                stop_loss_day = round(target_buy_price_day * (1 - self.max_risk), 2)
+                                            if (target_buy_price_day - stop_loss_day) / target_buy_price_day < self.min_risk:
+                                                stop_loss_day = round(target_buy_price_day * (1 - self.min_risk), 2)
 
                                             ticker_priority_list[index].operation = Operation(ts.ticker)
                                             ticker_priority_list[index].operation.target_purchase_price = \

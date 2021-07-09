@@ -68,6 +68,10 @@ def run():
             am.comment = strategy['comment']
             am.partial_sale = strategy['partial_sale']
             am.ema_tolerance = strategy['ema_tolerance']
+            am.min_risk = strategy['min_risk']
+            am.max_risk = strategy['max_risk']
+            am.purchase_margin = strategy['purchase_margin']
+            am.stop_margin = strategy['stop_margin']
 
             am.process_operations()
             am.calculate_statistics()

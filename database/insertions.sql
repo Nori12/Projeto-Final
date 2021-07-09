@@ -509,7 +509,9 @@ VALUES
 ('PROMPT PART', 'PRPT', 85, 1),
 ('SELECTPART', 'SLCT', 85, 1),
 ('SUDESTE S/A', 'OPSE', 85, 1),
-('SUL 116 PART', 'OPTS', 85, 1);
+('SUL 116 PART', 'OPTS', 85, 1),
+('TIM BRASIL', 'TIMS', 68, 1),
+('SENDAS DISTRIBUIDORA', 'ASAI', 85, 1)
 
 INSERT INTO entity (ticker_root, trading_name, company_classification_id, entity_type_id)
 VALUES
@@ -1401,6 +1403,12 @@ INSERT INTO symbol (ticker, trading_name) (SELECT 'FNOR11F', trading_name FROM e
 INSERT INTO symbol (ticker, trading_name) (SELECT 'FSPE11F', trading_name FROM entity WHERE trading_name ILIKE 'FISET PESCA') ON CONFLICT (ticker) DO NOTHING;
 INSERT INTO symbol (ticker, trading_name) (SELECT 'FSRF11F', trading_name FROM entity WHERE trading_name ILIKE 'FISET FL REF') ON CONFLICT (ticker) DO NOTHING;
 INSERT INTO symbol (ticker, trading_name) (SELECT 'FSTU11F', trading_name FROM entity WHERE trading_name ILIKE 'FISET TUR') ON CONFLICT (ticker) DO NOTHING;
+INSERT INTO symbol (ticker, trading_name) (SELECT 'CPLE6', trading_name FROM entity WHERE trading_name ILIKE 'COPEL') ON CONFLICT (ticker) DO NOTHING;
+INSERT INTO symbol (ticker, trading_name) (SELECT 'USIM5', trading_name FROM entity WHERE trading_name ILIKE 'USIMINAS') ON CONFLICT (ticker) DO NOTHING;
+INSERT INTO symbol (ticker, trading_name) (SELECT 'ELET6', trading_name FROM entity WHERE trading_name ILIKE 'ELETROBRAS') ON CONFLICT (ticker) DO NOTHING;
+INSERT INTO symbol (ticker, trading_name) (SELECT 'BRKM5', trading_name FROM entity WHERE trading_name ILIKE 'BRASKEM') ON CONFLICT (ticker) DO NOTHING;
+INSERT INTO symbol (ticker, trading_name) (SELECT 'TIMS3', trading_name FROM entity WHERE trading_name ILIKE 'TIM BRASIL') ON CONFLICT (ticker) DO NOTHING;
+INSERT INTO symbol (ticker, trading_name) (SELECT 'ASAI3', trading_name FROM entity WHERE trading_name ILIKE 'SENDAS DISTRIBUIDORA') ON CONFLICT (ticker) DO NOTHING;
 
 -- Indexes and Currencies
 INSERT INTO symbol (ticker, trading_name) (SELECT ticker_root, trading_name FROM entity WHERE trading_name ILIKE 'IBOVESPA') ON CONFLICT (ticker) DO NOTHING;

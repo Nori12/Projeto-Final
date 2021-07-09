@@ -78,6 +78,11 @@ class TickerManager:
     min_risk : float
         Maximum risk per operation.
 
+    total_tickers : int
+        Total TickerManager's instanced.
+    ticker_number : int
+        Number of this instance.
+
     Methods
     ----------
     bool : update()
@@ -87,6 +92,7 @@ class TickerManager:
         Generate features from daily and weekly candlesticks and save in database.
     """
     db_ticker_model = DBTickerModel()
+    total_tickers = 0
 
     def __init__(self, ticker, start_date, end_date, ordinary_ticker=True, holidays=None):
         self._ticker = ticker.upper()
@@ -95,6 +101,9 @@ class TickerManager:
         self._ordinary_ticker = ordinary_ticker
         self._min_risk = 0.01
         self._max_risk = 1.00
+
+        TickerManager.total_tickers += 1
+        self.ticker_number = TickerManager.total_tickers
 
         self._holidays = []
         if holidays is not None:
@@ -479,50 +488,72 @@ class TickerManager:
                 # Prevent algorithm inertia in first values
                 days_before_initial_date = 180
 
-                for interval in ['1d', '1wk']:
-                    time_column = 'week' if interval == '1wk' else 'day'
+                # Day interval
+                candles_df = TickerManager.db_ticker_model.get_candlesticks(
+                    self.ticker, self.start_date, self.end_date,
+                    days_before_initial_date, interval='1d')
+                trends, target_prices, stop_losses, peaks = \
+                    self.find_target_buy_price_and_trend(candles_df,
+                    time_column_name='day', close_column_name='close_price',
+                    max_colum_name='max_price', min_column_name='min_price')
+                ema_17 = candles_df['close_price'].ewm(span=17, adjust=False).mean()
+                ema_72 = candles_df['close_price'].ewm(span=72, adjust=False).mean()
 
-                    candles_df = TickerManager.db_ticker_model.get_candlesticks(
-                        self.ticker, self.start_date, self.end_date, days_before_initial_date,
-                        interval=interval)
+                if trends is not None and target_prices is not None and \
+                    stop_losses is not None and peaks is not None:
+                    features_df = pd.DataFrame({'ticker': self._ticker,
+                        'day': candles_df['day'], 'target_buy_price': target_prices,
+                        'stop_loss': stop_losses, 'ema_17': ema_17, 'ema_72': ema_72,
+                        'up_down_trend_status': trends, 'peak': peaks})
+                    TickerManager.db_ticker_model.upsert_features(features_df,
+                        interval='1d')
+                else:
+                    return False
+                # Week interval
+                candles_df = TickerManager.db_ticker_model.get_candlesticks(
+                    self.ticker, self.start_date, self.end_date,
+                    days_before_initial_date, interval='1wk')
+                ema_72 = candles_df['close_price'].ewm(span=72, adjust=False).mean()
 
-                    trends, target_prices, stop_losses, peaks = \
-                        self.find_target_buy_price_and_trend(candles_df, time_column_name=time_column,
-                        close_column_name='close_price', max_colum_name='max_price',
-                        min_column_name='min_price', target_price_margin_from_peak=0.0,
-                        stop_loss_margin_from_peak=0.0)
+                if trends is not None and target_prices is not None and \
+                    stop_losses is not None and peaks is not None:
+                    features_df = pd.DataFrame({'ticker': self._ticker,
+                        'week': candles_df['week'], 'ema_72': ema_72})
+                    TickerManager.db_ticker_model.upsert_features(features_df,
+                        interval='1wk')
+                else:
+                    return False
+                # for interval in ['1d', '1wk']:
+                #     time_column = 'week' if interval == '1wk' else 'day'
 
-                    ema_17, ema_72 = TickerManager.find_emas(candles_df['close_price'])
+                #     candles_df = TickerManager.db_ticker_model.get_candlesticks(
+                #         self.ticker, self.start_date, self.end_date, days_before_initial_date,
+                #         interval=interval)
 
-                    if trends is not None:
-                        features_df = pd.DataFrame({'ticker': self._ticker, time_column: candles_df[time_column],
-                            'target_buy_price': target_prices, 'stop_loss': stop_losses,
-                            'ema_17': ema_17, 'ema_72': ema_72, 'up_down_trend_status': trends,
-                            'peak': peaks})
-                        TickerManager.db_ticker_model.upsert_features(features_df, interval=interval)
-                    else:
-                        return False
+                #     trends, target_prices, stop_losses, peaks = \
+                #         self.find_target_buy_price_and_trend(candles_df, time_column_name=time_column,
+                #         close_column_name='close_price', max_colum_name='max_price',
+                #         min_column_name='min_price')
+
+                #     ema_17, ema_72 = TickerManager.find_emas(candles_df['close_price'])
+
+                #     if trends is not None:
+                #         features_df = pd.DataFrame({'ticker': self._ticker, time_column: candles_df[time_column],
+                #             'target_buy_price': target_prices, 'stop_loss': stop_losses,
+                #             'ema_17': ema_17, 'ema_72': ema_72, 'up_down_trend_status': trends,
+                #             'peak': peaks})
+                #         TickerManager.db_ticker_model.upsert_features(features_df, interval=interval)
+                #     else:
+                #         return False
         except Exception as error:
             logger.exception(f"Error generating features, error:\n{error}")
             sys.exit(c.UPDATING_DB_ERR)
-
         return True
 
-    @staticmethod
-    def find_emas(prices_df):
-        # Exponential Moving Average
-        ema_17 = prices_df.ewm(span=17, adjust=False).mean()
-        ema_72 = prices_df.ewm(span=72, adjust=False).mean()
-
-        return ema_17, ema_72
-
-    # TODO: Implement min_risk and max_risk filters
-    # TODO: Implement crysis identification to remove recovery inertia
-    #       (define min peaks number after fall)
     # TODO: Implement peaks comparison tolerance (closer peaks must be seem as equal)
     def find_target_buy_price_and_trend(self, prices_df, close_column_name='Close',
         time_column_name = 'day', max_colum_name='High', min_column_name='Low',
-        target_price_margin_from_peak=0.0, stop_loss_margin_from_peak=0.0, window_size=17):
+        window_size=17):
 
         minimum_data_points = 2 * window_size
 
@@ -540,13 +571,14 @@ class TickerManager:
 
         undefined_value = 0
 
-        update_step = 0.05
+        update_step = 0.10
         last_update_percent = update_step
+        print(f"\nTicker : \'{self.ticker}\' ({self.ticker_number}/{TickerManager.total_tickers})")
 
         for index, row in prices_df.iterrows():
 
             completion_percentage = (index+1)/df_length
-            if completion_percentage >= last_update_percent:
+            if completion_percentage + 1e-5 >= last_update_percent:
                 print(f"{last_update_percent * 100:.0f}%.")
                 last_update_percent += update_step
 
@@ -635,12 +667,10 @@ class TickerManager:
                     all_max_peaks_values = [peak['magnitude'] for peak in peaks
                         if peak['type'] == 'max']
 
-                    target_price = TickerManager.get_purchase_price(price, max_from_max_peaks,
-                        min_from_max_peaks, max_from_min_peaks, min_from_min_peaks,
-                        all_max_peaks_values, margin_from_peak=0.0)
+                    target_price = target_price = round(max_from_max_peaks, 2)
                     stop_loss = TickerManager.get_stop_loss(max_from_max_peaks,
                         min_from_max_peaks, max_from_min_peaks, min_from_min_peaks,
-                        target_price, min_risk=self.min_risk, max_risk=self.max_risk, margin_from_peak=0.0)
+                        target_price, min_risk=self.min_risk, max_risk=self.max_risk)
             out_trends[index] = trend
             out_target_prices[index] = target_price
             out_stop_losses[index] = stop_loss
@@ -807,8 +837,7 @@ class TickerManager:
     # TODO : Implement 'margin_from_peak'
     @staticmethod
     def get_stop_loss(max_from_max_peaks, min_from_max_peaks, max_from_min_peaks,
-        min_from_min_peaks, target_buy_price, min_risk=0.01, max_risk=1.0,
-        margin_from_peak=0.0):
+        min_from_min_peaks, target_buy_price, min_risk=0.01, max_risk=1.0):
 
         stop_loss = 0.0
         threshold_1 = max_from_max_peaks
@@ -842,33 +871,3 @@ class TickerManager:
                         stop_loss = max_stop_loss
 
         return round(stop_loss, 2)
-
-    # TODO : Implement 'margin_from_peak'
-    @staticmethod
-    def get_purchase_price(price, max_from_max_peaks, min_from_max_peaks,
-        max_from_min_peaks, min_from_min_peaks, all_max_peaks_values, margin_from_peak=0.0):
-
-        target_price = max_from_max_peaks
-        # target_price = 0.0
-        # threshold_1 = max_from_max_peaks
-        # threshold_2 = max(min_from_max_peaks, max_from_min_peaks)
-        # threshold_3 = min(min_from_max_peaks, max_from_min_peaks)
-        # threshold_4 = min_from_min_peaks
-
-        # if price > threshold_1:
-        #     last_greater_max = [max_peak for max_peak in sorted(all_max_peaks_values)
-        #         if max_peak > price]
-        #     if len(last_greater_max) != 0:
-        #         target_price = last_greater_max[0]
-        #     else:
-        #         target_price = price
-        # elif price > threshold_2:
-        #     target_price = threshold_1
-        # elif price > threshold_3:
-        #     target_price = threshold_2
-        # elif price > threshold_4:
-        #     target_price = threshold_3
-        # else:
-        #     target_price = threshold_4
-
-        return round(target_price, 2)

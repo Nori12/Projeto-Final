@@ -311,26 +311,52 @@ class DBTickerModel:
 
         self._insert_update(query)
 
-    def upsert_features(self, dataframe, interval='1d'):
+    def upsert_features(self, df, interval='1d'):
         """
         Update/Insert features.
         """
         table = 'daily_features'
         time_column = 'day'
-
         if interval == '1wk':
             table = 'weekly_features'
             time_column = 'week'
 
-        number_of_rows = len(dataframe)
+        columns_list = list(df.columns)
 
-        query = f"INSERT INTO {table} (ticker, {time_column}, ema_17, ema_72, " \
-            f"target_buy_price, stop_loss, up_down_trend_status, peak)\nVALUES\n"
+        query = f"INSERT INTO {table} (ticker, {time_column}"
+        if 'ema_17' in columns_list:
+            query += ", ema_17"
+        if 'ema_72' in columns_list:
+            query += ", ema_72"
+        if 'target_buy_price' in columns_list:
+            query += ", target_buy_price"
+        if 'stop_loss' in columns_list:
+            query += ", stop_loss"
+        if 'up_down_trend_status' in columns_list:
+            query += ", up_down_trend_status"
+        if 'peak' in columns_list:
+            query += ", peak"
+        query += ")\nVALUES\n"
 
-        for n, (_, row) in enumerate(dataframe.iterrows()):
-            query += f"(\'{row['ticker']}\', \'{row[time_column].strftime('%Y-%m-%d')}\', " \
-                f"{row['ema_17']:.2f}, {row['ema_72']:.2f}, {row['target_buy_price']:.2f}, " \
-                f"{row['stop_loss']:.2f}, {row['up_down_trend_status']}, {row['peak']:.2f})"
+        number_of_rows = len(df)
+
+        for n, (_, row) in enumerate(df.iterrows()):
+            query += f"(\'{row['ticker']}\', \'{row[time_column].strftime('%Y-%m-%d')}\'"
+
+            if 'ema_17' in columns_list:
+                query += f", {row['ema_17']:.2f}"
+            if 'ema_72' in columns_list:
+                query += f", {row['ema_72']:.2f}"
+            if 'target_buy_price' in columns_list:
+                query += f", {row['target_buy_price']:.2f}"
+            if 'stop_loss' in columns_list:
+                query += f", {row['stop_loss']:.2f}"
+            if 'up_down_trend_status' in columns_list:
+                query += f", {row['up_down_trend_status']}"
+            if 'peak' in columns_list:
+                query += f", {row['peak']:.2f}"
+            query += ")"
+
             if n != number_of_rows - 1:
                 query += ',\n'
             else:
@@ -817,17 +843,20 @@ class DBStrategyModel:
         query = f"SELECT\n"
         query += f"  cand.ticker,\n"
         query += f"  cand.{time_column},\n"
-        query += f"  cand.open_price,\n"
-        query += f"  cand.max_price,\n"
-        query += f"  cand.min_price,\n"
-        query += f"  cand.close_price,\n"
-        query += f"  cand.volume, \n"
-        query += f"  feat.ema_17,\n"
-        query += f"  feat.ema_72,\n"
-        query += f"  feat.target_buy_price,\n"
-        query += f"  feat.stop_loss,\n"
-        query += f"  feat.up_down_trend_status,\n"
-        query += f"  feat.peak\n"
+        if interval == '1d':
+            query += f"  cand.open_price,\n"
+            query += f"  cand.max_price,\n"
+            query += f"  cand.min_price,\n"
+            query += f"  cand.close_price,\n"
+            # query += f"  cand.volume, \n"
+            query += f"  feat.ema_17,\n"
+            query += f"  feat.ema_72,\n"
+            query += f"  feat.target_buy_price,\n"
+            query += f"  feat.stop_loss,\n"
+            query += f"  feat.up_down_trend_status,\n"
+            query += f"  feat.peak\n"
+        else:
+            query += f"  feat.ema_72\n"
         query += f"FROM {candles_table} cand\n"
         query += f"INNER JOIN {features_table} feat\n"
         query += f"  ON feat.ticker = cand.ticker AND feat.{time_column} = cand.{time_column}\n"
