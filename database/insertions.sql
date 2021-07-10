@@ -1414,6 +1414,24 @@ INSERT INTO symbol (ticker, trading_name) (SELECT 'ASAI3', trading_name FROM ent
 INSERT INTO symbol (ticker, trading_name) (SELECT ticker_root, trading_name FROM entity WHERE trading_name ILIKE 'IBOVESPA') ON CONFLICT (ticker) DO NOTHING;
 INSERT INTO symbol (ticker, trading_name) (SELECT ticker_root, trading_name FROM entity WHERE trading_name ILIKE 'USD/BRL') ON CONFLICT (ticker) DO NOTHING;
 
+-- 2013 holidays
+INSERT INTO holidays (day)
+VALUES
+('2013-01-01'),
+('2013-01-25'),
+('2013-02-11'),
+('2013-02-12'),
+('2013-03-29'),
+('2013-05-01'),
+('2013-05-30'),
+('2013-06-19'),
+('2013-07-09'),
+('2013-11-15'),
+('2013-11-20'),
+('2013-12-24'),
+('2013-12-25'),
+('2013-12-31');
+
 -- 2014 holidays
 INSERT INTO holidays (day)
 VALUES

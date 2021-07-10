@@ -343,7 +343,8 @@ class Operation:
             if self.total_purchase_volume == self.total_sale_volume:
                 self._end_date = sale_datetime
                 self._profit = self.total_sale_capital - self.total_purchase_capital
-                self._yield = self._profit / self.total_purchase_capital
+                # self._yield = self._profit / self.total_purchase_capital
+                self._yield = 0.0
                 self._state = State.CLOSE
 
             return True
@@ -486,6 +487,7 @@ class AndreMoraesStrategy(Strategy):
         self._max_risk = 1.00
         self._purchase_margin = 0.0
         self._stop_margin = 0.0
+        self._staircase_stop = False
 
         self._tickers_and_dates = tickers
         for ticker, date in tickers.items():
@@ -627,6 +629,17 @@ class AndreMoraesStrategy(Strategy):
         self._stop_margin = stop_margin
 
     @property
+    def stop_type(self):
+        return "staircase" if self._staircase_stop else "normal"
+
+    @stop_type.setter
+    def stop_type(self, stop_type):
+        if stop_type == "staircase":
+            self._staircase_stop = True
+        else:
+            self._staircase_stop = False
+
+    @property
     def operations(self):
         return self._operations
 
@@ -736,18 +749,14 @@ class AndreMoraesStrategy(Strategy):
 
             data_gen = self.DataGen(self.tickers_and_dates, self._db_strategy_model, days_batch=30)
 
-            # update_step = 0.10
-            # last_update_percent = update_step
-            print(f"\nStrategy: {self.name} ({self.strategy_number}/{AndreMoraesStrategy.total_strategies})")
+            update_step = 0.05
+            last_update_percent = update_step
+            print(f"\nStrategy: {self.name} ({self.strategy_number})")
+            total_days = (self.last_date - self.first_date).days
 
             while True:
                 try:
                     day_info, week_info = next(data_gen)
-
-                    # completion_percentage = (index+1)/df_length
-                    # if completion_percentage + 1e-5 >= last_update_percent:
-                    #     print(f"{last_update_percent * 100:.0f}%.")
-                    #     last_update_percent += update_step
 
                     # List will be modified during loop
                     ticker_priority_list_cp = ticker_priority_list.copy()
@@ -755,6 +764,11 @@ class AndreMoraesStrategy(Strategy):
                     if not (day_info.empty or week_info.empty):
 
                         day = day_info.head(1)['day'].squeeze()
+
+                        completion_percentage = (day.to_pydatetime().date() - self.first_date).days / total_days
+                        if completion_percentage + 1e-5 >= last_update_percent:
+                            print(f"{last_update_percent * 100:.0f}%.")
+                            last_update_percent += update_step
 
                         for index, ts in enumerate(ticker_priority_list_cp):
 
@@ -780,14 +794,29 @@ class AndreMoraesStrategy(Strategy):
                                 ema_72_week = week_info[(week_info['ticker'] == ts.ticker)]['ema_72'].squeeze()
 
                                 # DEBUG
-                                # if day == pd.Timestamp('2019-12-16'):
+                                # if day == pd.Timestamp('2017-10-11'):
                                 #     print()
+
+                                if isinstance(open_price_day, pd.Series) or \
+                                    isinstance(max_price_day, pd.Series) or \
+                                    isinstance(min_price_day, pd.Series) or \
+                                    isinstance(close_price_day, pd.Series) or \
+                                    isinstance(ema_17_day, pd.Series) or \
+                                    isinstance(ema_72_day, pd.Series) or \
+                                    isinstance(target_buy_price_day, pd.Series) or \
+                                    isinstance(stop_loss_day, pd.Series) or \
+                                    isinstance(up_down_trend_status_day, pd.Series) or \
+                                    isinstance(peak_day, pd.Series) or \
+                                    isinstance(ema_72_week, pd.Series):
+                                    logger.warning(f"Ticker \'{ts.ticker}\' has missing " \
+                                        f"data for day \'{day.strftime('%Y-%m-%d')}\'.")
+                                    continue
 
                                 if peak_day > 0.0:
                                     ticker_priority_list[index].peaks_after_operation += 1
 
                                 if (ts.ongoing_operation_flag == False):
-                                    target_buy_price_day = target_buy_price_day * (1 + self.purchase_margin)
+                                    target_buy_price_day = round(target_buy_price_day * (1 + self.purchase_margin), 2)
                                     # Strategy business rules
                                     if (up_down_trend_status_day >= Trend.ALMOST_UPTREND.value) \
                                         and (min_price_day < max(ema_17_day, ema_72_day)*(1+self.ema_tolerance) \
@@ -837,11 +866,21 @@ class AndreMoraesStrategy(Strategy):
                                                     ts.operation.target_purchase_price, calculate_maximum_volume(
                                                     ts.operation.target_purchase_price, available_money,
                                                     minimum_volume=self.min_order_volume), day)
+
+                                            if self._staircase_stop:
+                                                ticker_priority_list[index].mark_1_stop_trigger = \
+                                                    round(target_buy_price_day + (target_buy_price_day - stop_loss_day), 2)
+                                                ticker_priority_list[index].mark_1_stop_loss = target_buy_price_day
+                                                ticker_priority_list[index].mark_2_stop_trigger = \
+                                                    round(target_buy_price_day + 2*(target_buy_price_day - stop_loss_day), 2)
+                                                ticker_priority_list[index].mark_2_stop_loss = \
+                                                    round(target_buy_price_day + (target_buy_price_day - stop_loss_day), 2)
+                                                ticker_priority_list[index].current_mark = 0
+
                                         else:
                                             logger.warning(f"Ticker satisfies all purchase conditions, " \
                                                 f"but no target price or stop loss is set. (\'{ts.ticker}\'" \
                                                 f", \'{day.strftime('%Y-%m-%d')}\')")
-
                                 else:
                                     if ts.operation.state == State.OPEN:
                                         # Check if the target STOP LOSS is skipped
@@ -858,7 +897,7 @@ class AndreMoraesStrategy(Strategy):
                                                 ts.operation.stop_loss, ts.operation.total_purchase_volume \
                                                 - ts.operation.total_sale_volume, day, stop_loss_flag=True)
 
-                                        # After hitting the stop loss, the operation can be closed
+                                        # After hitting the stop loss, the operation automatically is be closed
                                         if ts.operation.state == State.OPEN:
                                             if self.partial_sale == True:
                                                 # Check if the PARTIAL SALE price is skipped
@@ -893,6 +932,17 @@ class AndreMoraesStrategy(Strategy):
                                                     ts.operation.target_sale_price, ts.operation.total_purchase_volume \
                                                         - ts.operation.total_sale_volume, day)
 
+                                    if ts.operation.state == State.OPEN and self._staircase_stop:
+                                        if ticker_priority_list[index].current_mark == 0:
+                                            if close_price_day > ticker_priority_list[index].mark_1_stop_trigger:
+                                                ticker_priority_list[index].operation.stop_loss = \
+                                                    ticker_priority_list[index].mark_1_stop_loss
+                                                ticker_priority_list[index].current_mark = 1
+                                        elif ticker_priority_list[index].current_mark == 1:
+                                            if close_price_day > ticker_priority_list[index].mark_2_stop_trigger:
+                                                ticker_priority_list[index].operation.stop_loss = \
+                                                    ticker_priority_list[index].mark_2_stop_loss
+                                                ticker_priority_list[index].current_mark = 2
 
                                     if ticker_priority_list[index].operation.state == State.CLOSE:
                                         self.operations.append(ticker_priority_list[index].operation)
@@ -913,192 +963,6 @@ class AndreMoraesStrategy(Strategy):
         except Exception as error:
             logger.exception(f"Error processing operations, error:\n{error}")
             sys.exit(c.PROCESSING_OPERATIONS_ERR)
-
-    # @RunTime('AndreMoraesStrategy.process_operations')
-    # def process_operations(self):
-    #     try:
-    #         ticker_priority_list = [self.TickerState(ticker, dates['start_date'], dates['end_date']) \
-    #             for ticker, dates in self.tickers_and_dates.items()]
-
-    #         data_gen = self.DataGen(self.tickers_and_dates, self._db_strategy_model, days_batch=30)
-
-    #         while True:
-    #             try:
-    #                 day_info, week_info = next(data_gen)
-
-    #                 # List will be modified during loop
-    #                 ticker_priority_list_cp = ticker_priority_list.copy()
-
-    #                 if not (day_info.empty or week_info.empty):
-
-    #                     day = day_info.head(1)['day'].squeeze()
-
-    #                     for index, ts in enumerate(ticker_priority_list_cp):
-
-    #                         if day_info[(day_info['ticker'] == ts.ticker)].empty:
-    #                             continue
-
-    #                         if day >= ts.initial_date and day <= ts.final_date:
-
-    #                             # DEBUG
-    #                             # if day == pd.to_datetime('2018-04-24', format='%Y-%m-%d'):
-    #                             #     print()
-
-    #                             open_price_day = day_info[(day_info['ticker'] == ts.ticker)]['open_price'].squeeze()
-    #                             max_price_day = day_info[(day_info['ticker'] == ts.ticker)]['max_price'].squeeze()
-    #                             min_price_day = day_info[(day_info['ticker'] == ts.ticker)]['min_price'].squeeze()
-    #                             close_price_day = day_info[(day_info['ticker'] == ts.ticker)]['close_price'].squeeze()
-    #                             # volume_day = day_info[(day_info['ticker'] == ts.ticker)]['volume'].squeeze()
-    #                             ema_17_day = day_info[(day_info['ticker'] == ts.ticker)]['ema_17'].squeeze()
-    #                             ema_72_day = day_info[(day_info['ticker'] == ts.ticker)]['ema_72'].squeeze()
-    #                             target_buy_price_day = day_info[(day_info['ticker'] == ts.ticker)]['target_buy_price'].squeeze()
-    #                             stop_loss_day = day_info[(day_info['ticker'] == ts.ticker)]['stop_loss'].squeeze()
-    #                             up_down_trend_status_day = day_info[(day_info['ticker'] == ts.ticker)]['up_down_trend_status'].squeeze()
-    #                             peak_day = day_info[(day_info['ticker'] == ts.ticker)]['peak'].squeeze()
-
-    #                             # open_price_week = week_info[(week_info['ticker'] == ts.ticker)]['open_price'].squeeze()
-    #                             # max_price_week = week_info[(week_info['ticker'] == ts.ticker)]['max_price'].squeeze()
-    #                             # min_price_week = week_info[(week_info['ticker'] == ts.ticker)]['min_price'].squeeze()
-    #                             # close_price_week = week_info[(week_info['ticker'] == ts.ticker)]['close_price'].squeeze()
-    #                             # volume_week = week_info[(week_info['ticker'] == ts.ticker)]['volume'].squeeze()
-    #                             # ema_17_week = week_info[(week_info['ticker'] == ts.ticker)]['ema_17'].squeeze()
-    #                             ema_72_week = week_info[(week_info['ticker'] == ts.ticker)]['ema_72'].squeeze()
-    #                             # target_buy_price_week = week_info[(week_info['ticker'] == ts.ticker)]['target_buy_price'].squeeze()
-    #                             # stop_loss_week = week_info[(week_info['ticker'] == ts.ticker)]['stop_loss'].squeeze()
-    #                             # up_down_trend_status_week = week_info[(week_info['ticker'] == ts.ticker)]['up_down_trend_status'].squeeze()
-    #                             # peak_week = week_info[(week_info['ticker'] == ts.ticker)]['peak'].squeeze()
-
-    #                             # if day == pd.Timestamp('2019-07-04'):
-    #                             #     print()
-
-    #                             if peak_day > 0.00:
-    #                                 ticker_priority_list[index].peaks_after_operation += 1
-
-    #                             if (ts.ongoing_operation_flag == False) or (ts.operation \
-    #                                 is not None and ts.operation.state == State.NOT_STARTED):
-
-    #                                 # Strategy business rules
-    #                                 if (up_down_trend_status_day >= Trend.ALMOST_UPTREND.value) \
-    #                                     and (close_price_day < max(ema_17_day, ema_72_day)*(1+self.ema_tolerance) \
-    #                                     and close_price_day > min(ema_17_day, ema_72_day)*(1-self.ema_tolerance)) \
-    #                                     and (close_price_day > ema_72_week):
-
-    #                                     if target_buy_price_day != 0 and stop_loss_day != 0:
-
-    #                                         ticker_priority_list[index].operation = Operation(ts.ticker)
-    #                                         ticker_priority_list[index].operation.target_purchase_price = \
-    #                                             target_buy_price_day
-    #                                         ticker_priority_list[index].operation.stop_loss = stop_loss_day
-    #                                         ticker_priority_list[index].operation.target_sale_price = \
-    #                                             round(target_buy_price_day + (target_buy_price_day - stop_loss_day) * 3, 2)
-    #                                         ticker_priority_list[index].operation.partial_sale_price = \
-    #                                             round(target_buy_price_day + (target_buy_price_day - stop_loss_day), 2)
-    #                                         ticker_priority_list[index].ongoing_operation_flag = True
-    #                                     else:
-    #                                         logger.warning(f"Ticker satisfies all purchase conditions, " \
-    #                                             f"but no target price or stop loss is set. (\'{ts.ticker}\'" \
-    #                                             f", \'{day.strftime('%Y-%m-%d')}\')")
-
-    #                             if ts.ongoing_operation_flag == True:
-    #                                 if ts.operation.state == State.NOT_STARTED:
-    #                                     # Check if the target purchase price was hit
-    #                                     if ts.operation.target_purchase_price >= min_price_day and \
-    #                                         ts.operation.target_purchase_price <= max_price_day and \
-    #                                         ticker_priority_list[index].peaks_after_operation >= self.min_peaks_after_operation:
-
-    #                                         ticker_priority_list[index].operation.stop_loss = stop_loss_day
-    #                                         # TODO: Check if I'm really getting the available money here.
-    #                                         available_money = self.available_capital - sum([ts.operation.total_purchase_capital \
-    #                                             - ts.operation.total_sale_capital for ts in ticker_priority_list \
-    #                                             if (ts.operation is not None and ts.operation.state == State.OPEN)])
-
-    #                                         purchase_money = ts.operation.target_purchase_price * calculate_maximum_volume(
-    #                                             ts.operation.target_purchase_price, self._get_capital_per_risk(
-    #                                             (ts.operation.target_purchase_price - ts.operation.stop_loss)/ \
-    #                                             (ts.operation.target_purchase_price)), minimum_volume=self.min_order_volume)
-
-    #                                         # Check if there is enough money
-    #                                         if available_money >= purchase_money:
-    #                                             ticker_priority_list[index].operation.add_purchase(
-    #                                                 ts.operation.target_purchase_price, calculate_maximum_volume(
-    #                                                 ts.operation.target_purchase_price, self._get_capital_per_risk(
-    #                                                 (ts.operation.target_purchase_price - ts.operation.stop_loss)/ \
-    #                                                 (ts.operation.target_purchase_price)), minimum_volume=self.min_order_volume), day)
-    #                                         else:
-    #                                             ticker_priority_list[index].operation.add_purchase(
-    #                                                 ts.operation.target_purchase_price, calculate_maximum_volume(
-    #                                                 ts.operation.target_purchase_price, available_money,
-    #                                                 minimum_volume=self.min_order_volume), day)
-
-    #                                 elif ts.operation.state == State.OPEN:
-    #                                     # Check if the target STOP LOSS is hit
-    #                                     if ts.operation.stop_loss >= min_price_day and \
-    #                                         ts.operation.stop_loss <= max_price_day:
-    #                                         ticker_priority_list[index].operation.add_sale(
-    #                                             ts.operation.stop_loss, ts.operation.total_purchase_volume \
-    #                                             - ts.operation.total_sale_volume, day, stop_loss_flag=True)
-
-    #                                     # Check if the target STOP LOSS is skipped
-    #                                     elif ts.operation.stop_loss > max_price_day:
-    #                                         ticker_priority_list[index].operation.add_sale(open_price_day,
-    #                                             ts.operation.total_purchase_volume - ts.operation.total_sale_volume,
-    #                                             day, stop_loss_flag=True)
-
-    #                                     # After hitting the stol loss, the operation can be closed
-    #                                     if ts.operation.state == State.OPEN:
-
-    #                                         if self.partial_sale == True:
-    #                                             # Check if the PARTIAL SALE price is hit
-    #                                             if ts.partial_sale_flag == False and \
-    #                                                 ts.operation.partial_sale_price >= min_price_day and \
-    #                                                 ts.operation.partial_sale_price <= max_price_day:
-    #                                                 ticker_priority_list[index].operation.add_sale(
-    #                                                     ts.operation.partial_sale_price, math.ceil(
-    #                                                     ts.operation.purchase_volume[0] / 2), day, partial_sale_flag=True)
-    #                                                 ticker_priority_list[index].partial_sale_flag = True
-
-    #                                             # Check if the PARTIAL SALE price is skipped but not TARGET SALE
-    #                                             elif ts.partial_sale_flag == False and \
-    #                                                 ts.operation.partial_sale_price < min_price_day and \
-    #                                                 ts.operation.target_sale_price > max_price_day:
-    #                                                 ticker_priority_list[index].operation.add_sale(
-    #                                                     open_price_day, math.ceil(ts.operation.purchase_volume[0] / 2),
-    #                                                     day, partial_sale_flag=True)
-    #                                                 ticker_priority_list[index].partial_sale_flag = True
-
-    #                                         # Check if the TARGET SALE price is hit
-    #                                         if ts.operation.target_sale_price >= min_price_day and \
-    #                                             ts.operation.target_sale_price <= max_price_day:
-    #                                             ticker_priority_list[index].operation.add_sale(
-    #                                                 ts.operation.target_sale_price, ts.operation.total_purchase_volume \
-    #                                                     - ts.operation.total_sale_volume, day)
-
-    #                                         # Check if the TARGET SALE price is skipped
-    #                                         if ts.operation.target_sale_price < min_price_day:
-    #                                             ticker_priority_list[index].operation.add_sale(open_price_day,
-    #                                             ts.operation.total_purchase_volume - ts.operation.total_sale_volume,
-    #                                             day)
-
-    #                                 if ticker_priority_list[index].operation.state == State.CLOSE:
-    #                                     self.operations.append(ticker_priority_list[index].operation)
-    #                                     ticker_priority_list[index].operation = None
-    #                                     ticker_priority_list[index].ongoing_operation_flag = False
-    #                                     ticker_priority_list[index].partial_sale_flag = False
-    #                                     ticker_priority_list[index].peaks_after_operation = 0
-
-    #                     ticker_priority_list = self._order_by_priority(ticker_priority_list)
-    #             except StopIteration:
-    #                 break
-
-    #         # Insert remaining open operations
-    #         for ts in ticker_priority_list:
-    #             if ts.operation is not None and ts.operation.state == State.OPEN:
-    #                 self.operations.append(ts.operation)
-
-    #     except Exception as error:
-    #         logger.exception(f"Error processing operations, error:\n{error}")
-    #         sys.exit(c.PROCESSING_OPERATIONS_ERR)
-
 
     def _get_capital_per_risk(self, risk):
         return round(self._risk_capital_product * self._total_capital / risk, 2)
@@ -1441,6 +1305,11 @@ class AndreMoraesStrategy(Strategy):
             self._partial_sale_flag = partial_sale_flag
             self._operation = operation
             self._peaks_after_operation = 0
+            self._mark_1_stop_trigger = None
+            self._mark_1_stop_loss = None
+            self._mark_2_stop_trigger = None
+            self._mark_2_stop_loss = None
+            self._current_mark = 0
 
         @property
         def ticker(self):
@@ -1485,3 +1354,43 @@ class AndreMoraesStrategy(Strategy):
         @peaks_after_operation.setter
         def peaks_after_operation(self, peaks_after_operation):
             self._peaks_after_operation = peaks_after_operation
+
+        @property
+        def mark_1_stop_trigger(self):
+            return self._mark_1_stop_trigger
+
+        @mark_1_stop_trigger.setter
+        def mark_1_stop_trigger(self, mark_1_stop_trigger):
+            self._mark_1_stop_trigger = mark_1_stop_trigger
+
+        @property
+        def mark_1_stop_loss(self):
+            return self._mark_1_stop_loss
+
+        @mark_1_stop_loss.setter
+        def mark_1_stop_loss(self, mark_1_stop_loss):
+            self._mark_1_stop_loss = mark_1_stop_loss
+
+        @property
+        def mark_2_stop_trigger(self):
+            return self._mark_2_stop_trigger
+
+        @mark_2_stop_trigger.setter
+        def mark_2_stop_trigger(self, mark_2_stop_trigger):
+            self._mark_2_stop_trigger = mark_2_stop_trigger
+
+        @property
+        def mark_2_stop_loss(self):
+            return self._mark_2_stop_loss
+
+        @mark_2_stop_loss.setter
+        def mark_2_stop_loss(self, mark_2_stop_loss):
+            self._mark_2_stop_loss = mark_2_stop_loss
+
+        @property
+        def current_mark(self):
+            return self._current_mark
+
+        @current_mark.setter
+        def current_mark(self, current_mark):
+            self._current_mark = current_mark

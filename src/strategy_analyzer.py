@@ -530,5 +530,5 @@ class StrategyAnalyzer:
 
 
 if __name__ == "__main__":
-    analyzer = StrategyAnalyzer(strategy_id=None)
+    analyzer = StrategyAnalyzer(strategy_id=54)
     analyzer.run()

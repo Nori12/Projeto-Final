@@ -451,6 +451,9 @@ class ConfigReader:
                 stop_margin = self.read_parameter(
                     'stop_margin', strategy_batch, can_be_list=True,
                     can_be_missed=True, if_missed_default_value=0.0)
+                stop_type = self.read_parameter(
+                    'stop_type', strategy_batch, can_be_list=True,
+                    can_be_missed=True, if_missed_default_value="default")
 
                 ConfigReader.add_param_to_strategies('name', name, strategies)
                 ConfigReader.add_param_to_strategies('alias', alias, strategies)
@@ -474,6 +477,8 @@ class ConfigReader:
                     purchase_margin, strategies)
                 ConfigReader.add_param_to_strategies('stop_margin',
                     stop_margin, strategies)
+                ConfigReader.add_param_to_strategies('stop_type',
+                    stop_type, strategies)
 
                 individual_tickers = ConfigReader.read_individual_tickers('stock_targets',
                     origin=strategy_batch)
