@@ -29,32 +29,32 @@ def run():
 
     # Read Config File
     config = cr.ConfigReader()
-    # ticker_managers = []
+    ticker_managers = []
 
-    # # Create TickerManager objects to update and process then
-    # for ticker, date in config.tickers_and_dates.items():
-    #     ticker_managers.append(TickerManager(ticker, date['start_date'], date['end_date']))
+    # Create TickerManager objects to update and process then
+    for ticker, date in config.tickers_and_dates.items():
+        ticker_managers.append(TickerManager(ticker, date['start_date'], date['end_date']))
 
-    # ticker_managers.append(TickerManager('^BVSP', config.min_start_date,
-    #     config.max_end_date, ordinary_ticker=False)) # IBOVESPA Index
-    # ticker_managers.append(TickerManager('BRL=X', config.min_start_date,
-    #     config.max_end_date, ordinary_ticker=False)) # USD/BRL
+    ticker_managers.append(TickerManager('^BVSP', config.min_start_date,
+        config.max_end_date, ordinary_ticker=False)) # IBOVESPA Index
+    ticker_managers.append(TickerManager('BRL=X', config.min_start_date,
+        config.max_end_date, ordinary_ticker=False)) # USD/BRL
 
-    # # Update and generate features
+    # Update and generate features
     # for tm in ticker_managers:
     #     tm.holidays = config.holidays
     #     tm.min_risk = config.min_risk
     #     tm.max_risk = config.max_risk
 
-    #     update_ok = tm.update()
-    #     if update_ok == True:
-    #     # if 1 == 1:
-    #         features_ok = tm.generate_features()
-    #         # Remove inconsistent tickers from all strategies
-    #         if features_ok == False:
-    #             for index in range(len(config.strategies)):
-    #                 if tm.ticker in list(config.strategies[index]['tickers'].keys()):
-    #                     config.strategies[index]['tickers'].pop(tm.ticker)
+        # update_ok = tm.update()
+        # if update_ok == True:
+        # if 1 == 1:
+        #     features_ok = tm.generate_features()
+        #     # Remove inconsistent tickers from all strategies
+        #     if features_ok == False:
+        #         for index in range(len(config.strategies)):
+        #             if tm.ticker in list(config.strategies[index]['tickers'].keys()):
+        #                 config.strategies[index]['tickers'].pop(tm.ticker)
 
     # Strategy section
     for strategy in config.strategies:

@@ -870,11 +870,12 @@ class AndreMoraesStrategy(Strategy):
                                             if self._staircase_stop:
                                                 ticker_priority_list[index].mark_1_stop_trigger = \
                                                     round(target_buy_price_day + (target_buy_price_day - stop_loss_day), 2)
-                                                ticker_priority_list[index].mark_1_stop_loss = target_buy_price_day
+                                                ticker_priority_list[index].mark_1_stop_loss = \
+                                                    round(stop_loss_day + (target_buy_price_day - stop_loss_day) / 2, 2)
                                                 ticker_priority_list[index].mark_2_stop_trigger = \
                                                     round(target_buy_price_day + 2*(target_buy_price_day - stop_loss_day), 2)
                                                 ticker_priority_list[index].mark_2_stop_loss = \
-                                                    round(target_buy_price_day + (target_buy_price_day - stop_loss_day), 2)
+                                                    round(target_buy_price_day + (target_buy_price_day - stop_loss_day) / 2, 2)
                                                 ticker_priority_list[index].current_mark = 0
 
                                         else:
@@ -1164,6 +1165,67 @@ class AndreMoraesStrategy(Strategy):
             self._statistics_parameters['sharpe_ratio'] = 0.0
 
     # TODO: Solve cumulative numeric error.
+    # @staticmethod
+    # def tickers_yield(close_prices, precision=4):
+    #     """
+    #     Calculate average tickers yield.
+
+    #     If more than one ticker is available during an interval, the result yield
+    #     during that interval is calculated by the simple average of those particular
+    #     yields.
+
+    #     Handle late start tickers.
+
+    #     Args
+    #     ----------
+    #     close_prices : `dict` of `list`
+    #         Tickers prices. Prices `list` must have the same length.
+    #     precision : int, default 4
+    #         Output final precision.
+
+    #     Returns
+    #     ----------
+    #     `list` of float
+    #         Average yield. Same length as prices.
+    #     """
+    #     # Get yield relative to previous day
+    #     norm_prices = {ticker: [np.nan]*len(prices) for ticker, prices in close_prices.items()}
+    #     for ticker in close_prices:
+    #         first_price = 0
+    #         for index, value in enumerate(close_prices[ticker]):
+    #             first_price = np.float64(value)
+    #             first_index = index
+    #             if first_price is not np.nan:
+    #                 break
+
+    #         for index, price in enumerate(close_prices[ticker]):
+    #             if index > first_index:
+    #                 norm_prices[ticker][index] = price/close_prices[ticker][index-1] - 1
+    #                 # norm_prices[ticker][index] = round(
+    #                     # price / close_prices[ticker][index-1] - 1.0, precision+2)
+    #                 # norm_prices[ticker][index] = round(np.float64(price) / \
+    #                     # np.float64(close_prices[ticker][index-1]) - np.float64(1.0), precision+2)
+
+    #     # Get average yield by integrating daily yields
+    #     result_yield = []
+    #     cumulative = np.float64(1.0)
+    #     for index in range(len(norm_prices[tuple(norm_prices.keys())[0]])):
+    #         partial_sum = 0
+    #         partial_weight = 0
+    #         for ticker in norm_prices:
+    #             if norm_prices[ticker][index] is not np.nan:
+    #                 partial_sum += norm_prices[ticker][index]
+    #                 partial_weight += 1
+    #         partial_weight = partial_weight if partial_weight > 0 else 1
+
+    #         cumulative *= round(1.0 + partial_sum / partial_weight, precision+2)
+    #         # cumulative *= 1 + partial_sum / partial_weight
+    #         result_yield.append(round(cumulative - 1, precision))
+
+    #     return result_yield
+
+    # TODO: Solve cumulative numeric error.
+    # Assumption: all tickers have the same length of the first one.
     @staticmethod
     def tickers_yield(close_prices, precision=4):
         """
@@ -1187,41 +1249,71 @@ class AndreMoraesStrategy(Strategy):
         `list` of float
             Average yield. Same length as prices.
         """
-        # Get yield relative to previous day
-        norm_prices = {ticker: [np.nan]*len(prices) for ticker, prices in close_prices.items()}
-        for ticker in close_prices:
-            first_price = 0
-            for index, value in enumerate(close_prices[ticker]):
-                first_price = np.float64(value)
-                first_index = index
-                if first_price is not np.nan:
-                    break
+        initial_capital = 100000
+        current_capital = initial_capital
+        number_of_days = len(close_prices[tuple(close_prices.keys())[0]])
+        volumes = {ticker: [np.nan]*len(prices) for ticker, prices in close_prices.items()}
+        capital = []
 
-            for index, price in enumerate(close_prices[ticker]):
-                if index > first_index:
-                    norm_prices[ticker][index] = price/close_prices[ticker][index-1] - 1
-                    # norm_prices[ticker][index] = round(
-                        # price / close_prices[ticker][index-1] - 1.0, precision+2)
-                    # norm_prices[ticker][index] = round(np.float64(price) / \
-                        # np.float64(close_prices[ticker][index-1]) - np.float64(1.0), precision+2)
+        last_num_tickers = 0
+        for day_index in range(number_of_days):
 
-        # Get average yield by integrating daily yields
-        result_yield = []
-        cumulative = np.float64(1.0)
-        for index in range(len(norm_prices[tuple(norm_prices.keys())[0]])):
-            partial_sum = 0
-            partial_weight = 0
-            for ticker in norm_prices:
-                if norm_prices[ticker][index] is not np.nan:
-                    partial_sum += norm_prices[ticker][index]
-                    partial_weight += 1
-            partial_weight = partial_weight if partial_weight > 0 else 1
+            num_tickers = 0
+            lesser_price = {"ticker": "", "price": initial_capital}
+            for ticker in close_prices:
+                num_tickers += 1 if close_prices[ticker][day_index] is not np.nan else 0
+                if close_prices[ticker][day_index] is not np.nan and \
+                    close_prices[ticker][day_index] < lesser_price["price"]:
+                    lesser_price["price"] = close_prices[ticker][day_index]
+                    lesser_price["ticker"] = ticker
 
-            cumulative *= round(1.0 + partial_sum / partial_weight, precision+2)
-            # cumulative *= 1 + partial_sum / partial_weight
-            result_yield.append(round(cumulative - 1, precision))
+            if day_index == 0:
+                amount_per_stock = round(initial_capital / num_tickers, 2)
 
-        return result_yield
+                for ticker in close_prices:
+                    if close_prices[ticker][day_index] is not np.nan:
+                        volumes[ticker][day_index] = int(amount_per_stock // close_prices[ticker][day_index])
+                        current_capital = round(current_capital - close_prices[ticker][day_index] * volumes[ticker][day_index], 2)
+
+                if current_capital >= lesser_price["price"]:
+                    bonus_volume = int(current_capital // close_prices[lesser_price["ticker"]][day_index])
+                    volumes[lesser_price["ticker"]][day_index] += bonus_volume
+                    current_capital = round(current_capital - close_prices[lesser_price["ticker"]][day_index] * bonus_volume, 2)
+
+            elif num_tickers > last_num_tickers:
+                # Sell everything by last day price
+                for ticker in close_prices:
+                    if close_prices[ticker][day_index-1] is not np.nan and \
+                        volumes[ticker][day_index-1] is not np.nan:
+                        current_capital = round(current_capital + close_prices[ticker][day_index-1] * volumes[ticker][day_index-1], 2)
+
+                amount_per_stock = round(current_capital / num_tickers, 2)
+                for ticker in close_prices:
+                    if close_prices[ticker][day_index] is not np.nan:
+                        volumes[ticker][day_index] = amount_per_stock // close_prices[ticker][day_index]
+                        current_capital = round(current_capital - close_prices[ticker][day_index] * volumes[ticker][day_index], 2)
+
+                if current_capital >= lesser_price["price"]:
+                    bonus_volume = int(current_capital // close_prices[lesser_price["ticker"]][day_index])
+                    volumes[lesser_price["ticker"]][day_index] += bonus_volume
+                    current_capital = round(current_capital - close_prices[lesser_price["ticker"]][day_index] * bonus_volume, 2)
+            else:
+                for ticker in close_prices:
+                    volumes[ticker][day_index] = volumes[ticker][day_index-1]
+
+            last_num_tickers = num_tickers
+
+            total_money = 0.0
+            for ticker in close_prices:
+                if close_prices[ticker][day_index] is not np.nan:
+                    total_money += close_prices[ticker][day_index] * volumes[ticker][day_index]
+            total_money += current_capital
+            if day_index == 0:
+                capital.append(0.0)
+            else:
+                capital.append(round(total_money/initial_capital - 1, precision))
+
+        return capital
 
     # TODO: Iterate over generator to remove self._day_df references .
     def _calc_capital_usage(self, dates, close_prices):

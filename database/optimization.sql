@@ -4,7 +4,7 @@ SELECT COUNT(*) FROM operation o
 INNER JOIN strategy s ON o.strategy_id = s.id
 INNER JOIN negotiation n ON n.operation_id = o.id AND buy_sell_flag = 'B'
 WHERE
-  s.id = 51
+  s.id = 58
   AND o.state = 'CLOSE'
 
 -- Operações de volume zero
@@ -12,7 +12,7 @@ SELECT n.volume FROM operation o
 INNER JOIN strategy s ON o.strategy_id = s.id
 INNER JOIN negotiation n ON n.operation_id = o.id AND buy_sell_flag = 'B'
 WHERE
-  s.id = 49
+  s.id = 58
   AND n.volume <= 2
 
 -- Análise de operações de sucesso
@@ -31,7 +31,7 @@ FROM operation o
 INNER JOIN strategy s ON o.strategy_id = s.id AND o.state = 'CLOSE'
 INNER JOIN negotiation n ON n.operation_id = o.id AND buy_sell_flag = 'S' AND stop_flag = FALSE AND partial_sale_flag = FALSE
 WHERE
-  s.id = 51
+  s.id = 58
 ) q ON q.ticker = dc.ticker
 WHERE dc.day >= q.start_date AND dc.day < q.end_date
 GROUP BY q.id, q.ticker, q.start_date, q.end_date, q.target_purchase_price, q.target_sale_price, q.stop_loss
@@ -54,7 +54,7 @@ FROM operation o
 INNER JOIN strategy s ON o.strategy_id = s.id
 INNER JOIN negotiation n ON n.operation_id = o.id AND buy_sell_flag = 'S' AND stop_flag = TRUE AND partial_sale_flag = FALSE
 WHERE
-  s.id = 51
+  s.id = 58
 ) q ON q.ticker = dc.ticker
 WHERE dc.day > q.start_date AND dc.day < q.end_date
 GROUP BY q.id, q.ticker, q.start_date, q.end_date, q.target_purchase_price, q.target_sale_price, q.stop_loss
@@ -130,7 +130,7 @@ FROM
                 AND stop_flag = FALSE 
                 AND partial_sale_flag = FALSE
 			WHERE
-				s.id = 51
+				s.id = 58
 			) q
         LEFT JOIN daily_candles dc ON q.ticker = dc.ticker AND dc.day > q.start_date AND dc.day <= q.end_date
 		GROUP BY q.ticker, q.end_date, q.target_purchase_price, q.stop_loss, q.target_sale_price, q.start_date

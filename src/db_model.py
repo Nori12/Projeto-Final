@@ -336,6 +336,8 @@ class DBTickerModel:
             query += ", up_down_trend_status"
         if 'peak' in columns_list:
             query += ", peak"
+        if 'up_down_trend_status_strict' in columns_list:
+            query += ", up_down_trend_status_strict"
         query += ")\nVALUES\n"
 
         number_of_rows = len(df)
@@ -355,6 +357,8 @@ class DBTickerModel:
                 query += f", {row['up_down_trend_status']}"
             if 'peak' in columns_list:
                 query += f", {row['peak']:.2f}"
+            if 'up_down_trend_status_strict' in columns_list:
+                query += f", {row['up_down_trend_status_strict']}"
             query += ")"
 
             if n != number_of_rows - 1:
@@ -370,97 +374,6 @@ class DBTickerModel:
         #     f"up_down_trend_status = EXCLUDED.up_down_trend_status;"
 
         self._insert_update(query)
-
-    # def upsert_features(self, dataframe, interval='1d'):
-    #     """
-    #     Update/Insert features.
-
-    #     Args
-    #     ----------
-    #     ticker : str
-    #         Ticker name.
-    #     data : `pandas.DataFrame`
-    #         DataFrame of candles with columns 'Open', 'High', 'Low', 'Close'
-    #         and index of dates.
-    #     """
-    #     table = 'daily_features'
-    #     time_column = 'day'
-    #     pkey_constraint = 'daily_features_pkey'
-
-    #     if interval == '1wk':
-    #         table = 'weekly_features'
-    #         time_column = 'week'
-    #         pkey_constraint = 'weekly_features_pkey'
-
-    #     number_of_rows = len(dataframe)
-
-    #     query = f"INSERT INTO {table} (ticker, {time_column}, peak, ema_17, ema_72, " \
-    #         f"up_down_trend_status)\nVALUES\n"
-
-    #     for n, (_, row) in enumerate(dataframe.iterrows()):
-    #         if n != number_of_rows - 1:
-    #             query += f"('{row['ticker']}', '{row[time_column].strftime('%Y-%m-%d')}', " \
-    #                 f"{row['peak']}, {row['ema_17']:.3f}, {row['ema_72']:.3f}, " \
-    #                 f"{row['up_down_trend_status']}),\n"
-    #         else:
-    #             query += f"('{row['ticker']}', '{row[time_column].strftime('%Y-%m-%d')}', " \
-    #                 f"{row['peak']}, {row['ema_17']:.3f}, {row['ema_72']:.3f}, " \
-    #                 f"{row['up_down_trend_status']})\n"
-
-    #     query = query.replace('nan', 'NULL')
-
-    #     query += f"ON CONFLICT ON CONSTRAINT {pkey_constraint} DO\n"
-    #     query += f"UPDATE SET ticker = EXCLUDED.ticker, {time_column} = EXCLUDED.{time_column}, " \
-    #         f"peak = EXCLUDED.peak, ema_17 = EXCLUDED.ema_17, ema_72 = EXCLUDED.ema_72, " \
-    #         f"up_down_trend_status = EXCLUDED.up_down_trend_status;"
-
-    #     self._insert_update(query)
-
-    # def get_candlesticks(self, ticker, start_date, end_date, interval='1d'):
-    #     """
-    #     Get daily or weekly candlesticks.
-
-    #     Args
-    #     ----------
-    #     ticker : str
-    #         Ticker name.
-    #     start_date : `datetime.date`
-    #         Start date.
-    #     end_date : `datetime.date`
-    #         End date.
-    #     interval : str, default '1d'
-    #         Selected interval: '1d', '1wk'.
-
-    #     Returns
-    #     ----------
-    #     `pandas.DataFrame`
-    #         DataFrame with candlestick data.
-    #     """
-    #     if interval not in ['1d', '1wk']:
-    #         logger.error(f"Error argument \'interval\'=\'"
-    #             f"{interval}\' must be \'1d\' or \'1wk\'.")
-    #         sys.exit(c.INVALID_ARGUMENT_ERR)
-
-    #     table = 'daily_candles'
-    #     time_column = 'day'
-
-    #     if interval == '1wk':
-    #         table = 'weekly_candles'
-    #         time_column = 'week'
-
-    #     query = f"SELECT ticker, {time_column}, open_price, max_price, min_price, " \
-    #         f"close_price, volume\nFROM {table}\nWHERE\n"
-
-    #     if start_date is not None:
-    #         query += f"  (ticker = \'{ticker}\' and {time_column} >= \' " \
-    #             f"{start_date.strftime('%Y-%m-%d')}\' and {time_column} < " \
-    #             f"\'{end_date.strftime('%Y-%m-%d')}\')\n"
-    #     else:
-    #         query += f"  (ticker = \'{ticker}\' and {time_column} < " \
-    #             f"\'{end_date.strftime('%Y-%m-%d')}\')\n"
-    #     query += f";"
-
-    #     return pd.read_sql_query(query, self._connection)
 
 class DBGenericModel:
     """Database connection class that handles generic queries."""
@@ -573,56 +486,6 @@ class DBGenericModel:
 
         return df['min_day'][0].to_pydatetime().date(), df['max_day'][0].to_pydatetime().date()
 
-    # def get_candles_dataframe(self, tickers_and_dates, interval='1d', days_before_initial_dates=0):
-
-    #     tickers = []
-    #     initial_dates = []
-    #     final_dates = []
-
-    #     for ticker, date in tickers_and_dates.items():
-    #         tickers.append(ticker)
-    #         initial_dates.append(date['start_date'])
-    #         final_dates.append(date['end_date'])
-
-    #     candles_table = 'daily_candles'
-    #     features_table = 'daily_features'
-    #     time_column = 'day'
-
-    #     if interval == '1wk':
-    #         candles_table = 'weekly_candles'
-    #         features_table = 'weekly_features'
-    #         time_column = 'week'
-
-    #     query = f"SELECT \n"
-    #     query += f"  cand.ticker, \n"
-    #     query += f"  cand.{time_column}, \n"
-    #     query += f"  cand.open_price, \n"
-    #     query += f"  cand.max_price, \n"
-    #     query += f"  cand.min_price, \n"
-    #     query += f"  cand.close_price, \n"
-    #     query += f"  cand.volume, \n"
-    #     query += f"  feat.peak, \n"
-    #     query += f"  feat.ema_17, \n"
-    #     query += f"  feat.ema_72, \n"
-    #     query += f"  feat.up_down_trend_status\n"
-    #     query += f"FROM {candles_table} cand\n"
-    #     query += f"INNER JOIN {features_table} feat ON feat.ticker = cand.ticker AND feat.{time_column} = cand.{time_column}\n"
-    #     query += f"WHERE\n"
-
-    #     for index, (ticker, initial_date, final_date) in enumerate(zip(tickers, initial_dates, final_dates)):
-    #         if index == 0:
-    #             query += f"  (cand.ticker = \'{ticker}\' and cand.{time_column} >= \'{(initial_date - timedelta(days=days_before_initial_dates)).strftime('%Y-%m-%d')}\' and cand.{time_column} < \'{final_date.strftime('%Y-%m-%d')}\')\n"
-    #         else:
-    #             query += f"  OR (cand.ticker = \'{ticker}\' and cand.{time_column} >= \'{(initial_date - timedelta(days=days_before_initial_dates)).strftime('%Y-%m-%d')}\' and cand.{time_column} < \'{final_date.strftime('%Y-%m-%d')}\')\n"
-
-    #     query += f";"
-
-    #     df = pd.read_sql_query(query, self._connection)
-    #     df['ticker'] =  df['ticker'].apply(lambda x: x.rstrip())
-    #     # df.sort_values(['ticker', time_column], axis=0, ascending=True, ignore_index=True, inplace=True)
-
-    #     return df
-
     def get_tickers(self, on_flag, pn_flag, units_flag, fractional_market=False,
         sectors=None, subsectors=None, segments=None):
 
@@ -704,7 +567,6 @@ class DBGenericModel:
 
         df = pd.read_sql_query(query, self._connection)
         return df
-
 
 class DBStrategyModel:
     def __init__(self, name, tickers, start_dates, end_dates, total_capital, alias=None, comment=None, risk_capital_product=None, min_volume_per_year=0):
@@ -1199,16 +1061,31 @@ class DBStrategyAnalyzerModel:
 
         return df
 
-    def get_ticker_prices_and_features(self, ticker, start_date, end_date):
-        query = f"SELECT dc.day, dc.close_price, df.ema_17, df.ema_72, " \
-            f"df.up_down_trend_status, df.target_buy_price, df.stop_loss, df.peak\n"
-        query += f"FROM daily_candles dc\n"
-        query += f"INNER JOIN daily_features df ON df.ticker = dc.ticker AND df.day = dc.day\n"
-        query += f"WHERE \n"
-        query += f"  dc.ticker = \'{ticker}\'\n"
-        query += f"  AND dc.day >= \'{start_date.to_pydatetime().strftime('%Y-%m-%d')}\'\n"
-        query += f"  AND dc.day < \'{end_date.to_pydatetime().strftime('%Y-%m-%d')}\'\n"
-        query += f"ORDER BY dc.day ASC;"
+    def get_ticker_prices_and_features(self, ticker, start_date, end_date, interval='1d'):
+        query = ""
+        if interval == "1wk":
+            query = f"SELECT wc.week, wc.close_price, wf.ema_17, wf.ema_72, " \
+                f"wf.up_down_trend_status, wf.target_buy_price, wf.stop_loss, wf.peak\n"
+            query += f"FROM weekly_candles wc\n"
+            query += f"INNER JOIN weekly_features wf ON wf.ticker = wc.ticker AND wf.week = wc.week\n"
+            query += f"WHERE \n"
+            query += f"  wc.ticker = \'{ticker}\'\n"
+            query += f"  AND wc.week >= \'{start_date.to_pydatetime().strftime('%Y-%m-%d')}\'\n"
+            query += f"  AND wc.week < \'{end_date.to_pydatetime().strftime('%Y-%m-%d')}\'\n"
+            query += f"ORDER BY wc.week ASC;"
+        elif interval == '1d':
+            query = f"SELECT dc.day, dc.open_price, dc.max_price, dc.min_price, " \
+                f"dc.close_price, df.ema_17, df.ema_72, df.up_down_trend_status, " \
+                f"df.target_buy_price, df.stop_loss, df.peak, " \
+                f"df.up_down_trend_status_strict\n"
+            query += f"FROM daily_candles dc\n"
+            query += f"INNER JOIN daily_features df ON df.ticker = dc.ticker AND df.day = dc.day\n"
+            query += f"WHERE \n"
+            query += f"  dc.ticker = \'{ticker}\'\n"
+            query += f"  AND dc.day >= \'{start_date.to_pydatetime().strftime('%Y-%m-%d')}\'\n"
+            query += f"  AND dc.day < \'{end_date.to_pydatetime().strftime('%Y-%m-%d')}\'\n"
+            query += f"ORDER BY dc.day ASC;"
+
 
         df = pd.read_sql_query(query, self._connection)
 

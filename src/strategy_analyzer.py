@@ -328,12 +328,23 @@ class StrategyAnalyzer:
                                     children=[
                                         html.Div(
                                             children=dcc.Graph(
-                                                id="ticker-chart", config={"displayModeBar": False},
+                                                id="ticker-chart-day", config={"displayModeBar": False},
                                             ),
                                             className="card"
                                         )
                                     ],
-                                    className="ticker-chart-wrapper"
+                                    className="ticker-chart-day-wrapper"
+                                ),
+                                html.Div(
+                                    children=[
+                                        html.Div(
+                                            children=dcc.Graph(
+                                                id="ticker-chart-week", config={"displayModeBar": False},
+                                            ),
+                                            className="card"
+                                        )
+                                    ],
+                                    className="ticker-chart-week-wrapper"
                                 )
                             ],
                             className="ticker-div"
@@ -344,7 +355,7 @@ class StrategyAnalyzer:
             ]
         )
 
-    def _update_charts(self, ticker):
+    def _update_chart_day(self, ticker):
 
         purchase_order_type = 'PURCHASE'
         stop_loss_order_type = 'STOP_LOSS'
@@ -360,7 +371,7 @@ class StrategyAnalyzer:
             ticker, pd.to_datetime(self._tickers_and_dates.loc[self._tickers_and_dates \
             ['ticker'] == ticker]['start_date'].values[0]), pd.to_datetime(
             self._tickers_and_dates.loc[self._tickers_and_dates['ticker'] == ticker] \
-            ['end_date'].values[0]))
+            ['end_date'].values[0]), interval='1d')
 
         operations_raw = self._db_strategy_analyzer_model.get_operations(self._strategy_id,
             ticker)
@@ -471,7 +482,8 @@ class StrategyAnalyzer:
         # Convert only to add vrect
         fig = go.Figure(dict(ticker_chart_figure))
 
-        uptrend_slices = self._get_uptrend_slices(ticker_prices)
+        uptrend_slices = self._get_uptrend_slices(ticker_prices,
+            udt_status_type='strict')
 
         only_first_needs_legend_flag = True
         for slice in uptrend_slices:
@@ -483,52 +495,200 @@ class StrategyAnalyzer:
 
         return ticker_chart_figure
 
-    def _get_uptrend_slices(self, dataframe):
+    def _update_chart_week(self, ticker):
+
+        # purchase_order_type = 'PURCHASE'
+        # stop_loss_order_type = 'STOP_LOSS'
+        # partial_sale_order_type = 'PARTIAL_SALE'
+        # target_sale_order_type = 'TARGET_SALE'
+
+        # purchase_marker_color = 'Green'
+        # stop_loss_marker_color = 'Red'
+        # partial_sale_marker_color = 'LightSkyBlue'
+        # target_sale_marker_color = 'Blue'
+
+        ticker_prices = self._db_strategy_analyzer_model.get_ticker_prices_and_features(
+            ticker, pd.to_datetime(self._tickers_and_dates.loc[self._tickers_and_dates \
+            ['ticker'] == ticker]['start_date'].values[0]), pd.to_datetime(
+            self._tickers_and_dates.loc[self._tickers_and_dates['ticker'] == ticker] \
+            ['end_date'].values[0]), interval='1wk')
+
+        # operations_raw = self._db_strategy_analyzer_model.get_operations(self._strategy_id,
+        #     ticker)
+
+        # Ticker prices
+        operations_data = [{
+            "name": "Price",
+            "x": ticker_prices['week'],
+            "y": ticker_prices['close_price'],
+            "mode": "lines",
+            "line": {"color": "orange"},
+            "hovertemplate": "R$%{y:.2f}",
+            "showlegend": True
+        }]
+
+        # only_first_needs_legend_flag = True
+        # for operation in operations_raw['operation_id'].unique():
+        #     operations_data.append(
+        #         {
+        #             "name": "Operation",
+        #             "legendgroup": "group",
+        #             "x": operations_raw[operations_raw['operation_id'] == operation]['day'].to_list(),
+        #             "y": operations_raw[operations_raw['operation_id'] == operation]['price'].to_list(),
+        #             "mode": "markers+lines",
+        #             "line": {"color": "green"},
+        #             "marker": {"size": 8, "color":[purchase_marker_color if order_type == purchase_order_type else stop_loss_marker_color if order_type == stop_loss_order_type else partial_sale_marker_color if order_type == partial_sale_order_type else target_sale_marker_color if order_type == target_sale_order_type else 'black' for order_type in operations_raw[operations_raw['operation_id'] == operation]['order_type']]},
+        #             "showlegend": only_first_needs_legend_flag
+        #         }
+        #     )
+        #     only_first_needs_legend_flag = False
+
+        # Ticker peaks
+        operations_data.append({
+            "name": "Peaks",
+            "x": ticker_prices.loc[ticker_prices['peak'] != 0]['week'],
+            "y": ticker_prices.loc[ticker_prices['peak'] != 0]['peak'],
+            "mode": "markers",
+            "showlegend": True,
+            "visible": "legendonly",
+            "marker": {"color": "black", "symbol": "circle-open", "size": 8, "line": {"width": 2}}
+        })
+
+        # Ticker EMA 17
+        operations_data.append({
+            "name": "EMA 17",
+            "x": ticker_prices['week'],
+            "y": ticker_prices['ema_17'],
+            "mode": "lines",
+            "line": {"color": "purple"},
+            "showlegend": True,
+            "visible": "legendonly"
+        })
+
+        # Ticker EMA 17
+        operations_data.append({
+            "name": "EMA 72",
+            "x": ticker_prices['week'],
+            "y": ticker_prices['ema_72'],
+            "mode": "lines",
+            "line": {"color": "yellow"},
+            "visible": "legendonly"
+        })
+
+        # Ticker Target Purchase Price
+        # operations_data.append({
+        #     "name": "Buy Price",
+        #     "x": ticker_prices['day'],
+        #     "y": ticker_prices['target_buy_price'],
+        #     "mode": "lines",
+        #     "line": {"color": "lightblue"},
+        #     "showlegend": True,
+        #     "visible": "legendonly"
+        # })
+
+        # Ticker Stop Loss
+        # operations_data.append({
+        #     "name": "Stop Loss",
+        #     "x": ticker_prices['day'],
+        #     "y": ticker_prices['stop_loss'],
+        #     "mode": "lines",
+        #     "line": {"color": "darksalmon"},
+        #     "showlegend": True,
+        #     "visible": "legendonly"
+        # })
+
+        ticker_chart_figure = {
+            "data": operations_data,
+            "layout": {
+                "title": {
+                    "text": "Prices and Operations",
+                    "xanchor": "center",
+                    "yanchor": "top"
+                },
+                "yaxis": {"tickprefix": "R$"},
+                # "legend": {"x": 0, "y": 1.0},
+                "legend": {
+                    # "orientation": "h",
+                    # "yanchor":"top",
+                    "xanchor": "left",
+                    "bgcolor": "rgba(0, 0, 0, 0)",
+                    # "x": 0,
+                    # "y": 1.0
+                },
+                "hovermode": "x",
+            },
+        }
+
+        # Convert only to add vrect
+        # fig = go.Figure(dict(ticker_chart_figure))
+
+        # uptrend_slices = self._get_uptrend_slices(ticker_prices)
+
+        # only_first_needs_legend_flag = True
+        # for slice in uptrend_slices:
+        #     fig.add_vrect(x0=slice['start'], x1=slice['end'],
+        #         fillcolor="green", opacity=0.25, line_width=0)
+        #     only_first_needs_legend_flag = False
+
+        # ticker_chart_figure = fig.to_dict()
+
+        return ticker_chart_figure
+
+
+    def _get_uptrend_slices(self, dataframe, udt_status_type='default'):
+
+        column_name = 'up_down_trend_status_strict' if udt_status_type == 'strict' \
+            else 'up_down_trend_status'
 
         uptrend_slices = []
-
         last_trend_status = None
         last_date = None
-
         current_slice_start_date = None
 
         for index, (_, row) in enumerate(dataframe.iterrows()):
             if index == 0:
-                last_trend_status = row['up_down_trend_status']
+                last_trend_status = row[column_name]
                 last_date = row['day']
             else:
                 # Enter uptrend interval
-                if row['up_down_trend_status'] == 1 and last_trend_status != 1:
+                if row[column_name] == 1 and last_trend_status != 1:
                     current_slice_start_date = row['day']
                 # Leave uptrend interval
-                elif row['up_down_trend_status'] != 1 and last_trend_status == 1:
+                elif row[column_name] != 1 and last_trend_status == 1:
                     if current_slice_start_date is not None:
-                        uptrend_slices.append({"start": current_slice_start_date, "end": last_date})
+                        uptrend_slices.append({"start": current_slice_start_date,
+                            "end": last_date})
                         current_slice_start_date = None
                     # If data already starts in uptrend interval
                     else:
-                        uptrend_slices.append({"start": dataframe['day'][0], "end": last_date})
+                        uptrend_slices.append({"start": dataframe['day'][0],
+                            "end": last_date})
 
                     current_slice_start_date = None
                 # If last slice is unfinished
-                elif index == len(dataframe) - 1 and row['up_down_trend_status'] == 1 and last_trend_status == 1 and current_slice_start_date is not None:
-                    uptrend_slices.append({"start": current_slice_start_date, "end": row['day']})
+                elif index == len(dataframe) - 1 and row[column_name] == 1 and \
+                    last_trend_status == 1 and current_slice_start_date is not None:
+                    uptrend_slices.append({"start": current_slice_start_date,
+                        "end": row['day']})
 
-                last_trend_status = row['up_down_trend_status']
+                last_trend_status = row[column_name]
                 last_date = row['day']
 
         return uptrend_slices
 
     def _set_callbacks(self):
         self._app.callback(
-            dash.dependencies.Output('ticker-chart', 'figure'),
+            dash.dependencies.Output('ticker-chart-day', 'figure'),
             [dash.dependencies.Input('ticker-filter', 'value')]
-        )(self._update_charts)
+        )(self._update_chart_day)
+        self._app.callback(
+            dash.dependencies.Output('ticker-chart-week', 'figure'),
+            [dash.dependencies.Input('ticker-filter', 'value')]
+        )(self._update_chart_week)
 
     def run(self):
         self._app.run_server()
 
-
 if __name__ == "__main__":
-    analyzer = StrategyAnalyzer(strategy_id=54)
+    analyzer = StrategyAnalyzer(strategy_id=58)
     analyzer.run()

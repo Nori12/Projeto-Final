@@ -124,6 +124,7 @@ CREATE TABLE daily_features (
   target_buy_price DECIMAL(8, 2),
   stop_loss DECIMAL(8, 2),
   up_down_trend_status SMALLINT,
+  up_down_trend_status_strict SMALLINT,
   peak DECIMAL(8, 2),
 
   CONSTRAINT daily_features_pkey PRIMARY KEY(ticker, day),
