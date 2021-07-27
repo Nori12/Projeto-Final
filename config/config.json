@@ -8,7 +8,7 @@
             "alias": "Tickers: {number_of_tickers}, Risk-Capital: {risk_capital_coefficient}%.",
             "comment": "Test.",
             "capital": 100000,
-            "risk_capital_coefficient": 0.040,
+            "risk_capital_coefficient": 0.050,
             "min_order_volume": 1,
             "ticker_min_ann_volume_filter": 0,
             "partial_sale" : false,
@@ -17,32 +17,52 @@
             "max_risk": 0.20,
             "purchase_margin" : 0.04,
             "stop_margin" : 0,
-            "stop_type": "staircase",
+            "stop_type": "normal",
             "stock_targets": [
                 {
                     "name":"MGLU3",
-                    "start_date":"01/01/2018",
-                    "end_date":"01/01/2020"
+                    "start_date":"01/01/2013",
+                    "end_date":"01/07/2018"
                 },
                 {
                     "name":"VALE3",
-                    "start_date":"01/01/2018",
-                    "end_date":"01/01/2020"
+                    "start_date":"01/01/2013",
+                    "end_date":"01/07/2018"
                 },
                 {
                     "name":"PETR4",
-                    "start_date":"01/01/2018",
-                    "end_date":"01/01/2020"
+                    "start_date":"01/01/2013",
+                    "end_date":"01/07/2018"
                 },
                 {
                     "name":"WEGE3",
-                    "start_date":"01/01/2018",
-                    "end_date":"01/01/2020"
+                    "start_date":"01/01/2013",
+                    "end_date":"01/07/2018"
                 },
                 {
                     "name":"BBAS3",
-                    "start_date":"01/01/2018",
-                    "end_date":"01/01/2020"
+                    "start_date":"01/01/2013",
+                    "end_date":"01/07/2018"
+                },
+                {
+                    "name":"BBDC3",
+                    "start_date":"01/01/2013",
+                    "end_date":"01/07/2018"
+                },
+                {
+                    "name":"EMBR3",
+                    "start_date":"01/01/2013",
+                    "end_date":"01/07/2018"
+                },
+                {
+                    "name":"GGBR4",
+                    "start_date":"01/01/2013",
+                    "end_date":"01/07/2018"
+                },
+                {
+                    "name":"AZUL4",
+                    "start_date":"01/01/2013",
+                    "end_date":"01/07/2018"
                 }
             ]
         }

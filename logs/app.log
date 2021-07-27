@@ -5766,3 +5766,1597 @@ Program started.
 2021-07-27 00:39:10,022:DEBUG:db_model:Database 'StockMarket' connected successfully.
 2021-07-27 00:39:10,182:INFO:__main__:Dash is running on http://127.0.0.1:8050/
 
+2021-07-27 07:41:37,026:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 07:41:37,278:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-07-27 09:47:25,057:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 09:47:25,186:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-07-27 10:13:02,379:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 10:13:03,146:INFO:__main__:
+Program started.
+2021-07-27 10:13:03,155:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 10:13:03,156:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-27 10:13:03,156:DEBUG:config_reader:Config file found.
+2021-07-27 10:13:03,211:INFO:config_reader:Config file successfully read.
+2021-07-27 10:13:03,211:INFO:config_reader:Total strategies: 1
+2021-07-27 10:13:03,211:INFO:config_reader:Total tickers: 5
+2021-07-27 10:13:03,211:INFO:config_reader:Oldest date: 01/01/2018
+2021-07-27 10:13:03,212:INFO:config_reader:Most recent date: 31/12/2019
+2021-07-27 10:13:03,212:INFO:config_reader:Strategies found:
+2021-07-27 10:13:03,212:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.04, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['MGLU3', 'VALE3', 'PETR4', 'WEGE3', 'BBAS3']
+2021-07-27 10:13:03,212:DEBUG:utils:The function 'ConfigReader.__init__' took 65.47 milliseconds to run.
+2021-07-27 10:13:03,213:INFO:ticker_manager:Generating features for ticker 'MGLU3'.
+2021-07-27 10:13:16,117:DEBUG:utils:The function 'TickerManager.generate_features' took 12904.51 milliseconds to run.
+2021-07-27 10:13:16,117:INFO:ticker_manager:Generating features for ticker 'VALE3'.
+2021-07-27 10:13:26,726:DEBUG:utils:The function 'TickerManager.generate_features' took 10608.24 milliseconds to run.
+2021-07-27 10:13:26,726:INFO:ticker_manager:Generating features for ticker 'PETR4'.
+2021-07-27 10:13:36,726:DEBUG:utils:The function 'TickerManager.generate_features' took 9999.56 milliseconds to run.
+2021-07-27 10:13:36,726:INFO:ticker_manager:Generating features for ticker 'WEGE3'.
+2021-07-27 10:13:46,320:DEBUG:utils:The function 'TickerManager.generate_features' took 9594.08 milliseconds to run.
+2021-07-27 10:13:46,320:INFO:ticker_manager:Generating features for ticker 'BBAS3'.
+2021-07-27 10:13:55,031:DEBUG:utils:The function 'TickerManager.generate_features' took 8710.57 milliseconds to run.
+2021-07-27 10:13:55,031:INFO:ticker_manager:Generating features for ticker '^BVSP'.
+2021-07-27 10:13:55,031:DEBUG:utils:The function 'TickerManager.generate_features' took 0.15 milliseconds to run.
+2021-07-27 10:13:55,032:INFO:ticker_manager:Generating features for ticker 'BRL=X'.
+2021-07-27 10:13:55,032:DEBUG:utils:The function 'TickerManager.generate_features' took 0.15 milliseconds to run.
+2021-07-27 10:13:55,107:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 10:13:55,116:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 10:13:55,126:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 10:14:05,575:DEBUG:strategy:Stop loss skipped: 'PETR4', '2018-05-24'.
+2021-07-27 10:14:07,229:DEBUG:strategy:Stop loss skipped: 'VALE3', '2018-06-19'.
+2021-07-27 10:14:45,305:DEBUG:utils:The function 'AndreMoraesStrategy.process_operations' took 50187.79 milliseconds to run.
+2021-07-27 10:14:45,414:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 10:14:57,958:DEBUG:utils:The function 'AndreMoraesStrategy.calculate_statistics' took 12652.55 milliseconds to run.
+2021-07-27 10:14:58,363:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 10:14:58,485:INFO:strategy_analyzer:Dash is running on http://127.0.0.1:8050/
+
+2021-07-27 10:15:42,762:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 10:15:43,394:INFO:__main__:
+Program started.
+2021-07-27 10:15:43,403:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 10:15:43,403:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-27 10:15:43,404:DEBUG:config_reader:Config file found.
+2021-07-27 10:15:43,424:INFO:config_reader:Config file successfully read.
+2021-07-27 10:15:43,424:INFO:config_reader:Total strategies: 1
+2021-07-27 10:15:43,424:INFO:config_reader:Total tickers: 5
+2021-07-27 10:15:43,424:INFO:config_reader:Oldest date: 01/01/2018
+2021-07-27 10:15:43,425:INFO:config_reader:Most recent date: 31/12/2019
+2021-07-27 10:15:43,425:INFO:config_reader:Strategies found:
+2021-07-27 10:15:43,425:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.04, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['MGLU3', 'VALE3', 'PETR4', 'WEGE3', 'BBAS3']
+2021-07-27 10:15:43,425:DEBUG:utils:The function 'ConfigReader.__init__' took 30.93 milliseconds to run.
+2021-07-27 10:15:43,425:INFO:ticker_manager:Generating features for ticker 'MGLU3'.
+2021-07-27 10:15:52,597:DEBUG:utils:The function 'TickerManager.generate_features' took 9171.82 milliseconds to run.
+2021-07-27 10:15:52,598:INFO:ticker_manager:Generating features for ticker 'VALE3'.
+2021-07-27 10:16:02,197:DEBUG:utils:The function 'TickerManager.generate_features' took 9599.03 milliseconds to run.
+2021-07-27 10:16:02,197:INFO:ticker_manager:Generating features for ticker 'PETR4'.
+2021-07-27 10:16:12,079:DEBUG:utils:The function 'TickerManager.generate_features' took 9881.53 milliseconds to run.
+2021-07-27 10:16:12,079:INFO:ticker_manager:Generating features for ticker 'WEGE3'.
+2021-07-27 10:16:21,829:DEBUG:utils:The function 'TickerManager.generate_features' took 9749.51 milliseconds to run.
+2021-07-27 10:16:21,829:INFO:ticker_manager:Generating features for ticker 'BBAS3'.
+2021-07-27 10:16:30,735:DEBUG:utils:The function 'TickerManager.generate_features' took 8906.15 milliseconds to run.
+2021-07-27 10:16:30,735:INFO:ticker_manager:Generating features for ticker '^BVSP'.
+2021-07-27 10:16:30,736:DEBUG:utils:The function 'TickerManager.generate_features' took 0.19 milliseconds to run.
+2021-07-27 10:16:30,736:INFO:ticker_manager:Generating features for ticker 'BRL=X'.
+2021-07-27 10:16:30,736:DEBUG:utils:The function 'TickerManager.generate_features' took 0.15 milliseconds to run.
+2021-07-27 10:16:30,843:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 10:16:30,852:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 10:16:30,861:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 10:16:39,412:DEBUG:strategy:Stop loss skipped: 'PETR4', '2018-05-24'.
+2021-07-27 10:16:41,155:DEBUG:strategy:Stop loss skipped: 'VALE3', '2018-06-19'.
+2021-07-27 10:17:16,666:DEBUG:utils:The function 'AndreMoraesStrategy.process_operations' took 45813.44 milliseconds to run.
+2021-07-27 10:17:16,757:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 10:23:20,640:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 10:23:21,352:INFO:__main__:
+Program started.
+2021-07-27 10:23:21,362:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 10:23:21,362:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-27 10:23:21,363:DEBUG:config_reader:Config file found.
+2021-07-27 10:23:21,384:INFO:config_reader:Config file successfully read.
+2021-07-27 10:23:21,384:INFO:config_reader:Total strategies: 1
+2021-07-27 10:23:21,385:INFO:config_reader:Total tickers: 5
+2021-07-27 10:23:21,385:INFO:config_reader:Oldest date: 01/01/2018
+2021-07-27 10:23:21,385:INFO:config_reader:Most recent date: 31/12/2019
+2021-07-27 10:23:21,385:INFO:config_reader:Strategies found:
+2021-07-27 10:23:21,385:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.04, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['MGLU3', 'VALE3', 'PETR4', 'WEGE3', 'BBAS3']
+2021-07-27 10:23:21,385:DEBUG:utils:The function 'ConfigReader.__init__' took 33.02 milliseconds to run.
+2021-07-27 10:23:21,386:INFO:ticker_manager:Generating features for ticker 'MGLU3'.
+2021-07-27 10:23:33,460:DEBUG:utils:The function 'TickerManager.generate_features' took 12074.42 milliseconds to run.
+2021-07-27 10:23:33,461:INFO:ticker_manager:Generating features for ticker 'VALE3'.
+2021-07-27 10:23:44,069:DEBUG:utils:The function 'TickerManager.generate_features' took 10608.31 milliseconds to run.
+2021-07-27 10:23:44,070:INFO:ticker_manager:Generating features for ticker 'PETR4'.
+2021-07-27 10:23:53,321:DEBUG:utils:The function 'TickerManager.generate_features' took 9251.36 milliseconds to run.
+2021-07-27 10:23:53,321:INFO:ticker_manager:Generating features for ticker 'WEGE3'.
+2021-07-27 10:24:02,519:DEBUG:utils:The function 'TickerManager.generate_features' took 9197.64 milliseconds to run.
+2021-07-27 10:24:02,519:INFO:ticker_manager:Generating features for ticker 'BBAS3'.
+2021-07-27 10:24:12,954:DEBUG:utils:The function 'TickerManager.generate_features' took 10435.11 milliseconds to run.
+2021-07-27 10:24:12,955:INFO:ticker_manager:Generating features for ticker '^BVSP'.
+2021-07-27 10:24:12,955:DEBUG:utils:The function 'TickerManager.generate_features' took 0.17 milliseconds to run.
+2021-07-27 10:24:12,955:INFO:ticker_manager:Generating features for ticker 'BRL=X'.
+2021-07-27 10:24:12,955:DEBUG:utils:The function 'TickerManager.generate_features' took 0.14 milliseconds to run.
+2021-07-27 10:24:13,039:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 10:24:13,050:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 10:24:13,060:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 10:24:23,199:DEBUG:strategy:Stop loss skipped: 'PETR4', '2018-05-24'.
+2021-07-27 10:24:24,601:DEBUG:strategy:Stop loss skipped: 'VALE3', '2018-06-19'.
+2021-07-27 10:25:02,387:DEBUG:utils:The function 'AndreMoraesStrategy.process_operations' took 49336.13 milliseconds to run.
+2021-07-27 10:25:02,486:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 10:25:18,547:DEBUG:utils:The function 'AndreMoraesStrategy.calculate_statistics' took 16159.90 milliseconds to run.
+2021-07-27 10:25:18,940:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 10:25:19,061:INFO:strategy_analyzer:Dash is running on http://127.0.0.1:8050/
+
+2021-07-27 10:30:43,656:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 10:30:44,256:INFO:__main__:
+Program started.
+2021-07-27 10:30:44,266:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 10:30:44,266:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-27 10:30:44,267:DEBUG:config_reader:Config file found.
+2021-07-27 10:30:44,318:INFO:config_reader:Config file successfully read.
+2021-07-27 10:30:44,318:INFO:config_reader:Total strategies: 1
+2021-07-27 10:30:44,318:INFO:config_reader:Total tickers: 5
+2021-07-27 10:30:44,319:INFO:config_reader:Oldest date: 01/01/2018
+2021-07-27 10:30:44,319:INFO:config_reader:Most recent date: 31/12/2019
+2021-07-27 10:30:44,319:INFO:config_reader:Strategies found:
+2021-07-27 10:30:44,319:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.04, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['MGLU3', 'VALE3', 'PETR4', 'WEGE3', 'BBAS3']
+2021-07-27 10:30:44,320:DEBUG:utils:The function 'ConfigReader.__init__' took 63.22 milliseconds to run.
+2021-07-27 10:30:44,330:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 10:30:44,339:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 10:30:44,349:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 10:30:53,084:DEBUG:strategy:Stop loss skipped: 'PETR4', '2018-05-24'.
+2021-07-27 10:30:54,510:DEBUG:strategy:Stop loss skipped: 'VALE3', '2018-06-19'.
+2021-07-27 10:31:26,818:DEBUG:utils:The function 'AndreMoraesStrategy.process_operations' took 42477.77 milliseconds to run.
+2021-07-27 10:31:26,890:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 10:32:02,398:DEBUG:utils:The function 'AndreMoraesStrategy.calculate_statistics' took 35580.40 milliseconds to run.
+2021-07-27 10:32:02,741:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 10:32:02,851:INFO:strategy_analyzer:Dash is running on http://127.0.0.1:8050/
+
+2021-07-27 10:33:11,979:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 10:33:12,654:INFO:__main__:
+Program started.
+2021-07-27 10:33:12,664:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 10:33:12,664:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-27 10:33:12,665:DEBUG:config_reader:Config file found.
+2021-07-27 10:33:12,689:INFO:config_reader:Config file successfully read.
+2021-07-27 10:33:12,690:INFO:config_reader:Total strategies: 1
+2021-07-27 10:33:12,690:INFO:config_reader:Total tickers: 5
+2021-07-27 10:33:12,690:INFO:config_reader:Oldest date: 01/01/2018
+2021-07-27 10:33:12,690:INFO:config_reader:Most recent date: 31/12/2019
+2021-07-27 10:33:12,690:INFO:config_reader:Strategies found:
+2021-07-27 10:33:12,691:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.04, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['MGLU3', 'VALE3', 'PETR4', 'WEGE3', 'BBAS3']
+2021-07-27 10:33:12,691:DEBUG:utils:The function 'ConfigReader.__init__' took 36.08 milliseconds to run.
+2021-07-27 10:33:12,700:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 10:33:12,708:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 10:33:12,722:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 10:33:23,174:DEBUG:strategy:Stop loss skipped: 'PETR4', '2018-05-24'.
+2021-07-27 10:33:24,619:DEBUG:strategy:Stop loss skipped: 'VALE3', '2018-06-19'.
+2021-07-27 10:34:04,672:DEBUG:utils:The function 'AndreMoraesStrategy.process_operations' took 51963.11 milliseconds to run.
+2021-07-27 10:34:04,744:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 10:42:19,077:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 10:42:19,786:INFO:__main__:
+Program started.
+2021-07-27 10:42:19,794:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 10:42:19,794:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-27 10:42:19,795:DEBUG:config_reader:Config file found.
+2021-07-27 10:42:19,813:INFO:config_reader:Config file successfully read.
+2021-07-27 10:42:19,814:INFO:config_reader:Total strategies: 1
+2021-07-27 10:42:19,814:INFO:config_reader:Total tickers: 5
+2021-07-27 10:42:19,814:INFO:config_reader:Oldest date: 01/01/2018
+2021-07-27 10:42:19,814:INFO:config_reader:Most recent date: 31/12/2019
+2021-07-27 10:42:19,814:INFO:config_reader:Strategies found:
+2021-07-27 10:42:19,814:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.04, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['MGLU3', 'VALE3', 'PETR4', 'WEGE3', 'BBAS3']
+2021-07-27 10:42:19,815:DEBUG:utils:The function 'ConfigReader.__init__' took 28.57 milliseconds to run.
+2021-07-27 10:42:19,823:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 10:42:19,832:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 10:42:19,841:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 10:42:28,960:DEBUG:strategy:Stop loss skipped: 'PETR4', '2018-05-24'.
+2021-07-27 10:42:30,805:DEBUG:strategy:Stop loss skipped: 'VALE3', '2018-06-19'.
+2021-07-27 10:43:10,058:DEBUG:utils:The function 'AndreMoraesStrategy.process_operations' took 50225.86 milliseconds to run.
+2021-07-27 10:43:10,144:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 11:12:54,668:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 11:12:55,342:INFO:__main__:
+Program started.
+2021-07-27 11:12:55,352:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 11:12:55,353:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-27 11:12:55,353:DEBUG:config_reader:Config file found.
+2021-07-27 11:12:55,372:INFO:config_reader:Config file successfully read.
+2021-07-27 11:12:55,373:INFO:config_reader:Total strategies: 1
+2021-07-27 11:12:55,373:INFO:config_reader:Total tickers: 5
+2021-07-27 11:12:55,373:INFO:config_reader:Oldest date: 01/01/2018
+2021-07-27 11:12:55,373:INFO:config_reader:Most recent date: 31/12/2019
+2021-07-27 11:12:55,373:INFO:config_reader:Strategies found:
+2021-07-27 11:12:55,373:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.04, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['MGLU3', 'VALE3', 'PETR4', 'WEGE3', 'BBAS3']
+2021-07-27 11:12:55,374:DEBUG:utils:The function 'ConfigReader.__init__' took 31.09 milliseconds to run.
+2021-07-27 11:12:55,385:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 11:12:55,394:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 11:12:55,405:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 11:13:04,051:DEBUG:strategy:Stop loss skipped: 'PETR4', '2018-05-24'.
+2021-07-27 11:13:05,498:DEBUG:strategy:Stop loss skipped: 'VALE3', '2018-06-19'.
+2021-07-27 11:47:26,206:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 11:47:49,558:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 11:47:50,238:INFO:__main__:
+Program started.
+2021-07-27 11:47:50,248:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 11:47:50,249:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-27 11:47:50,249:DEBUG:config_reader:Config file found.
+2021-07-27 11:47:50,283:INFO:config_reader:Config file successfully read.
+2021-07-27 11:47:50,284:INFO:config_reader:Total strategies: 1
+2021-07-27 11:47:50,284:INFO:config_reader:Total tickers: 5
+2021-07-27 11:47:50,284:INFO:config_reader:Oldest date: 01/01/2018
+2021-07-27 11:47:50,284:INFO:config_reader:Most recent date: 31/12/2019
+2021-07-27 11:47:50,284:INFO:config_reader:Strategies found:
+2021-07-27 11:47:50,285:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.04, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['MGLU3', 'VALE3', 'PETR4', 'WEGE3', 'BBAS3']
+2021-07-27 11:47:50,285:DEBUG:utils:The function 'ConfigReader.__init__' took 46.25 milliseconds to run.
+2021-07-27 11:47:50,295:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 11:47:50,305:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 11:47:50,315:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 11:48:07,252:DEBUG:strategy:Target sale skipped: 'VALE3', '2018-09-21'.
+2021-07-27 11:57:04,717:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 11:57:05,376:INFO:__main__:
+Program started.
+2021-07-27 11:57:05,385:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 11:57:05,385:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-27 11:57:05,386:DEBUG:config_reader:Config file found.
+2021-07-27 11:57:05,407:INFO:config_reader:Config file successfully read.
+2021-07-27 11:57:05,408:INFO:config_reader:Total strategies: 1
+2021-07-27 11:57:05,408:INFO:config_reader:Total tickers: 5
+2021-07-27 11:57:05,408:INFO:config_reader:Oldest date: 01/01/2018
+2021-07-27 11:57:05,408:INFO:config_reader:Most recent date: 31/12/2019
+2021-07-27 11:57:05,408:INFO:config_reader:Strategies found:
+2021-07-27 11:57:05,408:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.04, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['MGLU3', 'VALE3', 'PETR4', 'WEGE3', 'BBAS3']
+2021-07-27 11:57:05,409:DEBUG:utils:The function 'ConfigReader.__init__' took 32.87 milliseconds to run.
+2021-07-27 11:57:05,420:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 11:57:05,430:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 11:57:05,441:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 11:57:29,757:DEBUG:strategy:Target sale skipped: 'VALE3', '2018-09-21'.
+2021-07-27 12:00:25,779:DEBUG:utils:The function 'AndreMoraesStrategy.process_operations' took 200348.03 milliseconds to run.
+2021-07-27 12:00:25,855:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 12:01:39,182:DEBUG:utils:The function 'AndreMoraesStrategy.calculate_statistics' took 73401.85 milliseconds to run.
+2021-07-27 12:01:39,539:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 12:01:39,674:INFO:strategy_analyzer:Dash is running on http://127.0.0.1:8050/
+
+2021-07-27 12:14:32,257:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 12:14:32,939:INFO:__main__:
+Program started.
+2021-07-27 12:14:32,947:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 12:14:32,948:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-27 12:14:32,948:DEBUG:config_reader:Config file found.
+2021-07-27 12:14:32,966:INFO:config_reader:Config file successfully read.
+2021-07-27 12:14:32,966:INFO:config_reader:Total strategies: 1
+2021-07-27 12:14:32,967:INFO:config_reader:Total tickers: 9
+2021-07-27 12:14:32,967:INFO:config_reader:Oldest date: 01/01/2015
+2021-07-27 12:14:32,967:INFO:config_reader:Most recent date: 31/12/2019
+2021-07-27 12:14:32,967:INFO:config_reader:Strategies found:
+2021-07-27 12:14:32,967:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.04, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['MGLU3', 'VALE3', 'PETR4', 'WEGE3', 'BBAS3', 'BBDC3', 'EMBR3', 'GGBR4', 'AZUL4']
+2021-07-27 12:14:32,967:DEBUG:utils:The function 'ConfigReader.__init__' took 28.22 milliseconds to run.
+2021-07-27 12:14:32,968:INFO:ticker_manager:Generating features for ticker 'MGLU3'.
+2021-07-27 12:15:07,806:DEBUG:utils:The function 'TickerManager.generate_features' took 34837.87 milliseconds to run.
+2021-07-27 12:15:07,806:INFO:ticker_manager:Generating features for ticker 'VALE3'.
+2021-07-27 12:15:43,343:DEBUG:utils:The function 'TickerManager.generate_features' took 35537.42 milliseconds to run.
+2021-07-27 12:15:43,344:INFO:ticker_manager:Generating features for ticker 'PETR4'.
+2021-07-27 12:16:23,312:DEBUG:utils:The function 'TickerManager.generate_features' took 39968.37 milliseconds to run.
+2021-07-27 12:16:23,312:INFO:ticker_manager:Generating features for ticker 'WEGE3'.
+2021-07-27 12:17:03,724:DEBUG:utils:The function 'TickerManager.generate_features' took 40411.63 milliseconds to run.
+2021-07-27 12:17:03,724:INFO:ticker_manager:Generating features for ticker 'BBAS3'.
+2021-07-27 12:17:42,145:DEBUG:utils:The function 'TickerManager.generate_features' took 38420.53 milliseconds to run.
+2021-07-27 12:17:42,145:INFO:ticker_manager:Generating features for ticker 'BBDC3'.
+2021-07-27 12:18:16,825:DEBUG:utils:The function 'TickerManager.generate_features' took 34680.01 milliseconds to run.
+2021-07-27 12:18:16,826:INFO:ticker_manager:Generating features for ticker 'EMBR3'.
+2021-07-27 12:18:53,569:DEBUG:utils:The function 'TickerManager.generate_features' took 36743.50 milliseconds to run.
+2021-07-27 12:18:53,570:INFO:ticker_manager:Generating features for ticker 'GGBR4'.
+2021-07-27 12:19:27,548:DEBUG:utils:The function 'TickerManager.generate_features' took 33978.53 milliseconds to run.
+2021-07-27 12:19:27,549:INFO:ticker_manager:Generating features for ticker 'AZUL4'.
+2021-07-27 12:19:37,140:DEBUG:utils:The function 'TickerManager.generate_features' took 9591.72 milliseconds to run.
+2021-07-27 12:19:37,141:INFO:ticker_manager:Generating features for ticker '^BVSP'.
+2021-07-27 12:19:37,141:DEBUG:utils:The function 'TickerManager.generate_features' took 0.18 milliseconds to run.
+2021-07-27 12:19:37,141:INFO:ticker_manager:Generating features for ticker 'BRL=X'.
+2021-07-27 12:19:37,141:DEBUG:utils:The function 'TickerManager.generate_features' took 0.14 milliseconds to run.
+2021-07-27 12:19:37,227:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 12:19:37,236:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 12:19:37,246:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 12:20:52,484:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-04-11').
+2021-07-27 12:20:52,641:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-04-12').
+2021-07-27 12:20:52,792:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-04-13').
+2021-07-27 12:22:27,584:DEBUG:utils:The function 'AndreMoraesStrategy.process_operations' took 170346.88 milliseconds to run.
+2021-07-27 12:22:27,662:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 12:22:55,613:DEBUG:utils:The function 'AndreMoraesStrategy.calculate_statistics' took 28028.73 milliseconds to run.
+2021-07-27 12:22:56,117:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 12:22:56,232:INFO:strategy_analyzer:Dash is running on http://127.0.0.1:8050/
+
+2021-07-27 12:30:47,774:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 12:30:48,652:INFO:__main__:
+Program started.
+2021-07-27 12:30:48,662:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 12:30:48,663:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-27 12:30:48,663:DEBUG:config_reader:Config file found.
+2021-07-27 12:30:48,684:INFO:config_reader:Config file successfully read.
+2021-07-27 12:30:48,685:INFO:config_reader:Total strategies: 1
+2021-07-27 12:30:48,685:INFO:config_reader:Total tickers: 9
+2021-07-27 12:30:48,685:INFO:config_reader:Oldest date: 01/01/2015
+2021-07-27 12:30:48,685:INFO:config_reader:Most recent date: 31/12/2016
+2021-07-27 12:30:48,686:INFO:config_reader:Strategies found:
+2021-07-27 12:30:48,686:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.04, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['MGLU3', 'VALE3', 'PETR4', 'WEGE3', 'BBAS3', 'BBDC3', 'EMBR3', 'GGBR4', 'AZUL4']
+2021-07-27 12:30:48,686:DEBUG:utils:The function 'ConfigReader.__init__' took 33.22 milliseconds to run.
+2021-07-27 12:30:48,696:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 12:30:48,705:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 12:30:48,716:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 12:48:37,524:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 12:48:38,291:INFO:__main__:
+Program started.
+2021-07-27 12:48:38,300:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 12:48:38,300:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-27 12:48:38,301:DEBUG:config_reader:Config file found.
+2021-07-27 12:48:38,320:INFO:config_reader:Config file successfully read.
+2021-07-27 12:48:38,320:INFO:config_reader:Total strategies: 1
+2021-07-27 12:48:38,320:INFO:config_reader:Total tickers: 9
+2021-07-27 12:48:38,320:INFO:config_reader:Oldest date: 01/01/2015
+2021-07-27 12:48:38,320:INFO:config_reader:Most recent date: 31/12/2016
+2021-07-27 12:48:38,321:INFO:config_reader:Strategies found:
+2021-07-27 12:48:38,321:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.04, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['MGLU3', 'VALE3', 'PETR4', 'WEGE3', 'BBAS3', 'BBDC3', 'EMBR3', 'GGBR4', 'AZUL4']
+2021-07-27 12:48:38,321:DEBUG:utils:The function 'ConfigReader.__init__' took 30.01 milliseconds to run.
+2021-07-27 12:48:38,330:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 12:48:38,339:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 12:48:38,348:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 12:54:52,039:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 12:54:52,583:INFO:__main__:
+Program started.
+2021-07-27 12:54:52,592:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 12:54:52,593:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-27 12:54:52,593:DEBUG:config_reader:Config file found.
+2021-07-27 12:54:52,614:INFO:config_reader:Config file successfully read.
+2021-07-27 12:54:52,614:INFO:config_reader:Total strategies: 1
+2021-07-27 12:54:52,614:INFO:config_reader:Total tickers: 9
+2021-07-27 12:54:52,614:INFO:config_reader:Oldest date: 01/01/2015
+2021-07-27 12:54:52,614:INFO:config_reader:Most recent date: 31/12/2016
+2021-07-27 12:54:52,615:INFO:config_reader:Strategies found:
+2021-07-27 12:54:52,615:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.04, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['MGLU3', 'VALE3', 'PETR4', 'WEGE3', 'BBAS3', 'BBDC3', 'EMBR3', 'GGBR4', 'AZUL4']
+2021-07-27 12:54:52,615:DEBUG:utils:The function 'ConfigReader.__init__' took 31.54 milliseconds to run.
+2021-07-27 12:54:52,624:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 12:54:52,634:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 12:54:52,644:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 12:56:09,539:DEBUG:strategy:Target sale skipped: 'PETR4', '2016-10-19'.
+2021-07-27 12:56:16,259:DEBUG:utils:The function 'AndreMoraesStrategy.process_operations' took 83624.46 milliseconds to run.
+2021-07-27 12:56:16,340:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 12:56:28,131:DEBUG:utils:The function 'AndreMoraesStrategy.calculate_statistics' took 11870.75 milliseconds to run.
+2021-07-27 12:56:28,358:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 12:56:28,468:INFO:strategy_analyzer:Dash is running on http://127.0.0.1:8050/
+
+2021-07-27 13:03:09,380:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 13:03:09,512:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-07-27 13:07:34,825:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 13:07:35,372:INFO:__main__:
+Program started.
+2021-07-27 13:07:35,381:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 13:07:35,382:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-27 13:07:35,382:DEBUG:config_reader:Config file found.
+2021-07-27 13:07:35,403:INFO:config_reader:Config file successfully read.
+2021-07-27 13:07:35,403:INFO:config_reader:Total strategies: 1
+2021-07-27 13:07:35,403:INFO:config_reader:Total tickers: 9
+2021-07-27 13:07:35,404:INFO:config_reader:Oldest date: 01/01/2013
+2021-07-27 13:07:35,404:INFO:config_reader:Most recent date: 30/06/2018
+2021-07-27 13:07:35,404:INFO:config_reader:Strategies found:
+2021-07-27 13:07:35,404:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.025, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['MGLU3', 'VALE3', 'PETR4', 'WEGE3', 'BBAS3', 'BBDC3', 'EMBR3', 'GGBR4', 'AZUL4']
+2021-07-27 13:07:35,404:DEBUG:utils:The function 'ConfigReader.__init__' took 31.39 milliseconds to run.
+2021-07-27 13:07:35,413:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 13:07:35,424:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 13:07:35,433:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 13:09:13,375:DEBUG:strategy:Target sale skipped: 'PETR4', '2016-10-19'.
+2021-07-27 13:09:40,741:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-04-11').
+2021-07-27 13:09:40,874:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-04-12').
+2021-07-27 13:09:41,014:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-04-13').
+2021-07-27 13:09:44,282:DEBUG:strategy:Stop loss skipped: 'BBAS3', '2017-05-18'.
+2021-07-27 13:10:13,852:DEBUG:strategy:Target sale skipped: 'BBAS3', '2018-02-22'.
+2021-07-27 13:10:14,399:DEBUG:strategy:Target sale skipped: 'PETR4', '2018-02-26'.
+2021-07-27 13:10:27,882:DEBUG:utils:The function 'AndreMoraesStrategy.process_operations' took 172458.11 milliseconds to run.
+2021-07-27 13:10:28,000:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 13:10:57,918:DEBUG:utils:The function 'AndreMoraesStrategy.calculate_statistics' took 30034.78 milliseconds to run.
+2021-07-27 13:10:58,379:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 13:10:58,498:INFO:strategy_analyzer:Dash is running on http://127.0.0.1:8050/
+
+2021-07-27 13:22:50,127:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 13:22:50,796:INFO:__main__:
+Program started.
+2021-07-27 13:22:50,804:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 13:22:50,804:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-27 13:22:50,805:DEBUG:config_reader:Config file found.
+2021-07-27 13:22:50,823:INFO:config_reader:Config file successfully read.
+2021-07-27 13:22:50,823:INFO:config_reader:Total strategies: 1
+2021-07-27 13:22:50,823:INFO:config_reader:Total tickers: 9
+2021-07-27 13:22:50,823:INFO:config_reader:Oldest date: 01/01/2013
+2021-07-27 13:22:50,823:INFO:config_reader:Most recent date: 30/06/2018
+2021-07-27 13:22:50,823:INFO:config_reader:Strategies found:
+2021-07-27 13:22:50,824:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.025, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['MGLU3', 'VALE3', 'PETR4', 'WEGE3', 'BBAS3', 'BBDC3', 'EMBR3', 'GGBR4', 'AZUL4']
+2021-07-27 13:22:50,824:DEBUG:utils:The function 'ConfigReader.__init__' took 27.94 milliseconds to run.
+2021-07-27 13:22:50,832:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 13:22:50,841:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 13:22:50,850:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 13:23:12,252:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 13:23:12,772:INFO:__main__:
+Program started.
+2021-07-27 13:23:12,780:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 13:23:12,781:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-27 13:23:12,781:DEBUG:config_reader:Config file found.
+2021-07-27 13:23:12,798:INFO:config_reader:Config file successfully read.
+2021-07-27 13:23:12,798:INFO:config_reader:Total strategies: 1
+2021-07-27 13:23:12,799:INFO:config_reader:Total tickers: 9
+2021-07-27 13:23:12,799:INFO:config_reader:Oldest date: 01/01/2013
+2021-07-27 13:23:12,799:INFO:config_reader:Most recent date: 30/06/2018
+2021-07-27 13:23:12,799:INFO:config_reader:Strategies found:
+2021-07-27 13:23:12,799:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.025, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['MGLU3', 'VALE3', 'PETR4', 'WEGE3', 'BBAS3', 'BBDC3', 'EMBR3', 'GGBR4', 'AZUL4']
+2021-07-27 13:23:12,799:DEBUG:utils:The function 'ConfigReader.__init__' took 27.56 milliseconds to run.
+2021-07-27 13:23:12,800:INFO:ticker_manager:Generating features for ticker 'MGLU3'.
+2021-07-27 13:23:47,023:DEBUG:utils:The function 'TickerManager.generate_features' took 34223.42 milliseconds to run.
+2021-07-27 13:23:47,023:INFO:ticker_manager:Generating features for ticker 'VALE3'.
+2021-07-27 13:24:21,638:DEBUG:utils:The function 'TickerManager.generate_features' took 34614.84 milliseconds to run.
+2021-07-27 13:24:21,639:INFO:ticker_manager:Generating features for ticker 'PETR4'.
+2021-07-27 13:24:55,828:DEBUG:utils:The function 'TickerManager.generate_features' took 34188.61 milliseconds to run.
+2021-07-27 13:24:55,828:INFO:ticker_manager:Generating features for ticker 'WEGE3'.
+2021-07-27 13:25:30,074:DEBUG:utils:The function 'TickerManager.generate_features' took 34245.91 milliseconds to run.
+2021-07-27 13:25:30,074:INFO:ticker_manager:Generating features for ticker 'BBAS3'.
+2021-07-27 13:26:04,300:DEBUG:utils:The function 'TickerManager.generate_features' took 34225.62 milliseconds to run.
+2021-07-27 13:26:04,300:INFO:ticker_manager:Generating features for ticker 'BBDC3'.
+2021-07-27 13:26:38,455:DEBUG:utils:The function 'TickerManager.generate_features' took 34155.28 milliseconds to run.
+2021-07-27 13:26:38,456:INFO:ticker_manager:Generating features for ticker 'EMBR3'.
+2021-07-27 13:27:24,030:DEBUG:utils:The function 'TickerManager.generate_features' took 45574.62 milliseconds to run.
+2021-07-27 13:27:24,031:INFO:ticker_manager:Generating features for ticker 'GGBR4'.
+2021-07-27 13:27:59,771:DEBUG:utils:The function 'TickerManager.generate_features' took 35740.32 milliseconds to run.
+2021-07-27 13:27:59,772:INFO:ticker_manager:Generating features for ticker 'AZUL4'.
+2021-07-27 13:28:02,402:DEBUG:utils:The function 'TickerManager.generate_features' took 2630.65 milliseconds to run.
+2021-07-27 13:28:02,403:INFO:ticker_manager:Generating features for ticker '^BVSP'.
+2021-07-27 13:28:02,403:DEBUG:utils:The function 'TickerManager.generate_features' took 0.14 milliseconds to run.
+2021-07-27 13:28:02,403:INFO:ticker_manager:Generating features for ticker 'BRL=X'.
+2021-07-27 13:28:02,403:DEBUG:utils:The function 'TickerManager.generate_features' took 0.12 milliseconds to run.
+2021-07-27 13:28:02,504:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 13:28:02,514:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 13:28:02,523:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 13:28:22,523:DEBUG:strategy:Stop loss skipped: 'BBDC3', '2013-06-20'.
+2021-07-27 13:28:56,940:DEBUG:strategy:Target sale skipped: 'PETR4', '2014-07-18'.
+2021-07-27 13:29:03,713:DEBUG:strategy:Stop loss skipped: 'PETR4', '2014-09-29'.
+2021-07-27 13:31:14,885:DEBUG:utils:The function 'AndreMoraesStrategy.process_operations' took 192371.19 milliseconds to run.
+2021-07-27 13:31:15,004:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 13:32:00,380:DEBUG:utils:The function 'AndreMoraesStrategy.calculate_statistics' took 45493.80 milliseconds to run.
+2021-07-27 13:32:01,226:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 13:32:01,363:INFO:strategy_analyzer:Dash is running on http://127.0.0.1:8050/
+
+2021-07-27 13:38:58,957:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 13:38:59,616:INFO:__main__:
+Program started.
+2021-07-27 13:38:59,626:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 13:38:59,626:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-27 13:38:59,627:DEBUG:config_reader:Config file found.
+2021-07-27 13:38:59,646:INFO:config_reader:Config file successfully read.
+2021-07-27 13:38:59,646:INFO:config_reader:Total strategies: 1
+2021-07-27 13:38:59,646:INFO:config_reader:Total tickers: 1
+2021-07-27 13:38:59,646:INFO:config_reader:Oldest date: 01/01/2013
+2021-07-27 13:38:59,647:INFO:config_reader:Most recent date: 30/06/2018
+2021-07-27 13:38:59,647:INFO:config_reader:Strategies found:
+2021-07-27 13:38:59,647:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.025, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['MGLU3']
+2021-07-27 13:38:59,647:DEBUG:utils:The function 'ConfigReader.__init__' took 31.07 milliseconds to run.
+2021-07-27 13:38:59,656:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 13:38:59,665:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 13:38:59,674:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 13:44:38,956:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 13:44:39,954:INFO:__main__:
+Program started.
+2021-07-27 13:44:39,970:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 13:44:39,971:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-27 13:44:39,972:DEBUG:config_reader:Config file found.
+2021-07-27 13:44:40,002:INFO:config_reader:Config file successfully read.
+2021-07-27 13:44:40,002:INFO:config_reader:Total strategies: 1
+2021-07-27 13:44:40,003:INFO:config_reader:Total tickers: 1
+2021-07-27 13:44:40,003:INFO:config_reader:Oldest date: 01/01/2013
+2021-07-27 13:44:40,003:INFO:config_reader:Most recent date: 30/06/2018
+2021-07-27 13:44:40,003:INFO:config_reader:Strategies found:
+2021-07-27 13:44:40,003:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.025, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['MGLU3']
+2021-07-27 13:44:40,003:DEBUG:utils:The function 'ConfigReader.__init__' took 49.39 milliseconds to run.
+2021-07-27 13:44:40,015:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 13:44:40,029:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 13:44:40,040:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 13:46:07,881:DEBUG:utils:The function 'AndreMoraesStrategy.process_operations' took 87851.25 milliseconds to run.
+2021-07-27 13:46:07,961:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 13:46:26,524:DEBUG:utils:The function 'AndreMoraesStrategy.calculate_statistics' took 18641.88 milliseconds to run.
+2021-07-27 13:46:27,068:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 13:46:27,179:INFO:strategy_analyzer:Dash is running on http://127.0.0.1:8050/
+
+2021-07-27 13:46:57,128:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 13:46:57,674:INFO:__main__:
+Program started.
+2021-07-27 13:46:57,683:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 13:46:57,684:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-27 13:46:57,684:DEBUG:config_reader:Config file found.
+2021-07-27 13:46:57,704:INFO:config_reader:Config file successfully read.
+2021-07-27 13:46:57,704:INFO:config_reader:Total strategies: 1
+2021-07-27 13:46:57,704:INFO:config_reader:Total tickers: 9
+2021-07-27 13:46:57,704:INFO:config_reader:Oldest date: 01/01/2013
+2021-07-27 13:46:57,704:INFO:config_reader:Most recent date: 30/06/2018
+2021-07-27 13:46:57,705:INFO:config_reader:Strategies found:
+2021-07-27 13:46:57,705:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.025, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['MGLU3', 'VALE3', 'PETR4', 'WEGE3', 'BBAS3', 'BBDC3', 'EMBR3', 'GGBR4', 'AZUL4']
+2021-07-27 13:46:57,705:DEBUG:utils:The function 'ConfigReader.__init__' took 30.28 milliseconds to run.
+2021-07-27 13:46:57,715:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 13:46:57,726:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 13:46:57,741:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 13:47:12,861:DEBUG:strategy:Stop loss skipped: 'BBDC3', '2013-06-20'.
+2021-07-27 13:49:25,685:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-04-11').
+2021-07-27 13:49:25,818:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-04-12').
+2021-07-27 13:49:25,947:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-04-13').
+2021-07-27 13:49:26,079:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-04-17').
+2021-07-27 13:49:26,206:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-04-18').
+2021-07-27 13:49:26,347:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-04-19').
+2021-07-27 13:49:26,493:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-04-20').
+2021-07-27 13:49:26,628:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-04-24').
+2021-07-27 13:49:26,761:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-04-25').
+2021-07-27 13:49:26,899:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-04-26').
+2021-07-27 13:49:27,035:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-04-27').
+2021-07-27 13:49:27,165:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-04-28').
+2021-07-27 13:49:27,303:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-05-02').
+2021-07-27 13:49:27,435:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-05-03').
+2021-07-27 13:49:27,566:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-05-04').
+2021-07-27 13:49:27,694:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-05-05').
+2021-07-27 13:49:27,827:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-05-08').
+2021-07-27 13:49:27,955:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-05-09').
+2021-07-27 13:49:28,082:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-05-10').
+2021-07-27 13:49:28,209:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-05-11').
+2021-07-27 13:49:28,357:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-05-12').
+2021-07-27 13:49:28,484:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-05-16').
+2021-07-27 13:49:28,614:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-05-17').
+2021-07-27 13:49:28,741:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-05-18').
+2021-07-27 13:49:28,874:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-05-19').
+2021-07-27 13:49:29,003:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-05-22').
+2021-07-27 13:49:29,131:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-05-23').
+2021-07-27 13:49:29,263:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-05-24').
+2021-07-27 13:49:29,412:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-05-25').
+2021-07-27 13:49:29,540:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-05-26').
+2021-07-27 13:49:29,679:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-05-30').
+2021-07-27 13:49:29,811:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-05-31').
+2021-07-27 13:49:29,940:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-06-01').
+2021-07-27 13:49:30,068:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-06-02').
+2021-07-27 13:49:30,196:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-06-05').
+2021-07-27 13:49:30,332:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-06-06').
+2021-07-27 13:49:30,460:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-06-07').
+2021-07-27 13:49:30,599:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-06-08').
+2021-07-27 13:49:30,727:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-06-09').
+2021-07-27 13:49:30,861:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-06-12').
+2021-07-27 13:49:30,988:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-06-13').
+2021-07-27 13:49:31,117:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-06-14').
+2021-07-27 13:49:31,261:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-06-16').
+2021-07-27 13:49:31,394:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-06-19').
+2021-07-27 13:49:31,525:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-06-20').
+2021-07-27 13:49:31,658:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-06-21').
+2021-07-27 13:49:31,796:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-06-22').
+2021-07-27 13:49:31,928:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-06-23').
+2021-07-27 13:49:32,070:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-06-26').
+2021-07-27 13:49:32,198:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-06-27').
+2021-07-27 13:49:32,333:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-06-28').
+2021-07-27 13:49:32,462:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-06-29').
+2021-07-27 13:49:32,591:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-06-30').
+2021-07-27 13:49:32,719:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-07-03').
+2021-07-27 13:49:32,851:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-07-04').
+2021-07-27 13:49:32,979:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-07-05').
+2021-07-27 13:49:33,107:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-07-06').
+2021-07-27 13:49:33,237:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-07-07').
+2021-07-27 13:49:33,371:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-07-10').
+2021-07-27 13:49:33,498:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-07-11').
+2021-07-27 13:49:33,627:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-07-12').
+2021-07-27 13:49:33,754:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-07-13').
+2021-07-27 13:49:33,887:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-07-14').
+2021-07-27 13:49:34,016:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-07-17').
+2021-07-27 13:49:34,144:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-07-18').
+2021-07-27 13:49:34,275:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-07-19').
+2021-07-27 13:49:34,407:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-07-20').
+2021-07-27 13:49:34,536:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-07-21').
+2021-07-27 13:49:34,664:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-07-24').
+2021-07-27 13:49:34,798:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-07-25').
+2021-07-27 13:49:34,926:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-07-26').
+2021-07-27 13:49:35,053:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-07-27').
+2021-07-27 13:49:35,184:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-07-28').
+2021-07-27 13:49:35,319:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-07-31').
+2021-07-27 13:49:35,447:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-08-01').
+2021-07-27 13:49:35,577:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-08-02').
+2021-07-27 13:49:35,705:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-08-03').
+2021-07-27 13:49:35,838:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-08-04').
+2021-07-27 13:49:35,979:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-08-07').
+2021-07-27 13:49:36,107:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-08-08').
+2021-07-27 13:49:36,235:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-08-09').
+2021-07-27 13:49:36,369:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-08-10').
+2021-07-27 13:49:36,497:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-08-11').
+2021-07-27 13:49:36,632:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-08-14').
+2021-07-27 13:49:36,766:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-08-15').
+2021-07-27 13:49:36,895:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-08-16').
+2021-07-27 13:49:37,024:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-08-17').
+2021-07-27 13:49:37,156:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-08-18').
+2021-07-27 13:49:37,289:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-08-21').
+2021-07-27 13:49:37,419:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-08-22').
+2021-07-27 13:49:37,548:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-08-23').
+2021-07-27 13:49:37,674:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-08-24').
+2021-07-27 13:49:37,805:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-08-25').
+2021-07-27 13:49:37,935:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-08-28').
+2021-07-27 13:49:38,062:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-08-29').
+2021-07-27 13:49:38,189:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-08-30').
+2021-07-27 13:49:38,323:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-08-31').
+2021-07-27 13:49:38,451:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-09-01').
+2021-07-27 13:49:38,588:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-09-04').
+2021-07-27 13:49:38,715:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-09-05').
+2021-07-27 13:49:38,848:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-09-06').
+2021-07-27 13:49:38,976:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-09-08').
+2021-07-27 13:49:39,103:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-09-11').
+2021-07-27 13:49:39,230:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-09-12').
+2021-07-27 13:49:39,363:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-09-13').
+2021-07-27 13:49:39,490:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-09-14').
+2021-07-27 13:49:39,619:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-09-15').
+2021-07-27 13:49:39,746:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-09-18').
+2021-07-27 13:49:39,891:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-09-19').
+2021-07-27 13:49:40,018:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-09-20').
+2021-07-27 13:49:40,153:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-09-21').
+2021-07-27 13:49:40,287:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-09-22').
+2021-07-27 13:49:40,416:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-09-25').
+2021-07-27 13:49:40,544:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-09-26').
+2021-07-27 13:49:40,673:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-09-27').
+2021-07-27 13:49:40,805:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-09-28').
+2021-07-27 13:49:40,936:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-09-29').
+2021-07-27 13:49:41,064:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-10-02').
+2021-07-27 13:49:41,200:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-10-03').
+2021-07-27 13:49:41,335:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-10-04').
+2021-07-27 13:49:41,465:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-10-05').
+2021-07-27 13:49:41,597:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-10-06').
+2021-07-27 13:49:41,724:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-10-09').
+2021-07-27 13:49:41,857:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-10-10').
+2021-07-27 13:49:41,985:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-10-11').
+2021-07-27 13:49:42,113:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-10-13').
+2021-07-27 13:49:42,246:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-10-16').
+2021-07-27 13:49:42,383:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-10-17').
+2021-07-27 13:49:42,512:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-10-18').
+2021-07-27 13:49:42,644:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-10-19').
+2021-07-27 13:49:42,776:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-10-20').
+2021-07-27 13:49:42,904:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-10-23').
+2021-07-27 13:49:43,031:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-10-24').
+2021-07-27 13:49:43,160:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-10-25').
+2021-07-27 13:49:43,293:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-10-26').
+2021-07-27 13:49:43,421:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-10-27').
+2021-07-27 13:49:43,551:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-10-30').
+2021-07-27 13:49:43,677:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-10-31').
+2021-07-27 13:49:43,824:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-11-01').
+2021-07-27 13:49:43,951:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-11-03').
+2021-07-27 13:49:44,065:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-11-06').
+2021-07-27 13:49:44,194:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-11-07').
+2021-07-27 13:49:44,328:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-11-08').
+2021-07-27 13:49:44,468:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-11-09').
+2021-07-27 13:49:44,599:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-11-10').
+2021-07-27 13:49:44,726:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-11-13').
+2021-07-27 13:49:44,862:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-11-14').
+2021-07-27 13:49:44,990:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-11-16').
+2021-07-27 13:49:45,117:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-11-17').
+2021-07-27 13:49:45,245:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-11-21').
+2021-07-27 13:49:45,379:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-11-22').
+2021-07-27 13:49:45,507:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-11-23').
+2021-07-27 13:49:45,635:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-11-24').
+2021-07-27 13:49:45,766:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-11-27').
+2021-07-27 13:49:45,894:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-11-28').
+2021-07-27 13:49:46,022:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-11-29').
+2021-07-27 13:49:46,151:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-11-30').
+2021-07-27 13:49:46,283:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-12-01').
+2021-07-27 13:49:46,412:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-12-04').
+2021-07-27 13:49:46,540:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-12-05').
+2021-07-27 13:49:46,668:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-12-06').
+2021-07-27 13:49:46,802:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-12-07').
+2021-07-27 13:49:46,934:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-12-08').
+2021-07-27 13:49:47,066:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-12-11').
+2021-07-27 13:49:47,205:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-12-12').
+2021-07-27 13:49:47,343:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-12-13').
+2021-07-27 13:49:47,480:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-12-14').
+2021-07-27 13:49:47,611:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-12-15').
+2021-07-27 13:49:47,754:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-12-18').
+2021-07-27 13:49:47,896:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-12-19').
+2021-07-27 13:49:48,026:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-12-20').
+2021-07-27 13:49:48,155:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-12-21').
+2021-07-27 13:49:48,287:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-12-22').
+2021-07-27 13:49:48,416:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-12-26').
+2021-07-27 13:49:48,545:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-12-27').
+2021-07-27 13:49:48,674:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-12-28').
+2021-07-27 13:49:48,817:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-01-02').
+2021-07-27 13:49:48,946:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-01-03').
+2021-07-27 13:49:49,074:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-01-04').
+2021-07-27 13:49:49,203:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-01-05').
+2021-07-27 13:49:49,338:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-01-08').
+2021-07-27 13:49:49,466:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-01-09').
+2021-07-27 13:49:49,597:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-01-10').
+2021-07-27 13:49:49,725:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-01-11').
+2021-07-27 13:49:49,857:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-01-12').
+2021-07-27 13:49:49,983:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-01-15').
+2021-07-27 13:49:50,112:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-01-16').
+2021-07-27 13:49:50,239:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-01-17').
+2021-07-27 13:49:50,372:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-01-18').
+2021-07-27 13:49:50,498:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-01-19').
+2021-07-27 13:49:50,627:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-01-22').
+2021-07-27 13:49:50,765:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-01-23').
+2021-07-27 13:49:50,899:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-01-24').
+2021-07-27 13:49:51,027:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-01-26').
+2021-07-27 13:49:51,155:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-01-29').
+2021-07-27 13:49:51,287:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-01-30').
+2021-07-27 13:49:51,416:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-01-31').
+2021-07-27 13:49:51,560:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-02-01').
+2021-07-27 13:49:51,689:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-02-02').
+2021-07-27 13:49:51,820:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-02-05').
+2021-07-27 13:49:51,948:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-02-06').
+2021-07-27 13:49:52,075:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-02-07').
+2021-07-27 13:49:52,202:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-02-08').
+2021-07-27 13:49:52,338:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-02-09').
+2021-07-27 13:49:52,475:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-02-15').
+2021-07-27 13:49:52,604:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-02-16').
+2021-07-27 13:49:52,734:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-02-19').
+2021-07-27 13:49:52,883:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-02-20').
+2021-07-27 13:49:53,013:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-02-21').
+2021-07-27 13:49:53,142:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-02-22').
+2021-07-27 13:49:53,277:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-02-23').
+2021-07-27 13:49:53,409:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-02-26').
+2021-07-27 13:49:53,538:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-02-27').
+2021-07-27 13:49:53,666:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-02-28').
+2021-07-27 13:49:53,798:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-03-01').
+2021-07-27 13:49:53,926:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-03-02').
+2021-07-27 13:49:54,055:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-03-05').
+2021-07-27 13:49:54,184:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-03-06').
+2021-07-27 13:49:54,319:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-03-07').
+2021-07-27 13:49:54,449:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-03-08').
+2021-07-27 13:49:54,579:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-03-09').
+2021-07-27 13:49:54,705:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-03-12').
+2021-07-27 13:49:54,837:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-03-13').
+2021-07-27 13:49:54,966:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-03-14').
+2021-07-27 13:49:55,094:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-03-15').
+2021-07-27 13:49:55,221:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-03-16').
+2021-07-27 13:49:55,370:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-03-19').
+2021-07-27 13:49:55,500:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-03-20').
+2021-07-27 13:49:55,628:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-03-21').
+2021-07-27 13:49:55,766:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-03-22').
+2021-07-27 13:49:55,897:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-03-23').
+2021-07-27 13:49:56,025:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-03-26').
+2021-07-27 13:49:56,152:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-03-27').
+2021-07-27 13:49:56,286:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-03-28').
+2021-07-27 13:49:56,417:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-03-29').
+2021-07-27 13:49:56,544:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-04-02').
+2021-07-27 13:49:56,673:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-04-03').
+2021-07-27 13:49:56,811:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-04-04').
+2021-07-27 13:49:56,942:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-04-05').
+2021-07-27 13:49:57,073:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-04-06').
+2021-07-27 13:49:57,204:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-04-09').
+2021-07-27 13:49:57,344:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-04-10').
+2021-07-27 13:49:57,474:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-04-11').
+2021-07-27 13:49:57,608:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-04-12').
+2021-07-27 13:49:57,741:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-04-13').
+2021-07-27 13:49:57,877:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-04-16').
+2021-07-27 13:49:58,006:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-04-17').
+2021-07-27 13:49:58,133:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-04-18').
+2021-07-27 13:49:58,262:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-04-19').
+2021-07-27 13:49:58,393:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-04-20').
+2021-07-27 13:49:58,523:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-04-23').
+2021-07-27 13:49:58,652:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-04-24').
+2021-07-27 13:49:58,784:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-04-25').
+2021-07-27 13:49:58,913:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-04-26').
+2021-07-27 13:49:59,041:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-04-27').
+2021-07-27 13:49:59,171:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-04-30').
+2021-07-27 13:49:59,320:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-05-02').
+2021-07-27 13:49:59,448:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-05-03').
+2021-07-27 13:49:59,577:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-05-04').
+2021-07-27 13:49:59,705:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-05-07').
+2021-07-27 13:49:59,836:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-05-08').
+2021-07-27 13:49:59,965:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-05-09').
+2021-07-27 13:50:00,099:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-05-10').
+2021-07-27 13:50:00,227:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-05-11').
+2021-07-27 13:50:00,361:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-05-14').
+2021-07-27 13:50:00,488:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-05-15').
+2021-07-27 13:50:00,620:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-05-16').
+2021-07-27 13:50:00,748:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-05-17').
+2021-07-27 13:50:00,881:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-05-18').
+2021-07-27 13:50:01,009:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-05-21').
+2021-07-27 13:50:01,148:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-05-22').
+2021-07-27 13:50:01,279:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-05-23').
+2021-07-27 13:50:01,423:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-05-24').
+2021-07-27 13:50:01,552:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-05-25').
+2021-07-27 13:50:01,683:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-05-28').
+2021-07-27 13:50:01,822:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-05-29').
+2021-07-27 13:50:01,956:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-05-30').
+2021-07-27 13:50:02,084:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-06-01').
+2021-07-27 13:50:02,217:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-06-04').
+2021-07-27 13:50:02,352:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-06-05').
+2021-07-27 13:50:02,480:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-06-06').
+2021-07-27 13:50:02,609:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-06-07').
+2021-07-27 13:50:02,738:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-06-08').
+2021-07-27 13:50:02,872:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-06-11').
+2021-07-27 13:50:02,999:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-06-12').
+2021-07-27 13:50:03,126:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-06-13').
+2021-07-27 13:50:03,267:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-06-14').
+2021-07-27 13:50:03,399:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-06-15').
+2021-07-27 13:50:03,526:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-06-18').
+2021-07-27 13:50:03,654:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-06-19').
+2021-07-27 13:50:03,788:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-06-20').
+2021-07-27 13:50:03,915:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-06-21').
+2021-07-27 13:50:04,043:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-06-22').
+2021-07-27 13:50:04,173:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-06-25').
+2021-07-27 13:50:04,306:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-06-26').
+2021-07-27 13:50:04,435:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-06-27').
+2021-07-27 13:50:04,564:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-06-28').
+2021-07-27 13:50:04,694:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-06-29').
+2021-07-27 13:50:04,694:DEBUG:utils:The function 'AndreMoraesStrategy.process_operations' took 186967.78 milliseconds to run.
+2021-07-27 13:50:04,776:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 13:50:36,281:DEBUG:utils:The function 'AndreMoraesStrategy.calculate_statistics' took 31586.06 milliseconds to run.
+2021-07-27 13:50:36,825:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 13:50:36,944:INFO:strategy_analyzer:Dash is running on http://127.0.0.1:8050/
+
+2021-07-27 14:12:19,668:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 14:12:20,367:INFO:__main__:
+Program started.
+2021-07-27 14:12:20,375:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 14:12:20,376:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-27 14:12:20,377:DEBUG:config_reader:Config file found.
+2021-07-27 14:12:20,395:INFO:config_reader:Config file successfully read.
+2021-07-27 14:12:20,395:INFO:config_reader:Total strategies: 1
+2021-07-27 14:12:20,396:INFO:config_reader:Total tickers: 9
+2021-07-27 14:12:20,396:INFO:config_reader:Oldest date: 01/01/2013
+2021-07-27 14:12:20,396:INFO:config_reader:Most recent date: 30/06/2014
+2021-07-27 14:12:20,396:INFO:config_reader:Strategies found:
+2021-07-27 14:12:20,396:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.025, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['MGLU3', 'VALE3', 'PETR4', 'WEGE3', 'BBAS3', 'BBDC3', 'EMBR3', 'GGBR4', 'AZUL4']
+2021-07-27 14:12:20,396:DEBUG:utils:The function 'ConfigReader.__init__' took 29.17 milliseconds to run.
+2021-07-27 14:12:20,406:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 14:12:20,414:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 14:12:20,423:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 14:18:23,071:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 14:18:23,759:INFO:__main__:
+Program started.
+2021-07-27 14:18:23,771:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 14:18:23,772:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-27 14:18:23,773:DEBUG:config_reader:Config file found.
+2021-07-27 14:18:23,795:INFO:config_reader:Config file successfully read.
+2021-07-27 14:18:23,795:INFO:config_reader:Total strategies: 1
+2021-07-27 14:18:23,795:INFO:config_reader:Total tickers: 9
+2021-07-27 14:18:23,796:INFO:config_reader:Oldest date: 01/01/2013
+2021-07-27 14:18:23,796:INFO:config_reader:Most recent date: 30/06/2014
+2021-07-27 14:18:23,796:INFO:config_reader:Strategies found:
+2021-07-27 14:18:23,796:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.025, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['MGLU3', 'VALE3', 'PETR4', 'WEGE3', 'BBAS3', 'BBDC3', 'EMBR3', 'GGBR4', 'AZUL4']
+2021-07-27 14:18:23,796:DEBUG:utils:The function 'ConfigReader.__init__' took 37.08 milliseconds to run.
+2021-07-27 14:18:23,807:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 14:18:23,817:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 14:18:23,831:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 14:19:04,851:DEBUG:strategy:Stop loss skipped: 'BBDC3', '2013-06-20'.
+2021-07-27 14:20:15,809:DEBUG:utils:The function 'AndreMoraesStrategy.process_operations' took 111990.52 milliseconds to run.
+2021-07-27 14:20:15,891:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 14:20:25,326:DEBUG:utils:The function 'AndreMoraesStrategy.calculate_statistics' took 9515.54 milliseconds to run.
+2021-07-27 14:20:25,503:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 14:20:25,600:INFO:strategy_analyzer:Dash is running on http://127.0.0.1:8050/
+
+2021-07-27 14:22:07,322:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 14:22:08,077:INFO:__main__:
+Program started.
+2021-07-27 14:22:08,088:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 14:22:08,088:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-27 14:22:08,089:DEBUG:config_reader:Config file found.
+2021-07-27 14:22:08,108:INFO:config_reader:Config file successfully read.
+2021-07-27 14:22:08,108:INFO:config_reader:Total strategies: 1
+2021-07-27 14:22:08,108:INFO:config_reader:Total tickers: 9
+2021-07-27 14:22:08,108:INFO:config_reader:Oldest date: 01/01/2013
+2021-07-27 14:22:08,108:INFO:config_reader:Most recent date: 30/06/2016
+2021-07-27 14:22:08,109:INFO:config_reader:Strategies found:
+2021-07-27 14:22:08,109:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.025, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['MGLU3', 'VALE3', 'PETR4', 'WEGE3', 'BBAS3', 'BBDC3', 'EMBR3', 'GGBR4', 'AZUL4']
+2021-07-27 14:22:08,109:DEBUG:utils:The function 'ConfigReader.__init__' took 31.45 milliseconds to run.
+2021-07-27 14:22:08,118:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 14:22:08,126:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 14:22:08,135:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 14:22:23,178:DEBUG:strategy:Stop loss skipped: 'BBDC3', '2013-06-20'.
+2021-07-27 14:23:07,404:DEBUG:strategy:Target sale skipped: 'PETR4', '2014-07-18'.
+2021-07-27 14:23:17,606:DEBUG:strategy:Stop loss skipped: 'PETR4', '2014-09-29'.
+2021-07-27 14:23:25,433:DEBUG:strategy:Stop loss skipped: 'BBDC3', '2014-12-16'.
+2021-07-27 14:24:18,057:DEBUG:utils:The function 'AndreMoraesStrategy.process_operations' took 129930.33 milliseconds to run.
+2021-07-27 14:24:18,142:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 14:24:40,815:DEBUG:utils:The function 'AndreMoraesStrategy.calculate_statistics' took 22757.61 milliseconds to run.
+2021-07-27 14:24:41,270:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 14:24:41,394:INFO:strategy_analyzer:Dash is running on http://127.0.0.1:8050/
+
+2021-07-27 14:25:34,011:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 14:25:34,737:INFO:__main__:
+Program started.
+2021-07-27 14:25:34,747:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 14:25:34,747:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-27 14:25:34,748:DEBUG:config_reader:Config file found.
+2021-07-27 14:25:34,766:INFO:config_reader:Config file successfully read.
+2021-07-27 14:25:34,766:INFO:config_reader:Total strategies: 1
+2021-07-27 14:25:34,767:INFO:config_reader:Total tickers: 9
+2021-07-27 14:25:34,767:INFO:config_reader:Oldest date: 01/01/2013
+2021-07-27 14:25:34,767:INFO:config_reader:Most recent date: 30/06/2016
+2021-07-27 14:25:34,767:INFO:config_reader:Strategies found:
+2021-07-27 14:25:34,767:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.025, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['MGLU3', 'VALE3', 'PETR4', 'WEGE3', 'BBAS3', 'BBDC3', 'EMBR3', 'GGBR4', 'AZUL4']
+2021-07-27 14:25:34,767:DEBUG:utils:The function 'ConfigReader.__init__' took 29.75 milliseconds to run.
+2021-07-27 14:25:34,776:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 14:25:34,789:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 14:25:34,800:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 14:25:49,869:DEBUG:strategy:Stop loss skipped: 'BBDC3', '2013-06-20'.
+2021-07-27 14:26:26,857:DEBUG:strategy:Target sale skipped: 'PETR4', '2014-07-18'.
+2021-07-27 14:26:34,696:DEBUG:strategy:Stop loss skipped: 'PETR4', '2014-09-29'.
+2021-07-27 14:26:43,076:DEBUG:strategy:Stop loss skipped: 'BBDC3', '2014-12-16'.
+2021-07-27 14:27:39,554:DEBUG:utils:The function 'AndreMoraesStrategy.process_operations' took 124764.23 milliseconds to run.
+2021-07-27 14:27:39,636:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 14:28:00,469:DEBUG:utils:The function 'AndreMoraesStrategy.calculate_statistics' took 20915.08 milliseconds to run.
+2021-07-27 14:28:01,112:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 14:28:01,243:INFO:strategy_analyzer:Dash is running on http://127.0.0.1:8050/
+
+2021-07-27 14:28:55,546:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 14:28:56,330:INFO:__main__:
+Program started.
+2021-07-27 14:28:56,366:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 14:28:56,368:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-27 14:28:56,369:DEBUG:config_reader:Config file found.
+2021-07-27 14:28:56,526:INFO:config_reader:Config file successfully read.
+2021-07-27 14:28:56,526:INFO:config_reader:Total strategies: 1
+2021-07-27 14:28:56,527:INFO:config_reader:Total tickers: 9
+2021-07-27 14:28:56,527:INFO:config_reader:Oldest date: 01/01/2013
+2021-07-27 14:28:56,527:INFO:config_reader:Most recent date: 30/06/2016
+2021-07-27 14:28:56,527:INFO:config_reader:Strategies found:
+2021-07-27 14:28:56,528:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.03, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['MGLU3', 'VALE3', 'PETR4', 'WEGE3', 'BBAS3', 'BBDC3', 'EMBR3', 'GGBR4', 'AZUL4']
+2021-07-27 14:28:56,528:DEBUG:utils:The function 'ConfigReader.__init__' took 197.03 milliseconds to run.
+2021-07-27 14:28:56,541:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 14:28:56,556:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 14:28:56,572:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 14:29:17,910:DEBUG:strategy:Stop loss skipped: 'BBDC3', '2013-06-20'.
+2021-07-27 14:30:04,910:DEBUG:strategy:Target sale skipped: 'PETR4', '2014-07-18'.
+2021-07-27 14:30:11,520:DEBUG:strategy:Stop loss skipped: 'PETR4', '2014-09-29'.
+2021-07-27 14:30:18,538:DEBUG:strategy:Stop loss skipped: 'BBDC3', '2014-12-16'.
+2021-07-27 14:31:07,189:DEBUG:utils:The function 'AndreMoraesStrategy.process_operations' took 130632.82 milliseconds to run.
+2021-07-27 14:31:07,416:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 14:31:31,286:DEBUG:utils:The function 'AndreMoraesStrategy.calculate_statistics' took 24096.61 milliseconds to run.
+2021-07-27 14:31:31,731:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 14:31:31,844:INFO:strategy_analyzer:Dash is running on http://127.0.0.1:8050/
+
+2021-07-27 14:34:04,891:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 14:34:05,877:INFO:__main__:
+Program started.
+2021-07-27 14:34:05,917:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 14:34:05,918:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-27 14:34:05,920:DEBUG:config_reader:Config file found.
+2021-07-27 14:34:05,955:INFO:config_reader:Config file successfully read.
+2021-07-27 14:34:05,956:INFO:config_reader:Total strategies: 1
+2021-07-27 14:34:05,956:INFO:config_reader:Total tickers: 9
+2021-07-27 14:34:05,956:INFO:config_reader:Oldest date: 01/01/2013
+2021-07-27 14:34:05,960:INFO:config_reader:Most recent date: 30/06/2018
+2021-07-27 14:34:05,960:INFO:config_reader:Strategies found:
+2021-07-27 14:34:05,960:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.03, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['MGLU3', 'VALE3', 'PETR4', 'WEGE3', 'BBAS3', 'BBDC3', 'EMBR3', 'GGBR4', 'AZUL4']
+2021-07-27 14:34:05,961:DEBUG:utils:The function 'ConfigReader.__init__' took 83.26 milliseconds to run.
+2021-07-27 14:34:05,971:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 14:34:05,993:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 14:34:06,005:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 14:34:24,446:DEBUG:strategy:Stop loss skipped: 'BBDC3', '2013-06-20'.
+2021-07-27 14:35:03,797:DEBUG:strategy:Target sale skipped: 'PETR4', '2014-07-18'.
+2021-07-27 14:35:12,583:DEBUG:strategy:Stop loss skipped: 'PETR4', '2014-09-29'.
+2021-07-27 14:35:20,799:DEBUG:strategy:Stop loss skipped: 'BBDC3', '2014-12-16'.
+2021-07-27 14:36:25,007:DEBUG:strategy:Target sale skipped: 'PETR4', '2016-10-19'.
+2021-07-27 14:36:42,705:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-04-11').
+2021-07-27 14:36:42,936:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-04-12').
+2021-07-27 14:36:43,156:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-04-13').
+2021-07-27 14:36:43,357:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-04-17').
+2021-07-27 14:36:43,541:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-04-18').
+2021-07-27 14:36:44,223:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-04-19').
+2021-07-27 14:36:44,651:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-04-20').
+2021-07-27 14:36:45,147:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-04-24').
+2021-07-27 14:36:45,337:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-04-25').
+2021-07-27 14:36:45,559:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-04-26').
+2021-07-27 14:36:45,727:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-04-27').
+2021-07-27 14:36:45,910:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-04-28').
+2021-07-27 14:36:46,079:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-05-02').
+2021-07-27 14:36:46,273:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-05-03').
+2021-07-27 14:36:46,441:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-05-04').
+2021-07-27 14:36:46,619:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-05-05').
+2021-07-27 14:36:46,791:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-05-08').
+2021-07-27 14:36:47,065:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-05-09').
+2021-07-27 14:36:47,641:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-05-10').
+2021-07-27 14:36:47,796:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-05-11').
+2021-07-27 14:36:47,966:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-05-12').
+2021-07-27 14:36:48,142:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-05-16').
+2021-07-27 14:36:48,302:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-05-17').
+2021-07-27 14:36:48,370:DEBUG:strategy:Stop loss skipped: 'BBAS3', '2017-05-18'.
+2021-07-27 14:36:48,450:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-05-18').
+2021-07-27 14:36:48,582:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-05-19').
+2021-07-27 14:36:48,737:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-05-22').
+2021-07-27 14:36:48,893:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-05-23').
+2021-07-27 14:36:49,060:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-05-24').
+2021-07-27 14:36:49,214:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-05-25').
+2021-07-27 14:36:49,369:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-05-26').
+2021-07-27 14:36:49,524:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-05-30').
+2021-07-27 14:36:49,666:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-05-31').
+2021-07-27 14:36:50,236:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-06-01').
+2021-07-27 14:36:50,435:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-06-02').
+2021-07-27 14:36:50,605:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-06-05').
+2021-07-27 14:36:50,798:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-06-06').
+2021-07-27 14:36:50,967:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-06-07').
+2021-07-27 14:36:51,149:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-06-08').
+2021-07-27 14:36:51,307:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-06-09').
+2021-07-27 14:36:51,453:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-06-12').
+2021-07-27 14:36:51,615:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-06-13').
+2021-07-27 14:36:51,753:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-06-14').
+2021-07-27 14:36:51,898:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-06-16').
+2021-07-27 14:36:52,026:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-06-19').
+2021-07-27 14:36:52,161:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-06-20').
+2021-07-27 14:36:52,289:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-06-21').
+2021-07-27 14:36:52,416:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-06-22').
+2021-07-27 14:36:52,550:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-06-23').
+2021-07-27 14:36:52,696:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-06-26').
+2021-07-27 14:36:52,836:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-06-27').
+2021-07-27 14:36:52,969:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-06-28').
+2021-07-27 14:36:53,099:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-06-29').
+2021-07-27 14:36:53,231:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-06-30').
+2021-07-27 14:36:53,359:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-07-03').
+2021-07-27 14:36:53,487:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-07-04').
+2021-07-27 14:36:53,620:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-07-05').
+2021-07-27 14:36:53,749:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-07-06').
+2021-07-27 14:36:53,877:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-07-07').
+2021-07-27 14:36:54,021:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-07-10').
+2021-07-27 14:36:54,159:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-07-11').
+2021-07-27 14:36:54,287:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-07-12').
+2021-07-27 14:36:54,416:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-07-13').
+2021-07-27 14:36:54,546:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-07-14').
+2021-07-27 14:36:54,679:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-07-17').
+2021-07-27 14:36:54,805:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-07-18').
+2021-07-27 14:36:54,933:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-07-19').
+2021-07-27 14:36:55,062:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-07-20').
+2021-07-27 14:36:55,195:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-07-21').
+2021-07-27 14:36:55,322:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-07-24').
+2021-07-27 14:36:55,452:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-07-25').
+2021-07-27 14:36:55,581:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-07-26').
+2021-07-27 14:36:55,714:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-07-27').
+2021-07-27 14:36:55,842:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-07-28').
+2021-07-27 14:36:55,972:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-07-31').
+2021-07-27 14:36:56,104:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-08-01').
+2021-07-27 14:36:56,235:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-08-02').
+2021-07-27 14:36:56,368:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-08-03').
+2021-07-27 14:36:56,500:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-08-04').
+2021-07-27 14:36:56,650:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-08-07').
+2021-07-27 14:36:56,780:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-08-08').
+2021-07-27 14:36:56,911:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-08-09').
+2021-07-27 14:36:57,039:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-08-10').
+2021-07-27 14:36:57,172:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-08-11').
+2021-07-27 14:36:57,299:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-08-14').
+2021-07-27 14:36:57,428:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-08-15').
+2021-07-27 14:36:57,558:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-08-16').
+2021-07-27 14:36:57,689:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-08-17').
+2021-07-27 14:36:57,818:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-08-18').
+2021-07-27 14:36:57,946:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-08-21').
+2021-07-27 14:36:58,073:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-08-22').
+2021-07-27 14:36:58,205:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-08-23').
+2021-07-27 14:36:58,333:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-08-24').
+2021-07-27 14:36:58,462:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-08-25').
+2021-07-27 14:36:58,591:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-08-28').
+2021-07-27 14:36:58,723:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-08-29').
+2021-07-27 14:36:58,851:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-08-30').
+2021-07-27 14:36:58,979:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-08-31').
+2021-07-27 14:36:59,111:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-09-01').
+2021-07-27 14:36:59,248:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-09-04').
+2021-07-27 14:36:59,377:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-09-05').
+2021-07-27 14:36:59,508:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-09-06').
+2021-07-27 14:36:59,640:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-09-08').
+2021-07-27 14:36:59,769:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-09-11').
+2021-07-27 14:36:59,898:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-09-12').
+2021-07-27 14:37:00,029:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-09-13').
+2021-07-27 14:37:00,164:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-09-14').
+2021-07-27 14:37:00,294:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-09-15').
+2021-07-27 14:37:00,423:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-09-18').
+2021-07-27 14:37:00,571:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-09-19').
+2021-07-27 14:37:00,703:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-09-20').
+2021-07-27 14:37:00,831:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-09-21').
+2021-07-27 14:37:00,958:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-09-22').
+2021-07-27 14:37:01,086:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-09-25').
+2021-07-27 14:37:01,221:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-09-26').
+2021-07-27 14:37:01,350:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-09-27').
+2021-07-27 14:37:01,480:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-09-28').
+2021-07-27 14:37:01,610:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-09-29').
+2021-07-27 14:37:01,742:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-10-02').
+2021-07-27 14:37:01,870:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-10-03').
+2021-07-27 14:37:01,998:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-10-04').
+2021-07-27 14:37:02,130:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-10-05').
+2021-07-27 14:37:02,261:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-10-06').
+2021-07-27 14:37:02,388:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-10-09').
+2021-07-27 14:37:02,518:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-10-10').
+2021-07-27 14:37:02,652:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-10-11').
+2021-07-27 14:37:02,782:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-10-13').
+2021-07-27 14:37:02,909:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-10-16').
+2021-07-27 14:37:03,036:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-10-17').
+2021-07-27 14:37:03,167:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-10-18').
+2021-07-27 14:37:03,296:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-10-19').
+2021-07-27 14:37:03,425:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-10-20').
+2021-07-27 14:37:03,551:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-10-23').
+2021-07-27 14:37:03,684:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-10-24').
+2021-07-27 14:37:03,814:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-10-25').
+2021-07-27 14:37:03,948:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-10-26').
+2021-07-27 14:37:04,075:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-10-27').
+2021-07-27 14:37:04,207:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-10-30').
+2021-07-27 14:37:04,336:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-10-31').
+2021-07-27 14:37:04,477:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-11-01').
+2021-07-27 14:37:04,610:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-11-03').
+2021-07-27 14:37:04,725:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-11-06').
+2021-07-27 14:37:04,864:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-11-07').
+2021-07-27 14:37:04,994:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-11-08').
+2021-07-27 14:37:05,128:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-11-09').
+2021-07-27 14:37:05,259:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-11-10').
+2021-07-27 14:37:05,388:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-11-13').
+2021-07-27 14:37:05,516:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-11-14').
+2021-07-27 14:37:05,648:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-11-16').
+2021-07-27 14:37:05,778:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-11-17').
+2021-07-27 14:37:05,906:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-11-21').
+2021-07-27 14:37:06,033:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-11-22').
+2021-07-27 14:37:06,165:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-11-23').
+2021-07-27 14:37:06,293:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-11-24').
+2021-07-27 14:37:06,423:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-11-27').
+2021-07-27 14:37:06,552:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-11-28').
+2021-07-27 14:37:06,686:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-11-29').
+2021-07-27 14:37:06,815:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-11-30').
+2021-07-27 14:37:06,946:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-12-01').
+2021-07-27 14:37:07,077:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-12-04').
+2021-07-27 14:37:07,214:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-12-05').
+2021-07-27 14:37:07,347:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-12-06').
+2021-07-27 14:37:07,478:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-12-07').
+2021-07-27 14:37:07,614:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-12-08').
+2021-07-27 14:37:07,744:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-12-11').
+2021-07-27 14:37:07,884:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-12-12').
+2021-07-27 14:37:08,013:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-12-13').
+2021-07-27 14:37:08,146:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-12-14').
+2021-07-27 14:37:08,273:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-12-15').
+2021-07-27 14:37:08,417:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-12-18').
+2021-07-27 14:37:08,544:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-12-19').
+2021-07-27 14:37:08,677:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-12-20').
+2021-07-27 14:37:08,805:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-12-21').
+2021-07-27 14:37:08,934:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-12-22').
+2021-07-27 14:37:09,064:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-12-26').
+2021-07-27 14:37:09,195:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-12-27').
+2021-07-27 14:37:09,324:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-12-28').
+2021-07-27 14:37:09,464:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-01-02').
+2021-07-27 14:37:09,593:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-01-03').
+2021-07-27 14:37:09,726:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-01-04').
+2021-07-27 14:37:09,856:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-01-05').
+2021-07-27 14:37:09,984:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-01-08').
+2021-07-27 14:37:10,161:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-01-09').
+2021-07-27 14:37:10,339:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-01-10').
+2021-07-27 14:37:10,515:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-01-11').
+2021-07-27 14:37:10,678:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-01-12').
+2021-07-27 14:37:10,861:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-01-15').
+2021-07-27 14:37:11,052:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-01-16').
+2021-07-27 14:37:11,247:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-01-17').
+2021-07-27 14:37:11,458:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-01-18').
+2021-07-27 14:37:11,625:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-01-19').
+2021-07-27 14:37:11,797:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-01-22').
+2021-07-27 14:37:11,962:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-01-23').
+2021-07-27 14:37:12,141:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-01-24').
+2021-07-27 14:37:12,306:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-01-26').
+2021-07-27 14:37:12,466:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-01-29').
+2021-07-27 14:37:12,629:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-01-30').
+2021-07-27 14:37:12,794:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-01-31').
+2021-07-27 14:37:13,549:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-02-01').
+2021-07-27 14:37:14,190:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-02-02').
+2021-07-27 14:37:14,570:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-02-05').
+2021-07-27 14:37:15,084:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-02-06').
+2021-07-27 14:37:15,531:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-02-07').
+2021-07-27 14:37:15,898:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-02-08').
+2021-07-27 14:37:16,253:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-02-09').
+2021-07-27 14:37:16,472:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-02-15').
+2021-07-27 14:37:16,648:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-02-16').
+2021-07-27 14:37:16,811:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-02-19').
+2021-07-27 14:37:17,132:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-02-20').
+2021-07-27 14:37:17,339:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-02-21').
+2021-07-27 14:37:17,402:DEBUG:strategy:Target sale skipped: 'BBAS3', '2018-02-22'.
+2021-07-27 14:37:17,623:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-02-22').
+2021-07-27 14:37:17,807:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-02-23').
+2021-07-27 14:37:17,869:DEBUG:strategy:Target sale skipped: 'PETR4', '2018-02-26'.
+2021-07-27 14:37:18,031:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-02-26').
+2021-07-27 14:37:18,248:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-02-27').
+2021-07-27 14:37:18,453:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-02-28').
+2021-07-27 14:37:18,680:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-03-01').
+2021-07-27 14:37:18,874:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-03-02').
+2021-07-27 14:37:19,067:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-03-05').
+2021-07-27 14:37:19,293:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-03-06').
+2021-07-27 14:37:19,549:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-03-07').
+2021-07-27 14:37:19,772:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-03-08').
+2021-07-27 14:37:20,015:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-03-09').
+2021-07-27 14:37:20,179:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-03-12').
+2021-07-27 14:37:20,358:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-03-13').
+2021-07-27 14:37:20,587:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-03-14').
+2021-07-27 14:37:20,777:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-03-15').
+2021-07-27 14:37:20,961:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-03-16').
+2021-07-27 14:37:21,173:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-03-19').
+2021-07-27 14:37:21,359:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-03-20').
+2021-07-27 14:37:21,630:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-03-21').
+2021-07-27 14:37:21,849:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-03-22').
+2021-07-27 14:37:22,079:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-03-23').
+2021-07-27 14:37:22,302:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-03-26').
+2021-07-27 14:37:22,520:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-03-27').
+2021-07-27 14:37:22,730:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-03-28').
+2021-07-27 14:37:22,993:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-03-29').
+2021-07-27 14:37:23,195:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-04-02').
+2021-07-27 14:37:23,385:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-04-03').
+2021-07-27 14:37:23,577:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-04-04').
+2021-07-27 14:37:23,756:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-04-05').
+2021-07-27 14:37:23,936:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-04-06').
+2021-07-27 14:37:24,118:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-04-09').
+2021-07-27 14:37:24,328:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-04-10').
+2021-07-27 14:37:24,502:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-04-11').
+2021-07-27 14:37:24,654:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-04-12').
+2021-07-27 14:37:24,810:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-04-13').
+2021-07-27 14:37:24,968:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-04-16').
+2021-07-27 14:37:25,135:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-04-17').
+2021-07-27 14:37:25,297:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-04-18').
+2021-07-27 14:37:25,439:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-04-19').
+2021-07-27 14:37:25,591:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-04-20').
+2021-07-27 14:37:25,747:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-04-23').
+2021-07-27 14:37:25,896:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-04-24').
+2021-07-27 14:37:26,051:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-04-25').
+2021-07-27 14:37:26,232:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-04-26').
+2021-07-27 14:37:26,403:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-04-27').
+2021-07-27 14:37:26,545:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-04-30').
+2021-07-27 14:37:26,712:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-05-02').
+2021-07-27 14:37:26,880:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-05-03').
+2021-07-27 14:37:27,027:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-05-04').
+2021-07-27 14:37:27,179:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-05-07').
+2021-07-27 14:37:27,329:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-05-08').
+2021-07-27 14:37:27,474:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-05-09').
+2021-07-27 14:37:27,621:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-05-10').
+2021-07-27 14:37:27,776:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-05-11').
+2021-07-27 14:37:27,923:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-05-14').
+2021-07-27 14:37:28,073:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-05-15').
+2021-07-27 14:37:28,229:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-05-16').
+2021-07-27 14:37:28,375:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-05-17').
+2021-07-27 14:37:28,527:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-05-18').
+2021-07-27 14:37:28,670:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-05-21').
+2021-07-27 14:37:28,842:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-05-22').
+2021-07-27 14:37:29,009:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-05-23').
+2021-07-27 14:37:29,142:DEBUG:strategy:Stop loss skipped: 'PETR4', '2018-05-24'.
+2021-07-27 14:37:29,186:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-05-24').
+2021-07-27 14:37:29,379:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-05-25').
+2021-07-27 14:37:29,558:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-05-28').
+2021-07-27 14:37:29,741:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-05-29').
+2021-07-27 14:37:29,905:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-05-30').
+2021-07-27 14:37:30,063:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-06-01').
+2021-07-27 14:37:30,233:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-06-04').
+2021-07-27 14:37:30,407:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-06-05').
+2021-07-27 14:37:30,560:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-06-06').
+2021-07-27 14:37:30,737:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-06-07').
+2021-07-27 14:37:30,887:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-06-08').
+2021-07-27 14:37:31,015:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-06-11').
+2021-07-27 14:37:31,142:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-06-12').
+2021-07-27 14:37:31,276:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-06-13').
+2021-07-27 14:37:31,415:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-06-14').
+2021-07-27 14:37:31,543:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-06-15').
+2021-07-27 14:37:31,672:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-06-18').
+2021-07-27 14:37:31,806:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-06-19').
+2021-07-27 14:37:31,933:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-06-20').
+2021-07-27 14:37:32,063:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-06-21').
+2021-07-27 14:37:32,198:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-06-22').
+2021-07-27 14:37:32,326:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-06-25').
+2021-07-27 14:37:32,456:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-06-26').
+2021-07-27 14:37:32,584:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-06-27').
+2021-07-27 14:37:32,718:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-06-28').
+2021-07-27 14:37:32,845:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-06-29').
+2021-07-27 14:37:32,846:DEBUG:utils:The function 'AndreMoraesStrategy.process_operations' took 206852.37 milliseconds to run.
+2021-07-27 14:37:33,028:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 14:38:06,064:DEBUG:utils:The function 'AndreMoraesStrategy.calculate_statistics' took 33217.41 milliseconds to run.
+2021-07-27 14:38:06,721:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 14:38:06,844:INFO:strategy_analyzer:Dash is running on http://127.0.0.1:8050/
+
+2021-07-27 14:39:21,111:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 14:39:21,906:INFO:__main__:
+Program started.
+2021-07-27 14:39:21,915:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 14:39:21,915:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-27 14:39:21,916:DEBUG:config_reader:Config file found.
+2021-07-27 14:39:21,935:INFO:config_reader:Config file successfully read.
+2021-07-27 14:39:21,935:INFO:config_reader:Total strategies: 1
+2021-07-27 14:39:21,936:INFO:config_reader:Total tickers: 9
+2021-07-27 14:39:21,936:INFO:config_reader:Oldest date: 01/01/2013
+2021-07-27 14:39:21,936:INFO:config_reader:Most recent date: 30/06/2018
+2021-07-27 14:39:21,936:INFO:config_reader:Strategies found:
+2021-07-27 14:39:21,936:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.05, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['MGLU3', 'VALE3', 'PETR4', 'WEGE3', 'BBAS3', 'BBDC3', 'EMBR3', 'GGBR4', 'AZUL4']
+2021-07-27 14:39:21,936:DEBUG:utils:The function 'ConfigReader.__init__' took 30.45 milliseconds to run.
+2021-07-27 14:39:21,945:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 14:39:21,953:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 14:39:21,962:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 14:39:36,703:DEBUG:strategy:Stop loss skipped: 'BBDC3', '2013-06-20'.
+2021-07-27 14:40:14,692:DEBUG:strategy:Target sale skipped: 'PETR4', '2014-07-18'.
+2021-07-27 14:40:23,590:DEBUG:strategy:Stop loss skipped: 'PETR4', '2014-09-29'.
+2021-07-27 14:41:33,436:DEBUG:strategy:Target sale skipped: 'PETR4', '2016-10-19'.
+2021-07-27 14:41:49,240:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-04-11').
+2021-07-27 14:41:49,371:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-04-12').
+2021-07-27 14:41:49,499:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-04-13').
+2021-07-27 14:41:49,634:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-04-17').
+2021-07-27 14:41:49,765:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-04-18').
+2021-07-27 14:41:49,893:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-04-19').
+2021-07-27 14:41:50,022:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-04-20').
+2021-07-27 14:41:50,155:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-04-24').
+2021-07-27 14:41:50,283:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-04-25').
+2021-07-27 14:41:50,418:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-04-26').
+2021-07-27 14:41:50,546:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-04-27').
+2021-07-27 14:41:50,680:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-04-28').
+2021-07-27 14:41:50,808:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-05-02').
+2021-07-27 14:41:50,935:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-05-03').
+2021-07-27 14:41:51,070:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-05-04').
+2021-07-27 14:41:51,202:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-05-05').
+2021-07-27 14:41:51,331:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-05-08').
+2021-07-27 14:41:51,461:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-05-09').
+2021-07-27 14:41:51,593:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-05-10').
+2021-07-27 14:41:51,727:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-05-11').
+2021-07-27 14:41:51,872:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-05-12').
+2021-07-27 14:41:52,000:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-05-16').
+2021-07-27 14:41:52,132:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-05-17').
+2021-07-27 14:41:52,190:DEBUG:strategy:Stop loss skipped: 'BBAS3', '2017-05-18'.
+2021-07-27 14:41:52,263:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-05-18').
+2021-07-27 14:41:52,392:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-05-19').
+2021-07-27 14:41:52,522:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-05-22').
+2021-07-27 14:41:52,659:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-05-23').
+2021-07-27 14:41:52,799:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-05-24').
+2021-07-27 14:41:52,931:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-05-25').
+2021-07-27 14:41:53,059:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-05-26').
+2021-07-27 14:41:53,208:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-05-30').
+2021-07-27 14:41:53,344:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-05-31').
+2021-07-27 14:41:53,473:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-06-01').
+2021-07-27 14:41:53,603:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-06-02').
+2021-07-27 14:41:53,740:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-06-05').
+2021-07-27 14:41:53,869:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-06-06').
+2021-07-27 14:41:53,998:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-06-07').
+2021-07-27 14:41:54,135:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-06-08').
+2021-07-27 14:41:54,272:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-06-09').
+2021-07-27 14:41:54,403:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-06-12').
+2021-07-27 14:41:54,532:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-06-13').
+2021-07-27 14:41:54,666:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-06-14').
+2021-07-27 14:41:54,810:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-06-16').
+2021-07-27 14:41:54,943:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-06-19').
+2021-07-27 14:41:55,072:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-06-20').
+2021-07-27 14:41:55,205:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-06-21').
+2021-07-27 14:41:55,335:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-06-22').
+2021-07-27 14:41:55,465:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-06-23').
+2021-07-27 14:41:55,611:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-06-26').
+2021-07-27 14:41:55,746:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-06-27').
+2021-07-27 14:41:55,875:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-06-28').
+2021-07-27 14:41:56,004:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-06-29').
+2021-07-27 14:41:56,135:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-06-30').
+2021-07-27 14:41:56,268:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-07-03').
+2021-07-27 14:41:56,401:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-07-04').
+2021-07-27 14:41:56,530:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-07-05').
+2021-07-27 14:41:56,673:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-07-06').
+2021-07-27 14:41:56,806:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-07-07').
+2021-07-27 14:41:56,938:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-07-10').
+2021-07-27 14:41:57,076:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-07-11').
+2021-07-27 14:41:57,214:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-07-12').
+2021-07-27 14:41:57,353:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-07-13').
+2021-07-27 14:41:57,487:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-07-14').
+2021-07-27 14:41:57,622:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-07-17').
+2021-07-27 14:41:57,759:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-07-18').
+2021-07-27 14:41:57,894:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-07-19').
+2021-07-27 14:41:58,024:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-07-20').
+2021-07-27 14:41:58,158:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-07-21').
+2021-07-27 14:41:58,288:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-07-24').
+2021-07-27 14:41:58,418:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-07-25').
+2021-07-27 14:41:58,546:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-07-26').
+2021-07-27 14:41:58,686:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-07-27').
+2021-07-27 14:41:58,816:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-07-28').
+2021-07-27 14:41:58,944:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-07-31').
+2021-07-27 14:41:59,076:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-08-01').
+2021-07-27 14:41:59,211:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-08-02').
+2021-07-27 14:41:59,346:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-08-03').
+2021-07-27 14:41:59,476:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-08-04').
+2021-07-27 14:41:59,619:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-08-07').
+2021-07-27 14:41:59,753:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-08-08').
+2021-07-27 14:41:59,884:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-08-09').
+2021-07-27 14:42:00,015:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-08-10').
+2021-07-27 14:42:00,156:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-08-11').
+2021-07-27 14:42:00,292:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-08-14').
+2021-07-27 14:42:00,426:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-08-15').
+2021-07-27 14:42:00,556:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-08-16').
+2021-07-27 14:42:00,699:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-08-17').
+2021-07-27 14:42:00,835:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-08-18').
+2021-07-27 14:42:00,964:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-08-21').
+2021-07-27 14:42:01,093:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-08-22').
+2021-07-27 14:42:01,229:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-08-23').
+2021-07-27 14:42:01,361:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-08-24').
+2021-07-27 14:42:01,490:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-08-25').
+2021-07-27 14:42:01,626:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-08-28').
+2021-07-27 14:42:01,760:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-08-29').
+2021-07-27 14:42:01,890:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-08-30').
+2021-07-27 14:42:02,020:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-08-31').
+2021-07-27 14:42:02,154:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-09-01').
+2021-07-27 14:42:02,286:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-09-04').
+2021-07-27 14:42:02,420:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-09-05').
+2021-07-27 14:42:02,549:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-09-06').
+2021-07-27 14:42:02,684:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-09-08').
+2021-07-27 14:42:02,812:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-09-11').
+2021-07-27 14:42:02,942:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-09-12').
+2021-07-27 14:42:03,075:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-09-13').
+2021-07-27 14:42:03,209:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-09-14').
+2021-07-27 14:42:03,339:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-09-15').
+2021-07-27 14:42:03,470:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-09-18').
+2021-07-27 14:42:03,611:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-09-19').
+2021-07-27 14:42:03,747:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-09-20').
+2021-07-27 14:42:03,881:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-09-21').
+2021-07-27 14:42:04,009:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-09-22').
+2021-07-27 14:42:04,139:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-09-25').
+2021-07-27 14:42:04,275:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-09-26').
+2021-07-27 14:42:04,405:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-09-27').
+2021-07-27 14:42:04,536:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-09-28').
+2021-07-27 14:42:04,676:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-09-29').
+2021-07-27 14:42:04,804:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-10-02').
+2021-07-27 14:42:04,933:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-10-03').
+2021-07-27 14:42:05,064:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-10-04').
+2021-07-27 14:42:05,198:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-10-05').
+2021-07-27 14:42:05,331:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-10-06').
+2021-07-27 14:42:05,465:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-10-09').
+2021-07-27 14:42:05,597:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-10-10').
+2021-07-27 14:42:05,731:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-10-11').
+2021-07-27 14:42:05,862:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-10-13').
+2021-07-27 14:42:05,990:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-10-16').
+2021-07-27 14:42:06,124:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-10-17').
+2021-07-27 14:42:06,259:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-10-18').
+2021-07-27 14:42:06,388:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-10-19').
+2021-07-27 14:42:06,518:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-10-20').
+2021-07-27 14:42:06,649:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-10-23').
+2021-07-27 14:42:06,782:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-10-24').
+2021-07-27 14:42:06,917:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-10-25').
+2021-07-27 14:42:07,056:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-10-26').
+2021-07-27 14:42:07,192:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-10-27').
+2021-07-27 14:42:07,323:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-10-30').
+2021-07-27 14:42:07,454:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-10-31').
+2021-07-27 14:42:07,602:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-11-01').
+2021-07-27 14:42:07,747:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-11-03').
+2021-07-27 14:42:07,866:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-11-06').
+2021-07-27 14:42:07,997:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-11-07').
+2021-07-27 14:42:08,131:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-11-08').
+2021-07-27 14:42:08,280:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-11-09').
+2021-07-27 14:42:08,416:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-11-10').
+2021-07-27 14:42:08,549:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-11-13').
+2021-07-27 14:42:08,686:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-11-14').
+2021-07-27 14:42:08,820:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-11-16').
+2021-07-27 14:42:08,952:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-11-17').
+2021-07-27 14:42:09,089:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-11-21').
+2021-07-27 14:42:09,225:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-11-22').
+2021-07-27 14:42:09,357:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-11-23').
+2021-07-27 14:42:09,488:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-11-24').
+2021-07-27 14:42:09,617:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-11-27').
+2021-07-27 14:42:09,752:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-11-28').
+2021-07-27 14:42:09,885:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-11-29').
+2021-07-27 14:42:10,015:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-11-30').
+2021-07-27 14:42:10,145:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-12-01').
+2021-07-27 14:42:10,280:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-12-04').
+2021-07-27 14:42:10,410:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-12-05').
+2021-07-27 14:42:10,539:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-12-06').
+2021-07-27 14:42:10,677:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-12-07').
+2021-07-27 14:42:10,806:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-12-08').
+2021-07-27 14:42:10,935:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-12-11').
+2021-07-27 14:42:11,064:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-12-12').
+2021-07-27 14:42:11,199:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-12-13').
+2021-07-27 14:42:11,335:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-12-14').
+2021-07-27 14:42:11,467:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-12-15').
+2021-07-27 14:42:11,610:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-12-18').
+2021-07-27 14:42:11,748:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-12-19').
+2021-07-27 14:42:11,877:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-12-20').
+2021-07-27 14:42:12,005:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-12-21').
+2021-07-27 14:42:12,141:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-12-22').
+2021-07-27 14:42:12,275:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-12-26').
+2021-07-27 14:42:12,404:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-12-27').
+2021-07-27 14:42:12,536:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2017-12-28').
+2021-07-27 14:42:12,681:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-01-02').
+2021-07-27 14:42:12,811:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-01-03').
+2021-07-27 14:42:12,944:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-01-04').
+2021-07-27 14:42:13,073:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-01-05').
+2021-07-27 14:42:13,206:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-01-08').
+2021-07-27 14:42:13,336:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-01-09').
+2021-07-27 14:42:13,465:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-01-10').
+2021-07-27 14:42:13,598:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-01-11').
+2021-07-27 14:42:13,732:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-01-12').
+2021-07-27 14:42:13,860:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-01-15').
+2021-07-27 14:42:13,989:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-01-16').
+2021-07-27 14:42:14,117:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-01-17').
+2021-07-27 14:42:14,253:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-01-18').
+2021-07-27 14:42:14,387:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-01-19').
+2021-07-27 14:42:14,516:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-01-22').
+2021-07-27 14:42:14,647:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-01-23').
+2021-07-27 14:42:14,781:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-01-24').
+2021-07-27 14:42:14,910:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-01-26').
+2021-07-27 14:42:15,040:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-01-29').
+2021-07-27 14:42:15,176:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-01-30').
+2021-07-27 14:42:15,307:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-01-31').
+2021-07-27 14:42:15,449:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-02-01').
+2021-07-27 14:42:15,578:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-02-02').
+2021-07-27 14:42:15,714:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-02-05').
+2021-07-27 14:42:15,846:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-02-06').
+2021-07-27 14:42:15,974:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-02-07').
+2021-07-27 14:42:16,104:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-02-08').
+2021-07-27 14:42:16,248:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-02-09').
+2021-07-27 14:42:16,389:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-02-15').
+2021-07-27 14:42:16,520:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-02-16').
+2021-07-27 14:42:16,653:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-02-19').
+2021-07-27 14:42:16,786:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-02-20').
+2021-07-27 14:42:16,914:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-02-21').
+2021-07-27 14:42:16,957:DEBUG:strategy:Target sale skipped: 'BBAS3', '2018-02-22'.
+2021-07-27 14:42:17,046:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-02-22').
+2021-07-27 14:42:17,178:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-02-23').
+2021-07-27 14:42:17,220:DEBUG:strategy:Target sale skipped: 'PETR4', '2018-02-26'.
+2021-07-27 14:42:17,313:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-02-26').
+2021-07-27 14:42:17,442:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-02-27').
+2021-07-27 14:42:17,574:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-02-28').
+2021-07-27 14:42:17,710:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-03-01').
+2021-07-27 14:42:17,839:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-03-02').
+2021-07-27 14:42:17,968:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-03-05').
+2021-07-27 14:42:18,108:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-03-06').
+2021-07-27 14:42:18,249:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-03-07').
+2021-07-27 14:42:18,382:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-03-08').
+2021-07-27 14:42:18,513:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-03-09').
+2021-07-27 14:42:18,648:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-03-12').
+2021-07-27 14:42:18,806:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-03-13').
+2021-07-27 14:42:18,938:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-03-14').
+2021-07-27 14:42:19,067:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-03-15').
+2021-07-27 14:42:19,201:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-03-16').
+2021-07-27 14:42:19,345:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-03-19').
+2021-07-27 14:42:19,476:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-03-20').
+2021-07-27 14:42:19,621:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-03-21').
+2021-07-27 14:42:19,758:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-03-22').
+2021-07-27 14:42:19,890:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-03-23').
+2021-07-27 14:42:20,018:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-03-26').
+2021-07-27 14:42:20,146:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-03-27').
+2021-07-27 14:42:20,279:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-03-28').
+2021-07-27 14:42:20,417:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-03-29').
+2021-07-27 14:42:20,547:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-04-02').
+2021-07-27 14:42:20,680:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-04-03').
+2021-07-27 14:42:20,809:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-04-04').
+2021-07-27 14:42:20,938:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-04-05').
+2021-07-27 14:42:21,072:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-04-06').
+2021-07-27 14:42:21,206:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-04-09').
+2021-07-27 14:42:21,334:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-04-10').
+2021-07-27 14:42:21,465:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-04-11').
+2021-07-27 14:42:21,595:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-04-12').
+2021-07-27 14:42:21,736:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-04-13').
+2021-07-27 14:42:21,871:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-04-16').
+2021-07-27 14:42:22,000:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-04-17').
+2021-07-27 14:42:22,129:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-04-18').
+2021-07-27 14:42:22,264:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-04-19').
+2021-07-27 14:42:22,395:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-04-20').
+2021-07-27 14:42:22,524:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-04-23').
+2021-07-27 14:42:22,659:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-04-24').
+2021-07-27 14:42:22,792:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-04-25').
+2021-07-27 14:42:22,932:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-04-26').
+2021-07-27 14:42:23,061:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-04-27').
+2021-07-27 14:42:23,194:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-04-30').
+2021-07-27 14:42:23,342:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-05-02').
+2021-07-27 14:42:23,473:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-05-03').
+2021-07-27 14:42:23,602:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-05-04').
+2021-07-27 14:42:23,736:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-05-07').
+2021-07-27 14:42:23,867:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-05-08').
+2021-07-27 14:42:23,997:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-05-09').
+2021-07-27 14:42:24,130:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-05-10').
+2021-07-27 14:42:24,269:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-05-11').
+2021-07-27 14:42:24,400:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-05-14').
+2021-07-27 14:42:24,530:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-05-15').
+2021-07-27 14:42:24,659:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-05-16').
+2021-07-27 14:42:24,793:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-05-17').
+2021-07-27 14:42:24,925:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-05-18').
+2021-07-27 14:42:25,055:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-05-21').
+2021-07-27 14:42:25,186:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-05-22').
+2021-07-27 14:42:25,317:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-05-23').
+2021-07-27 14:42:25,448:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-05-24').
+2021-07-27 14:42:25,583:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-05-25').
+2021-07-27 14:42:25,716:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-05-28').
+2021-07-27 14:42:25,845:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-05-29').
+2021-07-27 14:42:25,975:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-05-30').
+2021-07-27 14:42:26,104:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-06-01').
+2021-07-27 14:42:26,238:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-06-04').
+2021-07-27 14:42:26,373:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-06-05').
+2021-07-27 14:42:26,503:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-06-06').
+2021-07-27 14:42:26,633:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-06-07').
+2021-07-27 14:42:26,769:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-06-08').
+2021-07-27 14:42:26,898:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-06-11').
+2021-07-27 14:42:27,029:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-06-12').
+2021-07-27 14:42:27,164:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-06-13').
+2021-07-27 14:42:27,309:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-06-14').
+2021-07-27 14:42:27,441:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-06-15').
+2021-07-27 14:42:27,570:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-06-18').
+2021-07-27 14:42:27,706:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-06-19').
+2021-07-27 14:42:27,840:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-06-20').
+2021-07-27 14:42:27,970:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-06-21').
+2021-07-27 14:42:28,101:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-06-22').
+2021-07-27 14:42:28,238:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-06-25').
+2021-07-27 14:42:28,371:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-06-26').
+2021-07-27 14:42:28,504:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-06-27').
+2021-07-27 14:42:28,643:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-06-28').
+2021-07-27 14:42:28,778:INFO:strategy:Could not get last week for ticker 'AZUL4' (week before day '2018-06-29').
+2021-07-27 14:42:28,779:DEBUG:utils:The function 'AndreMoraesStrategy.process_operations' took 186825.41 milliseconds to run.
+2021-07-27 14:42:28,920:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 14:43:03,866:DEBUG:utils:The function 'AndreMoraesStrategy.calculate_statistics' took 35086.37 milliseconds to run.
+2021-07-27 14:43:04,443:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 14:43:04,564:INFO:strategy_analyzer:Dash is running on http://127.0.0.1:8050/
+

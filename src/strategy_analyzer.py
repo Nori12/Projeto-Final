@@ -134,8 +134,8 @@ class StrategyAnalyzer:
         if self._performance['capital'][0] != 1.0:
             self._performance['capital'] = round((self._performance['capital'] / self._performance['capital'][0] - 1) * 100, 2)
 
-        self._performance['capital_in_use'] = round((self._performance['capital_in_use'] / total_capital) * 100, 2)
-        self._performance['active_operations'] = self._performance['active_operations']
+        self._performance['capital_in_use'] = round(self._performance['capital_in_use'] * 100, 2)
+        # self._performance['active_operations'] = self._performance['active_operations']
 
         if self._performance['tickers_average'][0] == 1.0:
             self._performance['tickers_average'] = round((self._performance['tickers_average'] - 1) * 100, 2)
@@ -249,15 +249,15 @@ class StrategyAnalyzer:
                                                 ),
                                                 hovertemplate="%{y:.2f}%"
                                             ),
-                                            dict(
-                                                x=self._performance['day'],
-                                                y=self._performance['active_operations'],
-                                                name='Active Operations',
-                                                marker=dict(
-                                                    color='rgb(236, 187, 48)'
-                                                ),
-                                                hovertemplate="%{y:.2f}%"
-                                            ),
+                                            # dict(
+                                            #     x=self._performance['day'],
+                                            #     y=self._performance['active_operations'],
+                                            #     name='Active Operations',
+                                            #     marker=dict(
+                                            #         color='rgb(236, 187, 48)'
+                                            #     ),
+                                            #     hovertemplate="%{y:.2f}%"
+                                            # ),
                                         ],
                                         layout=dict(
                                             title='Capital Usage',

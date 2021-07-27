@@ -41,20 +41,20 @@ def run():
         config.max_end_date, ordinary_ticker=False)) # USD/BRL
 
     # Update and generate features
-    for tm in ticker_managers:
-        tm.holidays = config.holidays
-        tm.min_risk = config.min_risk
-        tm.max_risk = config.max_risk
+    # for tm in ticker_managers:
+    #     tm.holidays = config.holidays
+    #     tm.min_risk = config.min_risk
+    #     tm.max_risk = config.max_risk
 
-        # update_ok = tm.update()
-        # if update_ok == True:
-        if 1 == 1:
-            features_ok = tm.generate_features()
-            # Remove inconsistent tickers from all strategies
-            if features_ok == False:
-                for index in range(len(config.strategies)):
-                    if tm.ticker in list(config.strategies[index]['tickers'].keys()):
-                        config.strategies[index]['tickers'].pop(tm.ticker)
+    #     # update_ok = tm.update()
+    #     # if update_ok == True:
+    #     if 1 == 1:
+    #         features_ok = tm.generate_features()
+    #         # Remove inconsistent tickers from all strategies
+    #         if features_ok == False:
+    #             for index in range(len(config.strategies)):
+    #                 if tm.ticker in list(config.strategies[index]['tickers'].keys()):
+    #                     config.strategies[index]['tickers'].pop(tm.ticker)
 
     # Strategy section
     for strategy in config.strategies:

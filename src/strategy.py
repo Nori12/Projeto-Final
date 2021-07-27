@@ -558,15 +558,15 @@ class AndreMoraesStrategy(Strategy):
     def total_capital(self):
         return self._total_capital
 
-    @property
-    def available_capital(self):
+    # @property
+    # def available_capital(self):
 
-        allocated_capital = 0.0
+    #     allocated_capital = 0.0
 
-        for operation in self._operations:
-            allocated_capital += operation.total_sale_capital - operation.total_purchase_capital
+    #     for operation in self._operations:
+    #         allocated_capital += operation.total_sale_capital - operation.total_purchase_capital
 
-        return round(self._total_capital - allocated_capital, 2)
+    #     return round(self._total_capital - allocated_capital, 2)
 
     @property
     def risk_capital_product(self):
@@ -748,6 +748,7 @@ class AndreMoraesStrategy(Strategy):
                 for ticker, dates in self.tickers_and_dates.items()]
 
             data_gen = self.DataGen(self.tickers_and_dates, self._db_strategy_model, days_batch=30)
+            available_capital = self.total_capital
 
             update_step = 0.05
             last_update_percent = update_step
@@ -794,7 +795,7 @@ class AndreMoraesStrategy(Strategy):
                                 ema_72_week = week_info[(week_info['ticker'] == ts.ticker)]['ema_72'].squeeze()
 
                                 # DEBUG
-                                # if day == pd.Timestamp('2017-10-11'):
+                                # if day == pd.Timestamp('2015-11-05'):
                                 #     print()
 
                                 if isinstance(open_price_day, pd.Series) or \
@@ -843,9 +844,9 @@ class AndreMoraesStrategy(Strategy):
                                             ticker_priority_list[index].operation.partial_sale_price = \
                                                 round(target_buy_price_day + (target_buy_price_day - stop_loss_day), 2)
 
-                                            available_money = self.available_capital - sum([ts.operation.total_purchase_capital \
-                                                - ts.operation.total_sale_capital for ts in ticker_priority_list \
-                                                if (ts.operation is not None and ts.operation.state == State.OPEN)])
+                                            # available_money = self.available_capital - sum([ts.operation.total_purchase_capital \
+                                            #     - ts.operation.total_sale_capital for ts in ticker_priority_list \
+                                            #     if (ts.operation is not None and ts.operation.state == State.OPEN)])
 
                                             purchase_money = ts.operation.target_purchase_price * calculate_maximum_volume(
                                                 ts.operation.target_purchase_price, self._get_capital_per_risk(
@@ -853,19 +854,25 @@ class AndreMoraesStrategy(Strategy):
                                                 (ts.operation.target_purchase_price)), minimum_volume=self.min_order_volume)
 
                                             # Check if there is enough money
-                                            if available_money >= purchase_money:
-                                                ticker_priority_list[index].ongoing_operation_flag = True
-                                                ticker_priority_list[index].operation.add_purchase(
-                                                    ts.operation.target_purchase_price, calculate_maximum_volume(
+                                            if available_capital >= purchase_money:
+                                                max_vol = calculate_maximum_volume(
                                                     ts.operation.target_purchase_price, self._get_capital_per_risk(
                                                     (ts.operation.target_purchase_price - ts.operation.stop_loss)/ \
-                                                    (ts.operation.target_purchase_price)), minimum_volume=self.min_order_volume), day)
-                                            else:
+                                                    (ts.operation.target_purchase_price)), minimum_volume=self.min_order_volume)
                                                 ticker_priority_list[index].ongoing_operation_flag = True
+                                                available_capital = round(available_capital - \
+                                                    ts.operation.target_purchase_price * max_vol, 2)
                                                 ticker_priority_list[index].operation.add_purchase(
-                                                    ts.operation.target_purchase_price, calculate_maximum_volume(
-                                                    ts.operation.target_purchase_price, available_money,
-                                                    minimum_volume=self.min_order_volume), day)
+                                                    ts.operation.target_purchase_price, max_vol, day)
+                                            else:
+                                                max_vol = calculate_maximum_volume(ts.operation.target_purchase_price,
+                                                    available_capital, minimum_volume=self.min_order_volume)
+                                                if max_vol >= 1.0:
+                                                    available_capital = round(available_capital - \
+                                                        ts.operation.target_purchase_price * max_vol, 2)
+                                                    ticker_priority_list[index].operation.add_purchase(
+                                                        ts.operation.target_purchase_price, max_vol, day)
+                                                    ticker_priority_list[index].ongoing_operation_flag = True
 
                                             if self._staircase_stop:
                                                 ticker_priority_list[index].mark_1_stop_trigger = \
@@ -886,6 +893,8 @@ class AndreMoraesStrategy(Strategy):
                                     if ts.operation.state == State.OPEN:
                                         # Check if the target STOP LOSS is skipped
                                         if ts.operation.stop_loss > open_price_day:
+                                            available_capital = round(available_capital + open_price_day * \
+                                                    (ts.operation.total_purchase_volume - ts.operation.total_sale_volume), 2)
                                             ticker_priority_list[index].operation.add_sale(open_price_day,
                                                 ts.operation.total_purchase_volume - ts.operation.total_sale_volume,
                                                 day, stop_loss_flag=True)
@@ -894,6 +903,8 @@ class AndreMoraesStrategy(Strategy):
                                         # Check if the target STOP LOSS is hit
                                         elif ts.operation.stop_loss >= min_price_day and \
                                             ts.operation.stop_loss <= max_price_day:
+                                            available_capital = round(available_capital + ts.operation.stop_loss * \
+                                                (ts.operation.total_purchase_volume - ts.operation.total_sale_volume), 2)
                                             ticker_priority_list[index].operation.add_sale(
                                                 ts.operation.stop_loss, ts.operation.total_purchase_volume \
                                                 - ts.operation.total_sale_volume, day, stop_loss_flag=True)
@@ -904,6 +915,8 @@ class AndreMoraesStrategy(Strategy):
                                                 # Check if the PARTIAL SALE price is skipped
                                                 if ts.partial_sale_flag == False and \
                                                     ts.operation.partial_sale_price < open_price_day:
+                                                    available_capital = round(available_capital + open_price_day * \
+                                                        math.ceil(ts.operation.purchase_volume[0] / 2), 2)
                                                     ticker_priority_list[index].operation.add_sale(
                                                         open_price_day, math.ceil(ts.operation.purchase_volume[0] / 2),
                                                         day, partial_sale_flag=True)
@@ -914,6 +927,8 @@ class AndreMoraesStrategy(Strategy):
                                                 elif ts.partial_sale_flag == False and \
                                                     ts.operation.partial_sale_price >= min_price_day and \
                                                     ts.operation.partial_sale_price <= max_price_day:
+                                                    available_capital = round(available_capital + ts.operation.partial_sale_price * \
+                                                        math.ceil(ts.operation.purchase_volume[0] / 2), 2)
                                                     ticker_priority_list[index].operation.add_sale(
                                                         ts.operation.partial_sale_price, math.ceil(
                                                         ts.operation.purchase_volume[0] / 2), day, partial_sale_flag=True)
@@ -921,6 +936,8 @@ class AndreMoraesStrategy(Strategy):
 
                                             # Check if the TARGET SALE price is skipped
                                             if ts.operation.target_sale_price < open_price_day:
+                                                available_capital = round(available_capital + open_price_day * \
+                                                    (ts.operation.total_purchase_volume - ts.operation.total_sale_volume), 2)
                                                 ticker_priority_list[index].operation.add_sale(open_price_day,
                                                 ts.operation.total_purchase_volume - ts.operation.total_sale_volume,
                                                 day)
@@ -929,6 +946,8 @@ class AndreMoraesStrategy(Strategy):
                                             # Check if the TARGET SALE price is hit
                                             elif ts.operation.target_sale_price >= min_price_day and \
                                                 ts.operation.target_sale_price <= max_price_day:
+                                                available_capital = round(available_capital + ts.operation.target_sale_price * \
+                                                    (ts.operation.total_purchase_volume - ts.operation.total_sale_volume), 2)
                                                 ticker_priority_list[index].operation.add_sale(
                                                     ts.operation.target_sale_price, ts.operation.total_purchase_volume \
                                                         - ts.operation.total_sale_volume, day)
@@ -1105,7 +1124,7 @@ class AndreMoraesStrategy(Strategy):
 
         # Maximum Capital Used
         self._statistics_parameters['max_used_capital'] = \
-            round(max(self._statistics_graph['capital_in_use']), money_precision)
+            round(max(self._statistics_graph['capital_in_use']), real_precision)
 
         # Yield
         self._statistics_parameters['yield'] = \
@@ -1279,7 +1298,6 @@ class AndreMoraesStrategy(Strategy):
 
         return active_operations
 
-    # TODO: Iterate over generator to remove self._day_df references.
     def _calc_capital_usage(self, dates, close_prices):
         """
         Calculate capital usage per day.
@@ -1304,6 +1322,7 @@ class AndreMoraesStrategy(Strategy):
         capital = [None] * len(dates)
         capital_in_use = [None] * len(dates)
 
+        total_capital = self.total_capital
         current_capital = self.total_capital
         current_capital_in_use = 0.0
 
@@ -1320,8 +1339,10 @@ class AndreMoraesStrategy(Strategy):
                     if day == p_day:
                         amount = round(p_price * p_volume, 2)
 
-                        current_capital -= amount
-                        current_capital_in_use += amount
+                        # current_capital -= amount
+                        # current_capital_in_use += amount
+                        current_capital = round(current_capital - amount, 2)
+                        current_capital_in_use = round(current_capital_in_use + amount, 2)
 
                 # Compute sale credits
                 for s_price, s_volume, s_day in zip(oper.sale_price, oper.sale_volume, \
@@ -1329,10 +1350,13 @@ class AndreMoraesStrategy(Strategy):
                     if day == s_day:
                         amount = round(s_price * s_volume, 2)
 
-                        current_capital += amount
-                        current_capital_in_use -= amount
+                        # current_capital += amount
+                        # current_capital_in_use -= amount
+                        current_capital = round(current_capital + amount, 2)
+                        current_capital_in_use = round(current_capital_in_use - amount, 2)
+                        total_capital = round(total_capital + s_price * s_volume, 2)
 
-                #Compute holding papers prices
+                # Compute holding papers prices
                 if (oper.state == State.OPEN and day >= oper.start_date) or \
                     (oper.state == State.CLOSE and day >= oper.start_date and day < oper.end_date):
 
@@ -1345,8 +1369,11 @@ class AndreMoraesStrategy(Strategy):
                     price = close_prices[oper.ticker][day_index]
                     holding_papers_capital += round(price * papers_in_hands, 2)
 
+            # if day == pd.Timestamp('2019-02-22T00'):
+                # print()
+
+            capital_in_use[day_index] = round(current_capital_in_use / total_capital, 4)
             capital[day_index] = round(current_capital + holding_papers_capital, 2)
-            capital_in_use[day_index] = round(current_capital_in_use, 2)
 
         return capital, capital_in_use
 

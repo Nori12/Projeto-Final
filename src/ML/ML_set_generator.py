@@ -1,10 +1,12 @@
 # %%
 # Input parameters
 
-maximum_risk = 0.20
-minimum_risk = 0.05
+max_risk = 0.20
+min_risk = 0.05
 max_workdays_per_operation = 126
 gain_loss_ratio = 3
+
+stop_margin = 0.0
 filename = 'features.csv'
 DEBUG = False
 
@@ -34,7 +36,7 @@ from db_model import DBStrategyAnalyzerModel
 import pandas as pd
 
 db_model = DBStrategyAnalyzerModel()
-peaks_number = 5
+peaks_number = 2
 peak_delay = 9
 
 DEFAULT_VALUE = 0.0
@@ -43,13 +45,16 @@ UPTREND = 1
 NOT_UPTREND = 0
 
 for tck_index, (ticker, date) in enumerate(config.tickers_and_dates.items()):
-    candles_df = db_model.get_ticker_prices_and_features(ticker,
+    candles_df_day = db_model.get_ticker_prices_and_features(ticker,
         pd.Timestamp(date['start_date']), pd.Timestamp(date['end_date']),
         interval='1d')
+    candles_df_wk = db_model.get_ticker_prices_and_features(ticker,
+        pd.Timestamp(date['start_date']), pd.Timestamp(date['end_date']),
+        interval='1wk')
 
     print(f"Processing Ticker {tck_index+1} of {len(config.tickers_and_dates)}")
 
-    candles_len = len(candles_df)
+    candles_len = len(candles_df_day)
 
     if DEBUG == True:
         days = []
@@ -58,14 +63,8 @@ for tck_index, (ticker, date) in enumerate(config.tickers_and_dates.items()):
     min_risks = []
     max_peaks_1 = []
     max_peaks_2 = []
-    max_peaks_3 = []
-    max_peaks_4 = []
-    max_peaks_5 = []
     min_peaks_1 = []
     min_peaks_2 = []
-    min_peaks_3 = []
-    min_peaks_4 = []
-    min_peaks_5 = []
     ema_17 = []
     ema_72 = []
     last_max_peaks = []
@@ -76,7 +75,18 @@ for tck_index, (ticker, date) in enumerate(config.tickers_and_dates.items()):
     upcoming_min_peak = 0.0
     end_flag = False
 
-    for index, row in candles_df.iterrows():
+    for index, row in candles_df_day.iterrows():
+
+        open_price_day = candles_df_day['open_price']
+        max_price_day = candles_df_day['max_price']
+        min_price_day = candles_df_day['min_price']
+        close_price_day = candles_df_day['close_price']
+        ema_17_day = candles_df_day['ema_17']
+        ema_72_day = candles_df_day['ema_72']
+        target_buy_price_day = candles_df_day['target_buy_price']
+        stop_loss_day = candles_df_day['stop_loss']
+        up_down_trend_status_day = candles_df_day['up_down_trend_status']
+        peak_day = candles_df_day['peak']
 
         if end_flag == False:
 
@@ -105,17 +115,32 @@ for tck_index, (ticker, date) in enumerate(config.tickers_and_dates.items()):
             if len(last_max_peaks) < peaks_number or len(last_min_peaks) < peaks_number:
                 continue
 
-            purchase_price = row['close_price']
-            max_price = 0.0
-            min_price = purchase_price
-            min_stop = round(purchase_price * (1 - maximum_risk), 2)
-            max_stop = round(purchase_price * (1 - minimum_risk), 2)
-            max_target = round(purchase_price + gain_loss_ratio * (purchase_price - min_stop), 2)
-            min_target = round(purchase_price + gain_loss_ratio * (purchase_price - max_stop), 2)
+            # purchase_price = row['close_price']
+            # max_price = 0.0
+            # min_price = purchase_price
+            # min_stop = round(purchase_price * (1 - max_risk), 2)
+            # max_stop = round(purchase_price * (1 - min_risk), 2)
+            # max_target = round(purchase_price + gain_loss_ratio * (purchase_price - min_stop), 2)
+            # min_target = round(purchase_price + gain_loss_ratio * (purchase_price - max_stop), 2)
+
+            stop_loss_day = round(stop_loss_day * (1 + stop_margin), 2)
+            if (target_buy_price_day - stop_loss_day) / target_buy_price_day > max_risk:
+                stop_loss_day = round(target_buy_price_day * (1 - max_risk), 2)
+            if (target_buy_price_day - stop_loss_day) / target_buy_price_day < min_risk:
+                stop_loss_day = round(target_buy_price_day * (1 - min_risk), 2)
+
+
+
+
+
+
+
+
+
 
             oper_presence_flag = False
-            ultimate_index = candles_df.index[-1]
-            for index_2, row_2 in candles_df.loc[candles_df.index[
+            ultimate_index = candles_df_day.index[-1]
+            for index_2, row_2 in candles_df_day.loc[candles_df_day.index[
                 index+1:min(index+1+max_workdays_per_operation, candles_len)]].iterrows():
 
                 if row_2['min_price'] <= min_stop:
@@ -144,14 +169,8 @@ for tck_index, (ticker, date) in enumerate(config.tickers_and_dates.items()):
 
             max_peaks_1.append(round(last_max_peaks[0]/purchase_price, 4))
             max_peaks_2.append(round(last_max_peaks[1]/purchase_price, 4))
-            max_peaks_3.append(round(last_max_peaks[2]/purchase_price, 4))
-            max_peaks_4.append(round(last_max_peaks[3]/purchase_price, 4))
-            max_peaks_5.append(round(last_max_peaks[4]/purchase_price, 4))
             min_peaks_1.append(round(last_min_peaks[0]/purchase_price, 4))
             min_peaks_2.append(round(last_min_peaks[1]/purchase_price, 4))
-            min_peaks_3.append(round(last_min_peaks[2]/purchase_price, 4))
-            min_peaks_4.append(round(last_min_peaks[3]/purchase_price, 4))
-            min_peaks_5.append(round(last_min_peaks[4]/purchase_price, 4))
             ema_17.append(round(row['ema_17']/purchase_price, 4))
             ema_72.append(round(row['ema_72']/purchase_price, 4))
             if DEBUG == True:

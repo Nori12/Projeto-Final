@@ -221,7 +221,8 @@ CREATE TABLE strategy_performance (
   strategy_id INTEGER REFERENCES strategy(id),
   day TIMESTAMP WITHOUT TIME ZONE NOT NULL,
   capital DECIMAL(8, 2) NOT NULL,
-  capital_in_use DECIMAL(8, 2) NOT NULL,
+  -- capital_in_use DECIMAL(8, 2) NOT NULL,
+  capital_in_use REAL NOT NULL,
   active_operations SMALLINT,
   tickers_average REAL,
   ibov DECIMAL(8, 2)
