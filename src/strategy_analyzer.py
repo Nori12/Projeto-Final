@@ -125,11 +125,17 @@ class StrategyAnalyzer:
     def _set_strategy_performance(self, strategy_id):
         self._performance = self._db_strategy_analyzer_model.get_strategy_performance(strategy_id)
 
+        total_capital = self._performance['capital'][0]
+
         if self._performance['ibov'][0] != 1.0:
-            self._performance['ibov'] = round((self._performance['ibov'] / self._performance['ibov'][0] - 1) * 100, 2)
+            self._performance['ibov'] = round((self._performance['ibov'] /
+                self._performance['ibov'][0] - 1) * 100, 2)
 
         if self._performance['capital'][0] != 1.0:
             self._performance['capital'] = round((self._performance['capital'] / self._performance['capital'][0] - 1) * 100, 2)
+
+        self._performance['capital_in_use'] = round((self._performance['capital_in_use'] / total_capital) * 100, 2)
+        self._performance['active_operations'] = self._performance['active_operations']
 
         if self._performance['tickers_average'][0] == 1.0:
             self._performance['tickers_average'] = round((self._performance['tickers_average'] - 1) * 100, 2)
@@ -228,6 +234,45 @@ class StrategyAnalyzer:
                                 ),
                             ],
                             className="performance-div"
+                        ),
+                        html.Div(
+                            children=[
+                                dcc.Graph(
+                                    figure=dict(
+                                        data=[
+                                            dict(
+                                                x=self._performance['day'],
+                                                y=self._performance['capital_in_use'],
+                                                name='Capital in use',
+                                                marker=dict(
+                                                    color='rgb(236, 187, 48)'
+                                                ),
+                                                hovertemplate="%{y:.2f}%"
+                                            ),
+                                            dict(
+                                                x=self._performance['day'],
+                                                y=self._performance['active_operations'],
+                                                name='Active Operations',
+                                                marker=dict(
+                                                    color='rgb(236, 187, 48)'
+                                                ),
+                                                hovertemplate="%{y:.2f}%"
+                                            ),
+                                        ],
+                                        layout=dict(
+                                            title='Capital Usage',
+                                            showlegend=True,
+                                            legend=dict(
+                                                x=0,
+                                                y=1.0
+                                            ),
+                                            yaxis={"ticksuffix": "%"},
+                                            hovermode="x"
+                                        )
+                                    ),
+                                    className="capital-graph"
+                                ),
+                            ],
                         ),
                         html.Div(
                             children=[
@@ -482,8 +527,7 @@ class StrategyAnalyzer:
         # Convert only to add vrect
         fig = go.Figure(dict(ticker_chart_figure))
 
-        uptrend_slices = self._get_uptrend_slices(ticker_prices,
-            udt_status_type='strict')
+        uptrend_slices = self._get_uptrend_slices(ticker_prices)
 
         only_first_needs_legend_flag = True
         for slice in uptrend_slices:
@@ -634,7 +678,6 @@ class StrategyAnalyzer:
 
         return ticker_chart_figure
 
-
     def _get_uptrend_slices(self, dataframe, udt_status_type='default'):
 
         column_name = 'up_down_trend_status_strict' if udt_status_type == 'strict' \
@@ -690,5 +733,5 @@ class StrategyAnalyzer:
         self._app.run_server()
 
 if __name__ == "__main__":
-    analyzer = StrategyAnalyzer(strategy_id=58)
+    analyzer = StrategyAnalyzer(strategy_id=None)
     analyzer.run()

@@ -8,7 +8,6 @@ gain_loss_ratio = 3
 filename = 'features.csv'
 DEBUG = False
 
-
 if DEBUG == True:
     filename = 'features_dbg.csv'
 

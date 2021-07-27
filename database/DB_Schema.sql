@@ -124,11 +124,11 @@ CREATE TABLE daily_features (
   target_buy_price DECIMAL(8, 2),
   stop_loss DECIMAL(8, 2),
   up_down_trend_status SMALLINT,
-  up_down_trend_status_strict SMALLINT,
+  -- up_down_trend_status_strict SMALLINT,
   peak DECIMAL(8, 2),
 
   CONSTRAINT daily_features_pkey PRIMARY KEY(ticker, day),
-  CONSTRAINT greater_than_zero CHECK (ema_17 > 0 AND ema_72 > 0),
+  CONSTRAINT greater_than_zero CHECK (ema_17 >= 0 AND ema_72 >= 0),
   CONSTRAINT up_down_trend_status_valid CHECK (up_down_trend_status <= 3 OR up_down_trend_status >= -3)
 );
 
@@ -143,7 +143,7 @@ CREATE TABLE weekly_features (
   peak DECIMAL(8, 2),
 
   CONSTRAINT weekly_features_pkey PRIMARY KEY(ticker, week),
-  CONSTRAINT greater_than_zero CHECK (ema_17 > 0 AND ema_72 > 0),
+  CONSTRAINT greater_than_zero CHECK (ema_17 >= 0 AND ema_72 >= 0),
   CONSTRAINT up_down_trend_status_valid CHECK (up_down_trend_status <= 3 OR up_down_trend_status >= -3)
 );
 
@@ -222,6 +222,7 @@ CREATE TABLE strategy_performance (
   day TIMESTAMP WITHOUT TIME ZONE NOT NULL,
   capital DECIMAL(8, 2) NOT NULL,
   capital_in_use DECIMAL(8, 2) NOT NULL,
+  active_operations SMALLINT,
   tickers_average REAL,
   ibov DECIMAL(8, 2)
 );

@@ -115,3 +115,16 @@ def calculate_yield_annualized(in_yield, bus_day_count):
     annualized_yield = (1+in_yield) ** (total_bus_day_per_year/bus_day_count)
 
     return round(annualized_yield - 1, 4)
+
+def compare_peaks(peak_1, peak_2, tolerance=0.01):
+
+    if peak_1 > peak_2 * (1+tolerance):
+        return 1
+    elif peak_1 >= peak_2 * (1-tolerance):
+        return 0
+    else:
+        return -1
+
+
+
+

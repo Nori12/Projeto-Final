@@ -4500,3 +4500,1269 @@ Program started.
 2021-07-23 18:43:30,548:DEBUG:db_model:Database 'StockMarket' connected successfully.
 2021-07-23 18:43:30,646:INFO:strategy_analyzer:Dash is running on http://127.0.0.1:8050/
 
+2021-07-24 19:15:41,034:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-24 19:15:41,964:INFO:__main__:
+Program started.
+2021-07-24 19:15:41,973:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-24 19:15:41,974:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-24 19:15:41,974:DEBUG:config_reader:Config file found.
+2021-07-24 19:15:42,011:INFO:config_reader:Config file successfully read.
+2021-07-24 19:15:42,012:INFO:config_reader:Total strategies: 1
+2021-07-24 19:15:42,012:INFO:config_reader:Total tickers: 4
+2021-07-24 19:15:42,012:INFO:config_reader:Oldest date: 01/01/2020
+2021-07-24 19:15:42,012:INFO:config_reader:Most recent date: 31/12/2020
+2021-07-24 19:15:42,013:INFO:config_reader:Strategies found:
+2021-07-24 19:15:42,013:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.0025, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'AZUL4', 'BTOW3', 'B3SA3']
+2021-07-24 19:15:42,013:DEBUG:utils:The function 'ConfigReader.__init__' took 48.65 milliseconds to run.
+2021-07-24 19:15:42,365:ERROR:ticker_manager:Error getting yfinance data, error:
+Expecting value: line 1 column 1 (char 0)
+2021-07-24 19:15:42,365:DEBUG:utils:The function 'TickerManager.update' took 351.80 milliseconds to run.
+2021-07-24 19:16:34,543:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-24 19:16:35,128:INFO:__main__:
+Program started.
+2021-07-24 19:16:35,141:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-24 19:16:35,142:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-24 19:16:35,142:DEBUG:config_reader:Config file found.
+2021-07-24 19:16:35,168:INFO:config_reader:Config file successfully read.
+2021-07-24 19:16:35,168:INFO:config_reader:Total strategies: 1
+2021-07-24 19:16:35,169:INFO:config_reader:Total tickers: 4
+2021-07-24 19:16:35,169:INFO:config_reader:Oldest date: 01/01/2020
+2021-07-24 19:16:35,169:INFO:config_reader:Most recent date: 31/12/2020
+2021-07-24 19:16:35,169:INFO:config_reader:Strategies found:
+2021-07-24 19:16:35,169:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.0025, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'AZUL4', 'BTOW3', 'B3SA3']
+2021-07-24 19:16:35,170:DEBUG:utils:The function 'ConfigReader.__init__' took 41.04 milliseconds to run.
+2021-07-24 19:16:35,170:INFO:ticker_manager:Generating features for ticker 'ABEV3'.
+2021-07-26 09:08:33,934:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 09:08:43,289:INFO:__main__:
+Program started.
+2021-07-26 09:08:43,297:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 09:08:43,298:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-26 09:08:43,298:DEBUG:config_reader:Config file found.
+2021-07-26 09:08:43,379:INFO:config_reader:Config file successfully read.
+2021-07-26 09:08:43,379:INFO:config_reader:Total strategies: 1
+2021-07-26 09:08:43,380:INFO:config_reader:Total tickers: 4
+2021-07-26 09:08:43,380:INFO:config_reader:Oldest date: 01/01/2020
+2021-07-26 09:08:43,380:INFO:config_reader:Most recent date: 31/12/2020
+2021-07-26 09:08:43,380:INFO:config_reader:Strategies found:
+2021-07-26 09:08:43,380:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.0025, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'AZUL4', 'BTOW3', 'B3SA3']
+2021-07-26 09:08:43,380:DEBUG:utils:The function 'ConfigReader.__init__' took 91.11 milliseconds to run.
+2021-07-26 09:08:43,381:INFO:ticker_manager:Generating features for ticker 'ABEV3'.
+2021-07-26 09:08:51,357:DEBUG:utils:The function 'TickerManager.generate_features' took 7976.09 milliseconds to run.
+2021-07-26 09:08:51,359:INFO:ticker_manager:Generating features for ticker 'AZUL4'.
+2021-07-26 09:08:52,374:DEBUG:utils:The function 'TickerManager.generate_features' took 1014.85 milliseconds to run.
+2021-07-26 09:08:52,374:INFO:ticker_manager:Generating features for ticker 'BTOW3'.
+2021-07-26 09:08:53,437:DEBUG:utils:The function 'TickerManager.generate_features' took 1062.51 milliseconds to run.
+2021-07-26 09:08:53,437:INFO:ticker_manager:Generating features for ticker 'B3SA3'.
+2021-07-26 09:08:54,440:DEBUG:utils:The function 'TickerManager.generate_features' took 1003.50 milliseconds to run.
+2021-07-26 09:08:54,441:INFO:ticker_manager:Generating features for ticker '^BVSP'.
+2021-07-26 09:08:54,441:DEBUG:utils:The function 'TickerManager.generate_features' took 0.14 milliseconds to run.
+2021-07-26 09:08:54,441:INFO:ticker_manager:Generating features for ticker 'BRL=X'.
+2021-07-26 09:08:54,441:DEBUG:utils:The function 'TickerManager.generate_features' took 0.22 milliseconds to run.
+2021-07-26 09:25:57,587:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 09:26:00,468:INFO:__main__:
+Program started.
+2021-07-26 09:26:00,476:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 09:26:00,477:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-26 09:26:00,478:DEBUG:config_reader:Config file found.
+2021-07-26 09:26:00,502:INFO:config_reader:Config file successfully read.
+2021-07-26 09:26:00,502:INFO:config_reader:Total strategies: 1
+2021-07-26 09:26:00,502:INFO:config_reader:Total tickers: 4
+2021-07-26 09:26:00,502:INFO:config_reader:Oldest date: 01/01/2020
+2021-07-26 09:26:00,503:INFO:config_reader:Most recent date: 31/12/2020
+2021-07-26 09:26:00,503:INFO:config_reader:Strategies found:
+2021-07-26 09:26:00,503:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.0025, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'AZUL4', 'BTOW3', 'B3SA3']
+2021-07-26 09:26:00,503:DEBUG:utils:The function 'ConfigReader.__init__' took 35.32 milliseconds to run.
+2021-07-26 09:26:00,504:INFO:ticker_manager:Generating features for ticker 'ABEV3'.
+2021-07-26 09:41:36,926:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 09:41:37,713:INFO:__main__:
+Program started.
+2021-07-26 09:41:37,722:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 09:41:37,722:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-26 09:41:37,722:DEBUG:config_reader:Config file found.
+2021-07-26 09:41:37,740:INFO:config_reader:Config file successfully read.
+2021-07-26 09:41:37,741:INFO:config_reader:Total strategies: 1
+2021-07-26 09:41:37,741:INFO:config_reader:Total tickers: 4
+2021-07-26 09:41:37,741:INFO:config_reader:Oldest date: 01/01/2020
+2021-07-26 09:41:37,741:INFO:config_reader:Most recent date: 31/12/2020
+2021-07-26 09:41:37,741:INFO:config_reader:Strategies found:
+2021-07-26 09:41:37,741:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.0025, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'AZUL4', 'BTOW3', 'B3SA3']
+2021-07-26 09:41:37,741:DEBUG:utils:The function 'ConfigReader.__init__' took 28.01 milliseconds to run.
+2021-07-26 09:41:37,742:INFO:ticker_manager:Generating features for ticker 'ABEV3'.
+2021-07-26 09:42:19,452:ERROR:ticker_manager:Error generating features, error:
+'Series' object has no attribute 'insert'
+Traceback (most recent call last):
+  File "/Users/atcha/Github/Projeto-Final/src/ticker_manager.py", line 501, in generate_features
+    ema_17.insert(0, 0)
+  File "/Users/atcha/Github/Projeto-Final/venv/lib/python3.9/site-packages/pandas/core/generic.py", line 5465, in __getattr__
+    return object.__getattribute__(self, name)
+AttributeError: 'Series' object has no attribute 'insert'
+2021-07-26 09:42:19,462:DEBUG:utils:The function 'TickerManager.generate_features' took 41719.87 milliseconds to run.
+2021-07-26 09:43:48,321:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 09:43:49,237:INFO:__main__:
+Program started.
+2021-07-26 09:43:49,248:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 09:43:49,248:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-26 09:43:49,249:DEBUG:config_reader:Config file found.
+2021-07-26 09:43:49,283:INFO:config_reader:Config file successfully read.
+2021-07-26 09:43:49,283:INFO:config_reader:Total strategies: 1
+2021-07-26 09:43:49,283:INFO:config_reader:Total tickers: 4
+2021-07-26 09:43:49,284:INFO:config_reader:Oldest date: 01/01/2020
+2021-07-26 09:43:49,284:INFO:config_reader:Most recent date: 31/12/2020
+2021-07-26 09:43:49,287:INFO:config_reader:Strategies found:
+2021-07-26 09:43:49,287:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.0025, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'AZUL4', 'BTOW3', 'B3SA3']
+2021-07-26 09:43:49,288:DEBUG:utils:The function 'ConfigReader.__init__' took 50.15 milliseconds to run.
+2021-07-26 09:43:49,289:INFO:ticker_manager:Generating features for ticker 'ABEV3'.
+2021-07-26 09:43:50,705:ERROR:ticker_manager:Error generating features, error:
+'Series' object has no attribute 'insert'
+Traceback (most recent call last):
+  File "/Users/atcha/Github/Projeto-Final/src/ticker_manager.py", line 501, in generate_features
+    ema_17.insert(0, 0)
+  File "/Users/atcha/Github/Projeto-Final/venv/lib/python3.9/site-packages/pandas/core/generic.py", line 5465, in __getattr__
+    return object.__getattribute__(self, name)
+AttributeError: 'Series' object has no attribute 'insert'
+2021-07-26 09:43:50,717:DEBUG:utils:The function 'TickerManager.generate_features' took 1428.74 milliseconds to run.
+2021-07-26 09:44:10,220:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 09:44:41,142:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 09:44:41,781:INFO:__main__:
+Program started.
+2021-07-26 09:44:41,794:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 09:44:41,794:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-26 09:44:41,795:DEBUG:config_reader:Config file found.
+2021-07-26 09:44:41,823:INFO:config_reader:Config file successfully read.
+2021-07-26 09:44:41,824:INFO:config_reader:Total strategies: 1
+2021-07-26 09:44:41,824:INFO:config_reader:Total tickers: 4
+2021-07-26 09:44:41,825:INFO:config_reader:Oldest date: 01/01/2020
+2021-07-26 09:44:41,825:INFO:config_reader:Most recent date: 31/12/2020
+2021-07-26 09:44:41,825:INFO:config_reader:Strategies found:
+2021-07-26 09:44:41,826:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.0025, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'AZUL4', 'BTOW3', 'B3SA3']
+2021-07-26 09:44:41,826:DEBUG:utils:The function 'ConfigReader.__init__' took 44.91 milliseconds to run.
+2021-07-26 09:44:41,827:INFO:ticker_manager:Generating features for ticker 'ABEV3'.
+2021-07-26 09:49:14,870:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 09:49:15,557:INFO:__main__:
+Program started.
+2021-07-26 09:49:15,565:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 09:49:15,566:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-26 09:49:15,566:DEBUG:config_reader:Config file found.
+2021-07-26 09:49:15,584:INFO:config_reader:Config file successfully read.
+2021-07-26 09:49:15,584:INFO:config_reader:Total strategies: 1
+2021-07-26 09:49:15,584:INFO:config_reader:Total tickers: 4
+2021-07-26 09:49:15,585:INFO:config_reader:Oldest date: 01/01/2020
+2021-07-26 09:49:15,585:INFO:config_reader:Most recent date: 31/12/2020
+2021-07-26 09:49:15,585:INFO:config_reader:Strategies found:
+2021-07-26 09:49:15,585:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.0025, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'AZUL4', 'BTOW3', 'B3SA3']
+2021-07-26 09:49:15,585:DEBUG:utils:The function 'ConfigReader.__init__' took 27.68 milliseconds to run.
+2021-07-26 09:49:15,586:INFO:ticker_manager:Generating features for ticker 'ABEV3'.
+2021-07-26 09:52:11,985:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 09:52:12,666:INFO:__main__:
+Program started.
+2021-07-26 09:52:12,676:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 09:52:12,677:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-26 09:52:12,677:DEBUG:config_reader:Config file found.
+2021-07-26 09:52:12,699:INFO:config_reader:Config file successfully read.
+2021-07-26 09:52:12,699:INFO:config_reader:Total strategies: 1
+2021-07-26 09:52:12,700:INFO:config_reader:Total tickers: 4
+2021-07-26 09:52:12,700:INFO:config_reader:Oldest date: 01/01/2020
+2021-07-26 09:52:12,700:INFO:config_reader:Most recent date: 31/12/2020
+2021-07-26 09:52:12,700:INFO:config_reader:Strategies found:
+2021-07-26 09:52:12,700:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.0025, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'AZUL4', 'BTOW3', 'B3SA3']
+2021-07-26 09:52:12,700:DEBUG:utils:The function 'ConfigReader.__init__' took 33.70 milliseconds to run.
+2021-07-26 09:52:12,701:INFO:ticker_manager:Generating features for ticker 'ABEV3'.
+2021-07-26 09:54:26,862:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 09:54:27,781:INFO:__main__:
+Program started.
+2021-07-26 09:54:27,795:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 09:54:27,795:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-26 09:54:27,796:DEBUG:config_reader:Config file found.
+2021-07-26 09:54:27,820:INFO:config_reader:Config file successfully read.
+2021-07-26 09:54:27,821:INFO:config_reader:Total strategies: 1
+2021-07-26 09:54:27,821:INFO:config_reader:Total tickers: 4
+2021-07-26 09:54:27,822:INFO:config_reader:Oldest date: 01/01/2020
+2021-07-26 09:54:27,822:INFO:config_reader:Most recent date: 31/12/2020
+2021-07-26 09:54:27,822:INFO:config_reader:Strategies found:
+2021-07-26 09:54:27,822:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.0025, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'AZUL4', 'BTOW3', 'B3SA3']
+2021-07-26 09:54:27,822:DEBUG:utils:The function 'ConfigReader.__init__' took 40.42 milliseconds to run.
+2021-07-26 09:54:27,823:INFO:ticker_manager:Generating features for ticker 'ABEV3'.
+2021-07-26 09:58:35,043:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 09:58:35,683:INFO:__main__:
+Program started.
+2021-07-26 09:58:35,693:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 09:58:35,693:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-26 09:58:35,694:DEBUG:config_reader:Config file found.
+2021-07-26 09:58:35,713:INFO:config_reader:Config file successfully read.
+2021-07-26 09:58:35,714:INFO:config_reader:Total strategies: 1
+2021-07-26 09:58:35,714:INFO:config_reader:Total tickers: 4
+2021-07-26 09:58:35,714:INFO:config_reader:Oldest date: 01/01/2020
+2021-07-26 09:58:35,714:INFO:config_reader:Most recent date: 31/12/2020
+2021-07-26 09:58:35,714:INFO:config_reader:Strategies found:
+2021-07-26 09:58:35,715:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.0025, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'AZUL4', 'BTOW3', 'B3SA3']
+2021-07-26 09:58:35,715:DEBUG:utils:The function 'ConfigReader.__init__' took 31.32 milliseconds to run.
+2021-07-26 09:58:35,715:INFO:ticker_manager:Generating features for ticker 'ABEV3'.
+2021-07-26 09:59:50,544:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 09:59:51,166:INFO:__main__:
+Program started.
+2021-07-26 09:59:51,175:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 09:59:51,175:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-26 09:59:51,176:DEBUG:config_reader:Config file found.
+2021-07-26 09:59:51,194:INFO:config_reader:Config file successfully read.
+2021-07-26 09:59:51,194:INFO:config_reader:Total strategies: 1
+2021-07-26 09:59:51,194:INFO:config_reader:Total tickers: 4
+2021-07-26 09:59:51,194:INFO:config_reader:Oldest date: 01/01/2020
+2021-07-26 09:59:51,194:INFO:config_reader:Most recent date: 31/12/2020
+2021-07-26 09:59:51,194:INFO:config_reader:Strategies found:
+2021-07-26 09:59:51,195:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.0025, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'AZUL4', 'BTOW3', 'B3SA3']
+2021-07-26 09:59:51,195:DEBUG:utils:The function 'ConfigReader.__init__' took 28.08 milliseconds to run.
+2021-07-26 09:59:51,195:INFO:ticker_manager:Generating features for ticker 'ABEV3'.
+2021-07-26 10:07:36,271:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 10:07:36,961:INFO:__main__:
+Program started.
+2021-07-26 10:07:36,972:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 10:07:36,973:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-26 10:07:36,973:DEBUG:config_reader:Config file found.
+2021-07-26 10:07:36,992:INFO:config_reader:Config file successfully read.
+2021-07-26 10:07:36,992:INFO:config_reader:Total strategies: 1
+2021-07-26 10:07:36,992:INFO:config_reader:Total tickers: 4
+2021-07-26 10:07:36,992:INFO:config_reader:Oldest date: 01/01/2020
+2021-07-26 10:07:36,992:INFO:config_reader:Most recent date: 31/12/2020
+2021-07-26 10:07:36,993:INFO:config_reader:Strategies found:
+2021-07-26 10:07:36,993:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.0025, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'AZUL4', 'BTOW3', 'B3SA3']
+2021-07-26 10:07:36,993:DEBUG:utils:The function 'ConfigReader.__init__' took 31.74 milliseconds to run.
+2021-07-26 10:07:36,993:INFO:ticker_manager:Generating features for ticker 'ABEV3'.
+2021-07-26 10:07:42,423:ERROR:ticker_manager:Error generating features, error:
+array length 144 does not match index length 289
+Traceback (most recent call last):
+  File "/Users/atcha/Github/Projeto-Final/src/ticker_manager.py", line 517, in generate_features
+    features_df = pd.DataFrame({'ticker': self._ticker,
+  File "/Users/atcha/Github/Projeto-Final/venv/lib/python3.9/site-packages/pandas/core/frame.py", line 529, in __init__
+    mgr = init_dict(data, index, columns, dtype=dtype)
+  File "/Users/atcha/Github/Projeto-Final/venv/lib/python3.9/site-packages/pandas/core/internals/construction.py", line 287, in init_dict
+    return arrays_to_mgr(arrays, data_names, index, columns, dtype=dtype)
+  File "/Users/atcha/Github/Projeto-Final/venv/lib/python3.9/site-packages/pandas/core/internals/construction.py", line 80, in arrays_to_mgr
+    index = extract_index(arrays)
+  File "/Users/atcha/Github/Projeto-Final/venv/lib/python3.9/site-packages/pandas/core/internals/construction.py", line 415, in extract_index
+    raise ValueError(msg)
+ValueError: array length 144 does not match index length 289
+2021-07-26 10:07:42,429:DEBUG:utils:The function 'TickerManager.generate_features' took 5435.84 milliseconds to run.
+2021-07-26 10:09:04,262:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 10:09:04,895:INFO:__main__:
+Program started.
+2021-07-26 10:09:04,910:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 10:09:04,911:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-26 10:09:04,911:DEBUG:config_reader:Config file found.
+2021-07-26 10:09:04,941:INFO:config_reader:Config file successfully read.
+2021-07-26 10:09:04,942:INFO:config_reader:Total strategies: 1
+2021-07-26 10:09:04,942:INFO:config_reader:Total tickers: 4
+2021-07-26 10:09:04,942:INFO:config_reader:Oldest date: 01/01/2020
+2021-07-26 10:09:04,942:INFO:config_reader:Most recent date: 31/12/2020
+2021-07-26 10:09:04,942:INFO:config_reader:Strategies found:
+2021-07-26 10:09:04,943:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.0025, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'AZUL4', 'BTOW3', 'B3SA3']
+2021-07-26 10:09:04,943:DEBUG:utils:The function 'ConfigReader.__init__' took 47.46 milliseconds to run.
+2021-07-26 10:09:04,943:INFO:ticker_manager:Generating features for ticker 'ABEV3'.
+2021-07-26 10:09:06,320:ERROR:db_model:Error executing query "INSERT INTO daily_features (ticker, day, ema_17, ema_72, target_buy_price, stop_loss, up_down_trend_status, peak)
+VALUES
+('ABEV3', '2019-07-05', 0.00, 0.00, 0.00, 0.00, 0, 0.00),
+('ABEV3', '2019-07-08', 17.95, 17.95, 0.00, 0.00, 0, 0.00),
+('ABEV3', '2019-07-10', 17.94, 17.95, 0.00, 0.00, 0, 0.00),
+('ABEV3', '2019-07-11', 17.95, 17.95, 0.00, 0.00, 0, 0.00),
+('ABEV3', '2019-07-12', 17.91, 17.94, 0.00, 0.00, 0, 0.00),
+('ABEV3', '2019-07-15', 17.84, 17.92, 0.00, 0.00, 0, 0.00),
+('ABEV3', '2019-07-16', 17.77, 17.90, 0.00, 0.00, 0, 0.00),
+('ABEV3', '2019-07-17', 17.69, 17.88, 0.00, 0.00, 0, 0.00),
+('ABEV3', '2019-07-18', 17.62, 17.86, 0.00, 0.00, 0, 0.00),
+('ABEV3', '2019-07-19', 17.58, 17.84, 0.00, 0.00, 0, 0.00),
+('ABEV3', '2019-07-22', 17.52, 17.82, 0.00, 0.00, 0, 16.86),
+('ABEV3', '2019-07-23', 17.46, 17.80, 0.00, 0.00, 0, 0.00),
+('ABEV3', '2019-07-24', 17.42, 17.78, 0.00, 0.00, 0, 0.00),
+('ABEV3', '2019-07-25', 17.37, 17.75, 0.00, 0.00, 0, 0.00),
+('ABEV3', '2019-07-26', 17.48, 17.77, 0.00, 0.00, 0, 0.00),
+('ABEV3', '2019-07-29', 17.62, 17.80, 0.00, 0.00, 0, 0.00),
+('ABEV3', '2019-07-30', 17.81, 17.84, 0.00, 0.00, 0, 19.62),
+('ABEV3', '2019-07-31', 17.97, 17.88, 0.00, 0.00, 0, 0.00),
+('ABEV3', '2019-08-01', 18.09, 17.91, 0.00, 0.00, 0, 0.00),
+('ABEV3', '2019-08-02', 18.22, 17.95, 0.00, 0.00, 0, 0.00),
+('ABEV3', '2019-08-05', 18.35, 17.99, 0.00, 0.00, 0, 0.00),
+('ABEV3', '2019-08-06', 18.42, 18.01, 0.00, 0.00, 0, 0.00),
+('ABEV3', '2019-08-07', 18.53, 18.05, 0.00, 0.00, 0, 0.00),
+('ABEV3', '2019-08-08', 18.63, 18.09, 0.00, 0.00, 0, 0.00),
+('ABEV3', '2019-08-09', 18.68, 18.12, 0.00, 0.00, 0, 0.00),
+('ABEV3', '2019-08-12', 18.71, 18.14, 0.00, 0.00, 0, 0.00),
+('ABEV3', '2019-08-13', 18.68, 18.15, 0.00, 0.00, 0, 0.00),
+('ABEV3', '2019-08-14', 18.64, 18.15, 0.00, 0.00, 0, 0.00),
+('ABEV3', '2019-08-15', 18.56, 18.15, 0.00, 0.00, 0, 0.00),
+('ABEV3', '2019-08-16', 18.47, 18.14, 0.00, 0.00, 0, 0.00),
+('ABEV3', '2019-08-19', 18.40, 18.13, 0.00, 0.00, 0, 0.00),
+('ABEV3', '2019-08-20', 18.36, 18.13, 0.00, 0.00, 0, 0.00),
+('ABEV3', '2019-08-21', 18.31, 18.12, 0.00, 0.00, 0, 0.00),
+('ABEV3', '2019-08-22', 18.25, 18.11, 0.00, 0.00, 0, 0.00),
+('ABEV3', '2019-08-23', 18.16, 18.09, 0.00, 0.00, 0, 0.00),
+('ABEV3', '2019-08-26', 18.07, 18.07, 0.00, 0.00, 0, 0.00),
+('ABEV3', '2019-08-27', 17.96, 18.04, 0.00, 0.00, 0, 16.92),
+('ABEV3', '2019-08-28', 17.87, 18.02, 0.00, 0.00, 0, 0.00),
+('ABEV3', '2019-08-29', 17.79, 18.00, 0.00, 0.00, 0, 0.00),
+('ABEV3', '2019-08-30', 17.76, 17.98, 0.00, 0.00, 0, 0.00),
+('ABEV3', '2019-09-02', 17.75, 17.98, 0.00, 0.00, 0, 0.00),
+('ABEV3', '2019-09-03', 17.71, 17.96, 0.00, 0.00, 0, 0.00),
+('ABEV3', '2019-09-04', 17.69, 17.95, 0.00, 0.00, 0, 0.00),
+('ABEV3', '2019-09-05', 17.70, 17.94, 0.00, 0.00, 0, 0.00),
+('ABEV3', '2019-09-06', 17.69, 17.93, 0.00, 0.00, 0, 0.00),
+('ABEV3', '2019-09-09', 17.69, 17.93, 0.00, 0.00, 0, 0.00),
+('ABEV3', '2019-09-10', 17.71, 17.92, 0.00, 0.00, 0, 0.00),
+('ABEV3', '2019-09-11', 17.72, 17.92, 0.00, 0.00, 0, 0.00),
+('ABEV3', '2019-09-12', 17.73, 17.92, 0.00, 0.00, 0, 0.00),
+('ABEV3', '2019-09-13', 17.80, 17.93, 0.00, 0.00, 0, 0.00),
+('ABEV3', '2019-09-16', 17.82, 17.93, 0.00, 0.00, 0, 0.00),
+('ABEV3', '2019-09-17', 17.85, 17.94, 0.00, 0.00, 0, 0.00),
+('ABEV3', '2019-09-18', 17.91, 17.95, 0.00, 0.00, 0, 0.00),
+('ABEV3', '2019-09-19', 17.94, 17.96, 0.00, 0.00, 0, 0.00),
+('ABEV3', '2019-09-20', 17.98, 17.96, 0.00, 0.00, 0, 0.00),
+('ABEV3', '2019-09-23', 18.02, 17.97, 0.00, 0.00, 0, 0.00),
+('ABEV3', '2019-09-24', 18.05, 17.98, 0.00, 0.00, 0, 0.00),
+('ABEV3', '2019-09-25', 18.08, 17.99, 0.00, 0.00, 0, 0.00),
+('ABEV3', '2019-09-26', 18.13, 18.01, 0.00, 0.00, 0, 18.67),
+('ABEV3', '2019-09-27', 18.16, 18.02, 0.00, 0.00, 0, 0.00),
+('ABEV3', '2019-09-30', 18.19, 18.03, 0.00, 0.00, 0, 0.00),
+('ABEV3', '2019-10-01', 18.19, 18.03, 0.00, 0.00, 0, 0.00),
+('ABEV3', '2019-10-02', 18.19, 18.04, 0.00, 0.00, 0, 0.00),
+('ABEV3', '2019-10-03', 18.15, 18.03, 0.00, 0.00, 0, 0.00),
+('ABEV3', '2019-10-04', 18.09, 18.02, 0.00, 0.00, 0, 0.00),
+('ABEV3', '2019-10-07', 18.09, 18.02, 0.00, 0.00, 0, 0.00),
+('ABEV3', '2019-10-08', 18.06, 18.02, 0.00, 0.00, 0, 0.00),
+('ABEV3', '2019-10-09', 18.01, 18.01, 0.00, 0.00, 0, 0.00),
+('ABEV3', '2019-10-10', 17.97, 18.00, 18.00, 16.92, 1, 17.28),
+('ABEV3', '2019-10-11', 17.90, 17.98, 17.00, 16.83, 1, 0.00),
+('ABEV3', '2019-10-14', 17.87, 17.97, 18.00, 16.92, 1, 0.00),
+('ABEV3', '2019-10-15', 17.85, 17.96, 18.00, 16.92, 1, 0.00),
+('ABEV3', '2019-10-16', 17.85, 17.96, 18.00, 16.92, 1, 0.00),
+('ABEV3', '2019-10-17', 17.85, 17.95, 18.00, 16.92, 1, 0.00),
+('ABEV3', '2019-10-18', 17.83, 17.95, 18.00, 16.92, 1, 0.00),
+('ABEV3', '2019-10-21', 17.81, 17.94, 18.00, 16.92, 1, 0.00),
+('ABEV3', '2019-10-22', 17.83, 17.94, 18.00, 16.92, 1, 0.00),
+('ABEV3', '2019-10-23', 17.82, 17.93, 18.00, 16.92, 1, 0.00),
+('ABEV3', '2019-10-24', 17.80, 17.93, 19.62, 18.67, 0, 18.27),
+('ABEV3', '2019-10-25', 17.83, 17.93, 19.62, 18.67, 0, 0.00),
+('ABEV3', '2019-10-28', 17.70, 17.90, 19.62, 18.67, 0, 0.00),
+('ABEV3', '2019-10-29', 17.57, 17.86, 19.62, 18.67, 0, 0.00),
+('ABEV3', '2019-10-30', 17.47, 17.83, 19.62, 18.67, 0, 0.00),
+('ABEV3', '2019-10-31', 17.37, 17.79, 19.62, 18.67, 0, 0.00),
+('ABEV3', '2019-11-01', 17.26, 17.75, 19.62, 18.67, 0, 0.00),
+('ABEV3', '2019-11-04', 17.17, 17.72, 19.62, 18.67, 0, 0.00),
+('ABEV3', '2019-11-05', 17.10, 17.69, 19.62, 18.67, 0, 0.00),
+('ABEV3', '2019-11-06', 17.06, 17.66, 19.62, 18.67, 0, 0.00),
+('ABEV3', '2019-11-07', 17.00, 17.63, 19.62, 18.67, 0, 0.00),
+('ABEV3', '2019-11-08', 16.96, 17.60, 19.62, 18.67, 0, 16.23),
+('ABEV3', '2019-11-11', 16.89, 17.57, 18.67, 18.27, 0, 0.00),
+('ABEV3', '2019-11-12', 16.85, 17.54, 18.67, 18.27, 0, 0.00),
+('ABEV3', '2019-11-13', 16.81, 17.51, 18.67, 18.27, 0, 0.00),
+('ABEV3', '2019-11-14', 16.76, 17.48, 18.67, 18.27, 0, 0.00),
+('ABEV3', '2019-11-18', 16.73, 17.45, 18.67, 18.27, 0, 0.00),
+('ABEV3', '2019-11-19', 16.72, 17.43, 18.67, 18.27, 0, 0.00),
+('ABEV3', '2019-11-21', 16.71, 17.41, 18.67, 18.27, 0, 0.00),
+('ABEV3', '2019-11-22', 16.75, 17.40, 18.67, 18.27, 0, 0.00),
+('ABEV3', '2019-11-25', 16.80, 17.39, 18.67, 18.27, 0, 0.00),
+('ABEV3', '2019-11-26', 16.85, 17.39, 17.00, 16.23, 1, 0.00),
+('ABEV3', '2019-11-27', 16.87, 17.38, 17.00, 16.23, 1, 0.00),
+('ABEV3', '2019-11-28', 16.88, 17.37, 17.00, 16.23, 1, 0.00),
+('ABEV3', '2019-11-29', 16.89, 17.36, 17.00, 16.23, 1, 0.00),
+('ABEV3', '2019-12-02', 16.91, 17.35, 17.00, 16.23, 1, 0.00),
+('ABEV3', '2019-12-03', 16.92, 17.34, 17.00, 16.23, 1, 0.00),
+('ABEV3', '2019-12-04', 16.91, 17.33, 17.00, 16.23, 1, 0.00),
+('ABEV3', '2019-12-05', 16.96, 17.32, 17.00, 16.23, 1, 0.00),
+('ABEV3', '2019-12-06', 16.98, 17.32, 17.00, 16.23, 1, 0.00),
+('ABEV3', '2019-12-09', 17.03, 17.32, 17.00, 16.23, 1, 0.00),
+('ABEV3', '2019-12-10', 17.07, 17.33, 17.00, 16.23, 1, 0.00),
+('ABEV3', '2019-12-11', 17.10, 17.33, 17.00, 16.23, 1, 0.00),
+('ABEV3', '2019-12-12', 17.14, 17.33, 17.00, 16.23, 1, 0.00),
+('ABEV3', '2019-12-13', 17.20, 17.34, 18.00, 17.28, 1, 0.00),
+('ABEV3', '2019-12-16', 17.28, 17.36, 18.00, 17.28, 1, 0.00),
+('ABEV3', '2019-12-17', 17.37, 17.37, 18.00, 17.28, 1, 0.00),
+('ABEV3', '2019-12-18', 17.42, 17.39, 18.00, 17.28, 1, 0.00),
+('ABEV3', '2019-12-19', 17.49, 17.41, 18.00, 17.28, 1, 0.00),
+('ABEV3', '2019-12-20', 17.56, 17.42, 18.00, 17.28, 1, 0.00),
+('ABEV3', '2019-12-23', 17.65, 17.45, 18.27, 17.28, 1, 0.00),
+('ABEV3', '2019-12-26', 17.73, 17.48, 18.27, 17.28, 1, 0.00),
+('ABEV3', '2019-12-27', 17.83, 17.51, 18.27, 17.28, 1, 0.00),
+('ABEV3', '2019-12-30', 17.91, 17.54, 18.27, 17.28, 1, 0.00),
+('ABEV3', '2020-01-02', 17.93, 17.55, 18.00, 17.28, 1, 0.00),
+('ABEV3', '2020-01-03', 18.01, 17.58, 18.27, 17.28, 1, 0.00),
+('ABEV3', '2020-01-06', 18.05, 17.60, 18.27, 17.28, 1, 0.00),
+('ABEV3', '2020-01-07', 18.09, 17.63, 18.27, 17.28, 1, 0.00),
+('ABEV3', '2020-01-08', 18.13, 17.65, 18.27, 17.28, 1, 0.00),
+('ABEV3', '2020-01-09', 18.16, 17.67, 18.27, 17.28, 1, 0.00),
+('ABEV3', '2020-01-10', 18.17, 17.68, 18.00, 17.28, 1, 0.00),
+('ABEV3', '2020-01-13', 18.19, 17.70, 18.27, 17.28, 1, 0.00),
+('ABEV3', '2020-01-14', 18.24, 17.73, 18.77, 18.27, 0, 18.99),
+('ABEV3', '2020-01-15', 18.27, 17.75, 18.77, 18.27, 0, 0.00),
+('ABEV3', '2020-01-16', 18.26, 17.76, 18.77, 18.27, 0, 0.00),
+('ABEV3', '2020-01-17', 18.25, 17.77, 18.77, 18.27, 0, 0.00),
+('ABEV3', '2020-01-20', 18.23, 17.78, 18.77, 18.27, 0, 0.00),
+('ABEV3', '2020-01-21', 18.23, 17.79, 18.77, 18.27, 0, 0.00),
+('ABEV3', '2020-01-22', 18.23, 17.80, 18.77, 18.27, 0, 0.00),
+('ABEV3', '2020-01-23', 18.25, 17.82, 18.77, 18.27, 0, 0.00),
+('ABEV3', '2020-01-24', 18.23, 17.83, 18.77, 18.27, 0, 0.00),
+('ABEV3', '2020-01-27', 18.25, 17.85, 18.77, 18.27, 0, 0.00),
+('ABEV3', '2020-01-28', 18.22, 17.85, 18.99, 18.27, 0, 0.00),
+('ABEV3', '2020-01-29', 18.22, 17.86, 18.99, 18.27, 0, 0.00),
+('ABEV3', '2020-01-30', 18.17, 17.86, 18.99, 18.27, 0, 0.00),
+('ABEV3', '2020-01-31', 18.13, 17.85, 18.99, 18.27, 0, 0.00);", error:
+new row for relation "daily_features" violates check constraint "greater_than_zero"
+DETAIL:  Failing row contains (ABEV3, 2019-07-05 00:00:00, 0.00, 0.00, 0.00, 0.00, 0, 0.00, null).
+
+2021-07-26 10:09:06,320:DEBUG:utils:The function 'TickerManager.generate_features' took 1377.36 milliseconds to run.
+2021-07-26 10:21:55,878:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 10:21:56,661:INFO:__main__:
+Program started.
+2021-07-26 10:21:56,669:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 10:21:56,670:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-26 10:21:56,670:DEBUG:config_reader:Config file found.
+2021-07-26 10:21:56,689:INFO:config_reader:Config file successfully read.
+2021-07-26 10:21:56,689:INFO:config_reader:Total strategies: 1
+2021-07-26 10:21:56,689:INFO:config_reader:Total tickers: 4
+2021-07-26 10:21:56,690:INFO:config_reader:Oldest date: 01/01/2020
+2021-07-26 10:21:56,690:INFO:config_reader:Most recent date: 31/12/2020
+2021-07-26 10:21:56,690:INFO:config_reader:Strategies found:
+2021-07-26 10:21:56,690:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.0025, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'AZUL4', 'BTOW3', 'B3SA3']
+2021-07-26 10:21:56,690:DEBUG:utils:The function 'ConfigReader.__init__' took 29.19 milliseconds to run.
+2021-07-26 10:21:56,690:INFO:ticker_manager:Generating features for ticker 'ABEV3'.
+2021-07-26 10:21:57,785:DEBUG:utils:The function 'TickerManager.generate_features' took 1094.60 milliseconds to run.
+2021-07-26 10:21:57,785:INFO:ticker_manager:Generating features for ticker 'AZUL4'.
+2021-07-26 10:21:58,842:DEBUG:utils:The function 'TickerManager.generate_features' took 1056.72 milliseconds to run.
+2021-07-26 10:21:58,842:INFO:ticker_manager:Generating features for ticker 'BTOW3'.
+2021-07-26 10:21:59,879:DEBUG:utils:The function 'TickerManager.generate_features' took 1036.26 milliseconds to run.
+2021-07-26 10:21:59,879:INFO:ticker_manager:Generating features for ticker 'B3SA3'.
+2021-07-26 10:22:00,927:DEBUG:utils:The function 'TickerManager.generate_features' took 1048.18 milliseconds to run.
+2021-07-26 10:22:00,927:INFO:ticker_manager:Generating features for ticker '^BVSP'.
+2021-07-26 10:22:00,927:DEBUG:utils:The function 'TickerManager.generate_features' took 0.14 milliseconds to run.
+2021-07-26 10:22:00,927:INFO:ticker_manager:Generating features for ticker 'BRL=X'.
+2021-07-26 10:22:00,928:DEBUG:utils:The function 'TickerManager.generate_features' took 0.12 milliseconds to run.
+2021-07-26 10:23:20,044:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 10:23:34,030:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 10:23:34,742:INFO:__main__:
+Program started.
+2021-07-26 10:23:34,752:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 10:23:34,752:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-26 10:23:34,753:DEBUG:config_reader:Config file found.
+2021-07-26 10:23:34,771:INFO:config_reader:Config file successfully read.
+2021-07-26 10:23:34,771:INFO:config_reader:Total strategies: 1
+2021-07-26 10:23:34,771:INFO:config_reader:Total tickers: 4
+2021-07-26 10:23:34,771:INFO:config_reader:Oldest date: 01/01/2020
+2021-07-26 10:23:34,771:INFO:config_reader:Most recent date: 31/12/2020
+2021-07-26 10:23:34,771:INFO:config_reader:Strategies found:
+2021-07-26 10:23:34,772:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.0025, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'AZUL4', 'BTOW3', 'B3SA3']
+2021-07-26 10:23:34,772:DEBUG:utils:The function 'ConfigReader.__init__' took 29.66 milliseconds to run.
+2021-07-26 10:23:34,772:INFO:ticker_manager:Generating features for ticker 'ABEV3'.
+2021-07-26 10:23:35,925:DEBUG:utils:The function 'TickerManager.generate_features' took 1152.76 milliseconds to run.
+2021-07-26 10:23:35,925:INFO:ticker_manager:Generating features for ticker 'AZUL4'.
+2021-07-26 10:23:36,893:DEBUG:utils:The function 'TickerManager.generate_features' took 967.94 milliseconds to run.
+2021-07-26 10:23:36,893:INFO:ticker_manager:Generating features for ticker 'BTOW3'.
+2021-07-26 10:23:37,865:DEBUG:utils:The function 'TickerManager.generate_features' took 971.55 milliseconds to run.
+2021-07-26 10:23:37,865:INFO:ticker_manager:Generating features for ticker 'B3SA3'.
+2021-07-26 10:23:38,842:DEBUG:utils:The function 'TickerManager.generate_features' took 977.00 milliseconds to run.
+2021-07-26 10:23:38,842:INFO:ticker_manager:Generating features for ticker '^BVSP'.
+2021-07-26 10:23:38,843:DEBUG:utils:The function 'TickerManager.generate_features' took 0.14 milliseconds to run.
+2021-07-26 10:23:38,843:INFO:ticker_manager:Generating features for ticker 'BRL=X'.
+2021-07-26 10:23:38,843:DEBUG:utils:The function 'TickerManager.generate_features' took 0.12 milliseconds to run.
+2021-07-26 10:25:47,354:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 10:25:48,036:INFO:__main__:
+Program started.
+2021-07-26 10:25:48,046:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 10:25:48,047:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-26 10:25:48,048:DEBUG:config_reader:Config file found.
+2021-07-26 10:25:48,067:INFO:config_reader:Config file successfully read.
+2021-07-26 10:25:48,068:INFO:config_reader:Total strategies: 1
+2021-07-26 10:25:48,068:INFO:config_reader:Total tickers: 4
+2021-07-26 10:25:48,068:INFO:config_reader:Oldest date: 01/01/2020
+2021-07-26 10:25:48,068:INFO:config_reader:Most recent date: 31/12/2020
+2021-07-26 10:25:48,068:INFO:config_reader:Strategies found:
+2021-07-26 10:25:48,068:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.0025, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'AZUL4', 'BTOW3', 'B3SA3']
+2021-07-26 10:25:48,069:DEBUG:utils:The function 'ConfigReader.__init__' took 32.65 milliseconds to run.
+2021-07-26 10:25:48,069:INFO:ticker_manager:Generating features for ticker 'ABEV3'.
+2021-07-26 10:25:49,607:DEBUG:utils:The function 'TickerManager.generate_features' took 1537.71 milliseconds to run.
+2021-07-26 10:25:49,607:INFO:ticker_manager:Generating features for ticker 'AZUL4'.
+2021-07-26 10:25:50,981:DEBUG:utils:The function 'TickerManager.generate_features' took 1373.76 milliseconds to run.
+2021-07-26 10:25:50,983:INFO:ticker_manager:Generating features for ticker 'BTOW3'.
+2021-07-26 10:25:52,118:DEBUG:utils:The function 'TickerManager.generate_features' took 1134.74 milliseconds to run.
+2021-07-26 10:25:52,118:INFO:ticker_manager:Generating features for ticker 'B3SA3'.
+2021-07-26 10:25:53,139:DEBUG:utils:The function 'TickerManager.generate_features' took 1020.76 milliseconds to run.
+2021-07-26 10:25:53,139:INFO:ticker_manager:Generating features for ticker '^BVSP'.
+2021-07-26 10:25:53,139:DEBUG:utils:The function 'TickerManager.generate_features' took 0.14 milliseconds to run.
+2021-07-26 10:25:53,139:INFO:ticker_manager:Generating features for ticker 'BRL=X'.
+2021-07-26 10:25:53,139:DEBUG:utils:The function 'TickerManager.generate_features' took 0.12 milliseconds to run.
+2021-07-26 10:27:35,079:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 10:27:35,650:INFO:__main__:
+Program started.
+2021-07-26 10:27:35,658:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 10:27:35,659:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-26 10:27:35,659:DEBUG:config_reader:Config file found.
+2021-07-26 10:27:35,676:INFO:config_reader:Config file successfully read.
+2021-07-26 10:27:35,676:INFO:config_reader:Total strategies: 1
+2021-07-26 10:27:35,677:INFO:config_reader:Total tickers: 4
+2021-07-26 10:27:35,677:INFO:config_reader:Oldest date: 01/01/2020
+2021-07-26 10:27:35,677:INFO:config_reader:Most recent date: 31/12/2020
+2021-07-26 10:27:35,677:INFO:config_reader:Strategies found:
+2021-07-26 10:27:35,677:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.0025, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'AZUL4', 'BTOW3', 'B3SA3']
+2021-07-26 10:27:35,677:DEBUG:utils:The function 'ConfigReader.__init__' took 27.62 milliseconds to run.
+2021-07-26 10:31:57,870:INFO:ticker_manager:Generating features for ticker 'ABEV3'.
+2021-07-26 10:31:58,933:DEBUG:utils:The function 'TickerManager.generate_features' took 1063.39 milliseconds to run.
+2021-07-26 10:31:58,934:INFO:ticker_manager:Generating features for ticker 'AZUL4'.
+2021-07-26 10:32:00,140:DEBUG:utils:The function 'TickerManager.generate_features' took 1206.24 milliseconds to run.
+2021-07-26 10:32:00,141:INFO:ticker_manager:Generating features for ticker 'BTOW3'.
+2021-07-26 10:32:01,265:DEBUG:utils:The function 'TickerManager.generate_features' took 1123.19 milliseconds to run.
+2021-07-26 10:32:01,265:INFO:ticker_manager:Generating features for ticker 'B3SA3'.
+2021-07-26 10:32:02,482:DEBUG:utils:The function 'TickerManager.generate_features' took 1217.15 milliseconds to run.
+2021-07-26 10:32:11,232:INFO:ticker_manager:Generating features for ticker '^BVSP'.
+2021-07-26 10:32:11,233:DEBUG:utils:The function 'TickerManager.generate_features' took 0.75 milliseconds to run.
+2021-07-26 10:32:11,233:INFO:ticker_manager:Generating features for ticker 'BRL=X'.
+2021-07-26 10:32:11,234:DEBUG:utils:The function 'TickerManager.generate_features' took 1.05 milliseconds to run.
+2021-07-26 10:35:22,336:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 10:35:23,212:INFO:__main__:
+Program started.
+2021-07-26 10:35:23,226:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 10:35:23,227:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-26 10:35:23,227:DEBUG:config_reader:Config file found.
+2021-07-26 10:35:23,252:INFO:config_reader:Config file successfully read.
+2021-07-26 10:35:23,252:INFO:config_reader:Total strategies: 1
+2021-07-26 10:35:23,253:INFO:config_reader:Total tickers: 4
+2021-07-26 10:35:23,253:INFO:config_reader:Oldest date: 01/01/2020
+2021-07-26 10:35:23,253:INFO:config_reader:Most recent date: 31/12/2020
+2021-07-26 10:35:23,253:INFO:config_reader:Strategies found:
+2021-07-26 10:35:23,253:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.0025, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'AZUL4', 'BTOW3', 'B3SA3']
+2021-07-26 10:35:23,253:DEBUG:utils:The function 'ConfigReader.__init__' took 40.77 milliseconds to run.
+2021-07-26 10:35:23,254:INFO:ticker_manager:Generating features for ticker 'ABEV3'.
+2021-07-26 10:35:24,917:DEBUG:utils:The function 'TickerManager.generate_features' took 1663.12 milliseconds to run.
+2021-07-26 10:36:18,521:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 10:36:18,994:INFO:__main__:
+Program started.
+2021-07-26 10:36:19,002:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 10:36:19,002:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-26 10:36:19,002:DEBUG:config_reader:Config file found.
+2021-07-26 10:36:19,018:INFO:config_reader:Config file successfully read.
+2021-07-26 10:36:19,018:INFO:config_reader:Total strategies: 1
+2021-07-26 10:36:19,019:INFO:config_reader:Total tickers: 4
+2021-07-26 10:36:19,019:INFO:config_reader:Oldest date: 01/01/2020
+2021-07-26 10:36:19,019:INFO:config_reader:Most recent date: 31/12/2020
+2021-07-26 10:36:19,019:INFO:config_reader:Strategies found:
+2021-07-26 10:36:19,019:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.0025, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'AZUL4', 'BTOW3', 'B3SA3']
+2021-07-26 10:36:19,019:DEBUG:utils:The function 'ConfigReader.__init__' took 25.44 milliseconds to run.
+2021-07-26 10:36:19,020:INFO:ticker_manager:Generating features for ticker 'ABEV3'.
+2021-07-26 10:37:21,164:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 10:37:21,678:INFO:__main__:
+Program started.
+2021-07-26 10:37:21,687:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 10:37:21,687:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-26 10:37:21,687:DEBUG:config_reader:Config file found.
+2021-07-26 10:37:21,704:INFO:config_reader:Config file successfully read.
+2021-07-26 10:37:21,704:INFO:config_reader:Total strategies: 1
+2021-07-26 10:37:21,704:INFO:config_reader:Total tickers: 4
+2021-07-26 10:37:21,705:INFO:config_reader:Oldest date: 01/01/2020
+2021-07-26 10:37:21,705:INFO:config_reader:Most recent date: 31/12/2020
+2021-07-26 10:37:21,705:INFO:config_reader:Strategies found:
+2021-07-26 10:37:21,705:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.0025, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'AZUL4', 'BTOW3', 'B3SA3']
+2021-07-26 10:37:21,705:DEBUG:utils:The function 'ConfigReader.__init__' took 27.23 milliseconds to run.
+2021-07-26 10:37:21,706:INFO:ticker_manager:Generating features for ticker 'ABEV3'.
+2021-07-26 10:38:31,528:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 10:38:31,997:INFO:__main__:
+Program started.
+2021-07-26 10:38:32,006:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 10:38:32,006:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-26 10:38:32,006:DEBUG:config_reader:Config file found.
+2021-07-26 10:38:32,022:INFO:config_reader:Config file successfully read.
+2021-07-26 10:38:32,023:INFO:config_reader:Total strategies: 1
+2021-07-26 10:38:32,023:INFO:config_reader:Total tickers: 4
+2021-07-26 10:38:32,023:INFO:config_reader:Oldest date: 01/01/2019
+2021-07-26 10:38:32,023:INFO:config_reader:Most recent date: 31/12/2020
+2021-07-26 10:38:32,023:INFO:config_reader:Strategies found:
+2021-07-26 10:38:32,023:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.0025, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'AZUL4', 'BTOW3', 'B3SA3']
+2021-07-26 10:38:32,023:DEBUG:utils:The function 'ConfigReader.__init__' took 25.83 milliseconds to run.
+2021-07-26 10:38:32,024:INFO:ticker_manager:Generating features for ticker 'ABEV3'.
+2021-07-26 10:38:53,996:DEBUG:utils:The function 'TickerManager.generate_features' took 21972.57 milliseconds to run.
+2021-07-26 10:38:54,000:INFO:ticker_manager:Generating features for ticker 'AZUL4'.
+2021-07-26 10:38:59,278:DEBUG:utils:The function 'TickerManager.generate_features' took 5278.91 milliseconds to run.
+2021-07-26 10:38:59,278:INFO:ticker_manager:Generating features for ticker 'BTOW3'.
+2021-07-26 10:39:04,547:DEBUG:utils:The function 'TickerManager.generate_features' took 5268.07 milliseconds to run.
+2021-07-26 10:39:04,547:INFO:ticker_manager:Generating features for ticker 'B3SA3'.
+2021-07-26 10:39:10,067:DEBUG:utils:The function 'TickerManager.generate_features' took 5519.56 milliseconds to run.
+2021-07-26 10:39:10,067:INFO:ticker_manager:Generating features for ticker '^BVSP'.
+2021-07-26 10:39:10,067:DEBUG:utils:The function 'TickerManager.generate_features' took 0.14 milliseconds to run.
+2021-07-26 10:39:10,067:INFO:ticker_manager:Generating features for ticker 'BRL=X'.
+2021-07-26 10:39:10,067:DEBUG:utils:The function 'TickerManager.generate_features' took 0.14 milliseconds to run.
+2021-07-26 10:39:24,821:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 10:39:24,831:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 10:39:24,842:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 10:39:31,424:DEBUG:strategy:Stop loss skipped: 'BTOW3', '2019-05-10'.
+2021-07-26 10:39:35,806:DEBUG:strategy:Target sale skipped: 'AZUL4', '2019-07-26'.
+2021-07-26 10:39:54,456:DEBUG:utils:The function 'AndreMoraesStrategy.process_operations' took 29623.04 milliseconds to run.
+2021-07-26 10:39:54,584:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 10:40:20,702:DEBUG:utils:The function 'AndreMoraesStrategy.calculate_statistics' took 26245.62 milliseconds to run.
+2021-07-26 10:40:21,072:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 10:40:21,206:INFO:strategy_analyzer:Dash is running on http://127.0.0.1:8050/
+
+2021-07-26 10:44:37,767:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 10:44:37,886:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-07-26 10:49:54,455:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 10:49:55,122:INFO:__main__:
+Program started.
+2021-07-26 10:49:55,131:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 10:49:55,131:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-26 10:49:55,132:DEBUG:config_reader:Config file found.
+2021-07-26 10:49:55,149:INFO:config_reader:Config file successfully read.
+2021-07-26 10:49:55,149:INFO:config_reader:Total strategies: 1
+2021-07-26 10:49:55,149:INFO:config_reader:Total tickers: 4
+2021-07-26 10:49:55,150:INFO:config_reader:Oldest date: 01/01/2019
+2021-07-26 10:49:55,150:INFO:config_reader:Most recent date: 31/12/2020
+2021-07-26 10:49:55,150:INFO:config_reader:Strategies found:
+2021-07-26 10:49:55,150:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.0025, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'AZUL4', 'BTOW3', 'B3SA3']
+2021-07-26 10:49:55,150:DEBUG:utils:The function 'ConfigReader.__init__' took 28.07 milliseconds to run.
+2021-07-26 10:49:55,151:INFO:ticker_manager:Generating features for ticker 'ABEV3'.
+2021-07-26 10:50:00,309:DEBUG:utils:The function 'TickerManager.generate_features' took 5158.24 milliseconds to run.
+2021-07-26 10:50:00,309:INFO:ticker_manager:Generating features for ticker 'AZUL4'.
+2021-07-26 10:50:05,032:DEBUG:utils:The function 'TickerManager.generate_features' took 4723.39 milliseconds to run.
+2021-07-26 10:50:05,033:INFO:ticker_manager:Generating features for ticker 'BTOW3'.
+2021-07-26 10:50:09,106:DEBUG:utils:The function 'TickerManager.generate_features' took 4072.79 milliseconds to run.
+2021-07-26 10:50:09,106:INFO:ticker_manager:Generating features for ticker 'B3SA3'.
+2021-07-26 10:50:13,156:DEBUG:utils:The function 'TickerManager.generate_features' took 4049.98 milliseconds to run.
+2021-07-26 10:50:13,156:INFO:ticker_manager:Generating features for ticker '^BVSP'.
+2021-07-26 10:50:13,156:DEBUG:utils:The function 'TickerManager.generate_features' took 0.14 milliseconds to run.
+2021-07-26 10:50:13,156:INFO:ticker_manager:Generating features for ticker 'BRL=X'.
+2021-07-26 10:50:13,156:DEBUG:utils:The function 'TickerManager.generate_features' took 0.12 milliseconds to run.
+2021-07-26 10:50:13,290:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 10:50:13,299:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 10:50:13,308:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 10:50:34,463:DEBUG:utils:The function 'AndreMoraesStrategy.process_operations' took 21164.10 milliseconds to run.
+2021-07-26 10:50:34,533:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 10:50:41,089:DEBUG:utils:The function 'AndreMoraesStrategy.calculate_statistics' took 6625.05 milliseconds to run.
+2021-07-26 10:50:41,217:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 10:50:41,306:INFO:strategy_analyzer:Dash is running on http://127.0.0.1:8050/
+
+2021-07-26 11:29:37,782:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 11:31:07,854:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 11:31:08,026:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-07-26 11:33:48,879:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 11:37:46,541:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 11:37:50,162:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-07-26 11:38:18,781:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 11:39:01,033:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 11:39:01,156:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-07-26 11:45:16,649:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 11:45:17,344:INFO:__main__:
+Program started.
+2021-07-26 11:45:17,353:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 11:45:17,353:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-26 11:45:17,354:DEBUG:config_reader:Config file found.
+2021-07-26 11:45:17,373:INFO:config_reader:Config file successfully read.
+2021-07-26 11:45:17,373:INFO:config_reader:Total strategies: 1
+2021-07-26 11:45:17,373:INFO:config_reader:Total tickers: 5
+2021-07-26 11:45:17,373:INFO:config_reader:Oldest date: 01/01/2015
+2021-07-26 11:45:17,373:INFO:config_reader:Most recent date: 31/12/2019
+2021-07-26 11:45:17,373:INFO:config_reader:Strategies found:
+2021-07-26 11:45:17,374:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.0025, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['MGLU3', 'VALE3', 'PETR4', 'WEGE3', 'BBAS3']
+2021-07-26 11:45:17,374:DEBUG:utils:The function 'ConfigReader.__init__' took 29.04 milliseconds to run.
+2021-07-26 11:45:17,374:INFO:ticker_manager:Generating features for ticker 'MGLU3'.
+2021-07-26 11:45:51,938:DEBUG:utils:The function 'TickerManager.generate_features' took 34563.56 milliseconds to run.
+2021-07-26 11:45:51,938:INFO:ticker_manager:Generating features for ticker 'VALE3'.
+2021-07-26 11:46:35,605:DEBUG:utils:The function 'TickerManager.generate_features' took 43666.62 milliseconds to run.
+2021-07-26 11:46:35,605:INFO:ticker_manager:Generating features for ticker 'PETR4'.
+2021-07-26 11:47:10,257:DEBUG:utils:The function 'TickerManager.generate_features' took 34652.17 milliseconds to run.
+2021-07-26 11:47:10,258:INFO:ticker_manager:Generating features for ticker 'WEGE3'.
+2021-07-26 11:47:45,454:DEBUG:utils:The function 'TickerManager.generate_features' took 35196.36 milliseconds to run.
+2021-07-26 11:47:45,454:INFO:ticker_manager:Generating features for ticker 'BBAS3'.
+2021-07-26 11:48:20,328:DEBUG:utils:The function 'TickerManager.generate_features' took 34873.94 milliseconds to run.
+2021-07-26 11:48:20,329:INFO:ticker_manager:Generating features for ticker '^BVSP'.
+2021-07-26 11:48:20,329:DEBUG:utils:The function 'TickerManager.generate_features' took 0.26 milliseconds to run.
+2021-07-26 11:48:20,330:INFO:ticker_manager:Generating features for ticker 'BRL=X'.
+2021-07-26 11:48:20,330:DEBUG:utils:The function 'TickerManager.generate_features' took 0.48 milliseconds to run.
+2021-07-26 11:48:20,501:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 11:48:20,515:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 11:48:20,527:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 11:49:03,548:DEBUG:strategy:Target sale skipped: 'PETR4', '2016-10-19'.
+2021-07-26 11:49:15,988:DEBUG:strategy:Stop loss skipped: 'BBAS3', '2017-05-18'.
+2021-07-26 11:49:32,117:DEBUG:strategy:Target sale skipped: 'PETR4', '2018-02-26'.
+2021-07-26 11:49:37,351:DEBUG:strategy:Stop loss skipped: 'PETR4', '2018-05-24'.
+2021-07-26 11:49:38,778:DEBUG:strategy:Stop loss skipped: 'VALE3', '2018-06-19'.
+2021-07-26 11:50:11,101:DEBUG:utils:The function 'AndreMoraesStrategy.process_operations' took 110585.09 milliseconds to run.
+2021-07-26 11:50:11,208:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 11:50:34,271:DEBUG:utils:The function 'AndreMoraesStrategy.calculate_statistics' took 23169.68 milliseconds to run.
+2021-07-26 11:50:34,822:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 11:50:34,937:INFO:strategy_analyzer:Dash is running on http://127.0.0.1:8050/
+
+2021-07-26 15:02:24,141:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 15:02:24,302:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-07-26 15:20:47,654:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 15:20:47,833:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-07-26 15:21:24,859:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 15:21:25,044:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-07-26 16:29:20,292:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 16:29:21,010:INFO:__main__:
+Program started.
+2021-07-26 16:29:21,020:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 16:29:21,020:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-26 16:29:21,021:DEBUG:config_reader:Config file found.
+2021-07-26 16:29:21,041:INFO:config_reader:Config file successfully read.
+2021-07-26 16:29:21,041:INFO:config_reader:Total strategies: 1
+2021-07-26 16:29:21,041:INFO:config_reader:Total tickers: 5
+2021-07-26 16:29:21,041:INFO:config_reader:Oldest date: 01/01/2015
+2021-07-26 16:29:21,041:INFO:config_reader:Most recent date: 31/12/2019
+2021-07-26 16:29:21,042:INFO:config_reader:Strategies found:
+2021-07-26 16:29:21,042:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.0025, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['MGLU3', 'VALE3', 'PETR4', 'WEGE3', 'BBAS3']
+2021-07-26 16:29:21,042:DEBUG:utils:The function 'ConfigReader.__init__' took 31.15 milliseconds to run.
+2021-07-26 16:29:21,051:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 16:29:21,059:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 16:29:21,068:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 16:30:02,902:DEBUG:strategy:Target sale skipped: 'PETR4', '2016-10-19'.
+2021-07-26 16:30:15,016:DEBUG:strategy:Stop loss skipped: 'BBAS3', '2017-05-18'.
+2021-07-26 16:30:31,219:DEBUG:strategy:Target sale skipped: 'PETR4', '2018-02-26'.
+2021-07-26 16:30:36,524:DEBUG:strategy:Stop loss skipped: 'PETR4', '2018-05-24'.
+2021-07-26 16:30:37,940:DEBUG:strategy:Stop loss skipped: 'VALE3', '2018-06-19'.
+2021-07-26 16:31:10,353:DEBUG:utils:The function 'AndreMoraesStrategy.process_operations' took 109293.01 milliseconds to run.
+2021-07-26 16:31:10,421:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 16:31:35,668:ERROR:strategy:Error calculating statistics, error:
+name 'active_operations' is not defined
+Traceback (most recent call last):
+  File "/Users/atcha/Github/Projeto-Final/src/strategy.py", line 1026, in calculate_statistics
+    self._calc_performance(days_batch=30)
+  File "/Users/atcha/Github/Projeto-Final/src/strategy.py", line 1092, in _calc_performance
+    statistics['capital'], statistics['capital_in_use'] = self._calc_capital_usage(
+  File "/Users/atcha/Github/Projeto-Final/src/strategy.py", line 1359, in _calc_capital_usage
+    return capital, capital_in_use, active_operations
+NameError: name 'active_operations' is not defined
+2021-07-26 16:31:35,669:DEBUG:utils:The function 'AndreMoraesStrategy.calculate_statistics' took 25316.11 milliseconds to run.
+2021-07-26 16:33:08,901:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 16:33:09,816:INFO:__main__:
+Program started.
+2021-07-26 16:33:09,831:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 16:33:09,831:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-26 16:33:09,832:DEBUG:config_reader:Config file found.
+2021-07-26 16:33:09,856:INFO:config_reader:Config file successfully read.
+2021-07-26 16:33:09,856:INFO:config_reader:Total strategies: 1
+2021-07-26 16:33:09,856:INFO:config_reader:Total tickers: 5
+2021-07-26 16:33:09,857:INFO:config_reader:Oldest date: 01/01/2015
+2021-07-26 16:33:09,857:INFO:config_reader:Most recent date: 31/12/2019
+2021-07-26 16:33:09,858:INFO:config_reader:Strategies found:
+2021-07-26 16:33:09,858:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.0025, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['MGLU3', 'VALE3', 'PETR4', 'WEGE3', 'BBAS3']
+2021-07-26 16:33:09,858:DEBUG:utils:The function 'ConfigReader.__init__' took 42.19 milliseconds to run.
+2021-07-26 16:33:09,871:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 16:33:09,883:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 16:33:09,897:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 16:35:41,265:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 16:35:41,886:INFO:__main__:
+Program started.
+2021-07-26 16:35:41,894:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 16:35:41,895:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-26 16:35:41,895:DEBUG:config_reader:Config file found.
+2021-07-26 16:35:41,912:INFO:config_reader:Config file successfully read.
+2021-07-26 16:35:41,912:INFO:config_reader:Total strategies: 1
+2021-07-26 16:35:41,912:INFO:config_reader:Total tickers: 2
+2021-07-26 16:35:41,912:INFO:config_reader:Oldest date: 01/01/2015
+2021-07-26 16:35:41,913:INFO:config_reader:Most recent date: 31/12/2019
+2021-07-26 16:35:41,913:INFO:config_reader:Strategies found:
+2021-07-26 16:35:41,913:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.0025, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['MGLU3', 'VALE3']
+2021-07-26 16:35:41,913:DEBUG:utils:The function 'ConfigReader.__init__' took 26.51 milliseconds to run.
+2021-07-26 16:35:41,922:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 16:35:41,930:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 16:35:41,938:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 16:36:17,575:DEBUG:strategy:Stop loss skipped: 'VALE3', '2018-06-19'.
+2021-07-26 16:36:33,239:DEBUG:utils:The function 'AndreMoraesStrategy.process_operations' took 51308.18 milliseconds to run.
+2021-07-26 16:36:33,309:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 16:36:51,274:ERROR:strategy:Error calculating statistics, error:
+_get_number_of_operation_per_day() missing 1 required positional argument: 'dates'
+Traceback (most recent call last):
+  File "/Users/atcha/Github/Projeto-Final/src/strategy.py", line 1026, in calculate_statistics
+    self._calc_performance(days_batch=30)
+  File "/Users/atcha/Github/Projeto-Final/src/strategy.py", line 1095, in _calc_performance
+    statistics['active_operations'] = AndreMoraesStrategy._get_number_of_operation_per_day(dates)
+TypeError: _get_number_of_operation_per_day() missing 1 required positional argument: 'dates'
+2021-07-26 16:36:51,275:DEBUG:utils:The function 'AndreMoraesStrategy.calculate_statistics' took 18036.68 milliseconds to run.
+2021-07-26 16:39:56,932:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 16:39:57,777:INFO:__main__:
+Program started.
+2021-07-26 16:39:57,789:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 16:39:57,789:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-26 16:39:57,790:DEBUG:config_reader:Config file found.
+2021-07-26 16:39:57,824:INFO:config_reader:Config file successfully read.
+2021-07-26 16:39:57,825:INFO:config_reader:Total strategies: 1
+2021-07-26 16:39:57,825:INFO:config_reader:Total tickers: 2
+2021-07-26 16:39:57,825:INFO:config_reader:Oldest date: 01/01/2015
+2021-07-26 16:39:57,825:INFO:config_reader:Most recent date: 31/12/2019
+2021-07-26 16:39:57,825:INFO:config_reader:Strategies found:
+2021-07-26 16:39:57,825:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.0025, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['MGLU3', 'VALE3']
+2021-07-26 16:39:57,825:DEBUG:utils:The function 'ConfigReader.__init__' took 48.09 milliseconds to run.
+2021-07-26 16:39:59,583:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 16:39:59,601:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 16:39:59,615:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 16:40:42,746:DEBUG:strategy:Stop loss skipped: 'VALE3', '2018-06-19'.
+2021-07-26 16:41:01,231:DEBUG:utils:The function 'AndreMoraesStrategy.process_operations' took 61629.27 milliseconds to run.
+2021-07-26 16:41:01,348:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 16:43:14,050:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 16:43:15,165:INFO:__main__:
+Program started.
+2021-07-26 16:43:15,183:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 16:43:15,183:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-26 16:43:15,184:DEBUG:config_reader:Config file found.
+2021-07-26 16:43:15,214:INFO:config_reader:Config file successfully read.
+2021-07-26 16:43:15,215:INFO:config_reader:Total strategies: 1
+2021-07-26 16:43:15,215:INFO:config_reader:Total tickers: 2
+2021-07-26 16:43:15,215:INFO:config_reader:Oldest date: 01/01/2015
+2021-07-26 16:43:15,215:INFO:config_reader:Most recent date: 31/12/2019
+2021-07-26 16:43:15,215:INFO:config_reader:Strategies found:
+2021-07-26 16:43:15,216:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.0025, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['MGLU3', 'VALE3']
+2021-07-26 16:43:15,216:DEBUG:utils:The function 'ConfigReader.__init__' took 49.65 milliseconds to run.
+2021-07-26 16:43:18,380:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 16:43:18,392:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 16:43:18,403:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 16:43:57,494:DEBUG:strategy:Stop loss skipped: 'VALE3', '2018-06-19'.
+2021-07-26 16:44:13,548:DEBUG:utils:The function 'AndreMoraesStrategy.process_operations' took 55155.58 milliseconds to run.
+2021-07-26 16:44:13,764:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 16:44:40,920:ERROR:strategy:Error calculating statistics, error:
+_get_number_of_operation_per_day() missing 1 required positional argument: 'dates'
+Traceback (most recent call last):
+  File "/Users/atcha/Github/Projeto-Final/src/strategy.py", line 1026, in calculate_statistics
+    self._calc_performance(days_batch=30)
+  File "/Users/atcha/Github/Projeto-Final/src/strategy.py", line 1095, in _calc_performance
+    statistics['active_operations'] = self._get_number_of_operation_per_day(dates)
+TypeError: _get_number_of_operation_per_day() missing 1 required positional argument: 'dates'
+2021-07-26 16:44:40,923:DEBUG:utils:The function 'AndreMoraesStrategy.calculate_statistics' took 27374.56 milliseconds to run.
+2021-07-26 16:46:09,402:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 16:46:10,051:INFO:__main__:
+Program started.
+2021-07-26 16:46:10,062:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 16:46:10,063:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-26 16:46:10,063:DEBUG:config_reader:Config file found.
+2021-07-26 16:46:10,086:INFO:config_reader:Config file successfully read.
+2021-07-26 16:46:10,087:INFO:config_reader:Total strategies: 1
+2021-07-26 16:46:10,087:INFO:config_reader:Total tickers: 2
+2021-07-26 16:46:10,087:INFO:config_reader:Oldest date: 01/01/2015
+2021-07-26 16:46:10,088:INFO:config_reader:Most recent date: 31/12/2019
+2021-07-26 16:46:10,088:INFO:config_reader:Strategies found:
+2021-07-26 16:46:10,088:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.0025, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['MGLU3', 'VALE3']
+2021-07-26 16:46:10,088:DEBUG:utils:The function 'ConfigReader.__init__' took 37.07 milliseconds to run.
+2021-07-26 16:46:10,100:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 16:46:10,124:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 16:46:10,203:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 16:46:54,433:DEBUG:strategy:Stop loss skipped: 'VALE3', '2018-06-19'.
+2021-07-26 16:47:10,562:DEBUG:utils:The function 'AndreMoraesStrategy.process_operations' took 60436.84 milliseconds to run.
+2021-07-26 16:47:10,673:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 16:47:46,576:ERROR:strategy:Error calculating statistics, error:
+'>=' not supported between instances of 'Timestamp' and 'tuple'
+Traceback (most recent call last):
+  File "/Users/atcha/Github/Projeto-Final/src/strategy.py", line 1026, in calculate_statistics
+    self._calc_performance(days_batch=30)
+  File "/Users/atcha/Github/Projeto-Final/src/strategy.py", line 1095, in _calc_performance
+    statistics['active_operations'] = self._get_number_of_operation_per_day(dates)
+  File "/Users/atcha/Github/Projeto-Final/src/strategy.py", line 1284, in _get_number_of_operation_per_day
+    for d_index in [index for index, date in enumerate(dates) if date >= p_day]:
+  File "/Users/atcha/Github/Projeto-Final/src/strategy.py", line 1284, in <listcomp>
+    for d_index in [index for index, date in enumerate(dates) if date >= p_day]:
+TypeError: '>=' not supported between instances of 'Timestamp' and 'tuple'
+2021-07-26 16:47:46,580:DEBUG:utils:The function 'AndreMoraesStrategy.calculate_statistics' took 36017.74 milliseconds to run.
+2021-07-26 16:49:53,441:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 16:49:54,125:INFO:__main__:
+Program started.
+2021-07-26 16:49:54,134:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 16:49:54,135:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-26 16:49:54,136:DEBUG:config_reader:Config file found.
+2021-07-26 16:49:54,156:INFO:config_reader:Config file successfully read.
+2021-07-26 16:49:54,157:INFO:config_reader:Total strategies: 1
+2021-07-26 16:49:54,157:INFO:config_reader:Total tickers: 2
+2021-07-26 16:49:54,157:INFO:config_reader:Oldest date: 01/01/2015
+2021-07-26 16:49:54,157:INFO:config_reader:Most recent date: 31/12/2019
+2021-07-26 16:49:54,157:INFO:config_reader:Strategies found:
+2021-07-26 16:49:54,157:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.0025, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['MGLU3', 'VALE3']
+2021-07-26 16:49:54,158:DEBUG:utils:The function 'ConfigReader.__init__' took 32.39 milliseconds to run.
+2021-07-26 16:49:54,167:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 16:49:54,178:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 16:49:54,191:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 16:51:18,685:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 16:51:19,230:INFO:__main__:
+Program started.
+2021-07-26 16:51:19,239:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 16:51:19,239:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-26 16:51:19,240:DEBUG:config_reader:Config file found.
+2021-07-26 16:51:19,257:INFO:config_reader:Config file successfully read.
+2021-07-26 16:51:19,257:INFO:config_reader:Total strategies: 1
+2021-07-26 16:51:19,258:INFO:config_reader:Total tickers: 2
+2021-07-26 16:51:19,258:INFO:config_reader:Oldest date: 01/01/2015
+2021-07-26 16:51:19,258:INFO:config_reader:Most recent date: 31/12/2019
+2021-07-26 16:51:19,258:INFO:config_reader:Strategies found:
+2021-07-26 16:51:19,258:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.0025, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['MGLU3', 'VALE3']
+2021-07-26 16:51:19,258:DEBUG:utils:The function 'ConfigReader.__init__' took 27.78 milliseconds to run.
+2021-07-26 16:51:19,267:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 16:51:19,275:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 16:51:19,290:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 16:51:42,549:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 16:51:43,030:INFO:__main__:
+Program started.
+2021-07-26 16:51:43,038:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 16:51:43,038:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-26 16:51:43,039:DEBUG:config_reader:Config file found.
+2021-07-26 16:51:43,055:INFO:config_reader:Config file successfully read.
+2021-07-26 16:51:43,055:INFO:config_reader:Total strategies: 1
+2021-07-26 16:51:43,055:INFO:config_reader:Total tickers: 2
+2021-07-26 16:51:43,055:INFO:config_reader:Oldest date: 01/01/2018
+2021-07-26 16:51:43,056:INFO:config_reader:Most recent date: 31/12/2019
+2021-07-26 16:51:43,056:INFO:config_reader:Strategies found:
+2021-07-26 16:51:43,056:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.0025, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['MGLU3', 'VALE3']
+2021-07-26 16:51:43,056:DEBUG:utils:The function 'ConfigReader.__init__' took 25.73 milliseconds to run.
+2021-07-26 16:51:43,064:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 16:51:43,073:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 16:51:43,083:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 16:51:49,039:DEBUG:strategy:Stop loss skipped: 'VALE3', '2018-06-19'.
+2021-07-26 16:52:06,563:DEBUG:utils:The function 'AndreMoraesStrategy.process_operations' took 23489.95 milliseconds to run.
+2021-07-26 16:52:06,645:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 16:53:42,802:ERROR:strategy:Error calculating statistics, error:
+'Timestamp' object is not subscriptable
+Traceback (most recent call last):
+  File "/Users/atcha/Github/Projeto-Final/src/strategy.py", line 1026, in calculate_statistics
+    self._calc_performance(days_batch=30)
+  File "/Users/atcha/Github/Projeto-Final/src/strategy.py", line 1095, in _calc_performance
+    statistics['active_operations'] = self._get_number_of_operation_per_day(dates)
+  File "/Users/atcha/Github/Projeto-Final/src/strategy.py", line 1279, in _get_number_of_operation_per_day
+    for d_index in [index for index, date in enumerate(dates) if date >= p_day[0] and date <= s_day[-1]]:
+  File "/Users/atcha/Github/Projeto-Final/src/strategy.py", line 1279, in <listcomp>
+    for d_index in [index for index, date in enumerate(dates) if date >= p_day[0] and date <= s_day[-1]]:
+TypeError: 'Timestamp' object is not subscriptable
+2021-07-26 16:53:42,805:DEBUG:utils:The function 'AndreMoraesStrategy.calculate_statistics' took 96241.41 milliseconds to run.
+2021-07-26 16:54:01,921:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 16:54:02,528:INFO:__main__:
+Program started.
+2021-07-26 16:54:02,538:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 16:54:02,538:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-26 16:54:02,539:DEBUG:config_reader:Config file found.
+2021-07-26 16:54:02,560:INFO:config_reader:Config file successfully read.
+2021-07-26 16:54:02,560:INFO:config_reader:Total strategies: 1
+2021-07-26 16:54:02,560:INFO:config_reader:Total tickers: 2
+2021-07-26 16:54:02,560:INFO:config_reader:Oldest date: 01/01/2018
+2021-07-26 16:54:02,560:INFO:config_reader:Most recent date: 31/12/2019
+2021-07-26 16:54:02,560:INFO:config_reader:Strategies found:
+2021-07-26 16:54:02,561:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.0025, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['MGLU3', 'VALE3']
+2021-07-26 16:54:02,561:DEBUG:utils:The function 'ConfigReader.__init__' took 32.39 milliseconds to run.
+2021-07-26 16:54:02,570:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 16:54:02,581:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 16:54:02,591:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 16:54:08,507:DEBUG:strategy:Stop loss skipped: 'VALE3', '2018-06-19'.
+2021-07-26 16:54:26,263:DEBUG:utils:The function 'AndreMoraesStrategy.process_operations' took 23680.89 milliseconds to run.
+2021-07-26 16:54:26,369:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 16:54:41,129:ERROR:strategy:Error calculating statistics, error:
+'Timestamp' object is not subscriptable
+Traceback (most recent call last):
+  File "/Users/atcha/Github/Projeto-Final/src/strategy.py", line 1026, in calculate_statistics
+    self._calc_performance(days_batch=30)
+  File "/Users/atcha/Github/Projeto-Final/src/strategy.py", line 1095, in _calc_performance
+    statistics['active_operations'] = self._get_number_of_operation_per_day(dates)
+  File "/Users/atcha/Github/Projeto-Final/src/strategy.py", line 1279, in _get_number_of_operation_per_day
+    for d_index in [index for index, date in enumerate(dates) if date >= p_day[0] and date <= s_day[-1]]:
+  File "/Users/atcha/Github/Projeto-Final/src/strategy.py", line 1279, in <listcomp>
+    for d_index in [index for index, date in enumerate(dates) if date >= p_day[0] and date <= s_day[-1]]:
+TypeError: 'Timestamp' object is not subscriptable
+2021-07-26 16:54:41,131:DEBUG:utils:The function 'AndreMoraesStrategy.calculate_statistics' took 14867.35 milliseconds to run.
+2021-07-26 16:57:33,161:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 16:57:33,844:INFO:__main__:
+Program started.
+2021-07-26 16:57:33,854:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 16:57:33,855:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-26 16:57:33,856:DEBUG:config_reader:Config file found.
+2021-07-26 16:57:33,875:INFO:config_reader:Config file successfully read.
+2021-07-26 16:57:33,875:INFO:config_reader:Total strategies: 1
+2021-07-26 16:57:33,875:INFO:config_reader:Total tickers: 2
+2021-07-26 16:57:33,875:INFO:config_reader:Oldest date: 01/01/2018
+2021-07-26 16:57:33,875:INFO:config_reader:Most recent date: 31/12/2019
+2021-07-26 16:57:33,875:INFO:config_reader:Strategies found:
+2021-07-26 16:57:33,876:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.0025, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['MGLU3', 'VALE3']
+2021-07-26 16:57:33,876:DEBUG:utils:The function 'ConfigReader.__init__' took 31.66 milliseconds to run.
+2021-07-26 16:57:33,885:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 16:57:33,895:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 16:57:33,905:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 16:57:38,813:DEBUG:strategy:Stop loss skipped: 'VALE3', '2018-06-19'.
+2021-07-26 16:57:54,887:DEBUG:utils:The function 'AndreMoraesStrategy.process_operations' took 20991.05 milliseconds to run.
+2021-07-26 16:57:54,973:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 16:58:35,283:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 16:58:35,962:INFO:__main__:
+Program started.
+2021-07-26 16:58:35,973:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 16:58:35,973:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-26 16:58:35,974:DEBUG:config_reader:Config file found.
+2021-07-26 16:58:35,995:INFO:config_reader:Config file successfully read.
+2021-07-26 16:58:35,995:INFO:config_reader:Total strategies: 1
+2021-07-26 16:58:35,995:INFO:config_reader:Total tickers: 2
+2021-07-26 16:58:35,995:INFO:config_reader:Oldest date: 01/01/2018
+2021-07-26 16:58:35,995:INFO:config_reader:Most recent date: 31/12/2019
+2021-07-26 16:58:35,996:INFO:config_reader:Strategies found:
+2021-07-26 16:58:35,996:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.0025, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['MGLU3', 'VALE3']
+2021-07-26 16:58:35,996:DEBUG:utils:The function 'ConfigReader.__init__' took 32.70 milliseconds to run.
+2021-07-26 16:58:36,007:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 16:58:36,016:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 16:58:36,028:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 16:58:42,056:DEBUG:strategy:Stop loss skipped: 'VALE3', '2018-06-19'.
+2021-07-26 16:58:59,035:DEBUG:utils:The function 'AndreMoraesStrategy.process_operations' took 23017.80 milliseconds to run.
+2021-07-26 16:58:59,136:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 16:59:16,510:ERROR:strategy:Error calculating statistics, error:
+'Timestamp' object is not subscriptable
+Traceback (most recent call last):
+  File "/Users/atcha/Github/Projeto-Final/src/strategy.py", line 1026, in calculate_statistics
+    self._calc_performance(days_batch=30)
+  File "/Users/atcha/Github/Projeto-Final/src/strategy.py", line 1095, in _calc_performance
+    statistics['active_operations'] = self._get_number_of_operation_per_day(dates)
+  File "/Users/atcha/Github/Projeto-Final/src/strategy.py", line 1279, in _get_number_of_operation_per_day
+    for d_index in [index for index, date in enumerate(dates) if date >= p_day[0] and date <= s_day]:
+  File "/Users/atcha/Github/Projeto-Final/src/strategy.py", line 1279, in <listcomp>
+    for d_index in [index for index, date in enumerate(dates) if date >= p_day[0] and date <= s_day]:
+TypeError: 'Timestamp' object is not subscriptable
+2021-07-26 16:59:19,814:DEBUG:utils:The function 'AndreMoraesStrategy.calculate_statistics' took 20779.08 milliseconds to run.
+2021-07-26 17:08:56,771:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 17:08:57,442:INFO:__main__:
+Program started.
+2021-07-26 17:08:57,452:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 17:08:57,452:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-26 17:08:57,453:DEBUG:config_reader:Config file found.
+2021-07-26 17:08:57,472:INFO:config_reader:Config file successfully read.
+2021-07-26 17:08:57,473:INFO:config_reader:Total strategies: 1
+2021-07-26 17:08:57,473:INFO:config_reader:Total tickers: 2
+2021-07-26 17:08:57,473:INFO:config_reader:Oldest date: 01/01/2018
+2021-07-26 17:08:57,473:INFO:config_reader:Most recent date: 31/12/2019
+2021-07-26 17:08:57,473:INFO:config_reader:Strategies found:
+2021-07-26 17:08:57,473:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.0025, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['MGLU3', 'VALE3']
+2021-07-26 17:08:57,473:DEBUG:utils:The function 'ConfigReader.__init__' took 31.25 milliseconds to run.
+2021-07-26 17:08:57,482:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 17:08:57,490:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 17:08:57,500:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 17:09:02,408:DEBUG:strategy:Stop loss skipped: 'VALE3', '2018-06-19'.
+2021-07-26 17:09:19,153:DEBUG:utils:The function 'AndreMoraesStrategy.process_operations' took 21661.66 milliseconds to run.
+2021-07-26 17:09:19,254:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 17:16:35,951:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 17:16:36,662:INFO:__main__:
+Program started.
+2021-07-26 17:16:36,670:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 17:16:36,670:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-26 17:16:36,671:DEBUG:config_reader:Config file found.
+2021-07-26 17:16:36,689:INFO:config_reader:Config file successfully read.
+2021-07-26 17:16:36,690:INFO:config_reader:Total strategies: 1
+2021-07-26 17:16:36,690:INFO:config_reader:Total tickers: 2
+2021-07-26 17:16:36,690:INFO:config_reader:Oldest date: 01/01/2018
+2021-07-26 17:16:36,690:INFO:config_reader:Most recent date: 31/12/2019
+2021-07-26 17:16:36,690:INFO:config_reader:Strategies found:
+2021-07-26 17:16:36,690:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.0025, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['MGLU3', 'VALE3']
+2021-07-26 17:16:36,690:DEBUG:utils:The function 'ConfigReader.__init__' took 28.22 milliseconds to run.
+2021-07-26 17:16:36,699:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 17:16:36,707:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 17:16:36,716:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 17:16:41,871:DEBUG:strategy:Stop loss skipped: 'VALE3', '2018-06-19'.
+2021-07-26 17:16:58,017:DEBUG:utils:The function 'AndreMoraesStrategy.process_operations' took 21309.61 milliseconds to run.
+2021-07-26 17:16:58,086:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 17:17:05,692:ERROR:strategy:Error calculating statistics, error:
+'Timestamp' object is not iterable
+Traceback (most recent call last):
+  File "/Users/atcha/Github/Projeto-Final/src/strategy.py", line 1026, in calculate_statistics
+    self._calc_performance(days_batch=30)
+  File "/Users/atcha/Github/Projeto-Final/src/strategy.py", line 1095, in _calc_performance
+    statistics['active_operations'] = self._get_number_of_operation_per_day(dates)
+  File "/Users/atcha/Github/Projeto-Final/src/strategy.py", line 1278, in _get_number_of_operation_per_day
+    for start_day, end_day in zip(oper.start_date, oper.end_date):
+TypeError: 'Timestamp' object is not iterable
+2021-07-26 17:17:05,693:DEBUG:utils:The function 'AndreMoraesStrategy.calculate_statistics' took 7675.54 milliseconds to run.
+2021-07-26 17:22:09,691:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 17:22:10,358:INFO:__main__:
+Program started.
+2021-07-26 17:22:10,369:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 17:22:10,369:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-26 17:22:10,370:DEBUG:config_reader:Config file found.
+2021-07-26 17:22:10,391:INFO:config_reader:Config file successfully read.
+2021-07-26 17:22:10,391:INFO:config_reader:Total strategies: 1
+2021-07-26 17:22:10,391:INFO:config_reader:Total tickers: 2
+2021-07-26 17:22:10,391:INFO:config_reader:Oldest date: 01/01/2018
+2021-07-26 17:22:10,392:INFO:config_reader:Most recent date: 31/12/2019
+2021-07-26 17:22:10,392:INFO:config_reader:Strategies found:
+2021-07-26 17:22:10,392:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.0025, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['MGLU3', 'VALE3']
+2021-07-26 17:22:10,392:DEBUG:utils:The function 'ConfigReader.__init__' took 33.23 milliseconds to run.
+2021-07-26 17:22:10,401:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 17:22:10,410:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 17:22:10,420:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 17:22:16,155:DEBUG:strategy:Stop loss skipped: 'VALE3', '2018-06-19'.
+2021-07-26 17:22:32,920:DEBUG:utils:The function 'AndreMoraesStrategy.process_operations' took 22508.63 milliseconds to run.
+2021-07-26 17:22:33,044:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 19:00:29,726:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 19:00:30,902:INFO:__main__:
+Program started.
+2021-07-26 19:00:30,910:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 19:00:30,910:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-26 19:00:30,911:DEBUG:config_reader:Config file found.
+2021-07-26 19:00:30,931:INFO:config_reader:Config file successfully read.
+2021-07-26 19:00:30,931:INFO:config_reader:Total strategies: 1
+2021-07-26 19:00:30,931:INFO:config_reader:Total tickers: 2
+2021-07-26 19:00:30,931:INFO:config_reader:Oldest date: 01/01/2018
+2021-07-26 19:00:30,932:INFO:config_reader:Most recent date: 31/12/2019
+2021-07-26 19:00:30,932:INFO:config_reader:Strategies found:
+2021-07-26 19:00:30,932:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.0025, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['MGLU3', 'VALE3']
+2021-07-26 19:00:30,932:DEBUG:utils:The function 'ConfigReader.__init__' took 29.87 milliseconds to run.
+2021-07-26 19:00:30,944:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 19:00:30,955:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 19:00:30,965:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 19:00:38,965:DEBUG:strategy:Stop loss skipped: 'VALE3', '2018-06-19'.
+2021-07-26 19:00:56,256:DEBUG:utils:The function 'AndreMoraesStrategy.process_operations' took 25300.23 milliseconds to run.
+2021-07-26 19:00:56,340:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 19:01:12,107:DEBUG:utils:The function 'AndreMoraesStrategy.calculate_statistics' took 15850.01 milliseconds to run.
+2021-07-26 19:01:15,105:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 19:01:15,229:INFO:strategy_analyzer:Dash is running on http://127.0.0.1:8050/
+
+2021-07-26 19:05:13,322:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 19:05:14,018:INFO:__main__:
+Program started.
+2021-07-26 19:05:14,028:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 19:05:14,028:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-26 19:05:14,029:DEBUG:config_reader:Config file found.
+2021-07-26 19:05:14,053:INFO:config_reader:Config file successfully read.
+2021-07-26 19:05:14,053:INFO:config_reader:Total strategies: 1
+2021-07-26 19:05:14,053:INFO:config_reader:Total tickers: 2
+2021-07-26 19:05:14,054:INFO:config_reader:Oldest date: 01/01/2018
+2021-07-26 19:05:14,054:INFO:config_reader:Most recent date: 31/12/2019
+2021-07-26 19:05:14,054:INFO:config_reader:Strategies found:
+2021-07-26 19:05:14,055:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.0025, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['MGLU3', 'VALE3']
+2021-07-26 19:05:14,056:DEBUG:utils:The function 'ConfigReader.__init__' took 37.34 milliseconds to run.
+2021-07-26 19:05:14,068:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 19:05:14,079:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 19:05:14,087:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 19:05:20,036:DEBUG:strategy:Stop loss skipped: 'VALE3', '2018-06-19'.
+2021-07-26 19:05:36,420:DEBUG:utils:The function 'AndreMoraesStrategy.process_operations' took 22340.45 milliseconds to run.
+2021-07-26 19:05:36,499:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 19:05:44,580:DEBUG:utils:The function 'AndreMoraesStrategy.calculate_statistics' took 8160.11 milliseconds to run.
+2021-07-26 19:05:44,775:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 19:06:43,287:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 19:06:43,467:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-07-26 19:25:46,239:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 19:25:46,453:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-07-26 19:26:01,780:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 19:26:52,807:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 19:26:52,921:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-07-26 19:39:27,845:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 19:39:28,543:INFO:__main__:
+Program started.
+2021-07-26 19:39:28,553:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 19:39:28,553:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-26 19:39:28,554:DEBUG:config_reader:Config file found.
+2021-07-26 19:39:28,576:INFO:config_reader:Config file successfully read.
+2021-07-26 19:39:28,576:INFO:config_reader:Total strategies: 1
+2021-07-26 19:39:28,576:INFO:config_reader:Total tickers: 5
+2021-07-26 19:39:28,576:INFO:config_reader:Oldest date: 01/01/2018
+2021-07-26 19:39:28,576:INFO:config_reader:Most recent date: 31/12/2019
+2021-07-26 19:39:28,576:INFO:config_reader:Strategies found:
+2021-07-26 19:39:28,576:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.0025, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['MGLU3', 'VALE3', 'PETR4', 'WEGE3', 'BBAS3']
+2021-07-26 19:39:28,577:DEBUG:utils:The function 'ConfigReader.__init__' took 33.39 milliseconds to run.
+2021-07-26 19:39:28,577:INFO:ticker_manager:Generating features for ticker 'MGLU3'.
+2021-07-26 19:39:37,035:DEBUG:utils:The function 'TickerManager.generate_features' took 8458.42 milliseconds to run.
+2021-07-26 19:39:37,036:INFO:ticker_manager:Generating features for ticker 'VALE3'.
+2021-07-26 19:39:45,408:DEBUG:utils:The function 'TickerManager.generate_features' took 8372.37 milliseconds to run.
+2021-07-26 19:39:45,409:INFO:ticker_manager:Generating features for ticker 'PETR4'.
+2021-07-26 19:39:53,754:DEBUG:utils:The function 'TickerManager.generate_features' took 8344.93 milliseconds to run.
+2021-07-26 19:39:53,754:INFO:ticker_manager:Generating features for ticker 'WEGE3'.
+2021-07-26 19:40:02,172:DEBUG:utils:The function 'TickerManager.generate_features' took 8418.71 milliseconds to run.
+2021-07-26 19:40:02,173:INFO:ticker_manager:Generating features for ticker 'BBAS3'.
+2021-07-26 19:40:10,475:DEBUG:utils:The function 'TickerManager.generate_features' took 8302.37 milliseconds to run.
+2021-07-26 19:40:10,475:INFO:ticker_manager:Generating features for ticker '^BVSP'.
+2021-07-26 19:40:10,476:DEBUG:utils:The function 'TickerManager.generate_features' took 0.15 milliseconds to run.
+2021-07-26 19:40:10,476:INFO:ticker_manager:Generating features for ticker 'BRL=X'.
+2021-07-26 19:40:10,476:DEBUG:utils:The function 'TickerManager.generate_features' took 0.12 milliseconds to run.
+2021-07-26 19:40:10,544:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 19:40:10,553:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 19:40:10,562:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 19:40:18,872:DEBUG:strategy:Stop loss skipped: 'PETR4', '2018-05-24'.
+2021-07-26 19:40:20,325:DEBUG:strategy:Stop loss skipped: 'VALE3', '2018-06-19'.
+2021-07-26 19:40:52,746:DEBUG:utils:The function 'AndreMoraesStrategy.process_operations' took 42192.40 milliseconds to run.
+2021-07-26 19:40:52,826:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 19:41:05,376:DEBUG:utils:The function 'AndreMoraesStrategy.calculate_statistics' took 12630.00 milliseconds to run.
+2021-07-26 19:41:08,751:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 19:41:08,903:INFO:strategy_analyzer:Dash is running on http://127.0.0.1:8050/
+
+2021-07-26 19:48:11,977:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 19:48:12,644:INFO:__main__:
+Program started.
+2021-07-26 19:48:12,653:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 19:48:12,653:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-26 19:48:12,653:DEBUG:config_reader:Config file found.
+2021-07-26 19:48:12,673:INFO:config_reader:Config file successfully read.
+2021-07-26 19:48:12,673:INFO:config_reader:Total strategies: 1
+2021-07-26 19:48:12,673:INFO:config_reader:Total tickers: 5
+2021-07-26 19:48:12,673:INFO:config_reader:Oldest date: 01/01/2018
+2021-07-26 19:48:12,673:INFO:config_reader:Most recent date: 31/12/2019
+2021-07-26 19:48:12,673:INFO:config_reader:Strategies found:
+2021-07-26 19:48:12,674:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.03, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['MGLU3', 'VALE3', 'PETR4', 'WEGE3', 'BBAS3']
+2021-07-26 19:48:12,674:DEBUG:utils:The function 'ConfigReader.__init__' took 29.07 milliseconds to run.
+2021-07-26 19:48:12,674:INFO:ticker_manager:Generating features for ticker 'MGLU3'.
+2021-07-26 19:48:21,263:DEBUG:utils:The function 'TickerManager.generate_features' took 8589.10 milliseconds to run.
+2021-07-26 19:48:21,263:INFO:ticker_manager:Generating features for ticker 'VALE3'.
+2021-07-26 19:48:30,829:DEBUG:utils:The function 'TickerManager.generate_features' took 9565.85 milliseconds to run.
+2021-07-26 19:48:30,830:INFO:ticker_manager:Generating features for ticker 'PETR4'.
+2021-07-26 19:48:39,353:DEBUG:utils:The function 'TickerManager.generate_features' took 8523.09 milliseconds to run.
+2021-07-26 19:48:39,353:INFO:ticker_manager:Generating features for ticker 'WEGE3'.
+2021-07-26 19:48:49,611:DEBUG:utils:The function 'TickerManager.generate_features' took 10257.54 milliseconds to run.
+2021-07-26 19:48:49,611:INFO:ticker_manager:Generating features for ticker 'BBAS3'.
+2021-07-26 19:49:00,775:DEBUG:utils:The function 'TickerManager.generate_features' took 11164.61 milliseconds to run.
+2021-07-26 19:49:00,776:INFO:ticker_manager:Generating features for ticker '^BVSP'.
+2021-07-26 19:49:00,776:DEBUG:utils:The function 'TickerManager.generate_features' took 0.16 milliseconds to run.
+2021-07-26 19:49:00,776:INFO:ticker_manager:Generating features for ticker 'BRL=X'.
+2021-07-26 19:49:00,776:DEBUG:utils:The function 'TickerManager.generate_features' took 0.14 milliseconds to run.
+2021-07-26 19:49:00,848:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 19:49:00,857:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 19:49:00,866:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 19:49:10,602:DEBUG:strategy:Stop loss skipped: 'PETR4', '2018-05-24'.
+2021-07-26 19:49:13,455:DEBUG:strategy:Stop loss skipped: 'VALE3', '2018-06-19'.
+2021-07-26 19:49:52,275:DEBUG:utils:The function 'AndreMoraesStrategy.process_operations' took 51417.74 milliseconds to run.
+2021-07-26 19:49:52,365:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 19:50:03,717:DEBUG:utils:The function 'AndreMoraesStrategy.calculate_statistics' took 11441.71 milliseconds to run.
+2021-07-26 19:50:04,017:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 19:50:04,141:INFO:strategy_analyzer:Dash is running on http://127.0.0.1:8050/
+
+2021-07-26 21:20:21,345:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 21:20:21,976:INFO:__main__:
+Program started.
+2021-07-26 21:20:21,985:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 21:20:21,986:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-07-26 21:20:21,986:DEBUG:config_reader:Config file found.
+2021-07-26 21:20:22,004:INFO:config_reader:Config file successfully read.
+2021-07-26 21:20:22,004:INFO:config_reader:Total strategies: 1
+2021-07-26 21:20:22,004:INFO:config_reader:Total tickers: 5
+2021-07-26 21:20:22,004:INFO:config_reader:Oldest date: 01/01/2018
+2021-07-26 21:20:22,005:INFO:config_reader:Most recent date: 31/12/2019
+2021-07-26 21:20:22,005:INFO:config_reader:Strategies found:
+2021-07-26 21:20:22,005:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.04, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['MGLU3', 'VALE3', 'PETR4', 'WEGE3', 'BBAS3']
+2021-07-26 21:20:22,005:DEBUG:utils:The function 'ConfigReader.__init__' took 28.35 milliseconds to run.
+2021-07-26 21:20:22,005:INFO:ticker_manager:Generating features for ticker 'MGLU3'.
+2021-07-26 21:20:30,449:DEBUG:utils:The function 'TickerManager.generate_features' took 8443.48 milliseconds to run.
+2021-07-26 21:20:30,449:INFO:ticker_manager:Generating features for ticker 'VALE3'.
+2021-07-26 21:20:38,949:DEBUG:utils:The function 'TickerManager.generate_features' took 8499.63 milliseconds to run.
+2021-07-26 21:20:38,949:INFO:ticker_manager:Generating features for ticker 'PETR4'.
+2021-07-26 21:20:47,284:DEBUG:utils:The function 'TickerManager.generate_features' took 8335.47 milliseconds to run.
+2021-07-26 21:20:47,285:INFO:ticker_manager:Generating features for ticker 'WEGE3'.
+2021-07-26 21:20:55,603:DEBUG:utils:The function 'TickerManager.generate_features' took 8317.97 milliseconds to run.
+2021-07-26 21:20:55,603:INFO:ticker_manager:Generating features for ticker 'BBAS3'.
+2021-07-26 21:21:03,901:DEBUG:utils:The function 'TickerManager.generate_features' took 8297.53 milliseconds to run.
+2021-07-26 21:21:03,901:INFO:ticker_manager:Generating features for ticker '^BVSP'.
+2021-07-26 21:21:03,901:DEBUG:utils:The function 'TickerManager.generate_features' took 0.16 milliseconds to run.
+2021-07-26 21:21:03,901:INFO:ticker_manager:Generating features for ticker 'BRL=X'.
+2021-07-26 21:21:03,901:DEBUG:utils:The function 'TickerManager.generate_features' took 0.14 milliseconds to run.
+2021-07-26 21:21:03,998:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 21:21:04,012:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 21:21:04,021:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 21:21:12,516:DEBUG:strategy:Stop loss skipped: 'PETR4', '2018-05-24'.
+2021-07-26 21:21:13,963:DEBUG:strategy:Stop loss skipped: 'VALE3', '2018-06-19'.
+2021-07-26 21:21:46,873:DEBUG:utils:The function 'AndreMoraesStrategy.process_operations' took 42860.25 milliseconds to run.
+2021-07-26 21:21:46,941:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 21:21:56,155:DEBUG:utils:The function 'AndreMoraesStrategy.calculate_statistics' took 9281.49 milliseconds to run.
+2021-07-26 21:21:56,376:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 21:21:56,485:INFO:strategy_analyzer:Dash is running on http://127.0.0.1:8050/
+
+2021-07-26 23:15:42,173:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-26 23:15:42,288:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-07-27 00:36:52,792:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 00:36:58,447:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 00:36:58,566:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-07-27 00:39:10,022:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-07-27 00:39:10,182:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+

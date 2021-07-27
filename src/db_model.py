@@ -941,13 +941,14 @@ class DBStrategyModel:
 
     def _insert_strategy_performance(self, strategy_id, performance_dataframe):
         query = f"INSERT INTO strategy_performance (strategy_id, day, capital, " \
-            f"capital_in_use, tickers_average, ibov)\nVALUES\n"
+            f"capital_in_use, active_operations, tickers_average, ibov)\nVALUES\n"
 
         number_of_rows = len(performance_dataframe)
 
         for n, (_, row) in enumerate(performance_dataframe.iterrows()):
             query += f"  ({strategy_id}, \'{row['day'].to_pydatetime().strftime('%Y-%m-%d')}\', " \
-                f"{row['capital']}, {row['capital_in_use']}, {row['tickers_average']}, {row['ibov']})"
+                f"{row['capital']}, {row['capital_in_use']}, {row['active_operations']}, " \
+                f"{row['tickers_average']}, {row['ibov']})"
 
             if n != number_of_rows - 1:
                 query += ',\n'
@@ -1026,7 +1027,8 @@ class DBStrategyAnalyzerModel:
         return df
 
     def get_strategy_performance(self, strategy_id):
-        query = f"SELECT sp.day, sp.capital, sp.capital_in_use, sp.tickers_average, sp.ibov\n"
+        query = f"SELECT sp.day, sp.capital, sp.capital_in_use, sp.active_operations, " \
+            f"sp.tickers_average, sp.ibov\n"
         query += f"FROM strategy_performance sp\n"
         query += f"INNER JOIN strategy s ON s.id = sp.strategy_id\n"
         query += f"WHERE s.id = {strategy_id}\n"

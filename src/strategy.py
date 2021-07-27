@@ -342,7 +342,7 @@ class Operation:
 
             if self.total_purchase_volume == self.total_sale_volume:
                 self._end_date = sale_datetime
-                self._profit = self.total_sale_capital - self.total_purchase_capital
+                self._profit = round(self.total_sale_capital - self.total_purchase_capital, 2)
                 # self._yield = self._profit / self.total_purchase_capital
                 self._yield = 0.0
                 self._state = State.CLOSE
@@ -1078,20 +1078,16 @@ class AndreMoraesStrategy(Strategy):
             except StopIteration:
                 break
 
-        statistics['day'] = dates
-
         ibov_data = self._db_strategy_model.get_ticker_price('^BVSP', \
             pd.to_datetime(self.first_date), pd.to_datetime(self.last_date))
 
-        # statistics['ibov'] = ibov_data.sort_values(by='day', axis=0, ascending=True, ignore_index=True)['close_price']
+        statistics['day'] = dates
         statistics['ibov'] = ibov_data['close_price']
-
         statistics['tickers_average'] = AndreMoraesStrategy.tickers_yield(
             close_prices, precision=4)
-
         statistics['capital'], statistics['capital_in_use'] = self._calc_capital_usage(
             dates, close_prices)
-
+        statistics['active_operations'] = self._get_number_of_operation_per_day(dates)
         statistics.fillna(method='ffill', inplace=True)
 
         self._statistics_graph = statistics
@@ -1164,67 +1160,6 @@ class AndreMoraesStrategy(Strategy):
         else:
             self._statistics_parameters['sharpe_ratio'] = 0.0
 
-    # TODO: Solve cumulative numeric error.
-    # @staticmethod
-    # def tickers_yield(close_prices, precision=4):
-    #     """
-    #     Calculate average tickers yield.
-
-    #     If more than one ticker is available during an interval, the result yield
-    #     during that interval is calculated by the simple average of those particular
-    #     yields.
-
-    #     Handle late start tickers.
-
-    #     Args
-    #     ----------
-    #     close_prices : `dict` of `list`
-    #         Tickers prices. Prices `list` must have the same length.
-    #     precision : int, default 4
-    #         Output final precision.
-
-    #     Returns
-    #     ----------
-    #     `list` of float
-    #         Average yield. Same length as prices.
-    #     """
-    #     # Get yield relative to previous day
-    #     norm_prices = {ticker: [np.nan]*len(prices) for ticker, prices in close_prices.items()}
-    #     for ticker in close_prices:
-    #         first_price = 0
-    #         for index, value in enumerate(close_prices[ticker]):
-    #             first_price = np.float64(value)
-    #             first_index = index
-    #             if first_price is not np.nan:
-    #                 break
-
-    #         for index, price in enumerate(close_prices[ticker]):
-    #             if index > first_index:
-    #                 norm_prices[ticker][index] = price/close_prices[ticker][index-1] - 1
-    #                 # norm_prices[ticker][index] = round(
-    #                     # price / close_prices[ticker][index-1] - 1.0, precision+2)
-    #                 # norm_prices[ticker][index] = round(np.float64(price) / \
-    #                     # np.float64(close_prices[ticker][index-1]) - np.float64(1.0), precision+2)
-
-    #     # Get average yield by integrating daily yields
-    #     result_yield = []
-    #     cumulative = np.float64(1.0)
-    #     for index in range(len(norm_prices[tuple(norm_prices.keys())[0]])):
-    #         partial_sum = 0
-    #         partial_weight = 0
-    #         for ticker in norm_prices:
-    #             if norm_prices[ticker][index] is not np.nan:
-    #                 partial_sum += norm_prices[ticker][index]
-    #                 partial_weight += 1
-    #         partial_weight = partial_weight if partial_weight > 0 else 1
-
-    #         cumulative *= round(1.0 + partial_sum / partial_weight, precision+2)
-    #         # cumulative *= 1 + partial_sum / partial_weight
-    #         result_yield.append(round(cumulative - 1, precision))
-
-    #     return result_yield
-
-    # TODO: Solve cumulative numeric error.
     # Assumption: all tickers have the same length of the first one.
     @staticmethod
     def tickers_yield(close_prices, precision=4):
@@ -1315,7 +1250,36 @@ class AndreMoraesStrategy(Strategy):
 
         return capital
 
-    # TODO: Iterate over generator to remove self._day_df references .
+    def _get_number_of_operation_per_day(self, dates):
+        """
+        Calculate number of operations per day.
+
+        Args
+        ----------
+        dates: `list` of `pd.Timestamp`
+            Dates.
+
+        Returns
+        ----------
+        `list` of int
+            Operations per day.
+        """
+        active_operations = [0] * len(dates)
+
+        for oper in self._operations:
+
+            if oper.state == State.CLOSE:
+                for d_index in [index for index, date in enumerate(dates) \
+                    if date >= oper.start_date and date <= oper.end_date]:
+                    active_operations[d_index] += 1
+            elif (oper.state == State.OPEN):
+                for d_index in [index for index, date in enumerate(dates) \
+                    if date >= oper.start_date]:
+                    active_operations[d_index] += 1
+
+        return active_operations
+
+    # TODO: Iterate over generator to remove self._day_df references.
     def _calc_capital_usage(self, dates, close_prices):
         """
         Calculate capital usage per day.
@@ -1337,7 +1301,6 @@ class AndreMoraesStrategy(Strategy):
         `list` of float
             Capital in use.
         """
-
         capital = [None] * len(dates)
         capital_in_use = [None] * len(dates)
 
