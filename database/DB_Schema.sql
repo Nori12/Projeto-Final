@@ -150,7 +150,7 @@ CREATE TABLE weekly_features (
 CREATE TABLE strategy (
   id SERIAL PRIMARY KEY,
   name VARCHAR(50) NOT NULL,
-  alias VARCHAR(50),
+  alias VARCHAR(100),
   comment VARCHAR(100),
   total_capital DECIMAL(11, 2) NOT NULL,
   risk_capital_product DECIMAL(5, 4)
@@ -208,6 +208,7 @@ CREATE TABLE strategy_statistics (
   sharpe_ratio REAL NOT NULL,
   profit DECIMAL (8,2) NOT NULL,
   max_used_capital DECIMAL(8, 2) NOT NULL,
+  avg_used_capital REAL NOT NULL,
   yield REAL NOT NULL,
   annualized_yield REAL NOT NULL,
   ibov_yield REAL NOT NULL,

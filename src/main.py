@@ -7,7 +7,7 @@ import constants as c
 import config_reader as cr
 from db_model import DBGenericModel, DBStrategyAnalyzerModel
 from ticker_manager import TickerManager
-from strategy import AndreMoraesStrategy
+from strategy import AndreMoraesStrategy, AndreMoraesAdaptedStrategy
 from strategy_analyzer import StrategyAnalyzer
 
 # Configure Logging
@@ -28,7 +28,8 @@ def run():
     logger.info('\nProgram started.')
 
     # Read Config File
-    config = cr.ConfigReader()
+    config_file = Path(__file__).parent.parent/c.CONFIG_PATH/'config.json'
+    config = cr.ConfigReader(config_file)
     ticker_managers = []
 
     # Create TickerManager objects to update and process then
@@ -78,6 +79,27 @@ def run():
             am.process_operations()
             am.calculate_statistics()
             am.save()
+
+        if strategy['name'] == 'Andre Moraes Adapted':
+            ama = AndreMoraesAdaptedStrategy(
+                strategy['tickers'],
+                min_order_volume=strategy['min_order_volume'],
+                total_capital=strategy['capital'],
+                risk_capital_product=strategy['risk_capital_coefficient'],
+                min_volume_per_year=strategy['ticker_min_ann_volume_filter'])
+            ama.alias = strategy['alias']
+            ama.comment = strategy['comment']
+            ama.partial_sale = strategy['partial_sale']
+            ama.ema_tolerance = strategy['ema_tolerance']
+            ama.min_risk = strategy['min_risk']
+            ama.max_risk = strategy['max_risk']
+            ama.purchase_margin = strategy['purchase_margin']
+            ama.stop_margin = strategy['stop_margin']
+            ama.stop_type = strategy['stop_type']
+
+            ama.process_operations()
+            ama.calculate_statistics()
+            ama.save()
 
     # Strategy Analysis section
     if config.show_results == True:

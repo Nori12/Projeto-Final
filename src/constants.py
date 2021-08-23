@@ -6,12 +6,15 @@ CONFIG_PATH = 'config/'
 ACCEPTABLE_TRUE_VALUES = ['true', 'yes', 'y', True]
 ACCEPTABLE_FALSE_VALUES = ['false', 'no', 'n', False]
 ACCEPTABLE_NONE_VALUES = ['none', 'null', None]
+MODEL_PATH = 'src/DecisionTreeClassifier.joblib'
 
 # Log
 LOG_FILENAME = 'app.log'
 LOG_PATH = 'logs/'
 LOG_FORMATTER_STRING = '%(asctime)s:%(levelname)s:%(name)s:%(message)s'
 LOG_FILE_MAX_SIZE = 1*1024*1024
+
+MAX_DAYS_PER_OPERATION = 120
 
 # Candlegraphs processing
 # MARKET_OPEN_TIME = datetime.time(hour=10, minute=0, second=0)

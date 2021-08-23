@@ -68,8 +68,10 @@ class StrategyAnalyzer:
 
         strategy_raw.drop(['name', 'id', 'alias', 'comment'], axis=1, inplace=True)
 
-        if strategy_raw['risk_capital_product'][0] >= 0 and strategy_raw['risk_capital_product'][0] <= 1:
-            strategy_raw['risk_capital_product'][0] = round(strategy_raw['risk_capital_product'][0] * 100, 2)
+        if strategy_raw['risk_capital_product'][0] >= 0 and \
+            strategy_raw['risk_capital_product'][0] <= 1:
+            strategy_raw['risk_capital_product'][0] = \
+                round(strategy_raw['risk_capital_product'][0] * 100, 2)
 
         strategy_raw['total_capital'][0] = round(strategy_raw['total_capital'][0], 2)
 
@@ -78,15 +80,34 @@ class StrategyAnalyzer:
         operations_stats = self._db_strategy_analyzer_model.get_operations_statistics(strategy_id)
 
         # Names that will be shown
-        strategy_parameters = ['Start Date', 'End Date', 'Capital (R$)', 'Risk-Capital Coefficient (%)', 'Total Tickers', 'Total Operations', 'Successful Operations', 'Failed Operations', 'Neutral Operations', 'Unfinished Operations']
+        strategy_parameters = ['Start Date', 'End Date', 'Capital (R$)',
+            'Risk-Capital Coefficient (%)', 'Total Tickers', 'Total Operations',
+            'Successful Operations', 'Failed Operations', 'Neutral Operations',
+            'Unfinished Operations']
 
         total_operations = sum(operations_stats['number'])
-        succesful_operations = operations_stats[operations_stats['status'] == 'SUCCESS']['number'].squeeze() if operations_stats[operations_stats['status'] == 'SUCCESS'].empty == False else 0
-        failed_operations = operations_stats[operations_stats['status'] == 'FAILURE']['number'].squeeze() if operations_stats[operations_stats['status'] == 'FAILURE'].empty == False else 0
-        neutral_operations = operations_stats[operations_stats['status'] == 'NEUTRAL']['number'].squeeze() if operations_stats[operations_stats['status'] == 'NEUTRAL'].empty == False else 0
-        open_operations = operations_stats[operations_stats['status'] == 'OPEN']['number'].squeeze() if operations_stats[operations_stats['status'] == 'OPEN'].empty == False else 0
+        succesful_operations = \
+            operations_stats[operations_stats['status'] == 'SUCCESS']['number'].squeeze() \
+            if operations_stats[operations_stats['status'] == 'SUCCESS'].empty == False \
+            else 0
+        failed_operations = \
+            operations_stats[operations_stats['status'] == 'FAILURE']['number'].squeeze() \
+            if operations_stats[operations_stats['status'] == 'FAILURE'].empty == False \
+            else 0
+        neutral_operations = \
+            operations_stats[operations_stats['status'] == 'NEUTRAL']['number'].squeeze() \
+            if operations_stats[operations_stats['status'] == 'NEUTRAL'].empty == False \
+            else 0
+        open_operations = \
+            operations_stats[operations_stats['status'] == 'OPEN']['number'].squeeze() \
+            if operations_stats[operations_stats['status'] == 'OPEN'].empty == False \
+            else 0
 
-        strategy_data = [min(self._tickers_and_dates['start_date']).strftime('%d/%m/%Y'), max(self._tickers_and_dates['end_date']).strftime('%d/%m/%Y'), strategy_raw['total_capital'][0], strategy_raw['risk_capital_product'][0], strategy_raw['number_or_tickers'][0], total_operations, succesful_operations, failed_operations, neutral_operations, open_operations]
+        strategy_data = [min(self._tickers_and_dates['start_date']).strftime('%d/%m/%Y'), \
+            max(self._tickers_and_dates['end_date']).strftime('%d/%m/%Y'), \
+            strategy_raw['total_capital'][0], strategy_raw['risk_capital_product'][0], \
+            strategy_raw['number_or_tickers'][0], total_operations, succesful_operations, \
+            failed_operations, neutral_operations, open_operations]
 
         self._strategy = pd.DataFrame(data={'parameter': strategy_parameters})
         self._strategy['data'] = strategy_data
@@ -97,27 +118,46 @@ class StrategyAnalyzer:
 
         statistics_raw['yield'][0] = round(statistics_raw['yield'][0] * 100, 2)
 
-        statistics_raw['annualized_yield'][0] = round(statistics_raw['annualized_yield'][0] * 100, 2)
+        statistics_raw['annualized_yield'][0] = \
+            round(statistics_raw['annualized_yield'][0] * 100, 2)
 
         statistics_raw['ibov_yield'][0] = round(statistics_raw['ibov_yield'][0] * 100, 2)
 
-        statistics_raw['annualized_ibov_yield'][0] = round(statistics_raw['annualized_ibov_yield'][0] * 100, 2)
+        statistics_raw['annualized_ibov_yield'][0] = \
+            round(statistics_raw['annualized_ibov_yield'][0] * 100, 2)
 
-        statistics_raw['avr_tickers_yield'][0] = round(statistics_raw['avr_tickers_yield'][0] * 100, 2)
+        statistics_raw['avr_tickers_yield'][0] = \
+            round(statistics_raw['avr_tickers_yield'][0] * 100, 2)
 
-        statistics_raw['annualized_avr_tickers_yield'][0] = round(statistics_raw['annualized_avr_tickers_yield'][0] * 100, 2)
+        statistics_raw['annualized_avr_tickers_yield'][0] = \
+            round(statistics_raw['annualized_avr_tickers_yield'][0] * 100, 2)
 
         statistics_raw['volatility'][0] = round(statistics_raw['volatility'][0] * 100, 2)
 
         statistics_raw['sharpe_ratio'][0] = round(statistics_raw['sharpe_ratio'][0], 2)
 
+        statistics_raw['max_used_capital'][0] = \
+            round(statistics_raw['max_used_capital'][0] * 100, 2)
+
+        if statistics_raw['avg_used_capital'][0] is not None:
+            statistics_raw['avg_used_capital'][0] = \
+                round(statistics_raw['avg_used_capital'][0] * 100, 2)
+
         # Round unrounded data
         statistics_raw['volatility'][0] = round(statistics_raw['volatility'][0], 2)
 
         # Names that will be shown
-        statistic_parameters = ['Yield (%)', "Yield (% ann)", 'Volatility (%)', 'Sharpe Ratio (-)', 'Profit (R$)', 'Max Used Capital (R$)', 'IBOVESPA Yield (%)', 'IBOVESPA Yield (% ann)', 'Tickers Average Yield (%)', 'Tickers Average Yield (% ann)']
+        statistic_parameters = ['Yield (%)', "Yield (% ann)", 'Volatility (%)',
+            'Sharpe Ratio (-)', 'Profit (R$)', 'Max Used Capital (%)', 'Avg Used Capital (%)',
+            'IBOVESPA Yield (%)', 'IBOVESPA Yield (% ann)', 'Tickers Average Yield (%)',
+            'Tickers Average Yield (% ann)']
 
-        statistics_data = [statistics_raw['yield'][0], statistics_raw['annualized_yield'][0], statistics_raw['volatility'][0], statistics_raw['sharpe_ratio'][0], statistics_raw['profit'][0], statistics_raw['max_used_capital'][0], statistics_raw['ibov_yield'][0], statistics_raw['annualized_ibov_yield'][0], statistics_raw['avr_tickers_yield'][0], statistics_raw['annualized_avr_tickers_yield'][0], ]
+        statistics_data = [statistics_raw['yield'][0], statistics_raw['annualized_yield'][0],
+            statistics_raw['volatility'][0], statistics_raw['sharpe_ratio'][0],
+            statistics_raw['profit'][0], statistics_raw['max_used_capital'][0],
+            statistics_raw['avg_used_capital'][0], statistics_raw['ibov_yield'][0],
+            statistics_raw['annualized_ibov_yield'][0], statistics_raw['avr_tickers_yield'][0],
+            statistics_raw['annualized_avr_tickers_yield'][0]]
 
         self._statistics = pd.DataFrame(data={'parameter': statistic_parameters})
         self._statistics['data'] = statistics_data
@@ -125,7 +165,7 @@ class StrategyAnalyzer:
     def _set_strategy_performance(self, strategy_id):
         self._performance = self._db_strategy_analyzer_model.get_strategy_performance(strategy_id)
 
-        total_capital = self._performance['capital'][0]
+        # total_capital = self._performance['capital'][0]
 
         if self._performance['ibov'][0] != 1.0:
             self._performance['ibov'] = round((self._performance['ibov'] /
