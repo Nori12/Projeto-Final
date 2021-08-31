@@ -6225,3 +6225,1310 @@ Program started.
 2021-08-23 03:18:56,382:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.001, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'ASAI3', 'AZUL4', 'BTOW3', 'B3SA3', 'BIDI11', 'BBSE3', 'BRML3', 'BBDC3', 'BBDC4', 'BRAP4', 'BBAS3', 'BRKM5', 'BRFS3', 'BPAC11', 'CRFB3', 'CCRO3', 'CMIG4', 'HGTX3', 'CIEL3', 'COGN3', 'CPLE6', 'CSAN3', 'CPFE3', 'CVCB3', 'CYRE3', 'ECOR3', 'ELET3', 'ELET6', 'EMBR3', 'ENBR3', 'ENGI11', 'ENEV3', 'EGIE3', 'EQTL3', 'EZTC3', 'FLRY3', 'GGBR4', 'GOAU4', 'GOLL4', 'NTCO3', 'HAPV3', 'HYPE3', 'IGTA3', 'GNDI3', 'IRBR3', 'ITSA4', 'ITUB4', 'JBSS3', 'JHSF3', 'KLBN11', 'RENT3', 'LCAM3', 'LWSA3', 'LAME4', 'LREN3', 'MGLU3', 'MRFG3', 'BEEF3', 'MRVE3', 'MULT3', 'PCAR3', 'PETR3', 'PETR4', 'BRDT3', 'PRIO3', 'QUAL3', 'RADL3', 'RAIL3', 'SBSP3', 'SANB11', 'CSNA3', 'SULA11', 'SUZB3', 'TAEE11', 'VIVT3', 'TIMS3', 'TOTS3', 'UGPA3', 'USIM5', 'VALE3', 'VVAR3', 'WEGE3', 'YDUQ3']
 2021-08-23 03:18:56,382:INFO:config_reader:  Name: 'Andre Moraes Adapted', Capital: 100000, Risk-Capital Coefficient: 0.001, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'ASAI3', 'AZUL4', 'BTOW3', 'B3SA3', 'BIDI11', 'BBSE3', 'BRML3', 'BBDC3', 'BBDC4', 'BRAP4', 'BBAS3', 'BRKM5', 'BRFS3', 'BPAC11', 'CRFB3', 'CCRO3', 'CMIG4', 'HGTX3', 'CIEL3', 'COGN3', 'CPLE6', 'CSAN3', 'CPFE3', 'CVCB3', 'CYRE3', 'ECOR3', 'ELET3', 'ELET6', 'EMBR3', 'ENBR3', 'ENGI11', 'ENEV3', 'EGIE3', 'EQTL3', 'EZTC3', 'FLRY3', 'GGBR4', 'GOAU4', 'GOLL4', 'NTCO3', 'HAPV3', 'HYPE3', 'IGTA3', 'GNDI3', 'IRBR3', 'ITSA4', 'ITUB4', 'JBSS3', 'JHSF3', 'KLBN11', 'RENT3', 'LCAM3', 'LWSA3', 'LAME4', 'LREN3', 'MGLU3', 'MRFG3', 'BEEF3', 'MRVE3', 'MULT3', 'PCAR3', 'PETR3', 'PETR4', 'BRDT3', 'PRIO3', 'QUAL3', 'RADL3', 'RAIL3', 'SBSP3', 'SANB11', 'CSNA3', 'SULA11', 'SUZB3', 'TAEE11', 'VIVT3', 'TIMS3', 'TOTS3', 'UGPA3', 'USIM5', 'VALE3', 'VVAR3', 'WEGE3', 'YDUQ3']
 2021-08-23 03:18:56,382:DEBUG:utils:The function 'ConfigReader.__init__' took 25.87 milliseconds to run.
+2021-08-24 17:35:34,082:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-24 17:35:34,083:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_training_set.json'.
+2021-08-24 17:35:34,084:DEBUG:config_reader:Config file found.
+2021-08-24 17:35:34,124:INFO:config_reader:Config file successfully read.
+2021-08-24 17:35:34,125:INFO:config_reader:Total strategies: 1
+2021-08-24 17:35:34,125:INFO:config_reader:Total tickers: 84
+2021-08-24 17:35:34,125:INFO:config_reader:Oldest date: 01/01/2013
+2021-08-24 17:35:34,125:INFO:config_reader:Most recent date: 30/06/2018
+2021-08-24 17:35:34,125:INFO:config_reader:Strategies found:
+2021-08-24 17:35:34,125:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.05, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'ASAI3', 'AZUL4', 'BTOW3', 'B3SA3', 'BIDI11', 'BBSE3', 'BRML3', 'BBDC3', 'BBDC4', 'BRAP4', 'BBAS3', 'BRKM5', 'BRFS3', 'BPAC11', 'CRFB3', 'CCRO3', 'CMIG4', 'HGTX3', 'CIEL3', 'COGN3', 'CPLE6', 'CSAN3', 'CPFE3', 'CVCB3', 'CYRE3', 'ECOR3', 'ELET3', 'ELET6', 'EMBR3', 'ENBR3', 'ENGI11', 'ENEV3', 'EGIE3', 'EQTL3', 'EZTC3', 'FLRY3', 'GGBR4', 'GOAU4', 'GOLL4', 'NTCO3', 'HAPV3', 'HYPE3', 'IGTA3', 'GNDI3', 'IRBR3', 'ITSA4', 'ITUB4', 'JBSS3', 'JHSF3', 'KLBN11', 'RENT3', 'LCAM3', 'LWSA3', 'LAME4', 'LREN3', 'MGLU3', 'MRFG3', 'BEEF3', 'MRVE3', 'MULT3', 'PCAR3', 'PETR3', 'PETR4', 'BRDT3', 'PRIO3', 'QUAL3', 'RADL3', 'RAIL3', 'SBSP3', 'SANB11', 'CSNA3', 'SULA11', 'SUZB3', 'TAEE11', 'VIVT3', 'TIMS3', 'TOTS3', 'UGPA3', 'USIM5', 'VALE3', 'VVAR3', 'WEGE3', 'YDUQ3']
+2021-08-24 17:35:34,125:DEBUG:utils:The function 'ConfigReader.__init__' took 185.74 milliseconds to run.
+2021-08-24 17:35:34,135:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-24 17:35:34,135:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_test_set.json'.
+2021-08-24 17:35:34,136:DEBUG:config_reader:Config file found.
+2021-08-24 17:35:34,148:INFO:config_reader:Config file successfully read.
+2021-08-24 17:35:34,148:INFO:config_reader:Total strategies: 2
+2021-08-24 17:35:34,148:INFO:config_reader:Total tickers: 84
+2021-08-24 17:35:34,148:INFO:config_reader:Oldest date: 01/07/2018
+2021-08-24 17:35:34,148:INFO:config_reader:Most recent date: 31/01/2020
+2021-08-24 17:35:34,148:INFO:config_reader:Strategies found:
+2021-08-24 17:35:34,149:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.001, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'ASAI3', 'AZUL4', 'BTOW3', 'B3SA3', 'BIDI11', 'BBSE3', 'BRML3', 'BBDC3', 'BBDC4', 'BRAP4', 'BBAS3', 'BRKM5', 'BRFS3', 'BPAC11', 'CRFB3', 'CCRO3', 'CMIG4', 'HGTX3', 'CIEL3', 'COGN3', 'CPLE6', 'CSAN3', 'CPFE3', 'CVCB3', 'CYRE3', 'ECOR3', 'ELET3', 'ELET6', 'EMBR3', 'ENBR3', 'ENGI11', 'ENEV3', 'EGIE3', 'EQTL3', 'EZTC3', 'FLRY3', 'GGBR4', 'GOAU4', 'GOLL4', 'NTCO3', 'HAPV3', 'HYPE3', 'IGTA3', 'GNDI3', 'IRBR3', 'ITSA4', 'ITUB4', 'JBSS3', 'JHSF3', 'KLBN11', 'RENT3', 'LCAM3', 'LWSA3', 'LAME4', 'LREN3', 'MGLU3', 'MRFG3', 'BEEF3', 'MRVE3', 'MULT3', 'PCAR3', 'PETR3', 'PETR4', 'BRDT3', 'PRIO3', 'QUAL3', 'RADL3', 'RAIL3', 'SBSP3', 'SANB11', 'CSNA3', 'SULA11', 'SUZB3', 'TAEE11', 'VIVT3', 'TIMS3', 'TOTS3', 'UGPA3', 'USIM5', 'VALE3', 'VVAR3', 'WEGE3', 'YDUQ3']
+2021-08-24 17:35:34,149:INFO:config_reader:  Name: 'Andre Moraes Adapted', Capital: 100000, Risk-Capital Coefficient: 0.001, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'ASAI3', 'AZUL4', 'BTOW3', 'B3SA3', 'BIDI11', 'BBSE3', 'BRML3', 'BBDC3', 'BBDC4', 'BRAP4', 'BBAS3', 'BRKM5', 'BRFS3', 'BPAC11', 'CRFB3', 'CCRO3', 'CMIG4', 'HGTX3', 'CIEL3', 'COGN3', 'CPLE6', 'CSAN3', 'CPFE3', 'CVCB3', 'CYRE3', 'ECOR3', 'ELET3', 'ELET6', 'EMBR3', 'ENBR3', 'ENGI11', 'ENEV3', 'EGIE3', 'EQTL3', 'EZTC3', 'FLRY3', 'GGBR4', 'GOAU4', 'GOLL4', 'NTCO3', 'HAPV3', 'HYPE3', 'IGTA3', 'GNDI3', 'IRBR3', 'ITSA4', 'ITUB4', 'JBSS3', 'JHSF3', 'KLBN11', 'RENT3', 'LCAM3', 'LWSA3', 'LAME4', 'LREN3', 'MGLU3', 'MRFG3', 'BEEF3', 'MRVE3', 'MULT3', 'PCAR3', 'PETR3', 'PETR4', 'BRDT3', 'PRIO3', 'QUAL3', 'RADL3', 'RAIL3', 'SBSP3', 'SANB11', 'CSNA3', 'SULA11', 'SUZB3', 'TAEE11', 'VIVT3', 'TIMS3', 'TOTS3', 'UGPA3', 'USIM5', 'VALE3', 'VVAR3', 'WEGE3', 'YDUQ3']
+2021-08-24 17:35:34,149:DEBUG:utils:The function 'ConfigReader.__init__' took 23.33 milliseconds to run.
+2021-08-25 00:13:37,966:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-25 00:13:37,966:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_training_set.json'.
+2021-08-25 00:13:37,967:DEBUG:config_reader:Config file found.
+2021-08-25 00:13:38,007:INFO:config_reader:Config file successfully read.
+2021-08-25 00:13:38,007:INFO:config_reader:Total strategies: 1
+2021-08-25 00:13:38,008:INFO:config_reader:Total tickers: 84
+2021-08-25 00:13:38,008:INFO:config_reader:Oldest date: 01/01/2013
+2021-08-25 00:13:38,009:INFO:config_reader:Most recent date: 30/06/2018
+2021-08-25 00:13:38,009:INFO:config_reader:Strategies found:
+2021-08-25 00:13:38,009:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.05, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'ASAI3', 'AZUL4', 'BTOW3', 'B3SA3', 'BIDI11', 'BBSE3', 'BRML3', 'BBDC3', 'BBDC4', 'BRAP4', 'BBAS3', 'BRKM5', 'BRFS3', 'BPAC11', 'CRFB3', 'CCRO3', 'CMIG4', 'HGTX3', 'CIEL3', 'COGN3', 'CPLE6', 'CSAN3', 'CPFE3', 'CVCB3', 'CYRE3', 'ECOR3', 'ELET3', 'ELET6', 'EMBR3', 'ENBR3', 'ENGI11', 'ENEV3', 'EGIE3', 'EQTL3', 'EZTC3', 'FLRY3', 'GGBR4', 'GOAU4', 'GOLL4', 'NTCO3', 'HAPV3', 'HYPE3', 'IGTA3', 'GNDI3', 'IRBR3', 'ITSA4', 'ITUB4', 'JBSS3', 'JHSF3', 'KLBN11', 'RENT3', 'LCAM3', 'LWSA3', 'LAME4', 'LREN3', 'MGLU3', 'MRFG3', 'BEEF3', 'MRVE3', 'MULT3', 'PCAR3', 'PETR3', 'PETR4', 'BRDT3', 'PRIO3', 'QUAL3', 'RADL3', 'RAIL3', 'SBSP3', 'SANB11', 'CSNA3', 'SULA11', 'SUZB3', 'TAEE11', 'VIVT3', 'TIMS3', 'TOTS3', 'UGPA3', 'USIM5', 'VALE3', 'VVAR3', 'WEGE3', 'YDUQ3']
+2021-08-25 00:13:38,009:DEBUG:utils:The function 'ConfigReader.__init__' took 124.16 milliseconds to run.
+2021-08-25 00:13:38,019:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-25 00:13:38,020:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_test_set.json'.
+2021-08-25 00:13:38,021:DEBUG:config_reader:Config file found.
+2021-08-25 00:13:38,035:INFO:config_reader:Config file successfully read.
+2021-08-25 00:13:38,035:INFO:config_reader:Total strategies: 2
+2021-08-25 00:13:38,035:INFO:config_reader:Total tickers: 84
+2021-08-25 00:13:38,035:INFO:config_reader:Oldest date: 01/07/2018
+2021-08-25 00:13:38,035:INFO:config_reader:Most recent date: 31/01/2020
+2021-08-25 00:13:38,036:INFO:config_reader:Strategies found:
+2021-08-25 00:13:38,036:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.001, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'ASAI3', 'AZUL4', 'BTOW3', 'B3SA3', 'BIDI11', 'BBSE3', 'BRML3', 'BBDC3', 'BBDC4', 'BRAP4', 'BBAS3', 'BRKM5', 'BRFS3', 'BPAC11', 'CRFB3', 'CCRO3', 'CMIG4', 'HGTX3', 'CIEL3', 'COGN3', 'CPLE6', 'CSAN3', 'CPFE3', 'CVCB3', 'CYRE3', 'ECOR3', 'ELET3', 'ELET6', 'EMBR3', 'ENBR3', 'ENGI11', 'ENEV3', 'EGIE3', 'EQTL3', 'EZTC3', 'FLRY3', 'GGBR4', 'GOAU4', 'GOLL4', 'NTCO3', 'HAPV3', 'HYPE3', 'IGTA3', 'GNDI3', 'IRBR3', 'ITSA4', 'ITUB4', 'JBSS3', 'JHSF3', 'KLBN11', 'RENT3', 'LCAM3', 'LWSA3', 'LAME4', 'LREN3', 'MGLU3', 'MRFG3', 'BEEF3', 'MRVE3', 'MULT3', 'PCAR3', 'PETR3', 'PETR4', 'BRDT3', 'PRIO3', 'QUAL3', 'RADL3', 'RAIL3', 'SBSP3', 'SANB11', 'CSNA3', 'SULA11', 'SUZB3', 'TAEE11', 'VIVT3', 'TIMS3', 'TOTS3', 'UGPA3', 'USIM5', 'VALE3', 'VVAR3', 'WEGE3', 'YDUQ3']
+2021-08-25 00:13:38,036:INFO:config_reader:  Name: 'Andre Moraes Adapted', Capital: 100000, Risk-Capital Coefficient: 0.001, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'ASAI3', 'AZUL4', 'BTOW3', 'B3SA3', 'BIDI11', 'BBSE3', 'BRML3', 'BBDC3', 'BBDC4', 'BRAP4', 'BBAS3', 'BRKM5', 'BRFS3', 'BPAC11', 'CRFB3', 'CCRO3', 'CMIG4', 'HGTX3', 'CIEL3', 'COGN3', 'CPLE6', 'CSAN3', 'CPFE3', 'CVCB3', 'CYRE3', 'ECOR3', 'ELET3', 'ELET6', 'EMBR3', 'ENBR3', 'ENGI11', 'ENEV3', 'EGIE3', 'EQTL3', 'EZTC3', 'FLRY3', 'GGBR4', 'GOAU4', 'GOLL4', 'NTCO3', 'HAPV3', 'HYPE3', 'IGTA3', 'GNDI3', 'IRBR3', 'ITSA4', 'ITUB4', 'JBSS3', 'JHSF3', 'KLBN11', 'RENT3', 'LCAM3', 'LWSA3', 'LAME4', 'LREN3', 'MGLU3', 'MRFG3', 'BEEF3', 'MRVE3', 'MULT3', 'PCAR3', 'PETR3', 'PETR4', 'BRDT3', 'PRIO3', 'QUAL3', 'RADL3', 'RAIL3', 'SBSP3', 'SANB11', 'CSNA3', 'SULA11', 'SUZB3', 'TAEE11', 'VIVT3', 'TIMS3', 'TOTS3', 'UGPA3', 'USIM5', 'VALE3', 'VVAR3', 'WEGE3', 'YDUQ3']
+2021-08-25 00:13:38,036:DEBUG:utils:The function 'ConfigReader.__init__' took 26.78 milliseconds to run.
+2021-08-25 00:39:45,420:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-25 00:39:45,421:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_training_set.json'.
+2021-08-25 00:39:45,422:DEBUG:config_reader:Config file found.
+2021-08-25 00:39:45,439:INFO:config_reader:Config file successfully read.
+2021-08-25 00:39:45,439:INFO:config_reader:Total strategies: 1
+2021-08-25 00:39:45,439:INFO:config_reader:Total tickers: 84
+2021-08-25 00:39:45,439:INFO:config_reader:Oldest date: 01/01/2013
+2021-08-25 00:39:45,439:INFO:config_reader:Most recent date: 30/06/2018
+2021-08-25 00:39:45,439:INFO:config_reader:Strategies found:
+2021-08-25 00:39:45,439:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.05, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'ASAI3', 'AZUL4', 'BTOW3', 'B3SA3', 'BIDI11', 'BBSE3', 'BRML3', 'BBDC3', 'BBDC4', 'BRAP4', 'BBAS3', 'BRKM5', 'BRFS3', 'BPAC11', 'CRFB3', 'CCRO3', 'CMIG4', 'HGTX3', 'CIEL3', 'COGN3', 'CPLE6', 'CSAN3', 'CPFE3', 'CVCB3', 'CYRE3', 'ECOR3', 'ELET3', 'ELET6', 'EMBR3', 'ENBR3', 'ENGI11', 'ENEV3', 'EGIE3', 'EQTL3', 'EZTC3', 'FLRY3', 'GGBR4', 'GOAU4', 'GOLL4', 'NTCO3', 'HAPV3', 'HYPE3', 'IGTA3', 'GNDI3', 'IRBR3', 'ITSA4', 'ITUB4', 'JBSS3', 'JHSF3', 'KLBN11', 'RENT3', 'LCAM3', 'LWSA3', 'LAME4', 'LREN3', 'MGLU3', 'MRFG3', 'BEEF3', 'MRVE3', 'MULT3', 'PCAR3', 'PETR3', 'PETR4', 'BRDT3', 'PRIO3', 'QUAL3', 'RADL3', 'RAIL3', 'SBSP3', 'SANB11', 'CSNA3', 'SULA11', 'SUZB3', 'TAEE11', 'VIVT3', 'TIMS3', 'TOTS3', 'UGPA3', 'USIM5', 'VALE3', 'VVAR3', 'WEGE3', 'YDUQ3']
+2021-08-25 00:39:45,439:DEBUG:utils:The function 'ConfigReader.__init__' took 117.65 milliseconds to run.
+2021-08-25 00:39:45,449:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-25 00:39:45,449:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_test_set.json'.
+2021-08-25 00:39:45,450:DEBUG:config_reader:Config file found.
+2021-08-25 00:39:45,462:INFO:config_reader:Config file successfully read.
+2021-08-25 00:39:45,462:INFO:config_reader:Total strategies: 2
+2021-08-25 00:39:45,462:INFO:config_reader:Total tickers: 84
+2021-08-25 00:39:45,462:INFO:config_reader:Oldest date: 01/07/2018
+2021-08-25 00:39:45,462:INFO:config_reader:Most recent date: 31/01/2020
+2021-08-25 00:39:45,463:INFO:config_reader:Strategies found:
+2021-08-25 00:39:45,463:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.001, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'ASAI3', 'AZUL4', 'BTOW3', 'B3SA3', 'BIDI11', 'BBSE3', 'BRML3', 'BBDC3', 'BBDC4', 'BRAP4', 'BBAS3', 'BRKM5', 'BRFS3', 'BPAC11', 'CRFB3', 'CCRO3', 'CMIG4', 'HGTX3', 'CIEL3', 'COGN3', 'CPLE6', 'CSAN3', 'CPFE3', 'CVCB3', 'CYRE3', 'ECOR3', 'ELET3', 'ELET6', 'EMBR3', 'ENBR3', 'ENGI11', 'ENEV3', 'EGIE3', 'EQTL3', 'EZTC3', 'FLRY3', 'GGBR4', 'GOAU4', 'GOLL4', 'NTCO3', 'HAPV3', 'HYPE3', 'IGTA3', 'GNDI3', 'IRBR3', 'ITSA4', 'ITUB4', 'JBSS3', 'JHSF3', 'KLBN11', 'RENT3', 'LCAM3', 'LWSA3', 'LAME4', 'LREN3', 'MGLU3', 'MRFG3', 'BEEF3', 'MRVE3', 'MULT3', 'PCAR3', 'PETR3', 'PETR4', 'BRDT3', 'PRIO3', 'QUAL3', 'RADL3', 'RAIL3', 'SBSP3', 'SANB11', 'CSNA3', 'SULA11', 'SUZB3', 'TAEE11', 'VIVT3', 'TIMS3', 'TOTS3', 'UGPA3', 'USIM5', 'VALE3', 'VVAR3', 'WEGE3', 'YDUQ3']
+2021-08-25 00:39:45,463:INFO:config_reader:  Name: 'Andre Moraes Adapted', Capital: 100000, Risk-Capital Coefficient: 0.001, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'ASAI3', 'AZUL4', 'BTOW3', 'B3SA3', 'BIDI11', 'BBSE3', 'BRML3', 'BBDC3', 'BBDC4', 'BRAP4', 'BBAS3', 'BRKM5', 'BRFS3', 'BPAC11', 'CRFB3', 'CCRO3', 'CMIG4', 'HGTX3', 'CIEL3', 'COGN3', 'CPLE6', 'CSAN3', 'CPFE3', 'CVCB3', 'CYRE3', 'ECOR3', 'ELET3', 'ELET6', 'EMBR3', 'ENBR3', 'ENGI11', 'ENEV3', 'EGIE3', 'EQTL3', 'EZTC3', 'FLRY3', 'GGBR4', 'GOAU4', 'GOLL4', 'NTCO3', 'HAPV3', 'HYPE3', 'IGTA3', 'GNDI3', 'IRBR3', 'ITSA4', 'ITUB4', 'JBSS3', 'JHSF3', 'KLBN11', 'RENT3', 'LCAM3', 'LWSA3', 'LAME4', 'LREN3', 'MGLU3', 'MRFG3', 'BEEF3', 'MRVE3', 'MULT3', 'PCAR3', 'PETR3', 'PETR4', 'BRDT3', 'PRIO3', 'QUAL3', 'RADL3', 'RAIL3', 'SBSP3', 'SANB11', 'CSNA3', 'SULA11', 'SUZB3', 'TAEE11', 'VIVT3', 'TIMS3', 'TOTS3', 'UGPA3', 'USIM5', 'VALE3', 'VVAR3', 'WEGE3', 'YDUQ3']
+2021-08-25 00:39:45,463:DEBUG:utils:The function 'ConfigReader.__init__' took 23.27 milliseconds to run.
+2021-08-25 02:40:40,392:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-25 02:40:40,392:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_training_set.json'.
+2021-08-25 02:40:40,393:DEBUG:config_reader:Config file found.
+2021-08-25 02:40:40,458:INFO:config_reader:Config file successfully read.
+2021-08-25 02:40:40,458:INFO:config_reader:Total strategies: 1
+2021-08-25 02:40:40,458:INFO:config_reader:Total tickers: 84
+2021-08-25 02:40:40,458:INFO:config_reader:Oldest date: 01/01/2013
+2021-08-25 02:40:40,459:INFO:config_reader:Most recent date: 30/06/2018
+2021-08-25 02:40:40,459:INFO:config_reader:Strategies found:
+2021-08-25 02:40:40,459:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.05, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'ASAI3', 'AZUL4', 'BTOW3', 'B3SA3', 'BIDI11', 'BBSE3', 'BRML3', 'BBDC3', 'BBDC4', 'BRAP4', 'BBAS3', 'BRKM5', 'BRFS3', 'BPAC11', 'CRFB3', 'CCRO3', 'CMIG4', 'HGTX3', 'CIEL3', 'COGN3', 'CPLE6', 'CSAN3', 'CPFE3', 'CVCB3', 'CYRE3', 'ECOR3', 'ELET3', 'ELET6', 'EMBR3', 'ENBR3', 'ENGI11', 'ENEV3', 'EGIE3', 'EQTL3', 'EZTC3', 'FLRY3', 'GGBR4', 'GOAU4', 'GOLL4', 'NTCO3', 'HAPV3', 'HYPE3', 'IGTA3', 'GNDI3', 'IRBR3', 'ITSA4', 'ITUB4', 'JBSS3', 'JHSF3', 'KLBN11', 'RENT3', 'LCAM3', 'LWSA3', 'LAME4', 'LREN3', 'MGLU3', 'MRFG3', 'BEEF3', 'MRVE3', 'MULT3', 'PCAR3', 'PETR3', 'PETR4', 'BRDT3', 'PRIO3', 'QUAL3', 'RADL3', 'RAIL3', 'SBSP3', 'SANB11', 'CSNA3', 'SULA11', 'SUZB3', 'TAEE11', 'VIVT3', 'TIMS3', 'TOTS3', 'UGPA3', 'USIM5', 'VALE3', 'VVAR3', 'WEGE3', 'YDUQ3']
+2021-08-25 02:40:40,459:DEBUG:utils:The function 'ConfigReader.__init__' took 163.23 milliseconds to run.
+2021-08-25 02:40:40,468:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-25 02:40:40,468:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_test_set.json'.
+2021-08-25 02:40:40,469:DEBUG:config_reader:Config file found.
+2021-08-25 02:40:40,478:INFO:config_reader:Config file successfully read.
+2021-08-25 02:40:40,478:INFO:config_reader:Total strategies: 2
+2021-08-25 02:40:40,478:INFO:config_reader:Total tickers: 84
+2021-08-25 02:40:40,479:INFO:config_reader:Oldest date: 01/07/2018
+2021-08-25 02:40:40,479:INFO:config_reader:Most recent date: 31/01/2020
+2021-08-25 02:40:40,479:INFO:config_reader:Strategies found:
+2021-08-25 02:40:40,479:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.001, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'ASAI3', 'AZUL4', 'BTOW3', 'B3SA3', 'BIDI11', 'BBSE3', 'BRML3', 'BBDC3', 'BBDC4', 'BRAP4', 'BBAS3', 'BRKM5', 'BRFS3', 'BPAC11', 'CRFB3', 'CCRO3', 'CMIG4', 'HGTX3', 'CIEL3', 'COGN3', 'CPLE6', 'CSAN3', 'CPFE3', 'CVCB3', 'CYRE3', 'ECOR3', 'ELET3', 'ELET6', 'EMBR3', 'ENBR3', 'ENGI11', 'ENEV3', 'EGIE3', 'EQTL3', 'EZTC3', 'FLRY3', 'GGBR4', 'GOAU4', 'GOLL4', 'NTCO3', 'HAPV3', 'HYPE3', 'IGTA3', 'GNDI3', 'IRBR3', 'ITSA4', 'ITUB4', 'JBSS3', 'JHSF3', 'KLBN11', 'RENT3', 'LCAM3', 'LWSA3', 'LAME4', 'LREN3', 'MGLU3', 'MRFG3', 'BEEF3', 'MRVE3', 'MULT3', 'PCAR3', 'PETR3', 'PETR4', 'BRDT3', 'PRIO3', 'QUAL3', 'RADL3', 'RAIL3', 'SBSP3', 'SANB11', 'CSNA3', 'SULA11', 'SUZB3', 'TAEE11', 'VIVT3', 'TIMS3', 'TOTS3', 'UGPA3', 'USIM5', 'VALE3', 'VVAR3', 'WEGE3', 'YDUQ3']
+2021-08-25 02:40:40,479:INFO:config_reader:  Name: 'Andre Moraes Adapted', Capital: 100000, Risk-Capital Coefficient: 0.001, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'ASAI3', 'AZUL4', 'BTOW3', 'B3SA3', 'BIDI11', 'BBSE3', 'BRML3', 'BBDC3', 'BBDC4', 'BRAP4', 'BBAS3', 'BRKM5', 'BRFS3', 'BPAC11', 'CRFB3', 'CCRO3', 'CMIG4', 'HGTX3', 'CIEL3', 'COGN3', 'CPLE6', 'CSAN3', 'CPFE3', 'CVCB3', 'CYRE3', 'ECOR3', 'ELET3', 'ELET6', 'EMBR3', 'ENBR3', 'ENGI11', 'ENEV3', 'EGIE3', 'EQTL3', 'EZTC3', 'FLRY3', 'GGBR4', 'GOAU4', 'GOLL4', 'NTCO3', 'HAPV3', 'HYPE3', 'IGTA3', 'GNDI3', 'IRBR3', 'ITSA4', 'ITUB4', 'JBSS3', 'JHSF3', 'KLBN11', 'RENT3', 'LCAM3', 'LWSA3', 'LAME4', 'LREN3', 'MGLU3', 'MRFG3', 'BEEF3', 'MRVE3', 'MULT3', 'PCAR3', 'PETR3', 'PETR4', 'BRDT3', 'PRIO3', 'QUAL3', 'RADL3', 'RAIL3', 'SBSP3', 'SANB11', 'CSNA3', 'SULA11', 'SUZB3', 'TAEE11', 'VIVT3', 'TIMS3', 'TOTS3', 'UGPA3', 'USIM5', 'VALE3', 'VVAR3', 'WEGE3', 'YDUQ3']
+2021-08-25 02:40:40,479:DEBUG:utils:The function 'ConfigReader.__init__' took 19.98 milliseconds to run.
+2021-08-25 12:47:54,299:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-25 12:47:54,300:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_training_set.json'.
+2021-08-25 12:47:54,302:DEBUG:config_reader:Config file found.
+2021-08-25 12:47:54,319:INFO:config_reader:Config file successfully read.
+2021-08-25 12:47:54,319:INFO:config_reader:Total strategies: 1
+2021-08-25 12:47:54,319:INFO:config_reader:Total tickers: 84
+2021-08-25 12:47:54,320:INFO:config_reader:Oldest date: 01/01/2013
+2021-08-25 12:47:54,320:INFO:config_reader:Most recent date: 30/06/2018
+2021-08-25 12:47:54,320:INFO:config_reader:Strategies found:
+2021-08-25 12:47:54,320:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.05, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'ASAI3', 'AZUL4', 'BTOW3', 'B3SA3', 'BIDI11', 'BBSE3', 'BRML3', 'BBDC3', 'BBDC4', 'BRAP4', 'BBAS3', 'BRKM5', 'BRFS3', 'BPAC11', 'CRFB3', 'CCRO3', 'CMIG4', 'HGTX3', 'CIEL3', 'COGN3', 'CPLE6', 'CSAN3', 'CPFE3', 'CVCB3', 'CYRE3', 'ECOR3', 'ELET3', 'ELET6', 'EMBR3', 'ENBR3', 'ENGI11', 'ENEV3', 'EGIE3', 'EQTL3', 'EZTC3', 'FLRY3', 'GGBR4', 'GOAU4', 'GOLL4', 'NTCO3', 'HAPV3', 'HYPE3', 'IGTA3', 'GNDI3', 'IRBR3', 'ITSA4', 'ITUB4', 'JBSS3', 'JHSF3', 'KLBN11', 'RENT3', 'LCAM3', 'LWSA3', 'LAME4', 'LREN3', 'MGLU3', 'MRFG3', 'BEEF3', 'MRVE3', 'MULT3', 'PCAR3', 'PETR3', 'PETR4', 'BRDT3', 'PRIO3', 'QUAL3', 'RADL3', 'RAIL3', 'SBSP3', 'SANB11', 'CSNA3', 'SULA11', 'SUZB3', 'TAEE11', 'VIVT3', 'TIMS3', 'TOTS3', 'UGPA3', 'USIM5', 'VALE3', 'VVAR3', 'WEGE3', 'YDUQ3']
+2021-08-25 12:47:54,320:DEBUG:utils:The function 'ConfigReader.__init__' took 266.37 milliseconds to run.
+2021-08-25 12:47:54,336:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-25 12:47:54,336:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_test_set.json'.
+2021-08-25 12:47:54,338:DEBUG:config_reader:Config file found.
+2021-08-25 12:47:54,353:INFO:config_reader:Config file successfully read.
+2021-08-25 12:47:54,353:INFO:config_reader:Total strategies: 2
+2021-08-25 12:47:54,353:INFO:config_reader:Total tickers: 84
+2021-08-25 12:47:54,354:INFO:config_reader:Oldest date: 01/07/2018
+2021-08-25 12:47:54,354:INFO:config_reader:Most recent date: 31/01/2020
+2021-08-25 12:47:54,354:INFO:config_reader:Strategies found:
+2021-08-25 12:47:54,354:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.001, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'ASAI3', 'AZUL4', 'BTOW3', 'B3SA3', 'BIDI11', 'BBSE3', 'BRML3', 'BBDC3', 'BBDC4', 'BRAP4', 'BBAS3', 'BRKM5', 'BRFS3', 'BPAC11', 'CRFB3', 'CCRO3', 'CMIG4', 'HGTX3', 'CIEL3', 'COGN3', 'CPLE6', 'CSAN3', 'CPFE3', 'CVCB3', 'CYRE3', 'ECOR3', 'ELET3', 'ELET6', 'EMBR3', 'ENBR3', 'ENGI11', 'ENEV3', 'EGIE3', 'EQTL3', 'EZTC3', 'FLRY3', 'GGBR4', 'GOAU4', 'GOLL4', 'NTCO3', 'HAPV3', 'HYPE3', 'IGTA3', 'GNDI3', 'IRBR3', 'ITSA4', 'ITUB4', 'JBSS3', 'JHSF3', 'KLBN11', 'RENT3', 'LCAM3', 'LWSA3', 'LAME4', 'LREN3', 'MGLU3', 'MRFG3', 'BEEF3', 'MRVE3', 'MULT3', 'PCAR3', 'PETR3', 'PETR4', 'BRDT3', 'PRIO3', 'QUAL3', 'RADL3', 'RAIL3', 'SBSP3', 'SANB11', 'CSNA3', 'SULA11', 'SUZB3', 'TAEE11', 'VIVT3', 'TIMS3', 'TOTS3', 'UGPA3', 'USIM5', 'VALE3', 'VVAR3', 'WEGE3', 'YDUQ3']
+2021-08-25 12:47:54,354:INFO:config_reader:  Name: 'Andre Moraes Adapted', Capital: 100000, Risk-Capital Coefficient: 0.001, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'ASAI3', 'AZUL4', 'BTOW3', 'B3SA3', 'BIDI11', 'BBSE3', 'BRML3', 'BBDC3', 'BBDC4', 'BRAP4', 'BBAS3', 'BRKM5', 'BRFS3', 'BPAC11', 'CRFB3', 'CCRO3', 'CMIG4', 'HGTX3', 'CIEL3', 'COGN3', 'CPLE6', 'CSAN3', 'CPFE3', 'CVCB3', 'CYRE3', 'ECOR3', 'ELET3', 'ELET6', 'EMBR3', 'ENBR3', 'ENGI11', 'ENEV3', 'EGIE3', 'EQTL3', 'EZTC3', 'FLRY3', 'GGBR4', 'GOAU4', 'GOLL4', 'NTCO3', 'HAPV3', 'HYPE3', 'IGTA3', 'GNDI3', 'IRBR3', 'ITSA4', 'ITUB4', 'JBSS3', 'JHSF3', 'KLBN11', 'RENT3', 'LCAM3', 'LWSA3', 'LAME4', 'LREN3', 'MGLU3', 'MRFG3', 'BEEF3', 'MRVE3', 'MULT3', 'PCAR3', 'PETR3', 'PETR4', 'BRDT3', 'PRIO3', 'QUAL3', 'RADL3', 'RAIL3', 'SBSP3', 'SANB11', 'CSNA3', 'SULA11', 'SUZB3', 'TAEE11', 'VIVT3', 'TIMS3', 'TOTS3', 'UGPA3', 'USIM5', 'VALE3', 'VVAR3', 'WEGE3', 'YDUQ3']
+2021-08-25 12:47:54,354:DEBUG:utils:The function 'ConfigReader.__init__' took 33.78 milliseconds to run.
+2021-08-25 20:16:35,799:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-25 20:16:35,801:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_training_set.json'.
+2021-08-25 20:16:35,802:DEBUG:config_reader:Config file found.
+2021-08-25 20:16:36,289:INFO:config_reader:Config file successfully read.
+2021-08-25 20:16:36,289:INFO:config_reader:Total strategies: 1
+2021-08-25 20:16:36,289:INFO:config_reader:Total tickers: 84
+2021-08-25 20:16:36,290:INFO:config_reader:Oldest date: 01/01/2013
+2021-08-25 20:16:36,290:INFO:config_reader:Most recent date: 30/06/2018
+2021-08-25 20:16:36,290:INFO:config_reader:Strategies found:
+2021-08-25 20:16:36,290:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.05, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'ASAI3', 'AZUL4', 'BTOW3', 'B3SA3', 'BIDI11', 'BBSE3', 'BRML3', 'BBDC3', 'BBDC4', 'BRAP4', 'BBAS3', 'BRKM5', 'BRFS3', 'BPAC11', 'CRFB3', 'CCRO3', 'CMIG4', 'HGTX3', 'CIEL3', 'COGN3', 'CPLE6', 'CSAN3', 'CPFE3', 'CVCB3', 'CYRE3', 'ECOR3', 'ELET3', 'ELET6', 'EMBR3', 'ENBR3', 'ENGI11', 'ENEV3', 'EGIE3', 'EQTL3', 'EZTC3', 'FLRY3', 'GGBR4', 'GOAU4', 'GOLL4', 'NTCO3', 'HAPV3', 'HYPE3', 'IGTA3', 'GNDI3', 'IRBR3', 'ITSA4', 'ITUB4', 'JBSS3', 'JHSF3', 'KLBN11', 'RENT3', 'LCAM3', 'LWSA3', 'LAME4', 'LREN3', 'MGLU3', 'MRFG3', 'BEEF3', 'MRVE3', 'MULT3', 'PCAR3', 'PETR3', 'PETR4', 'BRDT3', 'PRIO3', 'QUAL3', 'RADL3', 'RAIL3', 'SBSP3', 'SANB11', 'CSNA3', 'SULA11', 'SUZB3', 'TAEE11', 'VIVT3', 'TIMS3', 'TOTS3', 'UGPA3', 'USIM5', 'VALE3', 'VVAR3', 'WEGE3', 'YDUQ3']
+2021-08-25 20:16:36,290:DEBUG:utils:The function 'ConfigReader.__init__' took 1365.56 milliseconds to run.
+2021-08-25 20:16:36,319:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-25 20:16:36,319:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_test_set.json'.
+2021-08-25 20:16:36,321:DEBUG:config_reader:Config file found.
+2021-08-25 20:16:36,390:INFO:config_reader:Config file successfully read.
+2021-08-25 20:16:36,390:INFO:config_reader:Total strategies: 2
+2021-08-25 20:16:36,391:INFO:config_reader:Total tickers: 84
+2021-08-25 20:16:36,391:INFO:config_reader:Oldest date: 01/07/2018
+2021-08-25 20:16:36,391:INFO:config_reader:Most recent date: 31/01/2020
+2021-08-25 20:16:36,391:INFO:config_reader:Strategies found:
+2021-08-25 20:16:36,391:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.001, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'ASAI3', 'AZUL4', 'BTOW3', 'B3SA3', 'BIDI11', 'BBSE3', 'BRML3', 'BBDC3', 'BBDC4', 'BRAP4', 'BBAS3', 'BRKM5', 'BRFS3', 'BPAC11', 'CRFB3', 'CCRO3', 'CMIG4', 'HGTX3', 'CIEL3', 'COGN3', 'CPLE6', 'CSAN3', 'CPFE3', 'CVCB3', 'CYRE3', 'ECOR3', 'ELET3', 'ELET6', 'EMBR3', 'ENBR3', 'ENGI11', 'ENEV3', 'EGIE3', 'EQTL3', 'EZTC3', 'FLRY3', 'GGBR4', 'GOAU4', 'GOLL4', 'NTCO3', 'HAPV3', 'HYPE3', 'IGTA3', 'GNDI3', 'IRBR3', 'ITSA4', 'ITUB4', 'JBSS3', 'JHSF3', 'KLBN11', 'RENT3', 'LCAM3', 'LWSA3', 'LAME4', 'LREN3', 'MGLU3', 'MRFG3', 'BEEF3', 'MRVE3', 'MULT3', 'PCAR3', 'PETR3', 'PETR4', 'BRDT3', 'PRIO3', 'QUAL3', 'RADL3', 'RAIL3', 'SBSP3', 'SANB11', 'CSNA3', 'SULA11', 'SUZB3', 'TAEE11', 'VIVT3', 'TIMS3', 'TOTS3', 'UGPA3', 'USIM5', 'VALE3', 'VVAR3', 'WEGE3', 'YDUQ3']
+2021-08-25 20:16:36,391:INFO:config_reader:  Name: 'Andre Moraes Adapted', Capital: 100000, Risk-Capital Coefficient: 0.001, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'ASAI3', 'AZUL4', 'BTOW3', 'B3SA3', 'BIDI11', 'BBSE3', 'BRML3', 'BBDC3', 'BBDC4', 'BRAP4', 'BBAS3', 'BRKM5', 'BRFS3', 'BPAC11', 'CRFB3', 'CCRO3', 'CMIG4', 'HGTX3', 'CIEL3', 'COGN3', 'CPLE6', 'CSAN3', 'CPFE3', 'CVCB3', 'CYRE3', 'ECOR3', 'ELET3', 'ELET6', 'EMBR3', 'ENBR3', 'ENGI11', 'ENEV3', 'EGIE3', 'EQTL3', 'EZTC3', 'FLRY3', 'GGBR4', 'GOAU4', 'GOLL4', 'NTCO3', 'HAPV3', 'HYPE3', 'IGTA3', 'GNDI3', 'IRBR3', 'ITSA4', 'ITUB4', 'JBSS3', 'JHSF3', 'KLBN11', 'RENT3', 'LCAM3', 'LWSA3', 'LAME4', 'LREN3', 'MGLU3', 'MRFG3', 'BEEF3', 'MRVE3', 'MULT3', 'PCAR3', 'PETR3', 'PETR4', 'BRDT3', 'PRIO3', 'QUAL3', 'RADL3', 'RAIL3', 'SBSP3', 'SANB11', 'CSNA3', 'SULA11', 'SUZB3', 'TAEE11', 'VIVT3', 'TIMS3', 'TOTS3', 'UGPA3', 'USIM5', 'VALE3', 'VVAR3', 'WEGE3', 'YDUQ3']
+2021-08-25 20:16:36,391:DEBUG:utils:The function 'ConfigReader.__init__' took 100.92 milliseconds to run.
+2021-08-25 21:02:27,033:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-25 21:02:27,800:INFO:__main__:
+Program started.
+2021-08-25 21:02:27,809:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-25 21:02:27,809:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-08-25 21:02:27,810:DEBUG:config_reader:Config file found.
+2021-08-25 21:02:27,829:INFO:config_reader:Config file successfully read.
+2021-08-25 21:02:27,829:INFO:config_reader:Total strategies: 2
+2021-08-25 21:02:27,829:INFO:config_reader:Total tickers: 6
+2021-08-25 21:02:27,829:INFO:config_reader:Oldest date: 01/07/2018
+2021-08-25 21:02:27,830:INFO:config_reader:Most recent date: 31/01/2020
+2021-08-25 21:02:27,830:INFO:config_reader:Strategies found:
+2021-08-25 21:02:27,830:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.005, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'AZUL4', 'BTOW3', 'B3SA3', 'BIDI11', 'BBSE3']
+2021-08-25 21:02:27,830:INFO:config_reader:  Name: 'Andre Moraes Adapted', Capital: 100000, Risk-Capital Coefficient: 0.005, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'AZUL4', 'BTOW3', 'B3SA3', 'BIDI11', 'BBSE3']
+2021-08-25 21:02:27,830:DEBUG:utils:The function 'ConfigReader.__init__' took 29.28 milliseconds to run.
+2021-08-25 21:02:27,838:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-25 21:02:27,847:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-25 21:02:27,856:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-25 21:02:50,509:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-07-19').
+2021-08-25 21:02:50,593:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-07-22').
+2021-08-25 21:02:50,678:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-07-23').
+2021-08-25 21:02:50,763:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-07-24').
+2021-08-25 21:02:50,849:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-07-25').
+2021-08-25 21:02:50,933:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-07-26').
+2021-08-25 21:02:51,019:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-07-29').
+2021-08-25 21:02:51,103:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-07-30').
+2021-08-25 21:02:51,188:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-07-31').
+2021-08-25 21:02:51,273:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-01').
+2021-08-25 21:02:51,358:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-02').
+2021-08-25 21:02:51,444:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-05').
+2021-08-25 21:02:51,529:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-06').
+2021-08-25 21:02:51,627:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-07').
+2021-08-25 21:02:51,713:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-08').
+2021-08-25 21:02:51,798:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-09').
+2021-08-25 21:02:51,900:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-12').
+2021-08-25 21:02:51,985:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-13').
+2021-08-25 21:02:52,070:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-14').
+2021-08-25 21:02:52,154:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-15').
+2021-08-25 21:02:52,240:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-16').
+2021-08-25 21:02:52,332:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-19').
+2021-08-25 21:02:52,416:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-20').
+2021-08-25 21:02:52,500:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-21').
+2021-08-25 21:02:52,585:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-22').
+2021-08-25 21:02:52,669:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-23').
+2021-08-25 21:02:52,754:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-26').
+2021-08-25 21:02:52,841:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-27').
+2021-08-25 21:02:52,926:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-28').
+2021-08-25 21:02:53,011:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-29').
+2021-08-25 21:02:53,095:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-30').
+2021-08-25 21:02:53,184:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-02').
+2021-08-25 21:02:53,269:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-03').
+2021-08-25 21:02:53,354:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-04').
+2021-08-25 21:02:53,438:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-05').
+2021-08-25 21:02:53,523:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-06').
+2021-08-25 21:02:53,622:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-09').
+2021-08-25 21:02:53,707:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-10').
+2021-08-25 21:02:53,794:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-11').
+2021-08-25 21:02:53,880:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-12').
+2021-08-25 21:02:53,964:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-13').
+2021-08-25 21:02:54,049:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-16').
+2021-08-25 21:02:54,133:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-17').
+2021-08-25 21:02:54,233:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-18').
+2021-08-25 21:02:54,317:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-19').
+2021-08-25 21:02:54,404:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-20').
+2021-08-25 21:02:54,488:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-23').
+2021-08-25 21:02:54,573:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-24').
+2021-08-25 21:02:54,658:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-25').
+2021-08-25 21:02:54,743:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-26').
+2021-08-25 21:02:54,829:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-27').
+2021-08-25 21:02:54,916:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-30').
+2021-08-25 21:02:55,003:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-01').
+2021-08-25 21:02:55,088:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-02').
+2021-08-25 21:02:55,173:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-03').
+2021-08-25 21:02:55,258:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-04').
+2021-08-25 21:02:55,343:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-07').
+2021-08-25 21:02:55,445:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-08').
+2021-08-25 21:02:55,531:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-09').
+2021-08-25 21:02:55,617:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-10').
+2021-08-25 21:02:55,701:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-11').
+2021-08-25 21:02:55,787:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-14').
+2021-08-25 21:02:55,872:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-15').
+2021-08-25 21:02:55,957:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-16').
+2021-08-25 21:02:56,041:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-17').
+2021-08-25 21:02:56,126:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-18').
+2021-08-25 21:02:56,212:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-21').
+2021-08-25 21:02:56,298:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-22').
+2021-08-25 21:02:56,382:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-23').
+2021-08-25 21:02:56,467:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-24').
+2021-08-25 21:02:56,566:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-25').
+2021-08-25 21:02:56,655:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-28').
+2021-08-25 21:02:56,740:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-29').
+2021-08-25 21:02:56,839:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-30').
+2021-08-25 21:02:56,924:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-31').
+2021-08-25 21:02:57,008:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-01').
+2021-08-25 21:02:57,093:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-04').
+2021-08-25 21:02:57,178:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-05').
+2021-08-25 21:02:57,282:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-06').
+2021-08-25 21:02:57,368:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-07').
+2021-08-25 21:02:57,454:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-08').
+2021-08-25 21:02:57,538:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-11').
+2021-08-25 21:02:57,626:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-12').
+2021-08-25 21:02:57,711:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-13').
+2021-08-25 21:02:57,796:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-14').
+2021-08-25 21:02:57,881:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-18').
+2021-08-25 21:02:57,966:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-19').
+2021-08-25 21:02:58,051:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-21').
+2021-08-25 21:02:58,135:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-22').
+2021-08-25 21:02:58,220:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-25').
+2021-08-25 21:02:58,306:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-26').
+2021-08-25 21:02:58,391:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-27').
+2021-08-25 21:02:58,476:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-28').
+2021-08-25 21:02:58,561:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-29').
+2021-08-25 21:02:58,648:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-02').
+2021-08-25 21:02:58,733:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-03').
+2021-08-25 21:02:58,818:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-04').
+2021-08-25 21:02:58,919:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-05').
+2021-08-25 21:02:59,007:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-06').
+2021-08-25 21:02:59,093:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-09').
+2021-08-25 21:02:59,177:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-10').
+2021-08-25 21:02:59,261:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-11').
+2021-08-25 21:02:59,347:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-12').
+2021-08-25 21:02:59,447:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-13').
+2021-08-25 21:02:59,532:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-16').
+2021-08-25 21:02:59,616:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-17').
+2021-08-25 21:02:59,702:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-18').
+2021-08-25 21:02:59,787:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-19').
+2021-08-25 21:02:59,871:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-20').
+2021-08-25 21:02:59,957:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-23').
+2021-08-25 21:03:00,050:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-26').
+2021-08-25 21:03:00,136:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-27').
+2021-08-25 21:03:00,222:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-30').
+2021-08-25 21:03:00,308:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-02').
+2021-08-25 21:03:00,411:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-03').
+2021-08-25 21:03:00,498:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-06').
+2021-08-25 21:03:00,585:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-07').
+2021-08-25 21:03:00,672:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-08').
+2021-08-25 21:03:00,756:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-09').
+2021-08-25 21:03:00,841:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-10').
+2021-08-25 21:03:00,926:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-13').
+2021-08-25 21:03:01,011:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-14').
+2021-08-25 21:03:01,096:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-15').
+2021-08-25 21:03:01,180:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-16').
+2021-08-25 21:03:01,264:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-17').
+2021-08-25 21:03:01,351:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-20').
+2021-08-25 21:03:01,435:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-21').
+2021-08-25 21:03:01,519:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-22').
+2021-08-25 21:03:01,604:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-23').
+2021-08-25 21:03:01,689:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-24').
+2021-08-25 21:03:01,774:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-27').
+2021-08-25 21:03:01,858:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-28').
+2021-08-25 21:03:01,943:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-29').
+2021-08-25 21:03:02,036:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-30').
+2021-08-25 21:03:02,142:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-31').
+2021-08-25 21:03:02,143:DEBUG:utils:The function 'AndreMoraesStrategy.process_operations' took 34295.02 milliseconds to run.
+2021-08-25 21:03:02,219:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-25 21:03:09,793:DEBUG:utils:The function 'AndreMoraesStrategy.calculate_statistics' took 7650.02 milliseconds to run.
+2021-08-25 21:03:11,964:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-25 21:03:11,973:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-25 21:03:11,983:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-25 21:09:18,343:ERROR:strategy:Error processing operations, error:
+'TickerState' object has no attribute 'last_ema_72_week'
+Traceback (most recent call last):
+  File "/Users/atcha/Github/Projeto-Final/src/strategy.py", line 1937, in process_operations
+    ema_72_week = ticker_priority_list[index].last_ema_72_week
+AttributeError: 'TickerState' object has no attribute 'last_ema_72_week'
+2021-08-25 21:09:18,348:DEBUG:utils:The function 'AndreMoraesAdaptedStrategy.process_operations' took 366374.69 milliseconds to run.
+2021-08-26 08:45:04,951:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-26 08:45:05,988:INFO:__main__:
+Program started.
+2021-08-26 08:45:06,003:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-26 08:45:06,003:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-08-26 08:45:06,004:DEBUG:config_reader:Config file found.
+2021-08-26 08:45:06,059:INFO:config_reader:Config file successfully read.
+2021-08-26 08:45:06,059:INFO:config_reader:Total strategies: 2
+2021-08-26 08:45:06,059:INFO:config_reader:Total tickers: 6
+2021-08-26 08:45:06,060:INFO:config_reader:Oldest date: 01/07/2018
+2021-08-26 08:45:06,060:INFO:config_reader:Most recent date: 31/01/2020
+2021-08-26 08:45:06,060:INFO:config_reader:Strategies found:
+2021-08-26 08:45:06,060:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.005, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'AZUL4', 'BTOW3', 'B3SA3', 'BIDI11', 'BBSE3']
+2021-08-26 08:45:06,060:INFO:config_reader:  Name: 'Andre Moraes Adapted', Capital: 100000, Risk-Capital Coefficient: 0.005, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'AZUL4', 'BTOW3', 'B3SA3', 'BIDI11', 'BBSE3']
+2021-08-26 08:45:06,060:DEBUG:utils:The function 'ConfigReader.__init__' took 71.98 milliseconds to run.
+2021-08-26 08:45:06,069:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-26 08:45:06,087:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-26 08:45:06,100:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-26 08:45:40,675:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-07-19').
+2021-08-26 08:45:40,775:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-07-22').
+2021-08-26 08:45:40,865:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-07-23').
+2021-08-26 08:45:40,952:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-07-24').
+2021-08-26 08:45:41,041:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-07-25').
+2021-08-26 08:45:41,126:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-07-26').
+2021-08-26 08:45:41,219:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-07-29').
+2021-08-26 08:45:41,374:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-07-30').
+2021-08-26 08:45:41,469:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-07-31').
+2021-08-26 08:45:41,559:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-01').
+2021-08-26 08:45:41,675:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-02').
+2021-08-26 08:45:41,775:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-05').
+2021-08-26 08:45:41,874:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-06').
+2021-08-26 08:45:41,976:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-07').
+2021-08-26 08:45:42,066:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-08').
+2021-08-26 08:45:42,151:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-09').
+2021-08-26 08:45:42,261:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-12').
+2021-08-26 08:45:42,359:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-13').
+2021-08-26 08:45:42,527:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-14').
+2021-08-26 08:45:42,626:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-15').
+2021-08-26 08:45:42,716:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-16').
+2021-08-26 08:45:42,846:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-19').
+2021-08-26 08:45:42,940:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-20').
+2021-08-26 08:45:43,026:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-21').
+2021-08-26 08:45:43,113:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-22').
+2021-08-26 08:45:43,198:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-23').
+2021-08-26 08:45:43,284:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-26').
+2021-08-26 08:45:43,368:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-27').
+2021-08-26 08:45:43,490:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-28').
+2021-08-26 08:45:43,577:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-29').
+2021-08-26 08:45:43,675:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-30').
+2021-08-26 08:45:43,781:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-02').
+2021-08-26 08:45:43,874:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-03').
+2021-08-26 08:45:43,975:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-04').
+2021-08-26 08:45:44,086:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-05').
+2021-08-26 08:45:44,175:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-06').
+2021-08-26 08:45:44,286:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-09').
+2021-08-26 08:45:44,381:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-10').
+2021-08-26 08:45:44,481:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-11').
+2021-08-26 08:45:44,568:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-12').
+2021-08-26 08:45:44,653:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-13').
+2021-08-26 08:45:44,737:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-16').
+2021-08-26 08:45:44,844:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-17').
+2021-08-26 08:45:44,955:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-18').
+2021-08-26 08:45:45,041:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-19').
+2021-08-26 08:45:45,128:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-20').
+2021-08-26 08:45:45,215:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-23').
+2021-08-26 08:45:45,302:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-24').
+2021-08-26 08:45:45,390:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-25').
+2021-08-26 08:45:45,477:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-26').
+2021-08-26 08:45:45,563:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-27').
+2021-08-26 08:45:45,647:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-30').
+2021-08-26 08:45:45,732:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-01').
+2021-08-26 08:45:45,836:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-02').
+2021-08-26 08:45:45,928:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-03').
+2021-08-26 08:45:46,014:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-04').
+2021-08-26 08:45:46,100:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-07').
+2021-08-26 08:45:46,204:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-08').
+2021-08-26 08:45:46,289:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-09').
+2021-08-26 08:45:46,380:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-10').
+2021-08-26 08:45:46,469:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-11').
+2021-08-26 08:45:46,556:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-14').
+2021-08-26 08:45:46,640:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-15').
+2021-08-26 08:45:46,724:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-16').
+2021-08-26 08:45:46,817:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-17').
+2021-08-26 08:45:46,907:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-18').
+2021-08-26 08:45:46,992:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-21').
+2021-08-26 08:45:47,078:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-22').
+2021-08-26 08:45:47,164:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-23').
+2021-08-26 08:45:47,250:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-24').
+2021-08-26 08:45:47,340:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-25').
+2021-08-26 08:45:47,476:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-28').
+2021-08-26 08:45:47,573:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-29').
+2021-08-26 08:45:47,674:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-30').
+2021-08-26 08:45:47,773:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-31').
+2021-08-26 08:45:47,868:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-01').
+2021-08-26 08:45:47,956:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-04').
+2021-08-26 08:45:48,040:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-05').
+2021-08-26 08:45:48,162:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-06').
+2021-08-26 08:45:48,254:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-07').
+2021-08-26 08:45:48,340:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-08').
+2021-08-26 08:45:48,429:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-11').
+2021-08-26 08:45:48,541:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-12').
+2021-08-26 08:45:48,714:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-13').
+2021-08-26 08:45:48,816:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-14').
+2021-08-26 08:45:48,919:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-18').
+2021-08-26 08:45:49,023:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-19').
+2021-08-26 08:45:49,117:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-21').
+2021-08-26 08:45:49,204:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-22').
+2021-08-26 08:45:49,289:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-25').
+2021-08-26 08:45:49,410:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-26').
+2021-08-26 08:45:49,502:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-27').
+2021-08-26 08:45:49,594:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-28').
+2021-08-26 08:45:49,679:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-29').
+2021-08-26 08:45:49,884:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-02').
+2021-08-26 08:45:49,978:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-03').
+2021-08-26 08:45:50,064:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-04').
+2021-08-26 08:45:50,188:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-05').
+2021-08-26 08:45:50,282:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-06').
+2021-08-26 08:45:50,389:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-09').
+2021-08-26 08:45:50,520:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-10').
+2021-08-26 08:45:50,613:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-11').
+2021-08-26 08:45:50,713:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-12').
+2021-08-26 08:45:50,834:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-13').
+2021-08-26 08:45:50,938:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-16').
+2021-08-26 08:45:51,031:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-17').
+2021-08-26 08:45:51,117:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-18').
+2021-08-26 08:45:51,235:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-19').
+2021-08-26 08:45:51,381:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-20').
+2021-08-26 08:45:51,476:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-23').
+2021-08-26 08:45:51,581:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-26').
+2021-08-26 08:45:51,675:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-27').
+2021-08-26 08:45:51,771:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-30').
+2021-08-26 08:45:51,864:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-02').
+2021-08-26 08:45:51,965:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-03').
+2021-08-26 08:45:52,051:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-06').
+2021-08-26 08:45:52,137:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-07').
+2021-08-26 08:45:52,230:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-08').
+2021-08-26 08:45:52,315:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-09').
+2021-08-26 08:45:52,409:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-10').
+2021-08-26 08:45:52,496:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-13').
+2021-08-26 08:45:52,581:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-14').
+2021-08-26 08:45:52,681:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-15').
+2021-08-26 08:45:52,772:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-16').
+2021-08-26 08:45:52,862:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-17').
+2021-08-26 08:45:52,947:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-20').
+2021-08-26 08:45:53,032:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-21').
+2021-08-26 08:45:53,133:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-22').
+2021-08-26 08:45:53,222:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-23').
+2021-08-26 08:45:53,308:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-24').
+2021-08-26 08:45:53,392:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-27').
+2021-08-26 08:45:53,477:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-28').
+2021-08-26 08:45:53,568:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-29').
+2021-08-26 08:45:53,662:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-30').
+2021-08-26 08:45:53,833:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-31').
+2021-08-26 08:45:53,835:DEBUG:utils:The function 'AndreMoraesStrategy.process_operations' took 47746.05 milliseconds to run.
+2021-08-26 08:45:53,994:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-26 08:46:04,512:DEBUG:utils:The function 'AndreMoraesStrategy.calculate_statistics' took 10676.86 milliseconds to run.
+2021-08-26 08:46:06,308:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-26 08:46:06,318:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-26 08:46:06,327:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-26 08:46:12,153:ERROR:strategy:Error processing operations, error:
+Input contains NaN, infinity or a value too large for dtype('float32').
+Traceback (most recent call last):
+  File "/Users/atcha/Github/Projeto-Final/src/strategy.py", line 1942, in process_operations
+    prediction = self.model.predict(X_test)[0]
+  File "/Users/atcha/Github/Projeto-Final/venv/lib/python3.9/site-packages/sklearn/ensemble/_forest.py", line 630, in predict
+    proba = self.predict_proba(X)
+  File "/Users/atcha/Github/Projeto-Final/venv/lib/python3.9/site-packages/sklearn/ensemble/_forest.py", line 674, in predict_proba
+    X = self._validate_X_predict(X)
+  File "/Users/atcha/Github/Projeto-Final/venv/lib/python3.9/site-packages/sklearn/ensemble/_forest.py", line 422, in _validate_X_predict
+    return self.estimators_[0]._validate_X_predict(X, check_input=True)
+  File "/Users/atcha/Github/Projeto-Final/venv/lib/python3.9/site-packages/sklearn/tree/_classes.py", line 407, in _validate_X_predict
+    X = self._validate_data(X, dtype=DTYPE, accept_sparse="csr",
+  File "/Users/atcha/Github/Projeto-Final/venv/lib/python3.9/site-packages/sklearn/base.py", line 421, in _validate_data
+    X = check_array(X, **check_params)
+  File "/Users/atcha/Github/Projeto-Final/venv/lib/python3.9/site-packages/sklearn/utils/validation.py", line 63, in inner_f
+    return f(*args, **kwargs)
+  File "/Users/atcha/Github/Projeto-Final/venv/lib/python3.9/site-packages/sklearn/utils/validation.py", line 720, in check_array
+    _assert_all_finite(array,
+  File "/Users/atcha/Github/Projeto-Final/venv/lib/python3.9/site-packages/sklearn/utils/validation.py", line 103, in _assert_all_finite
+    raise ValueError(
+ValueError: Input contains NaN, infinity or a value too large for dtype('float32').
+2021-08-26 08:46:12,163:DEBUG:utils:The function 'AndreMoraesAdaptedStrategy.process_operations' took 5844.25 milliseconds to run.
+2021-08-26 08:48:12,984:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-26 08:48:13,675:INFO:__main__:
+Program started.
+2021-08-26 08:48:13,684:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-26 08:48:13,684:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-08-26 08:48:13,684:DEBUG:config_reader:Config file found.
+2021-08-26 08:48:13,702:INFO:config_reader:Config file successfully read.
+2021-08-26 08:48:13,702:INFO:config_reader:Total strategies: 2
+2021-08-26 08:48:13,702:INFO:config_reader:Total tickers: 6
+2021-08-26 08:48:13,702:INFO:config_reader:Oldest date: 01/07/2018
+2021-08-26 08:48:13,703:INFO:config_reader:Most recent date: 31/01/2020
+2021-08-26 08:48:13,703:INFO:config_reader:Strategies found:
+2021-08-26 08:48:13,703:INFO:config_reader:  Name: 'Andre Moraes Adapted', Capital: 100000, Risk-Capital Coefficient: 0.005, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'AZUL4', 'BTOW3', 'B3SA3', 'BIDI11', 'BBSE3']
+2021-08-26 08:48:13,703:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.005, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'AZUL4', 'BTOW3', 'B3SA3', 'BIDI11', 'BBSE3']
+2021-08-26 08:48:13,703:DEBUG:utils:The function 'ConfigReader.__init__' took 27.76 milliseconds to run.
+2021-08-26 08:48:14,781:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-26 08:48:14,789:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-26 08:48:14,798:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-26 08:48:48,388:ERROR:strategy:Error processing operations, error:
+Input contains NaN, infinity or a value too large for dtype('float32').
+Traceback (most recent call last):
+  File "/Users/atcha/Github/Projeto-Final/src/strategy.py", line 1942, in process_operations
+    prediction = self.model.predict(X_test)[0]
+  File "/Users/atcha/Github/Projeto-Final/venv/lib/python3.9/site-packages/sklearn/ensemble/_forest.py", line 630, in predict
+    proba = self.predict_proba(X)
+  File "/Users/atcha/Github/Projeto-Final/venv/lib/python3.9/site-packages/sklearn/ensemble/_forest.py", line 674, in predict_proba
+    X = self._validate_X_predict(X)
+  File "/Users/atcha/Github/Projeto-Final/venv/lib/python3.9/site-packages/sklearn/ensemble/_forest.py", line 422, in _validate_X_predict
+    return self.estimators_[0]._validate_X_predict(X, check_input=True)
+  File "/Users/atcha/Github/Projeto-Final/venv/lib/python3.9/site-packages/sklearn/tree/_classes.py", line 407, in _validate_X_predict
+    X = self._validate_data(X, dtype=DTYPE, accept_sparse="csr",
+  File "/Users/atcha/Github/Projeto-Final/venv/lib/python3.9/site-packages/sklearn/base.py", line 421, in _validate_data
+    X = check_array(X, **check_params)
+  File "/Users/atcha/Github/Projeto-Final/venv/lib/python3.9/site-packages/sklearn/utils/validation.py", line 63, in inner_f
+    return f(*args, **kwargs)
+  File "/Users/atcha/Github/Projeto-Final/venv/lib/python3.9/site-packages/sklearn/utils/validation.py", line 720, in check_array
+    _assert_all_finite(array,
+  File "/Users/atcha/Github/Projeto-Final/venv/lib/python3.9/site-packages/sklearn/utils/validation.py", line 103, in _assert_all_finite
+    raise ValueError(
+ValueError: Input contains NaN, infinity or a value too large for dtype('float32').
+2021-08-26 08:48:48,396:DEBUG:utils:The function 'AndreMoraesAdaptedStrategy.process_operations' took 33606.26 milliseconds to run.
+2021-08-26 08:48:55,444:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-26 08:48:55,977:INFO:__main__:
+Program started.
+2021-08-26 08:48:55,986:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-26 08:48:55,986:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-08-26 08:48:55,987:DEBUG:config_reader:Config file found.
+2021-08-26 08:48:56,005:INFO:config_reader:Config file successfully read.
+2021-08-26 08:48:56,005:INFO:config_reader:Total strategies: 2
+2021-08-26 08:48:56,005:INFO:config_reader:Total tickers: 6
+2021-08-26 08:48:56,005:INFO:config_reader:Oldest date: 01/07/2018
+2021-08-26 08:48:56,006:INFO:config_reader:Most recent date: 31/01/2020
+2021-08-26 08:48:56,006:INFO:config_reader:Strategies found:
+2021-08-26 08:48:56,006:INFO:config_reader:  Name: 'Andre Moraes Adapted', Capital: 100000, Risk-Capital Coefficient: 0.005, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'AZUL4', 'BTOW3', 'B3SA3', 'BIDI11', 'BBSE3']
+2021-08-26 08:48:56,006:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.005, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'AZUL4', 'BTOW3', 'B3SA3', 'BIDI11', 'BBSE3']
+2021-08-26 08:48:56,006:DEBUG:utils:The function 'ConfigReader.__init__' took 28.28 milliseconds to run.
+2021-08-26 08:48:56,931:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-26 08:48:56,940:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-26 08:48:56,949:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-26 09:06:49,534:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-26 09:06:50,362:INFO:__main__:
+Program started.
+2021-08-26 09:06:50,370:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-26 09:06:50,370:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
+2021-08-26 09:06:50,371:DEBUG:config_reader:Config file found.
+2021-08-26 09:06:50,397:INFO:config_reader:Config file successfully read.
+2021-08-26 09:06:50,398:INFO:config_reader:Total strategies: 2
+2021-08-26 09:06:50,398:INFO:config_reader:Total tickers: 6
+2021-08-26 09:06:50,398:INFO:config_reader:Oldest date: 01/07/2018
+2021-08-26 09:06:50,398:INFO:config_reader:Most recent date: 31/01/2020
+2021-08-26 09:06:50,398:INFO:config_reader:Strategies found:
+2021-08-26 09:06:50,398:INFO:config_reader:  Name: 'Andre Moraes Adapted', Capital: 100000, Risk-Capital Coefficient: 0.005, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'AZUL4', 'BTOW3', 'B3SA3', 'BIDI11', 'BBSE3']
+2021-08-26 09:06:50,398:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.005, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'AZUL4', 'BTOW3', 'B3SA3', 'BIDI11', 'BBSE3']
+2021-08-26 09:06:50,399:DEBUG:utils:The function 'ConfigReader.__init__' took 36.64 milliseconds to run.
+2021-08-26 09:06:51,652:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-26 09:06:51,661:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-26 09:06:51,676:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-26 09:07:27,679:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-07-19').
+2021-08-26 09:07:27,766:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-07-22').
+2021-08-26 09:07:27,854:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-07-23').
+2021-08-26 09:07:27,946:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-07-24').
+2021-08-26 09:07:28,036:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-07-25').
+2021-08-26 09:07:28,128:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-07-26').
+2021-08-26 09:07:28,217:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-07-29').
+2021-08-26 09:07:28,307:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-07-30').
+2021-08-26 09:07:28,401:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-07-31').
+2021-08-26 09:07:28,492:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-01').
+2021-08-26 09:07:28,582:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-02').
+2021-08-26 09:07:28,673:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-05').
+2021-08-26 09:07:28,764:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-06').
+2021-08-26 09:07:28,863:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-07').
+2021-08-26 09:07:28,957:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-08').
+2021-08-26 09:07:29,046:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-09').
+2021-08-26 09:07:29,150:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-12').
+2021-08-26 09:07:29,239:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-13').
+2021-08-26 09:07:29,329:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-14').
+2021-08-26 09:07:29,423:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-15').
+2021-08-26 09:07:29,514:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-16').
+2021-08-26 09:07:29,602:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-19').
+2021-08-26 09:07:29,692:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-20').
+2021-08-26 09:07:29,781:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-21').
+2021-08-26 09:07:29,869:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-22').
+2021-08-26 09:07:29,963:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-23').
+2021-08-26 09:07:30,052:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-26').
+2021-08-26 09:07:30,143:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-27').
+2021-08-26 09:07:30,231:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-28').
+2021-08-26 09:07:30,321:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-29').
+2021-08-26 09:07:30,415:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-30').
+2021-08-26 09:07:30,518:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-02').
+2021-08-26 09:07:30,614:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-03').
+2021-08-26 09:07:30,702:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-04').
+2021-08-26 09:07:30,792:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-05').
+2021-08-26 09:07:30,884:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-06').
+2021-08-26 09:07:30,991:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-09').
+2021-08-26 09:07:31,080:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-10').
+2021-08-26 09:07:31,170:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-11').
+2021-08-26 09:07:31,258:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-12').
+2021-08-26 09:07:31,347:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-13').
+2021-08-26 09:07:31,442:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-16').
+2021-08-26 09:07:31,531:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-17').
+2021-08-26 09:07:31,630:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-18').
+2021-08-26 09:07:31,719:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-19').
+2021-08-26 09:07:31,808:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-20').
+2021-08-26 09:07:31,900:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-23').
+2021-08-26 09:07:31,990:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-24').
+2021-08-26 09:07:32,079:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-25').
+2021-08-26 09:07:32,167:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-26').
+2021-08-26 09:07:32,255:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-27').
+2021-08-26 09:07:32,345:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-30').
+2021-08-26 09:07:32,441:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-01').
+2021-08-26 09:07:32,530:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-02').
+2021-08-26 09:07:32,619:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-03').
+2021-08-26 09:07:32,707:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-04').
+2021-08-26 09:07:32,796:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-07').
+2021-08-26 09:07:32,905:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-08').
+2021-08-26 09:07:32,993:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-09').
+2021-08-26 09:07:33,083:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-10').
+2021-08-26 09:07:33,173:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-11').
+2021-08-26 09:07:33,262:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-14').
+2021-08-26 09:07:33,351:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-15').
+2021-08-26 09:07:33,446:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-16').
+2021-08-26 09:07:33,536:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-17').
+2021-08-26 09:07:33,624:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-18').
+2021-08-26 09:07:33,712:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-21').
+2021-08-26 09:07:33,803:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-22').
+2021-08-26 09:07:33,894:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-23').
+2021-08-26 09:07:33,985:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-24').
+2021-08-26 09:07:34,073:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-25').
+2021-08-26 09:07:34,163:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-28').
+2021-08-26 09:07:34,251:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-29').
+2021-08-26 09:07:34,351:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-30').
+2021-08-26 09:07:34,445:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-31').
+2021-08-26 09:07:34,535:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-01').
+2021-08-26 09:07:34,622:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-04').
+2021-08-26 09:07:34,709:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-05').
+2021-08-26 09:07:34,814:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-06').
+2021-08-26 09:07:34,906:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-07').
+2021-08-26 09:07:34,995:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-08').
+2021-08-26 09:07:35,083:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-11').
+2021-08-26 09:07:35,172:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-12').
+2021-08-26 09:07:35,260:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-13').
+2021-08-26 09:07:35,351:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-14').
+2021-08-26 09:07:35,445:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-18').
+2021-08-26 09:07:35,541:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-19').
+2021-08-26 09:07:35,630:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-21').
+2021-08-26 09:07:35,718:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-22').
+2021-08-26 09:07:35,807:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-25').
+2021-08-26 09:07:35,901:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-26').
+2021-08-26 09:07:35,990:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-27').
+2021-08-26 09:07:36,080:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-28').
+2021-08-26 09:07:36,169:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-29').
+2021-08-26 09:07:36,258:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-02').
+2021-08-26 09:07:36,350:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-03').
+2021-08-26 09:07:36,446:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-04').
+2021-08-26 09:07:36,557:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-05').
+2021-08-26 09:07:36,648:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-06').
+2021-08-26 09:07:36,739:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-09').
+2021-08-26 09:07:36,828:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-10').
+2021-08-26 09:07:36,921:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-11').
+2021-08-26 09:07:37,011:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-12').
+2021-08-26 09:07:37,110:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-13').
+2021-08-26 09:07:37,200:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-16').
+2021-08-26 09:07:37,288:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-17').
+2021-08-26 09:07:37,380:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-18').
+2021-08-26 09:07:37,472:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-19').
+2021-08-26 09:07:37,561:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-20').
+2021-08-26 09:07:37,650:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-23').
+2021-08-26 09:07:37,738:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-26').
+2021-08-26 09:07:37,828:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-27').
+2021-08-26 09:07:37,921:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-30').
+2021-08-26 09:07:38,011:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-02').
+2021-08-26 09:07:38,115:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-03').
+2021-08-26 09:07:38,205:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-06').
+2021-08-26 09:07:38,295:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-07').
+2021-08-26 09:07:38,387:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-08').
+2021-08-26 09:07:38,479:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-09').
+2021-08-26 09:07:38,570:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-10').
+2021-08-26 09:07:38,659:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-13').
+2021-08-26 09:07:38,747:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-14').
+2021-08-26 09:07:38,836:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-15').
+2021-08-26 09:07:38,930:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-16').
+2021-08-26 09:07:39,018:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-17').
+2021-08-26 09:07:39,106:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-20').
+2021-08-26 09:07:39,196:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-21').
+2021-08-26 09:07:39,287:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-22').
+2021-08-26 09:07:39,381:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-23').
+2021-08-26 09:07:39,476:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-24').
+2021-08-26 09:07:39,566:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-27').
+2021-08-26 09:07:39,656:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-28').
+2021-08-26 09:07:39,744:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-29').
+2021-08-26 09:07:39,840:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-30').
+2021-08-26 09:07:39,952:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-31').
+2021-08-26 09:07:39,968:DEBUG:utils:The function 'AndreMoraesAdaptedStrategy.process_operations' took 48306.32 milliseconds to run.
+2021-08-26 09:07:40,045:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-26 09:07:47,674:DEBUG:utils:The function 'AndreMoraesAdaptedStrategy.calculate_statistics' took 7705.14 milliseconds to run.
+2021-08-26 09:07:47,860:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-26 09:07:47,869:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-26 09:07:47,880:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-26 09:08:10,079:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-07-19').
+2021-08-26 09:08:10,161:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-07-22').
+2021-08-26 09:08:10,245:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-07-23').
+2021-08-26 09:08:10,328:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-07-24').
+2021-08-26 09:08:10,417:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-07-25').
+2021-08-26 09:08:10,508:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-07-26').
+2021-08-26 09:08:10,592:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-07-29').
+2021-08-26 09:08:10,675:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-07-30').
+2021-08-26 09:08:10,760:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-07-31').
+2021-08-26 09:08:10,845:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-01').
+2021-08-26 09:08:10,934:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-02').
+2021-08-26 09:08:11,017:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-05').
+2021-08-26 09:08:11,101:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-06').
+2021-08-26 09:08:11,196:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-07').
+2021-08-26 09:08:11,281:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-08').
+2021-08-26 09:08:11,366:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-09').
+2021-08-26 09:08:11,477:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-12').
+2021-08-26 09:08:11,563:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-13').
+2021-08-26 09:08:11,647:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-14').
+2021-08-26 09:08:11,731:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-15').
+2021-08-26 09:08:11,815:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-16').
+2021-08-26 09:08:11,906:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-19').
+2021-08-26 09:08:11,992:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-20').
+2021-08-26 09:08:12,077:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-21').
+2021-08-26 09:08:12,162:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-22').
+2021-08-26 09:08:12,248:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-23').
+2021-08-26 09:08:12,333:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-26').
+2021-08-26 09:08:12,420:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-27').
+2021-08-26 09:08:12,515:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-28').
+2021-08-26 09:08:12,599:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-29').
+2021-08-26 09:08:12,683:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-08-30').
+2021-08-26 09:08:12,766:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-02').
+2021-08-26 09:08:12,850:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-03').
+2021-08-26 09:08:12,940:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-04').
+2021-08-26 09:08:13,023:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-05').
+2021-08-26 09:08:13,108:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-06').
+2021-08-26 09:08:13,208:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-09').
+2021-08-26 09:08:13,293:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-10').
+2021-08-26 09:08:13,387:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-11').
+2021-08-26 09:08:13,473:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-12').
+2021-08-26 09:08:13,565:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-13').
+2021-08-26 09:08:13,654:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-16').
+2021-08-26 09:08:13,738:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-17').
+2021-08-26 09:08:13,834:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-18').
+2021-08-26 09:08:13,922:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-19').
+2021-08-26 09:08:14,007:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-20').
+2021-08-26 09:08:14,090:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-23').
+2021-08-26 09:08:14,174:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-24').
+2021-08-26 09:08:14,258:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-25').
+2021-08-26 09:08:14,343:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-26').
+2021-08-26 09:08:14,431:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-27').
+2021-08-26 09:08:14,516:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-09-30').
+2021-08-26 09:08:14,600:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-01').
+2021-08-26 09:08:14,685:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-02').
+2021-08-26 09:08:14,768:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-03').
+2021-08-26 09:08:14,852:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-04').
+2021-08-26 09:08:14,940:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-07').
+2021-08-26 09:08:15,042:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-08').
+2021-08-26 09:08:15,125:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-09').
+2021-08-26 09:08:15,210:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-10').
+2021-08-26 09:08:15,294:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-11').
+2021-08-26 09:08:15,380:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-14').
+2021-08-26 09:08:15,470:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-15').
+2021-08-26 09:08:15,556:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-16').
+2021-08-26 09:08:15,641:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-17').
+2021-08-26 09:08:15,724:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-18').
+2021-08-26 09:08:15,808:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-21').
+2021-08-26 09:08:15,896:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-22').
+2021-08-26 09:08:15,984:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-23').
+2021-08-26 09:08:16,066:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-24').
+2021-08-26 09:08:16,150:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-25').
+2021-08-26 09:08:16,233:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-28').
+2021-08-26 09:08:16,320:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-29').
+2021-08-26 09:08:16,421:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-30').
+2021-08-26 09:08:16,506:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-10-31').
+2021-08-26 09:08:16,591:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-01').
+2021-08-26 09:08:16,675:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-04').
+2021-08-26 09:08:16,759:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-05').
+2021-08-26 09:08:16,857:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-06').
+2021-08-26 09:08:16,946:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-07').
+2021-08-26 09:08:17,030:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-08').
+2021-08-26 09:08:17,113:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-11').
+2021-08-26 09:08:17,196:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-12').
+2021-08-26 09:08:17,281:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-13').
+2021-08-26 09:08:17,365:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-14').
+2021-08-26 09:08:17,454:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-18').
+2021-08-26 09:08:17,541:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-19').
+2021-08-26 09:08:17,625:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-21').
+2021-08-26 09:08:17,708:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-22').
+2021-08-26 09:08:17,792:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-25').
+2021-08-26 09:08:17,878:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-26').
+2021-08-26 09:08:17,964:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-27').
+2021-08-26 09:08:18,048:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-28').
+2021-08-26 09:08:18,132:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-11-29').
+2021-08-26 09:08:18,215:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-02').
+2021-08-26 09:08:18,300:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-03').
+2021-08-26 09:08:18,387:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-04').
+2021-08-26 09:08:18,489:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-05').
+2021-08-26 09:08:18,572:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-06').
+2021-08-26 09:08:18,658:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-09').
+2021-08-26 09:08:18,741:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-10').
+2021-08-26 09:08:18,825:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-11').
+2021-08-26 09:08:18,913:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-12').
+2021-08-26 09:08:19,010:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-13').
+2021-08-26 09:08:19,093:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-16').
+2021-08-26 09:08:19,177:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-17').
+2021-08-26 09:08:19,260:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-18').
+2021-08-26 09:08:19,344:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-19').
+2021-08-26 09:08:19,434:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-20').
+2021-08-26 09:08:19,518:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-23').
+2021-08-26 09:08:19,604:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-26').
+2021-08-26 09:08:19,690:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-27').
+2021-08-26 09:08:19,776:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2019-12-30').
+2021-08-26 09:08:19,859:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-02').
+2021-08-26 09:08:19,961:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-03').
+2021-08-26 09:08:20,046:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-06').
+2021-08-26 09:08:20,131:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-07').
+2021-08-26 09:08:20,214:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-08').
+2021-08-26 09:08:20,298:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-09').
+2021-08-26 09:08:20,387:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-10').
+2021-08-26 09:08:20,476:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-13').
+2021-08-26 09:08:20,562:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-14').
+2021-08-26 09:08:20,646:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-15').
+2021-08-26 09:08:20,730:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-16').
+2021-08-26 09:08:20,814:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-17').
+2021-08-26 09:08:20,902:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-20').
+2021-08-26 09:08:20,988:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-21').
+2021-08-26 09:08:21,072:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-22').
+2021-08-26 09:08:21,156:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-23').
+2021-08-26 09:08:21,239:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-24').
+2021-08-26 09:08:21,323:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-27').
+2021-08-26 09:08:21,410:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-28').
+2021-08-26 09:08:21,496:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-29').
+2021-08-26 09:08:21,588:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-30').
+2021-08-26 09:08:21,690:INFO:strategy:Could not get last week for ticker 'BIDI11' (week before day '2020-01-31').
+2021-08-26 09:08:21,690:DEBUG:utils:The function 'AndreMoraesStrategy.process_operations' took 33820.70 milliseconds to run.
+2021-08-26 09:08:21,765:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-26 09:08:30,079:DEBUG:utils:The function 'AndreMoraesStrategy.calculate_statistics' took 8388.95 milliseconds to run.
+2021-08-26 09:08:30,282:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-26 09:08:30,453:INFO:strategy_analyzer:Dash is running on http://127.0.0.1:8050/
+
+2021-08-26 09:09:34,974:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-26 09:09:35,184:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-08-26 09:10:40,128:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-26 09:10:40,250:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+
+2021-08-28 13:45:11,325:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-28 13:45:11,326:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_training_set.json'.
+2021-08-28 13:45:11,327:DEBUG:config_reader:Config file found.
+2021-08-28 13:45:11,389:INFO:config_reader:Config file successfully read.
+2021-08-28 13:45:11,389:INFO:config_reader:Total strategies: 1
+2021-08-28 13:45:11,389:INFO:config_reader:Total tickers: 84
+2021-08-28 13:45:11,390:INFO:config_reader:Oldest date: 01/01/2013
+2021-08-28 13:45:11,390:INFO:config_reader:Most recent date: 30/06/2018
+2021-08-28 13:45:11,390:INFO:config_reader:Strategies found:
+2021-08-28 13:45:11,390:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.05, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'ASAI3', 'AZUL4', 'BTOW3', 'B3SA3', 'BIDI11', 'BBSE3', 'BRML3', 'BBDC3', 'BBDC4', 'BRAP4', 'BBAS3', 'BRKM5', 'BRFS3', 'BPAC11', 'CRFB3', 'CCRO3', 'CMIG4', 'HGTX3', 'CIEL3', 'COGN3', 'CPLE6', 'CSAN3', 'CPFE3', 'CVCB3', 'CYRE3', 'ECOR3', 'ELET3', 'ELET6', 'EMBR3', 'ENBR3', 'ENGI11', 'ENEV3', 'EGIE3', 'EQTL3', 'EZTC3', 'FLRY3', 'GGBR4', 'GOAU4', 'GOLL4', 'NTCO3', 'HAPV3', 'HYPE3', 'IGTA3', 'GNDI3', 'IRBR3', 'ITSA4', 'ITUB4', 'JBSS3', 'JHSF3', 'KLBN11', 'RENT3', 'LCAM3', 'LWSA3', 'LAME4', 'LREN3', 'MGLU3', 'MRFG3', 'BEEF3', 'MRVE3', 'MULT3', 'PCAR3', 'PETR3', 'PETR4', 'BRDT3', 'PRIO3', 'QUAL3', 'RADL3', 'RAIL3', 'SBSP3', 'SANB11', 'CSNA3', 'SULA11', 'SUZB3', 'TAEE11', 'VIVT3', 'TIMS3', 'TOTS3', 'UGPA3', 'USIM5', 'VALE3', 'VVAR3', 'WEGE3', 'YDUQ3']
+2021-08-28 13:45:11,390:DEBUG:utils:The function 'ConfigReader.__init__' took 321.49 milliseconds to run.
+2021-08-28 13:45:11,408:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-28 13:45:11,408:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_test_set.json'.
+2021-08-28 13:45:11,410:DEBUG:config_reader:Config file found.
+2021-08-28 13:45:11,437:INFO:config_reader:Config file successfully read.
+2021-08-28 13:45:11,437:INFO:config_reader:Total strategies: 2
+2021-08-28 13:45:11,438:INFO:config_reader:Total tickers: 84
+2021-08-28 13:45:11,438:INFO:config_reader:Oldest date: 01/07/2018
+2021-08-28 13:45:11,438:INFO:config_reader:Most recent date: 31/01/2020
+2021-08-28 13:45:11,438:INFO:config_reader:Strategies found:
+2021-08-28 13:45:11,438:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.001, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'ASAI3', 'AZUL4', 'BTOW3', 'B3SA3', 'BIDI11', 'BBSE3', 'BRML3', 'BBDC3', 'BBDC4', 'BRAP4', 'BBAS3', 'BRKM5', 'BRFS3', 'BPAC11', 'CRFB3', 'CCRO3', 'CMIG4', 'HGTX3', 'CIEL3', 'COGN3', 'CPLE6', 'CSAN3', 'CPFE3', 'CVCB3', 'CYRE3', 'ECOR3', 'ELET3', 'ELET6', 'EMBR3', 'ENBR3', 'ENGI11', 'ENEV3', 'EGIE3', 'EQTL3', 'EZTC3', 'FLRY3', 'GGBR4', 'GOAU4', 'GOLL4', 'NTCO3', 'HAPV3', 'HYPE3', 'IGTA3', 'GNDI3', 'IRBR3', 'ITSA4', 'ITUB4', 'JBSS3', 'JHSF3', 'KLBN11', 'RENT3', 'LCAM3', 'LWSA3', 'LAME4', 'LREN3', 'MGLU3', 'MRFG3', 'BEEF3', 'MRVE3', 'MULT3', 'PCAR3', 'PETR3', 'PETR4', 'BRDT3', 'PRIO3', 'QUAL3', 'RADL3', 'RAIL3', 'SBSP3', 'SANB11', 'CSNA3', 'SULA11', 'SUZB3', 'TAEE11', 'VIVT3', 'TIMS3', 'TOTS3', 'UGPA3', 'USIM5', 'VALE3', 'VVAR3', 'WEGE3', 'YDUQ3']
+2021-08-28 13:45:11,439:INFO:config_reader:  Name: 'Andre Moraes Adapted', Capital: 100000, Risk-Capital Coefficient: 0.001, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'ASAI3', 'AZUL4', 'BTOW3', 'B3SA3', 'BIDI11', 'BBSE3', 'BRML3', 'BBDC3', 'BBDC4', 'BRAP4', 'BBAS3', 'BRKM5', 'BRFS3', 'BPAC11', 'CRFB3', 'CCRO3', 'CMIG4', 'HGTX3', 'CIEL3', 'COGN3', 'CPLE6', 'CSAN3', 'CPFE3', 'CVCB3', 'CYRE3', 'ECOR3', 'ELET3', 'ELET6', 'EMBR3', 'ENBR3', 'ENGI11', 'ENEV3', 'EGIE3', 'EQTL3', 'EZTC3', 'FLRY3', 'GGBR4', 'GOAU4', 'GOLL4', 'NTCO3', 'HAPV3', 'HYPE3', 'IGTA3', 'GNDI3', 'IRBR3', 'ITSA4', 'ITUB4', 'JBSS3', 'JHSF3', 'KLBN11', 'RENT3', 'LCAM3', 'LWSA3', 'LAME4', 'LREN3', 'MGLU3', 'MRFG3', 'BEEF3', 'MRVE3', 'MULT3', 'PCAR3', 'PETR3', 'PETR4', 'BRDT3', 'PRIO3', 'QUAL3', 'RADL3', 'RAIL3', 'SBSP3', 'SANB11', 'CSNA3', 'SULA11', 'SUZB3', 'TAEE11', 'VIVT3', 'TIMS3', 'TOTS3', 'UGPA3', 'USIM5', 'VALE3', 'VVAR3', 'WEGE3', 'YDUQ3']
+2021-08-28 13:45:11,439:DEBUG:utils:The function 'ConfigReader.__init__' took 48.17 milliseconds to run.
+2021-08-28 13:45:49,522:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-28 13:46:05,205:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-28 13:46:05,205:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_training_set.json'.
+2021-08-28 13:46:05,206:DEBUG:config_reader:Config file found.
+2021-08-28 13:46:05,214:INFO:config_reader:Config file successfully read.
+2021-08-28 13:46:05,214:INFO:config_reader:Total strategies: 1
+2021-08-28 13:46:05,214:INFO:config_reader:Total tickers: 84
+2021-08-28 13:46:05,214:INFO:config_reader:Oldest date: 01/01/2013
+2021-08-28 13:46:05,214:INFO:config_reader:Most recent date: 30/06/2018
+2021-08-28 13:46:05,214:INFO:config_reader:Strategies found:
+2021-08-28 13:46:05,215:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.05, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'ASAI3', 'AZUL4', 'BTOW3', 'B3SA3', 'BIDI11', 'BBSE3', 'BRML3', 'BBDC3', 'BBDC4', 'BRAP4', 'BBAS3', 'BRKM5', 'BRFS3', 'BPAC11', 'CRFB3', 'CCRO3', 'CMIG4', 'HGTX3', 'CIEL3', 'COGN3', 'CPLE6', 'CSAN3', 'CPFE3', 'CVCB3', 'CYRE3', 'ECOR3', 'ELET3', 'ELET6', 'EMBR3', 'ENBR3', 'ENGI11', 'ENEV3', 'EGIE3', 'EQTL3', 'EZTC3', 'FLRY3', 'GGBR4', 'GOAU4', 'GOLL4', 'NTCO3', 'HAPV3', 'HYPE3', 'IGTA3', 'GNDI3', 'IRBR3', 'ITSA4', 'ITUB4', 'JBSS3', 'JHSF3', 'KLBN11', 'RENT3', 'LCAM3', 'LWSA3', 'LAME4', 'LREN3', 'MGLU3', 'MRFG3', 'BEEF3', 'MRVE3', 'MULT3', 'PCAR3', 'PETR3', 'PETR4', 'BRDT3', 'PRIO3', 'QUAL3', 'RADL3', 'RAIL3', 'SBSP3', 'SANB11', 'CSNA3', 'SULA11', 'SUZB3', 'TAEE11', 'VIVT3', 'TIMS3', 'TOTS3', 'UGPA3', 'USIM5', 'VALE3', 'VVAR3', 'WEGE3', 'YDUQ3']
+2021-08-28 13:46:05,215:DEBUG:utils:The function 'ConfigReader.__init__' took 130.74 milliseconds to run.
+2021-08-28 13:46:05,225:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-28 13:46:05,225:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_test_set.json'.
+2021-08-28 13:46:05,225:DEBUG:config_reader:Config file found.
+2021-08-28 13:46:05,241:INFO:config_reader:Config file successfully read.
+2021-08-28 13:46:05,242:INFO:config_reader:Total strategies: 2
+2021-08-28 13:46:05,242:INFO:config_reader:Total tickers: 84
+2021-08-28 13:46:05,242:INFO:config_reader:Oldest date: 01/07/2018
+2021-08-28 13:46:05,242:INFO:config_reader:Most recent date: 31/01/2020
+2021-08-28 13:46:05,242:INFO:config_reader:Strategies found:
+2021-08-28 13:46:05,242:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.001, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'ASAI3', 'AZUL4', 'BTOW3', 'B3SA3', 'BIDI11', 'BBSE3', 'BRML3', 'BBDC3', 'BBDC4', 'BRAP4', 'BBAS3', 'BRKM5', 'BRFS3', 'BPAC11', 'CRFB3', 'CCRO3', 'CMIG4', 'HGTX3', 'CIEL3', 'COGN3', 'CPLE6', 'CSAN3', 'CPFE3', 'CVCB3', 'CYRE3', 'ECOR3', 'ELET3', 'ELET6', 'EMBR3', 'ENBR3', 'ENGI11', 'ENEV3', 'EGIE3', 'EQTL3', 'EZTC3', 'FLRY3', 'GGBR4', 'GOAU4', 'GOLL4', 'NTCO3', 'HAPV3', 'HYPE3', 'IGTA3', 'GNDI3', 'IRBR3', 'ITSA4', 'ITUB4', 'JBSS3', 'JHSF3', 'KLBN11', 'RENT3', 'LCAM3', 'LWSA3', 'LAME4', 'LREN3', 'MGLU3', 'MRFG3', 'BEEF3', 'MRVE3', 'MULT3', 'PCAR3', 'PETR3', 'PETR4', 'BRDT3', 'PRIO3', 'QUAL3', 'RADL3', 'RAIL3', 'SBSP3', 'SANB11', 'CSNA3', 'SULA11', 'SUZB3', 'TAEE11', 'VIVT3', 'TIMS3', 'TOTS3', 'UGPA3', 'USIM5', 'VALE3', 'VVAR3', 'WEGE3', 'YDUQ3']
+2021-08-28 13:46:05,242:INFO:config_reader:  Name: 'Andre Moraes Adapted', Capital: 100000, Risk-Capital Coefficient: 0.001, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'ASAI3', 'AZUL4', 'BTOW3', 'B3SA3', 'BIDI11', 'BBSE3', 'BRML3', 'BBDC3', 'BBDC4', 'BRAP4', 'BBAS3', 'BRKM5', 'BRFS3', 'BPAC11', 'CRFB3', 'CCRO3', 'CMIG4', 'HGTX3', 'CIEL3', 'COGN3', 'CPLE6', 'CSAN3', 'CPFE3', 'CVCB3', 'CYRE3', 'ECOR3', 'ELET3', 'ELET6', 'EMBR3', 'ENBR3', 'ENGI11', 'ENEV3', 'EGIE3', 'EQTL3', 'EZTC3', 'FLRY3', 'GGBR4', 'GOAU4', 'GOLL4', 'NTCO3', 'HAPV3', 'HYPE3', 'IGTA3', 'GNDI3', 'IRBR3', 'ITSA4', 'ITUB4', 'JBSS3', 'JHSF3', 'KLBN11', 'RENT3', 'LCAM3', 'LWSA3', 'LAME4', 'LREN3', 'MGLU3', 'MRFG3', 'BEEF3', 'MRVE3', 'MULT3', 'PCAR3', 'PETR3', 'PETR4', 'BRDT3', 'PRIO3', 'QUAL3', 'RADL3', 'RAIL3', 'SBSP3', 'SANB11', 'CSNA3', 'SULA11', 'SUZB3', 'TAEE11', 'VIVT3', 'TIMS3', 'TOTS3', 'UGPA3', 'USIM5', 'VALE3', 'VVAR3', 'WEGE3', 'YDUQ3']
+2021-08-28 13:46:05,242:DEBUG:utils:The function 'ConfigReader.__init__' took 27.38 milliseconds to run.
+2021-08-28 13:46:39,056:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-28 13:46:39,057:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_training_set.json'.
+2021-08-28 13:46:39,057:DEBUG:config_reader:Config file found.
+2021-08-28 13:46:39,070:INFO:config_reader:Config file successfully read.
+2021-08-28 13:46:39,071:INFO:config_reader:Total strategies: 1
+2021-08-28 13:46:39,071:INFO:config_reader:Total tickers: 84
+2021-08-28 13:46:39,071:INFO:config_reader:Oldest date: 01/01/2013
+2021-08-28 13:46:39,071:INFO:config_reader:Most recent date: 30/06/2018
+2021-08-28 13:46:39,071:INFO:config_reader:Strategies found:
+2021-08-28 13:46:39,071:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.05, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'ASAI3', 'AZUL4', 'BTOW3', 'B3SA3', 'BIDI11', 'BBSE3', 'BRML3', 'BBDC3', 'BBDC4', 'BRAP4', 'BBAS3', 'BRKM5', 'BRFS3', 'BPAC11', 'CRFB3', 'CCRO3', 'CMIG4', 'HGTX3', 'CIEL3', 'COGN3', 'CPLE6', 'CSAN3', 'CPFE3', 'CVCB3', 'CYRE3', 'ECOR3', 'ELET3', 'ELET6', 'EMBR3', 'ENBR3', 'ENGI11', 'ENEV3', 'EGIE3', 'EQTL3', 'EZTC3', 'FLRY3', 'GGBR4', 'GOAU4', 'GOLL4', 'NTCO3', 'HAPV3', 'HYPE3', 'IGTA3', 'GNDI3', 'IRBR3', 'ITSA4', 'ITUB4', 'JBSS3', 'JHSF3', 'KLBN11', 'RENT3', 'LCAM3', 'LWSA3', 'LAME4', 'LREN3', 'MGLU3', 'MRFG3', 'BEEF3', 'MRVE3', 'MULT3', 'PCAR3', 'PETR3', 'PETR4', 'BRDT3', 'PRIO3', 'QUAL3', 'RADL3', 'RAIL3', 'SBSP3', 'SANB11', 'CSNA3', 'SULA11', 'SUZB3', 'TAEE11', 'VIVT3', 'TIMS3', 'TOTS3', 'UGPA3', 'USIM5', 'VALE3', 'VVAR3', 'WEGE3', 'YDUQ3']
+2021-08-28 13:46:39,071:DEBUG:utils:The function 'ConfigReader.__init__' took 240.66 milliseconds to run.
+2021-08-28 13:46:39,082:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-28 13:46:39,082:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_test_set.json'.
+2021-08-28 13:46:39,083:DEBUG:config_reader:Config file found.
+2021-08-28 13:46:39,096:INFO:config_reader:Config file successfully read.
+2021-08-28 13:46:39,096:INFO:config_reader:Total strategies: 2
+2021-08-28 13:46:39,096:INFO:config_reader:Total tickers: 84
+2021-08-28 13:46:39,096:INFO:config_reader:Oldest date: 01/07/2018
+2021-08-28 13:46:39,097:INFO:config_reader:Most recent date: 31/01/2020
+2021-08-28 13:46:39,097:INFO:config_reader:Strategies found:
+2021-08-28 13:46:39,097:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.001, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'ASAI3', 'AZUL4', 'BTOW3', 'B3SA3', 'BIDI11', 'BBSE3', 'BRML3', 'BBDC3', 'BBDC4', 'BRAP4', 'BBAS3', 'BRKM5', 'BRFS3', 'BPAC11', 'CRFB3', 'CCRO3', 'CMIG4', 'HGTX3', 'CIEL3', 'COGN3', 'CPLE6', 'CSAN3', 'CPFE3', 'CVCB3', 'CYRE3', 'ECOR3', 'ELET3', 'ELET6', 'EMBR3', 'ENBR3', 'ENGI11', 'ENEV3', 'EGIE3', 'EQTL3', 'EZTC3', 'FLRY3', 'GGBR4', 'GOAU4', 'GOLL4', 'NTCO3', 'HAPV3', 'HYPE3', 'IGTA3', 'GNDI3', 'IRBR3', 'ITSA4', 'ITUB4', 'JBSS3', 'JHSF3', 'KLBN11', 'RENT3', 'LCAM3', 'LWSA3', 'LAME4', 'LREN3', 'MGLU3', 'MRFG3', 'BEEF3', 'MRVE3', 'MULT3', 'PCAR3', 'PETR3', 'PETR4', 'BRDT3', 'PRIO3', 'QUAL3', 'RADL3', 'RAIL3', 'SBSP3', 'SANB11', 'CSNA3', 'SULA11', 'SUZB3', 'TAEE11', 'VIVT3', 'TIMS3', 'TOTS3', 'UGPA3', 'USIM5', 'VALE3', 'VVAR3', 'WEGE3', 'YDUQ3']
+2021-08-28 13:46:39,097:INFO:config_reader:  Name: 'Andre Moraes Adapted', Capital: 100000, Risk-Capital Coefficient: 0.001, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'ASAI3', 'AZUL4', 'BTOW3', 'B3SA3', 'BIDI11', 'BBSE3', 'BRML3', 'BBDC3', 'BBDC4', 'BRAP4', 'BBAS3', 'BRKM5', 'BRFS3', 'BPAC11', 'CRFB3', 'CCRO3', 'CMIG4', 'HGTX3', 'CIEL3', 'COGN3', 'CPLE6', 'CSAN3', 'CPFE3', 'CVCB3', 'CYRE3', 'ECOR3', 'ELET3', 'ELET6', 'EMBR3', 'ENBR3', 'ENGI11', 'ENEV3', 'EGIE3', 'EQTL3', 'EZTC3', 'FLRY3', 'GGBR4', 'GOAU4', 'GOLL4', 'NTCO3', 'HAPV3', 'HYPE3', 'IGTA3', 'GNDI3', 'IRBR3', 'ITSA4', 'ITUB4', 'JBSS3', 'JHSF3', 'KLBN11', 'RENT3', 'LCAM3', 'LWSA3', 'LAME4', 'LREN3', 'MGLU3', 'MRFG3', 'BEEF3', 'MRVE3', 'MULT3', 'PCAR3', 'PETR3', 'PETR4', 'BRDT3', 'PRIO3', 'QUAL3', 'RADL3', 'RAIL3', 'SBSP3', 'SANB11', 'CSNA3', 'SULA11', 'SUZB3', 'TAEE11', 'VIVT3', 'TIMS3', 'TOTS3', 'UGPA3', 'USIM5', 'VALE3', 'VVAR3', 'WEGE3', 'YDUQ3']
+2021-08-28 13:46:39,097:DEBUG:utils:The function 'ConfigReader.__init__' took 25.79 milliseconds to run.
+2021-08-28 13:47:09,005:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-28 14:10:53,472:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-28 14:11:09,127:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-28 14:11:09,128:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_training_set.json'.
+2021-08-28 14:11:09,130:DEBUG:config_reader:Config file found.
+2021-08-28 14:11:09,141:INFO:config_reader:Config file successfully read.
+2021-08-28 14:11:09,141:INFO:config_reader:Total strategies: 1
+2021-08-28 14:11:09,141:INFO:config_reader:Total tickers: 84
+2021-08-28 14:11:09,141:INFO:config_reader:Oldest date: 01/01/2013
+2021-08-28 14:11:09,141:INFO:config_reader:Most recent date: 30/06/2018
+2021-08-28 14:11:09,141:INFO:config_reader:Strategies found:
+2021-08-28 14:11:09,142:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.05, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'ASAI3', 'AZUL4', 'BTOW3', 'B3SA3', 'BIDI11', 'BBSE3', 'BRML3', 'BBDC3', 'BBDC4', 'BRAP4', 'BBAS3', 'BRKM5', 'BRFS3', 'BPAC11', 'CRFB3', 'CCRO3', 'CMIG4', 'HGTX3', 'CIEL3', 'COGN3', 'CPLE6', 'CSAN3', 'CPFE3', 'CVCB3', 'CYRE3', 'ECOR3', 'ELET3', 'ELET6', 'EMBR3', 'ENBR3', 'ENGI11', 'ENEV3', 'EGIE3', 'EQTL3', 'EZTC3', 'FLRY3', 'GGBR4', 'GOAU4', 'GOLL4', 'NTCO3', 'HAPV3', 'HYPE3', 'IGTA3', 'GNDI3', 'IRBR3', 'ITSA4', 'ITUB4', 'JBSS3', 'JHSF3', 'KLBN11', 'RENT3', 'LCAM3', 'LWSA3', 'LAME4', 'LREN3', 'MGLU3', 'MRFG3', 'BEEF3', 'MRVE3', 'MULT3', 'PCAR3', 'PETR3', 'PETR4', 'BRDT3', 'PRIO3', 'QUAL3', 'RADL3', 'RAIL3', 'SBSP3', 'SANB11', 'CSNA3', 'SULA11', 'SUZB3', 'TAEE11', 'VIVT3', 'TIMS3', 'TOTS3', 'UGPA3', 'USIM5', 'VALE3', 'VVAR3', 'WEGE3', 'YDUQ3']
+2021-08-28 14:11:09,142:DEBUG:utils:The function 'ConfigReader.__init__' took 166.67 milliseconds to run.
+2021-08-28 14:11:09,150:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-28 14:11:09,150:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_test_set.json'.
+2021-08-28 14:11:09,151:DEBUG:config_reader:Config file found.
+2021-08-28 14:11:09,162:INFO:config_reader:Config file successfully read.
+2021-08-28 14:11:09,163:INFO:config_reader:Total strategies: 2
+2021-08-28 14:11:09,163:INFO:config_reader:Total tickers: 84
+2021-08-28 14:11:09,163:INFO:config_reader:Oldest date: 01/07/2018
+2021-08-28 14:11:09,163:INFO:config_reader:Most recent date: 31/01/2020
+2021-08-28 14:11:09,163:INFO:config_reader:Strategies found:
+2021-08-28 14:11:09,163:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.001, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'ASAI3', 'AZUL4', 'BTOW3', 'B3SA3', 'BIDI11', 'BBSE3', 'BRML3', 'BBDC3', 'BBDC4', 'BRAP4', 'BBAS3', 'BRKM5', 'BRFS3', 'BPAC11', 'CRFB3', 'CCRO3', 'CMIG4', 'HGTX3', 'CIEL3', 'COGN3', 'CPLE6', 'CSAN3', 'CPFE3', 'CVCB3', 'CYRE3', 'ECOR3', 'ELET3', 'ELET6', 'EMBR3', 'ENBR3', 'ENGI11', 'ENEV3', 'EGIE3', 'EQTL3', 'EZTC3', 'FLRY3', 'GGBR4', 'GOAU4', 'GOLL4', 'NTCO3', 'HAPV3', 'HYPE3', 'IGTA3', 'GNDI3', 'IRBR3', 'ITSA4', 'ITUB4', 'JBSS3', 'JHSF3', 'KLBN11', 'RENT3', 'LCAM3', 'LWSA3', 'LAME4', 'LREN3', 'MGLU3', 'MRFG3', 'BEEF3', 'MRVE3', 'MULT3', 'PCAR3', 'PETR3', 'PETR4', 'BRDT3', 'PRIO3', 'QUAL3', 'RADL3', 'RAIL3', 'SBSP3', 'SANB11', 'CSNA3', 'SULA11', 'SUZB3', 'TAEE11', 'VIVT3', 'TIMS3', 'TOTS3', 'UGPA3', 'USIM5', 'VALE3', 'VVAR3', 'WEGE3', 'YDUQ3']
+2021-08-28 14:11:09,163:INFO:config_reader:  Name: 'Andre Moraes Adapted', Capital: 100000, Risk-Capital Coefficient: 0.001, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'ASAI3', 'AZUL4', 'BTOW3', 'B3SA3', 'BIDI11', 'BBSE3', 'BRML3', 'BBDC3', 'BBDC4', 'BRAP4', 'BBAS3', 'BRKM5', 'BRFS3', 'BPAC11', 'CRFB3', 'CCRO3', 'CMIG4', 'HGTX3', 'CIEL3', 'COGN3', 'CPLE6', 'CSAN3', 'CPFE3', 'CVCB3', 'CYRE3', 'ECOR3', 'ELET3', 'ELET6', 'EMBR3', 'ENBR3', 'ENGI11', 'ENEV3', 'EGIE3', 'EQTL3', 'EZTC3', 'FLRY3', 'GGBR4', 'GOAU4', 'GOLL4', 'NTCO3', 'HAPV3', 'HYPE3', 'IGTA3', 'GNDI3', 'IRBR3', 'ITSA4', 'ITUB4', 'JBSS3', 'JHSF3', 'KLBN11', 'RENT3', 'LCAM3', 'LWSA3', 'LAME4', 'LREN3', 'MGLU3', 'MRFG3', 'BEEF3', 'MRVE3', 'MULT3', 'PCAR3', 'PETR3', 'PETR4', 'BRDT3', 'PRIO3', 'QUAL3', 'RADL3', 'RAIL3', 'SBSP3', 'SANB11', 'CSNA3', 'SULA11', 'SUZB3', 'TAEE11', 'VIVT3', 'TIMS3', 'TOTS3', 'UGPA3', 'USIM5', 'VALE3', 'VVAR3', 'WEGE3', 'YDUQ3']
+2021-08-28 14:11:09,163:DEBUG:utils:The function 'ConfigReader.__init__' took 21.38 milliseconds to run.
+2021-08-28 14:11:20,148:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-28 14:14:45,279:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-28 14:14:45,280:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_training_set.json'.
+2021-08-28 14:14:45,281:DEBUG:config_reader:Config file found.
+2021-08-28 14:14:45,290:INFO:config_reader:Config file successfully read.
+2021-08-28 14:14:45,290:INFO:config_reader:Total strategies: 1
+2021-08-28 14:14:45,290:INFO:config_reader:Total tickers: 84
+2021-08-28 14:14:45,290:INFO:config_reader:Oldest date: 01/01/2013
+2021-08-28 14:14:45,291:INFO:config_reader:Most recent date: 30/06/2018
+2021-08-28 14:14:45,291:INFO:config_reader:Strategies found:
+2021-08-28 14:14:45,291:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.05, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'ASAI3', 'AZUL4', 'BTOW3', 'B3SA3', 'BIDI11', 'BBSE3', 'BRML3', 'BBDC3', 'BBDC4', 'BRAP4', 'BBAS3', 'BRKM5', 'BRFS3', 'BPAC11', 'CRFB3', 'CCRO3', 'CMIG4', 'HGTX3', 'CIEL3', 'COGN3', 'CPLE6', 'CSAN3', 'CPFE3', 'CVCB3', 'CYRE3', 'ECOR3', 'ELET3', 'ELET6', 'EMBR3', 'ENBR3', 'ENGI11', 'ENEV3', 'EGIE3', 'EQTL3', 'EZTC3', 'FLRY3', 'GGBR4', 'GOAU4', 'GOLL4', 'NTCO3', 'HAPV3', 'HYPE3', 'IGTA3', 'GNDI3', 'IRBR3', 'ITSA4', 'ITUB4', 'JBSS3', 'JHSF3', 'KLBN11', 'RENT3', 'LCAM3', 'LWSA3', 'LAME4', 'LREN3', 'MGLU3', 'MRFG3', 'BEEF3', 'MRVE3', 'MULT3', 'PCAR3', 'PETR3', 'PETR4', 'BRDT3', 'PRIO3', 'QUAL3', 'RADL3', 'RAIL3', 'SBSP3', 'SANB11', 'CSNA3', 'SULA11', 'SUZB3', 'TAEE11', 'VIVT3', 'TIMS3', 'TOTS3', 'UGPA3', 'USIM5', 'VALE3', 'VVAR3', 'WEGE3', 'YDUQ3']
+2021-08-28 14:14:45,291:DEBUG:utils:The function 'ConfigReader.__init__' took 116.52 milliseconds to run.
+2021-08-28 14:14:45,299:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-28 14:14:45,299:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_test_set.json'.
+2021-08-28 14:14:45,300:DEBUG:config_reader:Config file found.
+2021-08-28 14:14:45,310:INFO:config_reader:Config file successfully read.
+2021-08-28 14:14:45,310:INFO:config_reader:Total strategies: 2
+2021-08-28 14:14:45,310:INFO:config_reader:Total tickers: 84
+2021-08-28 14:14:45,310:INFO:config_reader:Oldest date: 01/07/2018
+2021-08-28 14:14:45,311:INFO:config_reader:Most recent date: 31/01/2020
+2021-08-28 14:14:45,311:INFO:config_reader:Strategies found:
+2021-08-28 14:14:45,311:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.001, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'ASAI3', 'AZUL4', 'BTOW3', 'B3SA3', 'BIDI11', 'BBSE3', 'BRML3', 'BBDC3', 'BBDC4', 'BRAP4', 'BBAS3', 'BRKM5', 'BRFS3', 'BPAC11', 'CRFB3', 'CCRO3', 'CMIG4', 'HGTX3', 'CIEL3', 'COGN3', 'CPLE6', 'CSAN3', 'CPFE3', 'CVCB3', 'CYRE3', 'ECOR3', 'ELET3', 'ELET6', 'EMBR3', 'ENBR3', 'ENGI11', 'ENEV3', 'EGIE3', 'EQTL3', 'EZTC3', 'FLRY3', 'GGBR4', 'GOAU4', 'GOLL4', 'NTCO3', 'HAPV3', 'HYPE3', 'IGTA3', 'GNDI3', 'IRBR3', 'ITSA4', 'ITUB4', 'JBSS3', 'JHSF3', 'KLBN11', 'RENT3', 'LCAM3', 'LWSA3', 'LAME4', 'LREN3', 'MGLU3', 'MRFG3', 'BEEF3', 'MRVE3', 'MULT3', 'PCAR3', 'PETR3', 'PETR4', 'BRDT3', 'PRIO3', 'QUAL3', 'RADL3', 'RAIL3', 'SBSP3', 'SANB11', 'CSNA3', 'SULA11', 'SUZB3', 'TAEE11', 'VIVT3', 'TIMS3', 'TOTS3', 'UGPA3', 'USIM5', 'VALE3', 'VVAR3', 'WEGE3', 'YDUQ3']
+2021-08-28 14:14:45,311:INFO:config_reader:  Name: 'Andre Moraes Adapted', Capital: 100000, Risk-Capital Coefficient: 0.001, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'ASAI3', 'AZUL4', 'BTOW3', 'B3SA3', 'BIDI11', 'BBSE3', 'BRML3', 'BBDC3', 'BBDC4', 'BRAP4', 'BBAS3', 'BRKM5', 'BRFS3', 'BPAC11', 'CRFB3', 'CCRO3', 'CMIG4', 'HGTX3', 'CIEL3', 'COGN3', 'CPLE6', 'CSAN3', 'CPFE3', 'CVCB3', 'CYRE3', 'ECOR3', 'ELET3', 'ELET6', 'EMBR3', 'ENBR3', 'ENGI11', 'ENEV3', 'EGIE3', 'EQTL3', 'EZTC3', 'FLRY3', 'GGBR4', 'GOAU4', 'GOLL4', 'NTCO3', 'HAPV3', 'HYPE3', 'IGTA3', 'GNDI3', 'IRBR3', 'ITSA4', 'ITUB4', 'JBSS3', 'JHSF3', 'KLBN11', 'RENT3', 'LCAM3', 'LWSA3', 'LAME4', 'LREN3', 'MGLU3', 'MRFG3', 'BEEF3', 'MRVE3', 'MULT3', 'PCAR3', 'PETR3', 'PETR4', 'BRDT3', 'PRIO3', 'QUAL3', 'RADL3', 'RAIL3', 'SBSP3', 'SANB11', 'CSNA3', 'SULA11', 'SUZB3', 'TAEE11', 'VIVT3', 'TIMS3', 'TOTS3', 'UGPA3', 'USIM5', 'VALE3', 'VVAR3', 'WEGE3', 'YDUQ3']
+2021-08-28 14:14:45,311:DEBUG:utils:The function 'ConfigReader.__init__' took 19.89 milliseconds to run.
+2021-08-28 14:16:51,191:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-28 14:24:50,854:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-28 14:24:50,854:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_training_set.json'.
+2021-08-28 14:24:50,855:DEBUG:config_reader:Config file found.
+2021-08-28 14:24:50,875:INFO:config_reader:Config file successfully read.
+2021-08-28 14:24:50,876:INFO:config_reader:Total strategies: 1
+2021-08-28 14:24:50,876:INFO:config_reader:Total tickers: 84
+2021-08-28 14:24:50,876:INFO:config_reader:Oldest date: 01/01/2013
+2021-08-28 14:24:50,876:INFO:config_reader:Most recent date: 30/06/2018
+2021-08-28 14:24:50,876:INFO:config_reader:Strategies found:
+2021-08-28 14:24:50,876:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.05, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'ASAI3', 'AZUL4', 'BTOW3', 'B3SA3', 'BIDI11', 'BBSE3', 'BRML3', 'BBDC3', 'BBDC4', 'BRAP4', 'BBAS3', 'BRKM5', 'BRFS3', 'BPAC11', 'CRFB3', 'CCRO3', 'CMIG4', 'HGTX3', 'CIEL3', 'COGN3', 'CPLE6', 'CSAN3', 'CPFE3', 'CVCB3', 'CYRE3', 'ECOR3', 'ELET3', 'ELET6', 'EMBR3', 'ENBR3', 'ENGI11', 'ENEV3', 'EGIE3', 'EQTL3', 'EZTC3', 'FLRY3', 'GGBR4', 'GOAU4', 'GOLL4', 'NTCO3', 'HAPV3', 'HYPE3', 'IGTA3', 'GNDI3', 'IRBR3', 'ITSA4', 'ITUB4', 'JBSS3', 'JHSF3', 'KLBN11', 'RENT3', 'LCAM3', 'LWSA3', 'LAME4', 'LREN3', 'MGLU3', 'MRFG3', 'BEEF3', 'MRVE3', 'MULT3', 'PCAR3', 'PETR3', 'PETR4', 'BRDT3', 'PRIO3', 'QUAL3', 'RADL3', 'RAIL3', 'SBSP3', 'SANB11', 'CSNA3', 'SULA11', 'SUZB3', 'TAEE11', 'VIVT3', 'TIMS3', 'TOTS3', 'UGPA3', 'USIM5', 'VALE3', 'VVAR3', 'WEGE3', 'YDUQ3']
+2021-08-28 14:24:50,877:DEBUG:utils:The function 'ConfigReader.__init__' took 172.71 milliseconds to run.
+2021-08-28 14:24:50,905:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-28 14:24:50,905:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_test_set.json'.
+2021-08-28 14:24:50,906:DEBUG:config_reader:Config file found.
+2021-08-28 14:24:50,920:INFO:config_reader:Config file successfully read.
+2021-08-28 14:24:50,920:INFO:config_reader:Total strategies: 2
+2021-08-28 14:24:50,921:INFO:config_reader:Total tickers: 84
+2021-08-28 14:24:50,921:INFO:config_reader:Oldest date: 01/07/2018
+2021-08-28 14:24:50,921:INFO:config_reader:Most recent date: 31/01/2020
+2021-08-28 14:24:50,921:INFO:config_reader:Strategies found:
+2021-08-28 14:24:50,921:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.001, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'ASAI3', 'AZUL4', 'BTOW3', 'B3SA3', 'BIDI11', 'BBSE3', 'BRML3', 'BBDC3', 'BBDC4', 'BRAP4', 'BBAS3', 'BRKM5', 'BRFS3', 'BPAC11', 'CRFB3', 'CCRO3', 'CMIG4', 'HGTX3', 'CIEL3', 'COGN3', 'CPLE6', 'CSAN3', 'CPFE3', 'CVCB3', 'CYRE3', 'ECOR3', 'ELET3', 'ELET6', 'EMBR3', 'ENBR3', 'ENGI11', 'ENEV3', 'EGIE3', 'EQTL3', 'EZTC3', 'FLRY3', 'GGBR4', 'GOAU4', 'GOLL4', 'NTCO3', 'HAPV3', 'HYPE3', 'IGTA3', 'GNDI3', 'IRBR3', 'ITSA4', 'ITUB4', 'JBSS3', 'JHSF3', 'KLBN11', 'RENT3', 'LCAM3', 'LWSA3', 'LAME4', 'LREN3', 'MGLU3', 'MRFG3', 'BEEF3', 'MRVE3', 'MULT3', 'PCAR3', 'PETR3', 'PETR4', 'BRDT3', 'PRIO3', 'QUAL3', 'RADL3', 'RAIL3', 'SBSP3', 'SANB11', 'CSNA3', 'SULA11', 'SUZB3', 'TAEE11', 'VIVT3', 'TIMS3', 'TOTS3', 'UGPA3', 'USIM5', 'VALE3', 'VVAR3', 'WEGE3', 'YDUQ3']
+2021-08-28 14:24:50,921:INFO:config_reader:  Name: 'Andre Moraes Adapted', Capital: 100000, Risk-Capital Coefficient: 0.001, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'ASAI3', 'AZUL4', 'BTOW3', 'B3SA3', 'BIDI11', 'BBSE3', 'BRML3', 'BBDC3', 'BBDC4', 'BRAP4', 'BBAS3', 'BRKM5', 'BRFS3', 'BPAC11', 'CRFB3', 'CCRO3', 'CMIG4', 'HGTX3', 'CIEL3', 'COGN3', 'CPLE6', 'CSAN3', 'CPFE3', 'CVCB3', 'CYRE3', 'ECOR3', 'ELET3', 'ELET6', 'EMBR3', 'ENBR3', 'ENGI11', 'ENEV3', 'EGIE3', 'EQTL3', 'EZTC3', 'FLRY3', 'GGBR4', 'GOAU4', 'GOLL4', 'NTCO3', 'HAPV3', 'HYPE3', 'IGTA3', 'GNDI3', 'IRBR3', 'ITSA4', 'ITUB4', 'JBSS3', 'JHSF3', 'KLBN11', 'RENT3', 'LCAM3', 'LWSA3', 'LAME4', 'LREN3', 'MGLU3', 'MRFG3', 'BEEF3', 'MRVE3', 'MULT3', 'PCAR3', 'PETR3', 'PETR4', 'BRDT3', 'PRIO3', 'QUAL3', 'RADL3', 'RAIL3', 'SBSP3', 'SANB11', 'CSNA3', 'SULA11', 'SUZB3', 'TAEE11', 'VIVT3', 'TIMS3', 'TOTS3', 'UGPA3', 'USIM5', 'VALE3', 'VVAR3', 'WEGE3', 'YDUQ3']
+2021-08-28 14:24:50,921:DEBUG:utils:The function 'ConfigReader.__init__' took 44.36 milliseconds to run.
+2021-08-28 14:25:04,190:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-28 14:30:06,033:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-28 14:40:47,292:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-28 14:46:50,056:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-28 14:46:50,056:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_training_set.json'.
+2021-08-28 14:46:50,057:DEBUG:config_reader:Config file found.
+2021-08-28 14:46:50,073:INFO:config_reader:Config file successfully read.
+2021-08-28 14:46:50,073:INFO:config_reader:Total strategies: 1
+2021-08-28 14:46:50,073:INFO:config_reader:Total tickers: 84
+2021-08-28 14:46:50,073:INFO:config_reader:Oldest date: 01/01/2013
+2021-08-28 14:46:50,074:INFO:config_reader:Most recent date: 30/06/2018
+2021-08-28 14:46:50,074:INFO:config_reader:Strategies found:
+2021-08-28 14:46:50,074:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.05, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'ASAI3', 'AZUL4', 'BTOW3', 'B3SA3', 'BIDI11', 'BBSE3', 'BRML3', 'BBDC3', 'BBDC4', 'BRAP4', 'BBAS3', 'BRKM5', 'BRFS3', 'BPAC11', 'CRFB3', 'CCRO3', 'CMIG4', 'HGTX3', 'CIEL3', 'COGN3', 'CPLE6', 'CSAN3', 'CPFE3', 'CVCB3', 'CYRE3', 'ECOR3', 'ELET3', 'ELET6', 'EMBR3', 'ENBR3', 'ENGI11', 'ENEV3', 'EGIE3', 'EQTL3', 'EZTC3', 'FLRY3', 'GGBR4', 'GOAU4', 'GOLL4', 'NTCO3', 'HAPV3', 'HYPE3', 'IGTA3', 'GNDI3', 'IRBR3', 'ITSA4', 'ITUB4', 'JBSS3', 'JHSF3', 'KLBN11', 'RENT3', 'LCAM3', 'LWSA3', 'LAME4', 'LREN3', 'MGLU3', 'MRFG3', 'BEEF3', 'MRVE3', 'MULT3', 'PCAR3', 'PETR3', 'PETR4', 'BRDT3', 'PRIO3', 'QUAL3', 'RADL3', 'RAIL3', 'SBSP3', 'SANB11', 'CSNA3', 'SULA11', 'SUZB3', 'TAEE11', 'VIVT3', 'TIMS3', 'TOTS3', 'UGPA3', 'USIM5', 'VALE3', 'VVAR3', 'WEGE3', 'YDUQ3']
+2021-08-28 14:46:50,074:DEBUG:utils:The function 'ConfigReader.__init__' took 209.75 milliseconds to run.
+2021-08-28 14:46:50,089:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-28 14:46:50,090:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_test_set.json'.
+2021-08-28 14:46:50,091:DEBUG:config_reader:Config file found.
+2021-08-28 14:46:50,107:INFO:config_reader:Config file successfully read.
+2021-08-28 14:46:50,107:INFO:config_reader:Total strategies: 2
+2021-08-28 14:46:50,108:INFO:config_reader:Total tickers: 84
+2021-08-28 14:46:50,108:INFO:config_reader:Oldest date: 01/07/2018
+2021-08-28 14:46:50,108:INFO:config_reader:Most recent date: 31/01/2020
+2021-08-28 14:46:50,109:INFO:config_reader:Strategies found:
+2021-08-28 14:46:50,109:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.001, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'ASAI3', 'AZUL4', 'BTOW3', 'B3SA3', 'BIDI11', 'BBSE3', 'BRML3', 'BBDC3', 'BBDC4', 'BRAP4', 'BBAS3', 'BRKM5', 'BRFS3', 'BPAC11', 'CRFB3', 'CCRO3', 'CMIG4', 'HGTX3', 'CIEL3', 'COGN3', 'CPLE6', 'CSAN3', 'CPFE3', 'CVCB3', 'CYRE3', 'ECOR3', 'ELET3', 'ELET6', 'EMBR3', 'ENBR3', 'ENGI11', 'ENEV3', 'EGIE3', 'EQTL3', 'EZTC3', 'FLRY3', 'GGBR4', 'GOAU4', 'GOLL4', 'NTCO3', 'HAPV3', 'HYPE3', 'IGTA3', 'GNDI3', 'IRBR3', 'ITSA4', 'ITUB4', 'JBSS3', 'JHSF3', 'KLBN11', 'RENT3', 'LCAM3', 'LWSA3', 'LAME4', 'LREN3', 'MGLU3', 'MRFG3', 'BEEF3', 'MRVE3', 'MULT3', 'PCAR3', 'PETR3', 'PETR4', 'BRDT3', 'PRIO3', 'QUAL3', 'RADL3', 'RAIL3', 'SBSP3', 'SANB11', 'CSNA3', 'SULA11', 'SUZB3', 'TAEE11', 'VIVT3', 'TIMS3', 'TOTS3', 'UGPA3', 'USIM5', 'VALE3', 'VVAR3', 'WEGE3', 'YDUQ3']
+2021-08-28 14:46:50,110:INFO:config_reader:  Name: 'Andre Moraes Adapted', Capital: 100000, Risk-Capital Coefficient: 0.001, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'ASAI3', 'AZUL4', 'BTOW3', 'B3SA3', 'BIDI11', 'BBSE3', 'BRML3', 'BBDC3', 'BBDC4', 'BRAP4', 'BBAS3', 'BRKM5', 'BRFS3', 'BPAC11', 'CRFB3', 'CCRO3', 'CMIG4', 'HGTX3', 'CIEL3', 'COGN3', 'CPLE6', 'CSAN3', 'CPFE3', 'CVCB3', 'CYRE3', 'ECOR3', 'ELET3', 'ELET6', 'EMBR3', 'ENBR3', 'ENGI11', 'ENEV3', 'EGIE3', 'EQTL3', 'EZTC3', 'FLRY3', 'GGBR4', 'GOAU4', 'GOLL4', 'NTCO3', 'HAPV3', 'HYPE3', 'IGTA3', 'GNDI3', 'IRBR3', 'ITSA4', 'ITUB4', 'JBSS3', 'JHSF3', 'KLBN11', 'RENT3', 'LCAM3', 'LWSA3', 'LAME4', 'LREN3', 'MGLU3', 'MRFG3', 'BEEF3', 'MRVE3', 'MULT3', 'PCAR3', 'PETR3', 'PETR4', 'BRDT3', 'PRIO3', 'QUAL3', 'RADL3', 'RAIL3', 'SBSP3', 'SANB11', 'CSNA3', 'SULA11', 'SUZB3', 'TAEE11', 'VIVT3', 'TIMS3', 'TOTS3', 'UGPA3', 'USIM5', 'VALE3', 'VVAR3', 'WEGE3', 'YDUQ3']
+2021-08-28 14:46:50,110:DEBUG:utils:The function 'ConfigReader.__init__' took 35.79 milliseconds to run.
+2021-08-28 14:47:48,272:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-28 14:47:48,273:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_training_set.json'.
+2021-08-28 14:47:48,274:DEBUG:config_reader:Config file found.
+2021-08-28 14:47:48,286:INFO:config_reader:Config file successfully read.
+2021-08-28 14:47:48,286:INFO:config_reader:Total strategies: 1
+2021-08-28 14:47:48,286:INFO:config_reader:Total tickers: 84
+2021-08-28 14:47:48,286:INFO:config_reader:Oldest date: 01/01/2013
+2021-08-28 14:47:48,287:INFO:config_reader:Most recent date: 30/06/2018
+2021-08-28 14:47:48,287:INFO:config_reader:Strategies found:
+2021-08-28 14:47:48,287:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.05, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'ASAI3', 'AZUL4', 'BTOW3', 'B3SA3', 'BIDI11', 'BBSE3', 'BRML3', 'BBDC3', 'BBDC4', 'BRAP4', 'BBAS3', 'BRKM5', 'BRFS3', 'BPAC11', 'CRFB3', 'CCRO3', 'CMIG4', 'HGTX3', 'CIEL3', 'COGN3', 'CPLE6', 'CSAN3', 'CPFE3', 'CVCB3', 'CYRE3', 'ECOR3', 'ELET3', 'ELET6', 'EMBR3', 'ENBR3', 'ENGI11', 'ENEV3', 'EGIE3', 'EQTL3', 'EZTC3', 'FLRY3', 'GGBR4', 'GOAU4', 'GOLL4', 'NTCO3', 'HAPV3', 'HYPE3', 'IGTA3', 'GNDI3', 'IRBR3', 'ITSA4', 'ITUB4', 'JBSS3', 'JHSF3', 'KLBN11', 'RENT3', 'LCAM3', 'LWSA3', 'LAME4', 'LREN3', 'MGLU3', 'MRFG3', 'BEEF3', 'MRVE3', 'MULT3', 'PCAR3', 'PETR3', 'PETR4', 'BRDT3', 'PRIO3', 'QUAL3', 'RADL3', 'RAIL3', 'SBSP3', 'SANB11', 'CSNA3', 'SULA11', 'SUZB3', 'TAEE11', 'VIVT3', 'TIMS3', 'TOTS3', 'UGPA3', 'USIM5', 'VALE3', 'VVAR3', 'WEGE3', 'YDUQ3']
+2021-08-28 14:47:48,287:DEBUG:utils:The function 'ConfigReader.__init__' took 149.74 milliseconds to run.
+2021-08-28 14:47:48,296:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-28 14:47:48,297:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_test_set.json'.
+2021-08-28 14:47:48,298:DEBUG:config_reader:Config file found.
+2021-08-28 14:47:48,308:INFO:config_reader:Config file successfully read.
+2021-08-28 14:47:48,308:INFO:config_reader:Total strategies: 2
+2021-08-28 14:47:48,309:INFO:config_reader:Total tickers: 84
+2021-08-28 14:47:48,309:INFO:config_reader:Oldest date: 01/07/2018
+2021-08-28 14:47:48,309:INFO:config_reader:Most recent date: 31/01/2020
+2021-08-28 14:47:48,309:INFO:config_reader:Strategies found:
+2021-08-28 14:47:48,309:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.001, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'ASAI3', 'AZUL4', 'BTOW3', 'B3SA3', 'BIDI11', 'BBSE3', 'BRML3', 'BBDC3', 'BBDC4', 'BRAP4', 'BBAS3', 'BRKM5', 'BRFS3', 'BPAC11', 'CRFB3', 'CCRO3', 'CMIG4', 'HGTX3', 'CIEL3', 'COGN3', 'CPLE6', 'CSAN3', 'CPFE3', 'CVCB3', 'CYRE3', 'ECOR3', 'ELET3', 'ELET6', 'EMBR3', 'ENBR3', 'ENGI11', 'ENEV3', 'EGIE3', 'EQTL3', 'EZTC3', 'FLRY3', 'GGBR4', 'GOAU4', 'GOLL4', 'NTCO3', 'HAPV3', 'HYPE3', 'IGTA3', 'GNDI3', 'IRBR3', 'ITSA4', 'ITUB4', 'JBSS3', 'JHSF3', 'KLBN11', 'RENT3', 'LCAM3', 'LWSA3', 'LAME4', 'LREN3', 'MGLU3', 'MRFG3', 'BEEF3', 'MRVE3', 'MULT3', 'PCAR3', 'PETR3', 'PETR4', 'BRDT3', 'PRIO3', 'QUAL3', 'RADL3', 'RAIL3', 'SBSP3', 'SANB11', 'CSNA3', 'SULA11', 'SUZB3', 'TAEE11', 'VIVT3', 'TIMS3', 'TOTS3', 'UGPA3', 'USIM5', 'VALE3', 'VVAR3', 'WEGE3', 'YDUQ3']
+2021-08-28 14:47:48,309:INFO:config_reader:  Name: 'Andre Moraes Adapted', Capital: 100000, Risk-Capital Coefficient: 0.001, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'ASAI3', 'AZUL4', 'BTOW3', 'B3SA3', 'BIDI11', 'BBSE3', 'BRML3', 'BBDC3', 'BBDC4', 'BRAP4', 'BBAS3', 'BRKM5', 'BRFS3', 'BPAC11', 'CRFB3', 'CCRO3', 'CMIG4', 'HGTX3', 'CIEL3', 'COGN3', 'CPLE6', 'CSAN3', 'CPFE3', 'CVCB3', 'CYRE3', 'ECOR3', 'ELET3', 'ELET6', 'EMBR3', 'ENBR3', 'ENGI11', 'ENEV3', 'EGIE3', 'EQTL3', 'EZTC3', 'FLRY3', 'GGBR4', 'GOAU4', 'GOLL4', 'NTCO3', 'HAPV3', 'HYPE3', 'IGTA3', 'GNDI3', 'IRBR3', 'ITSA4', 'ITUB4', 'JBSS3', 'JHSF3', 'KLBN11', 'RENT3', 'LCAM3', 'LWSA3', 'LAME4', 'LREN3', 'MGLU3', 'MRFG3', 'BEEF3', 'MRVE3', 'MULT3', 'PCAR3', 'PETR3', 'PETR4', 'BRDT3', 'PRIO3', 'QUAL3', 'RADL3', 'RAIL3', 'SBSP3', 'SANB11', 'CSNA3', 'SULA11', 'SUZB3', 'TAEE11', 'VIVT3', 'TIMS3', 'TOTS3', 'UGPA3', 'USIM5', 'VALE3', 'VVAR3', 'WEGE3', 'YDUQ3']
+2021-08-28 14:47:48,309:DEBUG:utils:The function 'ConfigReader.__init__' took 22.09 milliseconds to run.
+2021-08-28 14:51:53,368:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-28 14:51:53,369:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_training_set_compact.json'.
+2021-08-28 14:51:53,369:DEBUG:config_reader:Config file found.
+2021-08-28 14:51:53,379:INFO:config_reader:Config file successfully read.
+2021-08-28 14:51:53,380:INFO:config_reader:Total strategies: 1
+2021-08-28 14:51:53,380:INFO:config_reader:Total tickers: 7
+2021-08-28 14:51:53,380:INFO:config_reader:Oldest date: 01/01/2013
+2021-08-28 14:51:53,380:INFO:config_reader:Most recent date: 30/06/2018
+2021-08-28 14:51:53,380:INFO:config_reader:Strategies found:
+2021-08-28 14:51:53,380:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.05, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'AZUL4', 'BTOW3', 'B3SA3', 'BBAS3', 'LCAM3', 'MGLU3']
+2021-08-28 14:51:53,380:DEBUG:utils:The function 'ConfigReader.__init__' took 169.00 milliseconds to run.
+2021-08-28 14:51:53,391:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-28 14:51:53,391:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_test_set_compact.json'.
+2021-08-28 14:51:53,391:ERROR:config_reader:Could not open configuration file: '/Users/atcha/Github/Projeto-Final/config/config_test_set_compact.json'.
+Traceback (most recent call last):
+  File "/Users/atcha/Github/Projeto-Final/src/config_reader.py", line 236, in load_file
+    with open(config_file_path, 'r') as cfg_file:
+FileNotFoundError: [Errno 2] No such file or directory: '/Users/atcha/Github/Projeto-Final/config/config_test_set_compact.json'
+2021-08-28 14:51:53,394:DEBUG:utils:The function 'ConfigReader.__init__' took 13.27 milliseconds to run.
+2021-08-28 14:52:09,848:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-28 14:52:09,849:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_training_set_compact.json'.
+2021-08-28 14:52:09,850:DEBUG:config_reader:Config file found.
+2021-08-28 14:52:09,875:INFO:config_reader:Config file successfully read.
+2021-08-28 14:52:09,876:INFO:config_reader:Total strategies: 1
+2021-08-28 14:52:09,877:INFO:config_reader:Total tickers: 7
+2021-08-28 14:52:09,880:INFO:config_reader:Oldest date: 01/01/2013
+2021-08-28 14:52:09,882:INFO:config_reader:Most recent date: 30/06/2018
+2021-08-28 14:52:09,884:INFO:config_reader:Strategies found:
+2021-08-28 14:52:09,885:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.05, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'AZUL4', 'BTOW3', 'B3SA3', 'BBAS3', 'LCAM3', 'MGLU3']
+2021-08-28 14:52:09,887:DEBUG:utils:The function 'ConfigReader.__init__' took 202.04 milliseconds to run.
+2021-08-28 14:52:10,024:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-28 14:52:10,027:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_test_set_compact.json'.
+2021-08-28 14:52:10,036:ERROR:config_reader:Could not open configuration file: '/Users/atcha/Github/Projeto-Final/config/config_test_set_compact.json'.
+Traceback (most recent call last):
+  File "/Users/atcha/Github/Projeto-Final/src/config_reader.py", line 236, in load_file
+    with open(config_file_path, 'r') as cfg_file:
+FileNotFoundError: [Errno 2] No such file or directory: '/Users/atcha/Github/Projeto-Final/config/config_test_set_compact.json'
+2021-08-28 14:52:10,039:DEBUG:utils:The function 'ConfigReader.__init__' took 150.30 milliseconds to run.
+2021-08-28 14:52:50,404:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-28 14:52:50,404:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_training_set_compact.json'.
+2021-08-28 14:52:50,405:DEBUG:config_reader:Config file found.
+2021-08-28 14:52:50,418:INFO:config_reader:Config file successfully read.
+2021-08-28 14:52:50,419:INFO:config_reader:Total strategies: 1
+2021-08-28 14:52:50,419:INFO:config_reader:Total tickers: 7
+2021-08-28 14:52:50,419:INFO:config_reader:Oldest date: 01/01/2013
+2021-08-28 14:52:50,419:INFO:config_reader:Most recent date: 30/06/2018
+2021-08-28 14:52:50,419:INFO:config_reader:Strategies found:
+2021-08-28 14:52:50,419:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.05, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'AZUL4', 'BTOW3', 'B3SA3', 'BBAS3', 'LCAM3', 'MGLU3']
+2021-08-28 14:52:50,419:DEBUG:utils:The function 'ConfigReader.__init__' took 132.99 milliseconds to run.
+2021-08-28 14:52:50,429:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-28 14:52:50,430:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_test_set_compact.json'.
+2021-08-28 14:52:50,430:ERROR:config_reader:Could not open configuration file: '/Users/atcha/Github/Projeto-Final/config/config_test_set_compact.json'.
+Traceback (most recent call last):
+  File "/Users/atcha/Github/Projeto-Final/src/config_reader.py", line 236, in load_file
+    with open(config_file_path, 'r') as cfg_file:
+FileNotFoundError: [Errno 2] No such file or directory: '/Users/atcha/Github/Projeto-Final/config/config_test_set_compact.json'
+2021-08-28 14:52:50,431:DEBUG:utils:The function 'ConfigReader.__init__' took 11.36 milliseconds to run.
+2021-08-28 14:57:08,151:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-28 14:57:08,153:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_training_set_compact.json'.
+2021-08-28 14:57:08,154:DEBUG:config_reader:Config file found.
+2021-08-28 14:57:08,178:INFO:config_reader:Config file successfully read.
+2021-08-28 14:57:08,180:INFO:config_reader:Total strategies: 1
+2021-08-28 14:57:08,183:INFO:config_reader:Total tickers: 7
+2021-08-28 14:57:08,187:INFO:config_reader:Oldest date: 01/01/2013
+2021-08-28 14:57:08,190:INFO:config_reader:Most recent date: 30/06/2018
+2021-08-28 14:57:08,194:INFO:config_reader:Strategies found:
+2021-08-28 14:57:08,209:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.05, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'AZUL4', 'BTOW3', 'B3SA3', 'BBAS3', 'LCAM3', 'MGLU3']
+2021-08-28 14:57:08,215:DEBUG:utils:The function 'ConfigReader.__init__' took 246.97 milliseconds to run.
+2021-08-28 14:57:08,279:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-28 14:57:08,280:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_test_set_compact.json'.
+2021-08-28 14:57:08,284:DEBUG:config_reader:Config file found.
+2021-08-28 14:57:08,307:INFO:config_reader:Config file successfully read.
+2021-08-28 14:57:08,308:INFO:config_reader:Total strategies: 2
+2021-08-28 14:57:08,311:INFO:config_reader:Total tickers: 84
+2021-08-28 14:57:08,314:INFO:config_reader:Oldest date: 01/01/2013
+2021-08-28 14:57:08,316:INFO:config_reader:Most recent date: 31/01/2020
+2021-08-28 14:57:08,319:INFO:config_reader:Strategies found:
+2021-08-28 14:57:08,321:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.001, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'ASAI3', 'AZUL4', 'BTOW3', 'B3SA3', 'BIDI11', 'BBSE3', 'BRML3', 'BBDC3', 'BBDC4', 'BRAP4', 'BBAS3', 'BRKM5', 'BRFS3', 'BPAC11', 'CRFB3', 'CCRO3', 'CMIG4', 'HGTX3', 'CIEL3', 'COGN3', 'CPLE6', 'CSAN3', 'CPFE3', 'CVCB3', 'CYRE3', 'ECOR3', 'ELET3', 'ELET6', 'EMBR3', 'ENBR3', 'ENGI11', 'ENEV3', 'EGIE3', 'EQTL3', 'EZTC3', 'FLRY3', 'GGBR4', 'GOAU4', 'GOLL4', 'NTCO3', 'HAPV3', 'HYPE3', 'IGTA3', 'GNDI3', 'IRBR3', 'ITSA4', 'ITUB4', 'JBSS3', 'JHSF3', 'KLBN11', 'RENT3', 'LCAM3', 'LWSA3', 'LAME4', 'LREN3', 'MGLU3', 'MRFG3', 'BEEF3', 'MRVE3', 'MULT3', 'PCAR3', 'PETR3', 'PETR4', 'BRDT3', 'PRIO3', 'QUAL3', 'RADL3', 'RAIL3', 'SBSP3', 'SANB11', 'CSNA3', 'SULA11', 'SUZB3', 'TAEE11', 'VIVT3', 'TIMS3', 'TOTS3', 'UGPA3', 'USIM5', 'VALE3', 'VVAR3', 'WEGE3', 'YDUQ3']
+2021-08-28 14:57:08,323:INFO:config_reader:  Name: 'Andre Moraes Adapted', Capital: 100000, Risk-Capital Coefficient: 0.001, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'AZUL4', 'BTOW3', 'B3SA3', 'BBAS3', 'LCAM3', 'MGLU3']
+2021-08-28 14:57:08,325:DEBUG:utils:The function 'ConfigReader.__init__' took 107.70 milliseconds to run.
+2021-08-28 14:57:34,228:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-28 15:03:35,451:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-28 15:03:35,453:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_training_set_compact.json'.
+2021-08-28 15:03:35,455:DEBUG:config_reader:Config file found.
+2021-08-28 15:03:35,489:INFO:config_reader:Config file successfully read.
+2021-08-28 15:03:35,491:INFO:config_reader:Total strategies: 1
+2021-08-28 15:03:35,492:INFO:config_reader:Total tickers: 7
+2021-08-28 15:03:35,494:INFO:config_reader:Oldest date: 01/01/2013
+2021-08-28 15:03:35,495:INFO:config_reader:Most recent date: 30/06/2018
+2021-08-28 15:03:35,497:INFO:config_reader:Strategies found:
+2021-08-28 15:03:35,498:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.05, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'AZUL4', 'BTOW3', 'B3SA3', 'BBAS3', 'LCAM3', 'MGLU3']
+2021-08-28 15:03:35,499:DEBUG:utils:The function 'ConfigReader.__init__' took 200.54 milliseconds to run.
+2021-08-28 15:03:35,625:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-28 15:03:35,626:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_test_set_compact.json'.
+2021-08-28 15:03:35,629:DEBUG:config_reader:Config file found.
+2021-08-28 15:03:35,666:INFO:config_reader:Config file successfully read.
+2021-08-28 15:03:35,668:INFO:config_reader:Total strategies: 2
+2021-08-28 15:03:35,670:INFO:config_reader:Total tickers: 84
+2021-08-28 15:03:35,673:INFO:config_reader:Oldest date: 01/01/2013
+2021-08-28 15:03:35,675:INFO:config_reader:Most recent date: 31/01/2020
+2021-08-28 15:03:35,677:INFO:config_reader:Strategies found:
+2021-08-28 15:03:35,680:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.001, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'ASAI3', 'AZUL4', 'BTOW3', 'B3SA3', 'BIDI11', 'BBSE3', 'BRML3', 'BBDC3', 'BBDC4', 'BRAP4', 'BBAS3', 'BRKM5', 'BRFS3', 'BPAC11', 'CRFB3', 'CCRO3', 'CMIG4', 'HGTX3', 'CIEL3', 'COGN3', 'CPLE6', 'CSAN3', 'CPFE3', 'CVCB3', 'CYRE3', 'ECOR3', 'ELET3', 'ELET6', 'EMBR3', 'ENBR3', 'ENGI11', 'ENEV3', 'EGIE3', 'EQTL3', 'EZTC3', 'FLRY3', 'GGBR4', 'GOAU4', 'GOLL4', 'NTCO3', 'HAPV3', 'HYPE3', 'IGTA3', 'GNDI3', 'IRBR3', 'ITSA4', 'ITUB4', 'JBSS3', 'JHSF3', 'KLBN11', 'RENT3', 'LCAM3', 'LWSA3', 'LAME4', 'LREN3', 'MGLU3', 'MRFG3', 'BEEF3', 'MRVE3', 'MULT3', 'PCAR3', 'PETR3', 'PETR4', 'BRDT3', 'PRIO3', 'QUAL3', 'RADL3', 'RAIL3', 'SBSP3', 'SANB11', 'CSNA3', 'SULA11', 'SUZB3', 'TAEE11', 'VIVT3', 'TIMS3', 'TOTS3', 'UGPA3', 'USIM5', 'VALE3', 'VVAR3', 'WEGE3', 'YDUQ3']
+2021-08-28 15:03:35,681:INFO:config_reader:  Name: 'Andre Moraes Adapted', Capital: 100000, Risk-Capital Coefficient: 0.001, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'AZUL4', 'BTOW3', 'B3SA3', 'BBAS3', 'LCAM3', 'MGLU3']
+2021-08-28 15:03:35,682:DEBUG:utils:The function 'ConfigReader.__init__' took 181.06 milliseconds to run.
+2021-08-28 15:03:39,914:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-28 15:10:27,137:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-28 15:10:27,138:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_training_set_compact.json'.
+2021-08-28 15:10:27,138:DEBUG:config_reader:Config file found.
+2021-08-28 15:10:27,147:INFO:config_reader:Config file successfully read.
+2021-08-28 15:10:27,148:INFO:config_reader:Total strategies: 1
+2021-08-28 15:10:27,148:INFO:config_reader:Total tickers: 7
+2021-08-28 15:10:27,148:INFO:config_reader:Oldest date: 01/01/2013
+2021-08-28 15:10:27,148:INFO:config_reader:Most recent date: 30/06/2018
+2021-08-28 15:10:27,148:INFO:config_reader:Strategies found:
+2021-08-28 15:10:27,148:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.05, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'AZUL4', 'BTOW3', 'B3SA3', 'BBAS3', 'LCAM3', 'MGLU3']
+2021-08-28 15:10:27,148:DEBUG:utils:The function 'ConfigReader.__init__' took 121.75 milliseconds to run.
+2021-08-28 15:10:27,157:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-28 15:10:27,157:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_test_set_compact.json'.
+2021-08-28 15:10:27,158:DEBUG:config_reader:Config file found.
+2021-08-28 15:10:27,164:INFO:config_reader:Config file successfully read.
+2021-08-28 15:10:27,164:INFO:config_reader:Total strategies: 1
+2021-08-28 15:10:27,164:INFO:config_reader:Total tickers: 7
+2021-08-28 15:10:27,164:INFO:config_reader:Oldest date: 01/07/2018
+2021-08-28 15:10:27,165:INFO:config_reader:Most recent date: 31/01/2020
+2021-08-28 15:10:27,165:INFO:config_reader:Strategies found:
+2021-08-28 15:10:27,165:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.001, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'AZUL4', 'BTOW3', 'B3SA3', 'BBAS3', 'LCAM3', 'MGLU3']
+2021-08-28 15:10:27,165:DEBUG:utils:The function 'ConfigReader.__init__' took 16.54 milliseconds to run.
+2021-08-28 15:10:37,122:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-28 15:28:25,061:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-28 15:28:25,062:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_training_set_compact.json'.
+2021-08-28 15:28:25,062:DEBUG:config_reader:Config file found.
+2021-08-28 15:28:25,080:INFO:config_reader:Config file successfully read.
+2021-08-28 15:28:25,080:INFO:config_reader:Total strategies: 1
+2021-08-28 15:28:25,080:INFO:config_reader:Total tickers: 3
+2021-08-28 15:28:25,080:INFO:config_reader:Oldest date: 01/01/2013
+2021-08-28 15:28:25,081:INFO:config_reader:Most recent date: 30/06/2018
+2021-08-28 15:28:25,081:INFO:config_reader:Strategies found:
+2021-08-28 15:28:25,081:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.05, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'BBAS3', 'MGLU3']
+2021-08-28 15:28:25,081:DEBUG:utils:The function 'ConfigReader.__init__' took 349.43 milliseconds to run.
+2021-08-28 15:28:25,099:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-28 15:28:25,099:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_test_set_compact.json'.
+2021-08-28 15:28:25,100:DEBUG:config_reader:Config file found.
+2021-08-28 15:28:25,108:INFO:config_reader:Config file successfully read.
+2021-08-28 15:28:25,108:INFO:config_reader:Total strategies: 1
+2021-08-28 15:28:25,108:INFO:config_reader:Total tickers: 3
+2021-08-28 15:28:25,108:INFO:config_reader:Oldest date: 01/07/2018
+2021-08-28 15:28:25,108:INFO:config_reader:Most recent date: 31/01/2020
+2021-08-28 15:28:25,109:INFO:config_reader:Strategies found:
+2021-08-28 15:28:25,109:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.001, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'BBAS3', 'MGLU3']
+2021-08-28 15:28:25,109:DEBUG:utils:The function 'ConfigReader.__init__' took 26.95 milliseconds to run.
+2021-08-28 15:28:50,800:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-28 15:39:13,608:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-28 15:39:13,609:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_training_set_compact.json'.
+2021-08-28 15:39:13,610:DEBUG:config_reader:Config file found.
+2021-08-28 15:39:13,621:INFO:config_reader:Config file successfully read.
+2021-08-28 15:39:13,621:INFO:config_reader:Total strategies: 1
+2021-08-28 15:39:13,621:INFO:config_reader:Total tickers: 3
+2021-08-28 15:39:13,621:INFO:config_reader:Oldest date: 01/01/2013
+2021-08-28 15:39:13,621:INFO:config_reader:Most recent date: 30/06/2018
+2021-08-28 15:39:13,622:INFO:config_reader:Strategies found:
+2021-08-28 15:39:13,622:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.05, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'BBAS3', 'MGLU3']
+2021-08-28 15:39:13,622:DEBUG:utils:The function 'ConfigReader.__init__' took 354.88 milliseconds to run.
+2021-08-28 15:39:13,658:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-28 15:39:13,658:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_test_set_compact.json'.
+2021-08-28 15:39:13,659:DEBUG:config_reader:Config file found.
+2021-08-28 15:39:13,671:INFO:config_reader:Config file successfully read.
+2021-08-28 15:39:13,671:INFO:config_reader:Total strategies: 1
+2021-08-28 15:39:13,671:INFO:config_reader:Total tickers: 3
+2021-08-28 15:39:13,671:INFO:config_reader:Oldest date: 01/07/2018
+2021-08-28 15:39:13,671:INFO:config_reader:Most recent date: 31/01/2020
+2021-08-28 15:39:13,672:INFO:config_reader:Strategies found:
+2021-08-28 15:39:13,672:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.001, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'BBAS3', 'MGLU3']
+2021-08-28 15:39:13,672:DEBUG:utils:The function 'ConfigReader.__init__' took 49.38 milliseconds to run.
+2021-08-28 15:39:30,077:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-28 15:41:26,650:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-28 15:41:26,651:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_training_set_compact.json'.
+2021-08-28 15:41:26,651:DEBUG:config_reader:Config file found.
+2021-08-28 15:41:26,662:INFO:config_reader:Config file successfully read.
+2021-08-28 15:41:26,663:INFO:config_reader:Total strategies: 1
+2021-08-28 15:41:26,663:INFO:config_reader:Total tickers: 3
+2021-08-28 15:41:26,663:INFO:config_reader:Oldest date: 01/01/2013
+2021-08-28 15:41:26,663:INFO:config_reader:Most recent date: 30/06/2018
+2021-08-28 15:41:26,663:INFO:config_reader:Strategies found:
+2021-08-28 15:41:26,664:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.05, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'BBAS3', 'MGLU3']
+2021-08-28 15:41:26,664:DEBUG:utils:The function 'ConfigReader.__init__' took 700.79 milliseconds to run.
+2021-08-28 15:41:26,679:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-28 15:41:26,679:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_test_set_compact.json'.
+2021-08-28 15:41:26,679:DEBUG:config_reader:Config file found.
+2021-08-28 15:41:26,688:INFO:config_reader:Config file successfully read.
+2021-08-28 15:41:26,688:INFO:config_reader:Total strategies: 1
+2021-08-28 15:41:26,688:INFO:config_reader:Total tickers: 3
+2021-08-28 15:41:26,688:INFO:config_reader:Oldest date: 01/07/2018
+2021-08-28 15:41:26,688:INFO:config_reader:Most recent date: 31/01/2020
+2021-08-28 15:41:26,689:INFO:config_reader:Strategies found:
+2021-08-28 15:41:26,689:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.001, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'BBAS3', 'MGLU3']
+2021-08-28 15:41:26,689:DEBUG:utils:The function 'ConfigReader.__init__' took 24.83 milliseconds to run.
+2021-08-28 15:41:29,908:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-28 17:27:25,166:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-28 17:27:25,167:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_training_set_compact.json'.
+2021-08-28 17:27:25,168:DEBUG:config_reader:Config file found.
+2021-08-28 17:27:25,185:INFO:config_reader:Config file successfully read.
+2021-08-28 17:27:25,186:INFO:config_reader:Total strategies: 1
+2021-08-28 17:27:25,186:INFO:config_reader:Total tickers: 3
+2021-08-28 17:27:25,186:INFO:config_reader:Oldest date: 01/01/2013
+2021-08-28 17:27:25,186:INFO:config_reader:Most recent date: 30/06/2018
+2021-08-28 17:27:25,186:INFO:config_reader:Strategies found:
+2021-08-28 17:27:25,186:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.05, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'BBAS3', 'MGLU3']
+2021-08-28 17:27:25,186:DEBUG:utils:The function 'ConfigReader.__init__' took 206.12 milliseconds to run.
+2021-08-28 17:27:25,201:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-28 17:27:25,201:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_test_set_compact.json'.
+2021-08-28 17:27:25,202:DEBUG:config_reader:Config file found.
+2021-08-28 17:27:25,214:INFO:config_reader:Config file successfully read.
+2021-08-28 17:27:25,214:INFO:config_reader:Total strategies: 1
+2021-08-28 17:27:25,214:INFO:config_reader:Total tickers: 3
+2021-08-28 17:27:25,214:INFO:config_reader:Oldest date: 01/07/2018
+2021-08-28 17:27:25,214:INFO:config_reader:Most recent date: 31/01/2020
+2021-08-28 17:27:25,214:INFO:config_reader:Strategies found:
+2021-08-28 17:27:25,214:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.001, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'BBAS3', 'MGLU3']
+2021-08-28 17:27:25,214:DEBUG:utils:The function 'ConfigReader.__init__' took 27.60 milliseconds to run.
+2021-08-31 14:29:04,602:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-31 14:29:04,602:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_training_set_compact.json'.
+2021-08-31 14:29:04,603:DEBUG:config_reader:Config file found.
+2021-08-31 14:29:04,654:INFO:config_reader:Config file successfully read.
+2021-08-31 14:29:04,654:INFO:config_reader:Total strategies: 1
+2021-08-31 14:29:04,654:INFO:config_reader:Total tickers: 3
+2021-08-31 14:29:04,654:INFO:config_reader:Oldest date: 01/01/2013
+2021-08-31 14:29:04,655:INFO:config_reader:Most recent date: 30/06/2018
+2021-08-31 14:29:04,655:INFO:config_reader:Strategies found:
+2021-08-31 14:29:04,655:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.05, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'BBAS3', 'MGLU3']
+2021-08-31 14:29:04,655:DEBUG:utils:The function 'ConfigReader.__init__' took 170.72 milliseconds to run.
+2021-08-31 14:29:04,666:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-31 14:29:04,666:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_test_set_compact.json'.
+2021-08-31 14:29:04,667:DEBUG:config_reader:Config file found.
+2021-08-31 14:29:04,673:INFO:config_reader:Config file successfully read.
+2021-08-31 14:29:04,674:INFO:config_reader:Total strategies: 1
+2021-08-31 14:29:04,674:INFO:config_reader:Total tickers: 3
+2021-08-31 14:29:04,674:INFO:config_reader:Oldest date: 01/07/2018
+2021-08-31 14:29:04,674:INFO:config_reader:Most recent date: 31/01/2020
+2021-08-31 14:29:04,674:INFO:config_reader:Strategies found:
+2021-08-31 14:29:04,674:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.001, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'BBAS3', 'MGLU3']
+2021-08-31 14:29:04,674:DEBUG:utils:The function 'ConfigReader.__init__' took 19.38 milliseconds to run.
+2021-08-31 14:30:54,318:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-31 16:07:18,955:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-31 16:07:18,956:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_training_set_compact.json'.
+2021-08-31 16:07:18,956:DEBUG:config_reader:Config file found.
+2021-08-31 16:07:18,966:INFO:config_reader:Config file successfully read.
+2021-08-31 16:07:18,966:INFO:config_reader:Total strategies: 1
+2021-08-31 16:07:18,966:INFO:config_reader:Total tickers: 3
+2021-08-31 16:07:18,966:INFO:config_reader:Oldest date: 01/01/2013
+2021-08-31 16:07:18,966:INFO:config_reader:Most recent date: 30/06/2018
+2021-08-31 16:07:18,966:INFO:config_reader:Strategies found:
+2021-08-31 16:07:18,966:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.05, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'BBAS3', 'MGLU3']
+2021-08-31 16:07:18,967:DEBUG:utils:The function 'ConfigReader.__init__' took 174.56 milliseconds to run.
+2021-08-31 16:07:18,979:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-08-31 16:07:18,979:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_test_set_compact.json'.
+2021-08-31 16:07:18,980:DEBUG:config_reader:Config file found.
+2021-08-31 16:07:18,990:INFO:config_reader:Config file successfully read.
+2021-08-31 16:07:18,990:INFO:config_reader:Total strategies: 1
+2021-08-31 16:07:18,990:INFO:config_reader:Total tickers: 3
+2021-08-31 16:07:18,991:INFO:config_reader:Oldest date: 01/07/2018
+2021-08-31 16:07:18,991:INFO:config_reader:Most recent date: 31/01/2020
+2021-08-31 16:07:18,991:INFO:config_reader:Strategies found:
+2021-08-31 16:07:18,991:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.001, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'BBAS3', 'MGLU3']
+2021-08-31 16:07:18,991:DEBUG:utils:The function 'ConfigReader.__init__' took 24.03 milliseconds to run.

@@ -4,8 +4,56 @@
     "max_risk": 0.25,
     "strategies":[
         {
+            "name": "Andre Moraes Adapted",
+            "alias": "{number_of_tickers} Tickers",
+            "comment": "Test.",
+            "capital": 100000,
+            "risk_capital_coefficient": 0.005,
+            "min_order_volume": 1,
+            "ticker_min_ann_volume_filter": 0,
+            "partial_sale" : false,
+            "ema_tolerance" : 0.015,
+            "min_risk": 0.05,
+            "max_risk": 0.12,
+            "purchase_margin" : 0,
+            "stop_margin" : 0,
+            "stop_type": "normal",
+            "stock_targets": [
+                {
+                    "name": "ABEV3",
+                    "start_date": "01/07/2018",
+                    "end_date": "01/02/2020"
+                },
+                {
+                    "name": "AZUL4",
+                    "start_date": "01/07/2018",
+                    "end_date": "01/02/2020"
+                },
+                {
+                    "name": "BTOW3",
+                    "start_date": "01/07/2018",
+                    "end_date": "01/02/2020"
+                },
+                {
+                    "name": "B3SA3",
+                    "start_date": "01/07/2018",
+                    "end_date": "01/02/2020"
+                },
+                {
+                    "name": "BIDI11",
+                    "start_date": "01/07/2018",
+                    "end_date": "01/02/2020"
+                },
+                {
+                    "name": "BBSE3",
+                    "start_date": "01/07/2018",
+                    "end_date": "01/02/2020"
+                }
+            ]
+        },
+        {
             "name": "Andre Moraes",
-            "alias": "IBOV Tickers",
+            "alias": "{number_of_tickers} Tickers",
             "comment": "Test.",
             "capital": 100000,
             "risk_capital_coefficient": 0.005,

@@ -1836,10 +1836,10 @@ class AndreMoraesAdaptedStrategy(Strategy):
                             if day >= ts.initial_date and day <= ts.final_date:
 
                                 if day_index == 0:
-                                    last_close_price = day_info[(day_info['ticker'] == ts.ticker)]['close_price'].squeeze()
-                                    last_ema_17 = day_info[(day_info['ticker'] == ts.ticker)]['ema_17'].squeeze()
-                                    last_ema_72 = day_info[(day_info['ticker'] == ts.ticker)]['ema_72'].squeeze()
-                                    last_stop_loss = day_info[(day_info['ticker'] == ts.ticker)]['stop_loss'].squeeze()
+                                    ticker_priority_list[index].last_close_price = day_info[(day_info['ticker'] == ts.ticker)]['close_price'].squeeze()
+                                    ticker_priority_list[index].last_ema_17 = day_info[(day_info['ticker'] == ts.ticker)]['ema_17'].squeeze()
+                                    ticker_priority_list[index].last_ema_72 = day_info[(day_info['ticker'] == ts.ticker)]['ema_72'].squeeze()
+                                    ticker_priority_list[index].last_stop_loss = day_info[(day_info['ticker'] == ts.ticker)]['stop_loss'].squeeze()
                                 else:
                                     open_price_day = day_info[(day_info['ticker'] == ts.ticker)]['open_price'].squeeze()
                                     max_price_day = day_info[(day_info['ticker'] == ts.ticker)]['max_price'].squeeze()
@@ -1858,28 +1858,29 @@ class AndreMoraesAdaptedStrategy(Strategy):
                                     # if day == pd.Timestamp('2015-11-05'):
                                     #     print()
 
-                                    if isinstance(open_price_day, pd.Series) or \
-                                        isinstance(max_price_day, pd.Series) or \
-                                        isinstance(min_price_day, pd.Series) or \
-                                        isinstance(close_price_day, pd.Series) or \
-                                        isinstance(ema_17_day, pd.Series) or \
-                                        isinstance(ema_72_day, pd.Series) or \
-                                        isinstance(target_buy_price_day, pd.Series) or \
-                                        isinstance(stop_loss_day, pd.Series) or \
-                                        isinstance(up_down_trend_status_day, pd.Series) or \
-                                        isinstance(peak_day, pd.Series) or \
-                                        isinstance(ema_72_week, pd.Series):
+                                    if open_price_day is None or isinstance(open_price_day, pd.Series) or \
+                                        max_price_day is None or isinstance(max_price_day, pd.Series) or \
+                                        min_price_day is None or isinstance(min_price_day, pd.Series) or \
+                                        close_price_day is None or isinstance(close_price_day, pd.Series) or \
+                                        ema_17_day is None or isinstance(ema_17_day, pd.Series) or \
+                                        ema_72_day is None or isinstance(ema_72_day, pd.Series) or \
+                                        target_buy_price_day is None or isinstance(target_buy_price_day, pd.Series) or \
+                                        stop_loss_day is None or isinstance(stop_loss_day, pd.Series) or \
+                                        up_down_trend_status_day is None or isinstance(up_down_trend_status_day, pd.Series) or \
+                                        peak_day is None or isinstance(peak_day, pd.Series) or \
+                                        ema_72_week is None or isinstance(ema_72_week, pd.Series):
                                         logger.warning(f"Ticker \'{ts.ticker}\' has missing " \
                                             f"data for day \'{day.strftime('%Y-%m-%d')}\'.")
                                         continue
 
                                     if stop_loss_day == 0.0:
-                                        last_close_price = close_price_day
-                                        last_ema_17 = ema_17_day
-                                        last_ema_72 = ema_72_day
-                                        last_stop_loss = stop_loss_day
+                                        ticker_priority_list[index].last_close_price = close_price_day
+                                        ticker_priority_list[index].last_ema_17 = ema_17_day
+                                        ticker_priority_list[index].last_ema_72 = ema_72_day
+                                        ticker_priority_list[index].last_stop_loss = stop_loss_day
                                         continue
 
+                                    # Get first 4 peaks in buffer
                                     ticker_priority_list[index].current_max_delay += 1
                                     ticker_priority_list[index].current_min_delay += 1
 
@@ -1904,6 +1905,7 @@ class AndreMoraesAdaptedStrategy(Strategy):
                                         if len(ticker_priority_list[index].last_min_peaks) > peaks_number:
                                             ticker_priority_list[index].last_min_peaks.pop(0)
                                         ticker_priority_list[index].upcoming_min_peak = 0.0
+                                    # END: Get first 4 peaks in buffer
 
                                     if len(ticker_priority_list[index].last_max_peaks) < \
                                         peaks_number or len(ticker_priority_list[index].last_min_peaks) < peaks_number:
@@ -1911,6 +1913,7 @@ class AndreMoraesAdaptedStrategy(Strategy):
                                         ticker_priority_list[index].last_ema_17 = ema_17_day
                                         ticker_priority_list[index].last_ema_72 = ema_72_day
                                         ticker_priority_list[index].last_stop_loss = stop_loss_day
+                                        ticker_priority_list[index].last_ema_72_week = ema_72_week
                                         continue
 
                                     if peak_day > 0.0:
@@ -1919,23 +1922,23 @@ class AndreMoraesAdaptedStrategy(Strategy):
                                     if (ts.ongoing_operation_flag == False):
 
                                         purchase_price = open_price_day
-                                        stop_loss = round(last_stop_loss * purchase_price / last_close_price, 2)
+                                        stop_loss = round(ticker_priority_list[index].last_stop_loss * purchase_price / ticker_priority_list[index].last_close_price, 2)
                                         if (purchase_price - stop_loss) / purchase_price > self.max_risk:
                                             stop_loss = round(purchase_price * (1 - self.max_risk), 2)
                                         if (purchase_price - stop_loss) / purchase_price < self.min_risk:
                                             stop_loss = round(purchase_price * (1 - self.min_risk), 2)
 
-                                        max_peak_1 = round(ticker_priority_list[index].last_max_peaks[0]/last_close_price, 4)
-                                        max_peak_2 = round(ticker_priority_list[index].last_max_peaks[1]/last_close_price, 4)
-                                        min_peak_1 = round(ticker_priority_list[index].last_min_peaks[0]/last_close_price, 4)
-                                        min_peak_2 = round(ticker_priority_list[index].last_min_peaks[1]/last_close_price, 4)
+                                        max_peak_1 = round(ticker_priority_list[index].last_max_peaks[0]/ticker_priority_list[index].last_close_price, 4)
+                                        max_peak_2 = round(ticker_priority_list[index].last_max_peaks[1]/ticker_priority_list[index].last_close_price, 4)
+                                        min_peak_1 = round(ticker_priority_list[index].last_min_peaks[0]/ticker_priority_list[index].last_close_price, 4)
+                                        min_peak_2 = round(ticker_priority_list[index].last_min_peaks[1]/ticker_priority_list[index].last_close_price, 4)
                                         # emas_day_flag = 1 if last_close_price < max(last_ema_17, last_ema_72) * \
                                         #     (1+self.ema_tolerance) and last_close_price > min(last_ema_17, last_ema_72) \
                                         #     * (1-self.ema_tolerance) else 0
                                         ema_17_day = ticker_priority_list[index].last_ema_17
                                         ema_72_day = ticker_priority_list[index].last_ema_72
                                         ema_72_week = ticker_priority_list[index].last_ema_72_week
-                                        stop_loss_feat = round(last_stop_loss/last_close_price, 4)
+                                        stop_loss_feat = round(ticker_priority_list[index].last_stop_loss/ticker_priority_list[index].last_close_price, 4)
                                         X_test = [[max_peak_1, min_peak_1, max_peak_2, min_peak_2, ema_17_day, ema_72_day, \
                                             ema_72_week, stop_loss_feat]]
 
@@ -2138,7 +2141,7 @@ class AndreMoraesAdaptedStrategy(Strategy):
         self._db_strategy_model.insert_strategy_results(self._statistics_parameters,
             self.operations, self._statistics_graph)
 
-    @RunTime('AndreMoraesStrategy.calculate_statistics')
+    @RunTime('AndreMoraesAdaptedStrategy.calculate_statistics')
     def calculate_statistics(self):
         """
         Calculate statistics.
@@ -2221,7 +2224,7 @@ class AndreMoraesAdaptedStrategy(Strategy):
 
         statistics['day'] = dates
         statistics['ibov'] = ibov_data['close_price']
-        statistics['tickers_average'] = AndreMoraesStrategy.tickers_yield(
+        statistics['tickers_average'] = AndreMoraesAdaptedStrategy.tickers_yield(
             close_prices, precision=4)
         statistics['capital'], statistics['capital_in_use'] = self._calc_capital_usage(
             dates, close_prices)
@@ -2241,9 +2244,13 @@ class AndreMoraesAdaptedStrategy(Strategy):
         self._statistics_parameters['profit'] = \
             round(last_capital_value - self._total_capital, money_precision)
 
-        # Maximum Capital Used
+        # Maximum Used Capital
         self._statistics_parameters['max_used_capital'] = \
             round(max(self._statistics_graph['capital_in_use']), real_precision)
+
+        # Average Used Capital
+        self._statistics_parameters['avg_used_capital'] = \
+            round(np.average(self._statistics_graph['capital_in_use']), real_precision)
 
         # Yield
         self._statistics_parameters['yield'] = \
@@ -2452,14 +2459,12 @@ class AndreMoraesAdaptedStrategy(Strategy):
             holding_papers_capital = 0.0
 
             for oper in self._operations:
-                # Compute purchases debts
+                # Compute purchase debts
                 for p_price, p_volume, p_day in zip(oper.purchase_price, oper.purchase_volume, \
                     oper.purchase_datetime):
                     if day == p_day:
                         amount = round(p_price * p_volume, 2)
 
-                        # current_capital -= amount
-                        # current_capital_in_use += amount
                         current_capital = round(current_capital - amount, 2)
                         current_capital_in_use = round(current_capital_in_use + amount, 2)
 
@@ -2469,11 +2474,12 @@ class AndreMoraesAdaptedStrategy(Strategy):
                     if day == s_day:
                         amount = round(s_price * s_volume, 2)
 
-                        # current_capital += amount
-                        # current_capital_in_use -= amount
                         current_capital = round(current_capital + amount, 2)
-                        current_capital_in_use = round(current_capital_in_use - amount, 2)
-                        total_capital = round(total_capital + s_price * s_volume, 2)
+                        if oper.partial_sale_flag[oper.sale_datetime.index(day)] == False:
+                            current_capital_in_use = round(current_capital_in_use - \
+                                oper.purchase_price[oper.sale_datetime.index(day)] * \
+                                oper.purchase_volume[oper.sale_datetime.index(day)], 2)
+                            total_capital = round(total_capital + oper.profit, 2)
 
                 # Compute holding papers prices
                 if (oper.state == State.OPEN and day >= oper.start_date) or \
@@ -2491,8 +2497,8 @@ class AndreMoraesAdaptedStrategy(Strategy):
             # if day == pd.Timestamp('2019-02-22T00'):
                 # print()
 
-            capital_in_use[day_index] = round(current_capital_in_use / total_capital, 4)
             capital[day_index] = round(current_capital + holding_papers_capital, 2)
+            capital_in_use[day_index] = round(current_capital_in_use / capital[day_index], 4)
 
         return capital, capital_in_use
 
@@ -2523,6 +2529,7 @@ class AndreMoraesAdaptedStrategy(Strategy):
             self._last_ema_17 = None
             self._last_ema_72 = None
             self._last_stop_loss = None
+            self._last_ema_72_week = None
 
         @property
         def ticker(self):
@@ -2687,3 +2694,11 @@ class AndreMoraesAdaptedStrategy(Strategy):
         @last_stop_loss.setter
         def last_stop_loss(self, last_stop_loss):
             self._last_stop_loss = last_stop_loss
+
+        @property
+        def last_ema_72_week(self):
+            return self._last_ema_72_week
+
+        @last_ema_72_week.setter
+        def last_ema_72_week(self, last_ema_72_week):
+            self._last_ema_72_week = last_ema_72_week
