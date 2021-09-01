@@ -7,6 +7,7 @@ ACCEPTABLE_TRUE_VALUES = ['true', 'yes', 'y', True]
 ACCEPTABLE_FALSE_VALUES = ['false', 'no', 'n', False]
 ACCEPTABLE_NONE_VALUES = ['none', 'null', None]
 MODEL_PATH = 'src/RandomForestClassifier.joblib'
+TICKERS_RCC_PATH = 'src/Tickers_RCC.csv'
 
 # Log
 LOG_FILENAME = 'app.log'

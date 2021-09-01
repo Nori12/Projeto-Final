@@ -7,7 +7,7 @@ gain_loss_ratio = 3
 emas_tolerance = 0.015
 # purpose = 'test'
 purpose = 'training'
-compact_mode = True
+compact_mode = False
 
 MAX_DAYS_PER_OPERATION = 120
 
@@ -16,6 +16,12 @@ test_filename = 'features_test.csv'
 
 # Derived
 filename = training_filename if purpose == 'training' else test_filename
+
+print(f"max_risk: {max_risk}")
+print(f"gain_loss_ratio: {gain_loss_ratio}")
+print(f"purpose: {purpose}")
+print(f"compact_mode: {compact_mode}")
+print(f"MAX_DAYS_PER_OPERATION: {MAX_DAYS_PER_OPERATION}")
 
 # %%
 # Get tickers and dates
@@ -37,13 +43,17 @@ config_test = cr.ConfigReader(config_file_path=test_set_cfg_path)
 tickers = config_train.tickers_and_dates if purpose == 'training' else \
     config_test.tickers_and_dates
 
-print('Tickers:')
+len_of_tickers = len(config_train.tickers_and_dates) if purpose == 'training' else \
+    len(config_test.tickers_and_dates)
+
+print(f'Tickers ({len_of_tickers}):')
 msg = ""
 for index, ticker in enumerate(tickers):
     if index > 0:
         msg += ", "
     msg += ticker
 print(msg)
+
 
 # %%
 # Generate features
@@ -62,7 +72,7 @@ for tck_index, (ticker, date) in enumerate(tickers.items()):
         pd.Timestamp(date['start_date']), pd.Timestamp(date['end_date']),
         interval='1wk')
 
-    print(f"Processing Ticker {tck_index+1} of {len(config_train.tickers_and_dates)}")
+    print(f"Processing Ticker {tck_index+1} of {len_of_tickers}")
 
     candles_len = len(candles_df_day)
 
@@ -711,12 +721,28 @@ print(f"Best Risk-Capital Coefficient for \'{ticker}\': {avg_sl_per_sl[without_n
 
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
+import math
 
 # tickers_rcc = {tck: np.nan for tck in tickers}
 tcks = [tck for tck, _ in tickers.items()]
 rccs = []
+n_bins = 15
+
+days_per_sl = [None] * (len(bins) - 1)
+max_days_per_sl = [None] * (len(bins) - 1)
+min_days_per_sl = [None] * (len(bins) - 1)
+avg_days_per_sl = [None] * (len(bins) - 1)
+sl_per_sl = [None] * (len(bins) - 1)
+avg_sl_per_sl = [None] * (len(bins) - 1)
+avg_daily_yield = [None] * (len(bins) - 1)
 
 for tck_index, (ticker, date) in enumerate(tickers.items()):
+
+    sl_on_success = df_train.loc[(df_train['ticker'] == ticker) & (df_train['operation_flag_2'] == 1), ['best_stop_losses']]
+    (n, bins, patches) = plt.hist(sl_on_success, bins=n_bins, color='b')
+    plt.title(f'{ticker} - Stop Loss on Success Histogram')
+
     for i in range(0, len(bins)-1):
         days_per_sl[i] = df_train.loc[(df_train['ticker'] == ticker) & (df_train['best_stop_losses'] >= bins[i]) \
             & (df_train['best_stop_losses'] < bins[i+1]) & (df_train['operation_flag_2'] == 1), ['best_sl_days']].squeeze()
@@ -749,8 +775,7 @@ for tck_index, (ticker, date) in enumerate(tickers.items()):
 
     rccs.append(best_rcc)
 
-rcc_df = pd.DataFrame({'ticker': tcks, 'best_rcc': rccs})
-rcc_df.to_csv('Tickers_RCC.csv', mode='a', index=False)
-
+rcc_df = pd.DataFrame({'ticker': tcks, 'rcc': rccs})
+rcc_df.to_csv('tickers_rcc.csv', mode='a', index=False)
 
 # %%

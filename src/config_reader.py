@@ -533,7 +533,7 @@ class ConfigReader:
             This is necessary because multiple tickers are attached to a single
             param_name
         overwrite_ticker : bool, default False
-            Flag if can oberwrite existing ticker dates. Only works if is_ticker=True.
+            Flag if can overwrite existing ticker dates. Only works if is_ticker=True.
         """
         if isinstance(param, list):
 
@@ -550,9 +550,8 @@ class ConfigReader:
             else:
                 # Clone strategies
                 if len(strategies) == 1:
-                    template_strategy = strategies[0].copy()
                     for _ in range(len(param) - 1):
-                        strategies.append(template_strategy)
+                        strategies.append(strategies[0].copy())
 
                 # Finally len(strategies) == len(parameter)
                 for index, value in enumerate(param):

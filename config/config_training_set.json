@@ -25,11 +25,6 @@
                     "end_date": "01/07/2018"
                 },
                 {
-                    "name": "ASAI3",
-                    "start_date": "01/01/2013",
-                    "end_date": "01/07/2018"
-                },
-                {
                     "name": "AZUL4",
                     "start_date": "01/01/2013",
                     "end_date": "01/07/2018"
@@ -41,11 +36,6 @@
                 },
                 {
                     "name": "B3SA3",
-                    "start_date": "01/01/2013",
-                    "end_date": "01/07/2018"
-                },
-                {
-                    "name": "BIDI11",
                     "start_date": "01/01/2013",
                     "end_date": "01/07/2018"
                 },
@@ -220,32 +210,12 @@
                     "end_date": "01/07/2018"
                 },
                 {
-                    "name": "NTCO3",
-                    "start_date": "01/01/2013",
-                    "end_date": "01/07/2018"
-                },
-                {
-                    "name": "HAPV3",
-                    "start_date": "01/01/2013",
-                    "end_date": "01/07/2018"
-                },
-                {
                     "name": "HYPE3",
                     "start_date": "01/01/2013",
                     "end_date": "01/07/2018"
                 },
                 {
                     "name": "IGTA3",
-                    "start_date": "01/01/2013",
-                    "end_date": "01/07/2018"
-                },
-                {
-                    "name": "GNDI3",
-                    "start_date": "01/01/2013",
-                    "end_date": "01/07/2018"
-                },
-                {
-                    "name": "IRBR3",
                     "start_date": "01/01/2013",
                     "end_date": "01/07/2018"
                 },
@@ -285,11 +255,6 @@
                     "end_date": "01/07/2018"
                 },
                 {
-                    "name": "LWSA3",
-                    "start_date": "01/01/2013",
-                    "end_date": "01/07/2018"
-                },
-                {
                     "name": "LAME4",
                     "start_date": "01/01/2013",
                     "end_date": "01/07/2018"
@@ -325,22 +290,12 @@
                     "end_date": "01/07/2018"
                 },
                 {
-                    "name": "PCAR3",
-                    "start_date": "01/01/2013",
-                    "end_date": "01/07/2018"
-                },
-                {
                     "name": "PETR3",
                     "start_date": "01/01/2013",
                     "end_date": "01/07/2018"
                 },
                 {
                     "name": "PETR4",
-                    "start_date": "01/01/2013",
-                    "end_date": "01/07/2018"
-                },
-                {
-                    "name": "BRDT3",
                     "start_date": "01/01/2013",
                     "end_date": "01/07/2018"
                 },
@@ -381,11 +336,6 @@
                 },
                 {
                     "name": "SULA11",
-                    "start_date": "01/01/2013",
-                    "end_date": "01/07/2018"
-                },
-                {
-                    "name": "SUZB3",
                     "start_date": "01/01/2013",
                     "end_date": "01/07/2018"
                 },

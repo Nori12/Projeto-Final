@@ -1555,6 +1555,9 @@ class AndreMoraesAdaptedStrategy(Strategy):
             'avr_tickers_yield': None, 'annualized_avr_tickers_yield': None, 'volatility': None,
             'sharpe_ratio': None}
 
+        tickers_rcc_path = Path(__file__).parent.parent/c.TICKERS_RCC_PATH
+        self._tickers_rcc_df = pd.read_csv(tickers_rcc_path, sep=',')
+
         if self._min_volume_per_year != 0:
             self._filter_tickers_per_min_volume()
 
@@ -1922,11 +1925,19 @@ class AndreMoraesAdaptedStrategy(Strategy):
                                     if (ts.ongoing_operation_flag == False):
 
                                         purchase_price = open_price_day
-                                        stop_loss = round(ticker_priority_list[index].last_stop_loss * purchase_price / ticker_priority_list[index].last_close_price, 2)
-                                        if (purchase_price - stop_loss) / purchase_price > self.max_risk:
-                                            stop_loss = round(purchase_price * (1 - self.max_risk), 2)
-                                        if (purchase_price - stop_loss) / purchase_price < self.min_risk:
-                                            stop_loss = round(purchase_price * (1 - self.min_risk), 2)
+                                        # stop_loss = round(ticker_priority_list[index].last_stop_loss * purchase_price / ticker_priority_list[index].last_close_price, 2)
+                                        # if (purchase_price - stop_loss) / purchase_price > self.max_risk:
+                                        #     stop_loss = round(purchase_price * (1 - self.max_risk), 2)
+                                        # if (purchase_price - stop_loss) / purchase_price < self.min_risk:
+                                        #     stop_loss = round(purchase_price * (1 - self.min_risk), 2)
+                                        stop_loss = self._tickers_rcc_df.loc[self._tickers_rcc_df['ticker'] == ts.ticker, ['rcc']].squeeze()
+                                        if stop_loss is None or isinstance(stop_loss, pd.Series):
+                                            # print(f"Stop loss empty for ticker \'{ts.ticker}\'")
+                                            stop_loss = round(ticker_priority_list[index].last_stop_loss * purchase_price / ticker_priority_list[index].last_close_price, 2)
+                                            if (purchase_price - stop_loss) / purchase_price > self.max_risk:
+                                                stop_loss = round(purchase_price * (1 - self.max_risk), 2)
+                                            if (purchase_price - stop_loss) / purchase_price < self.min_risk:
+                                                stop_loss = round(purchase_price * (1 - self.min_risk), 2)
 
                                         max_peak_1 = round(ticker_priority_list[index].last_max_peaks[0]/ticker_priority_list[index].last_close_price, 4)
                                         max_peak_2 = round(ticker_priority_list[index].last_max_peaks[1]/ticker_priority_list[index].last_close_price, 4)
