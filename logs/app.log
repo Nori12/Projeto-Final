@@ -1,103 +1,290 @@
-2021-09-01 06:47:16,935:INFO:strategy_analyzer:Dash is running on http://127.0.0.1:8050/
+2021-09-15 11:00:45,408:INFO:strategy_analyzer:Dash is running on http://127.0.0.1:8050/
 
-2021-09-01 06:50:10,657:DEBUG:db_model:Database 'StockMarket' connected successfully.
-2021-09-01 06:50:10,801:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+2021-09-19 18:18:51,782:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-09-19 18:18:51,783:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_training_set_compact.json'.
+2021-09-19 18:18:51,784:DEBUG:config_reader:Config file found.
+2021-09-19 18:18:51,822:INFO:config_reader:Config file successfully read.
+2021-09-19 18:18:51,822:INFO:config_reader:Total strategies: 1
+2021-09-19 18:18:51,822:INFO:config_reader:Total tickers: 3
+2021-09-19 18:18:51,822:INFO:config_reader:Oldest date: 01/01/2013
+2021-09-19 18:18:51,823:INFO:config_reader:Most recent date: 30/06/2018
+2021-09-19 18:18:51,823:INFO:config_reader:Strategies found:
+2021-09-19 18:18:51,823:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.05, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'BBAS3', 'MGLU3']
+2021-09-19 18:18:51,823:DEBUG:utils:The function 'ConfigReader.__init__' took 258.65 milliseconds to run.
+2021-09-19 18:18:51,834:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-09-19 18:18:51,834:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_test_set_compact.json'.
+2021-09-19 18:18:51,835:DEBUG:config_reader:Config file found.
+2021-09-19 18:18:51,841:INFO:config_reader:Config file successfully read.
+2021-09-19 18:18:51,841:INFO:config_reader:Total strategies: 1
+2021-09-19 18:18:51,841:INFO:config_reader:Total tickers: 3
+2021-09-19 18:18:51,841:INFO:config_reader:Oldest date: 01/07/2018
+2021-09-19 18:18:51,841:INFO:config_reader:Most recent date: 31/01/2020
+2021-09-19 18:18:51,841:INFO:config_reader:Strategies found:
+2021-09-19 18:18:51,841:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.001, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'BBAS3', 'MGLU3']
+2021-09-19 18:18:51,841:DEBUG:utils:The function 'ConfigReader.__init__' took 18.55 milliseconds to run.
+2021-09-19 18:18:57,377:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-09-19 18:21:37,745:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-09-19 18:21:37,745:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_training_set_compact.json'.
+2021-09-19 18:21:37,746:DEBUG:config_reader:Config file found.
+2021-09-19 18:21:37,754:INFO:config_reader:Config file successfully read.
+2021-09-19 18:21:37,754:INFO:config_reader:Total strategies: 1
+2021-09-19 18:21:37,754:INFO:config_reader:Total tickers: 3
+2021-09-19 18:21:37,755:INFO:config_reader:Oldest date: 01/01/2013
+2021-09-19 18:21:37,755:INFO:config_reader:Most recent date: 30/06/2018
+2021-09-19 18:21:37,755:INFO:config_reader:Strategies found:
+2021-09-19 18:21:37,755:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.05, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'BBAS3', 'MGLU3']
+2021-09-19 18:21:37,755:DEBUG:utils:The function 'ConfigReader.__init__' took 168.13 milliseconds to run.
+2021-09-19 18:21:37,763:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-09-19 18:21:37,764:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_test_set_compact.json'.
+2021-09-19 18:21:37,764:DEBUG:config_reader:Config file found.
+2021-09-19 18:21:37,771:INFO:config_reader:Config file successfully read.
+2021-09-19 18:21:37,771:INFO:config_reader:Total strategies: 1
+2021-09-19 18:21:37,771:INFO:config_reader:Total tickers: 3
+2021-09-19 18:21:37,772:INFO:config_reader:Oldest date: 01/07/2018
+2021-09-19 18:21:37,772:INFO:config_reader:Most recent date: 31/01/2020
+2021-09-19 18:21:37,772:INFO:config_reader:Strategies found:
+2021-09-19 18:21:37,772:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.001, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'BBAS3', 'MGLU3']
+2021-09-19 18:21:37,772:DEBUG:utils:The function 'ConfigReader.__init__' took 16.79 milliseconds to run.
+2021-09-23 11:18:35,363:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-09-23 11:18:35,364:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_training_set_compact.json'.
+2021-09-23 11:18:35,365:DEBUG:config_reader:Config file found.
+2021-09-23 11:18:35,426:INFO:config_reader:Config file successfully read.
+2021-09-23 11:18:35,426:INFO:config_reader:Total strategies: 1
+2021-09-23 11:18:35,427:INFO:config_reader:Total tickers: 3
+2021-09-23 11:18:35,427:INFO:config_reader:Oldest date: 01/01/2013
+2021-09-23 11:18:35,427:INFO:config_reader:Most recent date: 30/06/2018
+2021-09-23 11:18:35,427:INFO:config_reader:Strategies found:
+2021-09-23 11:18:35,427:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.05, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'BBAS3', 'MGLU3']
+2021-09-23 11:18:35,427:DEBUG:utils:The function 'ConfigReader.__init__' took 236.32 milliseconds to run.
+2021-09-23 11:18:54,579:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-09-23 11:18:54,580:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_training_set_compact.json'.
+2021-09-23 11:18:54,580:DEBUG:config_reader:Config file found.
+2021-09-23 11:18:54,590:INFO:config_reader:Config file successfully read.
+2021-09-23 11:18:54,590:INFO:config_reader:Total strategies: 1
+2021-09-23 11:18:54,590:INFO:config_reader:Total tickers: 3
+2021-09-23 11:18:54,591:INFO:config_reader:Oldest date: 01/01/2013
+2021-09-23 11:18:54,591:INFO:config_reader:Most recent date: 30/06/2018
+2021-09-23 11:18:54,591:INFO:config_reader:Strategies found:
+2021-09-23 11:18:54,591:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.05, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'BBAS3', 'MGLU3']
+2021-09-23 11:18:54,591:DEBUG:utils:The function 'ConfigReader.__init__' took 146.30 milliseconds to run.
+2021-09-23 11:38:39,544:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-09-23 11:38:39,545:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_training_set.json'.
+2021-09-23 11:38:39,545:DEBUG:config_reader:Config file found.
+2021-09-23 11:38:39,556:INFO:config_reader:Config file successfully read.
+2021-09-23 11:38:39,557:INFO:config_reader:Total strategies: 1
+2021-09-23 11:38:39,557:INFO:config_reader:Total tickers: 74
+2021-09-23 11:38:39,557:INFO:config_reader:Oldest date: 01/01/2013
+2021-09-23 11:38:39,557:INFO:config_reader:Most recent date: 30/06/2018
+2021-09-23 11:38:39,557:INFO:config_reader:Strategies found:
+2021-09-23 11:38:39,557:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.05, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'AZUL4', 'BTOW3', 'B3SA3', 'BBSE3', 'BRML3', 'BBDC3', 'BBDC4', 'BRAP4', 'BBAS3', 'BRKM5', 'BRFS3', 'BPAC11', 'CRFB3', 'CCRO3', 'CMIG4', 'HGTX3', 'CIEL3', 'COGN3', 'CPLE6', 'CSAN3', 'CPFE3', 'CVCB3', 'CYRE3', 'ECOR3', 'ELET3', 'ELET6', 'EMBR3', 'ENBR3', 'ENGI11', 'ENEV3', 'EGIE3', 'EQTL3', 'EZTC3', 'FLRY3', 'GGBR4', 'GOAU4', 'GOLL4', 'HYPE3', 'IGTA3', 'ITSA4', 'ITUB4', 'JBSS3', 'JHSF3', 'KLBN11', 'RENT3', 'LCAM3', 'LAME4', 'LREN3', 'MGLU3', 'MRFG3', 'BEEF3', 'MRVE3', 'MULT3', 'PETR3', 'PETR4', 'PRIO3', 'QUAL3', 'RADL3', 'RAIL3', 'SBSP3', 'SANB11', 'CSNA3', 'SULA11', 'TAEE11', 'VIVT3', 'TIMS3', 'TOTS3', 'UGPA3', 'USIM5', 'VALE3', 'VVAR3', 'WEGE3', 'YDUQ3']
+2021-09-23 11:38:39,557:DEBUG:utils:The function 'ConfigReader.__init__' took 131.84 milliseconds to run.
+2021-09-23 11:38:52,234:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-09-23 11:38:52,234:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_training_set_compact.json'.
+2021-09-23 11:38:52,234:DEBUG:config_reader:Config file found.
+2021-09-23 11:38:52,243:INFO:config_reader:Config file successfully read.
+2021-09-23 11:38:52,244:INFO:config_reader:Total strategies: 1
+2021-09-23 11:38:52,244:INFO:config_reader:Total tickers: 3
+2021-09-23 11:38:52,244:INFO:config_reader:Oldest date: 01/01/2013
+2021-09-23 11:38:52,244:INFO:config_reader:Most recent date: 30/06/2018
+2021-09-23 11:38:52,244:INFO:config_reader:Strategies found:
+2021-09-23 11:38:52,244:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.05, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'BBAS3', 'MGLU3']
+2021-09-23 11:38:52,244:DEBUG:utils:The function 'ConfigReader.__init__' took 60.87 milliseconds to run.
+2021-09-28 16:41:03,089:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-09-28 16:41:03,089:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_training_set_compact.json'.
+2021-09-28 16:41:03,090:DEBUG:config_reader:Config file found.
+2021-09-28 16:41:03,147:INFO:config_reader:Config file successfully read.
+2021-09-28 16:41:03,147:INFO:config_reader:Total strategies: 1
+2021-09-28 16:41:03,148:INFO:config_reader:Total tickers: 3
+2021-09-28 16:41:03,148:INFO:config_reader:Oldest date: 01/01/2013
+2021-09-28 16:41:03,148:INFO:config_reader:Most recent date: 30/06/2018
+2021-09-28 16:41:03,148:INFO:config_reader:Strategies found:
+2021-09-28 16:41:03,148:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.05, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'BBAS3', 'MGLU3']
+2021-09-28 16:41:03,148:DEBUG:utils:The function 'ConfigReader.__init__' took 216.27 milliseconds to run.
+2021-09-30 17:03:13,170:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-09-30 17:03:13,170:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_training_set_compact.json'.
+2021-09-30 17:03:13,171:DEBUG:config_reader:Config file found.
+2021-09-30 17:03:13,220:INFO:config_reader:Config file successfully read.
+2021-09-30 17:03:13,220:INFO:config_reader:Total strategies: 1
+2021-09-30 17:03:13,220:INFO:config_reader:Total tickers: 3
+2021-09-30 17:03:13,220:INFO:config_reader:Oldest date: 01/01/2013
+2021-09-30 17:03:13,220:INFO:config_reader:Most recent date: 30/06/2018
+2021-09-30 17:03:13,220:INFO:config_reader:Strategies found:
+2021-09-30 17:03:13,220:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.05, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'BBAS3', 'MGLU3']
+2021-09-30 17:03:13,220:DEBUG:utils:The function 'ConfigReader.__init__' took 188.77 milliseconds to run.
+2021-09-30 17:05:09,495:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-10-01 03:04:21,804:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-10-01 03:04:21,804:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_training_set_compact.json'.
+2021-10-01 03:04:21,805:DEBUG:config_reader:Config file found.
+2021-10-01 03:04:22,586:INFO:config_reader:Config file successfully read.
+2021-10-01 03:04:22,586:INFO:config_reader:Total strategies: 1
+2021-10-01 03:04:22,586:INFO:config_reader:Total tickers: 3
+2021-10-01 03:04:22,587:INFO:config_reader:Oldest date: 01/01/2013
+2021-10-01 03:04:22,587:INFO:config_reader:Most recent date: 30/06/2018
+2021-10-01 03:04:22,587:INFO:config_reader:Strategies found:
+2021-10-01 03:04:22,587:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.05, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'BBAS3', 'MGLU3']
+2021-10-01 03:04:22,587:DEBUG:utils:The function 'ConfigReader.__init__' took 2069.49 milliseconds to run.
+2021-10-01 03:12:35,962:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-10-01 03:12:35,962:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_training_set_compact.json'.
+2021-10-01 03:12:35,963:DEBUG:config_reader:Config file found.
+2021-10-01 03:12:35,969:INFO:config_reader:Config file successfully read.
+2021-10-01 03:12:35,969:INFO:config_reader:Total strategies: 1
+2021-10-01 03:12:35,969:INFO:config_reader:Total tickers: 3
+2021-10-01 03:12:35,970:INFO:config_reader:Oldest date: 01/01/2013
+2021-10-01 03:12:35,970:INFO:config_reader:Most recent date: 30/06/2018
+2021-10-01 03:12:35,970:INFO:config_reader:Strategies found:
+2021-10-01 03:12:35,970:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.05, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'BBAS3', 'MGLU3']
+2021-10-01 03:12:35,970:DEBUG:utils:The function 'ConfigReader.__init__' took 135.68 milliseconds to run.
+2021-10-01 03:12:43,029:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-10-01 03:19:03,006:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-10-01 03:19:03,006:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_training_set_compact.json'.
+2021-10-01 03:19:03,007:DEBUG:config_reader:Config file found.
+2021-10-01 03:19:03,015:INFO:config_reader:Config file successfully read.
+2021-10-01 03:19:03,016:INFO:config_reader:Total strategies: 1
+2021-10-01 03:19:03,016:INFO:config_reader:Total tickers: 3
+2021-10-01 03:19:03,016:INFO:config_reader:Oldest date: 01/01/2013
+2021-10-01 03:19:03,016:INFO:config_reader:Most recent date: 30/06/2018
+2021-10-01 03:19:03,016:INFO:config_reader:Strategies found:
+2021-10-01 03:19:03,016:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.05, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'BBAS3', 'MGLU3']
+2021-10-01 03:19:03,016:DEBUG:utils:The function 'ConfigReader.__init__' took 251.92 milliseconds to run.
+2021-10-01 03:19:05,819:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-10-01 06:47:58,455:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-10-01 06:47:58,456:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_training_set_compact.json'.
+2021-10-01 06:47:58,457:DEBUG:config_reader:Config file found.
+2021-10-01 06:47:58,512:INFO:config_reader:Config file successfully read.
+2021-10-01 06:47:58,512:INFO:config_reader:Total strategies: 1
+2021-10-01 06:47:58,512:INFO:config_reader:Total tickers: 3
+2021-10-01 06:47:58,512:INFO:config_reader:Oldest date: 01/01/2013
+2021-10-01 06:47:58,512:INFO:config_reader:Most recent date: 30/06/2018
+2021-10-01 06:47:58,512:INFO:config_reader:Strategies found:
+2021-10-01 06:47:58,512:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.05, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'BBAS3', 'MGLU3']
+2021-10-01 06:47:58,512:DEBUG:utils:The function 'ConfigReader.__init__' took 175.49 milliseconds to run.
+2021-10-01 10:04:08,361:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-10-01 10:04:08,362:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_training_set_compact.json'.
+2021-10-01 10:04:08,362:DEBUG:config_reader:Config file found.
+2021-10-01 10:04:08,415:INFO:config_reader:Config file successfully read.
+2021-10-01 10:04:08,415:INFO:config_reader:Total strategies: 1
+2021-10-01 10:04:08,415:INFO:config_reader:Total tickers: 3
+2021-10-01 10:04:08,416:INFO:config_reader:Oldest date: 01/01/2013
+2021-10-01 10:04:08,416:INFO:config_reader:Most recent date: 30/06/2018
+2021-10-01 10:04:08,416:INFO:config_reader:Strategies found:
+2021-10-01 10:04:08,416:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.05, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'BBAS3', 'MGLU3']
+2021-10-01 10:04:08,416:DEBUG:utils:The function 'ConfigReader.__init__' took 174.48 milliseconds to run.
+2021-10-01 10:27:10,187:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-10-01 10:27:10,188:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_training_set_compact.json'.
+2021-10-01 10:27:10,188:DEBUG:config_reader:Config file found.
+2021-10-01 10:27:10,199:INFO:config_reader:Config file successfully read.
+2021-10-01 10:27:10,199:INFO:config_reader:Total strategies: 1
+2021-10-01 10:27:10,199:INFO:config_reader:Total tickers: 3
+2021-10-01 10:27:10,199:INFO:config_reader:Oldest date: 01/01/2013
+2021-10-01 10:27:10,199:INFO:config_reader:Most recent date: 30/06/2018
+2021-10-01 10:27:10,200:INFO:config_reader:Strategies found:
+2021-10-01 10:27:10,200:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.05, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'BBAS3', 'MGLU3']
+2021-10-01 10:27:10,200:DEBUG:utils:The function 'ConfigReader.__init__' took 246.24 milliseconds to run.
+2021-10-06 13:45:25,007:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-10-06 13:45:25,008:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_training_set_compact.json'.
+2021-10-06 13:45:25,009:DEBUG:config_reader:Config file found.
+2021-10-06 13:45:25,408:INFO:config_reader:Config file successfully read.
+2021-10-06 13:45:25,408:INFO:config_reader:Total strategies: 1
+2021-10-06 13:45:25,408:INFO:config_reader:Total tickers: 3
+2021-10-06 13:45:25,408:INFO:config_reader:Oldest date: 01/01/2013
+2021-10-06 13:45:25,408:INFO:config_reader:Most recent date: 30/06/2018
+2021-10-06 13:45:25,409:INFO:config_reader:Strategies found:
+2021-10-06 13:45:25,409:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.05, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'BBAS3', 'MGLU3']
+2021-10-06 13:45:25,409:DEBUG:utils:The function 'ConfigReader.__init__' took 863.98 milliseconds to run.
+2021-10-06 13:54:21,198:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-10-06 13:54:21,199:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_training_set_compact.json'.
+2021-10-06 13:54:21,200:DEBUG:config_reader:Config file found.
+2021-10-06 13:54:21,210:INFO:config_reader:Config file successfully read.
+2021-10-06 13:54:21,210:INFO:config_reader:Total strategies: 1
+2021-10-06 13:54:21,210:INFO:config_reader:Total tickers: 3
+2021-10-06 13:54:21,210:INFO:config_reader:Oldest date: 01/01/2013
+2021-10-06 13:54:21,210:INFO:config_reader:Most recent date: 30/06/2018
+2021-10-06 13:54:21,210:INFO:config_reader:Strategies found:
+2021-10-06 13:54:21,210:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.05, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'BBAS3', 'MGLU3']
+2021-10-06 13:54:21,210:DEBUG:utils:The function 'ConfigReader.__init__' took 576.68 milliseconds to run.
+2021-10-06 13:54:32,894:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-10-06 13:54:32,894:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_training_set_compact.json'.
+2021-10-06 13:54:32,895:DEBUG:config_reader:Config file found.
+2021-10-06 13:54:32,902:INFO:config_reader:Config file successfully read.
+2021-10-06 13:54:32,903:INFO:config_reader:Total strategies: 1
+2021-10-06 13:54:32,903:INFO:config_reader:Total tickers: 3
+2021-10-06 13:54:32,903:INFO:config_reader:Oldest date: 01/01/2013
+2021-10-06 13:54:32,903:INFO:config_reader:Most recent date: 30/06/2018
+2021-10-06 13:54:32,903:INFO:config_reader:Strategies found:
+2021-10-06 13:54:32,903:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.05, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'BBAS3', 'MGLU3']
+2021-10-06 13:54:32,903:DEBUG:utils:The function 'ConfigReader.__init__' took 68.47 milliseconds to run.
+2021-10-06 15:49:32,754:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-10-06 15:49:32,755:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_training_set_compact.json'.
+2021-10-06 15:49:32,756:DEBUG:config_reader:Config file found.
+2021-10-06 15:49:32,763:INFO:config_reader:Config file successfully read.
+2021-10-06 15:49:32,764:INFO:config_reader:Total strategies: 1
+2021-10-06 15:49:32,764:INFO:config_reader:Total tickers: 3
+2021-10-06 15:49:32,764:INFO:config_reader:Oldest date: 01/01/2013
+2021-10-06 15:49:32,764:INFO:config_reader:Most recent date: 30/06/2018
+2021-10-06 15:49:32,764:INFO:config_reader:Strategies found:
+2021-10-06 15:49:32,764:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.05, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'BBAS3', 'MGLU3']
+2021-10-06 15:49:32,764:DEBUG:utils:The function 'ConfigReader.__init__' took 151.72 milliseconds to run.
+2021-10-07 10:44:29,643:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-10-07 10:44:29,644:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_training_set_compact.json'.
+2021-10-07 10:44:29,645:DEBUG:config_reader:Config file found.
+2021-10-07 10:44:29,713:INFO:config_reader:Config file successfully read.
+2021-10-07 10:44:29,713:INFO:config_reader:Total strategies: 1
+2021-10-07 10:44:29,714:INFO:config_reader:Total tickers: 3
+2021-10-07 10:44:29,714:INFO:config_reader:Oldest date: 01/01/2013
+2021-10-07 10:44:29,714:INFO:config_reader:Most recent date: 30/06/2018
+2021-10-07 10:44:29,714:INFO:config_reader:Strategies found:
+2021-10-07 10:44:29,714:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.05, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'BBAS3', 'MGLU3']
+2021-10-07 10:44:29,714:DEBUG:utils:The function 'ConfigReader.__init__' took 256.14 milliseconds to run.
+2021-10-07 11:47:54,053:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-10-07 11:47:54,054:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_training_set_compact.json'.
+2021-10-07 11:47:54,055:DEBUG:config_reader:Config file found.
+2021-10-07 11:47:54,064:INFO:config_reader:Config file successfully read.
+2021-10-07 11:47:54,064:INFO:config_reader:Total strategies: 1
+2021-10-07 11:47:54,065:INFO:config_reader:Total tickers: 3
+2021-10-07 11:47:54,065:INFO:config_reader:Oldest date: 01/01/2013
+2021-10-07 11:47:54,065:INFO:config_reader:Most recent date: 30/06/2018
+2021-10-07 11:47:54,065:INFO:config_reader:Strategies found:
+2021-10-07 11:47:54,065:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.05, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'BBAS3', 'MGLU3']
+2021-10-07 11:47:54,065:DEBUG:utils:The function 'ConfigReader.__init__' took 132.55 milliseconds to run.
+2021-10-07 12:14:01,878:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-10-07 12:14:01,879:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_training_set_compact.json'.
+2021-10-07 12:14:01,879:DEBUG:config_reader:Config file found.
+2021-10-07 12:14:01,886:INFO:config_reader:Config file successfully read.
+2021-10-07 12:14:01,886:INFO:config_reader:Total strategies: 1
+2021-10-07 12:14:01,886:INFO:config_reader:Total tickers: 3
+2021-10-07 12:14:01,886:INFO:config_reader:Oldest date: 01/01/2013
+2021-10-07 12:14:01,886:INFO:config_reader:Most recent date: 30/06/2018
+2021-10-07 12:14:01,886:INFO:config_reader:Strategies found:
+2021-10-07 12:14:01,887:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.05, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'BBAS3', 'MGLU3']
+2021-10-07 12:14:01,887:DEBUG:utils:The function 'ConfigReader.__init__' took 128.98 milliseconds to run.
+2021-10-07 12:38:22,249:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-10-07 12:38:22,250:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_training_set_compact.json'.
+2021-10-07 12:38:22,251:DEBUG:config_reader:Config file found.
+2021-10-07 12:38:22,260:INFO:config_reader:Config file successfully read.
+2021-10-07 12:38:22,260:INFO:config_reader:Total strategies: 1
+2021-10-07 12:38:22,260:INFO:config_reader:Total tickers: 3
+2021-10-07 12:38:22,260:INFO:config_reader:Oldest date: 01/01/2013
+2021-10-07 12:38:22,260:INFO:config_reader:Most recent date: 30/06/2018
+2021-10-07 12:38:22,261:INFO:config_reader:Strategies found:
+2021-10-07 12:38:22,261:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.05, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'BBAS3', 'MGLU3']
+2021-10-07 12:38:22,261:DEBUG:utils:The function 'ConfigReader.__init__' took 299.85 milliseconds to run.
+2021-10-17 09:56:35,423:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-10-17 09:56:35,424:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config_training_set_compact.json'.
+2021-10-17 09:56:35,424:DEBUG:config_reader:Config file found.
+2021-10-17 09:56:35,518:INFO:config_reader:Config file successfully read.
+2021-10-17 09:56:35,518:INFO:config_reader:Total strategies: 1
+2021-10-17 09:56:35,518:INFO:config_reader:Total tickers: 3
+2021-10-17 09:56:35,518:INFO:config_reader:Oldest date: 01/01/2013
+2021-10-17 09:56:35,518:INFO:config_reader:Most recent date: 30/06/2018
+2021-10-17 09:56:35,518:INFO:config_reader:Strategies found:
+2021-10-17 09:56:35,518:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.05, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'BBAS3', 'MGLU3']
+2021-10-17 09:56:35,518:DEBUG:utils:The function 'ConfigReader.__init__' took 343.43 milliseconds to run.
+2021-10-26 13:22:02,365:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-10-26 13:22:02,734:INFO:__main__:Dash is running on http://127.0.0.1:8050/
 
-2021-09-01 06:51:01,368:DEBUG:db_model:Database 'StockMarket' connected successfully.
-2021-09-01 06:51:01,509:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+2021-10-26 14:13:43,095:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-10-26 14:13:43,253:INFO:__main__:Dash is running on http://127.0.0.1:8050/
 
-2021-09-01 06:51:50,114:DEBUG:db_model:Database 'StockMarket' connected successfully.
-2021-09-01 06:51:50,260:INFO:__main__:Dash is running on http://127.0.0.1:8050/
+2021-11-24 16:37:03,583:DEBUG:db_model:Database 'StockMarket' connected successfully.
+2021-11-24 16:37:03,896:INFO:__main__:Dash is running on http://127.0.0.1:8050/
 
-2021-09-01 06:52:33,024:DEBUG:db_model:Database 'StockMarket' connected successfully.
-2021-09-01 06:52:33,364:INFO:__main__:Dash is running on http://127.0.0.1:8050/
-
-2021-09-01 06:53:05,462:DEBUG:db_model:Database 'StockMarket' connected successfully.
-2021-09-01 06:53:05,639:INFO:__main__:Dash is running on http://127.0.0.1:8050/
-
-2021-09-01 06:53:37,866:DEBUG:db_model:Database 'StockMarket' connected successfully.
-2021-09-01 06:53:37,994:INFO:__main__:Dash is running on http://127.0.0.1:8050/
-
-2021-09-01 06:54:29,218:DEBUG:db_model:Database 'StockMarket' connected successfully.
-2021-09-01 06:54:29,363:INFO:__main__:Dash is running on http://127.0.0.1:8050/
-
-2021-09-01 06:55:15,489:DEBUG:db_model:Database 'StockMarket' connected successfully.
-2021-09-01 06:55:15,631:INFO:__main__:Dash is running on http://127.0.0.1:8050/
-
-2021-09-01 06:55:59,507:DEBUG:db_model:Database 'StockMarket' connected successfully.
-2021-09-01 06:55:59,723:INFO:__main__:Dash is running on http://127.0.0.1:8050/
-
-2021-09-01 06:58:23,096:DEBUG:db_model:Database 'StockMarket' connected successfully.
-2021-09-01 06:58:23,241:INFO:__main__:Dash is running on http://127.0.0.1:8050/
-
-2021-09-01 06:59:36,448:DEBUG:db_model:Database 'StockMarket' connected successfully.
-2021-09-01 06:59:36,576:INFO:__main__:Dash is running on http://127.0.0.1:8050/
-
-2021-09-01 07:00:38,411:DEBUG:db_model:Database 'StockMarket' connected successfully.
-2021-09-01 07:00:38,549:INFO:__main__:Dash is running on http://127.0.0.1:8050/
-
-2021-09-01 07:01:46,323:DEBUG:db_model:Database 'StockMarket' connected successfully.
-2021-09-01 07:01:46,459:INFO:__main__:Dash is running on http://127.0.0.1:8050/
-
-2021-09-01 07:05:48,181:DEBUG:db_model:Database 'StockMarket' connected successfully.
-2021-09-01 07:05:48,801:INFO:__main__:
-Program started.
-2021-09-01 07:05:48,811:DEBUG:db_model:Database 'StockMarket' connected successfully.
-2021-09-01 07:05:48,811:DEBUG:config_reader:Searching for config file in path '/Users/atcha/Github/Projeto-Final/config/config.json'.
-2021-09-01 07:05:48,812:DEBUG:config_reader:Config file found.
-2021-09-01 07:05:48,847:INFO:config_reader:Config file successfully read.
-2021-09-01 07:05:48,847:INFO:config_reader:Total strategies: 13
-2021-09-01 07:05:48,849:INFO:config_reader:Total tickers: 84
-2021-09-01 07:05:48,849:INFO:config_reader:Oldest date: 01/07/2018
-2021-09-01 07:05:48,850:INFO:config_reader:Most recent date: 26/01/2020
-2021-09-01 07:05:48,850:INFO:config_reader:Strategies found:
-2021-09-01 07:05:48,850:INFO:config_reader:  Name: 'Andre Moraes Adapted', Capital: 100000, Risk-Capital Coefficient: 0.066, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'ASAI3', 'AZUL4', 'BTOW3', 'B3SA3', 'BIDI11', 'BBSE3', 'BRML3', 'BBDC3', 'BBDC4', 'BRAP4', 'BBAS3', 'BRKM5', 'BRFS3', 'BPAC11', 'CRFB3', 'CCRO3', 'CMIG4', 'HGTX3', 'CIEL3', 'COGN3', 'CPLE6', 'CSAN3', 'CPFE3', 'CVCB3', 'CYRE3', 'ECOR3', 'ELET3', 'ELET6', 'EMBR3', 'ENBR3', 'ENGI11', 'ENEV3', 'EGIE3', 'EQTL3', 'EZTC3', 'FLRY3', 'GGBR4', 'GOAU4', 'GOLL4', 'NTCO3', 'HAPV3', 'HYPE3', 'IGTA3', 'GNDI3', 'IRBR3', 'ITSA4', 'ITUB4', 'JBSS3', 'JHSF3', 'KLBN11', 'RENT3', 'LCAM3', 'LWSA3', 'LAME4', 'LREN3', 'MGLU3', 'MRFG3', 'BEEF3', 'MRVE3', 'MULT3', 'PCAR3', 'PETR3', 'PETR4', 'BRDT3', 'PRIO3', 'QUAL3', 'RADL3', 'RAIL3', 'SBSP3', 'SANB11', 'CSNA3', 'SULA11', 'SUZB3', 'TAEE11', 'VIVT3', 'TIMS3', 'TOTS3', 'UGPA3', 'USIM5', 'VALE3', 'VVAR3', 'WEGE3', 'YDUQ3']
-2021-09-01 07:05:48,850:INFO:config_reader:  Name: 'Andre Moraes Adapted', Capital: 100000, Risk-Capital Coefficient: 0.07, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'ASAI3', 'AZUL4', 'BTOW3', 'B3SA3', 'BIDI11', 'BBSE3', 'BRML3', 'BBDC3', 'BBDC4', 'BRAP4', 'BBAS3', 'BRKM5', 'BRFS3', 'BPAC11', 'CRFB3', 'CCRO3', 'CMIG4', 'HGTX3', 'CIEL3', 'COGN3', 'CPLE6', 'CSAN3', 'CPFE3', 'CVCB3', 'CYRE3', 'ECOR3', 'ELET3', 'ELET6', 'EMBR3', 'ENBR3', 'ENGI11', 'ENEV3', 'EGIE3', 'EQTL3', 'EZTC3', 'FLRY3', 'GGBR4', 'GOAU4', 'GOLL4', 'NTCO3', 'HAPV3', 'HYPE3', 'IGTA3', 'GNDI3', 'IRBR3', 'ITSA4', 'ITUB4', 'JBSS3', 'JHSF3', 'KLBN11', 'RENT3', 'LCAM3', 'LWSA3', 'LAME4', 'LREN3', 'MGLU3', 'MRFG3', 'BEEF3', 'MRVE3', 'MULT3', 'PCAR3', 'PETR3', 'PETR4', 'BRDT3', 'PRIO3', 'QUAL3', 'RADL3', 'RAIL3', 'SBSP3', 'SANB11', 'CSNA3', 'SULA11', 'SUZB3', 'TAEE11', 'VIVT3', 'TIMS3', 'TOTS3', 'UGPA3', 'USIM5', 'VALE3', 'VVAR3', 'WEGE3', 'YDUQ3']
-2021-09-01 07:05:48,850:INFO:config_reader:  Name: 'Andre Moraes Adapted', Capital: 100000, Risk-Capital Coefficient: 0.074, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'ASAI3', 'AZUL4', 'BTOW3', 'B3SA3', 'BIDI11', 'BBSE3', 'BRML3', 'BBDC3', 'BBDC4', 'BRAP4', 'BBAS3', 'BRKM5', 'BRFS3', 'BPAC11', 'CRFB3', 'CCRO3', 'CMIG4', 'HGTX3', 'CIEL3', 'COGN3', 'CPLE6', 'CSAN3', 'CPFE3', 'CVCB3', 'CYRE3', 'ECOR3', 'ELET3', 'ELET6', 'EMBR3', 'ENBR3', 'ENGI11', 'ENEV3', 'EGIE3', 'EQTL3', 'EZTC3', 'FLRY3', 'GGBR4', 'GOAU4', 'GOLL4', 'NTCO3', 'HAPV3', 'HYPE3', 'IGTA3', 'GNDI3', 'IRBR3', 'ITSA4', 'ITUB4', 'JBSS3', 'JHSF3', 'KLBN11', 'RENT3', 'LCAM3', 'LWSA3', 'LAME4', 'LREN3', 'MGLU3', 'MRFG3', 'BEEF3', 'MRVE3', 'MULT3', 'PCAR3', 'PETR3', 'PETR4', 'BRDT3', 'PRIO3', 'QUAL3', 'RADL3', 'RAIL3', 'SBSP3', 'SANB11', 'CSNA3', 'SULA11', 'SUZB3', 'TAEE11', 'VIVT3', 'TIMS3', 'TOTS3', 'UGPA3', 'USIM5', 'VALE3', 'VVAR3', 'WEGE3', 'YDUQ3']
-2021-09-01 07:05:48,850:INFO:config_reader:  Name: 'Andre Moraes Adapted', Capital: 100000, Risk-Capital Coefficient: 0.078, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'ASAI3', 'AZUL4', 'BTOW3', 'B3SA3', 'BIDI11', 'BBSE3', 'BRML3', 'BBDC3', 'BBDC4', 'BRAP4', 'BBAS3', 'BRKM5', 'BRFS3', 'BPAC11', 'CRFB3', 'CCRO3', 'CMIG4', 'HGTX3', 'CIEL3', 'COGN3', 'CPLE6', 'CSAN3', 'CPFE3', 'CVCB3', 'CYRE3', 'ECOR3', 'ELET3', 'ELET6', 'EMBR3', 'ENBR3', 'ENGI11', 'ENEV3', 'EGIE3', 'EQTL3', 'EZTC3', 'FLRY3', 'GGBR4', 'GOAU4', 'GOLL4', 'NTCO3', 'HAPV3', 'HYPE3', 'IGTA3', 'GNDI3', 'IRBR3', 'ITSA4', 'ITUB4', 'JBSS3', 'JHSF3', 'KLBN11', 'RENT3', 'LCAM3', 'LWSA3', 'LAME4', 'LREN3', 'MGLU3', 'MRFG3', 'BEEF3', 'MRVE3', 'MULT3', 'PCAR3', 'PETR3', 'PETR4', 'BRDT3', 'PRIO3', 'QUAL3', 'RADL3', 'RAIL3', 'SBSP3', 'SANB11', 'CSNA3', 'SULA11', 'SUZB3', 'TAEE11', 'VIVT3', 'TIMS3', 'TOTS3', 'UGPA3', 'USIM5', 'VALE3', 'VVAR3', 'WEGE3', 'YDUQ3']
-2021-09-01 07:05:48,851:INFO:config_reader:  Name: 'Andre Moraes Adapted', Capital: 100000, Risk-Capital Coefficient: 0.082, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'ASAI3', 'AZUL4', 'BTOW3', 'B3SA3', 'BIDI11', 'BBSE3', 'BRML3', 'BBDC3', 'BBDC4', 'BRAP4', 'BBAS3', 'BRKM5', 'BRFS3', 'BPAC11', 'CRFB3', 'CCRO3', 'CMIG4', 'HGTX3', 'CIEL3', 'COGN3', 'CPLE6', 'CSAN3', 'CPFE3', 'CVCB3', 'CYRE3', 'ECOR3', 'ELET3', 'ELET6', 'EMBR3', 'ENBR3', 'ENGI11', 'ENEV3', 'EGIE3', 'EQTL3', 'EZTC3', 'FLRY3', 'GGBR4', 'GOAU4', 'GOLL4', 'NTCO3', 'HAPV3', 'HYPE3', 'IGTA3', 'GNDI3', 'IRBR3', 'ITSA4', 'ITUB4', 'JBSS3', 'JHSF3', 'KLBN11', 'RENT3', 'LCAM3', 'LWSA3', 'LAME4', 'LREN3', 'MGLU3', 'MRFG3', 'BEEF3', 'MRVE3', 'MULT3', 'PCAR3', 'PETR3', 'PETR4', 'BRDT3', 'PRIO3', 'QUAL3', 'RADL3', 'RAIL3', 'SBSP3', 'SANB11', 'CSNA3', 'SULA11', 'SUZB3', 'TAEE11', 'VIVT3', 'TIMS3', 'TOTS3', 'UGPA3', 'USIM5', 'VALE3', 'VVAR3', 'WEGE3', 'YDUQ3']
-2021-09-01 07:05:48,851:INFO:config_reader:  Name: 'Andre Moraes Adapted', Capital: 100000, Risk-Capital Coefficient: 0.086, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'ASAI3', 'AZUL4', 'BTOW3', 'B3SA3', 'BIDI11', 'BBSE3', 'BRML3', 'BBDC3', 'BBDC4', 'BRAP4', 'BBAS3', 'BRKM5', 'BRFS3', 'BPAC11', 'CRFB3', 'CCRO3', 'CMIG4', 'HGTX3', 'CIEL3', 'COGN3', 'CPLE6', 'CSAN3', 'CPFE3', 'CVCB3', 'CYRE3', 'ECOR3', 'ELET3', 'ELET6', 'EMBR3', 'ENBR3', 'ENGI11', 'ENEV3', 'EGIE3', 'EQTL3', 'EZTC3', 'FLRY3', 'GGBR4', 'GOAU4', 'GOLL4', 'NTCO3', 'HAPV3', 'HYPE3', 'IGTA3', 'GNDI3', 'IRBR3', 'ITSA4', 'ITUB4', 'JBSS3', 'JHSF3', 'KLBN11', 'RENT3', 'LCAM3', 'LWSA3', 'LAME4', 'LREN3', 'MGLU3', 'MRFG3', 'BEEF3', 'MRVE3', 'MULT3', 'PCAR3', 'PETR3', 'PETR4', 'BRDT3', 'PRIO3', 'QUAL3', 'RADL3', 'RAIL3', 'SBSP3', 'SANB11', 'CSNA3', 'SULA11', 'SUZB3', 'TAEE11', 'VIVT3', 'TIMS3', 'TOTS3', 'UGPA3', 'USIM5', 'VALE3', 'VVAR3', 'WEGE3', 'YDUQ3']
-2021-09-01 07:05:48,851:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.008, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'ASAI3', 'AZUL4', 'BTOW3', 'B3SA3', 'BIDI11', 'BBSE3', 'BRML3', 'BBDC3', 'BBDC4', 'BRAP4', 'BBAS3', 'BRKM5', 'BRFS3', 'BPAC11', 'CRFB3', 'CCRO3', 'CMIG4', 'HGTX3', 'CIEL3', 'COGN3', 'CPLE6', 'CSAN3', 'CPFE3', 'CVCB3', 'CYRE3', 'ECOR3', 'ELET3', 'ELET6', 'EMBR3', 'ENBR3', 'ENGI11', 'ENEV3', 'EGIE3', 'EQTL3', 'EZTC3', 'FLRY3', 'GGBR4', 'GOAU4', 'GOLL4', 'NTCO3', 'HAPV3', 'HYPE3', 'IGTA3', 'GNDI3', 'IRBR3', 'ITSA4', 'ITUB4', 'JBSS3', 'JHSF3', 'KLBN11', 'RENT3', 'LCAM3', 'LWSA3', 'LAME4', 'LREN3', 'MGLU3', 'MRFG3', 'BEEF3', 'MRVE3', 'MULT3', 'PCAR3', 'PETR3', 'PETR4', 'BRDT3', 'PRIO3', 'QUAL3', 'RADL3', 'RAIL3', 'SBSP3', 'SANB11', 'CSNA3', 'SULA11', 'SUZB3', 'TAEE11', 'VIVT3', 'TIMS3', 'TOTS3', 'UGPA3', 'USIM5', 'VALE3', 'VVAR3', 'WEGE3', 'YDUQ3']
-2021-09-01 07:05:48,851:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.009, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'ASAI3', 'AZUL4', 'BTOW3', 'B3SA3', 'BIDI11', 'BBSE3', 'BRML3', 'BBDC3', 'BBDC4', 'BRAP4', 'BBAS3', 'BRKM5', 'BRFS3', 'BPAC11', 'CRFB3', 'CCRO3', 'CMIG4', 'HGTX3', 'CIEL3', 'COGN3', 'CPLE6', 'CSAN3', 'CPFE3', 'CVCB3', 'CYRE3', 'ECOR3', 'ELET3', 'ELET6', 'EMBR3', 'ENBR3', 'ENGI11', 'ENEV3', 'EGIE3', 'EQTL3', 'EZTC3', 'FLRY3', 'GGBR4', 'GOAU4', 'GOLL4', 'NTCO3', 'HAPV3', 'HYPE3', 'IGTA3', 'GNDI3', 'IRBR3', 'ITSA4', 'ITUB4', 'JBSS3', 'JHSF3', 'KLBN11', 'RENT3', 'LCAM3', 'LWSA3', 'LAME4', 'LREN3', 'MGLU3', 'MRFG3', 'BEEF3', 'MRVE3', 'MULT3', 'PCAR3', 'PETR3', 'PETR4', 'BRDT3', 'PRIO3', 'QUAL3', 'RADL3', 'RAIL3', 'SBSP3', 'SANB11', 'CSNA3', 'SULA11', 'SUZB3', 'TAEE11', 'VIVT3', 'TIMS3', 'TOTS3', 'UGPA3', 'USIM5', 'VALE3', 'VVAR3', 'WEGE3', 'YDUQ3']
-2021-09-01 07:05:48,851:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.01, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'ASAI3', 'AZUL4', 'BTOW3', 'B3SA3', 'BIDI11', 'BBSE3', 'BRML3', 'BBDC3', 'BBDC4', 'BRAP4', 'BBAS3', 'BRKM5', 'BRFS3', 'BPAC11', 'CRFB3', 'CCRO3', 'CMIG4', 'HGTX3', 'CIEL3', 'COGN3', 'CPLE6', 'CSAN3', 'CPFE3', 'CVCB3', 'CYRE3', 'ECOR3', 'ELET3', 'ELET6', 'EMBR3', 'ENBR3', 'ENGI11', 'ENEV3', 'EGIE3', 'EQTL3', 'EZTC3', 'FLRY3', 'GGBR4', 'GOAU4', 'GOLL4', 'NTCO3', 'HAPV3', 'HYPE3', 'IGTA3', 'GNDI3', 'IRBR3', 'ITSA4', 'ITUB4', 'JBSS3', 'JHSF3', 'KLBN11', 'RENT3', 'LCAM3', 'LWSA3', 'LAME4', 'LREN3', 'MGLU3', 'MRFG3', 'BEEF3', 'MRVE3', 'MULT3', 'PCAR3', 'PETR3', 'PETR4', 'BRDT3', 'PRIO3', 'QUAL3', 'RADL3', 'RAIL3', 'SBSP3', 'SANB11', 'CSNA3', 'SULA11', 'SUZB3', 'TAEE11', 'VIVT3', 'TIMS3', 'TOTS3', 'UGPA3', 'USIM5', 'VALE3', 'VVAR3', 'WEGE3', 'YDUQ3']
-2021-09-01 07:05:48,851:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.011, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'ASAI3', 'AZUL4', 'BTOW3', 'B3SA3', 'BIDI11', 'BBSE3', 'BRML3', 'BBDC3', 'BBDC4', 'BRAP4', 'BBAS3', 'BRKM5', 'BRFS3', 'BPAC11', 'CRFB3', 'CCRO3', 'CMIG4', 'HGTX3', 'CIEL3', 'COGN3', 'CPLE6', 'CSAN3', 'CPFE3', 'CVCB3', 'CYRE3', 'ECOR3', 'ELET3', 'ELET6', 'EMBR3', 'ENBR3', 'ENGI11', 'ENEV3', 'EGIE3', 'EQTL3', 'EZTC3', 'FLRY3', 'GGBR4', 'GOAU4', 'GOLL4', 'NTCO3', 'HAPV3', 'HYPE3', 'IGTA3', 'GNDI3', 'IRBR3', 'ITSA4', 'ITUB4', 'JBSS3', 'JHSF3', 'KLBN11', 'RENT3', 'LCAM3', 'LWSA3', 'LAME4', 'LREN3', 'MGLU3', 'MRFG3', 'BEEF3', 'MRVE3', 'MULT3', 'PCAR3', 'PETR3', 'PETR4', 'BRDT3', 'PRIO3', 'QUAL3', 'RADL3', 'RAIL3', 'SBSP3', 'SANB11', 'CSNA3', 'SULA11', 'SUZB3', 'TAEE11', 'VIVT3', 'TIMS3', 'TOTS3', 'UGPA3', 'USIM5', 'VALE3', 'VVAR3', 'WEGE3', 'YDUQ3']
-2021-09-01 07:05:48,851:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.012, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'ASAI3', 'AZUL4', 'BTOW3', 'B3SA3', 'BIDI11', 'BBSE3', 'BRML3', 'BBDC3', 'BBDC4', 'BRAP4', 'BBAS3', 'BRKM5', 'BRFS3', 'BPAC11', 'CRFB3', 'CCRO3', 'CMIG4', 'HGTX3', 'CIEL3', 'COGN3', 'CPLE6', 'CSAN3', 'CPFE3', 'CVCB3', 'CYRE3', 'ECOR3', 'ELET3', 'ELET6', 'EMBR3', 'ENBR3', 'ENGI11', 'ENEV3', 'EGIE3', 'EQTL3', 'EZTC3', 'FLRY3', 'GGBR4', 'GOAU4', 'GOLL4', 'NTCO3', 'HAPV3', 'HYPE3', 'IGTA3', 'GNDI3', 'IRBR3', 'ITSA4', 'ITUB4', 'JBSS3', 'JHSF3', 'KLBN11', 'RENT3', 'LCAM3', 'LWSA3', 'LAME4', 'LREN3', 'MGLU3', 'MRFG3', 'BEEF3', 'MRVE3', 'MULT3', 'PCAR3', 'PETR3', 'PETR4', 'BRDT3', 'PRIO3', 'QUAL3', 'RADL3', 'RAIL3', 'SBSP3', 'SANB11', 'CSNA3', 'SULA11', 'SUZB3', 'TAEE11', 'VIVT3', 'TIMS3', 'TOTS3', 'UGPA3', 'USIM5', 'VALE3', 'VVAR3', 'WEGE3', 'YDUQ3']
-2021-09-01 07:05:48,851:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.013, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'ASAI3', 'AZUL4', 'BTOW3', 'B3SA3', 'BIDI11', 'BBSE3', 'BRML3', 'BBDC3', 'BBDC4', 'BRAP4', 'BBAS3', 'BRKM5', 'BRFS3', 'BPAC11', 'CRFB3', 'CCRO3', 'CMIG4', 'HGTX3', 'CIEL3', 'COGN3', 'CPLE6', 'CSAN3', 'CPFE3', 'CVCB3', 'CYRE3', 'ECOR3', 'ELET3', 'ELET6', 'EMBR3', 'ENBR3', 'ENGI11', 'ENEV3', 'EGIE3', 'EQTL3', 'EZTC3', 'FLRY3', 'GGBR4', 'GOAU4', 'GOLL4', 'NTCO3', 'HAPV3', 'HYPE3', 'IGTA3', 'GNDI3', 'IRBR3', 'ITSA4', 'ITUB4', 'JBSS3', 'JHSF3', 'KLBN11', 'RENT3', 'LCAM3', 'LWSA3', 'LAME4', 'LREN3', 'MGLU3', 'MRFG3', 'BEEF3', 'MRVE3', 'MULT3', 'PCAR3', 'PETR3', 'PETR4', 'BRDT3', 'PRIO3', 'QUAL3', 'RADL3', 'RAIL3', 'SBSP3', 'SANB11', 'CSNA3', 'SULA11', 'SUZB3', 'TAEE11', 'VIVT3', 'TIMS3', 'TOTS3', 'UGPA3', 'USIM5', 'VALE3', 'VVAR3', 'WEGE3', 'YDUQ3']
-2021-09-01 07:05:48,852:INFO:config_reader:  Name: 'Andre Moraes', Capital: 100000, Risk-Capital Coefficient: 0.014, Ticker Min Ann Volume Filter: 0, Min Order Volume: 1, Tickers: ['ABEV3', 'ASAI3', 'AZUL4', 'BTOW3', 'B3SA3', 'BIDI11', 'BBSE3', 'BRML3', 'BBDC3', 'BBDC4', 'BRAP4', 'BBAS3', 'BRKM5', 'BRFS3', 'BPAC11', 'CRFB3', 'CCRO3', 'CMIG4', 'HGTX3', 'CIEL3', 'COGN3', 'CPLE6', 'CSAN3', 'CPFE3', 'CVCB3', 'CYRE3', 'ECOR3', 'ELET3', 'ELET6', 'EMBR3', 'ENBR3', 'ENGI11', 'ENEV3', 'EGIE3', 'EQTL3', 'EZTC3', 'FLRY3', 'GGBR4', 'GOAU4', 'GOLL4', 'NTCO3', 'HAPV3', 'HYPE3', 'IGTA3', 'GNDI3', 'IRBR3', 'ITSA4', 'ITUB4', 'JBSS3', 'JHSF3', 'KLBN11', 'RENT3', 'LCAM3', 'LWSA3', 'LAME4', 'LREN3', 'MGLU3', 'MRFG3', 'BEEF3', 'MRVE3', 'MULT3', 'PCAR3', 'PETR3', 'PETR4', 'BRDT3', 'PRIO3', 'QUAL3', 'RADL3', 'RAIL3', 'SBSP3', 'SANB11', 'CSNA3', 'SULA11', 'SUZB3', 'TAEE11', 'VIVT3', 'TIMS3', 'TOTS3', 'UGPA3', 'USIM5', 'VALE3', 'VVAR3', 'WEGE3', 'YDUQ3']
-2021-09-01 07:05:48,852:DEBUG:utils:The function 'ConfigReader.__init__' took 50.26 milliseconds to run.
-2021-09-01 07:05:50,190:DEBUG:db_model:Database 'StockMarket' connected successfully.
-2021-09-01 07:05:50,202:DEBUG:db_model:Database 'StockMarket' connected successfully.
-2021-09-01 07:05:50,220:DEBUG:db_model:Database 'StockMarket' connected successfully.
-2021-09-01 07:05:50,875:INFO:strategy:Could not get last week for ticker 'HAPV3' (week before day '2018-07-02').
-2021-09-01 07:05:50,895:INFO:strategy:Could not get last week for ticker 'GNDI3' (week before day '2018-07-02').
-2021-09-01 07:05:50,897:INFO:strategy:Could not get last week for ticker 'IRBR3' (week before day '2018-07-02').
-2021-09-01 07:05:52,794:INFO:strategy:Could not get last week for ticker 'HAPV3' (week before day '2018-07-03').
-2021-09-01 07:05:52,875:INFO:strategy:Could not get last week for ticker 'GNDI3' (week before day '2018-07-03').
-2021-09-01 07:05:52,878:INFO:strategy:Could not get last week for ticker 'IRBR3' (week before day '2018-07-03').
-2021-09-01 07:05:54,321:INFO:strategy:Could not get last week for ticker 'HAPV3' (week before day '2018-07-04').
-2021-09-01 07:05:54,352:INFO:strategy:Could not get last week for ticker 'GNDI3' (week before day '2018-07-04').
-2021-09-01 07:05:54,354:INFO:strategy:Could not get last week for ticker 'IRBR3' (week before day '2018-07-04').
-2021-09-01 07:05:55,478:INFO:strategy:Could not get last week for ticker 'HAPV3' (week before day '2018-07-05').
-2021-09-01 07:05:55,509:INFO:strategy:Could not get last week for ticker 'GNDI3' (week before day '2018-07-05').
-2021-09-01 07:05:55,511:INFO:strategy:Could not get last week for ticker 'IRBR3' (week before day '2018-07-05').
-2021-09-01 07:05:56,690:INFO:strategy:Could not get last week for ticker 'HAPV3' (week before day '2018-07-06').
-2021-09-01 07:05:56,722:INFO:strategy:Could not get last week for ticker 'GNDI3' (week before day '2018-07-06').
-2021-09-01 07:05:56,725:INFO:strategy:Could not get last week for ticker 'IRBR3' (week before day '2018-07-06').
-2021-09-01 07:05:57,882:INFO:strategy:Could not get last week for ticker 'HAPV3' (week before day '2018-07-10').
-2021-09-01 07:05:57,914:INFO:strategy:Could not get last week for ticker 'GNDI3' (week before day '2018-07-10').
-2021-09-01 07:05:57,916:INFO:strategy:Could not get last week for ticker 'IRBR3' (week before day '2018-07-10').
-2021-09-01 07:05:59,074:INFO:strategy:Could not get last week for ticker 'HAPV3' (week before day '2018-07-11').
-2021-09-01 07:05:59,107:INFO:strategy:Could not get last week for ticker 'GNDI3' (week before day '2018-07-11').
-2021-09-01 07:05:59,109:INFO:strategy:Could not get last week for ticker 'IRBR3' (week before day '2018-07-11').
-2021-09-01 07:06:00,262:INFO:strategy:Could not get last week for ticker 'HAPV3' (week before day '2018-07-12').
-2021-09-01 07:06:00,297:INFO:strategy:Could not get last week for ticker 'GNDI3' (week before day '2018-07-12').
-2021-09-01 07:06:00,300:INFO:strategy:Could not get last week for ticker 'IRBR3' (week before day '2018-07-12').
-2021-09-01 07:06:01,500:INFO:strategy:Could not get last week for ticker 'HAPV3' (week before day '2018-07-13').
-2021-09-01 07:06:01,532:INFO:strategy:Could not get last week for ticker 'GNDI3' (week before day '2018-07-13').
-2021-09-01 07:06:01,534:INFO:strategy:Could not get last week for ticker 'IRBR3' (week before day '2018-07-13').
-2021-09-01 07:06:02,698:INFO:strategy:Could not get last week for ticker 'HAPV3' (week before day '2018-07-16').
-2021-09-01 07:06:02,730:INFO:strategy:Could not get last week for ticker 'GNDI3' (week before day '2018-07-16').
-2021-09-01 07:06:02,732:INFO:strategy:Could not get last week for ticker 'IRBR3' (week before day '2018-07-16').
-2021-09-01 07:06:03,884:INFO:strategy:Could not get last week for ticker 'HAPV3' (week before day '2018-07-17').
-2021-09-01 07:06:03,916:INFO:strategy:Could not get last week for ticker 'GNDI3' (week before day '2018-07-17').
-2021-09-01 07:06:03,919:INFO:strategy:Could not get last week for ticker 'IRBR3' (week before day '2018-07-17').

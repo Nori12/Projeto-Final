@@ -510,6 +510,9 @@ class AndreMoraesStrategy(Strategy):
             'avr_tickers_yield': None, 'annualized_avr_tickers_yield': None, 'volatility': None,
             'sharpe_ratio': None}
 
+        tickers_rcc_path = Path(__file__).parent.parent/c.TICKERS_RCC_PATH
+        self._tickers_rcc_df = pd.read_csv(tickers_rcc_path, sep=',')
+
         if self._min_volume_per_year != 0:
             self._filter_tickers_per_min_volume()
 
@@ -820,11 +823,22 @@ class AndreMoraesStrategy(Strategy):
                                         if target_buy_price_day > 0 and stop_loss_day > 0:
 
                                             # Correct operation prices
-                                            stop_loss_day = round(stop_loss_day * (1 + self.stop_margin), 2)
-                                            if (target_buy_price_day - stop_loss_day) / target_buy_price_day > self.max_risk:
-                                                stop_loss_day = round(target_buy_price_day * (1 - self.max_risk), 2)
-                                            if (target_buy_price_day - stop_loss_day) / target_buy_price_day < self.min_risk:
-                                                stop_loss_day = round(target_buy_price_day * (1 - self.min_risk), 2)
+                                            # stop_loss_day = round(stop_loss_day * (1 + self.stop_margin), 2)
+                                            # if (target_buy_price_day - stop_loss_day) / target_buy_price_day > self.max_risk:
+                                            #     stop_loss_day = round(target_buy_price_day * (1 - self.max_risk), 2)
+                                            # if (target_buy_price_day - stop_loss_day) / target_buy_price_day < self.min_risk:
+                                            #     stop_loss_day = round(target_buy_price_day * (1 - self.min_risk), 2)
+
+                                            stop_loss = self._tickers_rcc_df.loc[self._tickers_rcc_df['ticker'] == ts.ticker, ['rcc']].squeeze()
+                                            if stop_loss is None or isinstance(stop_loss, pd.Series):
+                                                # print(f"Stop loss empty for ticker \'{ts.ticker}\'")
+                                                stop_loss_day = round(stop_loss_day * (1 + self.stop_margin), 2)
+                                                if (target_buy_price_day - stop_loss_day) / target_buy_price_day > self.max_risk:
+                                                    stop_loss_day = round(target_buy_price_day * (1 - self.max_risk), 2)
+                                                if (target_buy_price_day - stop_loss_day) / target_buy_price_day < self.min_risk:
+                                                    stop_loss_day = round(target_buy_price_day * (1 - self.min_risk), 2)
+                                            else:
+                                                stop_loss_day = round(target_buy_price_day * (1 - stop_loss), 2)
 
                                             ticker_priority_list[index].operation = Operation(ts.ticker)
                                             ticker_priority_list[index].operation.target_purchase_price = \
@@ -1800,7 +1814,7 @@ class AndreMoraesAdaptedStrategy(Strategy):
             # current_min_delay = 0
             # upcoming_max_peak = 0.0
             # upcoming_min_peak = 0.0
-            last_close_price = None
+            # last_close_price = None
             peaks_number = 2
             peak_delay = 9  # 9 candles(i.e., days) for a peak to be revealed
 
@@ -1967,7 +1981,7 @@ class AndreMoraesAdaptedStrategy(Strategy):
                                             ticker_priority_list[index].operation = Operation(ts.ticker)
                                             ticker_priority_list[index].operation.target_purchase_price = \
                                                 purchase_price
-                                            ticker_priority_list[index].operation.stop_loss = stop_loss
+                                            ticker_priority_list[index].operation.stop_loss = round(purchase_price * (1 - stop_loss), 2)
                                             ticker_priority_list[index].operation.target_sale_price = \
                                                 round(purchase_price + (purchase_price - stop_loss) * self.gain_loss_ratio, 2)
                                             ticker_priority_list[index].operation.partial_sale_price = \

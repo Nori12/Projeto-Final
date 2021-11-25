@@ -1,27 +1,37 @@
 # %%
-# Input parameters
+# User input parameters
 
-min_risk = 0.05
-max_risk = 0.20
-gain_loss_ratio = 3
-emas_tolerance = 0.015
+# ****************************** Change here only ******************************
+model_type = 'ticker_model'
+# model_type = 'general_model'
+
 # purpose = 'test'
 purpose = 'training'
-compact_mode = False
 
-MAX_DAYS_PER_OPERATION = 120
+compact_mode = True # Runs less tickers, so it is faster. Only for tests.
 
-training_filename = 'features_training.csv'
-test_filename = 'features_test.csv'
+gain_loss_ratio = 3
+max_days_per_operation = 120
+emas_tolerance = 0.015
 
-# Derived
-filename = training_filename if purpose == 'training' else test_filename
+if model_type == 'general_model':
+    min_risk = 0.05
+    max_risk = 0.20
+else:
+    min_risk = 0.01
+    max_risk = 0.30
+# ******************************************************************************
 
-print(f"max_risk: {max_risk}")
-print(f"gain_loss_ratio: {gain_loss_ratio}")
+# Feedback
+print(f"model_type: {model_type}")
 print(f"purpose: {purpose}")
 print(f"compact_mode: {compact_mode}")
-print(f"MAX_DAYS_PER_OPERATION: {MAX_DAYS_PER_OPERATION}")
+if model_type == 'general_model':
+    print(f"min_risk: {min_risk}")
+    print(f"max_risk: {max_risk}")
+print(f"gain_loss_ratio: {gain_loss_ratio}")
+print(f"max_days_per_operation: {max_days_per_operation}")
+print(f"emas_tolerance: {emas_tolerance}")
 
 # %%
 # Get tickers and dates
@@ -30,22 +40,34 @@ from pathlib import Path
 sys.path.insert(1, '/Users/atcha/Github/Projeto-Final/src')
 import config_reader as cr
 
+# Derived parameters
+training_filename = 'features_training.csv'
+test_filename = 'features_test.csv'
+filename = training_filename if purpose == 'training' else test_filename
+
 if compact_mode == False:
-    training_set_cfg_path = Path(__file__).parent.parent.parent/'config'/'config_training_set.json'
-    test_set_cfg_path = Path(__file__).parent.parent.parent/'config'/'config_test_set.json'
+    if purpose == 'training':
+        cfg_path = Path(__file__).parent.parent.parent/'config'/'config_training_set.json'
+    if purpose == 'test':
+        cfg_path = Path(__file__).parent.parent.parent/'config'/'config_test_set.json'
 else:
-    training_set_cfg_path = Path(__file__).parent.parent.parent/'config'/'config_training_set_compact.json'
-    test_set_cfg_path = Path(__file__).parent.parent.parent/'config'/'config_test_set_compact.json'
+    if purpose == 'training':
+        cfg_path = Path(__file__).parent.parent.parent/'config'/'config_training_set_compact.json'
+    if purpose == 'test':
+        cfg_path = Path(__file__).parent.parent.parent/'config'/'config_test_set_compact.json'
 
+config = cr.ConfigReader(config_file_path=cfg_path)
+tickers = config.tickers_and_dates
+len_of_tickers = len(config.tickers_and_dates)
 
-config_train = cr.ConfigReader(config_file_path=training_set_cfg_path)
-config_test = cr.ConfigReader(config_file_path=test_set_cfg_path)
-tickers = config_train.tickers_and_dates if purpose == 'training' else \
-    config_test.tickers_and_dates
+if model_type == 'ticker_model':
+    models_path = Path(__file__).parent/'models'/'ticker_models'
+else:
+    models_path = Path(__file__).parent/'models'/'general_models'
 
-len_of_tickers = len(config_train.tickers_and_dates) if purpose == 'training' else \
-    len(config_test.tickers_and_dates)
-
+# Feedback
+print(f'Target file: {cfg_path}')
+print(f'Models path: {models_path}')
 print(f'Tickers ({len_of_tickers}):')
 msg = ""
 for index, ticker in enumerate(tickers):
@@ -54,25 +76,29 @@ for index, ticker in enumerate(tickers):
     msg += ticker
 print(msg)
 
-
 # %%
 # Generate features
+
 from db_model import DBStrategyAnalyzerModel
 import pandas as pd
 
+# Ajustable parameters
 peaks_number = 2
-peak_delay = 9
+peak_delay = 9 # days
+
 db_model = DBStrategyAnalyzerModel()
 
 for tck_index, (ticker, date) in enumerate(tickers.items()):
+
+    print(f"Processing Ticker {tck_index+1} of {len_of_tickers}")
+
+    # Get daily and weekly candles
     candles_df_day = db_model.get_ticker_prices_and_features(ticker,
         pd.Timestamp(date['start_date']), pd.Timestamp(date['end_date']),
         interval='1d')
     candles_df_wk = db_model.get_ticker_prices_and_features(ticker,
         pd.Timestamp(date['start_date']), pd.Timestamp(date['end_date']),
         interval='1wk')
-
-    print(f"Processing Ticker {tck_index+1} of {len_of_tickers}")
 
     candles_len = len(candles_df_day)
 
@@ -196,7 +222,7 @@ for tck_index, (ticker, date) in enumerate(tickers.items()):
                     min_price = row_2['min_price']
 
                 days_counter += 1
-                if days_counter >= MAX_DAYS_PER_OPERATION:
+                if days_counter >= max_days_per_operation:
                     success_flg = 0
                     break
 
@@ -239,7 +265,7 @@ for tck_index, (ticker, date) in enumerate(tickers.items()):
                             success_flg_2 = 1
 
                     days_counter_2 += 1
-                    if days_counter_2 >= MAX_DAYS_PER_OPERATION:
+                    if days_counter_2 >= max_days_per_operation:
                         break
             # *****************************************************
 
@@ -305,55 +331,123 @@ import pandas as pd
 df_train = pd.read_csv(training_filename, sep=',')
 df_test = pd.read_csv(test_filename, sep=',')
 
-X_train = df_train[['max_peak_1', 'min_peak_1', 'max_peak_2', 'min_peak_2',
-    'ema_17_day', 'ema_72_day', 'ema_72_week', 'stop_loss']]
-y_train = df_train['operation_flag']
+X_train = df_train[['ticker', 'day', 'max_peak_1', 'min_peak_1', 'max_peak_2', 'min_peak_2', \
+    'ema_17_day', 'ema_72_day', 'ema_72_week', 'best_stop_losses']]
+y_train = df_train[['ticker', 'day', 'operation_flag_2']]
 
-X_test = df_test[['max_peak_1', 'min_peak_1', 'max_peak_2', 'min_peak_2',
-    'ema_17_day', 'ema_72_day', 'ema_72_week', 'stop_loss']]
-y_test = df_test['operation_flag']
+X_test = df_test[['ticker', 'day', 'max_peak_1', 'min_peak_1', 'max_peak_2', 'min_peak_2', \
+    'ema_17_day', 'ema_72_day', 'ema_72_week', 'best_stop_losses']]
+y_test = df_test[['ticker', 'day', 'operation_flag_2']]
 
-
+print('Sets loaded.')
 # %%
 # KNeighborsClassifier
 
 import matplotlib.pyplot as plt
 from sklearn.neighbors import KNeighborsClassifier
 import pandas as pd
+import joblib
 
 # Parameters
-n_neighbors_list = [1, 2, 3]
+n_neighbors_list = [1, 2, 3, 4]
 
-knn_training_accuracy = []
-knn_test_accuracy = []
-best_knn_traning_accuracy = 0
-best_knn_test_accuracy = 0
-best_knn_model = None
+if model_type == 'general_model':
 
-for n_neighbors in n_neighbors_list:
-    knn = KNeighborsClassifier(n_neighbors=n_neighbors)
-    knn.fit(X_train, y_train)
-    print(f"\n- KNeighborsClassifier: n_neighbors = {n_neighbors}")
-    print("   Accuracy on training set: {:.3f}".format(knn.score(X_train, y_train)))
-    print("   Accuracy on test set: {:.3f}".format(knn.score(X_test, y_test)))
-    knn_training_accuracy.append(knn.score(X_train, y_train))
-    knn_test_accuracy.append(knn.score(X_test, y_test))
+    knn_training_accuracy = []
+    knn_test_accuracy = []
+    best_knn_traning_accuracy = 0
+    best_knn_test_accuracy = 0
+    best_knn_model = None
+    best_knn_n_neighbors = 0
 
-    if knn_test_accuracy[-1] > best_knn_test_accuracy:
-        best_knn_test_accuracy = knn_test_accuracy[-1]
-        best_knn_training_accuracy = knn_training_accuracy[-1]
-        best_knn_model = knn
+    print(f"- General Model\n")
 
-print(f"\n* Best KNeighborsClassifier: n_neighbors = {best_knn_model.n_neighbors}")
-print("   Accuracy on training set: {:.3f}".format(best_knn_training_accuracy))
-print("   Accuracy on test set: {:.3f}".format(best_knn_test_accuracy))
+    for n_neighbors in n_neighbors_list:
+        knn = KNeighborsClassifier(n_neighbors=n_neighbors)
+        knn.fit(X_train[['max_peak_1', 'min_peak_1', 'max_peak_2', 'min_peak_2',
+            'ema_17_day', 'ema_72_day', 'ema_72_week', 'best_stop_losses']],
+            y_train[['operation_flag_2']].squeeze())
+        print(f"\n- KNeighborsClassifier: n_neighbors = {n_neighbors}")
 
-plt.plot(n_neighbors_list, knn_training_accuracy, label="Training accuracy")
-plt.plot(n_neighbors_list, knn_test_accuracy, label="Test accuracy")
-plt.ylabel("Accuracy")
-plt.xlabel("Complexity")
-plt.title("KNeighborsClassifier")
-plt.legend()
+        training_set_acc = knn.score(X_train[['max_peak_1', 'min_peak_1', 'max_peak_2',
+            'min_peak_2', 'ema_17_day', 'ema_72_day', 'ema_72_week', 'best_stop_losses']],
+            y_train[['operation_flag_2']].squeeze())
+
+        test_set_acc = knn.score(X_test[['max_peak_1', 'min_peak_1', 'max_peak_2',
+            'min_peak_2', 'ema_17_day', 'ema_72_day', 'ema_72_week', 'best_stop_losses']],
+            y_test[['operation_flag_2']].squeeze())
+
+        print("   Accuracy on training set: {:.3f}".format(training_set_acc))
+        print("   Accuracy on test set: {:.3f}".format(test_set_acc))
+        knn_training_accuracy.append(training_set_acc)
+        knn_test_accuracy.append(test_set_acc)
+
+        if knn_test_accuracy[-1] > best_knn_test_accuracy:
+            best_knn_training_accuracy = knn_training_accuracy[-1]
+            best_knn_test_accuracy = knn_test_accuracy[-1]
+            best_knn_model = knn
+            best_knn_n_neighbors = n_neighbors
+
+    # Save the best model
+    joblib.dump(best_knn_model, models_path / f'knn_gen_model_nneigh_{best_knn_n_neighbors}.joblib')
+
+    print(f"\n* Best KNeighborsClassifier: n_neighbors = {best_knn_model.n_neighbors}")
+    print("   Accuracy on training set: {:.3f}".format(best_knn_training_accuracy))
+    print("   Accuracy on test set: {:.3f}".format(best_knn_test_accuracy))
+
+    plt.plot(n_neighbors_list, knn_training_accuracy, label="Training accuracy")
+    plt.plot(n_neighbors_list, knn_test_accuracy, label="Test accuracy")
+    plt.ylabel("Accuracy")
+    plt.xlabel("Complexity")
+    plt.title("KNeighborsClassifier")
+    plt.legend()
+elif model_type == 'ticker_model':
+    print(f"- Ticker Model\n")
+    for tck_index, (ticker, date) in enumerate(tickers.items()):
+        knn_training_accuracy = []
+        knn_test_accuracy = []
+        best_knn_traning_accuracy = 0
+        best_knn_test_accuracy = 0
+        best_knn_model = None
+        best_knn_n_neighbors = 0
+
+        for n_neighbors in n_neighbors_list:
+            knn = KNeighborsClassifier(n_neighbors=n_neighbors)
+            knn.fit(X_train.loc[X_train['ticker'] == ticker, ['max_peak_1', 'min_peak_1',
+                'max_peak_2', 'min_peak_2', 'ema_17_day', 'ema_72_day', 'ema_72_week',
+                'best_stop_losses']], y_train.loc[y_train['ticker'] == ticker,
+                ['operation_flag_2']].squeeze())
+            print(f"\n- KNeighborsClassifier: Ticker: \'{ticker}\', n_neighbors = {n_neighbors}")
+
+            training_set_acc = knn.score(X_train.loc[X_train['ticker'] == ticker,
+                ['max_peak_1', 'min_peak_1', 'max_peak_2', 'min_peak_2', 'ema_17_day',
+                'ema_72_day', 'ema_72_week', 'best_stop_losses']],
+                y_train.loc[y_train['ticker'] == ticker, ['operation_flag_2']].squeeze())
+
+            test_set_acc = knn.score(X_test.loc[X_test['ticker'] == ticker,
+                ['max_peak_1', 'min_peak_1', 'max_peak_2', 'min_peak_2', 'ema_17_day',
+                'ema_72_day', 'ema_72_week', 'best_stop_losses']],
+                y_test.loc[y_test['ticker'] == ticker, ['operation_flag_2']].squeeze())
+
+            print("   Accuracy on training set: {:.3f}".format(training_set_acc))
+            print("   Accuracy on test set: {:.3f}".format(test_set_acc))
+            knn_training_accuracy.append(training_set_acc)
+            knn_test_accuracy.append(test_set_acc)
+
+            if knn_test_accuracy[-1] > best_knn_test_accuracy:
+                best_knn_training_accuracy = knn_training_accuracy[-1]
+                best_knn_test_accuracy = knn_test_accuracy[-1]
+                best_knn_model = knn
+                best_knn_n_neighbors = n_neighbors
+
+        # Save the best model
+        joblib.dump(best_knn_model, models_path / f'knn_model_{ticker}_nneigh_{best_knn_n_neighbors}.joblib')
+
+        print(f"\n* Best KNeighborsClassifier: Ticker: \'{ticker}\', n_neighbors = {best_knn_model.n_neighbors}")
+        print("   Accuracy on training set: {:.3f}".format(best_knn_training_accuracy))
+        print("   Accuracy on test set: {:.3f}".format(best_knn_test_accuracy))
+else:
+    print("No valid model type selected.")
 
 # Output
 # best_knn_model
@@ -521,84 +615,172 @@ plt.legend()
 # %%
 # RandomForestClassifier
 
-import numpy as np
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 import matplotlib.pyplot as plt
 import joblib
-
-plots_per_column = 3
 
 # Parameters
 max_features = 8
 n_estimators_list = [i for i in range(1, max_features+1, 1)]
 depth_list = [i for i in range(2, 20, 2)]
 
-rnd_frt_training_accuracy = []
-rnd_frt_test_accuracy = []
-best_rnd_frt_traning_accuracy = 0
-best_rnd_frt_test_accuracy = 0
-best_rnd_frt_model = None
+if model_type == 'general_model':
 
-for n_estimator in n_estimators_list:
-    for depth in depth_list:
-        rnd_frt = RandomForestClassifier(n_estimators=n_estimator, max_depth=depth,
-            random_state=0, n_jobs=-1)
-        rnd_frt.fit(X_train, y_train)
-        print(f"\n- RandomForestClassifier: n_estimators = {n_estimator}, max_depth = {depth}")
-        print("   Accuracy on training set: {:.3f}".format(rnd_frt.score(X_train, y_train)))
-        print("   Accuracy on test set: {:.3f}".format(rnd_frt.score(X_test, y_test)))
-        rnd_frt_training_accuracy.append(rnd_frt.score(X_train, y_train))
-        rnd_frt_test_accuracy.append(rnd_frt.score(X_test, y_test))
+    rnd_frt_training_accuracy = []
+    rnd_frt_test_accuracy = []
+    best_rnd_frt_training_accuracy = 0
+    best_rnd_frt_test_accuracy = 0
+    best_rnd_frt_model = None
+    best_rnd_frt_depth = None
+    best_rnd_frt_n_estimator = None
 
-        if rnd_frt_test_accuracy[-1] > best_rnd_frt_test_accuracy:
-            best_rnd_frt_test_accuracy = rnd_frt_test_accuracy[-1]
-            best_rnd_frt_training_accuracy = rnd_frt_training_accuracy[-1]
-            best_rnd_frt_model = rnd_frt
+    print(f"- General Model\n")
 
-print(f"\n* Best RandomForestClassifier: n_estimators = {best_rnd_frt_model.n_estimators}, " \
-    f"max_depth = {depth}")
-print("   Accuracy on training set: {:.3f}".format(best_rnd_frt_training_accuracy))
-print("   Accuracy on test set: {:.3f}".format(best_rnd_frt_test_accuracy))
+    for n_estimator in n_estimators_list:
+        for depth in depth_list:
+            rnd_frt = RandomForestClassifier(n_estimators=n_estimator, max_depth=depth,
+                random_state=0, n_jobs=-1)
+            rnd_frt.fit(X_train[['max_peak_1', 'min_peak_1', 'max_peak_2', 'min_peak_2',
+            'ema_17_day', 'ema_72_day', 'ema_72_week', 'best_stop_losses']],
+            y_train[['operation_flag_2']].squeeze())
+            print(f"\n- RandomForestClassifier: n_estimators = {n_estimator}, " \
+                f"max_depth = {depth}")
 
-fig, ax = plt.subplots(len(n_estimators_list), sharex=True, sharey=True, figsize=(4, 7))
-# fig, ax = plt.subplots(nrows=plots_per_column, ncols=len(n_estimators_list) // plots_per_column + 1,
-#     sharex=True, sharey=True, figsize=(4, 7))
-index = 0
-plt.tight_layout()
+            training_set_acc = rnd_frt.score(X_train[['max_peak_1', 'min_peak_1', 'max_peak_2',
+                'min_peak_2', 'ema_17_day', 'ema_72_day', 'ema_72_week', 'best_stop_losses']],
+                y_train[['operation_flag_2']].squeeze())
 
-# Save model
-joblib.dump(best_rnd_frt_model, 'best_rnd_frt_model.joblib')
+            test_set_acc = rnd_frt.score(X_test[['max_peak_1', 'min_peak_1', 'max_peak_2',
+                'min_peak_2', 'ema_17_day', 'ema_72_day', 'ema_72_week', 'best_stop_losses']],
+                y_test[['operation_flag_2']].squeeze())
 
-for i in range(0, len(n_estimators_list)):
-    ax[i].plot(depth_list, rnd_frt_training_accuracy[index:index+len(depth_list)], label="Training accuracy")
-    ax[i].plot(depth_list, rnd_frt_test_accuracy[index:index+len(depth_list)], label="Test accuracy")
-    ax[i].set_title(f"RandomForestClassifier: n_estimators={n_estimators_list[i]}")
-    ax[i].set_xlabel("Max Depth")
-    ax[i].set_ylabel("Accuracy")
-    ax[i].legend()
-    # ax[i % plots_per_column, i // plots_per_column].plot(depth_list, rnd_frt_training_accuracy[index:index+len(depth_list)], label="Training accuracy")
-    # ax[i % plots_per_column, i // plots_per_column].plot(depth_list, rnd_frt_test_accuracy[index:index+len(depth_list)], label="Test accuracy")
-    # ax[i % plots_per_column, i // plots_per_column].set_title(f"RandomForestClassifier: n_estimators={n_estimators_list[i]}")
-    # ax[i % plots_per_column, i // plots_per_column].set_xlabel("Max Depth")
-    # ax[i % plots_per_column, i // plots_per_column].set_ylabel("Accuracy")
-    # ax[i % plots_per_column, i // plots_per_column].legend()
-    # fig.suptitle("RandomForestClassifier: n_estimators={n_estimator}")
-    # fig.ylabel("Accuracy")
-    # fig.xlabel("Max Depth")
-    # fig.legend()
+            print("   Accuracy on training set: {:.3f}".format(training_set_acc))
+            print("   Accuracy on test set: {:.3f}".format(test_set_acc))
+            rnd_frt_training_accuracy.append(training_set_acc)
+            rnd_frt_test_accuracy.append(test_set_acc)
 
-    index += len(depth_list)
+            if rnd_frt_test_accuracy[-1] > best_rnd_frt_test_accuracy:
+                best_rnd_frt_training_accuracy = rnd_frt_training_accuracy[-1]
+                best_rnd_frt_test_accuracy = rnd_frt_test_accuracy[-1]
+                best_rnd_frt_model = rnd_frt
+                best_rnd_frt_depth = depth
+                best_rnd_frt_n_estimator = n_estimator
 
-# plt.tight_layout(rect=[0, 0, 1, 0.95])
-plt.tight_layout()
+    # Save the best model
+    joblib.dump(best_rnd_frt_model, models_path / f'rnd_frt_gen_model_' \
+        f'nnest_{best_rnd_frt_n_estimator}_depth_{best_rnd_frt_depth}.joblib')
 
-# plt.plot(n_estimators_list, rnd_frt_training_accuracy, label="Training accuracy")
-# plt.plot(n_estimators_list, rnd_frt_test_accuracy, label="Test accuracy")
-# plt.ylabel("Accuracy")
-# plt.xlabel("Max Depth")
-# plt.title("RandomForestClassifier")
-# plt.legend()
+    print(f"\n* Best RandomForestClassifier: n_estimators = {n_estimator}, " \
+                f"max_depth = {depth}")
+    print("   Accuracy on training set: {:.3f}".format(best_rnd_frt_training_accuracy))
+    print("   Accuracy on test set: {:.3f}".format(best_rnd_frt_test_accuracy))
+
+    # plt.plot(depth_list, rnd_frt_training_accuracy, label="Training accuracy")
+    # plt.plot(depth_list, rnd_frt_test_accuracy, label="Test accuracy")
+    # plt.ylabel("Accuracy")
+    # plt.xlabel("Complexity")
+    # plt.title("KNeighborsClassifier")
+    # plt.legend()
+
+elif model_type == 'ticker_model':
+    print(f"- Ticker Model\n")
+    for tck_index, (ticker, date) in enumerate(tickers.items()):
+        rnd_frt_training_accuracy = []
+        rnd_frt_test_accuracy = []
+        best_rnd_frt_training_accuracy = 0
+        best_rnd_frt_test_accuracy = 0
+        best_rnd_frt_model = None
+
+        for n_estimator in n_estimators_list:
+            for depth in depth_list:
+                rnd_frt = RandomForestClassifier(n_estimators=n_estimator, max_depth=depth,
+                    random_state=0, n_jobs=-1)
+                rnd_frt.fit(X_train[['max_peak_1', 'min_peak_1', 'max_peak_2', 'min_peak_2',
+                    'ema_17_day', 'ema_72_day', 'ema_72_week', 'best_stop_losses']],
+                    y_train[['operation_flag_2']].squeeze())
+                print(f"\n- RandomForestClassifier: Ticker: \'{ticker}\', n_estimators " \
+                    f"= {n_estimator}, max_depth = {depth}")
+
+                training_set_acc = rnd_frt.score(X_train.loc[X_train['ticker'] == ticker,
+                    ['max_peak_1', 'min_peak_1', 'max_peak_2', 'min_peak_2', 'ema_17_day',
+                    'ema_72_day', 'ema_72_week', 'best_stop_losses']],
+                    y_train.loc[y_train['ticker'] == ticker, ['operation_flag_2']].squeeze())
+
+                test_set_acc = rnd_frt.score(X_test.loc[X_test['ticker'] == ticker,
+                    ['max_peak_1', 'min_peak_1', 'max_peak_2', 'min_peak_2', 'ema_17_day',
+                    'ema_72_day', 'ema_72_week', 'best_stop_losses']],
+                    y_test.loc[y_test['ticker'] == ticker, ['operation_flag_2']].squeeze())
+
+                print("   Accuracy on training set: {:.3f}".format(training_set_acc))
+                print("   Accuracy on test set: {:.3f}".format(test_set_acc))
+                rnd_frt_training_accuracy.append(training_set_acc)
+                rnd_frt_test_accuracy.append(test_set_acc)
+
+                if rnd_frt_test_accuracy[-1] > best_rnd_frt_test_accuracy:
+                    best_rnd_frt_training_accuracy = rnd_frt_training_accuracy[-1]
+                    best_rnd_frt_test_accuracy = rnd_frt_test_accuracy[-1]
+                    best_rnd_frt_model = rnd_frt
+                    best_rnd_frt_depth = depth
+                    best_rnd_frt_n_estimator = n_estimator
+
+        # Save best model
+        joblib.dump(best_rnd_frt_model, models_path / f'rnd_frt_model_{ticker}_' \
+            f'nnest_{best_rnd_frt_n_estimator}_depth_{best_rnd_frt_depth}.joblib')
+
+        print(f"\n* Best RandomForestClassifier: Ticker: \'{ticker}\', n_estimators " \
+                f"= {n_estimator}, max_depth = {depth}")
+        print("   Accuracy on training set: {:.3f}".format(best_rnd_frt_training_accuracy))
+        print("   Accuracy on test set: {:.3f}".format(best_rnd_frt_test_accuracy))
+else:
+    print("No valid model type selected.")
+
+
+# plots_per_column = 3
+
+# print(f"\n* Best RandomForestClassifier: n_estimators = {best_rnd_frt_model.n_estimators}, " \
+#     f"max_depth = {depth}")
+# print("   Accuracy on training set: {:.3f}".format(best_rnd_frt_training_accuracy))
+# print("   Accuracy on test set: {:.3f}".format(best_rnd_frt_test_accuracy))
+
+# fig, ax = plt.subplots(len(n_estimators_list), sharex=True, sharey=True, figsize=(4, 7))
+# # fig, ax = plt.subplots(nrows=plots_per_column, ncols=len(n_estimators_list) // plots_per_column + 1,
+# #     sharex=True, sharey=True, figsize=(4, 7))
+# index = 0
+# plt.tight_layout()
+
+# # Save model
+# joblib.dump(best_rnd_frt_model, 'best_rnd_frt_model.joblib')
+
+# for i in range(0, len(n_estimators_list)):
+#     ax[i].plot(depth_list, rnd_frt_training_accuracy[index:index+len(depth_list)], label="Training accuracy")
+#     ax[i].plot(depth_list, rnd_frt_test_accuracy[index:index+len(depth_list)], label="Test accuracy")
+#     ax[i].set_title(f"RandomForestClassifier: n_estimators={n_estimators_list[i]}")
+#     ax[i].set_xlabel("Max Depth")
+#     ax[i].set_ylabel("Accuracy")
+#     ax[i].legend()
+#     # ax[i % plots_per_column, i // plots_per_column].plot(depth_list, rnd_frt_training_accuracy[index:index+len(depth_list)], label="Training accuracy")
+#     # ax[i % plots_per_column, i // plots_per_column].plot(depth_list, rnd_frt_test_accuracy[index:index+len(depth_list)], label="Test accuracy")
+#     # ax[i % plots_per_column, i // plots_per_column].set_title(f"RandomForestClassifier: n_estimators={n_estimators_list[i]}")
+#     # ax[i % plots_per_column, i // plots_per_column].set_xlabel("Max Depth")
+#     # ax[i % plots_per_column, i // plots_per_column].set_ylabel("Accuracy")
+#     # ax[i % plots_per_column, i // plots_per_column].legend()
+#     # fig.suptitle("RandomForestClassifier: n_estimators={n_estimator}")
+#     # fig.ylabel("Accuracy")
+#     # fig.xlabel("Max Depth")
+#     # fig.legend()
+
+#     index += len(depth_list)
+
+# # plt.tight_layout(rect=[0, 0, 1, 0.95])
+# plt.tight_layout()
+
+# # plt.plot(n_estimators_list, rnd_frt_training_accuracy, label="Training accuracy")
+# # plt.plot(n_estimators_list, rnd_frt_test_accuracy, label="Test accuracy")
+# # plt.ylabel("Accuracy")
+# # plt.xlabel("Max Depth")
+# # plt.title("RandomForestClassifier")
+# # plt.legend()
 
 # Output
 # best_rnd_frt_model
