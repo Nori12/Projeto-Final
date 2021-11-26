@@ -217,26 +217,31 @@ class DBTickerModel:
         ticker : str
             Ticker name.
         """
-        query = f"INSERT INTO weekly_candles (ticker, week, open_price, max_price, " \
-            f"min_price, close_price, volume)\n"
-        query += f"SELECT agg2.ticker, agg2.min_day, agg2.open_price, agg2.max_price, " \
-            f"agg2.min_price, dc3.close_price, agg2.volume\n"
+
+        query = f"INSERT INTO weekly_candles (ticker, week, open_price, max_price, min_price, close_price, volume)\n"
+        query += f"SELECT agg2.ticker, agg2.min_day, agg2.open_price, agg2.max_price, agg2.min_price, dc3.close_price, agg2.volume\n"
         query += f"FROM\n"
-        query += f"	(SELECT agg.ticker, agg.min_day, dc2.open_price, agg.max_price, " \
-            f"agg.min_price, agg.volume, agg.max_day\n"
+        query += f"	(SELECT agg.ticker, agg.min_day, dc2.open_price, agg.max_price, agg.min_price, agg.volume, agg.max_day\n"
         query += f"	FROM\n"
-        query += f"		(SELECT dc.ticker, DATE_PART('year', dc.day) AS year, DATE_PART" \
-            f"('week', dc.day) AS week, MIN(dc.day) AS min_day, MAX(dc.day) AS max_day,\n"
-        query += f"			MAX(dc.max_price) AS max_price, MIN(dc.min_price) AS min_price, " \
-            f"SUM(dc.volume) AS volume\n"
-        query += f"		FROM daily_candles dc\n"
-        query += f"     WHERE dc.ticker = \'{ticker}\'\n"
-        query += f"		GROUP BY dc.ticker, DATE_PART('year', dc.day), DATE_PART" \
-            f"('week', dc.day)) agg\n"
-        query += f"	INNER JOIN daily_candles dc2 ON dc2.ticker = agg.ticker AND " \
-            f"dc2.day = agg.min_day) agg2\n"
-        query += f"INNER JOIN daily_candles dc3 ON dc3.ticker = agg2.ticker AND " \
-            f"dc3.day = agg2.max_day\n"
+        query += f"		(\n"
+        query += f"        SELECT \n"
+        query += f"            dc.ticker, \n"
+        query += f"            MIN(dc.day) AS min_day, \n"
+        query += f"			MAX(dc.day) AS max_day, \n"
+        query += f"            MAX(dc.max_price) AS max_price, \n"
+        query += f"            MIN(dc.min_price) AS min_price, \n"
+        query += f"            SUM(dc.volume) AS volume \n"
+        query += f"        FROM daily_candles dc\n"
+        query += f"         WHERE dc.ticker = \'{ticker}\'\n"
+        query += f"        GROUP BY dc.ticker,\n"
+        query += f"            CASE \n"
+        query += f"                WHEN DATE_PART('week', dc.day) = 1 AND DATE_PART('month', dc.day) = 12 THEN DATE_PART('year', dc.day) + 1\n"
+        query += f"                ELSE DATE_PART('year', dc.day)\n"
+        query += f"            END, \n"
+        query += f"            DATE_PART('week', dc.day)\n"
+        query += f"        ) agg\n"
+        query += f"	INNER JOIN daily_candles dc2 ON dc2.ticker = agg.ticker AND dc2.day = agg.min_day) agg2\n"
+        query += f"INNER JOIN daily_candles dc3 ON dc3.ticker = agg2.ticker AND dc3.day = agg2.max_day\n"
         query += f"ON CONFLICT ON CONSTRAINT weekly_data_pkey DO NOTHING;"
 
         self._insert_update(query)
