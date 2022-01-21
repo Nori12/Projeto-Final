@@ -7,6 +7,8 @@ import constants as c
 import config_reader as cr
 from db_model import DBGenericModel, DBStrategyAnalyzerModel
 from ticker_manager import TickerManager
+from operation import Operation
+# from strategy_remake import AndreMoraesStrategy, AndreMoraesAdaptedStrategy
 from strategy import AndreMoraesStrategy, AndreMoraesAdaptedStrategy
 from strategy_analyzer import StrategyAnalyzer
 
@@ -25,7 +27,7 @@ file_handler.setLevel(logging.DEBUG)
 logger.setLevel(logging.DEBUG)
 
 def run():
-    logger.info('\nProgram started.')
+    logger.info('Program started.')
 
     # Read Config File
     config_file = Path(__file__).parent.parent/c.CONFIG_PATH/'config.json'

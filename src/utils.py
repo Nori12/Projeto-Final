@@ -125,6 +125,7 @@ def compare_peaks(peak_1, peak_2, tolerance=0.01):
     else:
         return -1
 
-
+def get_capital_per_risk(risk_capital_coefficient, total_capital, risk):
+    return round(risk_capital_coefficient * total_capital / risk, 2)
 
 
