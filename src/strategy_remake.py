@@ -253,7 +253,7 @@ class AndreMoraesStrategy(PseudoStrategy):
         self._initial_dates = []
         self._final_dates = []
         self.min_order_volume = min_order_volume
-        self._partial_sale = True
+        self._partial_sale = False
         self._total_capital = total_capital
         self._risk_capital_product = risk_capital_product
         self._min_volume_per_year = min_volume_per_year
@@ -265,7 +265,7 @@ class AndreMoraesStrategy(PseudoStrategy):
         self._max_risk = 1.00
         self._purchase_margin = 0.0
         self._stop_margin = 0.0
-        self._staircase_stop = False
+        self._stop_type = "normal"
 
         self._tickers_and_dates = tickers
         for ticker, date in tickers.items():
@@ -390,8 +390,23 @@ class AndreMoraesStrategy(PseudoStrategy):
                 return max(end_dates_list)
 
         return None
+    @property
+    def stop_type(self):
+        return self._stop_type
 
-    @RunTime('AndreMoraesStrategy.process_operations')
+    @stop_type.setter
+    def stop_type(self, stop_type):
+        self._stop_type = stop_type
+
+    @property
+    def partial_sale(self):
+        return self._partial_sale
+
+    @partial_sale.setter
+    def partial_sale(self, partial_sale):
+        self._partial_sale = partial_sale
+
+    @RunTime('process_operations')
     def process_operations(self):
         try:
             tcks_priority = [self.TickerState(ticker, dates['start_date'], \
@@ -407,9 +422,15 @@ class AndreMoraesStrategy(PseudoStrategy):
 
             self._start_progress_bar()
 
+            # Delete
+            total_days_counter = 0
+
             while True:
                 try:
                     day_info, week_info = next(data_gen)
+
+                    # Delete
+                    total_days_counter += 1
 
                     for index in range(len(tcks_priority)):
 
@@ -441,8 +462,7 @@ class AndreMoraesStrategy(PseudoStrategy):
                                 tcks_priority, index):
 
                                 # DEBUG
-                                # if business_data["day"] >= pd.Timestamp('2019-06-27') \
-                                #   and business_data["day"] >= pd.Timestamp('2019-07-29'):
+                                # if business_data["day"] == pd.Timestamp('2018-11-07'):
                                 #     print()
 
                                 purchase_price = self._get_purchase_price(business_data)
@@ -450,9 +470,8 @@ class AndreMoraesStrategy(PseudoStrategy):
                                     purchase_price, available_capital, tcks_priority, index, business_data)
                                 available_capital = round(available_capital - purchase_amount, 2)
 
-                                if self._staircase_stop:
-                                    self._set_staircase_stop(tcks_priority,
-                                        index, business_data)
+                                if purchase_amount >= 0.01 and self.stop_type == "staircase":
+                                    self._set_staircase_stop(tcks_priority, index)
                         else:
                             if tcks_priority[index].operation.state == State.OPEN:
 
@@ -476,8 +495,9 @@ class AndreMoraesStrategy(PseudoStrategy):
                                         index, business_data)
                                     available_capital = round(available_capital + sale_amount, 2)
 
+                            # Update stop loss threshold
                             if tcks_priority[index].operation.state == State.OPEN \
-                                and self._staircase_stop:
+                                and self.stop_type == "staircase":
                                 self._update_staircase_stop(tcks_priority, index, business_data)
 
                             if tcks_priority[index].operation.state == State.CLOSE:
@@ -744,7 +764,6 @@ class AndreMoraesStrategy(PseudoStrategy):
         capital = [None] * len(dates)
         capital_in_use = [None] * len(dates)
 
-        total_capital = self.total_capital
         current_capital = self.total_capital
         current_capital_in_use = 0.0
 
@@ -771,11 +790,8 @@ class AndreMoraesStrategy(PseudoStrategy):
                         amount = round(s_price * s_volume, 2)
 
                         current_capital = round(current_capital + amount, 2)
-                        if oper.partial_sale_flag[oper.sale_datetime.index(day)] == False:
-                            current_capital_in_use = round(current_capital_in_use - \
-                                oper.purchase_price[oper.sale_datetime.index(day)] * \
-                                oper.purchase_volume[oper.sale_datetime.index(day)], 2)
-                            total_capital = round(total_capital + oper.profit, 2)
+                        current_capital_in_use = round(current_capital_in_use - \
+                            oper.purchase_price[0] * s_volume, 2)
 
                 # Compute holding papers prices
                 if (oper.state == State.OPEN and day >= oper.start_date) or \
@@ -789,9 +805,6 @@ class AndreMoraesStrategy(PseudoStrategy):
 
                     price = close_prices[oper.ticker][day_index]
                     holding_papers_capital += round(price * papers_in_hands, 2)
-
-            # if day == pd.Timestamp('2019-02-22T00'):
-                # print()
 
             capital[day_index] = round(current_capital + holding_papers_capital, 2)
             capital_in_use[day_index] = round(current_capital_in_use / capital[day_index], 4)
@@ -1203,13 +1216,12 @@ class AndreMoraesStrategy(PseudoStrategy):
                 f", \'{day.strftime('%Y-%m-%d')}\')")
             return 0.0
 
-
-        stop_rcc = self._tickers_rcc_df.loc[
+        stop_risk = self._tickers_rcc_df.loc[
             self._tickers_rcc_df['ticker'] == ticker_name, ['rcc']].squeeze()
 
         stop_loss_day = 0.0
 
-        if stop_rcc is None or isinstance(stop_rcc, pd.Series):
+        if stop_risk is None or isinstance(stop_risk, pd.Series):
             # print(f"Stop loss empty for ticker \'{ts.ticker}\'")
             stop_loss_day = round(default_stop_loss * (1 + self.stop_margin), 2)
             if (target_buy_price - stop_loss_day) / target_buy_price > self.max_risk:
@@ -1217,7 +1229,7 @@ class AndreMoraesStrategy(PseudoStrategy):
             if (target_buy_price - stop_loss_day) / target_buy_price < self.min_risk:
                 stop_loss_day = round(target_buy_price * (1 - self.min_risk), 2)
         else:
-            stop_loss_day = round(target_buy_price * (1 - stop_rcc), 2)
+            stop_loss_day = round(target_buy_price * (1 - stop_risk), 2)
 
         return stop_loss_day
 
@@ -1249,7 +1261,7 @@ class AndreMoraesStrategy(PseudoStrategy):
             tcks_priority[tck_idx].operation.partial_sale_price = \
                 round(purchase_price + (purchase_price - business_data["stop_loss_day"]), 2)
 
-            amount_withdrawn = round(available_capital - max_purchase_money, 2)
+            amount_withdrawn = round(max_purchase_money, 2)
             tcks_priority[tck_idx].operation.add_purchase(
                 purchase_price, max_vol, business_data["day"])
             tcks_priority[tck_idx].ongoing_operation_flag = True
@@ -1268,8 +1280,7 @@ class AndreMoraesStrategy(PseudoStrategy):
                 tcks_priority[tck_idx].operation.partial_sale_price = \
                     round(purchase_price + (purchase_price - business_data["stop_loss_day"]), 2)
 
-                amount_withdrawn = round(available_capital - \
-                    purchase_price * max_vol, 2)
+                amount_withdrawn = round(purchase_price * max_vol, 2)
                 tcks_priority[tck_idx].operation.add_purchase(
                     purchase_price, max_vol, business_data["day"])
                 tcks_priority[tck_idx].ongoing_operation_flag = True
@@ -1287,25 +1298,29 @@ class AndreMoraesStrategy(PseudoStrategy):
 
         return False
 
-    def _set_staircase_stop(self, tcks_priority, tck_idx, business_data):
+    def _set_staircase_stop(self, tcks_priority, tck_idx):
+
+        purchase_price = tcks_priority[tck_idx].operation.target_purchase_price
+        stop_price = tcks_priority[tck_idx].operation.stop_loss
+
         tcks_priority[tck_idx].mark_1_stop_trigger = \
-            round(business_data["target_buy_price_day"] + (business_data["target_buy_price_day"] - business_data["stop_loss_day"]), 2)
-        tcks_priority[tck_idx].mark_1_stop_loss = \
-            round(business_data["stop_loss_day"] + (business_data["target_buy_price_day"] - business_data["stop_loss_day"]) / 2, 2)
+            round(purchase_price + (purchase_price - stop_price), 2)
+        tcks_priority[tck_idx].mark_1_stop_loss = purchase_price
+
         tcks_priority[tck_idx].mark_2_stop_trigger = \
-            round(business_data["target_buy_price_day"] + 2 * (business_data["target_buy_price_day"] - business_data["stop_loss_day"]), 2)
+            round(purchase_price + 2 * (purchase_price - stop_price), 2)
         tcks_priority[tck_idx].mark_2_stop_loss = \
-            round(business_data["target_buy_price_day"] + (business_data["target_buy_price_day"] - business_data["stop_loss_day"]) / 2, 2)
+            round(purchase_price + (purchase_price - stop_price) / 2, 2)
         tcks_priority[tck_idx].current_mark = 0
 
     def _update_staircase_stop(self, tcks_priority, tck_idx, business_data):
         if tcks_priority[tck_idx].current_mark == 0:
-            if business_data["close_price_day"] > tcks_priority[tck_idx].mark_1_stop_trigger:
+            if business_data["close_price_day"] >= tcks_priority[tck_idx].mark_1_stop_trigger:
                 tcks_priority[tck_idx].operation.stop_loss = \
                     tcks_priority[tck_idx].mark_1_stop_loss
                 tcks_priority[tck_idx].current_mark = 1
         elif tcks_priority[tck_idx].current_mark == 1:
-            if business_data["close_price_day"] > tcks_priority[tck_idx].mark_2_stop_trigger:
+            if business_data["close_price_day"] >= tcks_priority[tck_idx].mark_2_stop_trigger:
                 tcks_priority[tck_idx].operation.stop_loss = \
                     tcks_priority[tck_idx].mark_2_stop_loss
                 tcks_priority[tck_idx].current_mark = 2
@@ -1318,10 +1333,11 @@ class AndreMoraesStrategy(PseudoStrategy):
         if tcks_priority[tck_idx].operation.stop_loss > business_data["open_price_day"]:
             sale_amount = round(business_data["open_price_day"] * \
                     (tcks_priority[tck_idx].operation.total_purchase_volume - tcks_priority[tck_idx].operation.total_sale_volume), 2)
+            day = business_data["day"]
+
             tcks_priority[tck_idx].operation.add_sale(business_data["open_price_day"],
                 tcks_priority[tck_idx].operation.total_purchase_volume - tcks_priority[tck_idx].operation.total_sale_volume,
                 business_data["day"], stop_loss_flag=True)
-            day = business_data["day"]
             logger.debug(f"Stop loss skipped: \'{tcks_priority[tck_idx].ticker}\', "
                 f"\'{day.strftime('%Y-%m-%d')}\'.")
         # Check if the target STOP LOSS is hit
