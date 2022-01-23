@@ -597,6 +597,14 @@ class DBStrategyModel:
         self._min_volume_per_year = min_volume_per_year
 
     @property
+    def name(self):
+        return self._name
+
+    @name.setter
+    def name(self, name):
+        self._name = name
+
+    @property
     def alias(self):
         return self._alias
 

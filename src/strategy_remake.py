@@ -246,7 +246,7 @@ class AndreMoraesStrategy(PseudoStrategy):
             logger.error(f"Parameter \'risk_reference\' must be in the interval [0, 1].")
             sys.exit(c.INVALID_ARGUMENT_ERR)
 
-        self._name = "AndreMoraesStrategy"
+        self._name = "Andre Moraes"
         self._alias = alias
         self._comment = comment
         self._tickers = []
@@ -266,6 +266,7 @@ class AndreMoraesStrategy(PseudoStrategy):
         self._purchase_margin = 0.0
         self._stop_margin = 0.0
         self._stop_type = "normal"
+        self._gain_loss_ratio = 3
 
         self._tickers_and_dates = tickers
         for ticker, date in tickers.items():
@@ -406,6 +407,14 @@ class AndreMoraesStrategy(PseudoStrategy):
     def partial_sale(self, partial_sale):
         self._partial_sale = partial_sale
 
+    @property
+    def gain_loss_ratio(self):
+        return self._gain_loss_ratio
+
+    @gain_loss_ratio.setter
+    def gain_loss_ratio(self, gain_loss_ratio):
+        self._gain_loss_ratio = gain_loss_ratio
+
     @RunTime('process_operations')
     def process_operations(self):
         try:
@@ -455,19 +464,20 @@ class AndreMoraesStrategy(PseudoStrategy):
                             tcks_priority[index].last_business_data = business_data.copy()
                             continue
 
+                        # DEBUG
+                        # if business_data["day"] == pd.Timestamp('2019-05-31'):
+                        #     print()
+
                         if (tcks_priority[index].ongoing_operation_flag == False):
 
                             # Strategy business rules
                             if self._check_business_rules(business_data,
                                 tcks_priority, index):
 
-                                # DEBUG
-                                # if business_data["day"] == pd.Timestamp('2018-11-07'):
-                                #     print()
-
                                 purchase_price = self._get_purchase_price(business_data)
+                                stop_price = self._get_stop_price(ticker_name, purchase_price, business_data)
                                 purchase_amount = self._set_operation_purchase(ticker_name,
-                                    purchase_price, available_capital, tcks_priority, index, business_data)
+                                    purchase_price, stop_price, available_capital, tcks_priority, index, business_data)
                                 available_capital = round(available_capital - purchase_amount, 2)
 
                                 if purchase_amount >= 0.01 and self.stop_type == "staircase":
@@ -1236,15 +1246,18 @@ class AndreMoraesStrategy(PseudoStrategy):
     def _get_purchase_price(self, business_data):
         return business_data["target_buy_price_day"]
 
-    def _set_operation_purchase(self, ticker_name, purchase_price, available_capital,
-        tcks_priority, tck_idx, business_data):
+    def _get_stop_price(self, ticker_name, purchase_price, business_data):
+        return business_data["stop_loss_day"]
+
+    def _set_operation_purchase(self, ticker_name, purchase_price, stop_price,
+        available_capital, tcks_priority, tck_idx, business_data):
 
         amount_withdrawn = 0.0
 
         max_vol = calculate_maximum_volume(
             purchase_price, get_capital_per_risk(
             self.risk_capital_product, available_capital, \
-            (purchase_price - business_data["stop_loss_day"])/ \
+            (purchase_price - stop_price)/ \
             (purchase_price)), minimum_volume=self.min_order_volume)
 
         max_purchase_money = round(purchase_price * max_vol, 2)
@@ -1255,11 +1268,11 @@ class AndreMoraesStrategy(PseudoStrategy):
             tcks_priority[tck_idx].operation = Operation(ticker_name)
             tcks_priority[tck_idx].operation.target_purchase_price = \
                 purchase_price
-            tcks_priority[tck_idx].operation.stop_loss = business_data["stop_loss_day"]
+            tcks_priority[tck_idx].operation.stop_loss = stop_price
             tcks_priority[tck_idx].operation.target_sale_price = \
-                round(purchase_price + (purchase_price - business_data["stop_loss_day"]) * 3, 2)
+                round(purchase_price + (purchase_price - stop_price) * self.gain_loss_ratio, 2)
             tcks_priority[tck_idx].operation.partial_sale_price = \
-                round(purchase_price + (purchase_price - business_data["stop_loss_day"]), 2)
+                round(purchase_price + (purchase_price - stop_price), 2)
 
             amount_withdrawn = round(max_purchase_money, 2)
             tcks_priority[tck_idx].operation.add_purchase(
@@ -1274,11 +1287,11 @@ class AndreMoraesStrategy(PseudoStrategy):
                 tcks_priority[tck_idx].operation = Operation(ticker_name)
                 tcks_priority[tck_idx].operation.target_purchase_price = \
                     purchase_price
-                tcks_priority[tck_idx].operation.stop_loss = business_data["stop_loss_day"]
+                tcks_priority[tck_idx].operation.stop_loss = stop_price
                 tcks_priority[tck_idx].operation.target_sale_price = \
-                    round(purchase_price + (purchase_price - business_data["stop_loss_day"]) * 3, 2)
+                    round(purchase_price + (purchase_price - stop_price) * self.gain_loss_ratio, 2)
                 tcks_priority[tck_idx].operation.partial_sale_price = \
-                    round(purchase_price + (purchase_price - business_data["stop_loss_day"]), 2)
+                    round(purchase_price + (purchase_price - stop_price), 2)
 
                 amount_withdrawn = round(purchase_price * max_vol, 2)
                 tcks_priority[tck_idx].operation.add_purchase(
@@ -1434,19 +1447,15 @@ class AndreMoraesAdaptedStrategy(AndreMoraesStrategy):
     total_strategies = 0
 
     def __init__(self, tickers, alias=None, comment=None, min_order_volume=1,
-        total_capital=100000, risk_capital_product=0.10, min_volume_per_year=1000000,
-        model_path=None):
+        total_capital=100000, risk_capital_product=0.10, min_volume_per_year=1000000):
 
         super().__init__(tickers, alias, comment, min_order_volume, total_capital,
             risk_capital_product, min_volume_per_year)
 
         self._name = "Andre Moraes Adapted"
+        self._db_strategy_model.name = self._name
 
-        self._model_path = model_path
-        self.gain_loss_ratio = 3
-
-        if self._model_path is None:
-            self._model = joblib.load(Path(__file__).parent.parent / c.MODEL_PATH)
+        self._model = joblib.load(Path(__file__).parent.parent / c.MODEL_PATH)
 
     @property
     def model(self):
@@ -1532,3 +1541,13 @@ class AndreMoraesAdaptedStrategy(AndreMoraesStrategy):
             return True
 
         return False
+
+    def _get_stop_price(self, ticker_name, purchase_price, business_data):
+
+        stop_risk = self._tickers_rcc_df.loc[
+            self._tickers_rcc_df['ticker'] == ticker_name, ['rcc']].squeeze()
+
+        if stop_risk is None or isinstance(stop_risk, pd.Series):
+            raise Exception("Invalid stop_risk")
+
+        return round(purchase_price * (1 - stop_risk), 2)
