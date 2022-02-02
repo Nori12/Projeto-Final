@@ -391,6 +391,7 @@ class AndreMoraesStrategy(PseudoStrategy):
                 return max(end_dates_list)
 
         return None
+
     @property
     def stop_type(self):
         return self._stop_type
