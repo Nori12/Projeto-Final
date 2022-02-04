@@ -1,4 +1,4 @@
-ticker,day,success_oper_flag,time_out_flag,end_of_interval_flag,best_risk,best_risk_days,min_risk,min_risk_days,max_risk,max_risk_days
+ticker,day,success_oper_flag,timeout_flag,end_of_interval_flag,best_risk,best_risk_days,min_risk,min_risk_days,max_risk,max_risk_days
 MGLU3,2013-01-02,0,0,0,0.0,0,0.0,0,0.0,0
 MGLU3,2013-01-03,0,0,0,0.0,0,0.0,0,0.0,0
 MGLU3,2013-01-04,0,0,0,0.0,0,0.0,0,0.0,0

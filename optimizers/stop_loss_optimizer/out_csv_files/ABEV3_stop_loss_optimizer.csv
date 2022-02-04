@@ -1,4 +1,4 @@
-ticker,day,success_oper_flag,time_out_flag,end_of_interval_flag,best_risk,best_risk_days,min_risk,min_risk_days,max_risk,max_risk_days
+ticker,day,success_oper_flag,timeout_flag,end_of_interval_flag,best_risk,best_risk_days,min_risk,min_risk_days,max_risk,max_risk_days
 ABEV3,2013-01-02,1,0,0,0.0183,12,0.0127,11,0.0259,17
 ABEV3,2013-01-03,1,0,0,0.0191,11,0.0088,10,0.0268,16
 ABEV3,2013-01-04,1,0,0,0.0234,15,0.0181,13,0.0234,15

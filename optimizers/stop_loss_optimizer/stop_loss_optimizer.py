@@ -4,7 +4,6 @@ from logging.handlers import RotatingFileHandler
 from pathlib import Path
 import pandas as pd
 import numpy as np
-import math
 
 sys.path.insert(1, '/Users/atcha/Github/Projeto-Final/src')
 import constants as c
@@ -30,15 +29,19 @@ RISKMAP_FILE_SUFFIX = "_risk_map.csv"
 
 class StopLossOptimizer:
 
-    def __init__(self, buy_type="current_day_open_price"):
-        self._min_risk = 0.01
-        self._max_risk = 0.15
+    def __init__(self, buy_type='current_day_open_price', min_risk=0.01,
+        max_risk=0.15, gain_loss_ration=3, max_days_per_operation=90):
 
-        if buy_type not in ["current_day_open_price", "last_day_close_price"]:
-            raise Exception("buy_type options: 'current_day_open_price', 'last_day_close_price'.")
+        if buy_type not in ['current_day_open_price', 'last_day_close_price']:
+            raise Exception("'buy_type' parameter options: " \
+                "'current_day_open_price', 'last_day_close_price'.")
         self._buy_type = buy_type
-        self._gain_loss_ratio = 3
-        self.output_file_path = Path(__file__).parent / "out_csv_files"
+
+        self._min_risk = min_risk
+        self._max_risk = max_risk
+        self._gain_loss_ratio = gain_loss_ration
+        self._max_days_per_operation = max_days_per_operation
+        self.out_file_path_prefix = Path(__file__).parent / "out_csv_files"
 
         self._risk_step = 0.002
         self._risk_thresholds = [round(i, 3) for i in \
@@ -82,6 +85,14 @@ class StopLossOptimizer:
         self._gain_loss_ratio = gain_loss_ratio
 
     @property
+    def max_days_per_operation(self):
+        return self._max_days_per_operation
+
+    @max_days_per_operation.setter
+    def max_days_per_operation(self, max_days_per_operation):
+        self._max_days_per_operation = max_days_per_operation
+
+    @property
     def tickers_and_dates(self):
         return self._tickers_and_dates
 
@@ -98,7 +109,8 @@ class StopLossOptimizer:
 
         # For each Ticker
         for tck_index, (ticker, date) in enumerate(self.tickers_and_dates.items()):
-            print(f"Processing Ticker '{ticker}' ({tck_index+1} of {len(self.tickers_and_dates)})")
+            print(f"Processing Ticker '{ticker}' ({tck_index+1} of " \
+                f"{len(self.tickers_and_dates)})")
 
             # Get daily candles
             candles_df_day = db_model.get_ticker_prices_and_features(ticker,
@@ -108,9 +120,10 @@ class StopLossOptimizer:
             purchase_price = None
 
             if standard_map is True:
-                business_data = self._initialize_business_data(ticker, candles_df_day)
+                business_data = StopLossOptimizer._init_business_data(ticker, candles_df_day)
             if risk_map is True:
-                riskmap_params, riskmap_data = self._initialize_risk_map(ticker, candles_df_day)
+                riskmap_params, riskmap_data = self._init_risk_map(ticker,
+                    candles_df_day)
 
             # For each Day
             for idx, row in candles_df_day.iterrows():
@@ -132,21 +145,15 @@ class StopLossOptimizer:
 
             if standard_map is True:
                 pd.DataFrame(business_data).to_csv(
-                    self.output_file_path / (ticker + STD_FILE_SUFFIX),
+                    self.out_file_path_prefix / (ticker + STD_FILE_SUFFIX),
                     mode='w', index=False, header=True)
             if risk_map is True:
                 pd.DataFrame(riskmap_data).to_csv(
-                    self.output_file_path / (ticker + RISKMAP_FILE_SUFFIX),
+                    self.out_file_path_prefix / (ticker + RISKMAP_FILE_SUFFIX),
                     mode='w', index=False, header=True)
 
-            # df = pd.DataFrame(business_data)
-
-            # header = not tck_index
-            # df.to_csv(self.output_file_path / (ticker + STD_FILE_SUFFIX), mode='a',
-            #     index=False, header=header)
-
-
-    def _initialize_business_data(self, ticker, candles_df_day):
+    @staticmethod
+    def _init_business_data(ticker, candles_df_day):
 
         length = len(candles_df_day)
 
@@ -154,7 +161,7 @@ class StopLossOptimizer:
             "ticker": [ticker] * length,
             "day": candles_df_day['day'].to_list(),
             "success_oper_flag": [0] * length,
-            "time_out_flag": [0] * length,
+            "timeout_flag": [0] * length,
             "end_of_interval_flag": [0] * length,
             "best_risk": [0.0] * length,
             "best_risk_days": [0] * length,
@@ -166,7 +173,7 @@ class StopLossOptimizer:
 
         return business_data
 
-    def _initialize_risk_map(self, ticker, candles_df_day):
+    def _init_risk_map(self, ticker, candles_df_day):
 
         length = len(candles_df_day)
 
@@ -196,16 +203,6 @@ class StopLossOptimizer:
             riskmap_params['risk_column_values'].append(i)
 
         return riskmap_params, riskmap_data
-
-    # def _fill_target_and_stop_prices(self, purchase_price, riskmap_params):
-
-    #     riskmap_params['purchase_price'] = purchase_price
-
-    #     for idx, risk in enumerate(riskmap_params['risk_column_values']):
-    #         riskmap_params['target_prices'][idx] = round(
-    #             purchase_price * (1 + self.gain_loss_ratio * risk), 2)
-    #         riskmap_params['stop_prices'][idx] = round(
-    #             purchase_price * (1 - risk), 2)
 
     def _process_major_data(self, business_data, purchase_price, candles_df_day,
         curr_idx, idx_delay):
@@ -274,9 +271,9 @@ class StopLossOptimizer:
                         business_data['max_risk'][curr_idx] = self.max_risk
                         break
 
-            if days_counter == c.MAX_DAYS_PER_OPERATION:
+            if days_counter == self.max_days_per_operation:
                 if business_data['success_oper_flag'][curr_idx] != 1:
-                    business_data['time_out_flag'][curr_idx] = 1
+                    business_data['timeout_flag'][curr_idx] = 1
                 break
 
             if idx_fut == candles_len - 1:
@@ -345,7 +342,13 @@ class StopLossOptimizer:
 
             # Exit conditions
             if all(riskmap_mask) \
-                or days_counter == c.MAX_DAYS_PER_OPERATION \
+                or days_counter == self.max_days_per_operation \
                 or idx_fut == candles_len - 1 \
                 or row_fut['min_price'] < quit_stop_price:
                 break
+
+if __name__ == '__main__':
+    logger.info('Stop Loss Optimizer started.')
+
+    sl_opt = StopLossOptimizer()
+    sl_opt.run_simulation(standard_map=True, risk_map=True)

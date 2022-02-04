@@ -6,6 +6,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
+import stop_loss_optimizer as slo
 
 sys.path.insert(1, '/Users/atcha/Github/Projeto-Final/src')
 import constants as c
@@ -24,8 +25,6 @@ logger.addHandler(file_handler)
 file_handler.setLevel(logging.DEBUG)
 logger.setLevel(logging.DEBUG)
 
-STD_FILE_SUFFIX = "_stop_loss_optimizer.csv"
-RISKMAP_FILE_SUFFIX = "_risk_map.csv"
 random_colors = ['green', 'blue', 'olive', 'orange', 'red']
 
 class StopLossDataAnalyzer:
@@ -37,8 +36,8 @@ class StopLossDataAnalyzer:
 
         self.ticker = ticker
 
-        input_std_file_path = Path(__file__).parent / "out_csv_files" / (ticker + STD_FILE_SUFFIX)
-        input_riskmap_file_path = Path(__file__).parent / "out_csv_files" / (ticker + RISKMAP_FILE_SUFFIX)
+        input_std_file_path = Path(__file__).parent / "out_csv_files" / (ticker + slo.STD_FILE_SUFFIX)
+        input_riskmap_file_path = Path(__file__).parent / "out_csv_files" / (ticker + slo.RISKMAP_FILE_SUFFIX)
 
         sl_df_gen = pd.read_csv(input_std_file_path, sep=",", chunksize=100000)
         self.sl_df = pd.concat((x.query(f"ticker == '{ticker}'") for x in sl_df_gen), ignore_index=True)
@@ -47,7 +46,7 @@ class StopLossDataAnalyzer:
         self.rm_df = pd.concat((x.query(f"ticker == '{ticker}'") for x in rm_df_gen), ignore_index=True)
 
     def show_all_graphs(self):
-        fig, ax = plt.subplots(3, 4)
+        fig, ax = plt.subplots(2, 4)
 
         fig.suptitle(f"{self.ticker} Stop Loss Optimization Analysis")
 
@@ -140,16 +139,16 @@ class StopLossDataAnalyzer:
         total_fails = len(self.sl_df[self.sl_df['success_oper_flag'] == 0])
         timeout_fail = round(len(self.sl_df[ \
             (self.sl_df['success_oper_flag'] == 0) & \
-            (self.sl_df['time_out_flag'] == 1)]) \
+            (self.sl_df['timeout_flag'] == 1)]) \
             / total_fails * 100, 1)
         std_fail = round(len(self.sl_df[ \
             (self.sl_df['success_oper_flag'] == 0) & \
-            (self.sl_df['time_out_flag'] == 0) & \
+            (self.sl_df['timeout_flag'] == 0) & \
             (self.sl_df['end_of_interval_flag'] == 0)]) \
             / total_fails * 100, 1)
         end_of_interval_fail = round(len(self.sl_df[
             (self.sl_df['success_oper_flag'] == 0) & \
-            (self.sl_df['time_out_flag'] == 0) & \
+            (self.sl_df['timeout_flag'] == 0) & \
             (self.sl_df['end_of_interval_flag'] == 1)]) \
             / total_fails * 100, 1)
 
@@ -330,6 +329,6 @@ class StopLossDataAnalyzer:
         axis.set_xlabel('Days Threshold (days)')
 
 if __name__ == '__main__':
-    sl_analyzer = StopLossDataAnalyzer(ticker='ABEV3')
+    sl_analyzer = StopLossDataAnalyzer(ticker='MGLU3')
     sl_analyzer.show_all_graphs()
     sl_analyzer.show_risk_map()

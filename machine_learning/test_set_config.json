@@ -1,0 +1,35 @@
+{
+    "show_results": true,
+    "min_risk": 0.01,
+    "max_risk": 0.25,
+    "strategies":[
+        {
+            "name": "Andre Moraes",
+            "alias": "Tickers: {number_of_tickers}, Risk-Capital: {risk_capital_coefficient}%.",
+            "comment": "Test.",
+            "capital": 100000,
+            "risk_capital_coefficient": 0.050,
+            "min_order_volume": 1,
+            "ticker_min_ann_volume_filter": 0,
+            "partial_sale" : false,
+            "ema_tolerance" : 0.015,
+            "min_risk": 0.05,
+            "max_risk": 0.12,
+            "purchase_margin" : 0.04,
+            "stop_margin" : 0,
+            "stop_type": "normal",
+            "stock_targets": [
+                {
+                    "name": "ABEV3",
+                    "start_date": "01/01/2013",
+                    "end_date": "01/07/2018"
+                },
+                {
+                    "name": "MGLU3",
+                    "start_date": "01/01/2013",
+                    "end_date": "01/07/2018"
+                }
+            ]
+        }
+    ]
+}
