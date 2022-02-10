@@ -3,7 +3,6 @@ import logging
 from logging.handlers import RotatingFileHandler
 from pathlib import Path
 import pandas as pd
-import numpy as np
 
 sys.path.insert(1, '/Users/atcha/Github/Projeto-Final/src')
 import constants as c
@@ -24,14 +23,11 @@ logger.addHandler(file_handler)
 file_handler.setLevel(logging.DEBUG)
 logger.setLevel(logging.DEBUG)
 
+# TODO: Get respective ticker risks from config.json
 class SetGenerator:
 
     def __init__(self, buy_type='current_day_open_price', gain_loss_ratio=3,
-        max_days_per_operation=90, peaks_pairs_number=2, objective='train'):
-
-        if objective not in ('train', 'test'):
-            raise Exception("'objective' parameter options: 'train', 'test'.")
-        self.objective = objective
+        max_days_per_operation=90, peaks_pairs_number=2):
 
         if buy_type not in ('current_day_open_price', 'last_day_close_price'):
             raise Exception("'buy_type' parameter options: 'current_day_open_price', 'last_day_close_price'.")
@@ -45,10 +41,7 @@ class SetGenerator:
         self._peak_delay_days = 9
 
         cfg_path = Path(__file__).parent
-        if objective == 'train':
-            cfg_path = cfg_path / 'training_set_config.json'
-        elif objective == 'test':
-            cfg_path = cfg_path / 'test_set_config.json'
+        cfg_path = cfg_path / 'config.json'
 
         config_reader = cr.ConfigReader(config_file_path=cfg_path)
         self._tickers_and_dates = config_reader.tickers_and_dates
@@ -165,10 +158,8 @@ class SetGenerator:
                 self._fill_business_data(business_data, data_row, peaks_data,
                     add_ref_price)
 
-            set_root = '_training_set' if self.objective == 'train' else \
-                'test_set' if self.objective == 'test' else ''
             pd.DataFrame(business_data).to_csv(
-                self.out_file_path_prefix / (ticker + set_root + '.csv'),
+                self.out_file_path_prefix / (ticker + '_dataset.csv'),
                 mode='w', index=False, header=True)
 
     def _init_business_data(self, add_ref_price):
@@ -407,6 +398,6 @@ if __name__ == '__main__':
     logger.info('Set Generator started.')
 
     set_gen = SetGenerator(buy_type='current_day_open_price', gain_loss_ratio=3,
-        max_days_per_operation=90, peaks_pairs_number=2, objective='train')
+        max_days_per_operation=90, peaks_pairs_number=2)
 
-    set_gen.generate_datasets(max_tickers=0, risk=0.03, add_ref_price=True)
+    set_gen.generate_datasets(max_tickers=1, risk=0.012, add_ref_price=True)

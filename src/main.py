@@ -8,8 +8,7 @@ import config_reader as cr
 from db_model import DBGenericModel, DBStrategyAnalyzerModel
 from ticker_manager import TickerManager
 from operation import Operation
-from strategy_remake import AndreMoraesStrategy, AndreMoraesAdaptedStrategy
-# from strategy import AndreMoraesStrategy, AndreMoraesAdaptedStrategy
+from strategy import AndreMoraesStrategy, AndreMoraesAdaptedStrategy
 from strategy_analyzer import StrategyAnalyzer
 
 # Configure Logging

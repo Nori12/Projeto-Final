@@ -100,7 +100,7 @@ class StopLossOptimizer:
     def tickers_and_dates(self, tickers_and_dates):
         self._tickers_and_dates = tickers_and_dates
 
-    def run_simulation(self, standard_map = True, risk_map=False):
+    def run_simulation(self, max_tickers=0, standard_map = True, risk_map=False):
 
         if not any([standard_map, risk_map]):
             raise Exception("At least one simulation must be choosen.")
@@ -109,6 +109,10 @@ class StopLossOptimizer:
 
         # For each Ticker
         for tck_index, (ticker, date) in enumerate(self.tickers_and_dates.items()):
+
+            if tck_index == max_tickers and max_tickers != 0:
+                break
+
             print(f"Processing Ticker '{ticker}' ({tck_index+1} of " \
                 f"{len(self.tickers_and_dates)})")
 
@@ -351,4 +355,4 @@ if __name__ == '__main__':
     logger.info('Stop Loss Optimizer started.')
 
     sl_opt = StopLossOptimizer()
-    sl_opt.run_simulation(standard_map=True, risk_map=True)
+    sl_opt.run_simulation(max_tickers=0, standard_map=True, risk_map=True)

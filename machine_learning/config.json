@@ -22,12 +22,17 @@
                 {
                     "name": "ABEV3",
                     "start_date": "01/01/2013",
-                    "end_date": "01/07/2018"
+                    "end_date": "01/02/2020"
                 },
                 {
                     "name": "MGLU3",
                     "start_date": "01/01/2013",
-                    "end_date": "01/07/2018"
+                    "end_date": "01/02/2020"
+                },
+                {
+                    "name": "BBAS3",
+                    "start_date": "01/01/2013",
+                    "end_date": "01/02/2020"
                 }
             ]
         }

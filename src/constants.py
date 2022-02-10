@@ -6,7 +6,8 @@ CONFIG_PATH = 'config/'
 ACCEPTABLE_TRUE_VALUES = ['true', 'yes', 'y', True]
 ACCEPTABLE_FALSE_VALUES = ['false', 'no', 'n', False]
 ACCEPTABLE_NONE_VALUES = ['none', 'null', None]
-MODEL_PATH = 'src/RandomForestClassifier.joblib'
+MODELS_PATH = 'machine_learning/models/ticker_oriented_models/random_forest_classifier'
+MODEL_SUFFIX = '_rnd_fst_model.joblib'
 TICKERS_RCC_PATH = 'src/Tickers_RCC.csv'
 DATASETS_PATH = 'machine_learning/datasets/'
 
@@ -17,14 +18,6 @@ LOG_FORMATTER_STRING = '%(asctime)s:%(levelname)s:%(name)s:%(message)s'
 LOG_FILE_MAX_SIZE = 1*1024*1024
 
 MAX_DAYS_PER_OPERATION = 90
-
-# Candlegraphs processing
-# MARKET_OPEN_TIME = datetime.time(hour=10, minute=0, second=0)
-# MARKET_CLOSE_TIME = datetime.time(hour=17, minute=0, second=0)
-
-# MAJOR_GRAPH_TIME = 'week'
-# MAIN_GRAPH_TIME = 'day'
-# MINOR_GRAPH_TIME = 'hour'
 
 # Exit error/warning codes
 CONFIG_FILE_ERR = 1

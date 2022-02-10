@@ -5,7 +5,6 @@ from pathlib import Path
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
 import stop_loss_optimizer as slo
 
 sys.path.insert(1, '/Users/atcha/Github/Projeto-Final/src')
@@ -329,6 +328,6 @@ class StopLossDataAnalyzer:
         axis.set_xlabel('Days Threshold (days)')
 
 if __name__ == '__main__':
-    sl_analyzer = StopLossDataAnalyzer(ticker='MGLU3')
+    sl_analyzer = StopLossDataAnalyzer(ticker='BBAS3')
     sl_analyzer.show_all_graphs()
     sl_analyzer.show_risk_map()
