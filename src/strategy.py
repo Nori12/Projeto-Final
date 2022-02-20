@@ -287,7 +287,7 @@ class AndreMoraesStrategy(PseudoStrategy):
             'avr_tickers_yield': None, 'annualized_avr_tickers_yield': None, 'volatility': None,
             'sharpe_ratio': None}
 
-        tickers_rcc_path = Path(__file__).parent.parent/c.TICKERS_RCC_PATH
+        tickers_rcc_path = Path(__file__).parent.parent/c.TICKERS_OPER_OPT_PATH
         self._tickers_rcc_df = pd.read_csv(tickers_rcc_path, sep=',')
 
         if self._min_volume_per_year != 0:
@@ -470,13 +470,15 @@ class AndreMoraesStrategy(PseudoStrategy):
                         if (tcks_priority[index].ongoing_operation_flag == False):
 
                             # Strategy business rules
-                            if self._check_business_rules(business_data,
-                                tcks_priority, index):
+                            if self._check_business_rules(business_data, tcks_priority,
+                                index):
 
                                 purchase_price = self._get_purchase_price(business_data)
-                                stop_price = self._get_stop_price(ticker_name, purchase_price, business_data)
+                                stop_price = self._get_stop_price(ticker_name, purchase_price,
+                                    business_data)
                                 purchase_amount = self._set_operation_purchase(ticker_name,
-                                    purchase_price, stop_price, available_capital, tcks_priority, index, business_data)
+                                    purchase_price, stop_price, available_capital, tcks_priority,
+                                    index, business_data)
                                 available_capital = round(available_capital - purchase_amount, 2)
 
                                 if purchase_amount >= 0.01 and self.stop_type == "staircase":
@@ -1225,8 +1227,9 @@ class AndreMoraesStrategy(PseudoStrategy):
                 f", \'{day.strftime('%Y-%m-%d')}\')")
             return 0.0
 
-        stop_risk = self._tickers_rcc_df.loc[
-            self._tickers_rcc_df['ticker'] == ticker_name, ['rcc']].squeeze()
+        # stop_risk = self._tickers_rcc_df.loc[
+        #     self._tickers_rcc_df['ticker'] == ticker_name, ['rcc']].squeeze()
+        stop_risk = None
 
         stop_loss_day = 0.0
 
@@ -1301,11 +1304,30 @@ class AndreMoraesStrategy(PseudoStrategy):
 
     def _check_business_rules(self, business_data, tcks_priority, tck_idx):
 
-        if (business_data["up_down_trend_status_day"] >= Trend.ALMOST_UPTREND.value) \
-            and (business_data["min_price_day"] < max(business_data["ema_17_day"], business_data["ema_72_day"])*(1+self.ema_tolerance) \
-            and business_data["max_price_day"] > min(business_data["ema_17_day"], business_data["ema_72_day"])*(1-self.ema_tolerance)) \
-            and (business_data["close_price_day"] > business_data["ema_72_week"]) \
-            and (business_data["target_buy_price_day"] > business_data["min_price_day"] and business_data["target_buy_price_day"] < business_data["max_price_day"]):
+        # if (business_data["up_down_trend_status_day"] == Trend.UPTREND.value) \
+        #     and (business_data["min_price_day"] < max(business_data["ema_17_day"], \
+        #         business_data["ema_72_day"])*(1+self.ema_tolerance) \
+        #         and business_data["max_price_day"] > min(business_data["ema_17_day"], \
+        #         business_data["ema_72_day"])*(1-self.ema_tolerance)) \
+        #     and (business_data["close_price_day"] > business_data["ema_72_week"]) \
+        #     and (business_data["target_buy_price_day"] > business_data["min_price_day"] \
+        #         and business_data["target_buy_price_day"] < business_data["max_price_day"]):
+        #     return True
+
+        if not tcks_priority[tck_idx].last_business_data:
+            return False
+
+        if (business_data["up_down_trend_status_day"] == Trend.UPTREND.value) \
+            and (tcks_priority[tck_idx].last_business_data['min_price_day'] < \
+                max(business_data["ema_17_day"], business_data["ema_72_day"]) * \
+                (1+self.ema_tolerance) \
+                and tcks_priority[tck_idx].last_business_data['max_price_day'] > \
+                min(business_data["ema_17_day"], business_data["ema_72_day"]) * \
+                (1-self.ema_tolerance)) \
+            and (tcks_priority[tck_idx].last_business_data['close_price_day'] > \
+                business_data["ema_72_week"]) \
+            and (business_data["target_buy_price_day"] > business_data["min_price_day"] \
+                and business_data["target_buy_price_day"] < business_data["max_price_day"]):
             return True
 
         return False
@@ -1607,10 +1629,12 @@ class AndreMoraesAdaptedStrategy(AndreMoraesStrategy):
 
     def _get_stop_price(self, ticker_name, purchase_price, business_data):
 
-        stop_risk = self._tickers_rcc_df.loc[
-            self._tickers_rcc_df['ticker'] == ticker_name, ['rcc']].squeeze()
+        # stop_risk = self._tickers_rcc_df.loc[
+        #     self._tickers_rcc_df['ticker'] == ticker_name, ['rcc']].squeeze()
 
-        if stop_risk is None or isinstance(stop_risk, pd.Series):
-            raise Exception("Invalid stop_risk")
+        # if stop_risk is None or isinstance(stop_risk, pd.Series):
+        #     raise Exception("Invalid stop_risk")
 
-        return round(purchase_price * (1 - stop_risk), 2)
+        # return round(purchase_price * (1 - stop_risk), 2)
+
+        return business_data['stop_loss_day']

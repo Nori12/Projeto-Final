@@ -36,7 +36,12 @@ class Trend(Enum):
     CONSOLIDATION = 0
     ALMOST_DOWNTREND = -0.5
     DOWNTREND = -1
-    UNDEFINED = 0
+
+# Peak Comparison
+class PC(Enum):
+    FIRST_IS_GREATER = 1
+    BOTH_ARE_CLOSE = 0
+    FIRST_IS_LESSER = -1
 
 class RunTime(ContextDecorator):
     """
@@ -117,13 +122,18 @@ def calculate_yield_annualized(in_yield, bus_day_count):
     return round(annualized_yield - 1, 4)
 
 def compare_peaks(peak_1, peak_2, tolerance=0.01):
+    """
+    Return  PC.FIRST_IS_GREATER if peak_1 > peak_2
+            PC.BOTH_ARE_CLOSE if peak_1 = peak_2
+            PC.FIRST_IS_LESSER if peak_1 < peak_2
+    """
 
     if peak_1 > peak_2 * (1+tolerance):
-        return 1
+        return PC.FIRST_IS_GREATER
     elif peak_1 >= peak_2 * (1-tolerance):
-        return 0
+        return PC.BOTH_ARE_CLOSE
     else:
-        return -1
+        return PC.FIRST_IS_LESSER
 
 def get_capital_per_risk(risk_capital_coefficient, total_capital, operation_risk):
     return round(total_capital * risk_capital_coefficient / operation_risk, 2)

@@ -48,7 +48,7 @@ class StrategyAnalyzer:
                 self._strategy_id = strategies['id'][0]
             else:
                 logger.warning(f"No strategy in database.")
-                sys.exit(c.NO_STRATEGY_WAR)
+                sys.exit(c.NO_STRATEGY_ERR)
         else:
             self._strategy_id = strategy_id
 
@@ -773,5 +773,5 @@ class StrategyAnalyzer:
         self._app.run_server()
 
 if __name__ == "__main__":
-    analyzer = StrategyAnalyzer(strategy_id=239)
+    analyzer = StrategyAnalyzer(strategy_id=None)
     analyzer.run()

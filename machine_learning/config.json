@@ -1,38 +1,378 @@
 {
     "show_results": true,
     "min_risk": 0.01,
-    "max_risk": 0.25,
+    "max_risk": 0.10,
     "strategies":[
         {
             "name": "Andre Moraes",
-            "alias": "Tickers: {number_of_tickers}, Risk-Capital: {risk_capital_coefficient}%.",
-            "comment": "Test.",
+            "alias": "",
+            "comment": "",
             "capital": 100000,
-            "risk_capital_coefficient": 0.050,
+            "risk_capital_coefficient": 0.01,
             "min_order_volume": 1,
             "ticker_min_ann_volume_filter": 0,
             "partial_sale" : false,
             "ema_tolerance" : 0.015,
-            "min_risk": 0.05,
-            "max_risk": 0.12,
-            "purchase_margin" : 0.04,
+            "min_risk": 0.01,
+            "max_risk": 0.10,
+            "purchase_margin" : 0,
             "stop_margin" : 0,
             "stop_type": "normal",
             "stock_targets": [
                 {
                     "name": "ABEV3",
-                    "start_date": "01/01/2013",
-                    "end_date": "01/02/2020"
+                    "start_date": "02/01/2013",
+                    "end_date": "18/02/2022"
                 },
                 {
-                    "name": "MGLU3",
-                    "start_date": "01/01/2013",
-                    "end_date": "01/02/2020"
+                    "name": "ALPA4",
+                    "start_date": "02/01/2013",
+                    "end_date": "18/02/2022"
+                },
+                {
+                    "name": "AMER3",
+                    "start_date": "02/01/2013",
+                    "end_date": "18/02/2022"
+                },
+                {
+                    "name": "B3SA3",
+                    "start_date": "02/01/2013",
+                    "end_date": "18/02/2022"
                 },
                 {
                     "name": "BBAS3",
-                    "start_date": "01/01/2013",
-                    "end_date": "01/02/2020"
+                    "start_date": "02/01/2013",
+                    "end_date": "18/02/2022"
+                },
+                {
+                    "name": "BBDC3",
+                    "start_date": "02/01/2013",
+                    "end_date": "18/02/2022"
+                },
+                {
+                    "name": "BBDC4",
+                    "start_date": "02/01/2013",
+                    "end_date": "18/02/2022"
+                },
+                {
+                    "name": "BBSE3",
+                    "start_date": "02/01/2013",
+                    "end_date": "18/02/2022"
+                },
+                {
+                    "name": "BEEF3",
+                    "start_date": "02/01/2013",
+                    "end_date": "18/02/2022"
+                },
+                {
+                    "name": "BPAN4",
+                    "start_date": "02/01/2013",
+                    "end_date": "18/02/2022"
+                },
+                {
+                    "name": "BRAP4",
+                    "start_date": "02/01/2013",
+                    "end_date": "18/02/2022"
+                },
+                {
+                    "name": "BRFS3",
+                    "start_date": "02/01/2013",
+                    "end_date": "18/02/2022"
+                },
+                {
+                    "name": "BRKM5",
+                    "start_date": "02/01/2013",
+                    "end_date": "18/02/2022"
+                },
+                {
+                    "name": "BRML3",
+                    "start_date": "02/01/2013",
+                    "end_date": "18/02/2022"
+                },
+                {
+                    "name": "CCRO3",
+                    "start_date": "02/01/2013",
+                    "end_date": "18/02/2022"
+                },
+                {
+                    "name": "CIEL3",
+                    "start_date": "02/01/2013",
+                    "end_date": "18/02/2022"
+                },
+                {
+                    "name": "CMIG4",
+                    "start_date": "02/01/2013",
+                    "end_date": "18/02/2022"
+                },
+                {
+                    "name": "COGN3",
+                    "start_date": "02/01/2013",
+                    "end_date": "18/02/2022"
+                },
+                {
+                    "name": "CPFE3",
+                    "start_date": "02/01/2013",
+                    "end_date": "18/02/2022"
+                },
+                {
+                    "name": "CPLE6",
+                    "start_date": "02/01/2013",
+                    "end_date": "18/02/2022"
+                },
+                {
+                    "name": "CSAN3",
+                    "start_date": "02/01/2013",
+                    "end_date": "18/02/2022"
+                },
+                {
+                    "name": "CSNA3",
+                    "start_date": "02/01/2013",
+                    "end_date": "18/02/2022"
+                },
+                {
+                    "name": "CVCB3",
+                    "start_date": "02/01/2013",
+                    "end_date": "18/02/2022"
+                },
+                {
+                    "name": "CYRE3",
+                    "start_date": "02/01/2013",
+                    "end_date": "18/02/2022"
+                },
+                {
+                    "name": "DXCO3",
+                    "start_date": "02/01/2013",
+                    "end_date": "18/02/2022"
+                },
+                {
+                    "name": "ECOR3",
+                    "start_date": "02/01/2013",
+                    "end_date": "18/02/2022"
+                },
+                {
+                    "name": "EGIE3",
+                    "start_date": "02/01/2013",
+                    "end_date": "18/02/2022"
+                },
+                {
+                    "name": "ELET3",
+                    "start_date": "02/01/2013",
+                    "end_date": "18/02/2022"
+                },
+                {
+                    "name": "ELET6",
+                    "start_date": "02/01/2013",
+                    "end_date": "18/02/2022"
+                },
+                {
+                    "name": "EMBR3",
+                    "start_date": "02/01/2013",
+                    "end_date": "18/02/2022"
+                },
+                {
+                    "name": "ENBR3",
+                    "start_date": "02/01/2013",
+                    "end_date": "18/02/2022"
+                },
+                {
+                    "name": "ENEV3",
+                    "start_date": "02/01/2013",
+                    "end_date": "18/02/2022"
+                },
+                {
+                    "name": "ENGI11",
+                    "start_date": "02/01/2013",
+                    "end_date": "18/02/2022"
+                },
+                {
+                    "name": "EQTL3",
+                    "start_date": "02/01/2013",
+                    "end_date": "18/02/2022"
+                },
+                {
+                    "name": "EZTC3",
+                    "start_date": "02/01/2013",
+                    "end_date": "18/02/2022"
+                },
+                {
+                    "name": "FLRY3",
+                    "start_date": "02/01/2013",
+                    "end_date": "18/02/2022"
+                },
+                {
+                    "name": "GGBR4",
+                    "start_date": "02/01/2013",
+                    "end_date": "18/02/2022"
+                },
+                {
+                    "name": "GOAU4",
+                    "start_date": "02/01/2013",
+                    "end_date": "18/02/2022"
+                },
+                {
+                    "name": "GOLL4",
+                    "start_date": "02/01/2013",
+                    "end_date": "18/02/2022"
+                },
+                {
+                    "name": "HYPE3",
+                    "start_date": "02/01/2013",
+                    "end_date": "18/02/2022"
+                },
+                {
+                    "name": "ITSA4",
+                    "start_date": "02/01/2013",
+                    "end_date": "18/02/2022"
+                },
+                {
+                    "name": "ITUB4",
+                    "start_date": "02/01/2013",
+                    "end_date": "18/02/2022"
+                },
+                {
+                    "name": "JBSS3",
+                    "start_date": "02/01/2013",
+                    "end_date": "18/02/2022"
+                },
+                {
+                    "name": "JHSF3",
+                    "start_date": "02/01/2013",
+                    "end_date": "18/02/2022"
+                },
+                {
+                    "name": "LAME4",
+                    "start_date": "02/01/2013",
+                    "end_date": "18/02/2022"
+                },
+                {
+                    "name": "LCAM3",
+                    "start_date": "02/01/2013",
+                    "end_date": "18/02/2022"
+                },
+                {
+                    "name": "LREN3",
+                    "start_date": "02/01/2013",
+                    "end_date": "18/02/2022"
+                },
+                {
+                    "name": "MGLU3",
+                    "start_date": "02/01/2013",
+                    "end_date": "18/02/2022"
+                },
+                {
+                    "name": "MRFG3",
+                    "start_date": "02/01/2013",
+                    "end_date": "18/02/2022"
+                },
+                {
+                    "name": "MRVE3",
+                    "start_date": "02/01/2013",
+                    "end_date": "18/02/2022"
+                },
+                {
+                    "name": "MULT3",
+                    "start_date": "02/01/2013",
+                    "end_date": "18/02/2022"
+                },
+                {
+                    "name": "PETR3",
+                    "start_date": "02/01/2013",
+                    "end_date": "18/02/2022"
+                },
+                {
+                    "name": "PETR4",
+                    "start_date": "02/01/2013",
+                    "end_date": "18/02/2022"
+                },
+                {
+                    "name": "POSI3",
+                    "start_date": "02/01/2013",
+                    "end_date": "18/02/2022"
+                },
+                {
+                    "name": "PRIO3",
+                    "start_date": "02/01/2013",
+                    "end_date": "18/02/2022"
+                },
+                {
+                    "name": "QUAL3",
+                    "start_date": "02/01/2013",
+                    "end_date": "18/02/2022"
+                },
+                {
+                    "name": "RADL3",
+                    "start_date": "02/01/2013",
+                    "end_date": "18/02/2022"
+                },
+                {
+                    "name": "RENT3",
+                    "start_date": "02/01/2013",
+                    "end_date": "18/02/2022"
+                },
+                {
+                    "name": "SANB11",
+                    "start_date": "02/01/2013",
+                    "end_date": "18/02/2022"
+                },
+                {
+                    "name": "SBSP3",
+                    "start_date": "02/01/2013",
+                    "end_date": "18/02/2022"
+                },
+                {
+                    "name": "SULA11",
+                    "start_date": "02/01/2013",
+                    "end_date": "18/02/2022"
+                },
+                {
+                    "name": "TAEE11",
+                    "start_date": "02/01/2013",
+                    "end_date": "18/02/2022"
+                },
+                {
+                    "name": "TIMS3",
+                    "start_date": "02/01/2013",
+                    "end_date": "18/02/2022"
+                },
+                {
+                    "name": "TOTS3",
+                    "start_date": "02/01/2013",
+                    "end_date": "18/02/2022"
+                },
+                {
+                    "name": "UGPA3",
+                    "start_date": "02/01/2013",
+                    "end_date": "18/02/2022"
+                },
+                {
+                    "name": "USIM5",
+                    "start_date": "02/01/2013",
+                    "end_date": "18/02/2022"
+                },
+                {
+                    "name": "VALE3",
+                    "start_date": "02/01/2013",
+                    "end_date": "18/02/2022"
+                },
+                {
+                    "name": "VIIA3",
+                    "start_date": "02/01/2013",
+                    "end_date": "18/02/2022"
+                },
+                {
+                    "name": "VIVT3",
+                    "start_date": "02/01/2013",
+                    "end_date": "18/02/2022"
+                },
+                {
+                    "name": "WEGE3",
+                    "start_date": "02/01/2013",
+                    "end_date": "18/02/2022"
+                },
+                {
+                    "name": "YDUQ3",
+                    "start_date": "02/01/2013",
+                    "end_date": "18/02/2022"
                 }
             ]
         }

@@ -8,7 +8,7 @@ ACCEPTABLE_FALSE_VALUES = ['false', 'no', 'n', False]
 ACCEPTABLE_NONE_VALUES = ['none', 'null', None]
 MODELS_PATH = 'machine_learning/models/ticker_oriented_models/random_forest_classifier'
 MODEL_SUFFIX = '_rnd_fst_model.joblib'
-TICKERS_RCC_PATH = 'src/Tickers_RCC.csv'
+TICKERS_OPER_OPT_PATH = 'optimizers/stop_loss_optimizer/out_csv_files/tickers_oper_opt.csv'
 DATASETS_PATH = 'machine_learning/datasets/'
 
 # Log
@@ -17,7 +17,7 @@ LOG_PATH = 'logs/'
 LOG_FORMATTER_STRING = '%(asctime)s:%(levelname)s:%(name)s:%(message)s'
 LOG_FILE_MAX_SIZE = 1*1024*1024
 
-MAX_DAYS_PER_OPERATION = 90
+MAX_DAYS_PER_OPERATION = 45
 
 # Exit error/warning codes
 CONFIG_FILE_ERR = 1
@@ -32,5 +32,5 @@ NO_HOLIDAYS_DATA_ERR = 9
 NO_CDI_DATA_ERR = 10
 NO_TICKER_FOR_STRATEGY_ERR = 11
 PROCESSING_OPERATIONS_ERR = 12
-NO_STRATEGY_WAR = 13
+NO_STRATEGY_ERR = 13
 INVALID_PEAK_ERR = 14

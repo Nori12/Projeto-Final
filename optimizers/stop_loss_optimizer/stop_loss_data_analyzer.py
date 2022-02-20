@@ -109,7 +109,7 @@ class StopLossDataAnalyzer:
         ax.bar3d(xpos, ypos, zpos, dx, dy, dz, zsort='average', shade=True,
             color = 'blue')
 
-        ax.set_title('Successful Operations Histogram')
+        ax.set_title(f"\'{self.ticker}\' Successful Operations Histogram")
         ax.set_ylabel('Risk (%)')
         ax.set_xlabel('Days (d)')
         ax.set_zlabel('Count')
@@ -181,7 +181,7 @@ class StopLossDataAnalyzer:
             bins_idx = cum_sum_of_n.index( next(x for x in cum_sum_of_n if x > count_threshold) )
             axis.axvline((bins[bins_idx] + bins[bins_idx + 1]) / 2, linestyle='dashed', linewidth=1,
                 color=random_colors[idx % len(random_colors)],
-                label=f">{str(int(threshold_perc[idx] * 100))}%: {int(bins[bins_idx])} days")
+                label=f"{str(int(threshold_perc[idx] * 100))}%: {int(bins[bins_idx])} days")
             days_thresholds.append(int(bins[bins_idx]))
 
         axis.set_title('Best Risk Days Histogram')
@@ -237,7 +237,7 @@ class StopLossDataAnalyzer:
             bins_idx = cum_sum_of_n.index( next(x for x in cum_sum_of_n if x > count_threshold) )
             axis.axvline((bins[bins_idx] + bins[bins_idx + 1]) / 2, linestyle='dashed', linewidth=1,
                 color=random_colors[idx % len(random_colors)],
-                label=f">{str(int(threshold_perc[idx] * 100))}%: {int(bins[bins_idx])} days")
+                label=f"{str(int(threshold_perc[idx] * 100))}%: {int(bins[bins_idx])} days")
             days_thresholds.append(int(bins[bins_idx]))
 
         axis.set_title('Min Risk Days Histogram')
@@ -293,7 +293,7 @@ class StopLossDataAnalyzer:
             bins_idx = cum_sum_of_n.index( next(x for x in cum_sum_of_n if x > count_threshold) )
             axis.axvline((bins[bins_idx] + bins[bins_idx + 1]) / 2, linestyle='dashed', linewidth=1,
                 color=random_colors[idx % len(random_colors)],
-                label=f">{str(int(threshold_perc[idx] * 100))}%: {int(bins[bins_idx])} days")
+                label=f"{str(int(threshold_perc[idx] * 100))}%: {int(bins[bins_idx])} days")
             days_thresholds.append(int(bins[bins_idx]))
 
         axis.set_title('Max Risk Days Histogram')
@@ -328,6 +328,6 @@ class StopLossDataAnalyzer:
         axis.set_xlabel('Days Threshold (days)')
 
 if __name__ == '__main__':
-    sl_analyzer = StopLossDataAnalyzer(ticker='BBAS3')
+    sl_analyzer = StopLossDataAnalyzer(ticker='MGLU3')
     sl_analyzer.show_all_graphs()
     sl_analyzer.show_risk_map()

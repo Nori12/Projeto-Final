@@ -341,8 +341,6 @@ class DBTickerModel:
             query += ", up_down_trend_status"
         if 'peak' in columns_list:
             query += ", peak"
-        if 'up_down_trend_status_strict' in columns_list:
-            query += ", up_down_trend_status_strict"
         query += ")\nVALUES\n"
 
         number_of_rows = len(df)
@@ -362,8 +360,6 @@ class DBTickerModel:
                 query += f", {row['up_down_trend_status']}"
             if 'peak' in columns_list:
                 query += f", {row['peak']:.2f}"
-            if 'up_down_trend_status_strict' in columns_list:
-                query += f", {row['up_down_trend_status_strict']}"
             query += ")"
 
             if n != number_of_rows - 1:
@@ -1092,8 +1088,7 @@ class DBStrategyAnalyzerModel:
         elif interval == '1d':
             query = f"SELECT dc.day, dc.open_price, dc.max_price, dc.min_price, " \
                 f"dc.close_price, df.ema_17, df.ema_72, df.up_down_trend_status, " \
-                f"df.target_buy_price, df.stop_loss, df.peak, " \
-                f"df.up_down_trend_status_strict\n"
+                f"df.target_buy_price, df.stop_loss, df.peak\n"
             query += f"FROM daily_candles dc\n"
             query += f"INNER JOIN daily_features df ON df.ticker = dc.ticker AND df.day = dc.day\n"
             query += f"WHERE \n"

@@ -6,13 +6,12 @@ import logging
 from logging.handlers import RotatingFileHandler
 import sys
 import yfinance as yf
-import math
 from bisect import bisect
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 
 import constants as c
-from utils import has_workdays_in_between, RunTime, Trend, compare_peaks
+from utils import PC, has_workdays_in_between, RunTime, Trend, compare_peaks
 from db_model import DBTickerModel
 
 # Configure Logging
@@ -173,7 +172,7 @@ class TickerManager:
 
             # Only common tickers should have derived candlesticks
             # Indexes (IBOV, S&P500, ...) does not need it
-            if update_happened == True and self._ordinary_ticker == True:
+            if update_happened is True and self._ordinary_ticker is True:
                 self._update_weekly_candles()
         except Exception as error:
             logger.exception(f"Error updating daily candles, error:\n{error}")
@@ -227,34 +226,34 @@ class TickerManager:
 
             # Check if requested interval is already in datebase
             if (has_workdays_in_between(self.start_date, start_date_in_db,
-                self.holidays, consider_oldest_date=True) == False
+                self.holidays, consider_oldest_date=True) is False
                 and has_workdays_in_between(end_date_in_db, self.end_date,
-                self.holidays, consider_recent_date=True) == False):
+                self.holidays, consider_recent_date=True) is False):
                 logger.info(f"Ticker \'{self.ticker}\' already updated.")
                 return False
 
             # Database lacks most recent data
             if has_workdays_in_between(end_date_in_db, self.end_date, self.holidays,
-                consider_recent_date=True) == True:
+                consider_recent_date=True) is True:
                 update_flag = self._update_candles_splits_and_dividends(end_date_in_db+timedelta(days=1),
                     self.end_date, oldest_date_in_db=start_date_in_db,
                     last_update_in_db=last_update_in_db)
-                if update_flag == True:
+                if update_flag is True:
                     update_happened = True
 
             # Database lacks oldest data
             if has_workdays_in_between(self.start_date, start_date_in_db,
-                self.holidays, consider_oldest_date=True) == True:
+                self.holidays, consider_oldest_date=True) is True:
                 update_flag = self._update_candles_splits_and_dividends(self.start_date,
                     start_date_in_db-timedelta(days=1))
-                if update_flag == True:
+                if update_flag is True:
                     update_happened = True
         else:
             update_flag = self._update_candles_splits_and_dividends(self.start_date, self.end_date)
-            if update_flag == True:
+            if update_flag is True:
                 update_happened = True
 
-        if update_happened == True:
+        if update_happened is True:
             logger.info(f"Ticker \'{self.ticker}\' updated daily candlesticks.")
         else:
             logger.info(f"Ticker \'{self.ticker}\' did not updated daily candlesticks.")
@@ -327,7 +326,7 @@ class TickerManager:
         dividends_df = candles_df[candles_df['Dividends'] != 0].copy()
 
         # Yahoo Finance consistency on data changes if ticker is not ordinary
-        if self._ordinary_ticker == True:
+        if self._ordinary_ticker is True:
             candles_df.drop(['Dividends', 'Stock Splits'], axis=1, inplace=True)
             candles_df.replace(0, np.nan, inplace=True)
             candles_df.dropna(axis=0, how='any', inplace=True)
@@ -353,7 +352,7 @@ class TickerManager:
         if not dividends_df.empty:
             TickerManager.db_ticker_model.upsert_dividends(self.ticker, dividends_df)
         # Normalize previous candles in database if needed
-        if able_to_normalize == True and normalization_factor != 1.0:
+        if able_to_normalize is True and normalization_factor != 1.0:
             TickerManager.db_ticker_model.normalize_daily_candles(self.ticker,
                 oldest_date_in_db, start_date-timedelta(days=1), normalization_factor)
 
@@ -383,7 +382,7 @@ class TickerManager:
         ticker = self.ticker
         hist = None
 
-        if self._ordinary_ticker == True:
+        if self._ordinary_ticker is True:
             ticker += '.SA'
 
         try:
@@ -480,7 +479,7 @@ class TickerManager:
         try:
             logger.info(f"Generating features for ticker \'{self.ticker}\'.")
 
-            if self._ordinary_ticker == True:
+            if self._ordinary_ticker is True:
 
                 TickerManager.db_ticker_model.delete_features(self.ticker, interval='1d')
                 TickerManager.db_ticker_model.delete_features(self.ticker, interval='1wk')
@@ -492,17 +491,20 @@ class TickerManager:
                 candles_df = TickerManager.db_ticker_model.get_candlesticks(
                     self.ticker, self.start_date, self.end_date,
                     days_before_initial_date, interval='1d')
+
                 trends, target_prices, stop_losses, peaks = \
                     self.find_target_buy_price_and_trend(candles_df,
                     time_column_name='day', close_column_name='close_price',
                     max_colum_name='max_price', min_column_name='min_price')
+
                 ema_17 = pd.Series([0])
-                ema_72 = pd.Series([0])
                 ema_17 = pd.concat([ema_17, candles_df['close_price'].ewm(span=17,
                     adjust=False).mean()], ignore_index=True)
+                ema_17.drop(ema_17.index[-1], inplace=True)
+
+                ema_72 = pd.Series([0])
                 ema_72 = pd.concat([ema_72, candles_df['close_price'].ewm(span=72,
                     adjust=False).mean()], ignore_index=True)
-                ema_17.drop(ema_17.index[-1], inplace=True)
                 ema_72.drop(ema_72.index[-1], inplace=True)
 
                 if trends is not None and \
@@ -516,17 +518,20 @@ class TickerManager:
                         interval='1d')
                 else:
                     return False
+
                 # Week interval
                 candles_df = TickerManager.db_ticker_model.get_candlesticks(
                     self.ticker, self.start_date, self.end_date,
                     days_before_initial_date, interval='1wk')
+
                 ema_17 = pd.Series([0])
-                ema_72 = pd.Series([0])
                 ema_17 = pd.concat([ema_17, candles_df['close_price'].ewm(span=17,
                     adjust=False).mean()], ignore_index=True)
+                ema_17.drop(ema_17.index[-1], inplace=True)
+
+                ema_72 = pd.Series([0])
                 ema_72 = pd.concat([ema_72, candles_df['close_price'].ewm(span=72,
                     adjust=False).mean()], ignore_index=True)
-                ema_17.drop(ema_17.index[-1], inplace=True)
                 ema_72.drop(ema_72.index[-1], inplace=True)
 
                 peaks = [0] * len(candles_df)
@@ -536,10 +541,10 @@ class TickerManager:
                     for peak in peaks_raw:
                         peaks[peak['index']] = peak['magnitude']
 
-                if candles_df.empty == False and peaks_raw is not None:
+                if candles_df.empty is False and peaks_raw is not None:
                     features_df = pd.DataFrame({'ticker': self._ticker,
-                        'week': candles_df['week'], 'ema_17': ema_17, 'ema_72': ema_72,
-                        'peak': peaks})
+                        'week': candles_df['week'], 'ema_17': ema_17,
+                        'ema_72': ema_72, 'peak': peaks})
                     TickerManager.db_ticker_model.upsert_features(features_df,
                         interval='1wk')
                 else:
@@ -570,6 +575,7 @@ class TickerManager:
         last_update_percent = update_step
         print(f"\nTicker : \'{self.ticker}\' ({self.ticker_number}/{TickerManager.total_tickers})")
 
+        # For each day
         for index, row in prices_df.iterrows():
 
             completion_percentage = (index+1)/df_length
@@ -577,7 +583,7 @@ class TickerManager:
                 print(f"{last_update_percent * 100:.0f}%.")
                 last_update_percent += update_step
 
-            trend = Trend.UNDEFINED.value
+            trend = Trend.CONSOLIDATION.value
             target_price = undefined_value
             stop_loss = undefined_value
 
@@ -608,7 +614,6 @@ class TickerManager:
 
                     price = row[close_column_name]
 
-                    # Default method
                     max_from_max_peaks = max(max_peak_1, max_peak_2)
                     min_from_max_peaks = min(max_peak_1, max_peak_2)
                     max_from_min_peaks = max(min_peak_1, min_peak_2)
@@ -625,58 +630,45 @@ class TickerManager:
                             f"\'{pd.to_datetime(row[time_column_name], format='%d/%m/%Y')}\')")
                         sys.exit(c.INVALID_PEAK_ERR)
 
-                    # Likely uptrend
-                    target_price = round(max_from_max_peaks, 2)
-                    max_peaks_comp = compare_peaks(max_peak_1, max_peak_2)
-                    min_peaks_comp = compare_peaks(min_peak_1, min_peak_2)
+                    # target_price = round(max_from_max_peaks, 2)
 
-                    if max_peaks_comp < 0 and min_peaks_comp < 0 or \
-                        (max_peaks_comp == 0 and min_peaks_comp < 0) or \
-                        (max_peaks_comp < 0 and min_peaks_comp == 0):
-                        if price >= max_from_max_peaks*(1+peaks_tolerance):
-                            trend = Trend.UPTREND.value
-                            target_price = round(max_from_max_peaks, 2)
-                        elif price > max(min_from_max_peaks, max_from_min_peaks):
-                            trend = Trend.UPTREND.value
-                            target_price = round(max(min_from_max_peaks, max_from_min_peaks), 2)
-                        else:
-                            trend = Trend.UPTREND.value
-                            target_price = round(price)
-                    else:
-                         if price >= max_from_max_peaks*(1+outlier_tolerance):
-                             trend = Trend.UPTREND.value
+                    # max_peaks_cmp = compare_peaks(max_peak_1, max_peak_2, tolerance=0.01)
+                    # min_peaks_cmp = compare_peaks(min_peak_1, min_peak_2, tolerance=0.01)
+
+                    # # if max_peaks_cmp < 0 and min_peaks_cmp < 0 \
+                    # #     or (max_peaks_cmp == 0 and min_peaks_cmp < 0) \
+                    # #     or (max_peaks_cmp < 0 and min_peaks_cmp == 0):
+                    # if (max_peaks_cmp == PC.FIRST_IS_LESSER and min_peaks_cmp == PC.FIRST_IS_LESSER) \
+                    #     or (max_peaks_cmp == PC.BOTH_ARE_CLOSE and min_peaks_cmp == PC.FIRST_IS_LESSER) \
+                    #     or (max_peaks_cmp == PC.FIRST_IS_LESSER and min_peaks_cmp == PC.BOTH_ARE_CLOSE):
+
+                    #     if price >= max_from_max_peaks*(1+peaks_tolerance):
+                    #         target_price = round(max_from_max_peaks, 2)
+                    #     elif price >= max(min_from_max_peaks, max_from_min_peaks):
+                    #         target_price = round(max(min_from_max_peaks, max_from_min_peaks), 2)
+                    #     else:
+                    #         target_price = round(price)
+
+                    #     trend = Trend.UPTREND.value
+                    # else:
+                    #      if price >= max_from_max_peaks*(1+outlier_tolerance):
+                    #          trend = Trend.UPTREND.value
+
+                    target_price = TickerManager.get_target_price(price, max_peak_1,
+                        max_peak_2, min_peak_1, min_peak_2, peaks_tolerance=0.005)
+
+                    trend = TickerManager.get_trend(price, max_peak_1, max_peak_2,
+                        min_peak_1, min_peak_2, peaks_tolerance=0.005)
 
                     stop_loss = TickerManager.get_stop_loss(max_from_max_peaks,
                         min_from_max_peaks, max_from_min_peaks, min_from_min_peaks,
                         target_price, min_risk=self.min_risk, max_risk=self.max_risk)
 
-            # out_trends[index] = trend
-            # out_target_prices[index] = target_price
-            # out_stop_losses[index] = stop_loss
             if index != df_length - 1:
                 out_trends[index+1] = trend
                 out_target_prices[index+1] = target_price
                 out_stop_losses[index+1] = stop_loss
 
-            # Breakpoint
-            # if time_column_name == 'week' and \
-            #     prices_df.loc[prices_df.index[index]][time_column_name] == pd.Timestamp('2020-08-10T00'):
-            #     fig, axs = plt.subplots(3)
-            #     x_data = prices_df.index[0:index+1]
-            #     # x_data = prices_df.loc[0:index+1, ['day']].squeeze().to_list()
-            #     axs[0].plot(x_data, out_trends[0:index+1])
-            #     axs[1].plot(x_data, out_target_prices[0:index+1], 'blue')
-            #     axs[1].plot(x_data, out_stop_losses[0:index+1], 'red')
-            #     axs[2].plot(x_data, max_prices[0:index+1], 'lightblue')
-            #     axs[2].plot(x_data, min_prices[0:index+1], 'orange')
-            #     axs[2].plot(x_data, prices_df.loc[prices_df.index[0:index+1], [close_column_name]], 'lightgreen')
-            #     axs[2].plot(prices_df.index[[peak['index'] for peak in peaks if peak['type'] == 'max']], [peak['magnitude'] for peak in peaks if peak['type'] == 'max'], 'bo')
-            #     axs[2].plot(prices_df.index[[peak['index'] for peak in peaks if peak['type'] == 'min']], [peak['magnitude'] for peak in peaks if peak['type'] == 'min'], 'rx')
-            #     myFmt = mdates.DateFormatter('%d/%m/%Y')
-            #     axs[0].xaxis.set_major_formatter(myFmt)
-            #     axs[1].xaxis.set_major_formatter(myFmt)
-            #     axs[2].xaxis.set_major_formatter(myFmt)
-            #     plt.show()
         if peaks is not None:
             for peak in peaks:
                 out_peaks[peak['index']] = peak['magnitude']
@@ -822,35 +814,86 @@ class TickerManager:
     def get_stop_loss(max_from_max_peaks, min_from_max_peaks, max_from_min_peaks,
         min_from_min_peaks, target_buy_price, min_risk=0.01, max_risk=1.0):
 
-        stop_loss = 0.0
         threshold_1 = max_from_max_peaks
         threshold_2 = max(min_from_max_peaks, max_from_min_peaks)
         threshold_3 = min(min_from_max_peaks, max_from_min_peaks)
         threshold_4 = min_from_min_peaks
 
-        max_stop_loss = target_buy_price * (1 - min_risk)
-        min_stop_loss = target_buy_price * (1 - max_risk)
+        stop_loss = 0.0
 
-        if min_stop_loss > threshold_1:
-            stop_loss = min_stop_loss
-        if max_stop_loss >= threshold_1 and threshold_1 >= min_stop_loss:
+        min_stop_loss = target_buy_price * (1 - min_risk)
+        max_stop_loss = target_buy_price * (1 - max_risk)
+
+        if max_stop_loss > threshold_1:
+            stop_loss = max_stop_loss
+
+        if min_stop_loss >= threshold_1 and threshold_1 >= max_stop_loss:
             stop_loss = threshold_1
         else:
-            if min_stop_loss > threshold_2:
-                stop_loss = min_stop_loss
-            elif max_stop_loss >= threshold_2 and threshold_2 >= min_stop_loss:
+            if max_stop_loss > threshold_2:
+                stop_loss = max_stop_loss
+            elif min_stop_loss >= threshold_2 and threshold_2 >= max_stop_loss:
                 stop_loss = threshold_2
             else:
-                if min_stop_loss > threshold_3:
-                    stop_loss = min_stop_loss
-                elif max_stop_loss >= threshold_3 and threshold_3 >= min_stop_loss:
+                if max_stop_loss > threshold_3:
+                    stop_loss = max_stop_loss
+                elif min_stop_loss >= threshold_3 and threshold_3 >= max_stop_loss:
                     stop_loss = threshold_3
                 else:
-                    if min_stop_loss > threshold_4:
-                        stop_loss = min_stop_loss
-                    elif max_stop_loss >= threshold_4 and threshold_4 >= min_stop_loss:
+                    if max_stop_loss > threshold_4:
+                        stop_loss = max_stop_loss
+                    elif min_stop_loss >= threshold_4 and threshold_4 >= max_stop_loss:
                         stop_loss = threshold_4
                     else:
-                        stop_loss = max_stop_loss
+                        stop_loss = min_stop_loss
 
         return round(stop_loss, 2)
+
+    @staticmethod
+    def get_target_price(price, max_peak_1, max_peak_2, min_peak_1, min_peak_2,
+        peaks_tolerance=0.01):
+
+        max_from_max_peaks = max(max_peak_1, max_peak_2)
+        min_from_max_peaks = min(max_peak_1, max_peak_2)
+        max_from_min_peaks = max(min_peak_1, min_peak_2)
+
+        target_price = round(max_from_max_peaks * (1+peaks_tolerance), 2)
+
+        max_peaks_cmp = compare_peaks(max_peak_1, max_peak_2, tolerance=peaks_tolerance)
+        min_peaks_cmp = compare_peaks(min_peak_1, min_peak_2, tolerance=peaks_tolerance)
+
+        if (max_peaks_cmp == PC.FIRST_IS_LESSER and min_peaks_cmp == PC.FIRST_IS_LESSER) \
+            or (max_peaks_cmp == PC.BOTH_ARE_CLOSE and min_peaks_cmp == PC.FIRST_IS_LESSER) \
+            or (max_peaks_cmp == PC.FIRST_IS_LESSER and min_peaks_cmp == PC.BOTH_ARE_CLOSE):
+
+            if price >= max_from_max_peaks*(1+peaks_tolerance):
+                target_price = round(
+                    max_from_max_peaks * (1+peaks_tolerance), 2)
+            else:
+                target_price = round(
+                    max(min_from_max_peaks, max_from_min_peaks)*(1+peaks_tolerance), 2)
+
+        return target_price
+
+    @staticmethod
+    def get_trend(price, max_peak_1, max_peak_2, min_peak_1, min_peak_2,
+        peaks_tolerance=0.01):
+
+        trend = Trend.CONSOLIDATION.value
+
+        max_peaks_cmp = compare_peaks(max_peak_1, max_peak_2, tolerance=peaks_tolerance)
+        min_peaks_cmp = compare_peaks(min_peak_1, min_peak_2, tolerance=peaks_tolerance)
+
+        if (max_peaks_cmp == PC.FIRST_IS_LESSER and min_peaks_cmp == PC.FIRST_IS_LESSER) \
+            or (max_peaks_cmp == PC.BOTH_ARE_CLOSE and min_peaks_cmp == PC.FIRST_IS_LESSER) \
+            or (max_peaks_cmp == PC.FIRST_IS_LESSER and min_peaks_cmp == PC.BOTH_ARE_CLOSE):
+
+            trend = Trend.UPTREND.value
+
+        elif (max_peaks_cmp == PC.FIRST_IS_GREATER and min_peaks_cmp == PC.FIRST_IS_GREATER) \
+            or (max_peaks_cmp == PC.BOTH_ARE_CLOSE and min_peaks_cmp == PC.FIRST_IS_GREATER) \
+            or (max_peaks_cmp == PC.FIRST_IS_GREATER and min_peaks_cmp == PC.BOTH_ARE_CLOSE):
+
+            trend = Trend.DOWNTREND.value
+
+        return trend

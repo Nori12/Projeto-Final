@@ -398,6 +398,6 @@ if __name__ == '__main__':
     logger.info('Set Generator started.')
 
     set_gen = SetGenerator(buy_type='current_day_open_price', gain_loss_ratio=3,
-        max_days_per_operation=90, peaks_pairs_number=2)
+        max_days_per_operation=45, peaks_pairs_number=2)
 
-    set_gen.generate_datasets(max_tickers=1, risk=0.012, add_ref_price=True)
+    set_gen.generate_datasets(max_tickers=0, risk=0.012, add_ref_price=True)
