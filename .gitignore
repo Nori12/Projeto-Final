@@ -1,5 +1,6 @@
 workspace/
 logs/
+logs/*
 database/queries.sql
 .vscode/
 input_files/*
@@ -12,3 +13,4 @@ venv/
 optimizers/stop_loss_optimizer/__pycache__/
 machine_learning/__pycache__/
 machine_learning/datasets/
+tempCodeRunnerFile.python

@@ -34,6 +34,7 @@ class StopLossDataAnalyzer:
             raise Exception('A ticker is needed.')
 
         self.ticker = ticker
+        self.max_days_per_operation = 90
 
         input_std_file_path = Path(__file__).parent / "out_csv_files" / (ticker + slo.STD_FILE_SUFFIX)
         input_riskmap_file_path = Path(__file__).parent / "out_csv_files" / (ticker + slo.RISKMAP_FILE_SUFFIX)
@@ -80,7 +81,7 @@ class StopLossDataAnalyzer:
         risk_ranges = [round(float(i.replace('_p', '').replace('_', '.')), 3)
             for i in self.rm_df.columns.to_list() if i.endswith('_p')]
 
-        x_days_len = c.MAX_DAYS_PER_OPERATION
+        x_days_len = self.max_days_per_operation
         y_risks_len = len(risk_columns)
 
         x_days = []
@@ -93,7 +94,7 @@ class StopLossDataAnalyzer:
 
         hist, xedges, yedges = np.histogram2d(x_days, y_risks,
             bins=(x_days_len-1, y_risks_len-1),
-            range=[[1, c.MAX_DAYS_PER_OPERATION], [risk_ranges[0], risk_ranges[-1]]])
+            range=[[1, self.max_days_per_operation], [risk_ranges[0], risk_ranges[-1]]])
 
         # Construct arrays for the anchor positions
         xpos, ypos = np.meshgrid(xedges[:-1], yedges[:-1], indexing="ij")
@@ -166,7 +167,7 @@ class StopLossDataAnalyzer:
             (self.sl_df['best_risk_days'] != 0) & \
             (self.sl_df['end_of_interval_flag'] != 1), ['best_risk_days']]
 
-        n_bins = c.MAX_DAYS_PER_OPERATION - 2
+        n_bins = self.max_days_per_operation - 2
         (n, bins, patches) = axis.hist(best_risk_days['best_risk_days'], bins=n_bins, color='b')
 
         count_thresholds = [int(p * len(best_risk_days)) for p in threshold_perc]
@@ -222,7 +223,7 @@ class StopLossDataAnalyzer:
             (self.sl_df['min_risk_days'] != 0) & \
             (self.sl_df['end_of_interval_flag'] != 1), ['min_risk_days']]
 
-        n_bins = c.MAX_DAYS_PER_OPERATION - 2
+        n_bins = self.max_days_per_operation - 2
         (n, bins, patches) = axis.hist(best_risk_days['min_risk_days'], bins=n_bins, color='b')
 
         count_thresholds = [int(p * len(best_risk_days)) for p in threshold_perc]
@@ -278,7 +279,7 @@ class StopLossDataAnalyzer:
             (self.sl_df['max_risk_days'] != 0) & \
             (self.sl_df['end_of_interval_flag'] != 1), ['max_risk_days']]
 
-        n_bins = c.MAX_DAYS_PER_OPERATION - 2
+        n_bins = self.max_days_per_operation - 2
         (n, bins, patches) = axis.hist(best_risk_days['max_risk_days'], bins=n_bins, color='b')
 
         count_thresholds = [int(p * len(best_risk_days)) for p in threshold_perc]

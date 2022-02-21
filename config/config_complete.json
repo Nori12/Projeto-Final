@@ -2,6 +2,7 @@
     "show_results": true,
     "min_risk": 0.01,
     "max_risk": 0.10,
+    "max_days_per_operation": 45,
     "strategies":[
         {
             "name": "Andre Moraes",

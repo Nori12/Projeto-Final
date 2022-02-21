@@ -45,8 +45,8 @@ def run():
     # Update and generate features
     for tm in ticker_managers:
         tm.holidays = config.holidays
-        tm.min_risk = config.min_risk
-        tm.max_risk = config.max_risk
+        tm.min_risk = config.min_features_risk
+        tm.max_risk = config.max_features_risk
 
         update_ok = tm.update()
         if update_ok is True:
@@ -76,6 +76,7 @@ def run():
             am.purchase_margin = strategy['purchase_margin']
             am.stop_margin = strategy['stop_margin']
             am.stop_type = strategy['stop_type']
+            am.max_days_per_operation = config.max_days_per_operation
 
             am.process_operations()
             am.calculate_statistics()
@@ -97,6 +98,7 @@ def run():
             ama.purchase_margin = strategy['purchase_margin']
             ama.stop_margin = strategy['stop_margin']
             ama.stop_type = strategy['stop_type']
+            ama.max_days_per_operation = config.max_days_per_operation
 
             ama.process_operations()
             ama.calculate_statistics()

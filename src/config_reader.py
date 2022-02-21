@@ -59,9 +59,9 @@ class ConfigReader:
     show_results : bool
         Result parameter that enables further visualization of
         processed data.
-    min_risk : float
+    min_features_risk : float
         Minimum risk per operation.
-    min_risk : float
+    min_features_risk : float
         Maximum risk per operation.
     pruchase_margin : float
         Percentage margin aplied on target purchase price.
@@ -83,10 +83,12 @@ class ConfigReader:
         self.load_file(config_file_path)
         self._show_results = self.read_parameter('show_results', origin='root',
             is_boolean=True, can_be_missed=True, if_missed_default_value=True)
-        self._min_risk = self.read_parameter('min_risk', origin='root',
+        self._min_features_risk = self.read_parameter('min_risk', origin='root',
             can_be_missed=True, can_be_none=False, if_missed_default_value=True)
-        self._max_risk = self.read_parameter('max_risk', origin='root',
+        self._max_features_risk = self.read_parameter('max_risk', origin='root',
             can_be_missed=True, can_be_none=False, if_missed_default_value=True)
+        self._max_days_per_operation = self.read_parameter('max_days_per_operation',
+            origin='root', is_boolean=False, can_be_missed=False, if_missed_default_value=90)
         self._purchase_margin = self.read_parameter('purchase_margin', origin='root',
             can_be_missed=True, can_be_none=False, if_missed_default_value=0.0)
         self._stop_margin = self.read_parameter('stop_margin', origin='root',
@@ -203,14 +205,14 @@ class ConfigReader:
         return self._show_results
 
     @property
-    def min_risk(self):
+    def min_features_risk(self):
         """float : Minimum risk per operation."""
-        return self._min_risk
+        return self._min_features_risk
 
     @property
-    def max_risk(self):
+    def max_features_risk(self):
         """float : Maximum risk per operation."""
-        return self._max_risk
+        return self._max_features_risk
 
     @property
     def purchase_margin(self):
@@ -226,6 +228,11 @@ class ConfigReader:
     def holidays(self):
         """`list` of `datetime.date` : Holidays between min_start_date and max_end_date."""
         return self._holidays
+
+    @property
+    def max_days_per_operation(self):
+        return self._max_days_per_operation
+
 
     def load_file(self, config_file_path):
         """Read configuration (JSON) file in the given path and save it as dictionary."""

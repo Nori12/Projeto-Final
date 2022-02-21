@@ -167,6 +167,15 @@ class PseudoStrategy(ABC):
     def end_date(self):
         pass
 
+    @property
+    @abstractmethod
+    def max_days_per_operation(self):
+        pass
+
+    @max_days_per_operation.setter
+    @abstractmethod
+    def max_days_per_operation(self, max_days_per_operation):
+        pass
 
     @abstractmethod
     def process_operations(self):
@@ -266,6 +275,7 @@ class AndreMoraesStrategy(PseudoStrategy):
         self._stop_margin = 0.0
         self._stop_type = "normal"
         self._gain_loss_ratio = 3
+        self._max_days_per_operation = 90
 
         self._tickers_and_dates = tickers
         for ticker, date in tickers.items():
@@ -415,6 +425,14 @@ class AndreMoraesStrategy(PseudoStrategy):
     def gain_loss_ratio(self, gain_loss_ratio):
         self._gain_loss_ratio = gain_loss_ratio
 
+    @property
+    def max_days_per_operation(self):
+        return self._max_days_per_operation
+
+    @max_days_per_operation.setter
+    def max_days_per_operation(self, max_days_per_operation):
+        self._max_days_per_operation = max_days_per_operation
+
     @RunTime('process_operations')
     def process_operations(self):
         try:
@@ -431,14 +449,9 @@ class AndreMoraesStrategy(PseudoStrategy):
 
             self._start_progress_bar()
 
-            # TODO: Delete
-            total_days_counter = 0
-
             while True:
                 try:
                     day_info, week_info = next(data_gen)
-
-                    total_days_counter += 1
 
                     for index in range(len(tcks_priority)):
 
@@ -1444,14 +1457,14 @@ class AndreMoraesStrategy(PseudoStrategy):
         sale_amount = 0.0
 
         # If expiration date arrives
-        if (business_data["day"] - tcks_priority[tck_idx].operation.start_date).days >= c.MAX_DAYS_PER_OPERATION:
+        if (business_data["day"] - tcks_priority[tck_idx].operation.start_date).days >= self.max_days_per_operation:
             sale_amount = round(business_data["close_price_day"] * \
                 (tcks_priority[tck_idx].operation.total_purchase_volume - tcks_priority[tck_idx].operation.total_sale_volume), 2)
             tcks_priority[tck_idx].operation.add_sale(
                 business_data["close_price_day"], tcks_priority[tck_idx].operation.total_purchase_volume \
                     - tcks_priority[tck_idx].operation.total_sale_volume, business_data["day"])
             day = business_data["day"]
-            logger.debug(f"Operation time expired({c.MAX_DAYS_PER_OPERATION} days): \'{tcks_priority[tck_idx].ticker}\', "
+            logger.debug(f"Operation time expired({self.max_days_per_operation} days): \'{tcks_priority[tck_idx].ticker}\', "
                 f"\'{day.strftime('%Y-%m-%d')}\'.")
 
         return sale_amount
