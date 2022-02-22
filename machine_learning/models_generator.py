@@ -7,6 +7,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.ensemble import RandomForestClassifier
 import joblib
+import matplotlib.pyplot as plt
+import numpy as np
 
 sys.path.insert(1, '/Users/atcha/Github/Projeto-Final/src')
 import constants as c
@@ -53,6 +55,7 @@ class ModelGenerator:
 
         self.supported_models = ('KNeighborsClassifier', 'RandomForestClassifier')
         self.models_folder = ('kneighbors_classifier', 'random_forest_classifier')
+        self.model_type_folder = 'ticker_oriented_models'
 
         self.feature_columns = ['risk', 'peak_1', 'day_1', 'peak_2', 'day_2', 'peak_3',
                 'day_3', 'peak_4', 'day_4', 'ema_17_day', 'ema_72_day', 'ema_72_week']
@@ -100,8 +103,6 @@ class ModelGenerator:
             end_on_ticker = len(self.tickers_and_dates) + 1
 
         try:
-            model_folder = 'ticker_oriented_models'
-
             if model_type not in self.supported_models:
                 raise Exception("'objective' parameter options: 'train', 'test'.")
 
@@ -125,18 +126,20 @@ class ModelGenerator:
                 training_df, test_df = self._load_datasets(ticker, test_set_ratio)
 
                 if model_type == 'KNeighborsClassifier':
-                    model = self._get_KNeighborsClassifier_model(training_df, test_df)
+                    model = self._get_kneighbors_classifier(training_df, test_df)
 
                     # Save model
-                    joblib.dump(model, self.models_path_prefix / model_folder /
+                    joblib.dump(model, self.models_path_prefix / self.model_type_folder /
                         self.models_folder[self.supported_models.index(model_type)] /
                         f'{ticker}_knn_model.joblib')
 
                 elif model_type == 'RandomForestClassifier':
-                    model = self._get_RandomForestClassifier(training_df, test_df)
+                    model = self._get_random_forest_classifier(training_df, test_df)
+
+                    self.save_feature_importances(ticker, model)
 
                     # Save model
-                    joblib.dump(model, self.models_path_prefix / model_folder /
+                    joblib.dump(model, self.models_path_prefix / self.model_type_folder /
                         self.models_folder[self.supported_models.index(model_type)] /
                         f'{ticker}_rnd_fst_model.joblib')
 
@@ -208,7 +211,7 @@ class ModelGenerator:
 
         return training_df[0:end_index+1]
 
-    def _get_KNeighborsClassifier_model(self, training_df, test_df,
+    def _get_kneighbors_classifier(self, training_df, test_df,
         n_neighbors_list=[1, 2, 3, 4]):
 
         knn_training_accuracy = []
@@ -248,12 +251,12 @@ class ModelGenerator:
 
         return best_knn_model
 
-    def _get_RandomForestClassifier(self, training_df, test_df):
+    def _get_random_forest_classifier(self, training_df, test_df):
 
         # Parameters
         max_features = len(self.feature_columns)
-        n_estimators_list = [i for i in range(1, max_features+1, 1)]
-        depth_list = [i for i in range(2, 20, 2)]
+        n_estimators_list = [i for i in range(1, max_features+1, 1) if i > (max_features // 2)]
+        depth_list = [i for i in range(8, 30, 2)]
 
         rnd_frt_training_accuracy = []
         rnd_frt_test_accuracy = []
@@ -297,10 +300,24 @@ class ModelGenerator:
 
         return best_rnd_frt_model
 
+    def save_feature_importances(self, ticker, model):
+        n_features = len(self.feature_columns)
+
+        fig=plt.figure()
+        plt.barh(range(n_features), model.feature_importances_, align='center')
+        plt.yticks(np.arange(n_features), self.feature_columns)
+        plt.title(f"\'{ticker}\' Features Importance")
+        plt.xlabel("Feature importance")
+        plt.ylabel("Feature")
+        plt.savefig(self.models_path_prefix / self.model_type_folder /
+            self.models_folder[self.supported_models.index('RandomForestClassifier')] /
+            f"{ticker}_rnd_fst_model.png", bbox_inches='tight')
+        plt.close(fig)
+
 if __name__ == '__main__':
     logger.info('Model Generator started.')
 
     model_gen = ModelGenerator(min_date_filter='2013-01-01', max_date_filter=None)
 
     model_gen.create_ticker_oriented_models(max_tickers=0, start_on_ticker=1,
-        end_on_ticker=6, model_type='RandomForestClassifier', test_set_ratio=0.15)
+        end_on_ticker=13, model_type='RandomForestClassifier', test_set_ratio=0.15)

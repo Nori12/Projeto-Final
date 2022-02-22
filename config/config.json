@@ -6,7 +6,7 @@
     "strategies":[
         {
             "name": "Andre Moraes",
-            "alias": "Tickers: {number_of_tickers}, Risk-Capital: {risk_capital_coefficient}%.",
+            "alias": "Tickers: {number_of_tickers}.",
             "comment": "Test.",
             "capital": 100000,
             "risk_capital_coefficient": 0.005,
@@ -42,6 +42,41 @@
                 },
                 {
                     "name": "BBAS3",
+                    "start_date": "01/07/2018",
+                    "end_date": "01/02/2020"
+                },
+                {
+                    "name": "BBDC3",
+                    "start_date": "01/07/2018",
+                    "end_date": "01/02/2020"
+                },
+                {
+                    "name": "BBDC4",
+                    "start_date": "01/07/2018",
+                    "end_date": "01/02/2020"
+                },
+                {
+                    "name": "BBSE3",
+                    "start_date": "01/07/2018",
+                    "end_date": "01/02/2020"
+                },
+                {
+                    "name": "BEEF3",
+                    "start_date": "01/07/2018",
+                    "end_date": "01/02/2020"
+                },
+                {
+                    "name": "BPAN4",
+                    "start_date": "01/07/2018",
+                    "end_date": "01/02/2020"
+                },
+                {
+                    "name": "BRAP4",
+                    "start_date": "01/07/2018",
+                    "end_date": "01/02/2020"
+                },
+                {
+                    "name": "BRFS3",
                     "start_date": "01/07/2018",
                     "end_date": "01/02/2020"
                 }
@@ -49,7 +84,7 @@
         },
         {
             "name": "Andre Moraes Adapted",
-            "alias": "Tickers: {number_of_tickers}, Risk-Capital: {risk_capital_coefficient}%.",
+            "alias": "Tickers: {number_of_tickers}.",
             "comment": "Test.",
             "capital": 100000,
             "risk_capital_coefficient": 0.005,
@@ -85,6 +120,41 @@
                 },
                 {
                     "name": "BBAS3",
+                    "start_date": "01/07/2018",
+                    "end_date": "01/02/2020"
+                },
+                {
+                    "name": "BBDC3",
+                    "start_date": "01/07/2018",
+                    "end_date": "01/02/2020"
+                },
+                {
+                    "name": "BBDC4",
+                    "start_date": "01/07/2018",
+                    "end_date": "01/02/2020"
+                },
+                {
+                    "name": "BBSE3",
+                    "start_date": "01/07/2018",
+                    "end_date": "01/02/2020"
+                },
+                {
+                    "name": "BEEF3",
+                    "start_date": "01/07/2018",
+                    "end_date": "01/02/2020"
+                },
+                {
+                    "name": "BPAN4",
+                    "start_date": "01/07/2018",
+                    "end_date": "01/02/2020"
+                },
+                {
+                    "name": "BRAP4",
+                    "start_date": "01/07/2018",
+                    "end_date": "01/02/2020"
+                },
+                {
+                    "name": "BRFS3",
                     "start_date": "01/07/2018",
                     "end_date": "01/02/2020"
                 }

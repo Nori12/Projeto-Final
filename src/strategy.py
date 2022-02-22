@@ -463,7 +463,7 @@ class AndreMoraesStrategy(PseudoStrategy):
 
             ref_data = self._get_empty_ref_data()
 
-            self._start_progress_bar()
+            self._start_progress_bar(update_step=0.10)
 
             while True:
                 try:
@@ -1697,7 +1697,7 @@ class AndreMoraesAdaptedStrategy(AndreMoraesStrategy):
         # if prediction == 1:
         #     return True
 
-        if any(predictions) == 1:
+        if any(predictions) == 1 and sum(predictions) >= 3:
             risk = self.risks[get_avg_index_of_first_burst_of_ones(predictions)]
             business_data['stop_loss_day'] = round(purchase_price * (1 - risk), 2)
             return True
