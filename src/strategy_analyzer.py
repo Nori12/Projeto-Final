@@ -88,19 +88,19 @@ class StrategyAnalyzer:
         total_operations = sum(operations_stats['number'])
         succesful_operations = \
             operations_stats[operations_stats['status'] == 'SUCCESS']['number'].squeeze() \
-            if operations_stats[operations_stats['status'] == 'SUCCESS'].empty == False \
+            if operations_stats[operations_stats['status'] == 'SUCCESS'].empty is False \
             else 0
         failed_operations = \
             operations_stats[operations_stats['status'] == 'FAILURE']['number'].squeeze() \
-            if operations_stats[operations_stats['status'] == 'FAILURE'].empty == False \
+            if operations_stats[operations_stats['status'] == 'FAILURE'].empty is False \
             else 0
         neutral_operations = \
             operations_stats[operations_stats['status'] == 'NEUTRAL']['number'].squeeze() \
-            if operations_stats[operations_stats['status'] == 'NEUTRAL'].empty == False \
+            if operations_stats[operations_stats['status'] == 'NEUTRAL'].empty is False \
             else 0
         open_operations = \
             operations_stats[operations_stats['status'] == 'OPEN']['number'].squeeze() \
-            if operations_stats[operations_stats['status'] == 'OPEN'].empty == False \
+            if operations_stats[operations_stats['status'] == 'OPEN'].empty is False \
             else 0
 
         strategy_data = [min(self._tickers_and_dates['start_date']).strftime('%d/%m/%Y'), \
@@ -773,5 +773,5 @@ class StrategyAnalyzer:
         self._app.run_server()
 
 if __name__ == "__main__":
-    analyzer = StrategyAnalyzer(strategy_id=None)
+    analyzer = StrategyAnalyzer(strategy_id=4)
     analyzer.run()

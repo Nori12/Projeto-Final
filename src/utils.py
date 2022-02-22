@@ -90,9 +90,9 @@ def has_workdays_in_between(oldest_date, recent_date, holidays,
         True  : At least one workday.
         False : No workday or `recent_date` is actually older than `oldest_date`.
     """
-    if consider_oldest_date == False:
+    if consider_oldest_date is False:
         oldest_date = oldest_date + timedelta(days=1)
-    if consider_recent_date == True:
+    if consider_recent_date is True:
         recent_date = recent_date + timedelta(days=1)
 
     wokdays_in_between = int(np.busday_count(
@@ -137,5 +137,25 @@ def compare_peaks(peak_1, peak_2, tolerance=0.01):
 
 def get_capital_per_risk(risk_capital_coefficient, total_capital, operation_risk):
     return round(total_capital * risk_capital_coefficient / operation_risk, 2)
+
+def get_avg_index_of_first_burst_of_ones(some_list):
+
+    start_idx = 0
+    start_idx_flg = False
+    end_idx = 0
+
+    for idx, item in enumerate(some_list):
+        if item == 1 and start_idx_flg is False:
+            start_idx = idx
+            end_idx = idx
+            start_idx_flg = True
+        elif item == 1 and start_idx_flg is True:
+            end_idx = idx
+        elif item == 0 and start_idx_flg is True:
+            break
+
+    avg_idx = start_idx + (end_idx - start_idx) // 2
+
+    return avg_idx
 
 

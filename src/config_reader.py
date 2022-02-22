@@ -293,7 +293,7 @@ class ConfigReader:
         any
             Parameter value.
         """
-        if is_boolean == True and is_date == True:
+        if is_boolean is True and is_date is True:
             logger.error(f"Parameter can not be boolean and date at the same time.")
             sys.exit(c.CONFIG_FILE_ERR)
 
@@ -307,7 +307,7 @@ class ConfigReader:
             parameter_raw = origin[param_name]
             if isinstance(parameter_raw, list):
 
-                if can_be_list == True:
+                if can_be_list is True:
 
                     parameter = []
                     for param_element in parameter_raw:
@@ -322,10 +322,10 @@ class ConfigReader:
                 parameter = ConfigReader.get_value(param_name, parameter_raw,
                 is_boolean, is_date, can_be_none, accept_today)
 
-        elif can_be_missed == True and if_missed_default_value is not None:
+        elif can_be_missed is True and if_missed_default_value is not None:
             parameter = if_missed_default_value
 
-        elif can_be_missed == False:
+        elif can_be_missed is False:
             logger.error(f"Could not find parameter: \'{param_name}\'.")
             sys.exit(c.CONFIG_FILE_ERR)
 
@@ -364,7 +364,7 @@ class ConfigReader:
         """
         parameter = None
 
-        if is_boolean == True:
+        if is_boolean is True:
             if origin in c.ACCEPTABLE_TRUE_VALUES:
                 parameter = True
             elif origin in c.ACCEPTABLE_FALSE_VALUES:
@@ -375,8 +375,8 @@ class ConfigReader:
                     f"BOOLEAN and its value could not be identified.")
                 sys.exit(c.CONFIG_FILE_ERR)
 
-        elif is_date == True:
-            if accept_today == True and origin.lower() == "today":
+        elif is_date is True:
+            if accept_today is True and origin.lower() == "today":
                 parameter = datetime.now().date()
             else:
                 try:
@@ -397,7 +397,7 @@ class ConfigReader:
         else:
             parameter = origin
 
-        if can_be_none == False and parameter is None:
+        if can_be_none is False and parameter is None:
             logger.error(f"Parameter \'{param_name}\' does not accept NULL values.")
             sys.exit(c.CONFIG_FILE_ERR)
 
@@ -562,7 +562,7 @@ class ConfigReader:
 
                 # Finally len(strategies) == len(parameter)
                 for index, value in enumerate(param):
-                    if is_ticker == False:
+                    if is_ticker is False:
                         strategies[index][param_name] = value
                     else:
                         if param_name not in strategies[index]:
@@ -570,7 +570,7 @@ class ConfigReader:
 
                         for tck_name in list(param[index].keys()):
                             if tck_name in strategies[index][param_name] \
-                                and overwrite_ticker == True:
+                                and overwrite_ticker is True:
                                 strategies[index][param_name][tck_name]['start_date'] = \
                                     param[index][tck_name]['start_date']
                                 strategies[index][param_name][tck_name]['end_date'] = \
@@ -580,10 +580,10 @@ class ConfigReader:
                                     param[index][tck_name]
         else:
             if len(strategies) == 0:
-                if not (is_ticker == True and param is None):
+                if not (is_ticker is True and param is None):
                     strategies.append({param_name: param})
             else:
-                if not (is_ticker == True and param is None):
+                if not (is_ticker is True and param is None):
                     for index in range(len(strategies)):
                         strategies[index][param_name] = param
 

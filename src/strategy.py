@@ -19,7 +19,7 @@ from pandas._libs.tslibs.timestamps import Timestamp
 
 import constants as c
 from utils import RunTime, calculate_maximum_volume, calculate_yield_annualized, \
-    get_capital_per_risk, State, Trend
+    get_capital_per_risk, State, Trend, get_avg_index_of_first_burst_of_ones
 from db_model import DBStrategyModel, DBGenericModel
 from operation import Operation
 
@@ -232,7 +232,7 @@ class AndreMoraesStrategy(PseudoStrategy):
     ----------
     min_risk : float
         Minimum risk per operation.
-    min_risk : float
+    max_risk : float
         Maximum risk per operation.
     purchase_margin : float
         Percentage margin aplied on target purchase price.
@@ -270,7 +270,7 @@ class AndreMoraesStrategy(PseudoStrategy):
         self._start_date = None
         self._end_date = None
         self._min_risk = 0.01
-        self._max_risk = 1.00
+        self._max_risk = 0.25
         self._purchase_margin = 0.0
         self._stop_margin = 0.0
         self._stop_type = "normal"
@@ -402,6 +402,22 @@ class AndreMoraesStrategy(PseudoStrategy):
         return None
 
     @property
+    def min_risk(self):
+        return self._min_risk
+
+    @min_risk.setter
+    def min_risk(self, min_risk):
+        self._min_risk = min_risk
+
+    @property
+    def max_risk(self):
+        return self._max_risk
+
+    @max_risk.setter
+    def max_risk(self, max_risk):
+        self._max_risk = max_risk
+
+    @property
     def stop_type(self):
         return self._stop_type
 
@@ -464,7 +480,7 @@ class AndreMoraesStrategy(PseudoStrategy):
                             tcks_priority[index].initial_date,
                             tcks_priority[index].final_date, day_info,
                             week_info, business_data)
-                        if data_validation_flag == False:
+                        if data_validation_flag is False:
                             tcks_priority[index].last_business_data = {}
                             continue
 
@@ -472,7 +488,7 @@ class AndreMoraesStrategy(PseudoStrategy):
 
                         data_validation_flag = self._process_auxiliary_data(ticker_name,
                             tcks_priority, index, business_data, ref_data)
-                        if data_validation_flag == False:
+                        if data_validation_flag is False:
                             tcks_priority[index].last_business_data = business_data.copy()
                             continue
 
@@ -480,15 +496,17 @@ class AndreMoraesStrategy(PseudoStrategy):
                         # if business_data["day"] == pd.Timestamp('2019-05-31'):
                         #     print()
 
-                        if (tcks_priority[index].ongoing_operation_flag == False):
+                        if (tcks_priority[index].ongoing_operation_flag is False):
+
+                            purchase_price = self._get_purchase_price(business_data)
 
                             # Strategy business rules
                             if self._check_business_rules(business_data, tcks_priority,
-                                index):
+                                index, purchase_price):
 
-                                purchase_price = self._get_purchase_price(business_data)
                                 stop_price = self._get_stop_price(ticker_name, purchase_price,
                                     business_data)
+
                                 purchase_amount = self._set_operation_purchase(ticker_name,
                                     purchase_price, stop_price, available_capital, tcks_priority,
                                     index, business_data)
@@ -506,7 +524,7 @@ class AndreMoraesStrategy(PseudoStrategy):
 
                                 if tcks_priority[index].operation.state == State.OPEN:
 
-                                    if self.partial_sale == True:
+                                    if self.partial_sale is True:
                                         sale_amount = self._sell_on_partial_hit(tcks_priority,
                                             index, business_data)
                                         available_capital = round(available_capital + sale_amount, 2)
@@ -1320,17 +1338,8 @@ class AndreMoraesStrategy(PseudoStrategy):
 
         return amount_withdrawn
 
-    def _check_business_rules(self, business_data, tcks_priority, tck_idx):
-
-        # if (business_data["up_down_trend_status_day"] == Trend.UPTREND.value) \
-        #     and (business_data["min_price_day"] < max(business_data["ema_17_day"], \
-        #         business_data["ema_72_day"])*(1+self.ema_tolerance) \
-        #         and business_data["max_price_day"] > min(business_data["ema_17_day"], \
-        #         business_data["ema_72_day"])*(1-self.ema_tolerance)) \
-        #     and (business_data["close_price_day"] > business_data["ema_72_week"]) \
-        #     and (business_data["target_buy_price_day"] > business_data["min_price_day"] \
-        #         and business_data["target_buy_price_day"] < business_data["max_price_day"]):
-        #     return True
+    def _check_business_rules(self, business_data, tcks_priority, tck_idx,
+        purchase_price):
 
         if not tcks_priority[tck_idx].last_business_data:
             return False
@@ -1344,8 +1353,8 @@ class AndreMoraesStrategy(PseudoStrategy):
                 (1-self.ema_tolerance)) \
             and (tcks_priority[tck_idx].last_business_data['close_price_day'] > \
                 business_data["ema_72_week"]) \
-            and (business_data["target_buy_price_day"] > business_data["min_price_day"] \
-                and business_data["target_buy_price_day"] < business_data["max_price_day"]):
+            and (purchase_price >= business_data["min_price_day"] \
+                and purchase_price <= business_data["max_price_day"]):
             return True
 
         return False
@@ -1408,7 +1417,7 @@ class AndreMoraesStrategy(PseudoStrategy):
         sale_amount = 0.0
 
         # Check if the PARTIAL SALE price is skipped
-        if tcks_priority[tck_idx].partial_sale_flag == False and \
+        if tcks_priority[tck_idx].partial_sale_flag is False and \
             tcks_priority[tck_idx].operation.partial_sale_price < business_data["open_price_day"]:
             sale_amount = round(business_data["open_price_day"] * \
                 math.ceil(tcks_priority[tck_idx].operation.purchase_volume[0] / 2), 2)
@@ -1420,7 +1429,7 @@ class AndreMoraesStrategy(PseudoStrategy):
             logger.debug(f"Partial sale skipped: \'{tcks_priority[tck_idx].ticker}\', "
                 f"\'{day.strftime('%Y-%m-%d')}\'.")
         # Check if the PARTIAL SALE price is hit
-        elif tcks_priority[tck_idx].partial_sale_flag == False and \
+        elif tcks_priority[tck_idx].partial_sale_flag is False and \
             tcks_priority[tck_idx].operation.partial_sale_price >= business_data["min_price_day"] and \
             tcks_priority[tck_idx].operation.partial_sale_price <= business_data["max_price_day"]:
             sale_amount = round(tcks_priority[tck_idx].operation.partial_sale_price * \
@@ -1494,16 +1503,40 @@ class AndreMoraesAdaptedStrategy(AndreMoraesStrategy):
         self._name = "Andre Moraes Adapted"
         self._db_strategy_model.name = self._name
 
-        self._model = {}
+        self._models = {}
+
+        self._step_range_risk = 0.002
+        self.risks = tuple(round(i, 3) for i in tuple(np.arange(self.min_risk,
+                self.max_risk + self._step_range_risk, self._step_range_risk)))
 
         # For each Ticker
         for tck_index, (ticker, date) in enumerate(self.tickers_and_dates.items()):
-            self._model[ticker] = joblib.load(Path(__file__).parent.parent /
+            self._models[ticker] = joblib.load(Path(__file__).parent.parent /
                 c.MODELS_PATH / (ticker + c.MODEL_SUFFIX))
 
     @property
-    def model(self):
-        return self._model
+    def models(self):
+        return self._models
+
+    @property
+    def min_risk(self):
+        return self._min_risk
+
+    @min_risk.setter
+    def min_risk(self, min_risk):
+        self._min_risk = min_risk
+        self.risks = tuple(round(i, 3) for i in tuple(np.arange(min_risk,
+            self.max_risk + self._step_range_risk, self._step_range_risk)))
+
+    @property
+    def max_risk(self):
+        return self._max_risk
+
+    @max_risk.setter
+    def max_risk(self, max_risk):
+        self._max_risk = max_risk
+        self.risks = tuple(round(i, 3) for i in tuple(np.arange(self.min_risk,
+            max_risk + self._step_range_risk, self._step_range_risk)))
 
     def _initialize_tcks_priority(self, tcks_priority):
         for index in range(len(tcks_priority)):
@@ -1526,7 +1559,7 @@ class AndreMoraesAdaptedStrategy(AndreMoraesStrategy):
         data_validation_flag = super()._process_auxiliary_data(ticker_name,
             tcks_priority, index, business_data, ref_data)
 
-        if data_validation_flag == False:
+        if data_validation_flag is False:
             return False
 
         AndreMoraesAdaptedStrategy._update_peaks_days(tcks_priority[index])
@@ -1598,13 +1631,31 @@ class AndreMoraesAdaptedStrategy(AndreMoraesStrategy):
     def _get_purchase_price(self, business_data):
         return business_data['open_price_day']
 
+    def _get_stop_price(self, ticker_name, purchase_price, business_data):
+
+        # # Optimized stop loss
+        # stop_risk = self._tickers_rcc_df.loc[
+        #     self._tickers_rcc_df['ticker'] == ticker_name, ['rcc']].squeeze()
+
+        # if stop_risk is None or isinstance(stop_risk, pd.Series):
+        #     raise Exception("Invalid stop_risk")
+
+        # return round(purchase_price * (1 - stop_risk), 2)
+
+        # # Proportional to base strategy
+        # return round(business_data['stop_loss_day'] * \
+        #     purchase_price / business_data['target_buy_price_day'], 2)
+
+        return business_data['stop_loss_day']
+
     # TODO: Make code scale with peaks_pair_number in 'set_generator.py'
-    def _check_business_rules(self, business_data, tcks_priority, tck_idx):
+    def _check_business_rules(self, business_data, tcks_priority, tck_idx,
+        purchase_price):
 
         if not tcks_priority[tck_idx].last_business_data:
             return False
 
-        ref_price = business_data['open_price_day']
+        ref_price = purchase_price
 
         # More negative day number means older
         order = 'max_first' \
@@ -1635,24 +1686,20 @@ class AndreMoraesAdaptedStrategy(AndreMoraesStrategy):
         ema_72_day = round(tcks_priority[tck_idx].last_business_data['ema_72_day'] / ref_price, 4)
         ema_72_week = round(tcks_priority[tck_idx].last_business_data['ema_72_week'] / ref_price, 4)
 
-        X_test = [[peak_1, day_1, peak_2, day_2, peak_3, day_3, peak_4, day_4,
-            ema_17_day, ema_72_day, ema_72_week]]
+        # X_test = [[risk, peak_1, day_1, peak_2, day_2, peak_3, day_3, peak_4, day_4,
+        #     ema_17_day, ema_72_day, ema_72_week]]
+        X_test = [[risk, peak_1, day_1, peak_2, day_2, peak_3, day_3, peak_4, day_4,
+            ema_17_day, ema_72_day, ema_72_week] for risk in self.risks]
 
-        prediction = self.model[tcks_priority[tck_idx].ticker].predict(X_test)[0]
+        # prediction = self.models[tcks_priority[tck_idx].ticker].predict(X_test)[0]
+        predictions = self.models[tcks_priority[tck_idx].ticker].predict(X_test)
 
-        if prediction == 1:
+        # if prediction == 1:
+        #     return True
+
+        if any(predictions) == 1:
+            risk = self.risks[get_avg_index_of_first_burst_of_ones(predictions)]
+            business_data['stop_loss_day'] = round(purchase_price * (1 - risk), 2)
             return True
 
         return False
-
-    def _get_stop_price(self, ticker_name, purchase_price, business_data):
-
-        # stop_risk = self._tickers_rcc_df.loc[
-        #     self._tickers_rcc_df['ticker'] == ticker_name, ['rcc']].squeeze()
-
-        # if stop_risk is None or isinstance(stop_risk, pd.Series):
-        #     raise Exception("Invalid stop_risk")
-
-        # return round(purchase_price * (1 - stop_risk), 2)
-
-        return business_data['stop_loss_day']

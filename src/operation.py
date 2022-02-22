@@ -312,7 +312,7 @@ class Operation:
         partial_sale_flag : bool
             Indicator that partial sale price hit triggered sale.
         """
-        if stop_loss_flag == partial_sale_flag == True:
+        if stop_loss_flag == partial_sale_flag is True:
             logger.error(f"Error arguments \'stop_loss_flag\' and "
                 f"\'partial_sale_flag\' can not be True simultaneously.")
             sys.exit(c.INVALID_ARGUMENT_ERR)

@@ -116,7 +116,7 @@ class DBTickerModel:
                 query += f"(\'{ticker}\', \'{index.strftime('%Y-%m-%d')}\', " \
                     f"{row['Open']:.6f}, {row['High']:.6f}, {row['Low']:.6f}, " \
                     f"{row['Close']:.6f}, {row['Volume']:.0f}),\n"
-        if ordinary_ticker == False:
+        if ordinary_ticker is False:
             query += 'ON CONFLICT ON CONSTRAINT daily_data_pkey DO NOTHING'
         query += ';'
         self._insert_update(query)
@@ -511,13 +511,13 @@ class DBGenericModel:
             segments = [item.strip() for item in segments.split('|') if item != '']
 
         filters = []
-        if on_flag == True:
+        if on_flag is True:
             filters.append('____3')
-        if pn_flag == True:
+        if pn_flag is True:
             filters.append('____4')
-        if units_flag == True:
+        if units_flag is True:
             filters.append('____11')
-        if fractional_market == True:
+        if fractional_market is True:
             filters = [filter + "F" for filter in filters]
 
         query = f"SELECT ticker FROM symbol s\n"

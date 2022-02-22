@@ -34,8 +34,8 @@ class SetGenerator:
         if buy_type not in ('current_day_open_price', 'last_day_close_price'):
             raise Exception("'buy_type' parameter options: 'current_day_open_price', 'last_day_close_price'.")
 
-        if risk_option not in ('fixed', 'range', 'database'):
-            raise Exception("'risk_option' parameter options: 'fixed', 'range', 'database'.")
+        if risk_option not in ('fixed', 'range'):
+            raise Exception("'risk_option' parameter options: 'fixed', 'range'.")
 
         self._buy_type = buy_type
         self._gain_loss_ratio = gain_loss_ratio
@@ -148,6 +148,8 @@ class SetGenerator:
                 if tck_index + 1 >= end_on_ticker:
                     continue
 
+                first_write_on_file_flg = True
+
                 # Get daily and weekly candles
                 candles_df_day = db_model.get_ticker_prices_and_features(ticker,
                     pd.Timestamp(date['start_date']), pd.Timestamp(date['end_date']),
@@ -156,7 +158,6 @@ class SetGenerator:
                     pd.Timestamp(date['start_date']), pd.Timestamp(date['end_date']),
                     interval='1wk')
 
-                business_data = self._init_business_data(add_ref_price)
                 peaks_data = SetGenerator._init_peaks_data()
 
                 total_tickers = min(len(self.tickers_and_dates), max_tickers) \
@@ -168,6 +169,7 @@ class SetGenerator:
                 for idx, row in candles_df_day.iterrows():
 
                     self._update_progress_bar(idx)
+                    business_data = self._init_business_data(add_ref_price)
 
                     if self.buy_type == "current_day_open_price":
                         purchase_price = row['open_price']
@@ -220,9 +222,15 @@ class SetGenerator:
                             self._fill_business_data(business_data, data_row, peaks_data,
                                 add_ref_price)
 
-                pd.DataFrame(business_data).to_csv(
-                    self.out_file_path_prefix / (ticker + '_dataset.csv'),
-                    mode='w', index=False, header=True)
+                    if first_write_on_file_flg is True:
+                        pd.DataFrame(business_data).to_csv(
+                            self.out_file_path_prefix / (ticker + '_dataset.csv'),
+                            mode='w', index=False, header=True)
+                        first_write_on_file_flg = False
+                    else:
+                        pd.DataFrame(business_data).to_csv(
+                            self.out_file_path_prefix / (ticker + '_dataset.csv'),
+                            mode='a', index=False, header=False)
 
         except Exception as error:
             logger.error('Error generating dataset, error:\n{}'.format(error))
@@ -355,8 +363,8 @@ class SetGenerator:
                 else:
                     order = False
             else:
-                if order == True and max_days > min_days \
-                    or order == False and max_days < min_days:
+                if order is True and max_days > min_days \
+                    or order is False and max_days < min_days:
                     # Non-alternating peaks
                     return False
 
@@ -507,5 +515,5 @@ if __name__ == '__main__':
         peaks_pairs_number=2, risk_option='range', fixed_risk= 0.012,
         start_range_risk=0.01, step_range_risk=0.002, end_range_risk=0.12)
 
-    set_gen.generate_datasets(max_tickers=0, start_on_ticker=5, end_on_ticker=0,
+    set_gen.generate_datasets(max_tickers=0, start_on_ticker=5, end_on_ticker=6,
         add_ref_price=True)
