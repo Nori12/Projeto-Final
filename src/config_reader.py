@@ -59,9 +59,9 @@ class ConfigReader:
     show_results : bool
         Result parameter that enables further visualization of
         processed data.
-    min_features_risk : float
+    min_risk_features : float
         Minimum risk per operation.
-    min_features_risk : float
+    max_risk_features : float
         Maximum risk per operation.
     pruchase_margin : float
         Percentage margin aplied on target purchase price.
@@ -83,9 +83,9 @@ class ConfigReader:
         self.load_file(config_file_path)
         self._show_results = self.read_parameter('show_results', origin='root',
             is_boolean=True, can_be_missed=True, if_missed_default_value=True)
-        self._min_features_risk = self.read_parameter('min_risk', origin='root',
+        self._min_risk_features = self.read_parameter('min_risk', origin='root',
             can_be_missed=True, can_be_none=False, if_missed_default_value=True)
-        self._max_features_risk = self.read_parameter('max_risk', origin='root',
+        self._max_risk_features = self.read_parameter('max_risk', origin='root',
             can_be_missed=True, can_be_none=False, if_missed_default_value=True)
         self._max_days_per_operation = self.read_parameter('max_days_per_operation',
             origin='root', is_boolean=False, can_be_missed=False, if_missed_default_value=90)
@@ -205,14 +205,14 @@ class ConfigReader:
         return self._show_results
 
     @property
-    def min_features_risk(self):
+    def min_risk_features(self):
         """float : Minimum risk per operation."""
-        return self._min_features_risk
+        return self._min_risk_features
 
     @property
-    def max_features_risk(self):
+    def max_risk_features(self):
         """float : Maximum risk per operation."""
-        return self._max_features_risk
+        return self._max_risk_features
 
     @property
     def purchase_margin(self):

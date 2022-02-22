@@ -54,37 +54,44 @@ class ModelGenerator:
     def create_ticker_oriented_model(self, max_tickers=0, model_type='RandomForestClassifier',
         test_set_ratio=0.20):
 
-        model_folder = 'ticker_oriented_models'
+        try:
+            model_folder = 'ticker_oriented_models'
 
-        if model_type not in self.supported_models:
-            raise Exception("'objective' parameter options: 'train', 'test'.")
+            if model_type not in self.supported_models:
+                raise Exception("'objective' parameter options: 'train', 'test'.")
 
-        # For each Ticker
-        for tck_index, (ticker, date) in enumerate(self.tickers_and_dates.items()):
+            # For each Ticker
+            for tck_index, (ticker, date) in enumerate(self.tickers_and_dates.items()):
 
-            if tck_index == max_tickers and max_tickers != 0:
-                break
+                if tck_index == max_tickers and max_tickers != 0:
+                    break
 
-            print(f"Processing Ticker '{ticker}' ({tck_index+1} of " \
-                f"{len(self.tickers_and_dates)})")
+                total_tickers = min(len(self.tickers_and_dates), max_tickers) \
+                        if max_tickers != 0 else len(self.tickers_and_dates)
+                print(f"Processing Ticker '{ticker}' ({tck_index+1} of " \
+                    f"{total_tickers})")
 
-            training_df, test_df = self._load_datasets(ticker, test_set_ratio=0.20)
+                training_df, test_df = self._load_datasets(ticker, test_set_ratio=test_set_ratio)
 
-            if model_type == 'KNeighborsClassifier':
-                model = ModelGenerator._get_KNeighborsClassifier_model(training_df, test_df)
+                if model_type == 'KNeighborsClassifier':
+                    model = ModelGenerator._get_KNeighborsClassifier_model(training_df, test_df)
 
-                # Save model
-                joblib.dump(model, self.models_path_prefix / model_folder /
-                    self.models_folder[self.supported_models.index(model_type)] /
-                    f'{ticker}_knn_model.joblib')
+                    # Save model
+                    joblib.dump(model, self.models_path_prefix / model_folder /
+                        self.models_folder[self.supported_models.index(model_type)] /
+                        f'{ticker}_knn_model.joblib')
 
-            elif model_type == 'RandomForestClassifier':
-                model = ModelGenerator._get_RandomForestClassifier(training_df, test_df)
+                elif model_type == 'RandomForestClassifier':
+                    model = ModelGenerator._get_RandomForestClassifier(training_df, test_df)
 
-                # Save model
-                joblib.dump(model, self.models_path_prefix / model_folder /
-                    self.models_folder[self.supported_models.index(model_type)] /
-                    f'{ticker}_rnd_fst_model.joblib')
+                    # Save model
+                    joblib.dump(model, self.models_path_prefix / model_folder /
+                        self.models_folder[self.supported_models.index(model_type)] /
+                        f'{ticker}_rnd_fst_model.joblib')
+
+        except Exception as error:
+            logger.error('Error creating ticker oriented models, error:\n{}'.format(error))
+            sys.exit(c.MODEL_CREATION_ERR)
 
     def _load_datasets(self, ticker, test_set_ratio=0.20):
 
@@ -135,17 +142,18 @@ class ModelGenerator:
 
         knn_training_accuracy = []
         knn_test_accuracy = []
-        best_knn_traning_accuracy = 0
+        best_knn_training_accuracy = 0
         best_knn_test_accuracy = 0.0
         best_knn_model = None
-        best_knn_n_neighbors = 0
+
+        print("\n- KNeighborsClassifier")
 
         for n_neighbors in n_neighbors_list:
             knn = KNeighborsClassifier(n_neighbors=n_neighbors)
             knn.fit(training_df[['peak_1', 'day_1', 'peak_2', 'day_2', 'peak_3',
                 'day_3', 'peak_4', 'day_4', 'ema_17_day', 'ema_72_day', 'ema_72_week']],
                 training_df[['success_oper_flag']].squeeze())
-            print(f"\n- KNeighborsClassifier: n_neighbors = {n_neighbors}")
+            print(f"   n_neighbors = {str(n_neighbors).rjust(2)}", end='')
 
             training_set_acc = knn.score(training_df[['peak_1', 'day_1', 'peak_2',
                 'day_2', 'peak_3', 'day_3', 'peak_4', 'day_4', 'ema_17_day',
@@ -157,8 +165,8 @@ class ModelGenerator:
                 'ema_72_day', 'ema_72_week']],
                 test_df[['success_oper_flag']].squeeze())
 
-            print("   Accuracy on training set: {:.3f}".format(training_set_acc))
-            print("   Accuracy on test set: {:.3f}".format(test_set_acc))
+            print("\t Training set acc: {:.3f}".format(training_set_acc), end='')
+            print(", Test set acc: {:.3f}".format(test_set_acc))
             knn_training_accuracy.append(training_set_acc)
             knn_test_accuracy.append(test_set_acc)
 
@@ -166,11 +174,11 @@ class ModelGenerator:
                 best_knn_training_accuracy = knn_training_accuracy[-1]
                 best_knn_test_accuracy = knn_test_accuracy[-1]
                 best_knn_model = knn
-                best_knn_n_neighbors = n_neighbors
 
-        print(f"\n* Best KNeighborsClassifier: n_neighbors = {best_knn_model.n_neighbors}")
-        print("   Accuracy on training set: {:.3f}".format(best_knn_training_accuracy))
-        print("   Accuracy on test set: {:.3f}".format(best_knn_test_accuracy))
+        print(f"\n* Best KNeighborsClassifier")
+        print(f"   n_neighbors = {str(best_knn_model.n_neighbors).rjust(2)}", end='')
+        print("\t Training set acc: {:.3f}".format(best_knn_training_accuracy), end='')
+        print(", Test set acc: {:.3f}".format(best_knn_test_accuracy))
 
         return best_knn_model
 
@@ -187,8 +195,8 @@ class ModelGenerator:
         best_rnd_frt_training_accuracy = 0
         best_rnd_frt_test_accuracy = 0
         best_rnd_frt_model = None
-        best_rnd_frt_depth = None
-        best_rnd_frt_n_estimator = None
+
+        print("\n- RandomForestClassifier")
 
         for n_estimator in n_estimators_list:
             for depth in depth_list:
@@ -197,8 +205,9 @@ class ModelGenerator:
                 rnd_frt.fit(training_df[['peak_1', 'day_1', 'peak_2', 'day_2', 'peak_3',
                     'day_3', 'peak_4', 'day_4', 'ema_17_day', 'ema_72_day', 'ema_72_week']],
                     training_df[['success_oper_flag']].squeeze())
-                print(f"\n- RandomForestClassifier: n_estimators = {n_estimator}, " \
-                    f"max_depth = {depth}")
+
+                print(f"   n_estimators = {str(n_estimator).rjust(2)}, " \
+                    f"max_depth = {str(depth).rjust(2)}", end='')
 
                 training_set_acc = rnd_frt.score(training_df[['peak_1', 'day_1', 'peak_2',
                     'day_2', 'peak_3', 'day_3', 'peak_4', 'day_4', 'ema_17_day',
@@ -210,8 +219,8 @@ class ModelGenerator:
                     'ema_72_day', 'ema_72_week']],
                     test_df[['success_oper_flag']].squeeze())
 
-                print("   Accuracy on training set: {:.3f}".format(training_set_acc))
-                print("   Accuracy on test set: {:.3f}".format(test_set_acc))
+                print("\t Training set acc: {:.3f}".format(training_set_acc), end='')
+                print(", Test set acc: {:.3f}".format(test_set_acc))
                 rnd_frt_training_accuracy.append(training_set_acc)
                 rnd_frt_test_accuracy.append(test_set_acc)
 
@@ -219,13 +228,12 @@ class ModelGenerator:
                     best_rnd_frt_training_accuracy = rnd_frt_training_accuracy[-1]
                     best_rnd_frt_test_accuracy = rnd_frt_test_accuracy[-1]
                     best_rnd_frt_model = rnd_frt
-                    best_rnd_frt_depth = depth
-                    best_rnd_frt_n_estimator = n_estimator
 
-            print(f"\n* Best RandomForestClassifier: n_estimators = {n_estimator}, " \
-                        f"max_depth = {depth}")
-            print("   Accuracy on training set: {:.3f}".format(best_rnd_frt_training_accuracy))
-            print("   Accuracy on test set: {:.3f}".format(best_rnd_frt_test_accuracy))
+        print(f"\n* Best RandomForestClassifier")
+        print(f"   n_estimators = {str(best_rnd_frt_model.n_estimators).rjust(2)}, " \
+                f"max_depth = {str(best_rnd_frt_model.max_depth).rjust(2)}", end='')
+        print("\t Training set acc: {:.3f}".format(best_rnd_frt_training_accuracy), end='')
+        print(", Test set acc: {:.3f}".format(best_rnd_frt_test_accuracy))
 
         return best_rnd_frt_model
 
@@ -233,5 +241,6 @@ if __name__ == '__main__':
     logger.info('Model Generator started.')
 
     model_gen = ModelGenerator()
-    model_gen.create_ticker_oriented_model(max_tickers=0,
+
+    model_gen.create_ticker_oriented_model(max_tickers=1,
         model_type='KNeighborsClassifier', test_set_ratio=0.20)

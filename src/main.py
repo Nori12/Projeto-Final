@@ -45,8 +45,8 @@ def run():
     # Update and generate features
     for tm in ticker_managers:
         tm.holidays = config.holidays
-        tm.min_risk = config.min_features_risk
-        tm.max_risk = config.max_features_risk
+        tm.min_risk = config.min_risk_features
+        tm.max_risk = config.max_risk_features
 
         update_ok = tm.update()
         if update_ok is True:

@@ -3,6 +3,7 @@ import logging
 from logging.handlers import RotatingFileHandler
 from pathlib import Path
 import pandas as pd
+import numpy as np
 
 sys.path.insert(1, '/Users/atcha/Github/Projeto-Final/src')
 import constants as c
@@ -27,14 +28,25 @@ logger.setLevel(logging.DEBUG)
 class SetGenerator:
 
     def __init__(self, buy_type='current_day_open_price', gain_loss_ratio=3,
-        max_days_per_operation=90, peaks_pairs_number=2):
+        peaks_pairs_number=2, risk_option='fixed', fixed_risk=0.03, start_range_risk=0.01,
+        step_range_risk=0.002, end_range_risk=0.12):
 
         if buy_type not in ('current_day_open_price', 'last_day_close_price'):
             raise Exception("'buy_type' parameter options: 'current_day_open_price', 'last_day_close_price'.")
-        self._buy_type = buy_type
 
+        if risk_option not in ('fixed', 'range', 'database'):
+            raise Exception("'risk_option' parameter options: 'fixed', 'range', 'database'.")
+
+        self._buy_type = buy_type
         self._gain_loss_ratio = gain_loss_ratio
-        self._max_days_per_operation = max_days_per_operation
+
+        self._risk_option = risk_option
+        self._fixed_risk = fixed_risk
+        self._risks = []
+
+        if self._risk_option == 'range':
+            self._risks = tuple(round(i, 3) for i in tuple(np.arange(start_range_risk,
+                end_range_risk+step_range_risk, step_range_risk)))
 
         # Peaks identification variables
         self._peaks_pairs_number = peaks_pairs_number   # Number of past max and min peaks pairs
@@ -43,8 +55,10 @@ class SetGenerator:
         cfg_path = Path(__file__).parent
         cfg_path = cfg_path / 'config.json'
 
-        config_reader = cr.ConfigReader(config_file_path=cfg_path)
-        self._tickers_and_dates = config_reader.tickers_and_dates
+        cfg = cr.ConfigReader(config_file_path=cfg_path)
+        self._tickers_and_dates = cfg.tickers_and_dates
+
+        self._max_days_per_operation = cfg.max_days_per_operation
 
         self.out_file_path_prefix = Path(__file__).parent / "datasets"
 
@@ -96,71 +110,132 @@ class SetGenerator:
     def peak_delay_days(self, peak_delay_days):
         self._peak_delay_days = peak_delay_days
 
-    def generate_datasets(self, max_tickers=0, risk=0.03, add_ref_price=False):
+    @property
+    def risk_option(self):
+        return self._risk_option
 
-        db_model = DBStrategyAnalyzerModel()
+    @property
+    def fixed_risk(self):
+        return self._fixed_risk
 
-        # For each Ticker
-        for tck_index, (ticker, date) in enumerate(self.tickers_and_dates.items()):
+    @property
+    def risks(self):
+        return self._risks
 
-            if tck_index == max_tickers and max_tickers != 0:
-                break
 
-            print(f"Processing Ticker '{ticker}' ({tck_index+1} of " \
-                f"{len(self.tickers_and_dates)})")
+    def generate_datasets(self, max_tickers=0, add_ref_price=False):
 
-            # Get daily and weekly candles
-            candles_df_day = db_model.get_ticker_prices_and_features(ticker,
-                pd.Timestamp(date['start_date']), pd.Timestamp(date['end_date']),
-                interval='1d')
-            candles_df_wk = db_model.get_ticker_prices_and_features(ticker,
-                pd.Timestamp(date['start_date']), pd.Timestamp(date['end_date']),
-                interval='1wk')
+        try:
+            db_model = DBStrategyAnalyzerModel()
 
-            business_data = self._init_business_data(add_ref_price)
-            peaks_data = SetGenerator._init_peaks_data()
+            # For each Ticker
+            for tck_index, (ticker, date) in enumerate(self.tickers_and_dates.items()):
 
-            # For each day
-            for idx, row in candles_df_day.iterrows():
+                if tck_index == max_tickers and max_tickers != 0:
+                    break
 
-                if self.buy_type == "current_day_open_price":
-                    purchase_price = row['open_price']
-                    idx_delay = 0
-                elif self.buy_type == "last_day_close_price":
-                    purchase_price = row['close_price']
-                    idx_delay = 1
+                # Get daily and weekly candles
+                candles_df_day = db_model.get_ticker_prices_and_features(ticker,
+                    pd.Timestamp(date['start_date']), pd.Timestamp(date['end_date']),
+                    interval='1d')
+                candles_df_wk = db_model.get_ticker_prices_and_features(ticker,
+                    pd.Timestamp(date['start_date']), pd.Timestamp(date['end_date']),
+                    interval='1wk')
 
-                data_row = {'ticker': ticker, 'day': row['day'], 'risk': risk}
+                business_data = self._init_business_data(add_ref_price)
+                peaks_data = SetGenerator._init_peaks_data()
 
-                data_row['ema_17_day'] = row['ema_17']
-                data_row['ema_72_day'] = row['ema_72']
-                data_row['ema_72_week'] = SetGenerator._get_ema_72_week(candles_df_day,
-                    idx, candles_df_wk)
+                total_tickers = min(len(self.tickers_and_dates), max_tickers) \
+                    if max_tickers != 0 else len(self.tickers_and_dates)
+                self._start_progress_bar(ticker, tck_index, total_tickers, len(candles_df_day),
+                    update_step=0.05)
 
-                SetGenerator._update_peaks_days(peaks_data)
-                peaks_ready_flg = self._process_and_check_last_peaks(peaks_data,
-                    row['peak'], row['max_price'], row['min_price'])
-                if peaks_ready_flg is False:
-                    continue
+                # For each day
+                for idx, row in candles_df_day.iterrows():
 
-                if not self._verify_business_data_integrity( (data_row['ema_17_day'],
-                    data_row['ema_72_day'], data_row['ema_72_week']), peaks_data ):
-                    continue
+                    self._update_progress_bar(idx)
 
-                data_row['success_oper_flag'], data_row['timeout_flag'], data_row['end_of_interval_flag'] = \
-                    self._process_operation_result(purchase_price, risk,
-                    candles_df_day, idx, idx_delay)
+                    if self.buy_type == "current_day_open_price":
+                        purchase_price = row['open_price']
+                        idx_delay = 0
+                    elif self.buy_type == "last_day_close_price":
+                        purchase_price = row['close_price']
+                        idx_delay = 1
 
-                ref_price_col_name = 'open_price' if self.buy_type == 'current_day_open_price' \
-                    else 'close_price' if self.buy_type == 'last_day_close_price' else ''
-                data_row['ref_price'] = row[ref_price_col_name]
+                    data_row = SetGenerator._init_data_row(ticker, row['day'], 0)
 
-                self._fill_business_data(business_data, data_row, peaks_data,
-                    add_ref_price)
+                    ref_price_col_name = 'open_price' \
+                        if self.buy_type == 'current_day_open_price' \
+                        else 'close_price' if self.buy_type == 'last_day_close_price' \
+                        else ''
 
-            pd.DataFrame(business_data).to_csv(
-                self.out_file_path_prefix / (ticker + '_dataset.csv'),
-                mode='w', index=False, header=True)
+                    SetGenerator._fill_data_row(data_row, row['ema_17'], row['ema_72'],
+                        SetGenerator._get_ema_72_week(candles_df_day, idx, candles_df_wk),
+                        row[ref_price_col_name])
+
+                    SetGenerator._update_peaks_days(peaks_data)
+                    peaks_ready_flg = self._process_and_check_last_peaks(peaks_data,
+                        row['peak'], row['max_price'], row['min_price'])
+                    if peaks_ready_flg is False:
+                        continue
+
+                    if not self._verify_business_data_integrity( (data_row['ema_17_day'],
+                        data_row['ema_72_day'], data_row['ema_72_week']), peaks_data ):
+                        continue
+
+                    if self.risk_option == 'fixed':
+
+                        data_row['risk']= self.fixed_risk
+
+                        data_row['success_oper_flag'], data_row['timeout_flag'], \
+                            data_row['end_of_interval_flag'] = self._process_operation_result(
+                            purchase_price, self.fixed_risk, candles_df_day, idx, idx_delay)
+
+                        self._fill_business_data(business_data, data_row, peaks_data,
+                                add_ref_price)
+
+                    elif self.risk_option == 'range':
+
+                        for risk in self.risks:
+                            data_row['risk']= risk
+
+                            data_row['success_oper_flag'], data_row['timeout_flag'], \
+                            data_row['end_of_interval_flag'] = self._process_operation_result(
+                                purchase_price, risk, candles_df_day, idx, idx_delay)
+
+                            self._fill_business_data(business_data, data_row, peaks_data,
+                                add_ref_price)
+
+                pd.DataFrame(business_data).to_csv(
+                    self.out_file_path_prefix / (ticker + '_dataset.csv'),
+                    mode='w', index=False, header=True)
+
+        except Exception as error:
+            logger.error('Error generating dataset, error:\n{}'.format(error))
+            sys.exit(c.DATASET_GENERATION_ERR)
+
+    def _start_progress_bar(self, ticker, ticker_idx, total_tickers, total_count,
+        update_step=0.05):
+
+        self._total_count = total_count
+        self._update_step = update_step
+        self._last_update_percent = update_step
+
+        print(f"Processing Ticker '{ticker}' ({ticker_idx+1} of " \
+            f"{total_tickers}): ", end='')
+
+    def _update_progress_bar(self, current_count):
+
+        completion_percentage = current_count / self._total_count
+
+        if completion_percentage + 1e-5 >= self._last_update_percent:
+
+            if self._last_update_percent >= 1.0 - 1e-5:
+                print(f"{self._last_update_percent * 100:.0f}%.")
+            else:
+                print(f"{self._last_update_percent * 100:.0f}% ", end='')
+
+            self._last_update_percent += self._update_step
 
     def _init_business_data(self, add_ref_price):
 
@@ -187,6 +262,23 @@ class SetGenerator:
         business_data['ema_72_week'] = []
 
         return business_data
+
+    @staticmethod
+    def _init_data_row(ticker, day, risk=0.0):
+
+        data_row = {'ticker': ticker, 'day': day, 'risk': risk, 'ema_17_day': 0.0,
+            'ema_72_day': 0.0, 'ema_72_week': 0.0}
+
+        return data_row
+
+    @staticmethod
+    def _fill_data_row(data_row, ema_17_day, ema_72_day, ema_72_week, ref_price):
+        data_row['ema_17_day'] = ema_17_day
+        data_row['ema_72_day'] = ema_72_day
+        data_row['ema_72_week'] = ema_72_week
+        data_row['ref_price'] = ref_price
+
+        return data_row
 
     @staticmethod
     def _init_peaks_data():
@@ -398,6 +490,7 @@ if __name__ == '__main__':
     logger.info('Set Generator started.')
 
     set_gen = SetGenerator(buy_type='current_day_open_price', gain_loss_ratio=3,
-        max_days_per_operation=45, peaks_pairs_number=2)
+        peaks_pairs_number=2, risk_option='range', fixed_risk= 0.012,
+        start_range_risk=0.01, step_range_risk=0.002, end_range_risk=0.12)
 
-    set_gen.generate_datasets(max_tickers=0, risk=0.012, add_ref_price=True)
+    set_gen.generate_datasets(max_tickers=0, add_ref_price=True)

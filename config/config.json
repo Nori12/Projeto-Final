@@ -1,7 +1,7 @@
 {
     "show_results": true,
-    "min_features_risk": 0.01,
-    "max_features_risk": 0.10,
+    "min_risk_features": 0.01,
+    "max_risk_features": 0.10,
     "max_days_per_operation": 45,
     "strategies":[
         {
