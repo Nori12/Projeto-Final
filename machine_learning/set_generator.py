@@ -123,7 +123,15 @@ class SetGenerator:
         return self._risks
 
 
-    def generate_datasets(self, max_tickers=0, add_ref_price=False):
+    def generate_datasets(self, max_tickers=0, start_on_ticker=1, end_on_ticker=0,
+        add_ref_price=False):
+
+        if start_on_ticker <= 0:
+            logger.error("'start_on_ticker' minimum value is 1.")
+            sys.exit(c.DATASET_GENERATION_ERR)
+
+        if end_on_ticker == 0:
+            end_on_ticker = len(self.tickers_and_dates) + 1
 
         try:
             db_model = DBStrategyAnalyzerModel()
@@ -133,6 +141,12 @@ class SetGenerator:
 
                 if tck_index == max_tickers and max_tickers != 0:
                     break
+
+                if tck_index + 1 < start_on_ticker:
+                    continue
+
+                if tck_index + 1 >= end_on_ticker:
+                    continue
 
                 # Get daily and weekly candles
                 candles_df_day = db_model.get_ticker_prices_and_features(ticker,
@@ -219,23 +233,23 @@ class SetGenerator:
 
         self._total_count = total_count
         self._update_step = update_step
-        self._last_update_percent = update_step
+        self._next_update_percent = update_step
 
         print(f"Processing Ticker '{ticker}' ({ticker_idx+1} of " \
             f"{total_tickers}): ", end='')
 
     def _update_progress_bar(self, current_count):
 
-        completion_percentage = current_count / self._total_count
+        completion_percentage = (current_count + 1)/ self._total_count
 
-        if completion_percentage + 1e-5 >= self._last_update_percent:
+        if completion_percentage + 1e-3 >= self._next_update_percent:
 
-            if self._last_update_percent >= 1.0 - 1e-5:
-                print(f"{self._last_update_percent * 100:.0f}%.")
+            if completion_percentage >= 0.999:
+                print(f"{self._next_update_percent * 100:.0f}%.")
             else:
-                print(f"{self._last_update_percent * 100:.0f}% ", end='')
+                print(f"{self._next_update_percent * 100:.0f}% ", end='')
 
-            self._last_update_percent += self._update_step
+            self._next_update_percent += self._update_step
 
     def _init_business_data(self, add_ref_price):
 
@@ -493,4 +507,5 @@ if __name__ == '__main__':
         peaks_pairs_number=2, risk_option='range', fixed_risk= 0.012,
         start_range_risk=0.01, step_range_risk=0.002, end_range_risk=0.12)
 
-    set_gen.generate_datasets(max_tickers=0, add_ref_price=True)
+    set_gen.generate_datasets(max_tickers=0, start_on_ticker=5, end_on_ticker=0,
+        add_ref_price=True)

@@ -1120,17 +1120,22 @@ class AndreMoraesStrategy(PseudoStrategy):
 
     def _start_progress_bar(self, update_step=0.05):
         self._update_step = update_step
-        self._last_update_percent = update_step
+        self._next_update_percent = update_step
         self._total_days = (self.last_date - self.first_date).days
-        print(f"\nStrategy: {self.name} ({self.strategy_number})")
+        print(f"Strategy: {self.name} ({self.strategy_number}): ", end='')
 
     def _update_progress_bar(self, current_day):
-        completion_percentage = (current_day.to_pydatetime().date() -
-            self.first_date).days / self._total_days
+        completion_percentage = ((current_day.to_pydatetime().date() -
+            self.first_date).days + 1) / self._total_days
 
-        if completion_percentage + 1e-5 >= self._last_update_percent:
-            print(f"{self._last_update_percent * 100:.0f}%.")
-            self._last_update_percent += self._update_step
+        if completion_percentage + 1e-3 >= self._next_update_percent:
+
+            if completion_percentage >= 0.999:
+                print(f"{self._next_update_percent * 100:.0f}%.")
+            else:
+                print(f"{self._next_update_percent * 100:.0f}% ", end='')
+
+            self._next_update_percent += self._update_step
 
     def _initialize_tcks_priority(self, tcks_priority):
         pass

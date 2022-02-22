@@ -51,8 +51,15 @@ class ModelGenerator:
     def tickers_and_dates(self, tickers_and_dates):
         self._tickers_and_dates = tickers_and_dates
 
-    def create_ticker_oriented_model(self, max_tickers=0, model_type='RandomForestClassifier',
-        test_set_ratio=0.20):
+    def create_ticker_oriented_model(self, max_tickers=0, start_on_ticker=3,
+        end_on_ticker=4, model_type='RandomForestClassifier', test_set_ratio=0.20):
+
+        if start_on_ticker <= 0:
+            logger.error("'start_on_ticker' minimum value is 1.")
+            sys.exit(c.DATASET_GENERATION_ERR)
+
+        if end_on_ticker == 0:
+            end_on_ticker = len(self.tickers_and_dates) + 1
 
         try:
             model_folder = 'ticker_oriented_models'
@@ -65,6 +72,12 @@ class ModelGenerator:
 
                 if tck_index == max_tickers and max_tickers != 0:
                     break
+
+                if tck_index + 1 < start_on_ticker:
+                    continue
+
+                if tck_index + 1 >= end_on_ticker:
+                    continue
 
                 total_tickers = min(len(self.tickers_and_dates), max_tickers) \
                         if max_tickers != 0 else len(self.tickers_and_dates)
@@ -242,5 +255,5 @@ if __name__ == '__main__':
 
     model_gen = ModelGenerator()
 
-    model_gen.create_ticker_oriented_model(max_tickers=1,
-        model_type='KNeighborsClassifier', test_set_ratio=0.20)
+    model_gen.create_ticker_oriented_model(max_tickers=1, start_on_ticker=1,
+        end_on_ticker=0, model_type='KNeighborsClassifier', test_set_ratio=0.20)
