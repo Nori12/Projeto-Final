@@ -773,5 +773,5 @@ class StrategyAnalyzer:
         self._app.run_server()
 
 if __name__ == "__main__":
-    analyzer = StrategyAnalyzer(strategy_id=9)
+    analyzer = StrategyAnalyzer(strategy_id=16)
     analyzer.run()

@@ -9,6 +9,8 @@ from sklearn.ensemble import RandomForestClassifier
 import joblib
 import matplotlib.pyplot as plt
 import numpy as np
+from sklearn.tree import export_graphviz
+from subprocess import call
 
 sys.path.insert(1, '/Users/atcha/Github/Projeto-Final/src')
 import constants as c
@@ -137,6 +139,7 @@ class ModelGenerator:
                     model = self._get_random_forest_classifier(training_df, test_df)
 
                     self.save_feature_importances(ticker, model)
+                    self.visualize_tree(ticker, model)
 
                     # Save model
                     joblib.dump(model, self.models_path_prefix / self.model_type_folder /
@@ -150,9 +153,6 @@ class ModelGenerator:
     def _load_datasets(self, ticker, test_set_ratio=0.2):
 
         file_path = self.datasets_path_prefix / (ticker + '_dataset.csv')
-        # columns = ['day', 'risk', 'success_oper_flag', 'timeout_flag', 'end_of_interval_flag',
-        #     'peak_1', 'day_1', 'peak_2', 'day_2', 'peak_3', 'day_3', 'peak_4', 'day_4',
-        #     'ema_17_day', 'ema_72_day', 'ema_72_week']
         columns = ['day', 'risk', 'success_oper_flag', 'timeout_flag',
             'end_of_interval_flag'].extend(self.feature_columns)
 
@@ -314,10 +314,15 @@ class ModelGenerator:
             f"{ticker}_rnd_fst_model.png", bbox_inches='tight')
         plt.close(fig)
 
+    def visualize_tree(self, ticker, model):
+        export_graphviz(model.estimators_[0], out_file=f"{ticker}_tree.dot", class_names=["Fail", "Success"],
+            feature_names=self.feature_columns, impurity=False, filled=True)
+        call(['dot', '-Tpng', f"{ticker}_tree.dot", '-o', f"{ticker}_tree.png", '-Gdpi=600'])
+
 if __name__ == '__main__':
     logger.info('Model Generator started.')
 
     model_gen = ModelGenerator(min_date_filter='2013-01-01', max_date_filter=None)
 
-    model_gen.create_ticker_oriented_models(max_tickers=0, start_on_ticker=1,
-        end_on_ticker=13, model_type='RandomForestClassifier', test_set_ratio=0.15)
+    model_gen.create_ticker_oriented_models(max_tickers=0, start_on_ticker=13,
+        end_on_ticker=14, model_type='RandomForestClassifier', test_set_ratio=0.15)

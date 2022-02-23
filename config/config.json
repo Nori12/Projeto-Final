@@ -19,6 +19,8 @@
             "purchase_margin" : 0,
             "stop_margin" : 0,
             "stop_type": "normal",
+            "min_days_after_successful_operation": 0,
+            "min_days_after_failure_operation": 0,
             "stock_targets": [
                 {
                     "name": "ABEV3",
@@ -97,6 +99,8 @@
             "purchase_margin" : 0,
             "stop_margin" : 0,
             "stop_type": "normal",
+            "min_days_after_successful_operation": [0, 5, 10],
+            "min_days_after_failure_operation": [0, 10, 20],
             "stock_targets": [
                 {
                     "name": "ABEV3",

@@ -79,11 +79,6 @@
                     "end_date": "01/07/2018"
                 },
                 {
-                    "name": "BTOW3",
-                    "start_date": "02/01/2012",
-                    "end_date": "01/07/2018"
-                },
-                {
                     "name": "CCRO3",
                     "start_date": "02/01/2012",
                     "end_date": "01/07/2018"
@@ -210,11 +205,6 @@
                 },
                 {
                     "name": "HYPE3",
-                    "start_date": "02/01/2012",
-                    "end_date": "01/07/2018"
-                },
-                {
-                    "name": "IGTA3",
                     "start_date": "02/01/2012",
                     "end_date": "01/07/2018"
                 },
@@ -360,11 +350,6 @@
                 },
                 {
                     "name": "VIVT3",
-                    "start_date": "02/01/2012",
-                    "end_date": "01/07/2018"
-                },
-                {
-                    "name": "VVAR3",
                     "start_date": "02/01/2012",
                     "end_date": "01/07/2018"
                 },

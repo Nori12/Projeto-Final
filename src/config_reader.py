@@ -461,6 +461,12 @@ class ConfigReader:
                 stop_type = self.read_parameter(
                     'stop_type', strategy_batch, can_be_list=True,
                     can_be_missed=True, if_missed_default_value="default")
+                min_days_after_successful_operation = self.read_parameter(
+                    'min_days_after_successful_operation', strategy_batch,
+                    can_be_list=True, can_be_missed=True, if_missed_default_value=0)
+                min_days_after_failure_operation = self.read_parameter(
+                    'min_days_after_failure_operation', strategy_batch,
+                    can_be_list=True, can_be_missed=True, if_missed_default_value=0)
 
                 ConfigReader.add_param_to_strategies('name', name, strategies)
                 ConfigReader.add_param_to_strategies('alias', alias, strategies)
@@ -486,6 +492,10 @@ class ConfigReader:
                     stop_margin, strategies)
                 ConfigReader.add_param_to_strategies('stop_type',
                     stop_type, strategies)
+                ConfigReader.add_param_to_strategies('min_days_after_successful_operation',
+                    min_days_after_successful_operation, strategies)
+                ConfigReader.add_param_to_strategies('min_days_after_failure_operation',
+                    min_days_after_failure_operation, strategies)
 
                 individual_tickers = ConfigReader.read_individual_tickers('stock_targets',
                     origin=strategy_batch)

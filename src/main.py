@@ -76,6 +76,8 @@ def run():
             am.purchase_margin = strategy['purchase_margin']
             am.stop_margin = strategy['stop_margin']
             am.stop_type = strategy['stop_type']
+            am.min_days_after_successful_operation = strategy['min_days_after_successful_operation']
+            am.min_days_after_failure_operation = strategy['min_days_after_failure_operation']
             am.max_days_per_operation = config.max_days_per_operation
 
             am.process_operations()
@@ -98,6 +100,8 @@ def run():
             ama.purchase_margin = strategy['purchase_margin']
             ama.stop_margin = strategy['stop_margin']
             ama.stop_type = strategy['stop_type']
+            ama.min_days_after_successful_operation = strategy['min_days_after_successful_operation']
+            ama.min_days_after_failure_operation = strategy['min_days_after_failure_operation']
             ama.max_days_per_operation = config.max_days_per_operation
 
             ama.process_operations()

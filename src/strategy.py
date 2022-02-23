@@ -274,6 +274,8 @@ class AndreMoraesStrategy(PseudoStrategy):
         self._purchase_margin = 0.0
         self._stop_margin = 0.0
         self._stop_type = "normal"
+        self._min_days_after_successful_operation = 0
+        self._min_days_after_failure_operation = 0
         self._gain_loss_ratio = 3
         self._max_days_per_operation = 90
 
@@ -380,6 +382,14 @@ class AndreMoraesStrategy(PseudoStrategy):
         return self._operations
 
     @property
+    def ema_tolerance(self):
+        return self._ema_tolerance
+
+    @ema_tolerance.setter
+    def ema_tolerance(self, ema_tolerance):
+        self._ema_tolerance = ema_tolerance
+
+    @property
     def start_date(self):
         if self._operations:
 
@@ -426,6 +436,22 @@ class AndreMoraesStrategy(PseudoStrategy):
         self._stop_type = stop_type
 
     @property
+    def min_days_after_successful_operation(self):
+        return self._min_days_after_successful_operation
+
+    @min_days_after_successful_operation.setter
+    def min_days_after_successful_operation(self, min_days_after_successful_operation):
+        self._min_days_after_successful_operation = min_days_after_successful_operation
+
+    @property
+    def min_days_after_failure_operation(self):
+        return self._min_days_after_failure_operation
+
+    @min_days_after_failure_operation.setter
+    def min_days_after_failure_operation(self, min_days_after_failure_operation):
+        self._min_days_after_failure_operation = min_days_after_failure_operation
+
+    @property
     def partial_sale(self):
         return self._partial_sale
 
@@ -452,8 +478,10 @@ class AndreMoraesStrategy(PseudoStrategy):
     @RunTime('process_operations')
     def process_operations(self):
         try:
-            tcks_priority = [self.TickerState(ticker, dates['start_date'], \
-                dates['end_date']) for ticker, dates in self.tickers_and_dates.items()]
+            tcks_priority = [self.TickerState(ticker, dates['start_date'], dates['end_date'],
+                min_days_after_suc_oper=self.min_days_after_successful_operation,
+                min_days_after_fail_oper=self.min_days_after_failure_operation) \
+                for ticker, dates in self.tickers_and_dates.items()]
 
             self._initialize_tcks_priority(tcks_priority)
 
@@ -489,6 +517,10 @@ class AndreMoraesStrategy(PseudoStrategy):
                         data_validation_flag = self._process_auxiliary_data(ticker_name,
                             tcks_priority, index, business_data, ref_data)
                         if data_validation_flag is False:
+                            tcks_priority[index].last_business_data = business_data.copy()
+                            continue
+
+                        if not self._check_operation_freezetime(tcks_priority, index):
                             tcks_priority[index].last_business_data = business_data.copy()
                             continue
 
@@ -1025,7 +1057,8 @@ class AndreMoraesStrategy(PseudoStrategy):
 
     class TickerState:
         def __init__(self, ticker, initial_date, final_date, ongoing_operation_flag=False,
-            partial_sale_flag=False, operation=None):
+            partial_sale_flag=False, operation=None, min_days_after_suc_oper=0,
+            min_days_after_fail_oper=0):
             self._ticker = ticker
             self._initial_date = initial_date
             self._final_date = final_date
@@ -1037,6 +1070,8 @@ class AndreMoraesStrategy(PseudoStrategy):
             self._mark_2_stop_trigger = None
             self._mark_2_stop_loss = None
             self._current_mark = 0
+            self._days_after_suc_oper = min_days_after_suc_oper + 1
+            self._days_after_fail_oper = min_days_after_fail_oper + 1
 
             # Must be dict if used
             self._last_business_data = {}
@@ -1121,6 +1156,22 @@ class AndreMoraesStrategy(PseudoStrategy):
             self._current_mark = current_mark
 
         @property
+        def days_after_suc_oper(self):
+            return self._days_after_suc_oper
+
+        @days_after_suc_oper.setter
+        def days_after_suc_oper(self, days_after_suc_oper):
+            self._days_after_suc_oper = days_after_suc_oper
+
+        @property
+        def days_after_fail_oper(self):
+            return self._days_after_fail_oper
+
+        @days_after_fail_oper.setter
+        def days_after_fail_oper(self, days_after_fail_oper):
+            self._days_after_fail_oper = days_after_fail_oper
+
+        @property
         def last_business_data(self):
             return self._last_business_data
 
@@ -1154,6 +1205,18 @@ class AndreMoraesStrategy(PseudoStrategy):
                 print(f"{self._next_update_percent * 100:.0f}% ", end='')
 
             self._next_update_percent += self._update_step
+
+    def _check_operation_freezetime(self, tcks_priority, tck_idx):
+        tcks_priority[tck_idx].days_after_suc_oper += 1
+        tcks_priority[tck_idx].days_after_fail_oper += 1
+
+        if tcks_priority[tck_idx].days_after_suc_oper > \
+                self.min_days_after_successful_operation \
+            and tcks_priority[tck_idx].days_after_fail_oper > \
+                self.min_days_after_failure_operation:
+                return True
+
+        return False
 
     def _initialize_tcks_priority(self, tcks_priority):
         pass
@@ -1392,6 +1455,7 @@ class AndreMoraesStrategy(PseudoStrategy):
 
         # Check if the target STOP LOSS is skipped
         if tcks_priority[tck_idx].operation.stop_loss > business_data["open_price_day"]:
+
             sale_amount = round(business_data["open_price_day"] * \
                     (tcks_priority[tck_idx].operation.total_purchase_volume - tcks_priority[tck_idx].operation.total_sale_volume), 2)
             day = business_data["day"]
@@ -1399,16 +1463,23 @@ class AndreMoraesStrategy(PseudoStrategy):
             tcks_priority[tck_idx].operation.add_sale(business_data["open_price_day"],
                 tcks_priority[tck_idx].operation.total_purchase_volume - tcks_priority[tck_idx].operation.total_sale_volume,
                 business_data["day"], stop_loss_flag=True)
+
+            tcks_priority[tck_idx].days_after_fail_oper = 0
+
             logger.debug(f"Stop loss skipped: \'{tcks_priority[tck_idx].ticker}\', "
                 f"\'{day.strftime('%Y-%m-%d')}\'.")
         # Check if the target STOP LOSS is hit
         elif tcks_priority[tck_idx].operation.stop_loss >= business_data["min_price_day"] and \
             tcks_priority[tck_idx].operation.stop_loss <= business_data["max_price_day"]:
+
             sale_amount = round(tcks_priority[tck_idx].operation.stop_loss * \
                 (tcks_priority[tck_idx].operation.total_purchase_volume - tcks_priority[tck_idx].operation.total_sale_volume), 2)
+
             tcks_priority[tck_idx].operation.add_sale(
                 tcks_priority[tck_idx].operation.stop_loss, tcks_priority[tck_idx].operation.total_purchase_volume \
                 - tcks_priority[tck_idx].operation.total_sale_volume, business_data["day"], stop_loss_flag=True)
+
+            tcks_priority[tck_idx].days_after_fail_oper = 0
 
         return sale_amount
 
@@ -1447,22 +1518,32 @@ class AndreMoraesStrategy(PseudoStrategy):
 
         # Check if the TARGET SALE price is skipped
         if tcks_priority[tck_idx].operation.target_sale_price < business_data["open_price_day"]:
+
             sale_amount = round(business_data["open_price_day"] * \
                 (tcks_priority[tck_idx].operation.total_purchase_volume - tcks_priority[tck_idx].operation.total_sale_volume), 2)
+
             tcks_priority[tck_idx].operation.add_sale(business_data["open_price_day"],
             tcks_priority[tck_idx].operation.total_purchase_volume - tcks_priority[tck_idx].operation.total_sale_volume,
             business_data["day"])
             day = business_data["day"]
+
+            tcks_priority[tck_idx].days_after_suc_oper = 0
+
             logger.debug(f"Target sale skipped: \'{tcks_priority[tck_idx].ticker}\', "
                 f"\'{day.strftime('%Y-%m-%d')}\'.")
+
         # Check if the TARGET SALE price is hit
         elif tcks_priority[tck_idx].operation.target_sale_price >= business_data["min_price_day"] and \
             tcks_priority[tck_idx].operation.target_sale_price <= business_data["max_price_day"]:
+
             sale_amount = round(tcks_priority[tck_idx].operation.target_sale_price * \
                 (tcks_priority[tck_idx].operation.total_purchase_volume - tcks_priority[tck_idx].operation.total_sale_volume), 2)
+
             tcks_priority[tck_idx].operation.add_sale(
                 tcks_priority[tck_idx].operation.target_sale_price, tcks_priority[tck_idx].operation.total_purchase_volume \
                     - tcks_priority[tck_idx].operation.total_sale_volume, business_data["day"])
+
+            tcks_priority[tck_idx].days_after_suc_oper = 0
 
         return sale_amount
 
@@ -1472,12 +1553,17 @@ class AndreMoraesStrategy(PseudoStrategy):
 
         # If expiration date arrives
         if (business_data["day"] - tcks_priority[tck_idx].operation.start_date).days >= self.max_days_per_operation:
+
             sale_amount = round(business_data["close_price_day"] * \
                 (tcks_priority[tck_idx].operation.total_purchase_volume - tcks_priority[tck_idx].operation.total_sale_volume), 2)
+
             tcks_priority[tck_idx].operation.add_sale(
                 business_data["close_price_day"], tcks_priority[tck_idx].operation.total_purchase_volume \
                     - tcks_priority[tck_idx].operation.total_sale_volume, business_data["day"])
             day = business_data["day"]
+
+            tcks_priority[tck_idx].days_after_fail_oper = 0
+
             logger.debug(f"Operation time expired({self.max_days_per_operation} days): \'{tcks_priority[tck_idx].ticker}\', "
                 f"\'{day.strftime('%Y-%m-%d')}\'.")
 
