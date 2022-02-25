@@ -9,6 +9,7 @@ from sklearn.ensemble import RandomForestClassifier
 import joblib
 import matplotlib.pyplot as plt
 import numpy as np
+import os, shutil
 from sklearn.tree import export_graphviz
 from subprocess import call
 
@@ -125,7 +126,7 @@ class ModelGenerator:
                 print(f"\nProcessing Ticker '{ticker}' ({tck_index+1} of " \
                     f"{total_tickers})")
 
-                training_df, test_df = self._load_datasets(ticker, test_set_ratio)
+                training_df, test_df, real_test_df = self._load_datasets(ticker, test_set_ratio)
 
                 if model_type == 'KNeighborsClassifier':
                     model = self._get_kneighbors_classifier(training_df, test_df)
@@ -136,10 +137,11 @@ class ModelGenerator:
                         f'{ticker}_knn_model.joblib')
 
                 elif model_type == 'RandomForestClassifier':
-                    model = self._get_random_forest_classifier(training_df, test_df)
+                    model = self._get_random_forest_classifier(training_df, test_df, real_test_df)
 
+                    self.reset_specs_directory(ticker)
                     self.save_feature_importances(ticker, model)
-                    self.visualize_tree(ticker, model)
+                    self.visualize_trees(ticker, model, max_estimators=3, max_depth=3)
 
                     # Save model
                     joblib.dump(model, self.models_path_prefix / self.model_type_folder /
@@ -158,6 +160,8 @@ class ModelGenerator:
 
         df = pd.read_csv(file_path, sep=',', usecols=columns)
 
+        real_test_df = df[df['day'] > self.max_date_filter]
+
         if self.min_date_filter is not None:
             df = df[df['day'] >= self.min_date_filter]
         if self.max_date_filter is not None:
@@ -168,6 +172,7 @@ class ModelGenerator:
 
         training_df.reset_index(drop=True, inplace=True)
         test_df.reset_index(drop=True, inplace=True)
+        real_test_df.reset_index(drop=True, inplace=True)
 
         training_df = ModelGenerator._remove_row_from_last_n_peaks(training_df)
 
@@ -176,15 +181,18 @@ class ModelGenerator:
             training_df[training_df['end_of_interval_flag'] == 1].index)
         test_df = test_df.drop(
             test_df[test_df['end_of_interval_flag'] == 1].index)
+        real_test_df = real_test_df.drop(
+            real_test_df[real_test_df['end_of_interval_flag'] == 1].index)
 
         training_df.reset_index(drop=True, inplace=True)
         test_df.reset_index(drop=True, inplace=True)
+        real_test_df.reset_index(drop=True, inplace=True)
 
         print(f"   Training set samples: \t{len(training_df)} ({100 * len(training_df) / (len(training_df)+len(test_df)):.2f}%)")
         print(f"   Test set samples: \t\t{len(test_df)} ({100 * len(test_df) / (len(training_df)+len(test_df)):.2f}%)")
         print(f"   Test set start date: \t\'{test_df['day'].head(1).squeeze()}\'")
 
-        return training_df, test_df
+        return training_df, test_df, real_test_df
 
     @staticmethod
     def _remove_row_from_last_n_peaks(training_df, backward_peaks=4):
@@ -234,8 +242,8 @@ class ModelGenerator:
             test_set_acc = knn.score(test_df[self.feature_columns],
                 test_df[['success_oper_flag']].squeeze())
 
-            print("\t Training set acc: {:.3f}".format(training_set_acc), end='')
-            print(", Test set acc: {:.3f}".format(test_set_acc))
+            print("\t Training acc: {:.3f}%".format(training_set_acc), end='')
+            print(", Test acc: {:.3f}%".format(test_set_acc))
             knn_training_accuracy.append(training_set_acc)
             knn_test_accuracy.append(test_set_acc)
 
@@ -246,17 +254,24 @@ class ModelGenerator:
 
         print(f"\n* Best KNeighborsClassifier")
         print(f"   n_neighbors = {str(best_knn_model.n_neighbors).rjust(2)}", end='')
-        print("\t Training set acc: {:.3f}".format(best_knn_training_accuracy), end='')
-        print(", Test set acc: {:.3f}".format(best_knn_test_accuracy))
+        print("\t Training acc: {:.3f}%".format(best_knn_training_accuracy), end='')
+        print(", Test acc: {:.3f}%".format(best_knn_test_accuracy))
 
         return best_knn_model
 
-    def _get_random_forest_classifier(self, training_df, test_df):
+    def _get_random_forest_classifier(self, training_df, test_df, real_test_df):
 
-        # Parameters
-        max_features = len(self.feature_columns)
-        n_estimators_list = [i for i in range(1, max_features+1, 1) if i > (max_features // 2)]
-        depth_list = [i for i in range(8, 30, 2)]
+        number_of_max_features = len(self.feature_columns)
+
+        # *************** Parameters ***************
+        n_estimators_list = [50]
+        max_depth_list = [i for i in range(2, 31, 1)]
+        max_features_list = [number_of_max_features]
+        min_samples_split = 2
+        min_samples_leaf = 1
+        bootstrap = True
+        class_weight = 'balanced_subsample'
+        # ******************************************
 
         rnd_frt_training_accuracy = []
         rnd_frt_test_accuracy = []
@@ -267,62 +282,128 @@ class ModelGenerator:
         print("\n- RandomForestClassifier")
 
         for n_estimator in n_estimators_list:
-            for depth in depth_list:
-                rnd_frt = RandomForestClassifier(n_estimators=n_estimator, max_depth=depth,
-                    random_state=0, n_jobs=-1)
-                rnd_frt.fit(training_df[self.feature_columns],
-                    training_df[['success_oper_flag']].squeeze())
+            for max_depth in max_depth_list:
+                for max_features in max_features_list:
 
-                print(f"   n_estimators = {str(n_estimator).rjust(2)}, " \
-                    f"max_depth = {str(depth).rjust(2)}", end='')
+                    rnd_frt = RandomForestClassifier(n_estimators=n_estimator,
+                        criterion='gini', max_features=max_features, max_depth=max_depth,
+                        min_samples_split=min_samples_split, min_samples_leaf=min_samples_leaf,
+                        bootstrap=bootstrap, class_weight=class_weight, random_state=0,
+                        n_jobs=-1)
 
-                training_set_acc = rnd_frt.score(training_df[self.feature_columns],
-                    training_df[['success_oper_flag']].squeeze())
+                    rnd_frt.fit(training_df[self.feature_columns],
+                        training_df[['success_oper_flag']].squeeze())
 
-                test_set_acc = rnd_frt.score(test_df[self.feature_columns],
-                    test_df[['success_oper_flag']].squeeze())
+                    print(f"   n_estimators = {str(n_estimator).rjust(2)}, " \
+                        f"max_depth = {str(max_depth).rjust(2)}, " \
+                        f"max_features = {str(max_features).rjust(2)}", end='')
 
-                print("\t Training set acc: {:.3f}".format(training_set_acc), end='')
-                print(", Test set acc: {:.3f}".format(test_set_acc))
-                rnd_frt_training_accuracy.append(training_set_acc)
-                rnd_frt_test_accuracy.append(test_set_acc)
+                    training_set_acc = rnd_frt.score(training_df[self.feature_columns],
+                        training_df[['success_oper_flag']].squeeze())
 
-                if rnd_frt_test_accuracy[-1] > best_rnd_frt_test_accuracy:
-                    best_rnd_frt_training_accuracy = rnd_frt_training_accuracy[-1]
-                    best_rnd_frt_test_accuracy = rnd_frt_test_accuracy[-1]
-                    best_rnd_frt_model = rnd_frt
+                    test_set_acc = rnd_frt.score(test_df[self.feature_columns],
+                        test_df[['success_oper_flag']].squeeze())
+
+                    real_test_set_acc = rnd_frt.score(real_test_df[self.feature_columns],
+                        real_test_df[['success_oper_flag']].squeeze())
+
+                    print("\t Training acc: {:.3f}%".format(training_set_acc), end='')
+                    print(", Test acc: {:.3f}%".format(test_set_acc), end='')
+                    print(", Real test acc: {:.3f}%".format(real_test_set_acc))
+                    rnd_frt_training_accuracy.append(training_set_acc)
+                    rnd_frt_test_accuracy.append(test_set_acc)
+
+                    if rnd_frt_test_accuracy[-1] > best_rnd_frt_test_accuracy:
+                        best_rnd_frt_training_accuracy = rnd_frt_training_accuracy[-1]
+                        best_rnd_frt_test_accuracy = rnd_frt_test_accuracy[-1]
+                        best_rnd_frt_model = rnd_frt
 
         print(f"\n* Best RandomForestClassifier")
         print(f"   n_estimators = {str(best_rnd_frt_model.n_estimators).rjust(2)}, " \
-                f"max_depth = {str(best_rnd_frt_model.max_depth).rjust(2)}", end='')
-        print("\t Training set acc: {:.3f}".format(best_rnd_frt_training_accuracy), end='')
-        print(", Test set acc: {:.3f}".format(best_rnd_frt_test_accuracy))
+                f"max_depth = {str(best_rnd_frt_model.max_depth).rjust(2)}, " \
+                f"max_features = {str(best_rnd_frt_model.max_features).rjust(2)}", end='')
+        print("\t Training acc: {:.3f}%".format(best_rnd_frt_training_accuracy), end='')
+        print(", Test acc: {:.3f}%".format(best_rnd_frt_test_accuracy))
+
+        # training_set_failures = len(training_df.loc[training_df['success_oper_flag'] == 0])
+        # total_training_set = len(training_df)
+        # test_set_failures = len(test_df.loc[test_df['success_oper_flag'] == 0])
+        # total_test_set = len(test_df)
+        # real_real_test_set_failures = len(real_test_df.loc[real_test_df['success_oper_flag'] == 0])
+        # total_real_test_set = len(real_test_df)
+
+        # print(f"\n   Training set failures: \t{round(training_set_failures/total_training_set, 3)}%")
+        # print(f"   Test set failures: \t\t{round(test_set_failures/total_test_set, 3)}%")
+        # print(f"   Real test set failures: \t{round(real_real_test_set_failures/total_real_test_set, 3)}%")
 
         return best_rnd_frt_model
 
     def save_feature_importances(self, ticker, model):
+
         n_features = len(self.feature_columns)
+
+        ticker_specs_path = self.get_specs_directory_path(ticker)
 
         fig=plt.figure()
         plt.barh(range(n_features), model.feature_importances_, align='center')
         plt.yticks(np.arange(n_features), self.feature_columns)
-        plt.title(f"\'{ticker}\' Features Importance")
+        plt.title(f"\'{ticker}\' Random Forest (n_estimators={model.n_estimators}, " \
+            f"max_depth={model.max_depth}, max_features={model.max_features})")
         plt.xlabel("Feature importance")
         plt.ylabel("Feature")
-        plt.savefig(self.models_path_prefix / self.model_type_folder /
-            self.models_folder[self.supported_models.index('RandomForestClassifier')] /
-            f"{ticker}_rnd_fst_model.png", bbox_inches='tight')
+        plt.savefig(ticker_specs_path / f"{ticker}_rnd_fst_model.png", bbox_inches='tight')
         plt.close(fig)
 
-    def visualize_tree(self, ticker, model):
-        export_graphviz(model.estimators_[0], out_file=f"{ticker}_tree.dot", class_names=["Fail", "Success"],
-            feature_names=self.feature_columns, impurity=False, filled=True)
-        call(['dot', '-Tpng', f"{ticker}_tree.dot", '-o', f"{ticker}_tree.png", '-Gdpi=600'])
+    def visualize_trees(self, ticker, model, max_estimators=3, max_depth=3):
+
+        if model.max_depth <= max_depth:
+            ticker_specs_path = self.get_specs_directory_path(ticker)
+
+            for n in range(model.n_estimators):
+                if n >= max_estimators:
+                    break
+
+                export_graphviz(model.estimators_[n], out_file=str(ticker_specs_path / \
+                    f"{ticker}_tree_{n+1}.dot"), class_names=["Fail", "Success"],
+                    feature_names=self.feature_columns, impurity=False, filled=True)
+
+                call(['dot', '-Tpng', str(ticker_specs_path / f"{ticker}_tree_{n+1}.dot"),
+                    '-o', str(ticker_specs_path /  f"{ticker}_tree_{n+1}.png"), '-Gdpi=600'])
+
+        self.delete_dot_files(ticker)
+
+    def get_specs_directory_path(self, ticker):
+
+        ticker_specs_path = self.models_path_prefix / self.model_type_folder / \
+                self.models_folder[self.supported_models.index('RandomForestClassifier')] / \
+                f"{ticker}_rnd_fst_model_specs"
+
+        return ticker_specs_path
+
+    def reset_specs_directory(self, ticker):
+
+        ticker_specs_path = self.get_specs_directory_path(ticker)
+
+        if ticker_specs_path.exists():
+            shutil.rmtree(ticker_specs_path)
+
+        os.mkdir(ticker_specs_path)
+
+    def delete_dot_files(self, ticker):
+
+        ticker_specs_path = self.get_specs_directory_path(ticker)
+
+        if ticker_specs_path.exists():
+            dot_ended_files = [file for file in ticker_specs_path.glob('*.dot')]
+
+            for file in dot_ended_files:
+                path_to_file = ticker_specs_path / file
+                os.remove(path_to_file)
 
 if __name__ == '__main__':
     logger.info('Model Generator started.')
 
-    model_gen = ModelGenerator(min_date_filter='2013-01-01', max_date_filter=None)
+    model_gen = ModelGenerator(min_date_filter='2013-01-01', max_date_filter='2018-07-01')
 
-    model_gen.create_ticker_oriented_models(max_tickers=0, start_on_ticker=13,
-        end_on_ticker=14, model_type='RandomForestClassifier', test_set_ratio=0.15)
+    model_gen.create_ticker_oriented_models(max_tickers=0, start_on_ticker=1,
+        end_on_ticker=0, model_type='RandomForestClassifier', test_set_ratio=0.15)

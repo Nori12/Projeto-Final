@@ -1191,7 +1191,7 @@ class AndreMoraesStrategy(PseudoStrategy):
         self._update_step = update_step
         self._next_update_percent = update_step
         self._total_days = (self.last_date - self.first_date).days
-        print(f"Strategy: {self.name} ({self.strategy_number}): ", end='')
+        print(f"\nStrategy: {self.name} ({self.strategy_number}): ", end='')
 
     def _update_progress_bar(self, current_day):
         completion_percentage = ((current_day.to_pydatetime().date() -
@@ -1578,8 +1578,6 @@ class AndreMoraesStrategy(PseudoStrategy):
 
 class AndreMoraesAdaptedStrategy(AndreMoraesStrategy):
 
-    total_strategies = 0
-
     def __init__(self, tickers, alias=None, comment=None, min_order_volume=1,
         total_capital=100000, risk_capital_product=0.10, min_volume_per_year=1000000):
 
@@ -1719,19 +1717,6 @@ class AndreMoraesAdaptedStrategy(AndreMoraesStrategy):
 
     def _get_stop_price(self, ticker_name, purchase_price, business_data):
 
-        # # Optimized stop loss
-        # stop_risk = self._tickers_rcc_df.loc[
-        #     self._tickers_rcc_df['ticker'] == ticker_name, ['rcc']].squeeze()
-
-        # if stop_risk is None or isinstance(stop_risk, pd.Series):
-        #     raise Exception("Invalid stop_risk")
-
-        # return round(purchase_price * (1 - stop_risk), 2)
-
-        # # Proportional to base strategy
-        # return round(business_data['stop_loss_day'] * \
-        #     purchase_price / business_data['target_buy_price_day'], 2)
-
         return business_data['stop_loss_day']
 
     # TODO: Make code scale with peaks_pair_number in 'set_generator.py'
@@ -1772,18 +1757,13 @@ class AndreMoraesAdaptedStrategy(AndreMoraesStrategy):
         ema_72_day = round(tcks_priority[tck_idx].last_business_data['ema_72_day'] / ref_price, 4)
         ema_72_week = round(tcks_priority[tck_idx].last_business_data['ema_72_week'] / ref_price, 4)
 
-        # X_test = [[risk, peak_1, day_1, peak_2, day_2, peak_3, day_3, peak_4, day_4,
-        #     ema_17_day, ema_72_day, ema_72_week]]
         X_test = [[risk, peak_1, day_1, peak_2, day_2, peak_3, day_3, peak_4, day_4,
             ema_17_day, ema_72_day, ema_72_week] for risk in self.risks]
 
-        # prediction = self.models[tcks_priority[tck_idx].ticker].predict(X_test)[0]
         predictions = self.models[tcks_priority[tck_idx].ticker].predict(X_test)
 
-        # if prediction == 1:
-        #     return True
-
-        if any(predictions) == 1 and sum(predictions) >= 3:
+        # if any(predictions) is True:
+        if any(predictions) is True and sum(predictions) >= 5:
             risk = self.risks[get_avg_index_of_first_burst_of_ones(predictions)]
             business_data['stop_loss_day'] = round(purchase_price * (1 - risk), 2)
             return True

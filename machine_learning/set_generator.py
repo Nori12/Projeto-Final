@@ -163,7 +163,7 @@ class SetGenerator:
                 total_tickers = min(len(self.tickers_and_dates), max_tickers) \
                     if max_tickers != 0 else len(self.tickers_and_dates)
                 self._start_progress_bar(ticker, tck_index, total_tickers, len(candles_df_day),
-                    update_step=0.05)
+                    update_step=0.1)
 
                 # For each day
                 for idx, row in candles_df_day.iterrows():
@@ -515,5 +515,5 @@ if __name__ == '__main__':
         peaks_pairs_number=2, risk_option='range', fixed_risk= 0.012,
         start_range_risk=0.01, step_range_risk=0.002, end_range_risk=0.12)
 
-    set_gen.generate_datasets(max_tickers=0, start_on_ticker=24, end_on_ticker=0,
+    set_gen.generate_datasets(max_tickers=0, start_on_ticker=1, end_on_ticker=0,
         add_ref_price=True)
