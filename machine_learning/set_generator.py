@@ -130,21 +130,29 @@ class SetGenerator:
             logger.error("'start_on_ticker' minimum value is 1.")
             sys.exit(c.DATASET_GENERATION_ERR)
 
+        if end_on_ticker != 0 and start_on_ticker >= end_on_ticker:
+            logger.error("'start_on_ticker' must be lesser than 'end_on_ticker'.")
+            sys.exit(c.DATASET_GENERATION_ERR)
+
         if end_on_ticker == 0:
             end_on_ticker = len(self.tickers_and_dates) + 1
 
         try:
             db_model = DBStrategyAnalyzerModel()
 
+            tickers_delta = end_on_ticker - start_on_ticker if end_on_ticker != 0 \
+                else len(self.tickers_and_dates) - start_on_ticker + 1 if start_on_ticker != 0 \
+                else len(self.tickers_and_dates)
+            total_tickers = min(len(self.tickers_and_dates), max_tickers, tickers_delta) \
+                if max_tickers != 0 else min(len(self.tickers_and_dates), tickers_delta)
+
             # For each Ticker
             for tck_index, (ticker, date) in enumerate(self.tickers_and_dates.items()):
 
                 if tck_index == max_tickers and max_tickers != 0:
                     break
-
                 if tck_index + 1 < start_on_ticker:
                     continue
-
                 if tck_index + 1 >= end_on_ticker:
                     continue
 
@@ -160,8 +168,6 @@ class SetGenerator:
 
                 peaks_data = SetGenerator._init_peaks_data()
 
-                total_tickers = min(len(self.tickers_and_dates), max_tickers) \
-                    if max_tickers != 0 else len(self.tickers_and_dates)
                 self._start_progress_bar(ticker, tck_index, total_tickers, len(candles_df_day),
                     update_step=0.1)
 
@@ -515,5 +521,5 @@ if __name__ == '__main__':
         peaks_pairs_number=2, risk_option='range', fixed_risk= 0.012,
         start_range_risk=0.01, step_range_risk=0.002, end_range_risk=0.12)
 
-    set_gen.generate_datasets(max_tickers=0, start_on_ticker=1, end_on_ticker=0,
+    set_gen.generate_datasets(max_tickers=0, start_on_ticker=13, end_on_ticker=0,
         add_ref_price=True)

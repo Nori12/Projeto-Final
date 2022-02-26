@@ -32,6 +32,11 @@ logger.addHandler(file_handler)
 file_handler.setLevel(logging.DEBUG)
 logger.setLevel(logging.DEBUG)
 
+SPECS_DIRECTORY_SUFFIX = '_rnd_fst_model_specs'
+SPECS_TEXT_FILE_SUFFIX = '_model_specs.txt'
+RANDOM_FOREST_MODEL_SUFFIX = '_rnd_fst_model.joblib'
+RANDOM_FOREST_FIG_SUFFIX = '_rnd_fst_model.png'
+
 class ModelGenerator:
 
     def __init__(self, min_date_filter=None, max_date_filter=None):
@@ -95,11 +100,15 @@ class ModelGenerator:
     def test_set_start_date(self, test_set_start_date):
         self._test_set_start_date = test_set_start_date
 
-    def create_ticker_oriented_models(self, max_tickers=0, start_on_ticker=3,
-        end_on_ticker=4, model_type='RandomForestClassifier', test_set_ratio=0.2):
+    def create_ticker_oriented_models(self, max_tickers=0, start_on_ticker=1,
+        end_on_ticker=0, model_type='RandomForestClassifier', test_set_ratio=0.2):
 
         if start_on_ticker <= 0:
             logger.error("'start_on_ticker' minimum value is 1.")
+            sys.exit(c.DATASET_GENERATION_ERR)
+
+        if end_on_ticker != 0 and start_on_ticker >= end_on_ticker:
+            logger.error("'start_on_ticker' must be lesser than 'end_on_ticker'.")
             sys.exit(c.DATASET_GENERATION_ERR)
 
         if end_on_ticker == 0:
@@ -109,20 +118,22 @@ class ModelGenerator:
             if model_type not in self.supported_models:
                 raise Exception("'objective' parameter options: 'train', 'test'.")
 
+            tickers_delta = end_on_ticker - start_on_ticker if end_on_ticker != 0 \
+                else len(self.tickers_and_dates) - start_on_ticker + 1 if start_on_ticker != 0 \
+                else len(self.tickers_and_dates)
+            total_tickers = min(len(self.tickers_and_dates), max_tickers, tickers_delta) \
+                if max_tickers != 0 else min(len(self.tickers_and_dates), tickers_delta)
+
             # For each Ticker
             for tck_index, (ticker, date) in enumerate(self.tickers_and_dates.items()):
 
                 if tck_index == max_tickers and max_tickers != 0:
                     break
-
                 if tck_index + 1 < start_on_ticker:
                     continue
-
                 if tck_index + 1 >= end_on_ticker:
                     continue
 
-                total_tickers = min(len(self.tickers_and_dates), max_tickers) \
-                        if max_tickers != 0 else len(self.tickers_and_dates)
                 print(f"\nProcessing Ticker '{ticker}' ({tck_index+1} of " \
                     f"{total_tickers})")
 
@@ -137,16 +148,18 @@ class ModelGenerator:
                         f'{ticker}_knn_model.joblib')
 
                 elif model_type == 'RandomForestClassifier':
-                    model = self._get_random_forest_classifier(training_df, test_df, real_test_df)
-
                     self.reset_specs_directory(ticker)
+
+                    model = self._get_random_forest_classifier(ticker, training_df,
+                        test_df, real_test_df)
+
                     self.save_feature_importances(ticker, model)
                     self.visualize_trees(ticker, model, max_estimators=3, max_depth=3)
 
                     # Save model
                     joblib.dump(model, self.models_path_prefix / self.model_type_folder /
                         self.models_folder[self.supported_models.index(model_type)] /
-                        f'{ticker}_rnd_fst_model.joblib')
+                        (f'{ticker}' + RANDOM_FOREST_MODEL_SUFFIX))
 
         except Exception as error:
             logger.error('Error creating ticker oriented models, error:\n{}'.format(error))
@@ -187,10 +200,6 @@ class ModelGenerator:
         training_df.reset_index(drop=True, inplace=True)
         test_df.reset_index(drop=True, inplace=True)
         real_test_df.reset_index(drop=True, inplace=True)
-
-        print(f"   Training set samples: \t{len(training_df)} ({100 * len(training_df) / (len(training_df)+len(test_df)):.2f}%)")
-        print(f"   Test set samples: \t\t{len(test_df)} ({100 * len(test_df) / (len(training_df)+len(test_df)):.2f}%)")
-        print(f"   Test set start date: \t\'{test_df['day'].head(1).squeeze()}\'")
 
         return training_df, test_df, real_test_df
 
@@ -242,8 +251,8 @@ class ModelGenerator:
             test_set_acc = knn.score(test_df[self.feature_columns],
                 test_df[['success_oper_flag']].squeeze())
 
-            print("\t Training acc: {:.3f}%".format(training_set_acc), end='')
-            print(", Test acc: {:.3f}%".format(test_set_acc))
+            print("\t Training acc: {:.4f}%".format(training_set_acc), end='')
+            print(", Test acc: {:.4f}%".format(test_set_acc))
             knn_training_accuracy.append(training_set_acc)
             knn_test_accuracy.append(test_set_acc)
 
@@ -254,12 +263,12 @@ class ModelGenerator:
 
         print(f"\n* Best KNeighborsClassifier")
         print(f"   n_neighbors = {str(best_knn_model.n_neighbors).rjust(2)}", end='')
-        print("\t Training acc: {:.3f}%".format(best_knn_training_accuracy), end='')
-        print(", Test acc: {:.3f}%".format(best_knn_test_accuracy))
+        print("\t Training acc: {:.4f}%".format(best_knn_training_accuracy), end='')
+        print(", Test acc: {:.4f}%".format(best_knn_test_accuracy))
 
         return best_knn_model
 
-    def _get_random_forest_classifier(self, training_df, test_df, real_test_df):
+    def _get_random_forest_classifier(self, ticker, training_df, test_df, real_test_df):
 
         number_of_max_features = len(self.feature_columns)
 
@@ -279,7 +288,40 @@ class ModelGenerator:
         best_rnd_frt_test_accuracy = 0
         best_rnd_frt_model = None
 
-        print("\n- RandomForestClassifier")
+        self.write_model_specs(ticker, f"RandomForestClassifier (\'{ticker}\')",
+            reset_file=True, std_out_also=False)
+
+        self.write_model_specs(ticker, "\n   Common configuration\n")
+        self.write_model_specs(ticker, f"Bootstrap: \t\t\t\t\t{str(bootstrap)}")
+        self.write_model_specs(ticker, f"Class weight: \t\t\t\t{class_weight}")
+        self.write_model_specs(ticker, f"Min samples split: \t\t{min_samples_split}")
+        self.write_model_specs(ticker, f"Min samples leaf: \t\t{min_samples_leaf}")
+
+        self.write_model_specs(ticker, "\n   Dataset\n")
+        self.write_model_specs(ticker, f"Training set samples: \t\t{len(training_df)} " \
+            f"({100 * len(training_df) / (len(training_df)+len(test_df)):.2f}%)")
+        self.write_model_specs(ticker, f"Test set samples: \t\t\t{len(test_df)} " \
+            f"({100 * len(test_df) / (len(training_df)+len(test_df)):.2f}%)")
+        self.write_model_specs(ticker, f"Real test set samples: \t\t{len(real_test_df)}")
+
+        training_set_failures = len(training_df.loc[training_df['success_oper_flag'] == 0])
+        total_training_set = len(training_df)
+        test_set_failures = len(test_df.loc[test_df['success_oper_flag'] == 0])
+        total_test_set = len(test_df)
+        real_real_test_set_failures = len(real_test_df.loc[real_test_df['success_oper_flag'] == 0])
+        total_real_test_set = len(real_test_df)
+        self.write_model_specs(ticker, f"\nTraining set failure operations: \t{round(training_set_failures/total_training_set, 4)}%")
+        self.write_model_specs(ticker, f"Test set failure operations: \t\t\t{round(test_set_failures/total_test_set, 4)}%")
+        self.write_model_specs(ticker, f"Real test set failure operations: \t{round(real_real_test_set_failures/total_real_test_set, 4)}%")
+
+        self.write_model_specs(ticker, f"\nTraining set start date: \t\'{training_df['day'].head(1).squeeze()}\'")
+        self.write_model_specs(ticker, f"Training set end date: \t\t\'{training_df['day'].tail(1).squeeze()}\'")
+        self.write_model_specs(ticker, f"Test set start date: \t\t\'{test_df['day'].head(1).squeeze()}\'")
+        self.write_model_specs(ticker, f"Test set end date: \t\t\t\'{test_df['day'].tail(1).squeeze()}\'")
+        self.write_model_specs(ticker, f"Real test set start date: \t\'{real_test_df['day'].head(1).squeeze()}\'")
+        self.write_model_specs(ticker, f"Real test set end date: \t\'{real_test_df['day'].tail(1).squeeze()}\'")
+
+        self.write_model_specs(ticker, "\n   Models\n")
 
         for n_estimator in n_estimators_list:
             for max_depth in max_depth_list:
@@ -294,9 +336,10 @@ class ModelGenerator:
                     rnd_frt.fit(training_df[self.feature_columns],
                         training_df[['success_oper_flag']].squeeze())
 
-                    print(f"   n_estimators = {str(n_estimator).rjust(2)}, " \
-                        f"max_depth = {str(max_depth).rjust(2)}, " \
-                        f"max_features = {str(max_features).rjust(2)}", end='')
+                    self.write_model_specs(ticker, f"n_estimators = " \
+                        f"{str(n_estimator).rjust(2)}, max_depth = " \
+                        f"{str(max_depth).rjust(2)}, max_features = " \
+                        f"{str(max_features).rjust(2)}", end='')
 
                     training_set_acc = rnd_frt.score(training_df[self.feature_columns],
                         training_df[['success_oper_flag']].squeeze())
@@ -307,9 +350,10 @@ class ModelGenerator:
                     real_test_set_acc = rnd_frt.score(real_test_df[self.feature_columns],
                         real_test_df[['success_oper_flag']].squeeze())
 
-                    print("\t Training acc: {:.3f}%".format(training_set_acc), end='')
-                    print(", Test acc: {:.3f}%".format(test_set_acc), end='')
-                    print(", Real test acc: {:.3f}%".format(real_test_set_acc))
+                    self.write_model_specs(ticker, f"\t Training acc: {training_set_acc:.4f}%", end='')
+                    self.write_model_specs(ticker, f", Test acc: {test_set_acc:.4f}%", end='')
+                    self.write_model_specs(ticker, f", Real test acc: {real_test_set_acc:.4f}%")
+
                     rnd_frt_training_accuracy.append(training_set_acc)
                     rnd_frt_test_accuracy.append(test_set_acc)
 
@@ -318,25 +362,30 @@ class ModelGenerator:
                         best_rnd_frt_test_accuracy = rnd_frt_test_accuracy[-1]
                         best_rnd_frt_model = rnd_frt
 
-        print(f"\n* Best RandomForestClassifier")
-        print(f"   n_estimators = {str(best_rnd_frt_model.n_estimators).rjust(2)}, " \
-                f"max_depth = {str(best_rnd_frt_model.max_depth).rjust(2)}, " \
-                f"max_features = {str(best_rnd_frt_model.max_features).rjust(2)}", end='')
-        print("\t Training acc: {:.3f}%".format(best_rnd_frt_training_accuracy), end='')
-        print(", Test acc: {:.3f}%".format(best_rnd_frt_test_accuracy))
-
-        # training_set_failures = len(training_df.loc[training_df['success_oper_flag'] == 0])
-        # total_training_set = len(training_df)
-        # test_set_failures = len(test_df.loc[test_df['success_oper_flag'] == 0])
-        # total_test_set = len(test_df)
-        # real_real_test_set_failures = len(real_test_df.loc[real_test_df['success_oper_flag'] == 0])
-        # total_real_test_set = len(real_test_df)
-
-        # print(f"\n   Training set failures: \t{round(training_set_failures/total_training_set, 3)}%")
-        # print(f"   Test set failures: \t\t{round(test_set_failures/total_test_set, 3)}%")
-        # print(f"   Real test set failures: \t{round(real_real_test_set_failures/total_real_test_set, 3)}%")
+        self.write_model_specs(ticker, "\n   Best model\n")
+        self.write_model_specs(ticker, f"n_estimators = " \
+                        f"{str(best_rnd_frt_model.n_estimators).rjust(2)}, max_depth = " \
+                        f"{str(best_rnd_frt_model.max_depth).rjust(2)}, max_features = " \
+                        f"{str(best_rnd_frt_model.max_features).rjust(2)}", end='')
+        self.write_model_specs(ticker, f"\t Training acc: {best_rnd_frt_training_accuracy:.4f}%", end='')
+        self.write_model_specs(ticker, f", Test acc: {best_rnd_frt_test_accuracy:.4f}%")
 
         return best_rnd_frt_model
+
+    def write_model_specs(self, ticker, message, end='\n', reset_file=False,
+        std_out_also=True):
+
+        ticker_specs_path = self.get_specs_directory_path(ticker)
+        mode = 'a' if reset_file is False else 'w'
+
+        if not ticker_specs_path.exists():
+            os.mkdir(ticker_specs_path)
+
+        with open(ticker_specs_path / (f'{ticker}' + SPECS_TEXT_FILE_SUFFIX), mode) as file:
+            file.write(message + end)
+
+        if std_out_also is True:
+            print(message, end=end)
 
     def save_feature_importances(self, ticker, model):
 
@@ -351,7 +400,7 @@ class ModelGenerator:
             f"max_depth={model.max_depth}, max_features={model.max_features})")
         plt.xlabel("Feature importance")
         plt.ylabel("Feature")
-        plt.savefig(ticker_specs_path / f"{ticker}_rnd_fst_model.png", bbox_inches='tight')
+        plt.savefig(ticker_specs_path / (f'{ticker}' + RANDOM_FOREST_FIG_SUFFIX), bbox_inches='tight')
         plt.close(fig)
 
     def visualize_trees(self, ticker, model, max_estimators=3, max_depth=3):
@@ -376,7 +425,7 @@ class ModelGenerator:
 
         ticker_specs_path = self.models_path_prefix / self.model_type_folder / \
                 self.models_folder[self.supported_models.index('RandomForestClassifier')] / \
-                f"{ticker}_rnd_fst_model_specs"
+                (f'{ticker}' + SPECS_DIRECTORY_SUFFIX)
 
         return ticker_specs_path
 
@@ -405,5 +454,5 @@ if __name__ == '__main__':
 
     model_gen = ModelGenerator(min_date_filter='2013-01-01', max_date_filter='2018-07-01')
 
-    model_gen.create_ticker_oriented_models(max_tickers=0, start_on_ticker=1,
+    model_gen.create_ticker_oriented_models(max_tickers=1, start_on_ticker=1,
         end_on_ticker=0, model_type='RandomForestClassifier', test_set_ratio=0.15)
