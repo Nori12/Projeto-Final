@@ -521,5 +521,5 @@ if __name__ == '__main__':
         peaks_pairs_number=2, risk_option='range', fixed_risk= 0.012,
         start_range_risk=0.01, step_range_risk=0.002, end_range_risk=0.12)
 
-    set_gen.generate_datasets(max_tickers=0, start_on_ticker=13, end_on_ticker=0,
+    set_gen.generate_datasets(max_tickers=0, start_on_ticker=1, end_on_ticker=0,
         add_ref_price=True)

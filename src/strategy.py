@@ -4,7 +4,7 @@ from pathlib import Path
 import pandas as pd
 import logging
 from logging.handlers import RotatingFileHandler
-from datetime import datetime
+from datetime import datetime, timedelta
 import random
 from abc import ABC, abstractmethod
 import sys
@@ -520,6 +520,11 @@ class AndreMoraesStrategy(PseudoStrategy):
                             tcks_priority[index].last_business_data = business_data.copy()
                             continue
 
+                        if business_data["day"] < tcks_priority[index].initial_date \
+                            or business_data["day"] > tcks_priority[index].final_date:
+                            tcks_priority[index].last_business_data = business_data.copy()
+                            continue
+
                         if not self._check_operation_freezetime(tcks_priority, index):
                             tcks_priority[index].last_business_data = business_data.copy()
                             continue
@@ -668,7 +673,7 @@ class AndreMoraesStrategy(PseudoStrategy):
             'tickers_average', 'ibov'])
 
         data_gen = self.DataGen(self.tickers_and_dates, self._db_strategy_model,
-            days_batch=days_batch)
+            days_batch=days_batch, days_before_start=0)
         close_prices = {key: [] for key in self.tickers_and_dates}
         last_price = 0.0
         dates = []
@@ -1005,9 +1010,10 @@ class AndreMoraesStrategy(PseudoStrategy):
         return capital
 
     class DataGen:
-        def __init__(self, tickers, db_connection, days_batch=30):
+        def __init__(self, tickers, db_connection, days_batch=30, days_before_start=180):
             self.tickers = tickers
             self.first_date = min(self.tickers.values(), key=lambda x: x['start_date'])['start_date']
+            self.first_date = self.first_date - timedelta(days=days_before_start)
             self.last_date = max(self.tickers.values(), key=lambda x: x['end_date'])['end_date']
             self.db_connection = db_connection
             self.days_batch = days_batch
@@ -1252,9 +1258,6 @@ class AndreMoraesStrategy(PseudoStrategy):
         if week_info[(week_info['ticker'] == ticker_name)].empty:
             logger.info(f"Could not get last week for ticker \'{ticker_name}\' " \
                 f"(week before day \'{day.strftime('%Y-%m-%d')}\').")
-            return False
-
-        if day < initial_date or day > final_date:
             return False
 
         open_price_day = day_info[(day_info['ticker'] == ticker_name)]['open_price'].squeeze()

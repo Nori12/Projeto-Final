@@ -454,5 +454,5 @@ if __name__ == '__main__':
 
     model_gen = ModelGenerator(min_date_filter='2013-01-01', max_date_filter='2018-07-01')
 
-    model_gen.create_ticker_oriented_models(max_tickers=1, start_on_ticker=1,
+    model_gen.create_ticker_oriented_models(max_tickers=0, start_on_ticker=1,
         end_on_ticker=0, model_type='RandomForestClassifier', test_set_ratio=0.15)
