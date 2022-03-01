@@ -486,7 +486,7 @@ class AndreMoraesStrategy(PseudoStrategy):
             self._initialize_tcks_priority(tcks_priority)
 
             data_gen = self.DataGen(self.tickers_and_dates, self._db_strategy_model,
-                days_batch=30)
+                days_batch=30, days_before_start=135)
             available_capital = self.total_capital
 
             ref_data = self._get_empty_ref_data()
@@ -974,17 +974,18 @@ class AndreMoraesStrategy(PseudoStrategy):
                     volumes[lesser_price["ticker"]][day_index] += bonus_volume
                     current_capital = round(current_capital - close_prices[lesser_price["ticker"]][day_index] * bonus_volume, 2)
 
-            elif num_tickers > last_num_tickers:
-                # Sell everything by last day price
+            elif num_tickers != last_num_tickers:
+                # Sell everything by current close day price
                 for ticker in close_prices:
-                    if close_prices[ticker][day_index-1] is not np.nan and \
+                    if close_prices[ticker][day_index] is not np.nan and \
                         volumes[ticker][day_index-1] is not np.nan:
-                        current_capital = round(current_capital + close_prices[ticker][day_index-1] * volumes[ticker][day_index-1], 2)
+                        current_capital = round(current_capital + close_prices[ticker][day_index] * volumes[ticker][day_index-1], 2)
 
+                # Now re-buy
                 amount_per_stock = round(current_capital / num_tickers, 2)
                 for ticker in close_prices:
                     if close_prices[ticker][day_index] is not np.nan:
-                        volumes[ticker][day_index] = amount_per_stock // close_prices[ticker][day_index]
+                        volumes[ticker][day_index] = int(amount_per_stock // close_prices[ticker][day_index])
                         current_capital = round(current_capital - close_prices[ticker][day_index] * volumes[ticker][day_index], 2)
 
                 if current_capital >= lesser_price["price"]:
@@ -1010,7 +1011,7 @@ class AndreMoraesStrategy(PseudoStrategy):
         return capital
 
     class DataGen:
-        def __init__(self, tickers, db_connection, days_batch=30, days_before_start=180):
+        def __init__(self, tickers, db_connection, days_batch=30, days_before_start=150):
             self.tickers = tickers
             self.first_date = min(self.tickers.values(), key=lambda x: x['start_date'])['start_date']
             self.first_date = self.first_date - timedelta(days=days_before_start)

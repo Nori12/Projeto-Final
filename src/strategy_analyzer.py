@@ -224,7 +224,7 @@ class StrategyAnalyzer:
                                             dict(
                                                 x=self._performance['day'],
                                                 y=self._performance['capital'],
-                                                name='Yield',
+                                                name='Strategy Yield',
                                                 marker=dict(
                                                     color='rgb(236, 187, 48)'
                                                 ),
@@ -773,5 +773,5 @@ class StrategyAnalyzer:
         self._app.run_server()
 
 if __name__ == "__main__":
-    analyzer = StrategyAnalyzer(strategy_id=16)
+    analyzer = StrategyAnalyzer(strategy_id=None)
     analyzer.run()
