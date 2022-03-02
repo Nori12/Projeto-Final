@@ -87,12 +87,6 @@ class ConfigReader:
             can_be_missed=True, can_be_none=False, if_missed_default_value=True)
         self._max_risk_features = self.read_parameter('max_risk', origin='root',
             can_be_missed=True, can_be_none=False, if_missed_default_value=True)
-        self._max_days_per_operation = self.read_parameter('max_days_per_operation',
-            origin='root', is_boolean=False, can_be_missed=False, if_missed_default_value=90)
-        self._purchase_margin = self.read_parameter('purchase_margin', origin='root',
-            can_be_missed=True, can_be_none=False, if_missed_default_value=0.0)
-        self._stop_margin = self.read_parameter('stop_margin', origin='root',
-            can_be_missed=True, can_be_none=False, if_missed_default_value=0.0)
 
         self._read_strategies()
 
@@ -215,23 +209,9 @@ class ConfigReader:
         return self._max_risk_features
 
     @property
-    def purchase_margin(self):
-        """float : Percentage margin aplied on target purchase price."""
-        return self._purchase_margin
-
-    @property
-    def stop_margin(self):
-        """float : Percentage margin aplied on stop loss price."""
-        return self._stop_margin
-
-    @property
     def holidays(self):
         """`list` of `datetime.date` : Holidays between min_start_date and max_end_date."""
         return self._holidays
-
-    @property
-    def max_days_per_operation(self):
-        return self._max_days_per_operation
 
 
     def load_file(self, config_file_path):
@@ -467,6 +447,9 @@ class ConfigReader:
                 min_days_after_failure_operation = self.read_parameter(
                     'min_days_after_failure_operation', strategy_batch,
                     can_be_list=True, can_be_missed=True, if_missed_default_value=0)
+                max_days_per_operation = self.read_parameter(
+                    'max_days_per_operation', strategy_batch,
+                    can_be_list=True, can_be_missed=True, if_missed_default_value=90)
 
                 ConfigReader.add_param_to_strategies('name', name, strategies)
                 ConfigReader.add_param_to_strategies('alias', alias, strategies)
@@ -496,6 +479,8 @@ class ConfigReader:
                     min_days_after_successful_operation, strategies)
                 ConfigReader.add_param_to_strategies('min_days_after_failure_operation',
                     min_days_after_failure_operation, strategies)
+                ConfigReader.add_param_to_strategies('max_days_per_operation',
+                    max_days_per_operation, strategies)
 
                 individual_tickers = ConfigReader.read_individual_tickers('stock_targets',
                     origin=strategy_batch)

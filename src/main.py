@@ -65,8 +65,7 @@ def run():
                 strategy['tickers'],
                 min_order_volume=strategy['min_order_volume'],
                 total_capital=strategy['capital'],
-                risk_capital_product=strategy['risk_capital_coefficient'],
-                min_volume_per_year=strategy['ticker_min_ann_volume_filter'])
+                risk_capital_product=strategy['risk_capital_coefficient'])
             am.alias = strategy['alias']
             am.comment = strategy['comment']
             am.partial_sale = strategy['partial_sale']
@@ -78,7 +77,7 @@ def run():
             am.stop_type = strategy['stop_type']
             am.min_days_after_successful_operation = strategy['min_days_after_successful_operation']
             am.min_days_after_failure_operation = strategy['min_days_after_failure_operation']
-            am.max_days_per_operation = config.max_days_per_operation
+            am.max_days_per_operation = strategy['max_days_per_operation']
 
             am.process_operations()
             am.calculate_statistics()
@@ -89,8 +88,7 @@ def run():
                 strategy['tickers'],
                 min_order_volume=strategy['min_order_volume'],
                 total_capital=strategy['capital'],
-                risk_capital_product=strategy['risk_capital_coefficient'],
-                min_volume_per_year=strategy['ticker_min_ann_volume_filter'])
+                risk_capital_product=strategy['risk_capital_coefficient'])
             ama.alias = strategy['alias']
             ama.comment = strategy['comment']
             ama.partial_sale = strategy['partial_sale']
@@ -102,7 +100,7 @@ def run():
             ama.stop_type = strategy['stop_type']
             ama.min_days_after_successful_operation = strategy['min_days_after_successful_operation']
             ama.min_days_after_failure_operation = strategy['min_days_after_failure_operation']
-            ama.max_days_per_operation = config.max_days_per_operation
+            ama.max_days_per_operation = strategy['max_days_per_operation']
 
             ama.process_operations()
             ama.calculate_statistics()

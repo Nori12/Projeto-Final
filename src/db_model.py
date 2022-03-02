@@ -570,7 +570,8 @@ class DBGenericModel:
         return df
 
 class DBStrategyModel:
-    def __init__(self, name, tickers, start_dates, end_dates, total_capital, alias=None, comment=None, risk_capital_product=None, min_volume_per_year=0):
+    def __init__(self, name, tickers, start_dates, end_dates, total_capital, alias=None,
+        comment=None, risk_capital_product=None):
         try:
             connection = psycopg2.connect(f"dbname='{DB_NAME}' user={DB_USER} " \
                 f"host='{DB_HOST}' password={DB_PASS} port='{DB_PORT}'")
@@ -590,7 +591,7 @@ class DBStrategyModel:
         self._alias = alias
         self._comment = comment
         self._risk_capital_product = risk_capital_product
-        self._min_volume_per_year = min_volume_per_year
+        # self._min_volume_per_year = min_volume_per_year
 
     @property
     def name(self):
@@ -624,13 +625,13 @@ class DBStrategyModel:
     def risk_capital_product(self, risk_capital_product):
         self._risk_capital_product = risk_capital_product
 
-    @property
-    def min_volume_per_year(self):
-        return self._min_volume_per_year
+    # @property
+    # def min_volume_per_year(self):
+    #     return self._min_volume_per_year
 
-    @min_volume_per_year.setter
-    def min_volume_per_year(self, min_volume_per_year):
-        self._min_volume_per_year = min_volume_per_year
+    # @min_volume_per_year.setter
+    # def min_volume_per_year(self, min_volume_per_year):
+    #     self._min_volume_per_year = min_volume_per_year
 
     @property
     def tickers(self):
@@ -684,16 +685,16 @@ class DBStrategyModel:
 
         return id_of_new_row
 
-    def get_tickers_above_min_volume(self):
-        query = f"SELECT DISTINCT tic_y.ticker\n"
-        query += f"FROM\n"
-        query += f"(SELECT dc.ticker, EXTRACT(YEAR FROM dc.day), ROUND(AVG(dc.volume), 0) " \
-            f"FROM daily_candles dc\n"
-        query += f"GROUP BY dc.ticker, EXTRACT(YEAR FROM dc.day)\n"
-        query += f"HAVING ROUND(AVG(dc.volume), 0) > {self._min_volume_per_year}) tic_y\n"
-        query += f"ORDER BY tic_y.ticker;"
+    # def get_tickers_above_min_volume(self):
+    #     query = f"SELECT DISTINCT tic_y.ticker\n"
+    #     query += f"FROM\n"
+    #     query += f"(SELECT dc.ticker, EXTRACT(YEAR FROM dc.day), ROUND(AVG(dc.volume), 0) " \
+    #         f"FROM daily_candles dc\n"
+    #     query += f"GROUP BY dc.ticker, EXTRACT(YEAR FROM dc.day)\n"
+    #     query += f"HAVING ROUND(AVG(dc.volume), 0) > {self._min_volume_per_year}) tic_y\n"
+    #     query += f"ORDER BY tic_y.ticker;"
 
-        return self._query(query)
+    #     return self._query(query)
 
     def get_data_chunk(self, tickers, start_date, end_date, interval='1d'):
 
@@ -778,61 +779,6 @@ class DBStrategyModel:
         # df.sort_values(['ticker', time_column], axis=0, ascending=True, ignore_index=True, inplace=True)
 
         return df
-
-    # Reconsider
-    # def get_candles_dataframe(self, tickers_and_dates, interval='1d', days_before_initial_dates=0):
-
-    #     tickers = []
-    #     start_dates = []
-    #     end_dates = []
-
-    #     for ticker, date in tickers_and_dates.items():
-    #         tickers.append(ticker)
-    #         start_dates.append(date['start_date'])
-    #         end_dates.append(date['end_date'])
-
-    #     candles_table = 'daily_candles'
-    #     features_table = 'daily_features'
-    #     time_column = 'day'
-
-    #     if interval == '1wk':
-    #         candles_table = 'weekly_candles'
-    #         features_table = 'weekly_features'
-    #         time_column = 'week'
-
-    #     query = f"SELECT \n"
-    #     query += f"  cand.ticker, \n"
-    #     query += f"  cand.{time_column}, \n"
-    #     if interval == '1d':
-    #         query += f"  cand.open_price, \n"
-    #         query += f"  cand.max_price, \n"
-    #         query += f"  cand.min_price, \n"
-    #         query += f"  cand.close_price, \n"
-    #     # query += f"  cand.volume, \n"
-    #     query += f"  feat.ema_17, \n"
-    #     query += f"  feat.ema_72, \n"
-    #     if interval == '1d':
-    #         query += f"  feat.target_buy_price, \n"
-    #         query += f"  feat.stop_loss, \n"
-    #     query += f"  feat.up_down_trend_status\n"
-    #     query += f"FROM {candles_table} cand\n"
-    #     query += f"INNER JOIN {features_table} feat "
-    #     query += f"  ON feat.ticker = cand.ticker AND feat.{time_column} = cand.{time_column}\n"
-    #     query += f"WHERE\n"
-
-    #     for index, (ticker, start_date, end_date) in enumerate(zip(tickers, start_dates, end_dates)):
-    #         if index != 0:
-    #             query += f"  OR "
-    #         query += f"  (cand.ticker = \'{ticker}\' and cand.{time_column} >= " \
-    #             f"\'{(start_date - timedelta(days=days_before_initial_dates)).strftime('%Y-%m-%d')}\' " \
-    #             f"and cand.{time_column} < \'{end_date.strftime('%Y-%m-%d')}\')\n"
-    #     query += f";"
-
-    #     df = pd.read_sql_query(query, self._connection)
-    #     df['ticker'] =  df['ticker'].apply(lambda x: x.rstrip())
-    #     # df.sort_values(['ticker', time_column], axis=0, ascending=True, ignore_index=True, inplace=True)
-
-    #     return df
 
     def insert_strategy_results(self, result_parameters, operations, performance_dataframe):
         strategy_id = self._insert_strategy()

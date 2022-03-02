@@ -121,15 +121,15 @@ class PseudoStrategy(ABC):
     def risk_capital_product(self, risk_capital_product):
         pass
 
-    @property
-    @abstractmethod
-    def min_volume_per_year(self):
-        pass
+    # @property
+    # @abstractmethod
+    # def min_volume_per_year(self):
+    #     pass
 
-    @min_volume_per_year.setter
-    @abstractmethod
-    def min_volume_per_year(self):
-        pass
+    # @min_volume_per_year.setter
+    # @abstractmethod
+    # def min_volume_per_year(self):
+    #     pass
 
     @property
     @abstractmethod
@@ -248,7 +248,7 @@ class AndreMoraesStrategy(PseudoStrategy):
     total_strategies = 0
 
     def __init__(self, tickers, alias=None, comment=None, min_order_volume=1,
-        total_capital=100000, risk_capital_product=0.10, min_volume_per_year=1000000):
+        total_capital=100000, risk_capital_product=0.10):
 
         if risk_capital_product < 0.0 or risk_capital_product > 1.0:
             logger.error(f"Parameter \'risk_reference\' must be in the interval [0, 1].")
@@ -264,7 +264,7 @@ class AndreMoraesStrategy(PseudoStrategy):
         self._partial_sale = False
         self._total_capital = total_capital
         self._risk_capital_product = risk_capital_product
-        self._min_volume_per_year = min_volume_per_year
+        # self._min_volume_per_year = min_volume_per_year
         self._operations = []
         self._ema_tolerance = 0.01
         self._start_date = None
@@ -290,7 +290,7 @@ class AndreMoraesStrategy(PseudoStrategy):
 
         self._db_strategy_model = DBStrategyModel(self._name, self._tickers, self._initial_dates,
             self._final_dates, self._total_capital, alias=self._alias, comment=self._comment,
-            risk_capital_product=self._risk_capital_product, min_volume_per_year=min_volume_per_year)
+            risk_capital_product=self._risk_capital_product)
         self._db_generic_model = DBGenericModel()
 
         self._statistics_graph = None
@@ -302,8 +302,8 @@ class AndreMoraesStrategy(PseudoStrategy):
         tickers_rcc_path = Path(__file__).parent.parent/c.TICKERS_OPER_OPT_PATH
         self._tickers_rcc_df = pd.read_csv(tickers_rcc_path, sep=',')
 
-        if self._min_volume_per_year != 0:
-            self._filter_tickers_per_min_volume()
+        # if self._min_volume_per_year != 0:
+        #     self._filter_tickers_per_min_volume()
 
         AndreMoraesStrategy.total_strategies += 1
         self.strategy_number = AndreMoraesStrategy.total_strategies
@@ -351,13 +351,13 @@ class AndreMoraesStrategy(PseudoStrategy):
     def risk_capital_product(self, risk_capital_product):
         self._risk_capital_product = risk_capital_product
 
-    @property
-    def min_volume_per_year(self):
-        return self._min_volume_per_year
+    # @property
+    # def min_volume_per_year(self):
+    #     return self._min_volume_per_year
 
-    @min_volume_per_year.setter
-    def min_volume_per_year(self, min_volume_per_year):
-        self._min_volume_per_year = min_volume_per_year
+    # @min_volume_per_year.setter
+    # def min_volume_per_year(self, min_volume_per_year):
+    #     self._min_volume_per_year = min_volume_per_year
 
     @property
     def purchase_margin(self):
@@ -630,30 +630,30 @@ class AndreMoraesStrategy(PseudoStrategy):
         self._db_strategy_model.insert_strategy_results(self._statistics_parameters,
             self.operations, self._statistics_graph)
 
-    def _filter_tickers_per_min_volume(self):
-        allowed_tickers_raw = self._db_strategy_model.get_tickers_above_min_volume()
+    # def _filter_tickers_per_min_volume(self):
+    #     allowed_tickers_raw = self._db_strategy_model.get_tickers_above_min_volume()
 
-        if len(allowed_tickers_raw) > 0:
-            allowed_tickers = [ticker[0] for ticker in allowed_tickers_raw]
-            intersection_tickers = list(set(self.tickers_and_dates.keys()).intersection(allowed_tickers))
+    #     if len(allowed_tickers_raw) > 0:
+    #         allowed_tickers = [ticker[0] for ticker in allowed_tickers_raw]
+    #         intersection_tickers = list(set(self.tickers_and_dates.keys()).intersection(allowed_tickers))
 
-            if len(intersection_tickers) < len(self.tickers_and_dates):
-                logger.info(f"\'{self._name}\': Removing tickers which the average "
-                    f"volume negotiation per year is less than {self._min_volume_per_year}.")
+    #         if len(intersection_tickers) < len(self.tickers_and_dates):
+    #             logger.info(f"\'{self._name}\': Removing tickers which the average "
+    #                 f"volume negotiation per year is less than {self._min_volume_per_year}.")
 
-                removed_tickers = [ticker for ticker in list(self.tickers_and_dates.keys())
-                    if ticker not in intersection_tickers]
+    #             removed_tickers = [ticker for ticker in list(self.tickers_and_dates.keys())
+    #                 if ticker not in intersection_tickers]
 
-                rem_tickers = ""
-                for i, rem_ticker in enumerate(removed_tickers):
-                    if i > 0:
-                        rem_tickers += ", "
-                    rem_tickers += f"\'{rem_ticker}\'"
-                    self.tickers_and_dates.pop(rem_ticker)
+    #             rem_tickers = ""
+    #             for i, rem_ticker in enumerate(removed_tickers):
+    #                 if i > 0:
+    #                     rem_tickers += ", "
+    #                 rem_tickers += f"\'{rem_ticker}\'"
+    #                 self.tickers_and_dates.pop(rem_ticker)
 
-                logger.info(f"\'{self._name}\': Removed tickers: {rem_tickers}")
-            else:
-                logger.info(f"\'{self._name}\': No tickers to remove.")
+    #             logger.info(f"\'{self._name}\': Removed tickers: {rem_tickers}")
+    #         else:
+    #             logger.info(f"\'{self._name}\': No tickers to remove.")
 
     def _calc_performance(self, days_batch=30):
         """
@@ -1583,10 +1583,10 @@ class AndreMoraesStrategy(PseudoStrategy):
 class AndreMoraesAdaptedStrategy(AndreMoraesStrategy):
 
     def __init__(self, tickers, alias=None, comment=None, min_order_volume=1,
-        total_capital=100000, risk_capital_product=0.10, min_volume_per_year=1000000):
+        total_capital=100000, risk_capital_product=0.10):
 
         super().__init__(tickers, alias, comment, min_order_volume, total_capital,
-            risk_capital_product, min_volume_per_year)
+            risk_capital_product)
 
         self._name = "Andre Moraes Adapted"
         self._db_strategy_model.name = self._name
