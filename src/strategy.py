@@ -50,7 +50,7 @@ class PseudoStrategy(ABC):
         Alias for strategy fast identification.
     comment : str
         Comment.
-    tickers : `dict`
+    tickers_and_dates : `dict`
         All tickers. Value must be another `dict` with `start_date` and `end_date` keys.
     total_capital : float
         Total available capital.
@@ -97,12 +97,6 @@ class PseudoStrategy(ABC):
     @property
     @abstractmethod
     def tickers_and_dates(self):
-        pass
-
-    @property
-    @abstractmethod
-    def tickers(self):
-        """`dict` : All tickers. Value is another `dict` with `start_date` and `end_date` keys."""
         pass
 
     @property
@@ -237,50 +231,79 @@ class AndreMoraesStrategy(PseudoStrategy):
 
     total_strategies = 0
 
-    def __init__(self, tickers, alias=None, comment=None, min_order_volume=1,
-        total_capital=100000, risk_capital_product=0.10):
+    def __init__(self, tickers, alias=None, comment=None, risk_capital_product=0.10,
+        total_capital=100000, min_order_volume=1, partial_sale=False, ema_tolerance=0.01,
+        min_risk=0.01, max_risk=0.15, purchase_margin=0.0, stop_margin=0.0,
+        stop_type='normal', min_days_after_successful_operation=0,
+        min_days_after_failure_operation=0, gain_loss_ratio=3, max_days_per_operation=90,
+        tickers_bag='listed_first', tickers_number=0):
 
         if risk_capital_product < 0.0 or risk_capital_product > 1.0:
             logger.error(f"Parameter \'risk_reference\' must be in the interval [0, 1].")
             sys.exit(c.INVALID_ARGUMENT_ERR)
 
+        if stop_type not in ['normal', 'staircase']:
+            logger.error(f"Parameter \'stop_type\' must be ['normal', 'staircase'].")
+            sys.exit(c.INVALID_ARGUMENT_ERR)
+
+        if tickers_bag not in ['listed_first', 'random']:
+            logger.error(f"Parameter \'tickers_bag\' must be ['listed_first', 'random'].")
+            sys.exit(c.INVALID_ARGUMENT_ERR)
+
         self._name = "Andre Moraes"
         self._alias = alias
         self._comment = comment
-        self._tickers = []
-        self._initial_dates = []
-        self._final_dates = []
-        self.min_order_volume = min_order_volume
-        self._partial_sale = False
-        self._total_capital = total_capital
         self._risk_capital_product = risk_capital_product
+        self._total_capital = total_capital
+        self._min_order_volume = min_order_volume
+        self._partial_sale = partial_sale
+        self._ema_tolerance = ema_tolerance
+        self._min_risk = min_risk
+        self._max_risk = max_risk
+        self._purchase_margin = purchase_margin
+        self._stop_margin = stop_margin
+        self._stop_type = stop_type
+        self._min_days_after_successful_operation = min_days_after_successful_operation
+        self._min_days_after_failure_operation = min_days_after_failure_operation
+        self._gain_loss_ratio = gain_loss_ratio
+        self._max_days_per_operation = max_days_per_operation
+        self._tickers_bag = tickers_bag
+        self._tickers_number = tickers_number
+
+
         self._operations = []
-        self._ema_tolerance = 0.01
         self._start_date = None
         self._end_date = None
-        self._min_risk = 0.01
-        self._max_risk = 0.25
-        self._purchase_margin = 0.0
-        self._stop_margin = 0.0
-        self._stop_type = "normal"
-        self._min_days_after_successful_operation = 0
-        self._min_days_after_failure_operation = 0
-        self._gain_loss_ratio = 3
-        self._max_days_per_operation = 90
 
-        self._tickers_and_dates = tickers
-        for ticker, date in tickers.items():
-            self._tickers.append(ticker)
-            self._initial_dates.append(date['start_date'])
-            self._final_dates.append(date['end_date'])
+        self._tickers_and_dates = AndreMoraesStrategy._filter_tickers(tickers,
+            tickers_bag, tickers_number)
 
+        # For DBStrategyModel compatibility and cdi index calculation
+        only_tickers = []
+        self._initial_dates = []
+        self._final_dates = []
+
+        for ticker, dates in self._tickers_and_dates.items():
+            only_tickers.append(ticker)
+            self._initial_dates.append(dates['start_date'])
+            self._final_dates.append(dates['end_date'])
+
+        self._db_strategy_model = DBStrategyModel(self._name, only_tickers, self._initial_dates,
+            self._final_dates, alias=self._alias, comment=self._comment,
+            risk_capital_product=self._risk_capital_product, total_capital=self._total_capital,
+            min_order_volume=self._min_order_volume, partial_sale=self._partial_sale,
+            ema_tolerance=self._ema_tolerance, min_risk=self._min_risk, max_risk=self._max_risk,
+            purchase_margin=self._purchase_margin, stop_margin=self._stop_margin,
+            stop_type=self._stop_type,
+            min_days_after_successful_operation=self._min_days_after_successful_operation,
+            min_days_after_failure_operation=self._min_days_after_failure_operation,
+            gain_loss_ratio=self._gain_loss_ratio,
+            max_days_per_operation=self._max_days_per_operation)
+        self._db_generic_model = DBGenericModel()
+
+        # For statistics calculations
         self.first_date = min(tickers.values(), key=lambda x: x['start_date'])['start_date']
         self.last_date = max(tickers.values(), key=lambda x: x['end_date'])['end_date']
-
-        self._db_strategy_model = DBStrategyModel(self._name, self._tickers, self._initial_dates,
-            self._final_dates, self._total_capital, alias=self._alias, comment=self._comment,
-            risk_capital_product=self._risk_capital_product, gain_loss_ratio = 3)
-        self._db_generic_model = DBGenericModel()
 
         self._statistics_graph = None
         self._statistics_parameters = {'profit': None, 'max_used_capital': None, 'yield': None,
@@ -322,12 +345,12 @@ class AndreMoraesStrategy(PseudoStrategy):
         return self._tickers_and_dates
 
     @property
-    def tickers(self):
-        return self._tickers
-
-    @property
     def total_capital(self):
         return self._total_capital
+
+    @property
+    def min_order_volume(self):
+        return self._min_order_volume
 
     @property
     def risk_capital_product(self):
@@ -464,6 +487,34 @@ class AndreMoraesStrategy(PseudoStrategy):
     def max_days_per_operation(self, max_days_per_operation):
         self._max_days_per_operation = max_days_per_operation
         self._db_strategy_model.max_days_per_operation = max_days_per_operation
+
+    @property
+    def tickers_bag(self):
+        return self._tickers_bag
+
+    @property
+    def tickers_number(self):
+        return self._tickers_number
+
+
+    @staticmethod
+    def _filter_tickers(tickers_and_dates, tickers_bag, tickers_number):
+
+        filteres_tickers_and_dates = {}
+
+        if len(tickers_and_dates) > tickers_number > 0:
+            if tickers_bag == 'listed_first':
+                choosen_tickers = {ticker: value for idx, (ticker, value) in enumerate(tickers_and_dates.items()) if idx < tickers_number}
+            elif tickers_bag == 'random':
+                choosen_tickers = random.sample(list(tickers_and_dates), k=tickers_number)
+
+            for ticker in tickers_and_dates:
+                if ticker in choosen_tickers:
+                    filteres_tickers_and_dates[ticker] = tickers_and_dates[ticker]
+        else:
+            return tickers_and_dates
+
+        return filteres_tickers_and_dates
 
     @RunTime('process_operations')
     def process_operations(self):
@@ -1555,25 +1606,32 @@ class AndreMoraesStrategy(PseudoStrategy):
 
 class AndreMoraesAdaptedStrategy(AndreMoraesStrategy):
 
-    def __init__(self, tickers, alias=None, comment=None, min_order_volume=1,
-        total_capital=100000, risk_capital_product=0.10):
+    def __init__(self, tickers, alias=None, comment=None, risk_capital_product=0.10,
+        total_capital=100000, min_order_volume=1, partial_sale=False, ema_tolerance=0.01,
+        min_risk=0.01, max_risk=0.15, purchase_margin=0.0, stop_margin=0.0,
+        stop_type='normal', min_days_after_successful_operation=0,
+        min_days_after_failure_operation=0, gain_loss_ratio=3, max_days_per_operation=90,
+        tickers_bag='listed_first', tickers_number=0):
 
-        super().__init__(tickers, alias, comment, min_order_volume, total_capital,
-            risk_capital_product)
+        super().__init__(tickers, alias, comment, risk_capital_product, total_capital,
+            min_order_volume, partial_sale, ema_tolerance, min_risk, max_risk,
+            purchase_margin, stop_margin, stop_type, min_days_after_successful_operation,
+            min_days_after_failure_operation, gain_loss_ratio, max_days_per_operation,
+            tickers_bag, tickers_number)
 
         self._name = "Andre Moraes Adapted"
         self._db_strategy_model.name = self._name
-
         self._models = {}
-
-        self._step_range_risk = 0.002
-        self.risks = tuple(round(i, 3) for i in tuple(np.arange(self.min_risk,
-                self.max_risk + self._step_range_risk, self._step_range_risk)))
 
         # For each Ticker
         for tck_index, (ticker, date) in enumerate(self.tickers_and_dates.items()):
             self._models[ticker] = joblib.load(Path(__file__).parent.parent /
                 c.MODELS_PATH / (ticker + c.MODEL_SUFFIX))
+
+        self._step_range_risk = 0.002
+        self.risks = tuple(round(i, 3) for i in tuple(np.arange(self.min_risk,
+                self.max_risk + self._step_range_risk, self._step_range_risk)))
+
 
     @property
     def models(self):

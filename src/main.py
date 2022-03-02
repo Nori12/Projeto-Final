@@ -49,8 +49,7 @@ def run():
         tm.max_risk = config.max_risk_features
 
         update_ok = tm.update()
-        if update_ok is True:
-        # if True:
+        if update_ok:
             features_ok = tm.generate_features()
             # Remove inconsistent tickers from all strategies
             if features_ok is False:
@@ -61,50 +60,58 @@ def run():
     # Strategy section
     for strategy in config.strategies:
         if strategy['name'] == 'Andre Moraes':
-            am = AndreMoraesStrategy(
+            root_strategy = AndreMoraesStrategy(
                 strategy['tickers'],
-                min_order_volume=strategy['min_order_volume'],
+                alias=strategy['alias'],
+                comment = strategy['comment'],
+                risk_capital_product=strategy['risk_capital_coefficient'],
                 total_capital=strategy['capital'],
-                risk_capital_product=strategy['risk_capital_coefficient'])
-            am.alias = strategy['alias']
-            am.comment = strategy['comment']
-            am.partial_sale = strategy['partial_sale']
-            am.ema_tolerance = strategy['ema_tolerance']
-            am.min_risk = strategy['min_risk']
-            am.max_risk = strategy['max_risk']
-            am.purchase_margin = strategy['purchase_margin']
-            am.stop_margin = strategy['stop_margin']
-            am.stop_type = strategy['stop_type']
-            am.min_days_after_successful_operation = strategy['min_days_after_successful_operation']
-            am.min_days_after_failure_operation = strategy['min_days_after_failure_operation']
-            am.max_days_per_operation = strategy['max_days_per_operation']
+                min_order_volume=strategy['min_order_volume'],
+                partial_sale=strategy['partial_sale'],
+                ema_tolerance=strategy['ema_tolerance'],
+                min_risk=strategy['min_risk'],
+                max_risk=strategy['max_risk'],
+                purchase_margin=strategy['purchase_margin'],
+                stop_margin=strategy['stop_margin'],
+                stop_type=strategy['stop_type'],
+                min_days_after_successful_operation=strategy['min_days_after_successful_operation'],
+                min_days_after_failure_operation=strategy['min_days_after_failure_operation'],
+                gain_loss_ratio=strategy['gain_loss_ratio'],
+                max_days_per_operation=strategy['max_days_per_operation'],
+                tickers_bag=strategy['tickers_bag'],
+                tickers_number=strategy['tickers_number']
+            )
 
-            am.process_operations()
-            am.calculate_statistics()
-            am.save()
+            root_strategy.process_operations()
+            root_strategy.calculate_statistics()
+            root_strategy.save()
 
         if strategy['name'] == 'Andre Moraes Adapted':
-            ama = AndreMoraesAdaptedStrategy(
+            ml_strategy = AndreMoraesAdaptedStrategy(
                 strategy['tickers'],
-                min_order_volume=strategy['min_order_volume'],
+                alias=strategy['alias'],
+                comment = strategy['comment'],
+                risk_capital_product=strategy['risk_capital_coefficient'],
                 total_capital=strategy['capital'],
-                risk_capital_product=strategy['risk_capital_coefficient'])
-            ama.alias = strategy['alias']
-            ama.comment = strategy['comment']
-            ama.partial_sale = strategy['partial_sale']
-            ama.ema_tolerance = strategy['ema_tolerance']
-            ama.min_risk = strategy['min_risk']
-            ama.max_risk = strategy['max_risk']
-            ama.purchase_margin = strategy['purchase_margin']
-            ama.stop_margin = strategy['stop_margin']
-            ama.stop_type = strategy['stop_type']
-            ama.min_days_after_successful_operation = strategy['min_days_after_successful_operation']
-            ama.min_days_after_failure_operation = strategy['min_days_after_failure_operation']
-            ama.max_days_per_operation = strategy['max_days_per_operation']
+                min_order_volume=strategy['min_order_volume'],
+                partial_sale=strategy['partial_sale'],
+                ema_tolerance=strategy['ema_tolerance'],
+                min_risk=strategy['min_risk'],
+                max_risk=strategy['max_risk'],
+                purchase_margin=strategy['purchase_margin'],
+                stop_margin=strategy['stop_margin'],
+                stop_type=strategy['stop_type'],
+                min_days_after_successful_operation=strategy['min_days_after_successful_operation'],
+                min_days_after_failure_operation=strategy['min_days_after_failure_operation'],
+                gain_loss_ratio=strategy['gain_loss_ratio'],
+                max_days_per_operation=strategy['max_days_per_operation'],
+                tickers_bag=strategy['tickers_bag'],
+                tickers_number=strategy['tickers_number']
+            )
 
-            ama.process_operations()
-            ama.calculate_statistics()
-            ama.save()
+            ml_strategy.process_operations()
+            ml_strategy.calculate_statistics()
+            ml_strategy.save()
 
     # Strategy Analysis section
     if config.show_results is True:

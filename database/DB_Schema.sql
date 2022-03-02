@@ -155,18 +155,19 @@ CREATE TABLE strategy (
   alias VARCHAR(100),
   comment VARCHAR(100),
   total_capital DECIMAL(11, 2) NOT NULL,
-  risk_capital_product DECIMAL(5, 4),
+  risk_capital_product DECIMAL(5, 4) NOT NULL,
   min_risk REAL NOT NULL,
   max_risk REAL NOT NULL,
-  max_days_per_operation SMALLINT DEFAULT 90,
-  partial_sale BOOLEAN DEFAULT FALSE,
-  min_days_after_successful_operation SMALLINT DEFAULT 0,
-  min_days_after_failure_operation SMALLINT DEFAULT 0,
+  max_days_per_operation SMALLINT,
+  partial_sale BOOLEAN NOT NULL,
+  min_days_after_successful_operation SMALLINT,
+  min_days_after_failure_operation SMALLINT,
   stop_type stop_option NOT NULL,
   purchase_margin REAL,
   stop_margin REAL,
   ema_tolerance REAL,
-  gain_loss_ratio SMALLINT DEFAULT 3
+  gain_loss_ratio SMALLINT NOT NULL,
+  min_order_volume SMALLINT NOT NULL
 );
 
 CREATE TABLE strategy_tickers (

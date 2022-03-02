@@ -127,8 +127,7 @@ class ConfigReader:
         for strategy in self.strategies:
             logger.info(f"  Name: \'{strategy['name']}\', Capital: "\
                 f"{strategy['capital']}, Risk-Capital Coefficient: "\
-                f"{strategy['risk_capital_coefficient']}, Ticker Min Ann "\
-                f"Volume Filter: {strategy['ticker_min_ann_volume_filter']}, "\
+                f"{strategy['risk_capital_coefficient']}, "
                 f"Min Order Volume: {strategy['min_order_volume']}, Tickers: "\
                 f"{str(list(strategy['tickers'].keys()))}")
 
@@ -408,48 +407,43 @@ class ConfigReader:
 
                 name = self.read_parameter('name', strategy_batch)
                 alias = self.read_parameter('alias', strategy_batch)
-                comment = self.read_parameter('comment', strategy_batch,
-                    can_be_missed=True)
-                capital = self.read_parameter('capital', strategy_batch,
+                comment = self.read_parameter('comment', strategy_batch, can_be_missed=True)
+                capital = self.read_parameter('capital', strategy_batch, can_be_list=True)
+                rc_coef = self.read_parameter('risk_capital_coefficient', strategy_batch,
                     can_be_list=True)
-                rc_coef = self.read_parameter(
-                    'risk_capital_coefficient', strategy_batch, can_be_list=True)
-                min_order_volume = self.read_parameter('min_order_volume',
-                    strategy_batch, can_be_list=True, can_be_missed=True,
-                    if_missed_default_value=1)
-                volume_filter = self.read_parameter(
-                    'ticker_min_ann_volume_filter', strategy_batch, can_be_list=True,
-                    can_be_missed=True, if_missed_default_value=0)
-                partial_sale = self.read_parameter(
-                    'partial_sale', strategy_batch, is_boolean=True, can_be_list=True,
-                    can_be_missed=True, if_missed_default_value=True)
-                ema_tolerance = self.read_parameter(
-                    'ema_tolerance', strategy_batch, can_be_list=True,
+                min_order_volume = self.read_parameter('min_order_volume', strategy_batch,
+                    can_be_list=True, can_be_missed=True, if_missed_default_value=1)
+                gain_loss_ratio = self.read_parameter('gain_loss_ratio',
+                    strategy_batch, can_be_list=False, can_be_missed=False,
+                    if_missed_default_value=3)
+                partial_sale = self.read_parameter('partial_sale', strategy_batch,
+                    is_boolean=True, can_be_list=True, can_be_missed=True,
+                    if_missed_default_value=True)
+                ema_tolerance = self.read_parameter('ema_tolerance', strategy_batch,
+                    can_be_list=True, can_be_missed=True, if_missed_default_value=0.0)
+                min_risk = self.read_parameter('min_risk', strategy_batch, can_be_list=True,
                     can_be_missed=True, if_missed_default_value=0.0)
-                min_risk = self.read_parameter(
-                    'min_risk', strategy_batch, can_be_list=True,
+                max_risk = self.read_parameter('max_risk', strategy_batch, can_be_list=True,
                     can_be_missed=True, if_missed_default_value=0.0)
-                max_risk = self.read_parameter(
-                    'max_risk', strategy_batch, can_be_list=True,
-                    can_be_missed=True, if_missed_default_value=0.0)
-                purchase_margin = self.read_parameter(
-                    'purchase_margin', strategy_batch, can_be_list=True,
-                    can_be_missed=True, if_missed_default_value=0.0)
-                stop_margin = self.read_parameter(
-                    'stop_margin', strategy_batch, can_be_list=True,
-                    can_be_missed=True, if_missed_default_value=0.0)
-                stop_type = self.read_parameter(
-                    'stop_type', strategy_batch, can_be_list=True,
-                    can_be_missed=True, if_missed_default_value="default")
+                purchase_margin = self.read_parameter('purchase_margin', strategy_batch,
+                    can_be_list=True, can_be_missed=True, if_missed_default_value=0.0)
+                stop_margin = self.read_parameter('stop_margin', strategy_batch,
+                    can_be_list=True, can_be_missed=True, if_missed_default_value=0.0)
+                stop_type = self.read_parameter('stop_type', strategy_batch,
+                    can_be_list=True, can_be_missed=True, if_missed_default_value="default")
                 min_days_after_successful_operation = self.read_parameter(
                     'min_days_after_successful_operation', strategy_batch,
                     can_be_list=True, can_be_missed=True, if_missed_default_value=0)
                 min_days_after_failure_operation = self.read_parameter(
                     'min_days_after_failure_operation', strategy_batch,
                     can_be_list=True, can_be_missed=True, if_missed_default_value=0)
-                max_days_per_operation = self.read_parameter(
-                    'max_days_per_operation', strategy_batch,
-                    can_be_list=True, can_be_missed=True, if_missed_default_value=90)
+                max_days_per_operation = self.read_parameter('max_days_per_operation',
+                    strategy_batch, can_be_list=True, can_be_missed=True,
+                    if_missed_default_value=90)
+                tickers_bag = self.read_parameter('tickers_bag', strategy_batch,
+                    can_be_list=True, can_be_missed=True, if_missed_default_value="normal")
+                tickers_number = self.read_parameter('tickers_number', strategy_batch,
+                    can_be_list=True, can_be_missed=True, if_missed_default_value=0)
 
                 ConfigReader.add_param_to_strategies('name', name, strategies)
                 ConfigReader.add_param_to_strategies('alias', alias, strategies)
@@ -459,8 +453,8 @@ class ConfigReader:
                     rc_coef, strategies)
                 ConfigReader.add_param_to_strategies('min_order_volume', min_order_volume,
                     strategies)
-                ConfigReader.add_param_to_strategies('ticker_min_ann_volume_filter',
-                    volume_filter, strategies)
+                ConfigReader.add_param_to_strategies('gain_loss_ratio',
+                    gain_loss_ratio, strategies)
                 ConfigReader.add_param_to_strategies('partial_sale',
                     partial_sale, strategies)
                 ConfigReader.add_param_to_strategies('ema_tolerance',
@@ -481,6 +475,10 @@ class ConfigReader:
                     min_days_after_failure_operation, strategies)
                 ConfigReader.add_param_to_strategies('max_days_per_operation',
                     max_days_per_operation, strategies)
+                ConfigReader.add_param_to_strategies('tickers_bag',
+                    tickers_bag, strategies)
+                ConfigReader.add_param_to_strategies('tickers_number',
+                    tickers_number, strategies)
 
                 individual_tickers = ConfigReader.read_individual_tickers('stock_targets',
                     origin=strategy_batch)
@@ -490,7 +488,8 @@ class ConfigReader:
 
                 group_tickers = self._read_tickers_group('group_target', origin=strategy_batch)
 
-                ConfigReader.add_param_to_strategies('tickers', group_tickers, strategies, is_ticker=True)
+                ConfigReader.add_param_to_strategies('tickers', group_tickers, strategies,
+                    is_ticker=True)
 
                 for strategy in strategies:
                     if (('tickers' in strategy and not strategy['tickers']) or
@@ -822,8 +821,6 @@ class ConfigReader:
                 replace('{risk_capital_coefficient}', str(strategy['risk_capital_coefficient']))
                 strategy[param_name] = strategy[param_name].\
                 replace('{min_order_volume}', str(strategy['min_order_volume']))
-                strategy[param_name] = strategy[param_name].\
-                replace('{ticker_min_ann_volume_filter}', str(strategy['ticker_min_ann_volume_filter']))
 
     @staticmethod
     def subtract_last_end_date(strategies):

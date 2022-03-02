@@ -570,8 +570,9 @@ class DBGenericModel:
         return df
 
 class DBStrategyModel:
+
     def __init__(self, name, tickers, start_dates, end_dates, total_capital, alias=None,
-        comment=None, risk_capital_product=None, min_risk= None, max_risk=None,
+        comment=None, risk_capital_product=None, min_order_volume=1, min_risk= None, max_risk=None,
         max_days_per_operation=None, partial_sale=None, min_days_after_successful_operation=None,
         min_days_after_failure_operation=None, stop_type=None, purchase_margin=None,
         stop_margin=None, ema_tolerance=None, gain_loss_ratio=None):
@@ -605,6 +606,7 @@ class DBStrategyModel:
         self._stop_margin = stop_margin
         self._ema_tolerance = ema_tolerance
         self._gain_loss_ratio = gain_loss_ratio
+        self._min_order_volume = min_order_volume
 
     @property
     def tickers(self):
@@ -746,6 +748,22 @@ class DBStrategyModel:
     def gain_loss_ratio(self, gain_loss_ratio):
         self._gain_loss_ratio = gain_loss_ratio
 
+    @property
+    def gain_loss_ratio(self):
+        return self._gain_loss_ratio
+
+    @gain_loss_ratio.setter
+    def gain_loss_ratio(self, gain_loss_ratio):
+        self._gain_loss_ratio = gain_loss_ratio
+
+    @property
+    def min_order_volume(self):
+        return self._min_order_volume
+
+    @min_order_volume.setter
+    def min_order_volume(self, min_order_volume):
+        self._min_order_volume = min_order_volume
+
     def __del__(self):
         self._connection.close()
         self._cursor.close()
@@ -882,7 +900,7 @@ class DBStrategyModel:
             "risk_capital_product, min_risk, max_risk, max_days_per_operation, " \
             "partial_sale, min_days_after_successful_operation, " \
             "min_days_after_failure_operation, stop_type, purchase_margin, stop_margin, " \
-            "ema_tolerance, gain_loss_ratio)\nVALUES\n"
+            "ema_tolerance, gain_loss_ratio, min_order_volume)\nVALUES\n"
 
         query += f"(\'{self.name}\', \'{self.alias if self.alias is not None else ''}\', " \
             f"\'{self.comment if self.comment is not None else ''}\', {self.total_capital}, " \
@@ -891,7 +909,7 @@ class DBStrategyModel:
             f"{self.min_days_after_successful_operation}, " \
             f"{self.min_days_after_failure_operation}, \'{self.stop_type}\', " \
             f"{self.purchase_margin}, {self.stop_margin}, {self.ema_tolerance}, " \
-            F"{self.gain_loss_ratio})\n"
+            f"{self.gain_loss_ratio}, {self.min_order_volume})\n"
         query += f"RETURNING id;"
 
         strategy_id = self._insert_update_with_returning(query)
