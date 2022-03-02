@@ -121,16 +121,6 @@ class PseudoStrategy(ABC):
     def risk_capital_product(self, risk_capital_product):
         pass
 
-    # @property
-    # @abstractmethod
-    # def min_volume_per_year(self):
-    #     pass
-
-    # @min_volume_per_year.setter
-    # @abstractmethod
-    # def min_volume_per_year(self):
-    #     pass
-
     @property
     @abstractmethod
     def purchase_margin(self):
@@ -217,7 +207,7 @@ class PseudoStrategy(ABC):
         pass
 
     @abstractmethod
-    def _sell_on_expiration_hit(self, tcks_priority, tck_idx, business_data):
+    def _sell_on_timeout_hit(self, tcks_priority, tck_idx, business_data):
         pass
 
     @abstractmethod
@@ -264,7 +254,6 @@ class AndreMoraesStrategy(PseudoStrategy):
         self._partial_sale = False
         self._total_capital = total_capital
         self._risk_capital_product = risk_capital_product
-        # self._min_volume_per_year = min_volume_per_year
         self._operations = []
         self._ema_tolerance = 0.01
         self._start_date = None
@@ -290,7 +279,7 @@ class AndreMoraesStrategy(PseudoStrategy):
 
         self._db_strategy_model = DBStrategyModel(self._name, self._tickers, self._initial_dates,
             self._final_dates, self._total_capital, alias=self._alias, comment=self._comment,
-            risk_capital_product=self._risk_capital_product)
+            risk_capital_product=self._risk_capital_product, gain_loss_ratio = 3)
         self._db_generic_model = DBGenericModel()
 
         self._statistics_graph = None
@@ -301,9 +290,6 @@ class AndreMoraesStrategy(PseudoStrategy):
 
         tickers_rcc_path = Path(__file__).parent.parent/c.TICKERS_OPER_OPT_PATH
         self._tickers_rcc_df = pd.read_csv(tickers_rcc_path, sep=',')
-
-        # if self._min_volume_per_year != 0:
-        #     self._filter_tickers_per_min_volume()
 
         AndreMoraesStrategy.total_strategies += 1
         self.strategy_number = AndreMoraesStrategy.total_strategies
@@ -350,14 +336,7 @@ class AndreMoraesStrategy(PseudoStrategy):
     @risk_capital_product.setter
     def risk_capital_product(self, risk_capital_product):
         self._risk_capital_product = risk_capital_product
-
-    # @property
-    # def min_volume_per_year(self):
-    #     return self._min_volume_per_year
-
-    # @min_volume_per_year.setter
-    # def min_volume_per_year(self, min_volume_per_year):
-    #     self._min_volume_per_year = min_volume_per_year
+        self._db_strategy_model.risk_capital_product = risk_capital_product
 
     @property
     def purchase_margin(self):
@@ -367,6 +346,7 @@ class AndreMoraesStrategy(PseudoStrategy):
     @purchase_margin.setter
     def purchase_margin(self, purchase_margin):
         self._purchase_margin = purchase_margin
+        self._db_strategy_model.purchase_margin = purchase_margin
 
     @property
     def stop_margin(self):
@@ -376,6 +356,7 @@ class AndreMoraesStrategy(PseudoStrategy):
     @stop_margin.setter
     def stop_margin(self, stop_margin):
         self._stop_margin = stop_margin
+        self._db_strategy_model.stop_margin = stop_margin
 
     @property
     def operations(self):
@@ -388,6 +369,7 @@ class AndreMoraesStrategy(PseudoStrategy):
     @ema_tolerance.setter
     def ema_tolerance(self, ema_tolerance):
         self._ema_tolerance = ema_tolerance
+        self._db_strategy_model.ema_tolerance = ema_tolerance
 
     @property
     def start_date(self):
@@ -418,6 +400,7 @@ class AndreMoraesStrategy(PseudoStrategy):
     @min_risk.setter
     def min_risk(self, min_risk):
         self._min_risk = min_risk
+        self._db_strategy_model.min_risk = min_risk
 
     @property
     def max_risk(self):
@@ -426,6 +409,7 @@ class AndreMoraesStrategy(PseudoStrategy):
     @max_risk.setter
     def max_risk(self, max_risk):
         self._max_risk = max_risk
+        self._db_strategy_model.max_risk = max_risk
 
     @property
     def stop_type(self):
@@ -434,6 +418,7 @@ class AndreMoraesStrategy(PseudoStrategy):
     @stop_type.setter
     def stop_type(self, stop_type):
         self._stop_type = stop_type
+        self._db_strategy_model.stop_type = stop_type
 
     @property
     def min_days_after_successful_operation(self):
@@ -442,6 +427,7 @@ class AndreMoraesStrategy(PseudoStrategy):
     @min_days_after_successful_operation.setter
     def min_days_after_successful_operation(self, min_days_after_successful_operation):
         self._min_days_after_successful_operation = min_days_after_successful_operation
+        self._db_strategy_model.min_days_after_successful_operation = min_days_after_successful_operation
 
     @property
     def min_days_after_failure_operation(self):
@@ -450,6 +436,7 @@ class AndreMoraesStrategy(PseudoStrategy):
     @min_days_after_failure_operation.setter
     def min_days_after_failure_operation(self, min_days_after_failure_operation):
         self._min_days_after_failure_operation = min_days_after_failure_operation
+        self._db_strategy_model.min_days_after_failure_operation = min_days_after_failure_operation
 
     @property
     def partial_sale(self):
@@ -458,6 +445,7 @@ class AndreMoraesStrategy(PseudoStrategy):
     @partial_sale.setter
     def partial_sale(self, partial_sale):
         self._partial_sale = partial_sale
+        self._db_strategy_model.partial_sale = partial_sale
 
     @property
     def gain_loss_ratio(self):
@@ -466,6 +454,7 @@ class AndreMoraesStrategy(PseudoStrategy):
     @gain_loss_ratio.setter
     def gain_loss_ratio(self, gain_loss_ratio):
         self._gain_loss_ratio = gain_loss_ratio
+        self._db_strategy_model.gain_loss_ratio = gain_loss_ratio
 
     @property
     def max_days_per_operation(self):
@@ -474,6 +463,7 @@ class AndreMoraesStrategy(PseudoStrategy):
     @max_days_per_operation.setter
     def max_days_per_operation(self, max_days_per_operation):
         self._max_days_per_operation = max_days_per_operation
+        self._db_strategy_model.max_days_per_operation = max_days_per_operation
 
     @RunTime('process_operations')
     def process_operations(self):
@@ -570,7 +560,7 @@ class AndreMoraesStrategy(PseudoStrategy):
                                         index, business_data)
                                     available_capital = round(available_capital + sale_amount, 2)
 
-                                    sale_amount = self._sell_on_expiration_hit(tcks_priority,
+                                    sale_amount = self._sell_on_timeout_hit(tcks_priority,
                                         index, business_data)
                                     available_capital = round(available_capital + sale_amount, 2)
 
@@ -629,31 +619,6 @@ class AndreMoraesStrategy(PseudoStrategy):
     def save(self):
         self._db_strategy_model.insert_strategy_results(self._statistics_parameters,
             self.operations, self._statistics_graph)
-
-    # def _filter_tickers_per_min_volume(self):
-    #     allowed_tickers_raw = self._db_strategy_model.get_tickers_above_min_volume()
-
-    #     if len(allowed_tickers_raw) > 0:
-    #         allowed_tickers = [ticker[0] for ticker in allowed_tickers_raw]
-    #         intersection_tickers = list(set(self.tickers_and_dates.keys()).intersection(allowed_tickers))
-
-    #         if len(intersection_tickers) < len(self.tickers_and_dates):
-    #             logger.info(f"\'{self._name}\': Removing tickers which the average "
-    #                 f"volume negotiation per year is less than {self._min_volume_per_year}.")
-
-    #             removed_tickers = [ticker for ticker in list(self.tickers_and_dates.keys())
-    #                 if ticker not in intersection_tickers]
-
-    #             rem_tickers = ""
-    #             for i, rem_ticker in enumerate(removed_tickers):
-    #                 if i > 0:
-    #                     rem_tickers += ", "
-    #                 rem_tickers += f"\'{rem_ticker}\'"
-    #                 self.tickers_and_dates.pop(rem_ticker)
-
-    #             logger.info(f"\'{self._name}\': Removed tickers: {rem_tickers}")
-    #         else:
-    #             logger.info(f"\'{self._name}\': No tickers to remove.")
 
     def _calc_performance(self, days_batch=30):
         """
@@ -1524,10 +1489,12 @@ class AndreMoraesStrategy(PseudoStrategy):
         if tcks_priority[tck_idx].operation.target_sale_price < business_data["open_price_day"]:
 
             sale_amount = round(business_data["open_price_day"] * \
-                (tcks_priority[tck_idx].operation.total_purchase_volume - tcks_priority[tck_idx].operation.total_sale_volume), 2)
+                (tcks_priority[tck_idx].operation.total_purchase_volume - \
+                tcks_priority[tck_idx].operation.total_sale_volume), 2)
 
             tcks_priority[tck_idx].operation.add_sale(business_data["open_price_day"],
-            tcks_priority[tck_idx].operation.total_purchase_volume - tcks_priority[tck_idx].operation.total_sale_volume,
+            tcks_priority[tck_idx].operation.total_purchase_volume - \
+                tcks_priority[tck_idx].operation.total_sale_volume,
             business_data["day"])
             day = business_data["day"]
 
@@ -1541,35 +1508,41 @@ class AndreMoraesStrategy(PseudoStrategy):
             tcks_priority[tck_idx].operation.target_sale_price <= business_data["max_price_day"]:
 
             sale_amount = round(tcks_priority[tck_idx].operation.target_sale_price * \
-                (tcks_priority[tck_idx].operation.total_purchase_volume - tcks_priority[tck_idx].operation.total_sale_volume), 2)
+                (tcks_priority[tck_idx].operation.total_purchase_volume - \
+                tcks_priority[tck_idx].operation.total_sale_volume), 2)
 
             tcks_priority[tck_idx].operation.add_sale(
-                tcks_priority[tck_idx].operation.target_sale_price, tcks_priority[tck_idx].operation.total_purchase_volume \
-                    - tcks_priority[tck_idx].operation.total_sale_volume, business_data["day"])
+                tcks_priority[tck_idx].operation.target_sale_price,
+                tcks_priority[tck_idx].operation.total_purchase_volume \
+                - tcks_priority[tck_idx].operation.total_sale_volume, business_data["day"])
 
             tcks_priority[tck_idx].days_after_suc_oper = 0
 
         return sale_amount
 
-    def _sell_on_expiration_hit(self, tcks_priority, tck_idx, business_data):
+    def _sell_on_timeout_hit(self, tcks_priority, tck_idx, business_data):
 
         sale_amount = 0.0
 
         # If expiration date arrives
-        if (business_data["day"] - tcks_priority[tck_idx].operation.start_date).days >= self.max_days_per_operation:
+        if (business_data["day"] - tcks_priority[tck_idx].operation.start_date).days >= \
+            self.max_days_per_operation:
 
             sale_amount = round(business_data["close_price_day"] * \
-                (tcks_priority[tck_idx].operation.total_purchase_volume - tcks_priority[tck_idx].operation.total_sale_volume), 2)
+                (tcks_priority[tck_idx].operation.total_purchase_volume - \
+                    tcks_priority[tck_idx].operation.total_sale_volume), 2)
 
             tcks_priority[tck_idx].operation.add_sale(
-                business_data["close_price_day"], tcks_priority[tck_idx].operation.total_purchase_volume \
-                    - tcks_priority[tck_idx].operation.total_sale_volume, business_data["day"])
+                business_data["close_price_day"],
+                tcks_priority[tck_idx].operation.total_purchase_volume \
+                - tcks_priority[tck_idx].operation.total_sale_volume, business_data["day"],
+                timeout_flag=True)
             day = business_data["day"]
 
             tcks_priority[tck_idx].days_after_fail_oper = 0
 
-            logger.debug(f"Operation time expired({self.max_days_per_operation} days): \'{tcks_priority[tck_idx].ticker}\', "
-                f"\'{day.strftime('%Y-%m-%d')}\'.")
+            logger.debug(f"Operation time expired({self.max_days_per_operation} days): " \
+                f"\'{tcks_priority[tck_idx].ticker}\', \'{day.strftime('%Y-%m-%d')}\'.")
 
         return sale_amount
 
@@ -1613,6 +1586,7 @@ class AndreMoraesAdaptedStrategy(AndreMoraesStrategy):
     @min_risk.setter
     def min_risk(self, min_risk):
         self._min_risk = min_risk
+        self._db_strategy_model.min_risk = min_risk
         self.risks = tuple(round(i, 3) for i in tuple(np.arange(min_risk,
             self.max_risk + self._step_range_risk, self._step_range_risk)))
 
@@ -1623,6 +1597,7 @@ class AndreMoraesAdaptedStrategy(AndreMoraesStrategy):
     @max_risk.setter
     def max_risk(self, max_risk):
         self._max_risk = max_risk
+        self._db_strategy_model.max_risk = max_risk
         self.risks = tuple(round(i, 3) for i in tuple(np.arange(self.min_risk,
             max_risk + self._step_range_risk, self._step_range_risk)))
 

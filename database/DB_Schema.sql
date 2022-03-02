@@ -147,13 +147,26 @@ CREATE TABLE weekly_features (
   CONSTRAINT up_down_trend_status_valid CHECK (up_down_trend_status <= 3 OR up_down_trend_status >= -3)
 );
 
+CREATE TYPE stop_option AS ENUM ('normal', 'staircase');
+
 CREATE TABLE strategy (
   id SERIAL PRIMARY KEY,
   name VARCHAR(50) NOT NULL,
   alias VARCHAR(100),
   comment VARCHAR(100),
   total_capital DECIMAL(11, 2) NOT NULL,
-  risk_capital_product DECIMAL(5, 4)
+  risk_capital_product DECIMAL(5, 4),
+  min_risk REAL NOT NULL,
+  max_risk REAL NOT NULL,
+  max_days_per_operation SMALLINT DEFAULT 90,
+  partial_sale BOOLEAN DEFAULT FALSE,
+  min_days_after_successful_operation SMALLINT DEFAULT 0,
+  min_days_after_failure_operation SMALLINT DEFAULT 0,
+  stop_type stop_option NOT NULL,
+  purchase_margin REAL,
+  stop_margin REAL,
+  ema_tolerance REAL,
+  gain_loss_ratio SMALLINT DEFAULT 3
 );
 
 CREATE TABLE strategy_tickers (
@@ -195,10 +208,12 @@ CREATE TABLE negotiation (
   volume BIGINT NOT NULL,
   stop_flag BOOLEAN NOT NULL,
   partial_sale_flag BOOLEAN NOT NULL,
+  timeout_flag BOOLEAN NOT NULL,
 
   CONSTRAINT negotiation_uniqueness UNIQUE (operation_id, day, buy_sell_flag, price),
   CONSTRAINT purchase_has_no_stop CHECK ((buy_sell_flag = 'B' AND stop_flag = FALSE) OR (buy_sell_flag = 'S')),
-  CONSTRAINT purchase_has_no_partial_sale CHECK ((buy_sell_flag = 'B' AND partial_sale_flag = FALSE) OR (buy_sell_flag = 'S'))
+  CONSTRAINT purchase_has_no_partial_sale CHECK ((buy_sell_flag = 'B' AND partial_sale_flag = FALSE) OR (buy_sell_flag = 'S')),
+  CONSTRAINT purchase_has_no_timeout CHECK ((buy_sell_flag = 'B' AND timeout_flag = FALSE) OR (buy_sell_flag = 'S'))
 );
 
 CREATE TABLE strategy_statistics (

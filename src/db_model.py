@@ -17,7 +17,7 @@ from utils import State
 DB_USER = os.environ.get('STOCK_MARKET_DB_USER')
 DB_PASS = os.environ.get('STOCK_MARKET_DB_PASS')
 DB_NAME = 'StockMarket'
-DB_PORT = 5433
+DB_PORT = 5432
 DB_HOST =  'localhost'
 
 # Configure Logging
@@ -571,7 +571,10 @@ class DBGenericModel:
 
 class DBStrategyModel:
     def __init__(self, name, tickers, start_dates, end_dates, total_capital, alias=None,
-        comment=None, risk_capital_product=None):
+        comment=None, risk_capital_product=None, min_risk= None, max_risk=None,
+        max_days_per_operation=None, partial_sale=None, min_days_after_successful_operation=None,
+        min_days_after_failure_operation=None, stop_type=None, purchase_margin=None,
+        stop_margin=None, ema_tolerance=None, gain_loss_ratio=None):
         try:
             connection = psycopg2.connect(f"dbname='{DB_NAME}' user={DB_USER} " \
                 f"host='{DB_HOST}' password={DB_PASS} port='{DB_PORT}'")
@@ -591,7 +594,29 @@ class DBStrategyModel:
         self._alias = alias
         self._comment = comment
         self._risk_capital_product = risk_capital_product
-        # self._min_volume_per_year = min_volume_per_year
+        self._min_risk = min_risk
+        self._max_risk = max_risk
+        self._max_days_per_operation = max_days_per_operation
+        self._partial_sale = partial_sale
+        self._min_days_after_successful_operation = min_days_after_successful_operation
+        self._min_days_after_failure_operation = min_days_after_failure_operation
+        self._stop_type = stop_type
+        self._purchase_margin = purchase_margin
+        self._stop_margin = stop_margin
+        self._ema_tolerance = ema_tolerance
+        self._gain_loss_ratio = gain_loss_ratio
+
+    @property
+    def tickers(self):
+        return self._tickers
+
+    @property
+    def start_dates(self):
+        return self._start_dates
+
+    @property
+    def end_dates(self):
+        return self._end_dates
 
     @property
     def name(self):
@@ -618,6 +643,14 @@ class DBStrategyModel:
         self._comment = comment
 
     @property
+    def total_capital(self):
+        return self._total_capital
+
+    @total_capital.setter
+    def total_capital(self, total_capital):
+        self._total_capital = total_capital
+
+    @property
     def risk_capital_product(self):
         return self._risk_capital_product
 
@@ -625,25 +658,93 @@ class DBStrategyModel:
     def risk_capital_product(self, risk_capital_product):
         self._risk_capital_product = risk_capital_product
 
-    # @property
-    # def min_volume_per_year(self):
-    #     return self._min_volume_per_year
+    @property
+    def min_risk(self):
+        return self._min_risk
 
-    # @min_volume_per_year.setter
-    # def min_volume_per_year(self, min_volume_per_year):
-    #     self._min_volume_per_year = min_volume_per_year
+    @min_risk.setter
+    def min_risk(self, min_risk):
+        self._min_risk = min_risk
 
     @property
-    def tickers(self):
-        return self._tickers
+    def max_risk(self):
+        return self._max_risk
+
+    @max_risk.setter
+    def max_risk(self, max_risk):
+        self._max_risk = max_risk
 
     @property
-    def start_dates(self):
-        return self._start_dates
+    def max_days_per_operation(self):
+        return self._max_days_per_operation
+
+    @max_days_per_operation.setter
+    def max_days_per_operation(self, max_days_per_operation):
+        self._max_days_per_operation = max_days_per_operation
 
     @property
-    def end_dates(self):
-        return self._end_dates
+    def partial_sale(self):
+        return self._partial_sale
+
+    @partial_sale.setter
+    def partial_sale(self, partial_sale):
+        self._partial_sale = partial_sale
+
+    @property
+    def min_days_after_successful_operation(self):
+        return self._min_days_after_successful_operation
+
+    @min_days_after_successful_operation.setter
+    def min_days_after_successful_operation(self, min_days_after_successful_operation):
+        self._min_days_after_successful_operation = min_days_after_successful_operation
+
+    @property
+    def min_days_after_failure_operation(self):
+        return self._min_days_after_failure_operation
+
+    @min_days_after_failure_operation.setter
+    def min_days_after_failure_operation(self, min_days_after_failure_operation):
+        self._min_days_after_failure_operation = min_days_after_failure_operation
+
+    @property
+    def stop_type(self):
+        return self._stop_type
+
+    @stop_type.setter
+    def stop_type(self, stop_type):
+        self._stop_type = stop_type
+
+    @property
+    def purchase_margin(self):
+        return self._purchase_margin
+
+    @purchase_margin.setter
+    def purchase_margin(self, purchase_margin):
+        self._purchase_margin = purchase_margin
+
+    @property
+    def stop_margin(self):
+        return self._stop_margin
+
+    @stop_margin.setter
+    def stop_margin(self, stop_margin):
+        self._stop_margin = stop_margin
+
+    @property
+    def ema_tolerance(self):
+        return self._ema_tolerance
+
+    @ema_tolerance.setter
+    def ema_tolerance(self, ema_tolerance):
+        self._ema_tolerance = ema_tolerance
+
+    @property
+    def gain_loss_ratio(self):
+        return self._gain_loss_ratio
+
+    @gain_loss_ratio.setter
+    def gain_loss_ratio(self, gain_loss_ratio):
+        self._gain_loss_ratio = gain_loss_ratio
 
     def __del__(self):
         self._connection.close()
@@ -684,17 +785,6 @@ class DBStrategyModel:
             sys.exit(c.QUERY_ERR)
 
         return id_of_new_row
-
-    # def get_tickers_above_min_volume(self):
-    #     query = f"SELECT DISTINCT tic_y.ticker\n"
-    #     query += f"FROM\n"
-    #     query += f"(SELECT dc.ticker, EXTRACT(YEAR FROM dc.day), ROUND(AVG(dc.volume), 0) " \
-    #         f"FROM daily_candles dc\n"
-    #     query += f"GROUP BY dc.ticker, EXTRACT(YEAR FROM dc.day)\n"
-    #     query += f"HAVING ROUND(AVG(dc.volume), 0) > {self._min_volume_per_year}) tic_y\n"
-    #     query += f"ORDER BY tic_y.ticker;"
-
-    #     return self._query(query)
 
     def get_data_chunk(self, tickers, start_date, end_date, interval='1d'):
 
@@ -788,12 +878,20 @@ class DBStrategyModel:
         self._insert_strategy_performance(strategy_id, performance_dataframe)
 
     def _insert_strategy(self):
-        query = f"INSERT INTO strategy (name, alias, comment, total_capital, " \
-            f"risk_capital_product)\nVALUES\n"
+        query = "INSERT INTO strategy (name, alias, comment, total_capital, " \
+            "risk_capital_product, min_risk, max_risk, max_days_per_operation, " \
+            "partial_sale, min_days_after_successful_operation, " \
+            "min_days_after_failure_operation, stop_type, purchase_margin, stop_margin, " \
+            "ema_tolerance, gain_loss_ratio)\nVALUES\n"
 
-        query += f"(\'{self._name}\', \'{self._alias if self._alias is not None else ''}\', " \
-            f"\'{self._comment if self._comment is not None else ''}\', {self._total_capital}, " \
-            f"{self._risk_capital_product})\n"
+        query += f"(\'{self.name}\', \'{self.alias if self.alias is not None else ''}\', " \
+            f"\'{self.comment if self.comment is not None else ''}\', {self.total_capital}, " \
+            f"{self.risk_capital_product}, {self.min_risk}, {self.max_risk}, " \
+            f"{self.max_days_per_operation}, {self.partial_sale}, " \
+            f"{self.min_days_after_successful_operation}, " \
+            f"{self.min_days_after_failure_operation}, \'{self.stop_type}\', " \
+            f"{self.purchase_margin}, {self.stop_margin}, {self.ema_tolerance}, " \
+            F"{self.gain_loss_ratio})\n"
         query += f"RETURNING id;"
 
         strategy_id = self._insert_update_with_returning(query)
@@ -852,12 +950,12 @@ class DBStrategyModel:
         current_negotiation = 0
 
         query = f"INSERT INTO negotiation (operation_id, day, buy_sell_flag, price, " \
-            f"volume, stop_flag, partial_sale_flag)\nVALUES\n"
+            f"volume, stop_flag, partial_sale_flag, timeout_flag)\nVALUES\n"
 
         for index in range(len(operation.purchase_price)):
             query += f"({operation_id}, \'{operation.purchase_datetime[index].strftime('%Y-%m-%d')}\', " \
                 f"'B', {operation.purchase_price[index]:.2f}, {operation.purchase_volume[index]:.0f}, " \
-                f"False, False)"
+                f"False, False, False)"
 
             current_negotiation += 1
 
@@ -869,7 +967,8 @@ class DBStrategyModel:
         for index in range(len(operation.sale_price)):
             query += f"({operation_id}, \'{operation._sale_datetime[index].strftime('%Y-%m-%d')}\', " \
                 f"'S', {operation.sale_price[index]:.2f}, {operation.sale_volume[index]:.0f}, " \
-                f"{operation.stop_loss_flag[index]}, {operation.partial_sale_flag[index]})"
+                f"{operation.stop_loss_flag[index]}, {operation.partial_sale_flag[index]}, " \
+                f"{operation.timeout_flag[index]})"
 
             current_negotiation += 1
 
@@ -1063,7 +1162,8 @@ class DBStrategyAnalyzerModel:
         query += f"      WHEN buy_sell_flag = 'B' THEN 'PURCHASE'\n"
         query += f"      WHEN stop_flag = TRUE THEN 'STOP_LOSS'\n"
         query += f"	     WHEN partial_sale_flag = TRUE THEN 'PARTIAL_SALE'\n"
-        query += f"  	   ELSE 'TARGET_SALE'\n"
+        query += f"	     WHEN timeout_flag = TRUE THEN 'TIMEOUT'\n"
+        query += f"  	 ELSE 'TARGET_SALE'\n"
         query += f"    END AS order_type\n"
         query += f"  FROM negotiation\n"
         query += f"  ORDER BY day) neg \n"
@@ -1077,9 +1177,7 @@ class DBStrategyAnalyzerModel:
 
         return df
 
-    def get_operations_statistics(self, strategy_id):
-
-        tolerance = 50
+    def get_operations_statistics(self, strategy_id, tolerance=10):
 
         query = f"SELECT q.status, COUNT(q.status) AS number\n"
         query += f"FROM\n"

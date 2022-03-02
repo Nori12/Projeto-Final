@@ -79,6 +79,8 @@ class Operation:
         Indicator that partial sale price hit triggered sale.
     partial_sale_flag : `list` of `bool`
         Indicator that stop loss triggered sale.
+    timeout_flag : `list` of `bool`
+        Indicator that max days per operation hit triggered sale.
     total_sale_capital : float
         Total sale capital.
     total_sale_volume : int
@@ -107,6 +109,7 @@ class Operation:
         self._sale_datetime = []
         self._stop_loss_flag = []
         self._partial_sale_flag = []
+        self._timeout_flag = []
         self._stop_loss = None
         self._partial_sale_price = None
         self._profit = None
@@ -242,6 +245,11 @@ class Operation:
         return self._partial_sale_flag
 
     @property
+    def timeout_flag(self):
+        """`list` of `bool` : Indicator that max days per operation hit triggered sale."""
+        return self._timeout_flag
+
+    @property
     def stop_loss_flag(self):
         """`list` of `bool` : Indicator that stop loss triggered sale."""
         return self._stop_loss_flag
@@ -292,7 +300,7 @@ class Operation:
         return False
 
     def add_sale(self, sale_price, sale_volume, sale_datetime, stop_loss_flag=False,
-        partial_sale_flag=False):
+        partial_sale_flag=False, timeout_flag=False):
         """
         Add sale execution.
 
@@ -311,6 +319,8 @@ class Operation:
             Indicator that stop loss triggered sale.
         partial_sale_flag : bool
             Indicator that partial sale price hit triggered sale.
+        timeout_flag : bool
+            Indicator that max days per operation hit triggered sale.
         """
         if stop_loss_flag == partial_sale_flag is True:
             logger.error(f"Error arguments \'stop_loss_flag\' and "
@@ -324,12 +334,12 @@ class Operation:
             self._sale_datetime.append(sale_datetime)
             self._stop_loss_flag.append(stop_loss_flag)
             self._partial_sale_flag.append(partial_sale_flag)
+            self._timeout_flag.append(timeout_flag)
             self._number_of_orders += 1
 
             if self.total_purchase_volume == self.total_sale_volume:
                 self._end_date = sale_datetime
                 self._profit = round(self.total_sale_capital - self.total_purchase_capital, 2)
-                # self._yield = self._profit / self.total_purchase_capital
                 self._yield = 0.0
                 self._state = State.CLOSE
 

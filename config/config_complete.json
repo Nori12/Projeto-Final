@@ -2,14 +2,13 @@
     "show_results": true,
     "min_risk_features": 0.01,
     "max_risk_features": 0.10,
-    "max_days_per_operation": 45,
     "strategies":[
         {
             "name": "Andre Moraes",
             "alias": "Tickers: {number_of_tickers}.",
             "comment": "Testing optimum rcc.",
             "capital": 100000,
-            "risk_capital_coefficient": 0.008,
+            "risk_capital_coefficient": 0.0085,
             "min_order_volume": 1,
             "ticker_min_ann_volume_filter": 0,
             "partial_sale" : false,
@@ -21,6 +20,7 @@
             "stop_type": "normal",
             "min_days_after_successful_operation": 0,
             "min_days_after_failure_operation": 0,
+            "max_days_per_operation": 45,
             "stock_targets": [
                 {
                     "name": "ABEV3",
@@ -396,6 +396,7 @@
             "stop_type": "normal",
             "min_days_after_successful_operation": 0,
             "min_days_after_failure_operation": 0,
+            "max_days_per_operation": 45,
             "stock_targets": [
                 {
                     "name": "ABEV3",
