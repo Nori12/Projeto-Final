@@ -1093,6 +1093,7 @@ class AndreMoraesStrategy(PseudoStrategy):
             self._mark_2_stop_trigger = None
             self._mark_2_stop_loss = None
             self._current_mark = 0
+            self._days_on_operation = 0
             self._days_after_suc_oper = min_days_after_suc_oper + 1
             self._days_after_fail_oper = min_days_after_fail_oper + 1
 
@@ -1179,6 +1180,14 @@ class AndreMoraesStrategy(PseudoStrategy):
             self._current_mark = current_mark
 
         @property
+        def days_on_operation(self):
+            return self._days_on_operation
+
+        @days_on_operation.setter
+        def days_on_operation(self, days_on_operation):
+            self._days_on_operation = days_on_operation
+
+        @property
         def days_after_suc_oper(self):
             return self._days_after_suc_oper
 
@@ -1242,13 +1251,20 @@ class AndreMoraesStrategy(PseudoStrategy):
         return False
 
     def _initialize_tcks_priority(self, tcks_priority):
-        pass
+        for index in range(len(tcks_priority)):
+            tcks_priority[index].days_on_operation = 0
 
     def _get_empty_ref_data(self):
         return {}
 
     def _process_auxiliary_data(self, ticker_name, tcks_priority,
         tck_idx, business_data, ref_data):
+
+        if tcks_priority[tck_idx].ongoing_operation_flag and \
+            tcks_priority[tck_idx].operation.state == State.OPEN:
+
+            tcks_priority[tck_idx].days_on_operation += 1
+
         return True
 
     def _get_empty_business_data(self):
@@ -1576,8 +1592,7 @@ class AndreMoraesStrategy(PseudoStrategy):
         sale_amount = 0.0
 
         # If expiration date arrives
-        if (business_data["day"] - tcks_priority[tck_idx].operation.start_date).days >= \
-            self.max_days_per_operation:
+        if tcks_priority[tck_idx].days_on_operation > self.max_days_per_operation:
 
             sale_amount = round(business_data["close_price_day"] * \
                 (tcks_priority[tck_idx].operation.total_purchase_volume - \
@@ -1602,6 +1617,7 @@ class AndreMoraesStrategy(PseudoStrategy):
         tcks_priority[tck_idx].operation = None
         tcks_priority[tck_idx].ongoing_operation_flag = False
         tcks_priority[tck_idx].partial_sale_flag = False
+        tcks_priority[tck_idx].days_on_operation = 0
 
 
 class AndreMoraesAdaptedStrategy(AndreMoraesStrategy):
