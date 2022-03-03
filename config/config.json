@@ -5,12 +5,12 @@
     "strategies":[
         {
             "name": "Andre Moraes",
-            "alias": "Tickers: {number_of_tickers}.",
-            "comment": "Testing tickers_bag and tickers_number.",
+            "alias": "",
+            "comment": "",
             "capital": 100000,
             "risk_capital_coefficient": 0.0085,
             "tickers_bag": "listed_first",
-            "tickers_number": 10,
+            "tickers_number": 15,
             "min_order_volume": 1,
             "gain_loss_ratio": 3,
             "partial_sale" : false,
@@ -382,13 +382,13 @@
             ]
         },
         {
-            "name": "Andre Moraes Adapted Skip",
-            "alias": "Tickers: {number_of_tickers}.",
-            "comment": "Testing tickers_bag and tickers_number.",
+            "name": "Andre Moraes Adapted",
+            "alias": "",
+            "comment": "",
             "capital": 100000,
             "risk_capital_coefficient": 0.0045,
             "tickers_bag": "listed_first",
-            "tickers_number": 3,
+            "tickers_number": 15,
             "min_order_volume": 1,
             "gain_loss_ratio": 10,
             "partial_sale" : false,

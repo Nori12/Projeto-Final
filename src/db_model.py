@@ -1087,7 +1087,10 @@ class DBStrategyAnalyzerModel:
         return self._cursor.fetchall()
 
     def get_strategy_ids(self, strategy_id=None):
-        query = f"SELECT id, name, alias, comment, total_capital, risk_capital_product\n"
+        query = f"SELECT id, name, alias, comment, total_capital, risk_capital_product, " \
+            f"min_order_volume, partial_sale, ema_tolerance, min_risk, max_risk, " \
+            f"purchase_margin, stop_margin, stop_type, min_days_after_successful_operation, " \
+            f"min_days_after_failure_operation, gain_loss_ratio, max_days_per_operation\n"
         query += f"FROM strategy\n"
 
         if strategy_id != None:
@@ -1100,8 +1103,19 @@ class DBStrategyAnalyzerModel:
         return df
 
     def get_strategy_performance(self, strategy_id):
-        query = f"SELECT sp.day, sp.capital, sp.capital_in_use, sp.active_operations, " \
+        query = f"SELECT sp.day, sp.capital, sp.capital_in_use, " \
             f"sp.tickers_average, sp.ibov\n"
+        query += f"FROM strategy_performance sp\n"
+        query += f"INNER JOIN strategy s ON s.id = sp.strategy_id\n"
+        query += f"WHERE s.id = {strategy_id}\n"
+        query += f"ORDER BY sp.day ASC;"
+
+        df = pd.read_sql_query(query, self._connection)
+
+        return df
+
+    def get_strategy_active_operations(self, strategy_id):
+        query = f"SELECT sp.active_operations\n"
         query += f"FROM strategy_performance sp\n"
         query += f"INNER JOIN strategy s ON s.id = sp.strategy_id\n"
         query += f"WHERE s.id = {strategy_id}\n"
@@ -1195,28 +1209,40 @@ class DBStrategyAnalyzerModel:
 
         return df
 
-    def get_operations_statistics(self, strategy_id, tolerance=10):
+    def get_operations_statistics(self, strategy_id):
 
         query = f"SELECT q.status, COUNT(q.status) AS number\n"
         query += f"FROM\n"
         query += f"(SELECT\n"
         query += f"  CASE\n"
-        query += f"    WHEN profit > {tolerance} THEN \'SUCCESS\'\n"
-        query += f"	WHEN profit > -{tolerance} THEN \'NEUTRAL\'\n"
-        query += f"	WHEN o.state = \'OPEN\' THEN \'OPEN\'\n"
-        query += f"	ELSE \'FAILURE\'\n"
+        query += f"    WHEN op.state = 'CLOSE' AND stop_flag = FALSE AND partial_sale_flag = FALSE AND timeout_flag = FALSE THEN 'SUCCESS'\n"
+        query += f"	WHEN op.state = 'CLOSE' AND partial_sale_flag = TRUE THEN 'PARTIAL_SUCCESS'\n"
+        query += f"	WHEN op.state = 'CLOSE' AND stop_flag = TRUE AND timeout_flag = FALSE THEN 'FAILURE'\n"
+        query += f"	WHEN op.state = 'CLOSE' AND timeout_flag = TRUE THEN 'TIMEOUT'\n"
+        query += f"	WHEN op.state = 'OPEN' THEN 'UNFINISHED'\n"
+        query += f"	ELSE 'NEITHER'\n"
         query += f"  END AS status\n"
-        query += f"FROM operation o\n"
+        query += f"FROM operation op\n"
         query += f"INNER JOIN \n"
-        query += f"  (SELECT operation_id, MAX(volume) AS volume\n"
+        query += f"  (SELECT operation_id, MAX(volume) AS volume, \n"
+        query += f"    CASE WHEN SUM(CASE WHEN stop_flag THEN 1 ELSE 0 END) > 0\n"
+        query += f"      THEN TRUE ELSE FALSE\n"
+        query += f"    END AS stop_flag,\n"
+        query += f"    CASE WHEN SUM(CASE WHEN partial_sale_flag THEN 1 ELSE 0 END) > 0\n"
+        query += f"      THEN TRUE ELSE FALSE\n"
+        query += f"    END AS partial_sale_flag,\n"
+        query += f"    CASE WHEN SUM(CASE WHEN timeout_flag THEN 1 ELSE 0 END) > 0\n"
+        query += f"      THEN TRUE ELSE FALSE\n"
+        query += f"    END AS timeout_flag\n"
         query += f"  FROM negotiation\n"
-        query += f"  GROUP BY operation_id) n ON n.operation_id = o.id\n"
-        query += f"INNER JOIN strategy s ON s.id = o.strategy_id\n"
+        query += f"  GROUP BY operation_id) neg ON neg.operation_id = op.id\n"
+        query += f"INNER JOIN strategy s ON s.id = op.strategy_id\n"
         query += f"WHERE\n"
         query += f"  s.id = {strategy_id}\n"
-        query += f"  AND n.volume != 0) q\n"
+        query += f"  AND neg.volume != 0) q\n"
         query += f"GROUP BY q.status\n"
-        query += f"ORDER BY q.status;"
+        query += f"ORDER BY q.status;\n"
+
 
         df = pd.read_sql_query(query, self._connection)
 

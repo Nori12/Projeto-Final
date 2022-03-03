@@ -223,7 +223,7 @@ CREATE TABLE strategy_statistics (
   volatility REAL NOT NULL,
   sharpe_ratio REAL NOT NULL,
   profit DECIMAL (8,2) NOT NULL,
-  max_used_capital DECIMAL(8, 2) NOT NULL,
+  max_used_capital REAL NOT NULL,
   avg_used_capital REAL NOT NULL,
   yield REAL NOT NULL,
   annualized_yield REAL NOT NULL,
