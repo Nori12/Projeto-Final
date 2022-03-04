@@ -6,7 +6,6 @@ from logging.handlers import RotatingFileHandler
 import sys
 from decimal import *
 import pandas as pd
-import numpy as np
 import math
 from datetime import timedelta
 

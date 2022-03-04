@@ -1,14 +1,11 @@
 from pathlib import Path
 import pandas as pd
 import numpy as np
-from datetime import datetime, timedelta
+from datetime import timedelta
 import logging
 from logging.handlers import RotatingFileHandler
 import sys
 import yfinance as yf
-from bisect import bisect
-import matplotlib.pyplot as plt
-import matplotlib.dates as mdates
 
 import constants as c
 from utils import PC, has_workdays_in_between, RunTime, Trend, compare_peaks
