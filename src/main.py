@@ -5,10 +5,8 @@ from pathlib import Path
 # import utils
 import constants as c
 import config_reader as cr
-from db_model import DBGenericModel, DBStrategyAnalyzerModel
 from ticker_manager import TickerManager
-from operation import Operation
-from strategy import AndreMoraesStrategy, AndreMoraesAdaptedStrategy
+from strategy import AdaptedAndreMoraesStrategy, MLDerivationStrategy, BaselineStrategy
 from strategy_analyzer import StrategyAnalyzer
 
 # Configure Logging
@@ -59,8 +57,8 @@ def run():
 
     # Strategy section
     for strategy in config.strategies:
-        if strategy['name'] == 'Andre Moraes':
-            root_strategy = AndreMoraesStrategy(
+        if strategy['name'] == 'Adapted Andre Moraes':
+            root_strategy = AdaptedAndreMoraesStrategy(
                 strategy['tickers'],
                 alias=strategy['alias'],
                 comment = strategy['comment'],
@@ -86,8 +84,8 @@ def run():
             root_strategy.calculate_statistics()
             root_strategy.save()
 
-        if strategy['name'] == 'Andre Moraes Adapted':
-            ml_strategy = AndreMoraesAdaptedStrategy(
+        if strategy['name'] == 'ML Derivation':
+            ml_strategy = MLDerivationStrategy(
                 strategy['tickers'],
                 alias=strategy['alias'],
                 comment = strategy['comment'],
@@ -109,9 +107,37 @@ def run():
                 tickers_number=strategy['tickers_number']
             )
 
+            ml_strategy.load_models()
             ml_strategy.process_operations()
             ml_strategy.calculate_statistics()
             ml_strategy.save()
+
+        if strategy['name'] == 'Baseline':
+            baseline_strategy = BaselineStrategy(
+                strategy['tickers'],
+                alias=strategy['alias'],
+                comment = strategy['comment'],
+                risk_capital_product=strategy['risk_capital_coefficient'],
+                total_capital=strategy['capital'],
+                min_order_volume=strategy['min_order_volume'],
+                partial_sale=strategy['partial_sale'],
+                ema_tolerance=strategy['ema_tolerance'],
+                min_risk=strategy['min_risk'],
+                max_risk=strategy['max_risk'],
+                purchase_margin=strategy['purchase_margin'],
+                stop_margin=strategy['stop_margin'],
+                stop_type=strategy['stop_type'],
+                min_days_after_successful_operation=strategy['min_days_after_successful_operation'],
+                min_days_after_failure_operation=strategy['min_days_after_failure_operation'],
+                gain_loss_ratio=strategy['gain_loss_ratio'],
+                max_days_per_operation=strategy['max_days_per_operation'],
+                tickers_bag=strategy['tickers_bag'],
+                tickers_number=strategy['tickers_number']
+            )
+
+            baseline_strategy.process_operations(days_before_start=90)
+            baseline_strategy.calculate_statistics()
+            baseline_strategy.save()
 
     # Strategy Analysis section
     if config.show_results is True:
