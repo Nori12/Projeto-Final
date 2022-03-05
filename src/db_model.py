@@ -574,7 +574,7 @@ class DBStrategyModel:
         comment=None, risk_capital_product=None, min_order_volume=1, min_risk= None, max_risk=None,
         max_days_per_operation=None, partial_sale=None, min_days_after_successful_operation=None,
         min_days_after_failure_operation=None, stop_type=None, purchase_margin=None,
-        stop_margin=None, ema_tolerance=None, gain_loss_ratio=None):
+        stop_margin=None, ema_tolerance=None, gain_loss_ratio=None, min_baseline_coefficient=None):
         try:
             connection = psycopg2.connect(f"dbname='{DB_NAME}' user={DB_USER} " \
                 f"host='{DB_HOST}' password={DB_PASS} port='{DB_PORT}'")
@@ -606,6 +606,7 @@ class DBStrategyModel:
         self._ema_tolerance = ema_tolerance
         self._gain_loss_ratio = gain_loss_ratio
         self._min_order_volume = min_order_volume
+        self._min_baseline_coefficient = min_baseline_coefficient
 
     @property
     def tickers(self):
@@ -763,6 +764,14 @@ class DBStrategyModel:
     def min_order_volume(self, min_order_volume):
         self._min_order_volume = min_order_volume
 
+    @property
+    def min_baseline_coefficient(self):
+        return self._min_baseline_coefficient
+
+    @min_baseline_coefficient.setter
+    def min_baseline_coefficient(self, min_baseline_coefficient):
+        self._min_baseline_coefficient = min_baseline_coefficient
+
     def __del__(self):
         self._connection.close()
         self._cursor.close()
@@ -899,7 +908,12 @@ class DBStrategyModel:
             "risk_capital_product, min_risk, max_risk, max_days_per_operation, " \
             "partial_sale, min_days_after_successful_operation, " \
             "min_days_after_failure_operation, stop_type, purchase_margin, stop_margin, " \
-            "ema_tolerance, gain_loss_ratio, min_order_volume)\nVALUES\n"
+            "ema_tolerance, gain_loss_ratio, min_order_volume"
+
+        if self.min_baseline_coefficient is not None:
+            query += ", min_baseline_coefficient"
+
+        query += ")\nVALUES\n"
 
         query += f"(\'{self.name}\', \'{self.alias if self.alias is not None else ''}\', " \
             f"\'{self.comment if self.comment is not None else ''}\', {self.total_capital}, " \
@@ -908,8 +922,12 @@ class DBStrategyModel:
             f"{self.min_days_after_successful_operation}, " \
             f"{self.min_days_after_failure_operation}, \'{self.stop_type}\', " \
             f"{self.purchase_margin}, {self.stop_margin}, {self.ema_tolerance}, " \
-            f"{self.gain_loss_ratio}, {self.min_order_volume})\n"
-        query += f"RETURNING id;"
+            f"{self.gain_loss_ratio}, {self.min_order_volume}"
+
+        if self.min_baseline_coefficient is not None:
+            query += f", {self.min_baseline_coefficient}"
+
+        query += f")\nRETURNING id;"
 
         strategy_id = self._insert_update_with_returning(query)
 

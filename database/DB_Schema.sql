@@ -167,7 +167,8 @@ CREATE TABLE strategy (
   stop_margin REAL,
   ema_tolerance REAL,
   gain_loss_ratio SMALLINT NOT NULL,
-  min_order_volume SMALLINT NOT NULL
+  min_order_volume SMALLINT NOT NULL,
+  min_baseline_coefficient REAL
 );
 
 CREATE TABLE strategy_tickers (
@@ -238,7 +239,6 @@ CREATE TABLE strategy_performance (
   strategy_id INTEGER REFERENCES strategy(id),
   day TIMESTAMP WITHOUT TIME ZONE NOT NULL,
   capital DECIMAL(8, 2) NOT NULL,
-  -- capital_in_use DECIMAL(8, 2) NOT NULL,
   capital_in_use REAL NOT NULL,
   active_operations SMALLINT,
   tickers_average REAL,
