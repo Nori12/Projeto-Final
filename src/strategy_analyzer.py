@@ -220,8 +220,11 @@ class StrategyAnalyzer:
             f"{statistics_raw['max_used_capital'][0]:.2f}", f"{statistics_raw['avg_used_capital'][0]:.2f}",
             statistics_raw['max_active_operations'][0], f"{statistics_raw['avg_active_operations'][0]:.2f}",
             f"{statistics_raw['std_dev_active_operations'][0]:.2f}", statistics_raw['profit'][0],
-            total_operations, successful_operations, partial_succesful_operations,
-            failed_operations, timeout_operations, unfinished_operations,
+            total_operations, f"{successful_operations} ({100 * successful_operations/total_operations:.1f}%)",
+            f"{partial_succesful_operations} ({100 * partial_succesful_operations/total_operations:.1f}%)",
+            f"{failed_operations} ({100 * failed_operations/total_operations:.1f}%)",
+            f"{timeout_operations} ({100 * timeout_operations/total_operations:.1f}%)",
+            f"{unfinished_operations} ({100 * unfinished_operations/total_operations:.1f}%)",
             f"{statistics_raw['annualized_yield'][0]:.2f}",
             f"{statistics_raw['annualized_ibov_yield'][0]:.2f}",
             f"{statistics_raw['annualized_avr_tickers_yield'][0]:.2f}",
@@ -769,5 +772,5 @@ class StrategyAnalyzer:
         self._app.run_server()
 
 if __name__ == "__main__":
-    analyzer = StrategyAnalyzer(strategy_id=None)
+    analyzer = StrategyAnalyzer(strategy_id=22)
     analyzer.run()
