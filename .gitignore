@@ -2,6 +2,7 @@ workspace/
 logs/
 logs/*
 database/queries.sql
+database/delete_strategy.sql
 .vscode/
 input_files/*
 output_files/*

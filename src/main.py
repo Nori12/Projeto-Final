@@ -93,7 +93,6 @@ def run():
                 total_capital=strategy['capital'],
                 min_order_volume=strategy['min_order_volume'],
                 partial_sale=strategy['partial_sale'],
-                ema_tolerance=strategy['ema_tolerance'],
                 min_risk=strategy['min_risk'],
                 max_risk=strategy['max_risk'],
                 purchase_margin=strategy['purchase_margin'],
@@ -132,7 +131,8 @@ def run():
                 gain_loss_ratio=strategy['gain_loss_ratio'],
                 max_days_per_operation=strategy['max_days_per_operation'],
                 tickers_bag=strategy['tickers_bag'],
-                tickers_number=strategy['tickers_number']
+                tickers_number=strategy['tickers_number'],
+                min_operation_decision_coefficient=strategy['min_operation_decision_coefficient']
             )
 
             baseline_strategy.process_operations(days_before_start=90)

@@ -1642,6 +1642,14 @@ class MLDerivationStrategy(AdaptedAndreMoraesStrategy):
         self.risks = tuple(round(i, 3) for i in tuple(np.arange(self.min_risk,
                 self.max_risk + self._step_range_risk, self._step_range_risk)))
 
+        tickers_info_path = Path(__file__).parent / 'tickers_info.csv'
+        ticker_datasets_path = Path(__file__).parent.parent / 'machine_learning' / 'datasets'
+        ticker_dataset_suffix = '_dataset.csv'
+
+        self._tickers_info = {}
+        self._load_most_effective_risk_per_ticker(tickers_info_path, ticker_datasets_path,
+                    ticker_dataset_suffix)
+
 
     @property
     def models(self):
@@ -1669,12 +1677,135 @@ class MLDerivationStrategy(AdaptedAndreMoraesStrategy):
         self.risks = tuple(round(i, 3) for i in tuple(np.arange(self.min_risk,
             max_risk + self._step_range_risk, self._step_range_risk)))
 
+    @property
+    def tickers_info(self):
+        return self._tickers_info
+
+    @tickers_info.setter
+    def tickers_info(self, tickers_info):
+        self._tickers_info = tickers_info
 
     def load_models(self):
 
         for _, (ticker, _) in enumerate(self.tickers_and_dates.items()):
             self._models[ticker] = joblib.load(Path(__file__).parent.parent /
                 c.MODELS_PATH / (ticker + c.MODEL_SUFFIX))
+
+    def _load_most_effective_risk_per_ticker(self, tickers_info_path, ticker_datasets_path,
+        ticker_dataset_suffix):
+
+        columns = ['ticker', 'start_date', 'end_date', 'most_effective_risk']
+        non_counted_holidays_tolerance = 5
+        ticker_info_interval_days = 365 * 2
+
+        update_file_data = {'ticker': [], 'start_date': [], 'end_date': [],
+            'most_effective_risk': []}
+        tck_info_df = None
+        most_effective_risk = None
+
+        if tickers_info_path.exists():
+
+            tck_info_df = pd.read_csv(tickers_info_path, sep=",", usecols=columns)
+
+            if tck_info_df.empty:
+                tck_info_df = None
+
+        for ticker, dates in self.tickers_and_dates.items():
+
+            ticker_info_end_date = dates['end_date'] - BDay(
+                self.max_days_per_operation + non_counted_holidays_tolerance)
+            ticker_info_start_date = ticker_info_end_date - timedelta(
+                days=ticker_info_interval_days)
+
+            if tck_info_df is not None:
+                most_effective_risk = tck_info_df.loc[(tck_info_df['ticker'] == ticker) & \
+                    (tck_info_df['start_date'] == ticker_info_start_date.strftime('%Y-%m-%d')) & \
+                    (tck_info_df['end_date'] == ticker_info_end_date.strftime('%Y-%m-%d')),
+                    ['most_effective_risk']]
+
+                if most_effective_risk.empty:
+                    most_effective_risk = None
+                else:
+                    most_effective_risk = most_effective_risk.squeeze()
+
+            if most_effective_risk is None:
+
+                most_effective_risk = self._get_most_effective_risk_from_dataset(
+                    ticker, ticker_info_start_date, ticker_info_end_date,
+                    ticker_datasets_path, ticker_dataset_suffix, kind='peak')
+
+                update_file_data['ticker'].append(ticker)
+                update_file_data['start_date'].append(ticker_info_start_date.strftime('%Y-%m-%d'))
+                update_file_data['end_date'].append(ticker_info_end_date.strftime('%Y-%m-%d'))
+                update_file_data['most_effective_risk'].append(most_effective_risk)
+
+            self.tickers_info[ticker] = most_effective_risk
+            most_effective_risk = None
+
+        if update_file_data['ticker']:
+            update_df = pd.DataFrame(update_file_data)
+
+            if tck_info_df is not None:
+                update_df = pd.concat([tck_info_df, update_df])
+
+            update_df.to_csv(tickers_info_path, mode='w', index=False, header=True)
+
+    def _get_most_effective_risk_from_dataset(self, ticker, start_date, end_date,
+        ticker_datasets_path, ticker_dataset_suffix, kind='peak'):
+
+        if kind not in ['peak', 'average']:
+            logger.error("\'kind\' parameter must be in ['peak', 'average']")
+            sys.exit(c.INVALID_ARGUMENT_ERR)
+
+        if kind == 'average':
+            risk_avg = 0.0
+
+        columns = ['ticker', 'day', 'risk', 'success_oper_flag', 'timeout_flag',
+            'end_of_interval_flag']
+
+        # Open dataset file
+        dataset_path = ticker_datasets_path / (ticker+ticker_dataset_suffix)
+        dataset_df_gen = pd.read_csv(dataset_path, sep=",", usecols=columns, chunksize=10000)
+
+        dataset_df = pd.concat((x.query(f"ticker == '{ticker}' and " \
+            f"day >= '{start_date.strftime('%Y-%m-%d')}' and " \
+            f"day <= '{end_date.strftime('%Y-%m-%d')}'")
+            for x in dataset_df_gen), ignore_index=True)
+
+        # Create risk list from dataset
+        first_date = dataset_df['day'].head(1).squeeze()
+        risks = dataset_df.loc[dataset_df['day'] == first_date, ['risk']].squeeze().tolist()
+        risks.sort()
+
+        # Create histogram of successful operations risks
+        risks_count = [] * len(risks)
+
+        for risk in risks:
+            risks_count.append(len(dataset_df.loc[(dataset_df['risk'] == risk) & \
+                (dataset_df['success_oper_flag'] == 1) & \
+                (dataset_df['timeout_flag'] == 0) & \
+                (dataset_df['end_of_interval_flag'] == 0), ['risk']]))
+
+            if kind == 'average':
+                risk_avg += risk * risks_count[-1]
+
+        if kind == 'average':
+            risk_avg /= sum(risks_count)
+
+        if kind == 'peak':
+            f = interp1d(risks, risks_count, kind='cubic')
+            x = np.linspace(risks[0], risks[-1], num=len(risks)*4)
+            risk_peak = x[np.argmax(f(x))]
+
+            # Debug
+            # if ticker == 'ALPA4':
+            #     plt.subplot(1, 1, 1)
+            #     plt.plot(risks, risks_count, 'o', color='b')
+            #     plt.plot(x, f(x), color='r')
+
+            return round(risk_peak, 4)
+
+        return round(risk_avg, 4)
 
     def _initialize_tcks_priority(self, tcks_priority):
 
@@ -1814,14 +1945,20 @@ class MLDerivationStrategy(AdaptedAndreMoraesStrategy):
         ema_72_day = round(tcks_priority[tck_idx].last_business_data['ema_72_day'] / ref_price, 4)
         ema_72_week = round(tcks_priority[tck_idx].last_business_data['ema_72_week'] / ref_price, 4)
 
+        # X_test = [[risk, peak_1, day_1, peak_2, day_2, peak_3, day_3, peak_4, day_4,
+        #     ema_17_day, ema_72_day, ema_72_week] for risk in self.risks]
+        # predictions = self.models[tcks_priority[tck_idx].ticker].predict(X_test)
+
+        risk = self.tickers_info[tcks_priority[tck_idx].ticker]
+
         X_test = [[risk, peak_1, day_1, peak_2, day_2, peak_3, day_3, peak_4, day_4,
-            ema_17_day, ema_72_day, ema_72_week] for risk in self.risks]
+            ema_17_day, ema_72_day, ema_72_week]]
 
-        predictions = self.models[tcks_priority[tck_idx].ticker].predict(X_test)
+        prediction = self.models[tcks_priority[tck_idx].ticker].predict(X_test)
 
-        # if any(predictions) is True:
-        if any(predictions) is True and sum(predictions) >= 5:
-            risk = self.risks[get_avg_index_of_first_burst_of_ones(predictions)]
+        if prediction == 1:
+            # risk = self.risks[get_avg_index_of_first_burst_of_ones(predictions)]
+            # business_data['stop_loss_day'] = round(purchase_price * (1 - risk), 2)
             business_data['stop_loss_day'] = round(purchase_price * (1 - risk), 2)
             return True
 
@@ -1835,7 +1972,7 @@ class BaselineStrategy(AdaptedAndreMoraesStrategy):
         min_risk=0.01, max_risk=0.15, purchase_margin=0.0, stop_margin=0.0,
         stop_type='normal', min_days_after_successful_operation=0,
         min_days_after_failure_operation=0, gain_loss_ratio=3, max_days_per_operation=90,
-        tickers_bag='listed_first', tickers_number=0):
+        tickers_bag='listed_first', tickers_number=0, min_operation_decision_coefficient=0):
 
         super().__init__(tickers, alias, comment, risk_capital_product, total_capital,
             min_order_volume, partial_sale, ema_tolerance, min_risk, max_risk,
@@ -1845,13 +1982,15 @@ class BaselineStrategy(AdaptedAndreMoraesStrategy):
 
         self._name = 'Baseline'
         self._db_strategy_model.name = self._name
+        self._min_operation_decision_coefficient = min_operation_decision_coefficient
+        self._db_strategy_model.min_baseline_coefficient = min_operation_decision_coefficient
         self._tickers_info = {}
         self._last_n_close_prices = {ticker: {'3': [], '17': [], '72': []} for ticker in tickers}
 
-        tickers_info_path = Path(__file__).parent / 'baseline_tickers_info.csv'
+        tickers_info_path = Path(__file__).parent / 'tickers_info.csv'
         ticker_datasets_path = Path(__file__).parent.parent / 'machine_learning' / 'datasets'
         ticker_dataset_suffix = '_dataset.csv'
-        self.load_most_effective_risk_per_ticker(tickers_info_path, ticker_datasets_path,
+        self._load_most_effective_risk_per_ticker(tickers_info_path, ticker_datasets_path,
             ticker_dataset_suffix)
 
     @property
@@ -1870,7 +2009,15 @@ class BaselineStrategy(AdaptedAndreMoraesStrategy):
     def last_n_close_prices(self, last_n_close_prices):
         self._last_n_close_prices = last_n_close_prices
 
-    def load_most_effective_risk_per_ticker(self, tickers_info_path, ticker_datasets_path,
+    @property
+    def min_operation_decision_coefficient(self):
+        return self._min_operation_decision_coefficient
+
+    @min_operation_decision_coefficient.setter
+    def min_operation_decision_coefficient(self, min_operation_decision_coefficient):
+        self._min_operation_decision_coefficient = min_operation_decision_coefficient
+
+    def _load_most_effective_risk_per_ticker(self, tickers_info_path, ticker_datasets_path,
         ticker_dataset_suffix):
 
         columns = ['ticker', 'start_date', 'end_date', 'most_effective_risk']
@@ -1909,7 +2056,7 @@ class BaselineStrategy(AdaptedAndreMoraesStrategy):
 
             if most_effective_risk is None:
 
-                most_effective_risk = self.get_most_effective_risk_from_dataset(
+                most_effective_risk = self._get_most_effective_risk_from_dataset(
                     ticker, ticker_info_start_date, ticker_info_end_date,
                     ticker_datasets_path, ticker_dataset_suffix, kind='peak')
 
@@ -1929,7 +2076,7 @@ class BaselineStrategy(AdaptedAndreMoraesStrategy):
 
             update_df.to_csv(tickers_info_path, mode='w', index=False, header=True)
 
-    def get_most_effective_risk_from_dataset(self, ticker, start_date, end_date,
+    def _get_most_effective_risk_from_dataset(self, ticker, start_date, end_date,
         ticker_datasets_path, ticker_dataset_suffix, kind='peak'):
 
         if kind not in ['peak', 'average']:
@@ -1963,7 +2110,7 @@ class BaselineStrategy(AdaptedAndreMoraesStrategy):
             risks_count.append(len(dataset_df.loc[(dataset_df['risk'] == risk) & \
                 (dataset_df['success_oper_flag'] == 1) & \
                 (dataset_df['timeout_flag'] == 0) & \
-                (dataset_df['end_of_interval_flag'] == 0), ['risk']].squeeze()))
+                (dataset_df['end_of_interval_flag'] == 0), ['risk']]))
 
             if kind == 'average':
                 risk_avg += risk * risks_count[-1]
@@ -1998,14 +2145,17 @@ class BaselineStrategy(AdaptedAndreMoraesStrategy):
         if data_validation_flag is False:
             return False
 
+        if not tcks_priority[tck_idx].last_business_data:
+            return False
+
         self.last_n_close_prices[tcks_priority[tck_idx].ticker]['3'].append(
-            business_data['close_price_day'])
+            tcks_priority[tck_idx].last_business_data['close_price_day'])
 
         self.last_n_close_prices[tcks_priority[tck_idx].ticker]['17'].append(
-            business_data['close_price_day'])
+            tcks_priority[tck_idx].last_business_data['close_price_day'])
 
         self.last_n_close_prices[tcks_priority[tck_idx].ticker]['72'].append(
-            business_data['close_price_day'])
+            tcks_priority[tck_idx].last_business_data['close_price_day'])
 
         if len(self.last_n_close_prices[tcks_priority[tck_idx].ticker]['3']) > 3:
             self.last_n_close_prices[tcks_priority[tck_idx].ticker]['3'].pop(0)
@@ -2019,14 +2169,13 @@ class BaselineStrategy(AdaptedAndreMoraesStrategy):
     def _check_business_rules(self, business_data, tcks_priority, tck_idx,
         purchase_price):
 
-        if not tcks_priority[tck_idx].last_business_data:
-            return False
-
-        min_coef_value = 0.3
         x = [i for i in range(72)]
 
         last_3_prices_corr = stats.spearmanr(x[:3],
             self.last_n_close_prices[tcks_priority[tck_idx].ticker]['3']).correlation
+
+        if math.isnan(last_3_prices_corr):
+            last_3_prices_corr = 0
 
         last_17_prices_corr = stats.spearmanr(x[:17],
             self.last_n_close_prices[tcks_priority[tck_idx].ticker]['17']).correlation
@@ -2044,7 +2193,7 @@ class BaselineStrategy(AdaptedAndreMoraesStrategy):
             last_17_prices_corr * last_17_corr_weight + \
             last_72_prices_corr * last_72_corr_weight) / weights_sum
 
-        if coef >= min_coef_value:
+        if coef >= self.min_operation_decision_coefficient:
             risk = self.tickers_info[tcks_priority[tck_idx].ticker]
             business_data['stop_loss_day'] = round(purchase_price * (1 - risk), 2)
             return True

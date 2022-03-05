@@ -444,6 +444,9 @@ class ConfigReader:
                     can_be_list=True, can_be_missed=True, if_missed_default_value="normal")
                 tickers_number = self.read_parameter('tickers_number', strategy_batch,
                     can_be_list=True, can_be_missed=True, if_missed_default_value=0)
+                min_operation_decision_coefficient = self.read_parameter(
+                    'min_operation_decision_coefficient', strategy_batch, can_be_list=True,
+                    can_be_missed=True, if_missed_default_value=0)
 
                 ConfigReader.add_param_to_strategies('name', name, strategies)
                 ConfigReader.add_param_to_strategies('alias', alias, strategies)
@@ -479,6 +482,8 @@ class ConfigReader:
                     tickers_bag, strategies)
                 ConfigReader.add_param_to_strategies('tickers_number',
                     tickers_number, strategies)
+                ConfigReader.add_param_to_strategies('min_operation_decision_coefficient',
+                    min_operation_decision_coefficient, strategies)
 
                 individual_tickers = ConfigReader.read_individual_tickers('stock_targets',
                     origin=strategy_batch)
@@ -821,6 +826,8 @@ class ConfigReader:
                 replace('{risk_capital_coefficient}', str(strategy['risk_capital_coefficient']))
                 strategy[param_name] = strategy[param_name].\
                 replace('{min_order_volume}', str(strategy['min_order_volume']))
+                strategy[param_name] = strategy[param_name].\
+                replace('{min_operation_decision_coefficient}', str(strategy['min_operation_decision_coefficient']))
 
     @staticmethod
     def subtract_last_end_date(strategies):
