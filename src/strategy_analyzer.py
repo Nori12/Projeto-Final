@@ -772,5 +772,11 @@ class StrategyAnalyzer:
         self._app.run_server()
 
 if __name__ == "__main__":
-    analyzer = StrategyAnalyzer(strategy_id=22)
+
+    if len(sys.argv) > 1:
+        if int(sys.argv[1]):
+            analyzer = StrategyAnalyzer(strategy_id=int(sys.argv[1]))
+    else:
+        analyzer = StrategyAnalyzer(strategy_id=None)
+
     analyzer.run()

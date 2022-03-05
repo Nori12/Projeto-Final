@@ -3,6 +3,7 @@ logs/
 logs/*
 database/queries.sql
 database/delete_strategy.sql
+database/useful_queries.sql
 .vscode/
 input_files/*
 output_files/*
