@@ -1,5 +1,5 @@
 {
-    "show_results": true,
+    "show_results": false,
     "min_risk_features": 0.01,
     "max_risk_features": 0.10,
     "strategies":[

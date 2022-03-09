@@ -1,5 +1,3 @@
-import datetime
-
 # Config
 CONFIG_FILENAME = 'config.json'
 CONFIG_PATH = 'config/'

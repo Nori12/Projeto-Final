@@ -7,7 +7,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import stop_loss_optimizer as slo
 
-sys.path.insert(1, '/Users/atcha/Github/Projeto-Final/src')
+sys.path.insert(1, str(Path(__file__).parent.parent.parent/'src'))
 import constants as c
 
 # Configure Logging

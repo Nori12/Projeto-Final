@@ -5,7 +5,7 @@ from pathlib import Path
 import pandas as pd
 import numpy as np
 
-sys.path.insert(1, '/Users/atcha/Github/Projeto-Final/src')
+sys.path.insert(1, str(Path(__file__).parent.parent/'src'))
 import constants as c
 import config_reader as cr
 from db_model import DBStrategyAnalyzerModel
@@ -29,38 +29,43 @@ class SetGenerator:
 
     def __init__(self, buy_type='current_day_open_price', gain_loss_ratio=3,
         peaks_pairs_number=2, risk_option='fixed', fixed_risk=0.03, start_range_risk=0.01,
-        step_range_risk=0.002, end_range_risk=0.12):
+        step_range_risk=0.002, end_range_risk=0.12, max_days_per_operation=45):
 
-        if buy_type not in ('current_day_open_price', 'last_day_close_price'):
-            raise Exception("'buy_type' parameter options: 'current_day_open_price', 'last_day_close_price'.")
+        try:
+            if buy_type not in ('current_day_open_price', 'last_day_close_price'):
+                raise Exception("'buy_type' parameter options: 'current_day_open_price', 'last_day_close_price'.")
 
-        if risk_option not in ('fixed', 'range'):
-            raise Exception("'risk_option' parameter options: 'fixed', 'range'.")
+            if risk_option not in ('fixed', 'range'):
+                raise Exception("'risk_option' parameter options: 'fixed', 'range'.")
 
-        self._buy_type = buy_type
-        self._gain_loss_ratio = gain_loss_ratio
+            self._buy_type = buy_type
+            self._gain_loss_ratio = gain_loss_ratio
 
-        self._risk_option = risk_option
-        self._fixed_risk = fixed_risk
-        self._risks = []
+            self._risk_option = risk_option
+            self._fixed_risk = fixed_risk
+            self._risks = []
 
-        if self._risk_option == 'range':
-            self._risks = tuple(round(i, 3) for i in tuple(np.arange(start_range_risk,
-                end_range_risk+step_range_risk, step_range_risk)))
+            if self._risk_option == 'range':
+                self._risks = tuple(round(i, 3) for i in tuple(np.arange(start_range_risk,
+                    end_range_risk+step_range_risk, step_range_risk)))
 
-        # Peaks identification variables
-        self._peaks_pairs_number = peaks_pairs_number   # Number of past max and min peaks pairs
-        self._peak_delay_days = 9
+            # Peaks identification variables
+            self._peaks_pairs_number = peaks_pairs_number   # Number of past max and min peaks pairs
+            self._peak_delay_days = 9
 
-        cfg_path = Path(__file__).parent
-        cfg_path = cfg_path / 'config.json'
+            cfg_path = Path(__file__).parent
+            cfg_path = cfg_path / 'config.json'
 
-        cfg = cr.ConfigReader(config_file_path=cfg_path)
-        self._tickers_and_dates = cfg.tickers_and_dates
+            cfg = cr.ConfigReader(config_file_path=cfg_path)
+            self._tickers_and_dates = cfg.tickers_and_dates
 
-        self._max_days_per_operation = cfg.max_days_per_operation
+            self._max_days_per_operation = max_days_per_operation
 
-        self.out_file_path_prefix = Path(__file__).parent / "datasets"
+            self.out_file_path_prefix = Path(__file__).parent / "datasets"
+
+        except Exception as error:
+            logger.exception(f"Error processing operations, error:\n{error}")
+            sys.exit(c.PROCESSING_OPERATIONS_ERR)
 
     @property
     def buy_type(self):
@@ -519,7 +524,8 @@ if __name__ == '__main__':
 
     set_gen = SetGenerator(buy_type='current_day_open_price', gain_loss_ratio=3,
         peaks_pairs_number=2, risk_option='range', fixed_risk= 0.012,
-        start_range_risk=0.01, step_range_risk=0.002, end_range_risk=0.12)
+        start_range_risk=0.01, step_range_risk=0.002, end_range_risk=0.12,
+        max_days_per_operation=45)
 
     set_gen.generate_datasets(max_tickers=0, start_on_ticker=1, end_on_ticker=0,
         add_ref_price=True)

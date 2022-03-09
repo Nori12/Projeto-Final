@@ -561,8 +561,8 @@ class AndreMoraesStrategy(PseudoStrategy):
                             tcks_priority[index].last_business_data = business_data.copy()
                             continue
 
-                        if business_data["day"] < tcks_priority[index].initial_date \
-                            or business_data["day"] > tcks_priority[index].final_date:
+                        if business_data["day"].date() < tcks_priority[index].initial_date \
+                            or business_data["day"].date() > tcks_priority[index].final_date:
                             tcks_priority[index].last_business_data = business_data.copy()
                             continue
 
@@ -571,7 +571,7 @@ class AndreMoraesStrategy(PseudoStrategy):
                             continue
 
                         # DEBUG
-                        # if business_data["day"] == pd.Timestamp('2019-05-31'):
+                        # if business_data["day"].date() == pd.Timestamp('2019-05-31'):
                         #     print()
 
                         if (tcks_priority[index].ongoing_operation_flag is False):
@@ -702,7 +702,7 @@ class AndreMoraesStrategy(PseudoStrategy):
                     dates.append(day)
 
                     for ticker, tck_dates in self.tickers_and_dates.items():
-                        if day >= tck_dates['start_date'] and day <= tck_dates['end_date']:
+                        if day.date() >= tck_dates['start_date'] and day.date() <= tck_dates['end_date']:
                             close_price = day_info[(day_info['ticker'] == ticker)] \
                                 ['close_price'].squeeze()
 
@@ -1236,6 +1236,7 @@ class AndreMoraesStrategy(PseudoStrategy):
             else:
                 print(f"{self._next_update_percent * 100:.0f}% ", end='')
 
+            sys.stdout.flush()
             self._next_update_percent += self._update_step
 
     def _check_operation_freezetime(self, tcks_priority, tck_idx):

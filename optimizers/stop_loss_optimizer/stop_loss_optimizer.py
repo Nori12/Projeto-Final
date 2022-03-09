@@ -5,7 +5,7 @@ from pathlib import Path
 import pandas as pd
 import numpy as np
 
-sys.path.insert(1, '/Users/atcha/Github/Projeto-Final/src')
+sys.path.insert(1, str(Path(__file__).parent.parent.parent/'src'))
 import constants as c
 import config_reader as cr
 from db_model import DBStrategyAnalyzerModel

@@ -13,10 +13,9 @@ import os, shutil
 from sklearn.tree import export_graphviz
 from subprocess import call
 
-sys.path.insert(1, '/Users/atcha/Github/Projeto-Final/src')
+sys.path.insert(1, str(Path(__file__).parent.parent/'src'))
 import constants as c
 import config_reader as cr
-from db_model import DBStrategyAnalyzerModel
 
 # Configure Logging
 logger = logging.getLogger(__name__)
