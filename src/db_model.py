@@ -6,7 +6,6 @@ from logging.handlers import RotatingFileHandler
 import sys
 from decimal import *
 import pandas as pd
-import numpy as np
 import math
 from datetime import timedelta
 
@@ -16,9 +15,9 @@ from utils import State
 # Database macros
 DB_USER = os.environ.get('STOCK_MARKET_DB_USER')
 DB_PASS = os.environ.get('STOCK_MARKET_DB_PASS')
-DB_NAME = 'StockMarket'
-DB_PORT = 5432
-DB_HOST =  'localhost'
+DB_PORT = os.environ.get('STOCK_MARKET_DB_PORT')
+DB_HOST = os.environ.get('STOCK_MARKET_DB_HOST')
+DB_NAME = os.environ.get('STOCK_MARKET_DB_NAME')
 
 # Configure Logging
 logger = logging.getLogger(__name__)
@@ -38,11 +37,13 @@ class DBTickerModel:
     """Database connection class that handles single ticker operations."""
     def __init__(self):
         try:
-            connection = psycopg2.connect(f"dbname='{DB_NAME}' user={DB_USER} "
-                f"host='{DB_HOST}' password={DB_PASS} port='{DB_PORT}'")
+            connection = psycopg2.connect(host=DB_HOST, database=DB_NAME,
+                user=DB_USER, password=DB_PASS, port=DB_PORT)
+
             logger.debug(f'Database \'{DB_NAME}\' connected successfully.')
-        except:
-            logger.error(f'Database \'{DB_NAME}\' connection failed.')
+        except Exception as error:
+            print(f'Database \'{DB_NAME}\' connection failed.\n{error}')
+            logger.error(f'Database \'{DB_NAME}\' connection failed.\n{error}')
             sys.exit(c.DB_CONNECTION_ERR)
 
         self._connection = connection
