@@ -1,0 +1,31 @@
+version: "3.9"
+services:
+  db:
+    build: ./database/
+    image: stock-db
+    container_name: stock-db-0
+    ports:
+      - "5430:5432"
+    volumes:
+      - stock-db-volume:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: 1234
+
+  app:
+    build: .
+    image: stock-app
+    container_name: stock-app-0
+    volumes:
+      - stock-log-volume:/home/Projeto-Final/logs
+    environment:
+      STOCK_MARKET_DB_USER: postgres
+      STOCK_MARKET_DB_PASS: 1234
+      STOCK_MARKET_DB_PORT: 5432
+      STOCK_MARKET_DB_NAME: StockMarket
+      STOCK_MARKET_DB_HOST: db
+    depends_on:
+      - db
+
+volumes:
+  stock-db-volume:
+  stock-log-volume:
