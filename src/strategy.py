@@ -1967,6 +1967,7 @@ class MLDerivationStrategy(AdaptedAndreMoraesStrategy):
         if prediction == 1:
             # risk = self.risks[get_avg_index_of_first_burst_of_ones(predictions)]
             # business_data['stop_loss_day'] = round(purchase_price * (1 - risk), 2)
+
             business_data['stop_loss_day'] = round(purchase_price * (1 - risk), 2)
             return True
 
