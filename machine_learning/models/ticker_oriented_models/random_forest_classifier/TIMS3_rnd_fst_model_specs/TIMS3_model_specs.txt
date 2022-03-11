@@ -1,0 +1,61 @@
+RandomForestClassifier ('TIMS3')
+
+   Common configuration
+
+Bootstrap: 					True
+Class weight: 				balanced_subsample
+Min samples split: 		2
+Min samples leaf: 		1
+
+   Dataset
+
+Training set samples: 		55384 (84.64%)
+Test set samples: 			10054 (15.36%)
+Real test set samples: 		20359
+
+Training set failure operations: 	0.831%
+Test set failure operations: 			0.8611%
+Real test set failure operations: 	0.8247%
+
+Training set start date: 	'2013-01-02'
+Training set end date: 		'2016-12-27'
+Test set start date: 		'2017-08-21'
+Test set end date: 			'2018-06-29'
+Real test set start date: 	'2018-07-02'
+Real test set end date: 	'2020-01-29'
+
+   Models
+
+n_estimators = 50, max_depth =  2, max_features = 12	 Training acc: 0.5409%, Test acc: 0.7789%, Real test acc: 0.4783%
+n_estimators = 50, max_depth =  3, max_features = 12	 Training acc: 0.5570%, Test acc: 0.6490%, Real test acc: 0.4788%
+n_estimators = 50, max_depth =  4, max_features = 12	 Training acc: 0.5615%, Test acc: 0.7014%, Real test acc: 0.4770%
+n_estimators = 50, max_depth =  5, max_features = 12	 Training acc: 0.6658%, Test acc: 0.7059%, Real test acc: 0.5922%
+n_estimators = 50, max_depth =  6, max_features = 12	 Training acc: 0.6959%, Test acc: 0.7253%, Real test acc: 0.5520%
+n_estimators = 50, max_depth =  7, max_features = 12	 Training acc: 0.7289%, Test acc: 0.7403%, Real test acc: 0.5199%
+n_estimators = 50, max_depth =  8, max_features = 12	 Training acc: 0.8265%, Test acc: 0.7631%, Real test acc: 0.6187%
+n_estimators = 50, max_depth =  9, max_features = 12	 Training acc: 0.8548%, Test acc: 0.7531%, Real test acc: 0.5841%
+n_estimators = 50, max_depth = 10, max_features = 12	 Training acc: 0.8819%, Test acc: 0.7738%, Real test acc: 0.6201%
+n_estimators = 50, max_depth = 11, max_features = 12	 Training acc: 0.8970%, Test acc: 0.7759%, Real test acc: 0.6607%
+n_estimators = 50, max_depth = 12, max_features = 12	 Training acc: 0.9214%, Test acc: 0.7954%, Real test acc: 0.6963%
+n_estimators = 50, max_depth = 13, max_features = 12	 Training acc: 0.9382%, Test acc: 0.8069%, Real test acc: 0.7106%
+n_estimators = 50, max_depth = 14, max_features = 12	 Training acc: 0.9536%, Test acc: 0.8046%, Real test acc: 0.7282%
+n_estimators = 50, max_depth = 15, max_features = 12	 Training acc: 0.9671%, Test acc: 0.8118%, Real test acc: 0.7347%
+n_estimators = 50, max_depth = 16, max_features = 12	 Training acc: 0.9770%, Test acc: 0.8140%, Real test acc: 0.7440%
+n_estimators = 50, max_depth = 17, max_features = 12	 Training acc: 0.9841%, Test acc: 0.8177%, Real test acc: 0.7462%
+n_estimators = 50, max_depth = 18, max_features = 12	 Training acc: 0.9901%, Test acc: 0.8197%, Real test acc: 0.7493%
+n_estimators = 50, max_depth = 19, max_features = 12	 Training acc: 0.9945%, Test acc: 0.8198%, Real test acc: 0.7481%
+n_estimators = 50, max_depth = 20, max_features = 12	 Training acc: 0.9972%, Test acc: 0.8223%, Real test acc: 0.7540%
+n_estimators = 50, max_depth = 21, max_features = 12	 Training acc: 0.9988%, Test acc: 0.8210%, Real test acc: 0.7555%
+n_estimators = 50, max_depth = 22, max_features = 12	 Training acc: 0.9994%, Test acc: 0.8214%, Real test acc: 0.7530%
+n_estimators = 50, max_depth = 23, max_features = 12	 Training acc: 0.9998%, Test acc: 0.8236%, Real test acc: 0.7549%
+n_estimators = 50, max_depth = 24, max_features = 12	 Training acc: 0.9999%, Test acc: 0.8191%, Real test acc: 0.7565%
+n_estimators = 50, max_depth = 25, max_features = 12	 Training acc: 0.9999%, Test acc: 0.8206%, Real test acc: 0.7560%
+n_estimators = 50, max_depth = 26, max_features = 12	 Training acc: 1.0000%, Test acc: 0.8206%, Real test acc: 0.7586%
+n_estimators = 50, max_depth = 27, max_features = 12	 Training acc: 0.9999%, Test acc: 0.8207%, Real test acc: 0.7577%
+n_estimators = 50, max_depth = 28, max_features = 12	 Training acc: 0.9999%, Test acc: 0.8199%, Real test acc: 0.7558%
+n_estimators = 50, max_depth = 29, max_features = 12	 Training acc: 0.9999%, Test acc: 0.8214%, Real test acc: 0.7562%
+n_estimators = 50, max_depth = 30, max_features = 12	 Training acc: 0.9999%, Test acc: 0.8212%, Real test acc: 0.7560%
+
+   Best model
+
+n_estimators = 50, max_depth = 23, max_features = 12	 Training acc: 0.9998%, Test acc: 0.8236%
