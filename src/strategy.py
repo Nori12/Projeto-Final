@@ -227,13 +227,14 @@ class AdaptedAndreMoraesStrategy(PseudoStrategy):
     """
 
     total_strategies = 0
+    strategy_number = 0
 
     def __init__(self, tickers, alias=None, comment=None, risk_capital_product=0.10,
         total_capital=100000, min_order_volume=1, partial_sale=False, ema_tolerance=0.01,
         min_risk=0.01, max_risk=0.15, purchase_margin=0.0, stop_margin=0.0,
         stop_type='normal', min_days_after_successful_operation=0,
         min_days_after_failure_operation=0, gain_loss_ratio=3, max_days_per_operation=90,
-        tickers_bag='listed_first', tickers_number=0):
+        tickers_bag='listed_first', tickers_number=0, total_strategies=0):
 
         if risk_capital_product < 0.0 or risk_capital_product > 1.0:
             logger.error(f"Parameter \'risk_reference\' must be in the interval [0, 1].")
@@ -312,8 +313,9 @@ class AdaptedAndreMoraesStrategy(PseudoStrategy):
         tickers_rcc_path = Path(__file__).parent.parent/c.TICKERS_OPER_OPT_PATH
         self._tickers_rcc_df = pd.read_csv(tickers_rcc_path, sep=',')
 
-        AdaptedAndreMoraesStrategy.total_strategies += 1
-        self.strategy_number = AdaptedAndreMoraesStrategy.total_strategies
+        AdaptedAndreMoraesStrategy.total_strategies = total_strategies
+        AdaptedAndreMoraesStrategy.strategy_number += 1
+        self.strategy_number = AdaptedAndreMoraesStrategy.strategy_number
 
 
     @property
@@ -700,7 +702,7 @@ class AdaptedAndreMoraesStrategy(PseudoStrategy):
                     dates.append(day)
 
                     for ticker, tck_dates in self.tickers_and_dates.items():
-                        if day >= tck_dates['start_date'] and day <= tck_dates['end_date']:
+                        if day.date() >= tck_dates['start_date'] and day <= tck_dates['end_date']:
                             close_price = day_info[(day_info['ticker'] == ticker)] \
                                 ['close_price'].squeeze()
 
@@ -1221,7 +1223,12 @@ class AdaptedAndreMoraesStrategy(PseudoStrategy):
         self._update_step = update_step
         self._next_update_percent = update_step
         self._total_days = (self.last_date - self.first_date).days
-        print(f"\nStrategy: {self.name} ({self.strategy_number}): ", end='')
+        print(f"\nStrategy {self.name} ({AdaptedAndreMoraesStrategy.strategy_number} ", end='')
+
+        if AdaptedAndreMoraesStrategy.total_strategies != 0:
+            print(f"of {AdaptedAndreMoraesStrategy.total_strategies}", end='')
+
+        print(f") - ", end='')
 
     def _update_progress_bar(self, current_day):
         completion_percentage = ((current_day.to_pydatetime().date() -
@@ -1625,13 +1632,13 @@ class MLDerivationStrategy(AdaptedAndreMoraesStrategy):
         min_risk=0.01, max_risk=0.15, purchase_margin=0.0, stop_margin=0.0,
         stop_type='normal', min_days_after_successful_operation=0,
         min_days_after_failure_operation=0, gain_loss_ratio=3, max_days_per_operation=90,
-        tickers_bag='listed_first', tickers_number=0):
+        tickers_bag='listed_first', tickers_number=0, total_strategies=0):
 
         super().__init__(tickers, alias, comment, risk_capital_product, total_capital,
             min_order_volume, partial_sale, ema_tolerance, min_risk, max_risk,
             purchase_margin, stop_margin, stop_type, min_days_after_successful_operation,
             min_days_after_failure_operation, gain_loss_ratio, max_days_per_operation,
-            tickers_bag, tickers_number)
+            tickers_bag, tickers_number, total_strategies)
 
         self._name = "ML Derivation"
         self._db_strategy_model.name = self._name
@@ -1971,13 +1978,14 @@ class BaselineStrategy(AdaptedAndreMoraesStrategy):
         min_risk=0.01, max_risk=0.15, purchase_margin=0.0, stop_margin=0.0,
         stop_type='normal', min_days_after_successful_operation=0,
         min_days_after_failure_operation=0, gain_loss_ratio=3, max_days_per_operation=90,
-        tickers_bag='listed_first', tickers_number=0, min_operation_decision_coefficient=0):
+        tickers_bag='listed_first', tickers_number=0, min_operation_decision_coefficient=0,
+        total_strategies=0):
 
         super().__init__(tickers, alias, comment, risk_capital_product, total_capital,
             min_order_volume, partial_sale, ema_tolerance, min_risk, max_risk,
             purchase_margin, stop_margin, stop_type, min_days_after_successful_operation,
             min_days_after_failure_operation, gain_loss_ratio, max_days_per_operation,
-            tickers_bag, tickers_number)
+            tickers_bag, tickers_number, total_strategies)
 
         self._name = 'Baseline'
         self._db_strategy_model.name = self._name

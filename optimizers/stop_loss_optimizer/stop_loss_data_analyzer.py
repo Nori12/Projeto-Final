@@ -39,10 +39,10 @@ class StopLossDataAnalyzer:
         input_std_file_path = Path(__file__).parent / "out_csv_files" / (ticker + slo.STD_FILE_SUFFIX)
         input_riskmap_file_path = Path(__file__).parent / "out_csv_files" / (ticker + slo.RISKMAP_FILE_SUFFIX)
 
-        sl_df_gen = pd.read_csv(input_std_file_path, sep=",", chunksize=100000)
+        sl_df_gen = pd.read_csv(input_std_file_path, sep=",", chunksize=10000)
         self.sl_df = pd.concat((x.query(f"ticker == '{ticker}'") for x in sl_df_gen), ignore_index=True)
 
-        rm_df_gen = pd.read_csv(input_riskmap_file_path, sep=",", chunksize=100000)
+        rm_df_gen = pd.read_csv(input_riskmap_file_path, sep=",", chunksize=10000)
         self.rm_df = pd.concat((x.query(f"ticker == '{ticker}'") for x in rm_df_gen), ignore_index=True)
 
     def show_all_graphs(self):

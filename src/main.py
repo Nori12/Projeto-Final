@@ -26,6 +26,8 @@ logger.setLevel(logging.DEBUG)
 def run():
     logger.info('Program started.')
 
+    accepted_strategies = ('Adapted Andre Moraes', 'ML Derivation', 'Baseline')
+
     # Read Config File
     config_file = Path(__file__).parent.parent/c.CONFIG_PATH/'config.json'
     config = cr.ConfigReader(config_file)
@@ -55,6 +57,9 @@ def run():
                     if tm.ticker in list(config.strategies[index]['tickers'].keys()):
                         config.strategies[index]['tickers'].pop(tm.ticker)
 
+    total_strategies = sum([1 if strategy['name'] in accepted_strategies else 0 \
+        for strategy in config.strategies ])
+
     # Strategy section
     for strategy in config.strategies:
         if strategy['name'] == 'Adapted Andre Moraes':
@@ -77,7 +82,8 @@ def run():
                 gain_loss_ratio=strategy['gain_loss_ratio'],
                 max_days_per_operation=strategy['max_days_per_operation'],
                 tickers_bag=strategy['tickers_bag'],
-                tickers_number=strategy['tickers_number']
+                tickers_number=strategy['tickers_number'],
+                total_strategies=total_strategies
             )
 
             root_strategy.process_operations()
@@ -103,7 +109,8 @@ def run():
                 gain_loss_ratio=strategy['gain_loss_ratio'],
                 max_days_per_operation=strategy['max_days_per_operation'],
                 tickers_bag=strategy['tickers_bag'],
-                tickers_number=strategy['tickers_number']
+                tickers_number=strategy['tickers_number'],
+                total_strategies=total_strategies
             )
 
             ml_strategy.load_models()
@@ -132,7 +139,8 @@ def run():
                 max_days_per_operation=strategy['max_days_per_operation'],
                 tickers_bag=strategy['tickers_bag'],
                 tickers_number=strategy['tickers_number'],
-                min_operation_decision_coefficient=strategy['min_operation_decision_coefficient']
+                min_operation_decision_coefficient=strategy['min_operation_decision_coefficient'],
+                total_strategies=total_strategies
             )
 
             baseline_strategy.process_operations(days_before_start=90)

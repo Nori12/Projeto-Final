@@ -4,7 +4,6 @@ from logging.handlers import RotatingFileHandler
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
-from dash_html_components.P import P
 import dash_table
 import pandas as pd
 import plotly.graph_objs as go
