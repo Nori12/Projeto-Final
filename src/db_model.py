@@ -21,15 +21,11 @@ DB_NAME = os.environ.get('STOCK_MARKET_DB_NAME')
 
 # Configure Logging
 logger = logging.getLogger(__name__)
-
 log_path = Path(__file__).parent.parent / c.LOG_PATH / c.LOG_FILENAME
-
 file_handler = RotatingFileHandler(log_path, maxBytes=c.LOG_FILE_MAX_SIZE, backupCount=10)
 formatter = logging.Formatter(c.LOG_FORMATTER_STRING)
 file_handler.setFormatter(formatter)
-
 logger.addHandler(file_handler)
-
 file_handler.setLevel(logging.DEBUG)
 logger.setLevel(logging.DEBUG)
 
@@ -40,7 +36,7 @@ class DBTickerModel:
             connection = psycopg2.connect(host=DB_HOST, database=DB_NAME,
                 user=DB_USER, password=DB_PASS, port=DB_PORT)
 
-            logger.debug(f'Database \'{DB_NAME}\' connected successfully.')
+            # logger.debug(f'Database \'{DB_NAME}\' connected successfully.')
         except Exception as error:
             print(f'Database \'{DB_NAME}\' connection failed.\n{error}')
             logger.error(f'Database \'{DB_NAME}\' connection failed.\n{error}')
@@ -383,7 +379,7 @@ class DBGenericModel:
         try:
             connection = psycopg2.connect(f"dbname='{DB_NAME}' user={DB_USER} " \
                 f"host='{DB_HOST}' password={DB_PASS} port='{DB_PORT}'")
-            logger.debug(f'Database \'{DB_NAME}\' connected successfully.')
+            # logger.debug(f'Database \'{DB_NAME}\' connected successfully.')
         except:
             logger.error(f'Database \'{DB_NAME}\' connection failed.')
             sys.exit(c.DB_CONNECTION_ERR)
@@ -580,7 +576,7 @@ class DBStrategyModel:
         try:
             connection = psycopg2.connect(f"dbname='{DB_NAME}' user={DB_USER} " \
                 f"host='{DB_HOST}' password={DB_PASS} port='{DB_PORT}'")
-            logger.debug(f'Database \'{DB_NAME}\' connected successfully.')
+            # logger.debug(f'Database \'{DB_NAME}\' connected successfully.')
         except:
             logger.error(f'Database \'{DB_NAME}\' connection failed.')
             sys.exit(c.DB_CONNECTION_ERR)
@@ -1082,7 +1078,7 @@ class DBStrategyAnalyzerModel:
         try:
             connection = psycopg2.connect(f"dbname='{DB_NAME}' user={DB_USER} " \
                 f"host='{DB_HOST}' password={DB_PASS} port='{DB_PORT}'")
-            logger.debug(f'Database \'{DB_NAME}\' connected successfully.')
+            # logger.debug(f'Database \'{DB_NAME}\' connected successfully.')
         except:
             logger.error(f'Database \'{DB_NAME}\' connection failed.')
             sys.exit(c.DB_CONNECTION_ERR)

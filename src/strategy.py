@@ -22,15 +22,11 @@ from operation import Operation
 
 # Configure Logging
 logger = logging.getLogger(__name__)
-
 log_path = Path(__file__).parent.parent / c.LOG_PATH / c.LOG_FILENAME
-
 file_handler = RotatingFileHandler(log_path, maxBytes=c.LOG_FILE_MAX_SIZE, backupCount=10)
 formatter = logging.Formatter(c.LOG_FORMATTER_STRING)
 file_handler.setFormatter(formatter)
-
 logger.addHandler(file_handler)
-
 file_handler.setLevel(logging.DEBUG)
 logger.setLevel(logging.DEBUG)
 
@@ -227,14 +223,14 @@ class AdaptedAndreMoraesStrategy(PseudoStrategy):
     """
 
     total_strategies = 0
-    strategy_number = 0
 
     def __init__(self, tickers, alias=None, comment=None, risk_capital_product=0.10,
         total_capital=100000, min_order_volume=1, partial_sale=False, ema_tolerance=0.01,
         min_risk=0.01, max_risk=0.15, purchase_margin=0.0, stop_margin=0.0,
         stop_type='normal', min_days_after_successful_operation=0,
         min_days_after_failure_operation=0, gain_loss_ratio=3, max_days_per_operation=90,
-        tickers_bag='listed_first', tickers_number=0, total_strategies=0):
+        tickers_bag='listed_first', tickers_number=0, strategy_number=1, total_strategies=1,
+        stdout_prints=True):
 
         if risk_capital_product < 0.0 or risk_capital_product > 1.0:
             logger.error(f"Parameter \'risk_reference\' must be in the interval [0, 1].")
@@ -310,12 +306,16 @@ class AdaptedAndreMoraesStrategy(PseudoStrategy):
             'sharpe_ratio': None}
 
         # TODO: Rever RCC
-        tickers_rcc_path = Path(__file__).parent.parent/c.TICKERS_OPER_OPT_PATH
-        self._tickers_rcc_df = pd.read_csv(tickers_rcc_path, sep=',')
+        # tickers_rcc_path = Path(__file__).parent.parent/c.TICKERS_OPER_OPT_PATH
+        # self._tickers_rcc_df = pd.read_csv(tickers_rcc_path, sep=',')
 
         AdaptedAndreMoraesStrategy.total_strategies = total_strategies
-        AdaptedAndreMoraesStrategy.strategy_number += 1
-        self.strategy_number = AdaptedAndreMoraesStrategy.strategy_number
+        self.strategy_number = 1
+
+        if strategy_number != 0:
+            self.strategy_number = strategy_number
+
+        self.stdout_prints = stdout_prints
 
 
     @property
@@ -532,7 +532,8 @@ class AdaptedAndreMoraesStrategy(PseudoStrategy):
 
             ref_data = self._get_empty_ref_data()
 
-            self._start_progress_bar(update_step=0.10)
+            if self.stdout_prints:
+                self._start_progress_bar(update_step=0.10)
 
             while True:
                 try:
@@ -553,7 +554,8 @@ class AdaptedAndreMoraesStrategy(PseudoStrategy):
                             tcks_priority[index].last_business_data = {}
                             continue
 
-                        self._update_progress_bar(business_data["day"])
+                        if self.stdout_prints:
+                            self._update_progress_bar(business_data["day"])
 
                         data_validation_flag = self._process_auxiliary_data(ticker_name,
                             tcks_priority, index, business_data, ref_data)
@@ -1224,7 +1226,7 @@ class AdaptedAndreMoraesStrategy(PseudoStrategy):
         self._update_step = update_step
         self._next_update_percent = update_step
         self._total_days = (self.last_date - self.first_date).days
-        print(f"\nStrategy {self.name} ({AdaptedAndreMoraesStrategy.strategy_number} ", end='')
+        print(f"\nStrategy {self.name} ({self.strategy_number} ", end='')
 
         if AdaptedAndreMoraesStrategy.total_strategies != 0:
             print(f"of {AdaptedAndreMoraesStrategy.total_strategies}", end='')
@@ -1634,13 +1636,15 @@ class MLDerivationStrategy(AdaptedAndreMoraesStrategy):
         min_risk=0.01, max_risk=0.15, purchase_margin=0.0, stop_margin=0.0,
         stop_type='normal', min_days_after_successful_operation=0,
         min_days_after_failure_operation=0, gain_loss_ratio=3, max_days_per_operation=90,
-        tickers_bag='listed_first', tickers_number=0, total_strategies=0):
+        tickers_bag='listed_first', tickers_number=0, strategy_number=1, total_strategies=1,
+        stdout_prints=True):
 
         super().__init__(tickers, alias, comment, risk_capital_product, total_capital,
             min_order_volume, partial_sale, ema_tolerance, min_risk, max_risk,
             purchase_margin, stop_margin, stop_type, min_days_after_successful_operation,
             min_days_after_failure_operation, gain_loss_ratio, max_days_per_operation,
-            tickers_bag, tickers_number, total_strategies)
+            tickers_bag, tickers_number, strategy_number, total_strategies,
+            stdout_prints)
 
         self._name = "ML Derivation"
         self._db_strategy_model.name = self._name
@@ -1697,7 +1701,7 @@ class MLDerivationStrategy(AdaptedAndreMoraesStrategy):
 
         for _, (ticker, _) in enumerate(self.tickers_and_dates.items()):
             self._models[ticker] = joblib.load(Path(__file__).parent.parent /
-                c.MODELS_PATH / (ticker + c.MODEL_SUFFIX))
+                c.MODELS_PATH / (ticker + c.MODEL_SUFFIX)).set_params(n_jobs=1)
 
     def _load_most_effective_risk_per_ticker(self, tickers_info_path, ticker_datasets_path,
         ticker_dataset_suffix):
@@ -1982,13 +1986,13 @@ class BaselineStrategy(AdaptedAndreMoraesStrategy):
         stop_type='normal', min_days_after_successful_operation=0,
         min_days_after_failure_operation=0, gain_loss_ratio=3, max_days_per_operation=90,
         tickers_bag='listed_first', tickers_number=0, min_operation_decision_coefficient=0,
-        total_strategies=0):
+        strategy_number=1, total_strategies=1, stdout_prints=True):
 
         super().__init__(tickers, alias, comment, risk_capital_product, total_capital,
             min_order_volume, partial_sale, ema_tolerance, min_risk, max_risk,
             purchase_margin, stop_margin, stop_type, min_days_after_successful_operation,
             min_days_after_failure_operation, gain_loss_ratio, max_days_per_operation,
-            tickers_bag, tickers_number, total_strategies)
+            tickers_bag, tickers_number, strategy_number, total_strategies, stdout_prints)
 
         self._name = 'Baseline'
         self._db_strategy_model.name = self._name

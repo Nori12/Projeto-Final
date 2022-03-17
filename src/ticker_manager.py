@@ -13,15 +13,11 @@ from db_model import DBTickerModel
 
 # Configure Logging
 logger = logging.getLogger(__name__)
-
 log_path = Path(__file__).parent.parent / c.LOG_PATH / c.LOG_FILENAME
-
 file_handler = RotatingFileHandler(log_path, maxBytes=c.LOG_FILE_MAX_SIZE, backupCount=10)
 formatter = logging.Formatter(c.LOG_FORMATTER_STRING)
 file_handler.setFormatter(formatter)
-
 logger.addHandler(file_handler)
-
 file_handler.setLevel(logging.DEBUG)
 logger.setLevel(logging.DEBUG)
 
@@ -152,7 +148,6 @@ class TickerManager:
     def max_risk(self, max_risk):
         self._max_risk = max_risk
 
-    @RunTime('TickerManager.update')
     def update(self):
         """
         Update ticker data.
@@ -226,7 +221,7 @@ class TickerManager:
                 self.holidays, consider_oldest_date=True) is False
                 and has_workdays_in_between(end_date_in_db, self.end_date,
                 self.holidays, consider_recent_date=True) is False):
-                logger.info(f"Ticker \'{self.ticker}\' already updated.")
+                # logger.info(f"Ticker \'{self.ticker}\' already updated.")
                 return False
 
             # Database lacks most recent data
@@ -252,8 +247,8 @@ class TickerManager:
 
         if update_happened is True:
             logger.info(f"Ticker \'{self.ticker}\' updated daily candlesticks.")
-        else:
-            logger.info(f"Ticker \'{self.ticker}\' did not updated daily candlesticks.")
+        # else:
+        #     logger.info(f"Ticker \'{self.ticker}\' did not updated daily candlesticks.")
 
         return update_happened
 
