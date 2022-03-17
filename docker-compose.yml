@@ -6,8 +6,6 @@ services:
     container_name: stock-db-0
     ports:
       - "5430:5432"
-    volumes:
-      - stock-db-volume:/var/lib/postgresql/data
     environment:
       POSTGRES_PASSWORD: 1234
 
@@ -27,5 +25,4 @@ services:
       - db
 
 volumes:
-  stock-db-volume:
   stock-log-volume:
