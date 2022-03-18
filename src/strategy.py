@@ -155,7 +155,7 @@ class PseudoStrategy(ABC):
         pass
 
     @abstractmethod
-    def process_operations(self):
+    def process_operations(self, days_before_start=120):
         """Process each ticker and day to create a `list` of `Operation`."""
         pass
 

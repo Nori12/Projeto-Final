@@ -187,5 +187,6 @@ if __name__ == '__main__':
     finish = time.perf_counter()
     pbar.close()
 
-    print(f"Finished in {round(finish - start, 1)} second(s).")
-    logger.info(f"Strategies execution finished in {round(finish - start, 1)} second(s).")
+    print(f"Finished in {int((finish - start) // 60)}min " \
+        f"{int((finish - start) % 60)}s.")
+    logger.info(f"Strategies execution finished in {round(finish - start, 0)} second(s).")
