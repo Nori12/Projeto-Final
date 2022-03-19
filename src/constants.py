@@ -13,7 +13,7 @@ DATASETS_PATH = 'machine_learning/datasets/'
 LOG_FILENAME = 'app.log'
 LOG_PATH = 'logs/'
 LOG_FORMATTER_STRING = '%(asctime)s:%(levelname)s:%(name)s:%(message)s'
-LOG_FILE_MAX_SIZE = 1*1024*1024
+LOG_FILE_MAX_SIZE = 3*1024*1024
 
 # Exit error/warning codes
 CONFIG_FILE_ERR = 1

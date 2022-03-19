@@ -6,8 +6,6 @@ services:
     container_name: stock-db-0
     ports:
       - "5430:5432"
-    volumes:
-      - stock-db-volume:/var/lib/postgresql/data
     environment:
       POSTGRES_PASSWORD: 1234
     mem_limit: "250m"
@@ -17,7 +15,7 @@ services:
     image: stock-app
     container_name: stock-app-0
     volumes:
-      - stock-log-volume:/home/Projeto-Final/logs
+      - stock-log-volume:/home/app/logs
     environment:
       STOCK_MARKET_DB_USER: postgres
       STOCK_MARKET_DB_PASS: 1234
@@ -30,5 +28,5 @@ services:
     mem_limit: "2g"
 
 volumes:
-  stock-db-volume:
   stock-log-volume:
+    name: stock-log-volume

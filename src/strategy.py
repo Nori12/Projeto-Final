@@ -234,15 +234,18 @@ class AdaptedAndreMoraesStrategy(PseudoStrategy):
 
         if risk_capital_product < 0.0 or risk_capital_product > 1.0:
             logger.error(f"Parameter \'risk_reference\' must be in the interval [0, 1].")
-            sys.exit(c.INVALID_ARGUMENT_ERR)
+            # sys.exit(c.INVALID_ARGUMENT_ERR)
+            raise Exception
 
         if stop_type not in ['normal', 'staircase']:
             logger.error(f"Parameter \'stop_type\' must be ['normal', 'staircase'].")
-            sys.exit(c.INVALID_ARGUMENT_ERR)
+            # sys.exit(c.INVALID_ARGUMENT_ERR)
+            raise Exception
 
         if tickers_bag not in ['listed_first', 'random']:
             logger.error(f"Parameter \'tickers_bag\' must be ['listed_first', 'random'].")
-            sys.exit(c.INVALID_ARGUMENT_ERR)
+            # sys.exit(c.INVALID_ARGUMENT_ERR)
+            raise Exception
 
         self._name = "Adapted Andre Moraes"
         self._alias = alias
@@ -638,7 +641,8 @@ class AdaptedAndreMoraesStrategy(PseudoStrategy):
 
         except Exception as error:
             logger.exception(f"Error processing operations, error:\n{error}")
-            sys.exit(c.PROCESSING_OPERATIONS_ERR)
+            # sys.exit(c.PROCESSING_OPERATIONS_ERR)
+            raise error
 
     @RunTime('calculate_statistics')
     def calculate_statistics(self):
@@ -667,7 +671,8 @@ class AdaptedAndreMoraesStrategy(PseudoStrategy):
             self._calc_statistics_params()
         except Exception as error:
             logger.exception(f"Error calculating statistics, error:\n{error}")
-            sys.exit(c.PROCESSING_OPERATIONS_ERR)
+            # sys.exit(c.PROCESSING_OPERATIONS_ERR)
+            raise error
 
     def save(self):
         self._db_strategy_model.insert_strategy_results(self._statistics_parameters,
@@ -1767,7 +1772,8 @@ class MLDerivationStrategy(AdaptedAndreMoraesStrategy):
 
         if kind not in ['peak', 'average']:
             logger.error("\'kind\' parameter must be in ['peak', 'average']")
-            sys.exit(c.INVALID_ARGUMENT_ERR)
+            # sys.exit(c.INVALID_ARGUMENT_ERR)
+            raise Exception
 
         if kind == 'average':
             risk_avg = 0.0
@@ -2095,7 +2101,8 @@ class BaselineStrategy(AdaptedAndreMoraesStrategy):
 
         if kind not in ['peak', 'average']:
             logger.error("\'kind\' parameter must be in ['peak', 'average']")
-            sys.exit(c.INVALID_ARGUMENT_ERR)
+            # sys.exit(c.INVALID_ARGUMENT_ERR)
+            raise Exception
 
         if kind == 'average':
             risk_avg = 0.0

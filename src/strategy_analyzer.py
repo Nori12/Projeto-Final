@@ -45,7 +45,8 @@ class StrategyAnalyzer:
                 self._strategy_id = strategies['id'][0]
             else:
                 logger.error("No strategies in database.")
-                sys.exit(c.NO_STRATEGY_ERR)
+                # sys.exit(c.NO_STRATEGY_ERR)
+                raise Exception
         else:
             self._strategy_id = strategy_id
 
@@ -173,7 +174,8 @@ class StrategyAnalyzer:
             else 0
         if neither_operations > 0:
             logger.error("Unidentified operation status.")
-            sys.exit(c.UNIDENTIFIED_OPERATION_STATUS_ERR)
+            # sys.exit(c.UNIDENTIFIED_OPERATION_STATUS_ERR)
+            raise Exception
 
         statistics_raw['volatility'][0] = round(statistics_raw['volatility'][0], 2)
 

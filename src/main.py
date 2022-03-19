@@ -4,8 +4,9 @@ from pathlib import Path
 from multiprocessing import Pool
 import time
 from tqdm import tqdm
-import os
+import psutil
 import argparse
+import traceback
 
 import constants as c
 import config_reader as cr
@@ -61,96 +62,101 @@ def update_tickers():
 
 def run_strategy(strategy, strategy_number, total_strategies, stdout_prints=False):
 
-    if strategy['name'] == 'Adapted Andre Moraes':
-        root_strategy = AdaptedAndreMoraesStrategy(
-            strategy['tickers'],
-            alias=strategy['alias'],
-            comment = strategy['comment'],
-            risk_capital_product=strategy['risk_capital_coefficient'],
-            total_capital=strategy['capital'],
-            min_order_volume=strategy['min_order_volume'],
-            partial_sale=strategy['partial_sale'],
-            ema_tolerance=strategy['ema_tolerance'],
-            min_risk=strategy['min_risk'],
-            max_risk=strategy['max_risk'],
-            purchase_margin=strategy['purchase_margin'],
-            stop_margin=strategy['stop_margin'],
-            stop_type=strategy['stop_type'],
-            min_days_after_successful_operation=strategy['min_days_after_successful_operation'],
-            min_days_after_failure_operation=strategy['min_days_after_failure_operation'],
-            gain_loss_ratio=strategy['gain_loss_ratio'],
-            max_days_per_operation=strategy['max_days_per_operation'],
-            tickers_bag=strategy['tickers_bag'],
-            tickers_number=strategy['tickers_number'],
-            strategy_number=strategy_number,
-            total_strategies=total_strategies,
-            stdout_prints=stdout_prints
-        )
+    try:
+        if strategy['name'] == 'Adapted Andre Moraes':
+            root_strategy = AdaptedAndreMoraesStrategy(
+                strategy['tickers'],
+                alias=strategy['alias'],
+                comment = strategy['comment'],
+                risk_capital_product=strategy['risk_capital_coefficient'],
+                total_capital=strategy['capital'],
+                min_order_volume=strategy['min_order_volume'],
+                partial_sale=strategy['partial_sale'],
+                ema_tolerance=strategy['ema_tolerance'],
+                min_risk=strategy['min_risk'],
+                max_risk=strategy['max_risk'],
+                purchase_margin=strategy['purchase_margin'],
+                stop_margin=strategy['stop_margin'],
+                stop_type=strategy['stop_type'],
+                min_days_after_successful_operation=strategy['min_days_after_successful_operation'],
+                min_days_after_failure_operation=strategy['min_days_after_failure_operation'],
+                gain_loss_ratio=strategy['gain_loss_ratio'],
+                max_days_per_operation=strategy['max_days_per_operation'],
+                tickers_bag=strategy['tickers_bag'],
+                tickers_number=strategy['tickers_number'],
+                strategy_number=strategy_number,
+                total_strategies=total_strategies,
+                stdout_prints=stdout_prints
+            )
 
-        root_strategy.process_operations()
-        root_strategy.calculate_statistics()
-        root_strategy.save()
+            root_strategy.process_operations()
+            root_strategy.calculate_statistics()
+            root_strategy.save()
 
-    elif strategy['name'] == 'ML Derivation':
-        ml_strategy = MLDerivationStrategy(
-            strategy['tickers'],
-            alias=strategy['alias'],
-            comment = strategy['comment'],
-            risk_capital_product=strategy['risk_capital_coefficient'],
-            total_capital=strategy['capital'],
-            min_order_volume=strategy['min_order_volume'],
-            partial_sale=strategy['partial_sale'],
-            min_risk=strategy['min_risk'],
-            max_risk=strategy['max_risk'],
-            purchase_margin=strategy['purchase_margin'],
-            stop_margin=strategy['stop_margin'],
-            stop_type=strategy['stop_type'],
-            min_days_after_successful_operation=strategy['min_days_after_successful_operation'],
-            min_days_after_failure_operation=strategy['min_days_after_failure_operation'],
-            gain_loss_ratio=strategy['gain_loss_ratio'],
-            max_days_per_operation=strategy['max_days_per_operation'],
-            tickers_bag=strategy['tickers_bag'],
-            tickers_number=strategy['tickers_number'],
-            strategy_number=strategy_number,
-            total_strategies=total_strategies,
-            stdout_prints=stdout_prints
-        )
+        elif strategy['name'] == 'ML Derivation':
+            ml_strategy = MLDerivationStrategy(
+                strategy['tickers'],
+                alias=strategy['alias'],
+                comment = strategy['comment'],
+                risk_capital_product=strategy['risk_capital_coefficient'],
+                total_capital=strategy['capital'],
+                min_order_volume=strategy['min_order_volume'],
+                partial_sale=strategy['partial_sale'],
+                min_risk=strategy['min_risk'],
+                max_risk=strategy['max_risk'],
+                purchase_margin=strategy['purchase_margin'],
+                stop_margin=strategy['stop_margin'],
+                stop_type=strategy['stop_type'],
+                min_days_after_successful_operation=strategy['min_days_after_successful_operation'],
+                min_days_after_failure_operation=strategy['min_days_after_failure_operation'],
+                gain_loss_ratio=strategy['gain_loss_ratio'],
+                max_days_per_operation=strategy['max_days_per_operation'],
+                tickers_bag=strategy['tickers_bag'],
+                tickers_number=strategy['tickers_number'],
+                strategy_number=strategy_number,
+                total_strategies=total_strategies,
+                stdout_prints=stdout_prints
+            )
 
-        ml_strategy.load_models()
-        ml_strategy.process_operations()
-        ml_strategy.calculate_statistics()
-        ml_strategy.save()
+            ml_strategy.load_models()
+            ml_strategy.process_operations()
+            ml_strategy.calculate_statistics()
+            ml_strategy.save()
 
-    elif strategy['name'] == 'Baseline':
-        baseline_strategy = BaselineStrategy(
-            strategy['tickers'],
-            alias=strategy['alias'],
-            comment = strategy['comment'],
-            risk_capital_product=strategy['risk_capital_coefficient'],
-            total_capital=strategy['capital'],
-            min_order_volume=strategy['min_order_volume'],
-            partial_sale=strategy['partial_sale'],
-            ema_tolerance=strategy['ema_tolerance'],
-            min_risk=strategy['min_risk'],
-            max_risk=strategy['max_risk'],
-            purchase_margin=strategy['purchase_margin'],
-            stop_margin=strategy['stop_margin'],
-            stop_type=strategy['stop_type'],
-            min_days_after_successful_operation=strategy['min_days_after_successful_operation'],
-            min_days_after_failure_operation=strategy['min_days_after_failure_operation'],
-            gain_loss_ratio=strategy['gain_loss_ratio'],
-            max_days_per_operation=strategy['max_days_per_operation'],
-            tickers_bag=strategy['tickers_bag'],
-            tickers_number=strategy['tickers_number'],
-            min_operation_decision_coefficient=strategy['min_operation_decision_coefficient'],
-            strategy_number=strategy_number,
-            total_strategies=total_strategies,
-            stdout_prints=stdout_prints
-        )
+        elif strategy['name'] == 'Baseline':
+            baseline_strategy = BaselineStrategy(
+                strategy['tickers'],
+                alias=strategy['alias'],
+                comment = strategy['comment'],
+                risk_capital_product=strategy['risk_capital_coefficient'],
+                total_capital=strategy['capital'],
+                min_order_volume=strategy['min_order_volume'],
+                partial_sale=strategy['partial_sale'],
+                ema_tolerance=strategy['ema_tolerance'],
+                min_risk=strategy['min_risk'],
+                max_risk=strategy['max_risk'],
+                purchase_margin=strategy['purchase_margin'],
+                stop_margin=strategy['stop_margin'],
+                stop_type=strategy['stop_type'],
+                min_days_after_successful_operation=strategy['min_days_after_successful_operation'],
+                min_days_after_failure_operation=strategy['min_days_after_failure_operation'],
+                gain_loss_ratio=strategy['gain_loss_ratio'],
+                max_days_per_operation=strategy['max_days_per_operation'],
+                tickers_bag=strategy['tickers_bag'],
+                tickers_number=strategy['tickers_number'],
+                min_operation_decision_coefficient=strategy['min_operation_decision_coefficient'],
+                strategy_number=strategy_number,
+                total_strategies=total_strategies,
+                stdout_prints=stdout_prints
+            )
 
-        baseline_strategy.process_operations(days_before_start=90)
-        baseline_strategy.calculate_statistics()
-        baseline_strategy.save()
+            baseline_strategy.process_operations(days_before_start=90)
+            baseline_strategy.calculate_statistics()
+            baseline_strategy.save()
+    except Exception as e:
+        print('Caught exception in worker process')
+        traceback.print_exc()
+        raise e
 
 if __name__ == '__main__':
 
@@ -160,7 +166,7 @@ if __name__ == '__main__':
                     help="number of worker processes to run code in parallel")
     args = parser.parse_args()
 
-    max_pools = os.cpu_count()
+    max_pools = psutil.cpu_count(logical=False)
 
     if args.pools is not None:
         max_pools = args.pools

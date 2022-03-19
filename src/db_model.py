@@ -40,7 +40,8 @@ class DBTickerModel:
         except Exception as error:
             print(f'Database \'{DB_NAME}\' connection failed.\n{error}')
             logger.error(f'Database \'{DB_NAME}\' connection failed.\n{error}')
-            sys.exit(c.DB_CONNECTION_ERR)
+            # sys.exit(c.DB_CONNECTION_ERR)
+            raise error
 
         self._connection = connection
         self._cursor = self._connection.cursor()
@@ -58,7 +59,8 @@ class DBTickerModel:
             logger.error('Error executing query "{}", error:\n{}'.format(query, error))
             self._connection.close()
             self._cursor.close()
-            sys.exit(c.QUERY_ERR)
+            # sys.exit(c.QUERY_ERR)
+            raise error
 
     def get_date_range(self, ticker):
         """
@@ -268,7 +270,8 @@ class DBTickerModel:
         if interval not in ['1d', '1wk']:
             logger.error(f"Error argument \'interval\'=\'"
                 f"{interval}\' must be \'1d\' or \'1wk\'.")
-            sys.exit(c.INVALID_ARGUMENT_ERR)
+            # sys.exit(c.INVALID_ARGUMENT_ERR)
+            raise Exception
 
         table = 'daily_candles'
         time_column = 'day'
@@ -301,7 +304,8 @@ class DBTickerModel:
         if interval not in ['1d', '1wk']:
             logger.error(f"Error argument \'interval\'=\'"
                 f"{interval}\' must be \'1d\' or \'1wk\'.")
-            sys.exit(c.INVALID_ARGUMENT_ERR)
+            # sys.exit(c.INVALID_ARGUMENT_ERR)
+            raise Exception
 
         table = 'daily_features'
 
@@ -380,9 +384,10 @@ class DBGenericModel:
             connection = psycopg2.connect(f"dbname='{DB_NAME}' user={DB_USER} " \
                 f"host='{DB_HOST}' password={DB_PASS} port='{DB_PORT}'")
             # logger.debug(f'Database \'{DB_NAME}\' connected successfully.')
-        except:
+        except Exception as error:
             logger.error(f'Database \'{DB_NAME}\' connection failed.')
-            sys.exit(c.DB_CONNECTION_ERR)
+            # sys.exit(c.DB_CONNECTION_ERR)
+            raise error
 
         self._connection = connection
         self._cursor = self._connection.cursor()
@@ -400,7 +405,8 @@ class DBGenericModel:
             self._connection.close()
             self._cursor.close()
             # logger.debug('Database \'StockMarket\' connection closed.')
-            sys.exit(c.QUERY_ERR)
+            # sys.exit(c.QUERY_ERR)
+            raise error
 
         return self._cursor.fetchall()
 
@@ -412,7 +418,8 @@ class DBGenericModel:
             logger.error('Error executing query "{}", error:\n{}'.format(query, error))
             self._connection.close()
             self._cursor.close()
-            sys.exit(c.QUERY_ERR)
+            # sys.exit(c.QUERY_ERR)
+            raise error
 
     def get_holidays(self, start_date, end_date):
         """
@@ -438,7 +445,8 @@ class DBGenericModel:
 
         if df.empty:
             logger.error(f"Holidays table is empty.")
-            sys.exit(c.NO_HOLIDAYS_DATA_ERR)
+            # sys.exit(c.NO_HOLIDAYS_DATA_ERR)
+            raise Exception
 
         return df
 
@@ -459,7 +467,8 @@ class DBGenericModel:
 
         if df.empty:
             logger.error(f"cdi table is empty")
-            sys.exit(c.NO_CDI_DATA_ERR)
+            # sys.exit(c.NO_CDI_DATA_ERR)
+            raise Exception
 
         return df['min_day'][0].to_pydatetime().date(), df['max_day'][0].to_pydatetime().date()
 
@@ -480,7 +489,8 @@ class DBGenericModel:
 
         if df.empty:
             logger.error(f"CDI table is empty.")
-            sys.exit(c.NO_CDI_DATA_ERR)
+            # sys.exit(c.NO_CDI_DATA_ERR)
+            raise Exception
 
         return df['min_day'][0].to_pydatetime().date(), df['max_day'][0].to_pydatetime().date()
 
@@ -489,7 +499,8 @@ class DBGenericModel:
 
         if not any([on_flag, pn_flag, units_flag]):
             logger.error('Program aborted. At least one filter is required.')
-            sys.exit(c.INVALID_ARGUMENT_ERR)
+            # sys.exit(c.INVALID_ARGUMENT_ERR)
+            raise Exception
 
         # Transform parameters without loosing its value
         if sectors == None:
@@ -577,9 +588,10 @@ class DBStrategyModel:
             connection = psycopg2.connect(f"dbname='{DB_NAME}' user={DB_USER} " \
                 f"host='{DB_HOST}' password={DB_PASS} port='{DB_PORT}'")
             # logger.debug(f'Database \'{DB_NAME}\' connected successfully.')
-        except:
+        except Exception as error:
             logger.error(f'Database \'{DB_NAME}\' connection failed.')
-            sys.exit(c.DB_CONNECTION_ERR)
+            # sys.exit(c.DB_CONNECTION_ERR)
+            raise Exception
 
         self._connection = connection
         self._cursor = self._connection.cursor()
@@ -783,7 +795,8 @@ class DBStrategyModel:
             self._connection.close()
             self._cursor.close()
             # logger.debug('Database \'StockMarket\' connection closed.')
-            sys.exit(c.QUERY_ERR)
+            # sys.exit(c.QUERY_ERR)
+            raise error
 
         return self._cursor.fetchall()
 
@@ -795,7 +808,8 @@ class DBStrategyModel:
             logger.error('Error executing query "{}", error:\n{}'.format(query, error))
             self._connection.close()
             self._cursor.close()
-            sys.exit(c.QUERY_ERR)
+            # sys.exit(c.QUERY_ERR)
+            raise error
 
     def _insert_update_with_returning(self, query, params=None):
         try:
@@ -806,7 +820,8 @@ class DBStrategyModel:
             logger.error('Error executing query "{}", error:\n{}'.format(query, error))
             self._connection.close()
             self._cursor.close()
-            sys.exit(c.QUERY_ERR)
+            # sys.exit(c.QUERY_ERR)
+            raise error
 
         return id_of_new_row
 
@@ -815,7 +830,8 @@ class DBStrategyModel:
         if interval not in ['1d', '1wk']:
             logger.error(f"Error argument \'interval\'=\'"
                 f"{interval}\' must be \'1d\' or \'1wk\'.")
-            sys.exit(c.INVALID_ARGUMENT_ERR)
+            # sys.exit(c.INVALID_ARGUMENT_ERR)
+            raise Exception
 
         candles_table = 'daily_candles'
         features_table = 'daily_features'
@@ -1079,9 +1095,10 @@ class DBStrategyAnalyzerModel:
             connection = psycopg2.connect(f"dbname='{DB_NAME}' user={DB_USER} " \
                 f"host='{DB_HOST}' password={DB_PASS} port='{DB_PORT}'")
             # logger.debug(f'Database \'{DB_NAME}\' connected successfully.')
-        except:
+        except Exception as error:
             logger.error(f'Database \'{DB_NAME}\' connection failed.')
-            sys.exit(c.DB_CONNECTION_ERR)
+            # sys.exit(c.DB_CONNECTION_ERR)
+            raise error
 
         self._connection = connection
         self._cursor = self._connection.cursor()
@@ -1097,7 +1114,8 @@ class DBStrategyAnalyzerModel:
             logger.error('Error executing query "{}", error:\n{}'.format(query, error))
             self._connection.close()
             self._cursor.close()
-            sys.exit(c.QUERY_ERR)
+            # sys.exit(c.QUERY_ERR)
+            raise error
 
         return self._cursor.fetchall()
 

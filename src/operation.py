@@ -321,7 +321,8 @@ class Operation:
         if stop_loss_flag == partial_sale_flag is True:
             logger.error(f"Error arguments \'stop_loss_flag\' and "
                 f"\'partial_sale_flag\' can not be True simultaneously.")
-            sys.exit(c.INVALID_ARGUMENT_ERR)
+            # sys.exit(c.INVALID_ARGUMENT_ERR)
+            raise Exception
 
         if self.state == State.OPEN \
             and self.total_purchase_volume >= self.total_sale_volume + sale_volume:
