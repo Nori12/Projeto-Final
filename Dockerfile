@@ -4,7 +4,7 @@ ENV STOCK_MARKET_DB_USER postgres
 ENV STOCK_MARKET_DB_PASS 1234
 ENV STOCK_MARKET_DB_PORT 5432
 ENV STOCK_MARKET_DB_NAME StockMarket
-ENV STOCK_MARKET_DB_HOST 172.17.0.2
+ENV STOCK_MARKET_DB_HOST db
 
 RUN apt update
 RUN apt install git
@@ -23,4 +23,4 @@ RUN pip3 install --upgrade pip
 
 RUN pip3 install -r /home/app/requirements.txt
 
-CMD ["python3", "-Wignore", "src/main.py"]
+CMD ["python3", "-Wignore", "src/main.py", "-p", "2"]
