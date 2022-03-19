@@ -7,7 +7,12 @@ ENV STOCK_MARKET_DB_NAME StockMarket
 ENV STOCK_MARKET_DB_HOST db
 
 RUN apt update
-RUN apt install git
+
+RUN apt install wget
+ENV DOCKERIZE_VERSION v0.5.0
+RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+    && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+    && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
 
 RUN mkdir -p /home/app
 
@@ -23,4 +28,4 @@ RUN pip3 install --upgrade pip
 
 RUN pip3 install -r /home/app/requirements.txt
 
-CMD ["python3", "-Wignore", "src/main.py", "-p", "2"]
+CMD dockerize -wait tcp://db:5432 -timeout 1m && python3 -Wignore src/main.py -p 2
