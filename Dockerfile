@@ -28,4 +28,4 @@ RUN pip3 install --upgrade pip
 
 RUN pip3 install -r /home/app/requirements.txt
 
-CMD dockerize -wait tcp://db:5432 -timeout 1m && python3 -Wignore src/main.py -p 2
+CMD dockerize -wait tcp://db:5432 -timeout 1m && python3 -Wignore src/main.py
