@@ -2,8 +2,12 @@ Roteiro de instruções PH:
 
 1) >> git clone -b fast-exec https://github.com/Nori12/Projeto-Final && cd Projeto-Final
     OBS: Aprox. 1,64GB
+    Se quiser teste rápido em máquina local: git clone https://github.com/Nori12/Projeto-Final && cd Projeto-Final
 
-1.1) Alterar "cpus" e "mem_limit" no arquivo 'docker-compose.yml' de acordo com PC alvo
+1.1) Alterar "cpus" e "mem_limit" no arquivo 'docker-compose.yml' de acordo com PC hospedeiro.
+    Ex: CPU dual-core -> cpus: 2
+        Para execução simples, o programa não utiliza mais do que 400mb de RAM.
+            No entanto, pelo desconhecimento do teto de consumo, arbitro mem_limit: 2g.
 
 2) >> docker-compose run --name stock-app-0 app
     Opcional: após programa começar a simular as estratégias, usar ">> docker stats" em
