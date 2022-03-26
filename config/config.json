@@ -760,7 +760,7 @@
         },
         {
             "name": "Baseline",
-            "alias": "'Testing best min_days_after_failure_operation with lower RCC.'",
+            "alias": "Testing best min_days_after_failure_operation with lower RCC.",
             "comment": "",
             "capital": 100000,
             "risk_capital_coefficient": 0.0008,
