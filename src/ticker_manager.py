@@ -168,7 +168,8 @@ class TickerManager:
                 self._update_weekly_candles()
         except Exception as error:
             logger.exception(f"Error updating daily candles, error:\n{error}")
-            sys.exit(c.UPDATING_DB_ERR)
+            # sys.exit(c.UPDATING_DB_ERR)
+            raise error
 
         return update_happened
 
@@ -293,7 +294,8 @@ class TickerManager:
         if (oldest_date_in_db is not None) != (last_update_in_db is not None):
             logger.error(f"Error arguments \'oldest_date_in_db\' and "
                 f"\'last_update_in_db\' must be provided together.")
-            sys.exit(c.INVALID_ARGUMENT_ERR)
+            # sys.exit(c.INVALID_ARGUMENT_ERR)
+            raise Exception
         elif oldest_date_in_db is not None:
             able_to_normalize = True
 
@@ -301,7 +303,8 @@ class TickerManager:
         if oldest_date_in_db is not None and oldest_date_in_db >= start_date:
             logger.error(f"Error argument \'oldest_date_in_db\'=\'{oldest_date_in_db}\' "
                 f"is greater than or equals to \'start_date\'={start_date}.")
-            sys.exit(c.INVALID_ARGUMENT_ERR)
+            # sys.exit(c.INVALID_ARGUMENT_ERR)
+            raise Exception
 
         candles_df = self._get_yfinance_candles(start_date, end_date)
 
@@ -326,6 +329,11 @@ class TickerManager:
             candles_df.drop(candles_df[(candles_df['Open'] == 0) |
                 (candles_df['High'] == 0) | (candles_df['Low'] == 0) |
                 (candles_df['Close'] == 0)].index, inplace=True)
+
+        if candles_df.empty:
+            logger.warning(f"Yahoo Finance data corrupted for ticker \'{self.ticker}\' "
+                f"(\'{start_date.strftime('%Y-%m-%d')}\', \'{end_date.strftime('%Y-%m-%d')}\').")
+            return False
 
         self._adjust_to_database_constraints(candles_df)
 
@@ -385,7 +393,8 @@ class TickerManager:
                 prepost=True, back_adjust=True, rounding=True)
         except Exception as error:
             logger.error('Error getting yfinance data, error:\n{}'.format(error))
-            sys.exit(c.YFINANCE_ERR)
+            # sys.exit(c.YFINANCE_ERR)
+            raise error
 
         return hist
 
@@ -543,7 +552,8 @@ class TickerManager:
                     return False
         except Exception as error:
             logger.exception(f"Error generating features, error:\n{error}")
-            sys.exit(c.UPDATING_DB_ERR)
+            # sys.exit(c.UPDATING_DB_ERR)
+            raise error
         return True
 
     def find_target_buy_price_and_trend(self, prices_df, close_column_name='Close',
@@ -615,12 +625,14 @@ class TickerManager:
                         logger.error(f"Found min peak greater than or equal to max peak. "
                             f"(Ticker: \'{self.ticker}\', {time_column_name}: "
                             f"\'{pd.to_datetime(row[time_column_name], format='%d/%m/%Y')}\')")
-                        sys.exit(c.INVALID_PEAK_ERR)
+                        # sys.exit(c.INVALID_PEAK_ERR)
+                        raise Exception
                     elif (min_from_max_peaks <= min_from_min_peaks):
                         logger.error(f"Found max peak less than or equal to min peak. "
                             f"(Ticker: \'{self.ticker}\', {time_column_name}: "
                             f"\'{pd.to_datetime(row[time_column_name], format='%d/%m/%Y')}\')")
-                        sys.exit(c.INVALID_PEAK_ERR)
+                        # sys.exit(c.INVALID_PEAK_ERR)
+                        raise Exception
 
                     # target_price = round(max_from_max_peaks, 2)
 

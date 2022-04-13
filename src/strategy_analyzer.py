@@ -137,6 +137,16 @@ class StrategyAnalyzer:
 
         statistics_raw['sharpe_ratio'][0] = round(statistics_raw['sharpe_ratio'][0], 2)
 
+        statistics_raw['sortino_ratio'][0] = round(statistics_raw['sortino_ratio'][0], 2)
+
+        statistics_raw['ibov_pearson_corr'][0] = round(statistics_raw['ibov_pearson_corr'][0], 2)
+
+        statistics_raw['ibov_spearman_corr'][0] = round(statistics_raw['ibov_spearman_corr'][0], 2)
+
+        statistics_raw['tck_avg_pearson_corr'][0] = round(statistics_raw['tck_avg_pearson_corr'][0], 2)
+
+        statistics_raw['tck_avg_spearman_corr'][0] = round(statistics_raw['tck_avg_spearman_corr'][0], 2)
+
         statistics_raw['max_used_capital'][0] = \
             round(statistics_raw['max_used_capital'][0] * 100, 2)
 
@@ -202,10 +212,12 @@ class StrategyAnalyzer:
         # Names to be shown
         statistics_parameters = ['Yield (%)', 'IBOVESPA Yield (%)',
             'Tickers Average Yield (%)', 'CDI Yield (%)', 'Sharpe Ratio (-)',
-            'Volatility (%)', 'Maximum Used Capital (%)', 'Average Used Capital (%)',
-            'Maximum Active Operations', 'Average Active Operations',
-            'Active Operations Standard Deviation', 'Profit (R$)',
-            'Total Operations', '---Successful Operations (hit 3:1 target)',
+            'Sortino Ratio (-)', 'Volatility (%)', 'IBOV Pearson Correlation (-)',
+            'IBOV Spearman Correlation (-)', 'Tickers Average Pearson Correlation (-)',
+            'Tickers Average Spearman Correlation (-)', 'Maximum Used Capital (%)',
+            'Average Used Capital (%)', 'Maximum Active Operations',
+            'Average Active Operations', 'Active Operations Standard Deviation',
+            'Profit (R$)', 'Total Operations', '---Successful Operations (hit 3:1 target)',
             '---Partial Sale Successfull Operations (hit 1:1 or 2:1 target)',
             '---Failed Operations', '---Timed Out Operations', '---Unfinished Operations',
             'Yield (% ann)', 'IBOVESPA Yield (% ann)', 'Tickers Average Yield (% ann)',
@@ -214,7 +226,10 @@ class StrategyAnalyzer:
 
         statistics_data = [f"{statistics_raw['yield'][0]:.2f}", f"{statistics_raw['ibov_yield'][0]:.2f}",
             f"{statistics_raw['avr_tickers_yield'][0]:.2f}", f"{statistics_raw['cdi_yield'][0]:.2f}",
-            statistics_raw['sharpe_ratio'][0], f"{statistics_raw['volatility'][0]:.2f}",
+            statistics_raw['sharpe_ratio'][0], statistics_raw['sortino_ratio'][0],
+            f"{statistics_raw['volatility'][0]:.2f}", statistics_raw['ibov_pearson_corr'][0],
+            statistics_raw['ibov_spearman_corr'][0], statistics_raw['tck_avg_pearson_corr'][0],
+            statistics_raw['tck_avg_spearman_corr'][0],
             f"{statistics_raw['max_used_capital'][0]:.2f}", f"{statistics_raw['avg_used_capital'][0]:.2f}",
             statistics_raw['max_active_operations'][0], f"{statistics_raw['avg_active_operations'][0]:.2f}",
             f"{statistics_raw['std_dev_active_operations'][0]:.2f}", statistics_raw['profit'][0],

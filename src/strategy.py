@@ -232,8 +232,8 @@ class AdaptedAndreMoraesStrategy(PseudoStrategy):
         tickers_bag='listed_first', tickers_number=0, strategy_number=1, total_strategies=1,
         stdout_prints=True):
 
-        if risk_capital_product < 0.0 or risk_capital_product > 1.0:
-            logger.error(f"Parameter \'risk_reference\' must be in the interval [0, 1].")
+        if risk_capital_product < 1e-6 or risk_capital_product > 1.0:
+            logger.error(f"Parameter \'risk_reference\' must be in the interval [1e-6, 1].")
             # sys.exit(c.INVALID_ARGUMENT_ERR)
             raise Exception
 
@@ -303,10 +303,7 @@ class AdaptedAndreMoraesStrategy(PseudoStrategy):
         self.last_date = max(tickers.values(), key=lambda x: x['end_date'])['end_date']
 
         self._statistics_graph = None
-        self._statistics_parameters = {'profit': None, 'max_used_capital': None, 'yield': None,
-            'annualized_yield': None, 'ibov_yield': None, 'annualized_ibov_yield': None,
-            'avr_tickers_yield': None, 'annualized_avr_tickers_yield': None, 'volatility': None,
-            'sharpe_ratio': None}
+        self._statistics_parameters = {}
 
         # TODO: Rever RCC
         # tickers_rcc_path = Path(__file__).parent.parent/c.TICKERS_OPER_OPT_PATH
@@ -733,7 +730,7 @@ class AdaptedAndreMoraesStrategy(PseudoStrategy):
 
         statistics['day'] = dates
         statistics['ibov'] = ibov_data['close_price']
-        statistics['tickers_average'] = AdaptedAndreMoraesStrategy.tickers_yield(
+        statistics['tickers_average'] = AdaptedAndreMoraesStrategy.get_tickers_yield(
             close_prices, precision=4)
         statistics['capital'], statistics['capital_in_use'] = self._calc_capital_usage(
             dates, close_prices)
@@ -798,21 +795,73 @@ class AdaptedAndreMoraesStrategy(PseudoStrategy):
                 bus_day_count), real_precision)
 
         # Volatility
-        temp = self._statistics_graph['capital'] / self._statistics_graph['capital'][0] - 1
-        self._statistics_parameters['volatility'] = round(temp.describe().loc[['std']].
-            squeeze(), real_precision)
+        norm_capital = self._statistics_graph['capital'] / self._statistics_graph['capital'][0] - 1
+        self._statistics_parameters['volatility'] = round(norm_capital.std(), real_precision)
 
-        # Sharpe Ration
+        # Sharpe and Sortino Ratio
         # Risk-free yield by CDI index
         cdi_df = self._db_strategy_model.get_cdi_index(min(self._initial_dates),
             max(self._final_dates))
 
-        if self._statistics_parameters['volatility'] != 0.0:
-            self._statistics_parameters['sharpe_ratio'] = round(
-                (self._statistics_parameters['yield'] - (cdi_df['cumulative'].tail(1).squeeze() \
-                - 1.0)) / self._statistics_parameters['volatility'], real_precision)
-        else:
-            self._statistics_parameters['sharpe_ratio'] = 0.0
+        self._statistics_parameters['sharpe_ratio'] = AdaptedAndreMoraesStrategy.sharpe_ratio(
+            norm_capital, cdi_df['cumulative'], precision=real_precision)
+
+        self._statistics_parameters['sortino_ratio'] = AdaptedAndreMoraesStrategy.sortino_ratio(
+            norm_capital, cdi_df['cumulative'], precision=real_precision)
+
+        # Correlations
+        self._statistics_parameters['ibov_pearson_corr'] = AdaptedAndreMoraesStrategy.\
+            get_correlation(self._statistics_graph['capital'], self._statistics_graph['ibov'],
+            method='pearson', precision=real_precision)
+
+        self._statistics_parameters['ibov_spearman_corr'] = AdaptedAndreMoraesStrategy.\
+            get_correlation(self._statistics_graph['capital'], self._statistics_graph['ibov'],
+            method='spearman', precision=real_precision)
+
+        self._statistics_parameters['tck_avg_pearson_corr'] = AdaptedAndreMoraesStrategy.\
+            get_correlation(self._statistics_graph['capital'],
+            self._statistics_graph['tickers_average'], method='pearson', precision=real_precision)
+
+        self._statistics_parameters['tck_avg_spearman_corr'] = AdaptedAndreMoraesStrategy.\
+            get_correlation(self._statistics_graph['capital'],
+            self._statistics_graph['tickers_average'], method='spearman', precision=real_precision)
+
+    @staticmethod
+    def sharpe_ratio(target, rf, precision=4):
+        if target.std() <= 1e-2:
+            return 0.0
+
+        mean = target.mean() - (rf.mean() - 1)
+        sigma = target.std()
+
+        return round(mean / sigma, precision)
+
+    @staticmethod
+    def sortino_ratio(target, rf, precision=4):
+        if target.std() <= 1e-2:
+            return 0.0
+
+        mean = target.mean() - (rf.mean() - 1)
+        sigma_neg = target[target < target.mean()].std()
+
+        return round(mean / sigma_neg, precision)
+
+    @staticmethod
+    def get_correlation(serie_1, serie_2, method='pearson', precision=4):
+
+        if method not in ['pearson', 'spearman']:
+            logger.error("\'method\' parameter must be in ['pearson', 'spearman']")
+            raise Exception
+
+        if method == 'spearman':
+            corr = stats.spearmanr(serie_1, serie_2).correlation
+        elif method == 'pearson':
+            corr = stats.pearsonr(serie_1, serie_2)[0]
+
+        if np.isnan(corr):
+            corr = 0.0
+
+        return round(corr, precision)
 
     def _get_number_of_operation_per_day(self, dates):
         """
@@ -945,7 +994,7 @@ class AdaptedAndreMoraesStrategy(PseudoStrategy):
 
     # Assumption: all tickers have the same length of the first one.
     @staticmethod
-    def tickers_yield(close_prices, precision=4):
+    def get_tickers_yield(close_prices, precision=4):
         """
         Calculate average tickers yield.
 

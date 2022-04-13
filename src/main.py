@@ -180,7 +180,7 @@ if __name__ == '__main__':
     total = len(strategies)
 
     print("Strategies execution started.")
-    print(f"Using {max_pools} worker processes.")
+    print(f"Using maximum of {max_pools} worker processes.")
     pbar = tqdm(total=total)
     start = time.perf_counter()
 

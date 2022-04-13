@@ -65,7 +65,8 @@ class SetGenerator:
 
         except Exception as error:
             logger.exception(f"Error processing operations, error:\n{error}")
-            sys.exit(c.PROCESSING_OPERATIONS_ERR)
+            # sys.exit(c.PROCESSING_OPERATIONS_ERR)
+            raise error
 
     @property
     def buy_type(self):
@@ -133,11 +134,13 @@ class SetGenerator:
 
         if start_on_ticker <= 0:
             logger.error("'start_on_ticker' minimum value is 1.")
-            sys.exit(c.DATASET_GENERATION_ERR)
+            # sys.exit(c.DATASET_GENERATION_ERR)
+            raise Exception
 
         if end_on_ticker != 0 and start_on_ticker >= end_on_ticker:
             logger.error("'start_on_ticker' must be lesser than 'end_on_ticker'.")
-            sys.exit(c.DATASET_GENERATION_ERR)
+            # sys.exit(c.DATASET_GENERATION_ERR)
+            raise Exception
 
         if end_on_ticker == 0:
             end_on_ticker = len(self.tickers_and_dates) + 1
@@ -245,7 +248,8 @@ class SetGenerator:
 
         except Exception as error:
             logger.error('Error generating dataset, error:\n{}'.format(error))
-            sys.exit(c.DATASET_GENERATION_ERR)
+            # sys.exit(c.DATASET_GENERATION_ERR)
+            raise error
 
     def _start_progress_bar(self, ticker, ticker_idx, total_tickers, total_count,
         update_step=0.05):

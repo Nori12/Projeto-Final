@@ -1030,15 +1030,19 @@ class DBStrategyModel:
 
     def _insert_strategy_statistics(self, strategy_id, result_parameters):
         query = f"INSERT INTO strategy_statistics (strategy_id, volatility, sharpe_ratio, " \
-            f"profit, max_used_capital, avg_used_capital, yield, annualized_yield, ibov_yield, " \
-            f"annualized_ibov_yield, avr_tickers_yield, annualized_avr_tickers_yield)\nVALUES\n"
+            f"sortino_ratio, ibov_pearson_corr, ibov_spearman_corr, tck_avg_pearson_corr, " \
+            f"tck_avg_spearman_corr, profit, max_used_capital, avg_used_capital, yield, " \
+            f"annualized_yield, ibov_yield, annualized_ibov_yield, avr_tickers_yield, " \
+            f"annualized_avr_tickers_yield)\nVALUES\n"
 
         query += f"  ({strategy_id}, {result_parameters['volatility']}, " \
-            f"{result_parameters['sharpe_ratio']}, {result_parameters['profit']}, " \
-            f"{result_parameters['max_used_capital']}, {result_parameters['avg_used_capital']}, " \
-            f"{result_parameters['yield']}, {result_parameters['annualized_yield']}, " \
-            f"{result_parameters['ibov_yield']}, {result_parameters['annualized_ibov_yield']}, " \
-            f"{result_parameters['avr_tickers_yield']}, " \
+            f"{result_parameters['sharpe_ratio']}, {result_parameters['sortino_ratio']}, " \
+            f"{result_parameters['ibov_pearson_corr']}, {result_parameters['ibov_spearman_corr']}, " \
+            f"{result_parameters['tck_avg_pearson_corr']}, {result_parameters['tck_avg_spearman_corr']}, " \
+            f"{result_parameters['profit']}, {result_parameters['max_used_capital']}, " \
+            f"{result_parameters['avg_used_capital']}, {result_parameters['yield']}, " \
+            f"{result_parameters['annualized_yield']}, {result_parameters['ibov_yield']}, " \
+            f"{result_parameters['annualized_ibov_yield']}, {result_parameters['avr_tickers_yield']}, " \
             f"{result_parameters['annualized_avr_tickers_yield']});"
 
         self._insert_update(query)
@@ -1159,9 +1163,11 @@ class DBStrategyAnalyzerModel:
         return df
 
     def get_strategy_statistics(self, strategy_id):
-        query = f"SELECT ss.volatility, ss.sharpe_ratio, ss.profit, ss.max_used_capital, " \
-            f"ss.avg_used_capital, ss.yield, ss.annualized_yield, ss.ibov_yield, " \
-            f"ss.annualized_ibov_yield, ss.avr_tickers_yield, ss.annualized_avr_tickers_yield\n"
+        query = f"SELECT ss.volatility, ss.sharpe_ratio, ss.sortino_ratio, ss.ibov_pearson_corr, " \
+            f"ss.ibov_spearman_corr, ss.tck_avg_pearson_corr, ss.tck_avg_spearman_corr, " \
+            f"ss.profit, ss.max_used_capital, ss.avg_used_capital, ss.yield, ss.annualized_yield, " \
+            f"ss.ibov_yield, ss.annualized_ibov_yield, ss.avr_tickers_yield, " \
+            f"ss.annualized_avr_tickers_yield\n"
         query += f"FROM strategy_statistics ss\n"
         query += f"INNER JOIN strategy s ON s.id = ss.strategy_id\n"
         query += f"WHERE s.id = {strategy_id};"

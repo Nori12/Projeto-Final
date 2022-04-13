@@ -102,13 +102,15 @@ class ConfigReader:
             logger.error(f"Ticker has start date less than the minimum "\
                 f"available ({overall_min_date.strftime('%d/%m/%Y')}). "\
                 f"Please check holidays and CDI data in database.")
-            sys.exit(c.CONFIG_FILE_ERR)
+            # sys.exit(c.CONFIG_FILE_ERR)
+            raise Exception
 
         if self.max_end_date > overall_max_date:
             logger.error(f"Ticker has end date greater than the maximum "\
                 f"available ({overall_max_date.strftime('%d/%m/%Y')}). "\
                 f"Please check holidays and CDI data in database.")
-            sys.exit(c.CONFIG_FILE_ERR)
+            # sys.exit(c.CONFIG_FILE_ERR)
+            raise Exception
 
         # Logging
         logger.info(f"Config file successfully read.")
@@ -216,14 +218,16 @@ class ConfigReader:
             with open(config_file_path, 'r') as cfg_file:
                 try:
                     self.config_json = json.load(cfg_file)
-                except ValueError:
+                except ValueError as value_error:
                     logger.exception(f"Expected config file in JSON format. "\
                         f"Is it corrupted?")
-                    sys.exit(c.CONFIG_FILE_ERR)
-        except FileNotFoundError:
+                    # sys.exit(c.CONFIG_FILE_ERR)
+                    raise value_error
+        except FileNotFoundError as file_not_found_error:
             logger.exception(f"Could not open configuration file: "\
                 f"\'{str(config_file_path)}\'.")
-            sys.exit(c.CONFIG_FILE_ERR)
+            # sys.exit(c.CONFIG_FILE_ERR)
+            raise file_not_found_error
 
         logger.debug('Config file found.')
 
@@ -268,7 +272,8 @@ class ConfigReader:
         """
         if is_boolean is True and is_date is True:
             logger.error(f"Parameter can not be boolean and date at the same time.")
-            sys.exit(c.CONFIG_FILE_ERR)
+            # sys.exit(c.CONFIG_FILE_ERR)
+            raise Exception
 
         parameter = None
 
@@ -290,7 +295,8 @@ class ConfigReader:
                 else:
                     logger.error(f"Parameter \'{param_name}\' can not "\
                         f"be of type LIST.")
-                    sys.exit(c.CONFIG_FILE_ERR)
+                    # sys.exit(c.CONFIG_FILE_ERR)
+                    raise Exception
             else:
                 parameter = ConfigReader.get_value(param_name, parameter_raw,
                 is_boolean, is_date, can_be_none, accept_today)
@@ -300,7 +306,8 @@ class ConfigReader:
 
         elif can_be_missed is False:
             logger.error(f"Could not find parameter: \'{param_name}\'.")
-            sys.exit(c.CONFIG_FILE_ERR)
+            # sys.exit(c.CONFIG_FILE_ERR)
+            raise Exception
 
         return parameter
 
@@ -346,7 +353,8 @@ class ConfigReader:
             if parameter == None:
                 logger.error(f"Parameter \'{param_name}\' has type of "
                     f"BOOLEAN and its value could not be identified.")
-                sys.exit(c.CONFIG_FILE_ERR)
+                # sys.exit(c.CONFIG_FILE_ERR)
+                raise Exception
 
         elif is_date is True:
             if accept_today is True and origin.lower() == "today":
@@ -354,14 +362,16 @@ class ConfigReader:
             else:
                 try:
                     parameter = datetime.strptime(origin, '%d/%m/%Y').date()
-                except Exception:
+                except Exception as error:
                     logger.exception(f"Parameter \'{param_name}\' has no "
                         f"valid convertion to date object.")
-                    sys.exit(c.CONFIG_FILE_ERR)
+                    # sys.exit(c.CONFIG_FILE_ERR)
+                    raise error
             if parameter == None:
                 logger.error(f"Parameter \'{param_name}\' has type of DATE "
                     f"(\'dd/mm/yyyy\') and its value could not be identified.")
-                sys.exit(c.CONFIG_FILE_ERR)
+                # sys.exit(c.CONFIG_FILE_ERR)
+                raise Exception
 
         elif isinstance(origin, str):
             if origin.lower() not in c.ACCEPTABLE_NONE_VALUES:
@@ -372,7 +382,8 @@ class ConfigReader:
 
         if can_be_none is False and parameter is None:
             logger.error(f"Parameter \'{param_name}\' does not accept NULL values.")
-            sys.exit(c.CONFIG_FILE_ERR)
+            # sys.exit(c.CONFIG_FILE_ERR)
+            raise Exception
 
         return parameter
 
@@ -494,7 +505,8 @@ class ConfigReader:
                     if (('tickers' in strategy and not strategy['tickers']) or
                         ('tickers' not in strategy)):
                         logger.error(f"Any strategy must have at least one ticker.")
-                        sys.exit(c.NO_TICKER_FOR_STRATEGY_ERR)
+                        # sys.exit(c.NO_TICKER_FOR_STRATEGY_ERR)
+                        raise Exception
 
                 ConfigReader.replace_text('alias', strategies)
                 ConfigReader.replace_text('comment', strategies)
@@ -540,7 +552,8 @@ class ConfigReader:
             # Check if dimension of strategies and param match.
             if len(strategies) > 1 and len(param) != len(strategies):
                 logger.error(f"Implicit strategy executions do not match size.")
-                sys.exit(c.CONFIG_FILE_ERR)
+                # sys.exit(c.CONFIG_FILE_ERR)
+                raise Exception
 
             # Create param_name if does not exist.
             if len(strategies) == 0:
@@ -616,7 +629,8 @@ class ConfigReader:
 
             if not len(start_dates_raw) == len(end_dates_raw) == len(ticker_names):
                 logger.error(f"Inconsistency on parameter \'stock_targets\'.")
-                sys.exit(c.CONFIG_FILE_ERR)
+                # sys.exit(c.CONFIG_FILE_ERR)
+                raise Exception
 
             # Get length of implicit strategies while checking for inconsistencies
             strategies_len = 1
@@ -626,7 +640,8 @@ class ConfigReader:
                     # Multiple implicit strategies must agree in number
                     if strategies_len > 1 and len(start_dates_raw[index]) != strategies_len:
                         logger.error(f"Implicit strategy executions do not match size.")
-                        sys.exit(c.CONFIG_FILE_ERR)
+                        # sys.exit(c.CONFIG_FILE_ERR)
+                        raise Exception
                     if len(start_dates_raw[index]) == 1:
                         start_dates_raw[index] = start_dates_raw[index][0]
                     else:
@@ -636,7 +651,8 @@ class ConfigReader:
                     # Multiple implicit strategies must agree in number
                     if strategies_len > 1 and len(end_dates_raw[index]) != strategies_len:
                         logger.error(f"Implicit strategy executions do not match size.")
-                        sys.exit(c.CONFIG_FILE_ERR)
+                        # sys.exit(c.CONFIG_FILE_ERR)
+                        raise Exception
                     if len(end_dates_raw[index]) == 1:
                         end_dates_raw[index] = end_dates_raw[index][0]
                     else:
@@ -709,7 +725,8 @@ class ConfigReader:
             if isinstance(origin[param_name], list):
                 logger.error(f"Only one \'{param_name}\' parameter "
                     f"per strategy is allowed.")
-                sys.exit(c.CONFIG_FILE_ERR)
+                # sys.exit(c.CONFIG_FILE_ERR)
+                raise Exception
 
             group_object = origin[param_name]
 
@@ -736,7 +753,8 @@ class ConfigReader:
 
             if group_params['start_date'] >= group_params['end_date']:
                 logger.error(f"\'{param_name}\' has start date greater than end date.")
-                sys.exit(c.CONFIG_FILE_ERR)
+                # sys.exit(c.CONFIG_FILE_ERR)
+                raise Exception
 
             # Get length of implicit strategies while checking for inconsistencies
             strategies_len = 1
@@ -745,7 +763,8 @@ class ConfigReader:
                     # Multiple implicit strategies must agree in number
                     if strategies_len > 1 and len(group_params[key]) != strategies_len:
                         logger.error(f"Implicit strategy executions do not match size.")
-                        sys.exit(c.CONFIG_FILE_ERR)
+                        # sys.exit(c.CONFIG_FILE_ERR)
+                        raise Exception
                     if len(group_params[key]) == 1:
                         group_params[key] = group_params[key][0]
                     else:
@@ -775,7 +794,8 @@ class ConfigReader:
 
                 if tickers_per_strat.empty:
                     logger.error(f"\'{param_name}\' has no tickers in database.")
-                    sys.exit(c.CONFIG_FILE_ERR)
+                    # sys.exit(c.CONFIG_FILE_ERR)
+                    raise Exception
 
                 tickers_wrapper = {}
                 for tck_name in tickers_per_strat['ticker'].to_list():
