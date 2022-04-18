@@ -155,14 +155,17 @@ class SetGenerator:
                 if max_tickers != 0 else min(len(self.tickers_and_dates), tickers_delta)
 
             # For each Ticker
+            tickers_availed = 0
             for tck_index, (ticker, date) in enumerate(self.tickers_and_dates.items()):
 
-                if tck_index == max_tickers and max_tickers != 0:
+                if tickers_availed == max_tickers and max_tickers != 0:
                     break
                 if tck_index + 1 < start_on_ticker:
                     continue
                 if tck_index + 1 >= end_on_ticker:
                     continue
+
+                tickers_availed += 1
 
                 first_write_on_file_flg = True
 
@@ -176,7 +179,7 @@ class SetGenerator:
 
                 peaks_data = SetGenerator._init_peaks_data()
 
-                self._start_progress_bar(ticker, tck_index, total_tickers, len(candles_df_day),
+                self._start_progress_bar(ticker, tickers_availed, total_tickers, len(candles_df_day),
                     update_step=0.1)
 
                 # For each day
@@ -251,14 +254,14 @@ class SetGenerator:
             # sys.exit(c.DATASET_GENERATION_ERR)
             raise error
 
-    def _start_progress_bar(self, ticker, ticker_idx, total_tickers, total_count,
+    def _start_progress_bar(self, ticker, tickers_availed, total_tickers, total_count,
         update_step=0.05):
 
         self._total_count = total_count
         self._update_step = update_step
         self._next_update_percent = update_step
 
-        print(f"Processing Ticker '{ticker}' ({ticker_idx+1} of " \
+        print(f"Processing Ticker '{ticker}' ({tickers_availed} of " \
             f"{total_tickers}): ", end='')
 
     def _update_progress_bar(self, current_count):

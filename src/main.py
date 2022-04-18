@@ -163,7 +163,7 @@ if __name__ == '__main__':
     # Parse args
     parser = argparse.ArgumentParser()
     parser.add_argument("-p", "--pools", type=int,
-                    help="number of worker processes to run code in parallel")
+        help="number of worker processes to run code in parallel")
     args = parser.parse_args()
 
     max_pools = psutil.cpu_count(logical=False)

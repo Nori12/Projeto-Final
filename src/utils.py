@@ -152,4 +152,80 @@ def get_avg_index_of_first_burst_of_ones(some_list):
 
     return avg_idx
 
+def my_dynamic_cast(string_variable, dest_type=str, list_type=None):
+    """
+    Return pair o converted_value, convertion_flag.
 
+    'list_type' is for supporting multiple parameters in list format.
+
+    convertion_flag is True if convertion was successfull.
+    If not, ignore converted_value.
+    """
+    if string_variable == 'None':
+        return None, True
+
+    result = string_variable
+
+    if list_type is None:
+        if dest_type != str:
+            try:
+                result = dest_type(string_variable)
+            except Exception:
+                print(f"Value '{string_variable}' must be of type '{str(dest_type.__name__)}'.")
+                return None, False
+    else:
+        input = string_variable.replace('[', '')
+        input = input.replace(']', '')
+        input = input.replace("'", '')
+        input = input.replace(" ", '')
+        input = input.strip()
+
+        result = input.split(',')
+
+        for idx, value in enumerate(result):
+            if list_type != str:
+                try:
+                    result[idx] = list_type(value)
+                except Exception:
+                    print(f"Value '{result[idx]}' must be of type '{str(dest_type.__name__)}'.")
+                    return None, False
+
+    return result, True
+
+def my_to_list(var):
+    """
+    Convert any variable to unitary list. If variable is already a list, do not do anything.
+    """
+    if type(var) == list:
+        return var
+    if type(var) == tuple:
+        return list(var)
+    return [var]
+
+def remove_row_from_last_n_peaks(training_df, backward_peaks=4):
+    """
+    Remove the n peaks from given DataFrame.
+    Specific to application tickers dataset structure.
+    """
+
+    last_day = training_df['day'].tail(1).squeeze()
+    last_day_1_distance = 0
+    idx_counter = 0
+    end_index = None
+
+    for idx, row in training_df[::-1].iterrows():
+        if last_day_1_distance \
+            and row['day'] != last_day \
+            and row['day_1'] != last_day_1_distance + 1:
+
+            idx_counter += 1
+
+            if idx_counter == backward_peaks:
+                end_index = idx
+                break
+
+        last_day = row['day']
+        last_day_1_distance = row['day_1']
+
+
+    return training_df[0:end_index+1]
