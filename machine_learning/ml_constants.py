@@ -1,25 +1,16 @@
-
 # General
+DATASETS_FOLDER = 'datasets'
 MODELS_DIRECTORY = 'models'
 TICKER_ORIENTED_MODELS_DIRECTORY = 'ticker_oriented_models'
-SPECS_DIRECTORY_SUFFIX = 'model_specs'
+SPECS_DIRECTORY_SUFFIX = '_model_specs'
 SPECS_FILE_SUFFIX = '_model_specs.txt'
 MODEL_FILE_SUFFIX = '_model.joblib'
 DATASET_FILE_SUFFIX = '_dataset.csv'
-DATASETS_FOLDER = 'datasets'
 
-# LEGACY
-SPECS_TEXT_FILE_SUFFIX = '_model_specs.txt'
-
-
-# k-NN
-KNN_SPECS_DIR_SUFFIX = '_knn_model_specs'
+MODEL_CONSTS = {'MLPClassifier': {'MODEL_DIRECTORY': 'mlp_classifier'},
+    'MLPKerasClassifier': {'MODEL_DIRECTORY': 'mlp_keras_classifier'},
+    'RandomForestClassifier': {'MODEL_DIRECTORY': 'random_forest_classifier'},
+    'KNeighborsClassifier': {'MODEL_DIRECTORY': 'kneighbors_classifier'}}
 
 # Random Forest
-RANDOM_FOREST_SPECS_DIR_SUFFIX = '_rnd_fst_model_specs'
-RANDOM_FOREST_MODEL_SUFFIX = '_rnd_fst_model.joblib'
-RANDOM_FOREST_FIG_SUFFIX = '_rnd_fst_model.png'
-
-# Multilayer Perceptron
-MLP_SPECS_DIR_SUFFIX = '_mlp_model_specs'
-MLP_MODEL_SUFFIX = '_mlp_model.joblib'
+RANDOM_FOREST_FIG_SUFFIX = '_rf_features_importance.png'

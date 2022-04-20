@@ -3,455 +3,578 @@ import logging
 from logging.handlers import RotatingFileHandler
 from pathlib import Path
 import pandas as pd
+from multiprocessing import Pool
+import time
+from tqdm import tqdm
+import psutil
+import argparse
+import itertools
 from sklearn.model_selection import train_test_split
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.ensemble import RandomForestClassifier
-import joblib
-import matplotlib.pyplot as plt
+from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import RobustScaler
+from sklearn.preprocessing import MinMaxScaler
+from imblearn.under_sampling import TomekLinks
+from imblearn.over_sampling import SMOTE
 import numpy as np
-import os, shutil
-from sklearn.tree import export_graphviz
-from subprocess import call
 
 sys.path.insert(1, str(Path(__file__).parent.parent/'src'))
 import constants as c
 import config_reader as cr
+from utils import my_dynamic_cast, my_to_list, remove_row_from_last_n_peaks
+import ml_constants as mlc
+from model import KNeighbors, RandomForest, MLP_scikit, MLP_keras
 
 # Configure Logging
 logger = logging.getLogger(__name__)
-
 log_path = Path(__file__).parent.parent / c.LOG_PATH / c.LOG_FILENAME
-
 file_handler = RotatingFileHandler(log_path, maxBytes=c.LOG_FILE_MAX_SIZE, backupCount=10)
 formatter = logging.Formatter(c.LOG_FORMATTER_STRING)
 file_handler.setFormatter(formatter)
-
 logger.addHandler(file_handler)
-
 file_handler.setLevel(logging.DEBUG)
 logger.setLevel(logging.DEBUG)
 
-SPECS_DIRECTORY_SUFFIX = '_rnd_fst_model_specs'
-SPECS_TEXT_FILE_SUFFIX = '_model_specs.txt'
-RANDOM_FOREST_MODEL_SUFFIX = '_rnd_fst_model.joblib'
-RANDOM_FOREST_FIG_SUFFIX = '_rnd_fst_model.png'
-
-class ModelGenerator:
-
-    def __init__(self, min_date_filter=None, max_date_filter=None):
+pbar = None
 
-        self._min_date_filter = min_date_filter
-        self._max_date_filter = max_date_filter
+def manage_ticker_models(model_type, ticker, input_features, output_feature, X_train,
+    y_train, X_test, y_test, datasets_info, models_dir, models_params=None,
+    variable_params=None):
 
-        try:
-            if min_date_filter is not None:
-                pd.Timestamp(min_date_filter)
-            if max_date_filter is not None:
-                pd.Timestamp(max_date_filter)
-        except Exception as error:
-            logger.error("\'min_date_filter\' and \'max_date_filter\' " \
-                "formats are \'YYYY-MM-DD\', error:\n{}".format(error))
-            sys.exit(c.MODEL_CREATION_ERR)
+    # Output store variables
+    models = []
+    training_accuracies = []
+    training_confusions = []
+    training_profit_indexes = []
+    training_profit_indexes_zeros = []
+    test_accuracies = []
+    test_confusions = []
+    test_profit_indexes = []
+    test_profit_indexes_zeros = []
 
-        cfg_path = Path(__file__).parent / 'config.json'
-        config_reader = cr.ConfigReader(config_file_path=cfg_path)
+    if models_params is None:
+        models_params = {}
 
-        self._tickers_and_dates = config_reader.tickers_and_dates
-        self.datasets_path_prefix = Path(__file__).parent / 'datasets'
-        self.models_path_prefix = Path(__file__).parent / 'models'
+    if variable_params is None:
+        variable_params = []
 
-        self.supported_models = ('KNeighborsClassifier', 'RandomForestClassifier')
-        self.models_folder = ('kneighbors_classifier', 'random_forest_classifier')
-        self.model_type_folder = 'ticker_oriented_models'
+    if model_type == 'MLPClassifier':
 
-        self.feature_columns = ['risk', 'peak_1', 'day_1', 'peak_2', 'day_2', 'peak_3',
-                'day_3', 'peak_4', 'day_4', 'ema_17_day', 'ema_72_day', 'ema_72_week']
+        for model_params in models_params:
+            my_model = MLP_scikit(ticker=ticker, input_features=input_features,
+                output_feature=output_feature, X_train=X_train, y_train=y_train,
+                X_test=X_test, y_test=y_test, model_dir=models_dir, parameters=model_params)
 
-    @property
-    def tickers_and_dates(self):
-        return self._tickers_and_dates
+            my_model.create_model()
 
-    @tickers_and_dates.setter
-    def tickers_and_dates(self, tickers_and_dates):
-        self._tickers_and_dates = tickers_and_dates
+            models.append(my_model)
+            training_accuracies.append(my_model.get_accuracy(X_train, y_train))
+            test_accuracies.append(my_model.get_accuracy(X_test, y_test))
 
-    @property
-    def min_date_filter(self):
-        return self._min_date_filter
+            training_confusions.append(my_model.get_confusion(X_train, y_train))
+            test_confusions.append(my_model.get_confusion(X_test, y_test))
 
-    @min_date_filter.setter
-    def min_date_filter(self, min_date_filter):
-        self._min_date_filter = min_date_filter
+            index, zero = my_model.get_profit_index(X_train, y_train)
+            training_profit_indexes.append(index)
+            training_profit_indexes_zeros.append(zero)
 
-    @property
-    def max_date_filter(self):
-        return self._max_date_filter
+            index, zero = my_model.get_profit_index(X_test, y_test)
+            test_profit_indexes.append(index)
+            test_profit_indexes_zeros.append(zero)
 
-    @max_date_filter.setter
-    def max_date_filter(self, max_date_filter):
-        self._max_date_filter = max_date_filter
+        idx_of_best = test_profit_indexes.index(max(test_profit_indexes))
+        models[idx_of_best].save()
 
-    @property
-    def test_set_start_date(self):
-        return self._test_set_start_date
+        MLP_scikit.save_results(model_type, ticker, models_params, variable_params,
+            y_train, y_test, datasets_info, training_accuracies, test_accuracies,
+            training_confusions, test_confusions, models[idx_of_best].specs_dir,
+            training_profit_indexes, training_profit_indexes_zeros, test_profit_indexes,
+            test_profit_indexes_zeros)
 
-    @test_set_start_date.setter
-    def test_set_start_date(self, test_set_start_date):
-        self._test_set_start_date = test_set_start_date
+    elif model_type == 'MLPKerasClassifier':
 
-    def create_ticker_oriented_models(self, max_tickers=0, start_on_ticker=1,
-        end_on_ticker=0, model_type='RandomForestClassifier', test_set_ratio=0.2):
+        for model_params in models_params:
+            my_model = MLP_keras(ticker=ticker, input_features=input_features,
+                output_feature=output_feature, X_train=X_train, y_train=y_train,
+                X_test=X_test, y_test=y_test, model_dir=models_dir, parameters=model_params)
 
-        if start_on_ticker <= 0:
-            logger.error("'start_on_ticker' minimum value is 1.")
-            sys.exit(c.DATASET_GENERATION_ERR)
+            my_model.create_model()
 
-        if end_on_ticker != 0 and start_on_ticker >= end_on_ticker:
-            logger.error("'start_on_ticker' must be lesser than 'end_on_ticker'.")
-            sys.exit(c.DATASET_GENERATION_ERR)
+            models.append(my_model)
+            training_accuracies.append(my_model.get_accuracy(X_train, y_train))
+            test_accuracies.append(my_model.get_accuracy(X_test, y_test))
 
-        if end_on_ticker == 0:
-            end_on_ticker = len(self.tickers_and_dates) + 1
+            training_confusions.append(my_model.get_confusion(X_train, y_train))
+            test_confusions.append(my_model.get_confusion(X_test, y_test))
 
-        try:
-            if model_type not in self.supported_models:
-                raise Exception("'objective' parameter options: 'train', 'test'.")
+            index, zero = my_model.get_profit_index(X_train, y_train)
+            training_profit_indexes.append(index)
+            training_profit_indexes_zeros.append(zero)
 
-            tickers_delta = end_on_ticker - start_on_ticker if end_on_ticker != 0 \
-                else len(self.tickers_and_dates) - start_on_ticker + 1 if start_on_ticker != 0 \
-                else len(self.tickers_and_dates)
-            total_tickers = min(len(self.tickers_and_dates), max_tickers, tickers_delta) \
-                if max_tickers != 0 else min(len(self.tickers_and_dates), tickers_delta)
+            index, zero = my_model.get_profit_index(X_test, y_test)
+            test_profit_indexes.append(index)
+            test_profit_indexes_zeros.append(zero)
 
-            # For each Ticker
-            for tck_index, (ticker, date) in enumerate(self.tickers_and_dates.items()):
+        idx_of_best = test_profit_indexes.index(max(test_profit_indexes))
+        models[idx_of_best].save()
 
-                if tck_index == max_tickers and max_tickers != 0:
-                    break
-                if tck_index + 1 < start_on_ticker:
-                    continue
-                if tck_index + 1 >= end_on_ticker:
-                    continue
+        MLP_keras.save_results(model_type, ticker, models_params, variable_params,
+            y_train, y_test, datasets_info, training_accuracies, test_accuracies,
+            training_confusions, test_confusions, models[idx_of_best].specs_dir,
+            training_profit_indexes, training_profit_indexes_zeros, test_profit_indexes,
+            test_profit_indexes_zeros)
 
-                print(f"\nProcessing Ticker '{ticker}' ({tck_index+1} of " \
-                    f"{total_tickers})")
+    elif model_type == 'RandomForestClassifier':
 
-                training_df, test_df, real_test_df = self._load_datasets(ticker, test_set_ratio)
+        for model_params in models_params:
+            my_model = RandomForest(ticker=ticker, input_features=input_features,
+                output_feature=output_feature, X_train=X_train, y_train=y_train,
+                X_test=X_test, y_test=y_test, model_dir=models_dir, parameters=model_params)
 
-                if model_type == 'KNeighborsClassifier':
-                    model = self._get_kneighbors_classifier(training_df, test_df)
+            my_model.create_model()
 
-                    # Save model
-                    joblib.dump(model, self.models_path_prefix / self.model_type_folder /
-                        self.models_folder[self.supported_models.index(model_type)] /
-                        f'{ticker}_knn_model.joblib')
+            models.append(my_model)
+            training_accuracies.append(my_model.get_accuracy(X_train, y_train))
+            test_accuracies.append(my_model.get_accuracy(X_test, y_test))
 
-                elif model_type == 'RandomForestClassifier':
-                    self.reset_specs_directory(ticker)
+            training_confusions.append(my_model.get_confusion(X_train, y_train))
+            test_confusions.append(my_model.get_confusion(X_test, y_test))
 
-                    model = self._get_random_forest_classifier(ticker, training_df,
-                        test_df, real_test_df)
+            index, zero = my_model.get_profit_index(X_train, y_train)
+            training_profit_indexes.append(index)
+            training_profit_indexes_zeros.append(zero)
 
-                    self.save_feature_importances(ticker, model)
-                    self.visualize_trees(ticker, model, max_estimators=3, max_depth=3)
+            index, zero = my_model.get_profit_index(X_test, y_test)
+            test_profit_indexes.append(index)
+            test_profit_indexes_zeros.append(zero)
 
-                    # Save model
-                    joblib.dump(model, self.models_path_prefix / self.model_type_folder /
-                        self.models_folder[self.supported_models.index(model_type)] /
-                        (f'{ticker}' + RANDOM_FOREST_MODEL_SUFFIX))
+        idx_of_best = test_profit_indexes.index(max(test_profit_indexes))
+        models[idx_of_best].save()
+        models[idx_of_best].save_auxiliary_files()
 
-        except Exception as error:
-            logger.error('Error creating ticker oriented models, error:\n{}'.format(error))
-            sys.exit(c.MODEL_CREATION_ERR)
+        RandomForest.save_results(model_type, ticker, models_params, variable_params,
+            y_train, y_test, datasets_info, training_accuracies, test_accuracies,
+            training_confusions, test_confusions, models[idx_of_best].specs_dir,
+            training_profit_indexes, training_profit_indexes_zeros, test_profit_indexes,
+            test_profit_indexes_zeros)
 
-    def _load_datasets(self, ticker, test_set_ratio=0.2):
+    elif model_type == 'KNeighborsClassifier':
 
-        file_path = self.datasets_path_prefix / (ticker + '_dataset.csv')
-        columns = ['day', 'risk', 'success_oper_flag', 'timeout_flag',
-            'end_of_interval_flag'].extend(self.feature_columns)
+        for model_params in models_params:
+            my_model = KNeighbors(ticker=ticker, input_features=input_features,
+                output_feature=output_feature, X_train=X_train, y_train=y_train,
+                X_test=X_test, y_test=y_test, model_dir=models_dir, parameters=model_params)
 
-        df = pd.read_csv(file_path, sep=',', usecols=columns)
+            my_model.create_model()
 
-        real_test_df = df[df['day'] > self.max_date_filter]
+            models.append(my_model)
+            training_accuracies.append(my_model.get_accuracy(X_train, y_train))
+            test_accuracies.append(my_model.get_accuracy(X_test, y_test))
 
-        if self.min_date_filter is not None:
-            df = df[df['day'] >= self.min_date_filter]
-        if self.max_date_filter is not None:
-            df = df[df['day'] <= self.max_date_filter]
+            training_confusions.append(my_model.get_confusion(X_train, y_train))
+            test_confusions.append(my_model.get_confusion(X_test, y_test))
 
-        training_df, test_df = train_test_split(df, test_size=test_set_ratio,
-            shuffle=False)
+            index, zero = my_model.get_profit_index(X_train, y_train)
+            training_profit_indexes.append(index)
+            training_profit_indexes_zeros.append(zero)
 
-        training_df.reset_index(drop=True, inplace=True)
-        test_df.reset_index(drop=True, inplace=True)
-        real_test_df.reset_index(drop=True, inplace=True)
+            index, zero = my_model.get_profit_index(X_test, y_test)
+            test_profit_indexes.append(index)
+            test_profit_indexes_zeros.append(zero)
 
-        training_df = ModelGenerator._remove_row_from_last_n_peaks(training_df)
+        idx_of_best = test_profit_indexes.index(max(test_profit_indexes))
+        models[idx_of_best].save()
 
-        # End of interval set rows may pollute the models
-        training_df = training_df.drop(
-            training_df[training_df['end_of_interval_flag'] == 1].index)
-        test_df = test_df.drop(
-            test_df[test_df['end_of_interval_flag'] == 1].index)
-        real_test_df = real_test_df.drop(
-            real_test_df[real_test_df['end_of_interval_flag'] == 1].index)
+        KNeighbors.save_results(model_type, ticker, models_params, variable_params,
+            y_train, y_test, datasets_info, training_accuracies, test_accuracies,
+            training_confusions, test_confusions, models[idx_of_best].specs_dir,
+            training_profit_indexes, training_profit_indexes_zeros, test_profit_indexes,
+            test_profit_indexes_zeros)
 
-        training_df.reset_index(drop=True, inplace=True)
-        test_df.reset_index(drop=True, inplace=True)
-        real_test_df.reset_index(drop=True, inplace=True)
 
-        return training_df, test_df, real_test_df
+def filter_dataset(training_df, test_df, input_features, output_feature,
+    filter_data_risk_margin=0.03, sampling_method='CSL', scaling_method=None):
 
-    @staticmethod
-    def _remove_row_from_last_n_peaks(training_df, backward_peaks=4):
+    if scaling_method is not None \
+        and scaling_method not in ('standard', 'robust', 'min_max'):
+        print("Invalid scaling method.")
+        sys.exit()
 
-        last_day = training_df['day'].tail(1).squeeze()
-        last_day_1_distance = 0
-        idx_counter = 0
-        end_index = None
+    if sampling_method not in ('CSL', 'oversample'):
+        print("Invalid sampling method.")
+        sys.exit()
 
-        for idx, row in training_df[::-1].iterrows():
-            if last_day_1_distance \
-                and row['day'] != last_day \
-                and row['day_1'] != last_day_1_distance + 1:
+    # Filtering unecessary datapoints
+    risks = tuple(np.sort(training_df['risk'].squeeze().unique()))
+    risk_histogram = [len(training_df[(training_df[output_feature]==0) & \
+        (training_df['risk'] == risk)]) for risk in risks]
 
-                idx_counter += 1
+    filter_risk_threshold = (1 - filter_data_risk_margin) * \
+        (len(training_df) // len(risks))
+    delete_risks = [risks[idx] for idx, count in enumerate(risk_histogram) \
+        if count > filter_risk_threshold]
 
-                if idx_counter == backward_peaks:
-                    end_index = idx
-                    break
+    training_df = training_df[~training_df['risk'].isin(delete_risks)]
 
-            last_day = row['day']
-            last_day_1_distance = row['day_1']
+    X_train = training_df[input_features]
+    y_train = training_df[output_feature]
 
+    columns = X_train.columns.tolist()
+    columns.append(output_feature)
 
-        return training_df[0:end_index+1]
+    # Almost irrelevant undersampling
+    under_tomek = TomekLinks(sampling_strategy='majority')
+    X_train, y_train = under_tomek.fit_resample(X_train, y_train)
 
-    def _get_kneighbors_classifier(self, training_df, test_df,
-        n_neighbors_list=[1, 2, 3, 4]):
+    if sampling_method == 'oversample':
+        # Oversampling
+        over_smote = SMOTE(sampling_strategy='minority', random_state=1, k_neighbors=5)
+        X_train, y_train = over_smote.fit_resample(X_train, y_train)
 
-        knn_training_accuracy = []
-        knn_test_accuracy = []
-        best_knn_training_accuracy = 0
-        best_knn_test_accuracy = 0.0
-        best_knn_model = None
+    if scaling_method is not None:
+        scaler = None
+        if scaling_method == 'standard':
+            scaler = StandardScaler(copy=True, with_mean=True, with_std=True)
+        elif scaling_method == 'robust':
+            scaler = RobustScaler(with_centering=True, with_scaling=True,
+                quantile_range=(25.0, 75.0), copy=True, unit_variance=False)
+        elif scaling_method == 'min_max':
+            scaler = MinMaxScaler(feature_range=(0,1), copy=True, clip=False)
 
-        print("\n- KNeighborsClassifier")
+        scaler.fit(X_train)
+        training_df_scaled = scaler.transform(X_train)
+        test_df_scaled = scaler.transform(test_df.drop(output_feature, axis=1))
 
-        for n_neighbors in n_neighbors_list:
-            knn = KNeighborsClassifier(n_neighbors=n_neighbors)
-            knn.fit(training_df[self.feature_columns],
-                training_df[['success_oper_flag']].squeeze())
-            print(f"   n_neighbors = {str(n_neighbors).rjust(2)}", end='')
+        X_train_scaled = pd.concat([training_df_scaled, y_train], axis=1)
+        X_train_scaled.columns = columns
 
-            training_set_acc = knn.score(training_df[self.feature_columns],
-                training_df[['success_oper_flag']].squeeze())
+        X_test_formated = pd.concat([test_df_scaled, y_test], axis=1)
+        X_test_formated.columns = columns
 
-            test_set_acc = knn.score(test_df[self.feature_columns],
-                test_df[['success_oper_flag']].squeeze())
+        return X_train_scaled, X_test_formated
+    else:
+        X_train_scaled = pd.concat([X_train, y_train], axis=1)
 
-            print("\t Training acc: {:.4f}%".format(training_set_acc), end='')
-            print(", Test acc: {:.4f}%".format(test_set_acc))
-            knn_training_accuracy.append(training_set_acc)
-            knn_test_accuracy.append(test_set_acc)
+    X_train_scaled.columns = columns
 
-            if knn_test_accuracy[-1] > best_knn_test_accuracy:
-                best_knn_training_accuracy = knn_training_accuracy[-1]
-                best_knn_test_accuracy = knn_test_accuracy[-1]
-                best_knn_model = knn
+    return X_train_scaled, test_df
 
-        print(f"\n* Best KNeighborsClassifier")
-        print(f"   n_neighbors = {str(best_knn_model.n_neighbors).rjust(2)}", end='')
-        print("\t Training acc: {:.4f}%".format(best_knn_training_accuracy), end='')
-        print(", Test acc: {:.4f}%".format(best_knn_test_accuracy))
+def load_dataset(ticker, min_date_filter, max_date_filter, datasets_dir, input_features,
+    output_feature, sampling_method='CSL', scaling_method=None, test_set_ratio=0.2):
 
-        return best_knn_model
+    datasets_info = {}
+    file_path = datasets_dir / (ticker + mlc.DATASET_FILE_SUFFIX)
+    filter_only_columns = ['day', 'end_of_interval_flag']
+    columns = filter_only_columns.copy()
+    columns.extend([output_feature])
+    columns.extend(input_features)
 
-    def _get_random_forest_classifier(self, ticker, training_df, test_df, real_test_df):
-
-        number_of_max_features = len(self.feature_columns)
+    df = pd.read_csv(file_path, sep=',', usecols=columns)
 
-        # *************** Parameters ***************
-        n_estimators_list = [50]
-        max_depth_list = [i for i in range(2, 31, 1)]
-        max_features_list = [number_of_max_features]
-        min_samples_split = 2
-        min_samples_leaf = 1
-        bootstrap = True
-        class_weight = 'balanced_subsample'
-        # ******************************************
+    if min_date_filter is not None:
+        df = df[df['day'] >= min_date_filter]
+    if max_date_filter is not None:
+        df = df[df['day'] <= max_date_filter]
 
-        rnd_frt_training_accuracy = []
-        rnd_frt_test_accuracy = []
-        best_rnd_frt_training_accuracy = 0
-        best_rnd_frt_test_accuracy = 0
-        best_rnd_frt_model = None
+    # End of interval set rows may pollute the models
+    df.drop(df[df['end_of_interval_flag'] == 1].index, inplace=True)
 
-        self.write_model_specs(ticker, f"RandomForestClassifier (\'{ticker}\')",
-            reset_file=True, std_out_also=False)
+    training_df, test_df = train_test_split(df, test_size=test_set_ratio, shuffle=False)
 
-        self.write_model_specs(ticker, "\n   Common configuration\n")
-        self.write_model_specs(ticker, f"Bootstrap: \t\t\t\t\t{str(bootstrap)}")
-        self.write_model_specs(ticker, f"Class weight: \t\t\t\t{class_weight}")
-        self.write_model_specs(ticker, f"Min samples split: \t\t{min_samples_split}")
-        self.write_model_specs(ticker, f"Min samples leaf: \t\t{min_samples_leaf}")
+    training_df.reset_index(drop=True, inplace=True)
+    test_df.reset_index(drop=True, inplace=True)
 
-        self.write_model_specs(ticker, "\n   Dataset\n")
-        self.write_model_specs(ticker, f"Training set samples: \t\t{len(training_df)} " \
-            f"({100 * len(training_df) / (len(training_df)+len(test_df)):.2f}%)")
-        self.write_model_specs(ticker, f"Test set samples: \t\t\t{len(test_df)} " \
-            f"({100 * len(test_df) / (len(training_df)+len(test_df)):.2f}%)")
-        self.write_model_specs(ticker, f"Real test set samples: \t\t{len(real_test_df)}")
+    training_df = remove_row_from_last_n_peaks(training_df)
 
-        training_set_failures = len(training_df.loc[training_df['success_oper_flag'] == 0])
-        total_training_set = len(training_df)
-        test_set_failures = len(test_df.loc[test_df['success_oper_flag'] == 0])
-        total_test_set = len(test_df)
-        real_real_test_set_failures = len(real_test_df.loc[real_test_df['success_oper_flag'] == 0])
-        total_real_test_set = len(real_test_df)
-        self.write_model_specs(ticker, f"\nTraining set failure operations: \t{round(training_set_failures/total_training_set, 4)}%")
-        self.write_model_specs(ticker, f"Test set failure operations: \t\t\t{round(test_set_failures/total_test_set, 4)}%")
-        self.write_model_specs(ticker, f"Real test set failure operations: \t{round(real_real_test_set_failures/total_real_test_set, 4)}%")
+    datasets_info['ticker'] = ticker
+    datasets_info['training_set_start_date'] = training_df['day'].head(1).squeeze()
+    datasets_info['training_set_end_date'] = training_df['day'].tail(1).squeeze()
+    datasets_info['test_set_start_date'] = test_df['day'].head(1).squeeze()
+    datasets_info['test_set_end_date'] = test_df['day'].tail(1).squeeze()
 
-        self.write_model_specs(ticker, f"\nTraining set start date: \t\'{training_df['day'].head(1).squeeze()}\'")
-        self.write_model_specs(ticker, f"Training set end date: \t\t\'{training_df['day'].tail(1).squeeze()}\'")
-        self.write_model_specs(ticker, f"Test set start date: \t\t\'{test_df['day'].head(1).squeeze()}\'")
-        self.write_model_specs(ticker, f"Test set end date: \t\t\t\'{test_df['day'].tail(1).squeeze()}\'")
-        self.write_model_specs(ticker, f"Real test set start date: \t\'{real_test_df['day'].head(1).squeeze()}\'")
-        self.write_model_specs(ticker, f"Real test set end date: \t\'{real_test_df['day'].tail(1).squeeze()}\'")
+    # Drop filter-only columns
+    training_df.drop(filter_only_columns, axis=1, inplace=True)
+    test_df.drop(filter_only_columns, axis=1, inplace=True)
 
-        self.write_model_specs(ticker, "\n   Models\n")
+    filter_dataset(training_df, test_df, input_features, output_feature,
+        filter_data_risk_margin=0.03, sampling_method=sampling_method,
+        scaling_method=scaling_method)
 
-        for n_estimator in n_estimators_list:
-            for max_depth in max_depth_list:
-                for max_features in max_features_list:
+    training_df.reset_index(drop=True, inplace=True)
+    test_df.reset_index(drop=True, inplace=True)
 
-                    rnd_frt = RandomForestClassifier(n_estimators=n_estimator,
-                        criterion='gini', max_features=max_features, max_depth=max_depth,
-                        min_samples_split=min_samples_split, min_samples_leaf=min_samples_leaf,
-                        bootstrap=bootstrap, class_weight=class_weight, random_state=0,
-                        n_jobs=-1)
+    datasets_info['training_set_class_0'] = len(training_df[training_df[output_feature] == 0])
+    datasets_info['training_set_class_1'] = len(training_df[training_df[output_feature] == 1])
+    datasets_info['test_set_class_0'] = len(test_df[test_df[output_feature] == 0])
+    datasets_info['test_set_class_1'] = len(test_df[test_df[output_feature] == 1])
 
-                    rnd_frt.fit(training_df[self.feature_columns],
-                        training_df[['success_oper_flag']].squeeze())
+    return training_df[input_features].to_numpy(), training_df[output_feature].to_numpy(), \
+        test_df[input_features].to_numpy(), test_df[output_feature].to_numpy(), \
+        datasets_info
 
-                    self.write_model_specs(ticker, f"n_estimators = " \
-                        f"{str(n_estimator).rjust(2)}, max_depth = " \
-                        f"{str(max_depth).rjust(2)}, max_features = " \
-                        f"{str(max_features).rjust(2)}", end='')
-
-                    training_set_acc = rnd_frt.score(training_df[self.feature_columns],
-                        training_df[['success_oper_flag']].squeeze())
-
-                    test_set_acc = rnd_frt.score(test_df[self.feature_columns],
-                        test_df[['success_oper_flag']].squeeze())
-
-                    real_test_set_acc = rnd_frt.score(real_test_df[self.feature_columns],
-                        real_test_df[['success_oper_flag']].squeeze())
-
-                    self.write_model_specs(ticker, f"\t Training acc: {training_set_acc:.4f}%", end='')
-                    self.write_model_specs(ticker, f", Test acc: {test_set_acc:.4f}%", end='')
-                    self.write_model_specs(ticker, f", Real test acc: {real_test_set_acc:.4f}%")
-
-                    rnd_frt_training_accuracy.append(training_set_acc)
-                    rnd_frt_test_accuracy.append(test_set_acc)
-
-                    if rnd_frt_test_accuracy[-1] > best_rnd_frt_test_accuracy:
-                        best_rnd_frt_training_accuracy = rnd_frt_training_accuracy[-1]
-                        best_rnd_frt_test_accuracy = rnd_frt_test_accuracy[-1]
-                        best_rnd_frt_model = rnd_frt
-
-        self.write_model_specs(ticker, "\n   Best model\n")
-        self.write_model_specs(ticker, f"n_estimators = " \
-                        f"{str(best_rnd_frt_model.n_estimators).rjust(2)}, max_depth = " \
-                        f"{str(best_rnd_frt_model.max_depth).rjust(2)}, max_features = " \
-                        f"{str(best_rnd_frt_model.max_features).rjust(2)}", end='')
-        self.write_model_specs(ticker, f"\t Training acc: {best_rnd_frt_training_accuracy:.4f}%", end='')
-        self.write_model_specs(ticker, f", Test acc: {best_rnd_frt_test_accuracy:.4f}%")
-
-        return best_rnd_frt_model
-
-    def write_model_specs(self, ticker, message, end='\n', reset_file=False,
-        std_out_also=True):
-
-        ticker_specs_path = self.get_specs_directory_path(ticker)
-        mode = 'a' if reset_file is False else 'w'
-
-        if not ticker_specs_path.exists():
-            os.mkdir(ticker_specs_path)
-
-        with open(ticker_specs_path / (f'{ticker}' + SPECS_TEXT_FILE_SUFFIX), mode) as file:
-            file.write(message + end)
-
-        if std_out_also is True:
-            print(message, end=end)
-
-    def save_feature_importances(self, ticker, model):
-
-        n_features = len(self.feature_columns)
-
-        ticker_specs_path = self.get_specs_directory_path(ticker)
-
-        fig=plt.figure()
-        plt.barh(range(n_features), model.feature_importances_, align='center')
-        plt.yticks(np.arange(n_features), self.feature_columns)
-        plt.title(f"\'{ticker}\' Random Forest (n_estimators={model.n_estimators}, " \
-            f"max_depth={model.max_depth}, max_features={model.max_features})")
-        plt.xlabel("Feature importance")
-        plt.ylabel("Feature")
-        plt.savefig(ticker_specs_path / (f'{ticker}' + RANDOM_FOREST_FIG_SUFFIX), bbox_inches='tight')
-        plt.close(fig)
-
-    def visualize_trees(self, ticker, model, max_estimators=3, max_depth=3):
-
-        if model.max_depth <= max_depth:
-            ticker_specs_path = self.get_specs_directory_path(ticker)
-
-            for n in range(model.n_estimators):
-                if n >= max_estimators:
-                    break
-
-                export_graphviz(model.estimators_[n], out_file=str(ticker_specs_path / \
-                    f"{ticker}_tree_{n+1}.dot"), class_names=["Fail", "Success"],
-                    feature_names=self.feature_columns, impurity=False, filled=True)
-
-                call(['dot', '-Tpng', str(ticker_specs_path / f"{ticker}_tree_{n+1}.dot"),
-                    '-o', str(ticker_specs_path /  f"{ticker}_tree_{n+1}.png"), '-Gdpi=600'])
-
-        self.delete_dot_files(ticker)
-
-    def get_specs_directory_path(self, ticker):
-
-        ticker_specs_path = self.models_path_prefix / self.model_type_folder / \
-                self.models_folder[self.supported_models.index('RandomForestClassifier')] / \
-                (f'{ticker}' + SPECS_DIRECTORY_SUFFIX)
-
-        return ticker_specs_path
-
-    def reset_specs_directory(self, ticker):
-
-        ticker_specs_path = self.get_specs_directory_path(ticker)
-
-        if ticker_specs_path.exists():
-            shutil.rmtree(ticker_specs_path)
-
-        os.mkdir(ticker_specs_path)
-
-    def delete_dot_files(self, ticker):
-
-        ticker_specs_path = self.get_specs_directory_path(ticker)
-
-        if ticker_specs_path.exists():
-            dot_ended_files = [file for file in ticker_specs_path.glob('*.dot')]
-
-            for file in dot_ended_files:
-                path_to_file = ticker_specs_path / file
-                os.remove(path_to_file)
 
 if __name__ == '__main__':
-    logger.info('Model Generator started.')
 
-    model_gen = ModelGenerator(min_date_filter='2013-01-01', max_date_filter='2018-07-01')
+    print('Model Generator started.')
 
-    model_gen.create_ticker_oriented_models(max_tickers=0, start_on_ticker=1,
-        end_on_ticker=0, model_type='RandomForestClassifier', test_set_ratio=0.15)
+    datasets_dir = Path(__file__).parent / mlc.DATASETS_FOLDER
+
+    # Parse args
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument("-p", "--pools", type=int,
+        help="Number of worker processes to run code in parallel.")
+    parser.add_argument("-s", "--start-on-ticker", type=int, default=1,
+        help="Number of ticker to start. Default is 1.")
+    parser.add_argument("-t", "--max-tickers", type=int, default=None,
+        help="Maximum number of tickers to evaluate.")
+    parser.add_argument("-e", "--end-on-ticker", type=int, default=None,
+        help="Number of ticker to end.")
+    parser.add_argument("-m", "--model", default='RandomForestClassifier',
+        choices=['MLPClassifier', 'MLPKerasClassifier', 'RandomForestClassifier', 'KNeighborsClassifier'],
+        help="Machine learning model to be created. Default is \"MLPClassifier\".")
+    parser.add_argument("-a", "--params",
+        help="Substitute default parameters. String of 'key=value' semicolon " \
+        f"separated values for model creation. Ex: \"param1=1;param2=2\".")
+    parser.add_argument("-o", "--output-feature", default='success_oper_flag',
+        help="Dataset consumed output feature name. Default is \"success_oper_flag\".")
+    parser.add_argument("-i", "--input-features", default=None,
+        help="Input features name list (python compatible). Default is \"['risk', " \
+            f"'peak_1', 'day_1', 'peak_2', 'day_2', 'peak_3', 'day_3', 'peak_4', " \
+            f"'day_4', 'ema_17_day', 'ema_72_day', 'ema_72_week']\".")
+    parser.add_argument("-d", "--sampling-method", default='CSL',
+        choices=['oversample', 'CSL'],
+        help="Sampling method for handling imbalanced datasets. Default is \"CSL\", " \
+            f"but if not possible it is \"oversample\".")
+    parser.add_argument("-c", "--scaling-method", default = None,
+        choices=['standard', 'robust', 'min_max'],
+        help="Method for dataset feature scaling, if necessary.")
+
+    args = parser.parse_args()
+
+    # ************************ Check 'pools' argument **************************
+    max_pools = psutil.cpu_count(logical=False)
+
+    if args.pools is not None:
+        max_pools = args.pools
+
+    print(f"Using maximum of {max_pools} worker processes.")
+    # **************************************************************************
+
+    # **** Check 'start_on_ticker', 'max_tickers', 'end_on_ticker' arguments ***
+    cfg_path = Path(__file__).parent / 'config.json'
+    config_reader = cr.ConfigReader(config_file_path=cfg_path)
+    tickers_and_dates = config_reader.tickers_and_dates
+
+    if len(tickers_and_dates) < 1:
+        print("Config file must have at least one ticker to evaluate.")
+        sys.exit()
+
+    start_on_ticker = 1
+    max_tickers = None
+    end_on_ticker = len(tickers_and_dates)
+
+    if args.start_on_ticker is not None:
+        if args.start_on_ticker < 1:
+            print("'start_on_ticker' minimum value is 1.")
+            sys.exit()
+        elif args.start_on_ticker > len(tickers_and_dates):
+            print(f"'start_on_ticker' maximum value is {len(tickers_and_dates)} " \
+                f"due to Config file.")
+            sys.exit()
+        else:
+            start_on_ticker = args.start_on_ticker
+
+    if args.max_tickers is not None:
+        if args.max_tickers < 1:
+            print("'max_tickers' minimum value is 1.")
+            sys.exit()
+        else:
+            max_tickers = args.max_tickers
+            end_on_ticker = start_on_ticker + min(max_tickers - 1, len(tickers_and_dates))
+
+    if args.end_on_ticker is not None:
+        if args.end_on_ticker < 1:
+            print("'end_on_ticker' minimum value is 1.")
+            sys.exit()
+        elif args.end_on_ticker < start_on_ticker:
+            print("'end_on_ticker' must be greater than or equal to " \
+                "'start_on_ticker'.")
+            sys.exit()
+        elif args.end_on_ticker > len(tickers_and_dates):
+            print(f"'end_on_ticker' maximum value is {len(tickers_and_dates)} " \
+                f"due to Config file.")
+            sys.exit()
+
+        if max_tickers is not None:
+            end_on_ticker = min(args.end_on_ticker, start_on_ticker + max_tickers - 1)
+        else:
+            end_on_ticker = args.end_on_ticker
+
+    # Filter tickers_and_dates to only get tickers to evaluate
+    tickers = {}
+    for idx, (ticker, dates) in enumerate(tickers_and_dates.items()):
+        if idx + 1 >= start_on_ticker and idx + 1 <= end_on_ticker:
+            tickers[ticker] = dates.copy()
+    # **************************************************************************
+
+    # ************************ Check 'model' argument **************************
+    model_type = args.model
+    # **************************************************************************
+
+    # ********** Check 'input_features' and 'output_feature' arguments *********
+    input_features = ['risk', 'peak_1', 'day_1', 'peak_2', 'day_2', 'peak_3',
+        'day_3', 'peak_4', 'day_4', 'ema_17_day', 'ema_72_day', 'ema_72_week']
+
+    if args.input_features is not None:
+        casted_value, validation = my_dynamic_cast(args.input_features,
+            list_type=str)
+
+        if validation is False:
+            sys.exit()
+
+        input_features = casted_value
+
+    output_feature = args.output_feature
+    # **************************************************************************
+
+    # ************************ Check 'params' argument *************************
+    param_default_options = {
+        'MLPClassifier': {'hidden_layers': [1, 2], 'hidden_layers_neurons': len(input_features),
+        'activation': 'relu', 'solver': 'adam', 'alpha': [0.0001, 0.001, 0.01],
+        'batch_size': 'auto', 'learning_rate': 'constant', 'learning_rate_init': 0.001,
+        'power_t': 0.5, 'max_iter': 200, 'shuffle': True, 'random_state': 1,
+        'tol': 1e-4, 'warm_start': False, 'momentum': 0.9, 'nesterovs_momentum': True,
+        'early_stopping': False, 'validation_fraction': 0.1, 'beta_1': 0.9,
+        'beta_2': 0.999, 'epsilon': 1e-8, 'n_iter_no_change': 10, 'max_fun': 15000},
+
+        'MLPKerasClassifier': {'hidden_layers': [1, 2, 3, 4, 5],
+        'hidden_layers_neurons': len(input_features), 'activation': 'relu',
+        'optimizer': 'adam', 'loss': 'binary_crossentropy', 'metrics': 'accuracy',
+        'epochs': 4, 'overweight_min_class': [0.5, 0.8, 1.0, 1.2, 1.5]},
+
+        'RandomForestClassifier': {'n_estimators': 50, 'criterion': 'gini',
+        'max_depth': [15, 16, 17, 18, 19, 20], 'min_samples_split': 2, 'min_samples_leaf': 1,
+        'min_weight_fraction_leaf': 0.0, 'max_features': [6, 5, 4], 'max_leaf_nodes': None,
+        'min_impurity_decrease': 0.0, 'bootstrap': True, 'oob_score': False,
+        'random_state': 1, 'warm_start': False, 'class_weight': 'balanced_subsample',
+        'ccp_alpha': 0.0, 'max_samples': None, 'overweight_min_class': [0.5, 0.8, 1.0, 1.2, 1.5]},
+
+        'KNeighborsClassifier': {'n_neighbors': [1, 2, 3, 4, 5], 'weights': ['uniform', 'distance'],
+        'algorithm': 'auto', 'leaf_size': 30, 'p': 2, 'metric': 'minkowski', 'metric_params': None}}
+
+    models_params = param_default_options[model_type].copy()
+    model_variable_params = []
+
+    if args.params is not None:
+
+        params_list = args.params.split(';')
+
+        for key_value_param in params_list:
+            if key_value_param == '':
+                continue
+
+            if '=' not in key_value_param or key_value_param.count('=') != 1:
+                print(f"Parameter '{key_value_param}' must be 'key=value' compatible.")
+                sys.exit()
+
+            key, value = key_value_param.split('=')
+            key = key.strip()
+            value = value.strip()
+
+            if key not in list(param_default_options[model_type].keys()):
+                print(f"Parameter '{key}' does not exist.\nParameters available for " \
+                    f"model \'{model_type}\': {list(param_default_options[model_type].keys())}.")
+                sys.exit()
+
+            # If value is a list
+            if value.startswith('['):
+                casted_value, validation = my_dynamic_cast(value,
+                    list_type=type(param_default_options[model_type][key]))
+            else:
+                casted_value, validation = my_dynamic_cast(value,
+                    dest_type=type(param_default_options[model_type][key]))
+
+            if validation is False:
+                sys.exit()
+
+            models_params[key] = casted_value
+
+    for key, value in models_params.items():
+        if isinstance(value, list):
+            model_variable_params.append(key)
+
+    # Output variables: models_params (dict), model_variable_params (list)
+    # **************************************************************************
+
+    # *********************** Create simulation profiles ***********************
+    models_params_in_list = {}
+    for key in models_params:
+        models_params_in_list[key] = my_to_list(models_params[key])
+
+    models_params_product = [dict(zip(models_params_in_list.keys(), values)) \
+        for values in itertools.product(*models_params_in_list.values())]
+    models_per_ticker = {ticker: models_params_product.copy() for ticker in list(tickers.keys())}
+
+    if len(tickers) > 1:
+        print(f"Found {len(tickers)} tickers between \'{list(tickers.keys())[0]}\' " \
+            f"and \'{list(tickers.keys())[-1]}\' (inclusively) with " \
+            f"{len(models_params_product)} model executions each.")
+    else:
+        print(f"Found {len(tickers)} ticker \'{list(tickers.keys())[0]}\' with " \
+            f"{len(models_params_product)} model executions.")
+
+    # print(models_per_ticker)
+    # **************************************************************************
+
+    # ******************** Check 'sampling_method' arguments *******************
+    sampling_method = args.sampling_method
+    # **************************************************************************
+
+    # ******************** Check 'scaling_method' arguments *******************
+    scaling_method = args.scaling_method
+    # **************************************************************************
+
+    # Distribuir 'models_per_ticker' para pools
+
+    # total_runs = len(models_params_product) * len(tickers)
+
+    pbar = tqdm(total=len(tickers))
+    start = time.perf_counter()
+
+    with Pool(max_pools) as pool:
+        for ticker, dates in tickers.items():
+
+            X_train, y_train, X_test, y_test, datasets_info = load_dataset(ticker,
+                dates['start_date'].strftime('%Y-%m-%d'), dates['end_date'].strftime('%Y-%m-%d'),
+                datasets_dir, input_features, output_feature, sampling_method=sampling_method,
+                scaling_method=scaling_method, test_set_ratio=0.2)
+
+            models_dir = Path(__file__).parent / mlc.MODELS_DIRECTORY / \
+                mlc.TICKER_ORIENTED_MODELS_DIRECTORY / mlc.MODEL_CONSTS[model_type]['MODEL_DIRECTORY']
+
+            pool.apply_async(manage_ticker_models, (model_type, ticker, input_features,
+                output_feature, X_train, y_train, X_test, y_test, datasets_info, models_dir,
+                models_per_ticker[ticker], model_variable_params), callback=lambda x: pbar.update())
+
+        pool.close()
+        pool.join()
+
+    finish = time.perf_counter()
+    pbar.close()
+
+    print(f"Finished in {int((finish - start) // 60)}min " \
+        f"{int((finish - start) % 60)}s.")
+
+
+# Execute MLP (1 ticker)
+# python3 -Wi machine_learning/models_generator.py --start-on-ticker 1 --end-on-ticker 1 --model 'MLPClassifier'
+# python3 -Wi machine_learning/models_generator.py --start-on-ticker 1 --end-on-ticker 1 --model 'MLPKerasClassifier'
+
+# Execute Random Forest (1 ticker)
+# python3 -Wi machine_learning/models_generator.py --start-on-ticker 1 --end-on-ticker 1 --model 'RandomForestClassifier'
+
+# Execute k-NN (1 ticker)
+# python3 -Wi machine_learning/models_generator.py --start-on-ticker 1 --end-on-ticker 1 --model 'KNeighborsClassifier'
+
+# Test params
+# python3 -Wi machine_learning/models_generator.py -s 2 -e 5 -t 20 --model 'MLPClassifier' -a "hidden_layers=10; hidden_layers_neurons=12; activation='tanh';"

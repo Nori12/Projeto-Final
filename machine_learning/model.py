@@ -2,32 +2,21 @@ import sys
 import logging
 from logging.handlers import RotatingFileHandler
 from pathlib import Path
-import pandas as pd
 from abc import ABC, abstractmethod
-from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.neural_network import MLPClassifier
-from sklearn.preprocessing import StandardScaler
-from sklearn.preprocessing import RobustScaler
-from sklearn.preprocessing import MinMaxScaler
-from imblearn.under_sampling import TomekLinks
-from imblearn.under_sampling import EditedNearestNeighbours
-from imblearn.over_sampling import SMOTE
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import roc_auc_score
 from keras.layers import Dense
 from keras.models import Sequential
+from scipy.interpolate import interp1d
 import joblib
 import matplotlib.pyplot as plt
 import numpy as np
-import os, shutil
-from sklearn.tree import export_graphviz
-from subprocess import call
 
 sys.path.insert(1, str(Path(__file__).parent.parent/'src'))
 import constants as c
-import config_reader as cr
 import ml_constants as mlc
 
 # Configure Logging
@@ -47,7 +36,7 @@ logger.setLevel(logging.DEBUG)
 class PseudoModel(ABC):
 
     @abstractmethod
-    def __init__(self, model_type, ticker, features, output_feature, X_train, y_train,
+    def __init__(self, model_type, ticker, input_features, output_feature, X_train, y_train,
         X_test, y_test, parameters=None):
         pass
 
@@ -73,12 +62,12 @@ class PseudoModel(ABC):
 
     @property
     @abstractmethod
-    def features(self):
+    def input_features(self):
         pass
 
-    @features.setter
+    @input_features.setter
     @abstractmethod
-    def features(self, features):
+    def input_features(self, input_features):
         pass
 
     @property
@@ -103,27 +92,7 @@ class PseudoModel(ABC):
 
     @property
     @abstractmethod
-    def save_best(self):
-        pass
-
-    @save_best.setter
-    @abstractmethod
-    def save_best(self, save_best):
-        pass
-
-    @property
-    @abstractmethod
-    def generate_specs_file(self):
-        pass
-
-    @generate_specs_file.setter
-    @abstractmethod
-    def generate_specs_file(self, generate_specs_file):
-        pass
-
-    @property
-    @abstractmethod
-    def specs_directory_path(self):
+    def specs_dir(self):
         pass
 
     @property
@@ -137,7 +106,11 @@ class PseudoModel(ABC):
         pass
 
     @abstractmethod
-    def _reset_specs_directory(self):
+    def get_accuracy(self, X_test, y_test):
+        pass
+
+    @abstractmethod
+    def get_confusion(self, X_test, y_test):
         pass
 
     @abstractmethod
@@ -145,34 +118,39 @@ class PseudoModel(ABC):
         pass
 
     @abstractmethod
-    def test_accuracy(X_test, y_test):
+    def save_results(self, model_type, ticker, all_params, variable_params,
+        y_train, y_test, dataset_info, training_accuracies, test_accuracies,
+        training_confusions, test_confusions, specs_dir, training_profit_indexes,
+        training_profit_indexes_zeros, test_profit_indexes, test_profit_indexes_zeros):
         pass
+
+    @abstractmethod
+    def save_auxiliary_files(self, model):
+        pass
+
 
 class Model(PseudoModel):
 
-    def __init__(self, model_type, ticker, features, output_feature, X_train, y_train,
-        X_test, y_test, parameters=None):
+    def __init__(self, model_type, ticker, input_features, output_feature,
+        X_train, y_train, X_test, y_test, model_dir, parameters=None):
 
         self._model_type = model_type
         self._ticker = ticker
-        self._features = features
+        self._input_features = input_features
         self._output_feature = output_feature
         self._parameters = parameters
+        self._model_dir = model_dir
 
         self._X_train = X_train
         self._y_train = y_train
         self._X_test = X_test
         self._y_test = y_test
 
-        self._specs_directory_path = Path(__file__).parent / mlc.MODELS_DIRECTORY / \
-            mlc.TICKER_ORIENTED_MODELS_DIRECTORY / self.model_type / \
+        self._specs_dir = Path(__file__).parent / mlc.MODELS_DIRECTORY / \
+            mlc.TICKER_ORIENTED_MODELS_DIRECTORY / mlc.MODEL_CONSTS[model_type]['MODEL_DIRECTORY'] / \
             (f'{ticker}' + mlc.SPECS_DIRECTORY_SUFFIX)
 
         self._model = None
-        self._statistics = {'training_set_acc': None, 'test_set_acc': None, 'training_false_neg': None,
-            'training_true_neg': None, 'training_false_pos': None, 'training_true_pos': None,
-            'test_false_neg': None, 'test_true_neg': None, 'test_false_pos': None,
-            'test_true_pos': None}
 
     @property
     def model_type(self):
@@ -184,19 +162,19 @@ class Model(PseudoModel):
 
     @property
     def ticker(self):
-        return self.ticker
+        return self._ticker
 
     @ticker.setter
     def ticker(self, ticker):
         self._ticker = ticker
 
     @property
-    def features(self):
-        return self._features
+    def input_features(self):
+        return self._input_features
 
-    @features.setter
-    def features(self, features):
-        self._features = features
+    @input_features.setter
+    def input_features(self, input_features):
+        self._input_features = input_features
 
     @property
     def output_feature(self):
@@ -215,60 +193,401 @@ class Model(PseudoModel):
         self._parameters = parameters
 
     @property
-    def save_best(self):
-        return self._save_best
+    def model_dir(self):
+        return self._model_dir
 
-    @save_best.setter
-    def save_best(self, save_best):
-        self._save_best = save_best
-
-    @property
-    def generate_specs_file(self):
-        return self._generate_specs_file
-
-    @generate_specs_file.setter
-    def generate_specs_file(self, generate_specs_file):
-        self._generate_specs_file = generate_specs_file
+    @model_dir.setter
+    def model_dir(self, model_dir):
+        self._model_dir = model_dir
 
     @property
-    def specs_directory_path(self):
-        return self._specs_directory_path
+    def X_train(self):
+        return self._X_train
+
+    @X_train.setter
+    def X_train(self, X_train):
+        self._X_train = X_train
+
+    @property
+    def y_train(self):
+        return self._y_train
+
+    @y_train.setter
+    def y_train(self, y_train):
+        self._y_train = y_train
+
+    @property
+    def X_test(self):
+        return self._X_test
+
+    @X_test.setter
+    def X_test(self, X_test):
+        self._X_test = X_test
+
+    @property
+    def y_test(self):
+        return self._y_test
+
+    @y_test.setter
+    def y_test(self, y_test):
+        self._y_test = y_test
+
+    @property
+    def specs_dir(self):
+        return self._specs_dir
 
     @property
     def model(self):
         return self._model
 
+    @model.setter
+    def model(self, model):
+        self._model = model
+
 
     def create_model(self):
+        pass
+
+    def get_accuracy(self, X_test, y_test):
+        pass
+
+    def get_confusion(self, X_test, y_test):
         pass
 
     def save(self):
-        shortname = '_'.join(c for c in self.model_type if c.isupper())
+        if not self.model_dir.exists():
+            self.model_dir.mkdir(parents=True)
 
-        joblib.dump(self.model, self.specs_directory_path /
-            (f'{self.ticker}' + shortname + mlc.MODEL_FILE_SUFFIX))
+        joblib.dump(self.model, self.model_dir / \
+            (f'{self.ticker}' + mlc.MODEL_FILE_SUFFIX))
 
-    def test_accuracy(X_test, y_test):
+    @staticmethod
+    def save_results(model_type, ticker, all_params, variable_params,
+        y_train, y_test, dataset_info, training_accuracies, test_accuracies,
+        training_confusions, test_confusions, specs_dir, training_profit_indexes,
+        training_profit_indexes_zeros, test_profit_indexes, test_profit_indexes_zeros):
+
+        common_cfg_ljust = 31
+        dataset_ljust = 31
+        ds_count_rjust = 6
+        percent_rjust = 5
+        param_rjust = 4
+
+        # Write general configs
+        message = f"{model_type} (\'{ticker}\')"
+
+        message += "\n\nCommon configuration"
+
+        for param, value in all_params[0].items():
+            if param not in variable_params:
+                message += f"\n   {str(param).ljust(common_cfg_ljust)}: {value}"
+
+        message += "\n\nDataset"
+
+        message += f"\n   {'Training set samples'.ljust(dataset_ljust)}: {len(y_train)} " \
+            f"({100 * len(y_train) / (len(y_train)+len(y_test)):.2f}%)"
+        message += f"\n   {'Test set samples'.ljust(dataset_ljust)}: {len(y_test)} " \
+            f"({100 * len(y_test) / (len(y_train)+len(y_test)):.2f}%)"
+        message += "\n"
+
+        train_failure_operations = round(100 * len(y_train[y_train == 0]) / \
+            (len(y_train[y_train == 0]) + len(y_train[y_train == 1])), 2)
+        train_success_operations = round(100 * len(y_train[y_train == 1]) / \
+            (len(y_train[y_train == 0]) + len(y_train[y_train == 1])), 2)
+        test_failure_operations = round(100 * len(y_test[y_test == 0]) / \
+            (len(y_test[y_test == 0]) + len(y_test[y_test == 1])), 2)
+        test_success_operations = round(100 * len(y_test[y_test == 1]) / \
+            (len(y_test[y_test == 0]) + len(y_test[y_test == 1])), 2)
+
+        message += f"\n   {'Training set failure operations'.ljust(dataset_ljust)}: " \
+            f"{len(y_train[y_train == 0])} ({train_failure_operations}%)"
+        message += f"\n   {'Training set success operations'.ljust(dataset_ljust)}: " \
+            f"{len(y_train[y_train == 1])} ({train_success_operations}%)"
+
+        message += "\n"
+
+        message += f"\n   {'Test set failure operations'.ljust(dataset_ljust)}: " \
+            f"{len(y_test[y_test == 0])} ({test_failure_operations}%)"
+        message += f"\n   {'Test set success operations'.ljust(dataset_ljust)}: " \
+            f"{len(y_test[y_test == 1])} ({test_success_operations}%)"
+
+        message += "\n"
+
+        message += f"\n   {'Training set start date'.ljust(dataset_ljust)}: \'{dataset_info['training_set_start_date']}\'"
+        message += f"\n   {'Training set end date'.ljust(dataset_ljust)}: \'{dataset_info['training_set_end_date']}\'"
+        message += f"\n   {'Test set start date'.ljust(dataset_ljust)}: \'{dataset_info['test_set_start_date']}\'"
+        message += f"\n   {'Test set end date'.ljust(dataset_ljust)}: \'{dataset_info['test_set_end_date']}\'"
+
+        message += "\n\nModels"
+
+        models_result = []
+
+        for idx, (training_acc, test_acc, train_confusion, test_confusion,
+            training_profit_index, training_profit_indexes_zero, test_profit_index,
+            test_profit_indexes_zero) in enumerate(zip(training_accuracies, test_accuracies,
+            training_confusions, test_confusions, training_profit_indexes,
+            training_profit_indexes_zeros, test_profit_indexes, test_profit_indexes_zeros)):
+
+            true_positive_train = train_confusion[1,1]
+            true_negative_train = train_confusion[0,0]
+            true_positive_test = test_confusion[1,1]
+            true_negative_test = test_confusion[0,0]
+
+            model_msg_line = \
+                f"\n   ({idx+1:02d}) " \
+                f"Acc(test):{round(100*test_acc, 2):6.2f}%, " \
+                f"Acc(train):{round(100*training_acc, 2):6.2f}% | " \
+                f"Profit_index(test):{100 * test_profit_index:6.2f}% (zero:{100 * test_profit_indexes_zero:6.2f}%), " \
+                f"Profit_index(train):{100 * training_profit_index:6.2f}% (zero:{100 * training_profit_indexes_zero:6.2f}%) | " \
+                f"TP(test):{round(100 * true_positive_test/np.sum(test_confusion, axis=1)[1], 1):5.1f}%, " \
+                f"TN(test):{round(100 * true_negative_test/np.sum(test_confusion, axis=1)[0], 1):5.1f}%, " \
+                f"TP(train):{round(100 * true_positive_train/np.sum(train_confusion, axis=1)[1], 1):5.1f}%, " \
+                f"TN(train):{round(100 * true_negative_train/np.sum(train_confusion, axis=1)[0], 1):5.1f}%"
+
+            if variable_params:
+                model_msg_line += " |"
+                for i, param_name in enumerate(variable_params):
+                    if i != 0:
+                        model_msg_line += ","
+                    model_msg_line += f" {param_name}: {str(all_params[idx][param_name]).rjust(param_rjust)}"
+
+            message += model_msg_line
+            models_result.append(model_msg_line)
+
+        message += "\n\nBest model"
+
+        idx_of_best = test_profit_indexes.index(max(test_profit_indexes))
+        message += models_result[idx_of_best]
+
+        # Create folder and store model results in file
+        if not specs_dir.exists():
+            specs_dir.mkdir(parents=True)
+
+        with open(specs_dir / (f'{ticker}' + mlc.SPECS_FILE_SUFFIX), 'w') as file:
+            file.write(message)
+
+    def save_auxiliary_files(self, model):
         pass
 
-    def _reset_specs_directory(self):
-        if self.specs_directory_path.exists():
-            shutil.rmtree(self.specs_directory_path)
+    def get_accuracy(self, X_test, y_test):
+        return self.model.score(X_test, y_test)
 
-        self.specs_directory_path.mkdir(parents=True)
+    def get_confusion(self, X_test, y_test):
+        yhat = self.model.predict(X_test)
+        yhat = yhat.squeeze()
+        yhat[yhat >= 0.5] = 1
+        yhat[yhat < 0.5] = 0
+
+        return confusion_matrix(y_test, yhat)
+
+    def get_profit_index(self, X_test, y_test):
+
+        min_possible_profit = -sum(X_test[:, self.input_features.index('risk')])
+        max_possible_profit = 3 * sum(X_test[:, self.input_features.index('risk')][y_test==1])
+
+        prof_interp_test = interp1d([min_possible_profit, max_possible_profit], [0, 1])
+
+        yhat = self.model.predict(X_test)
+        yhat = yhat.squeeze()
+        yhat[yhat >= 0.5] = 1
+        yhat[yhat < 0.5] = 0
+
+        profit = 3 * sum(X_test[:,self.input_features.index('risk')][(yhat==1) & (y_test==1)]) \
+            - sum(X_test[:,self.input_features.index('risk')][(yhat==1) & (y_test==0)])
+
+        return round(float(prof_interp_test(profit)), 4), round(float(prof_interp_test(0)), 4)
 
 
+class RandomForest(Model):
 
-class MLP(Model):
+    def __init__(self, ticker, input_features, output_feature, X_train, y_train,
+        X_test, y_test, model_dir, parameters=None):
 
-    def __init__(self, ticker, features, output_feature, X_train, y_train,
-        X_test, y_test, parameters=None):
-
-        super.__init__('MLPClassifier', ticker, features, output_feature, X_train, y_train,
-        X_test, y_test, parameters=parameters)
+        super().__init__('RandomForestClassifier', ticker=ticker, input_features=input_features,
+            output_feature=output_feature, X_train=X_train, y_train=y_train, X_test=X_test,
+            y_test=y_test, model_dir=model_dir, parameters=parameters)
 
     def create_model(self):
-        pass
 
-    def test_accuracy(X_test, y_test):
-        pass
+        weight_0 = self.parameters['overweight_min_class'] * len(self.y_train[self.y_train==1]) / \
+            (self.parameters['overweight_min_class'] * len(self.y_train[self.y_train==1]) + len(self.y_train[self.y_train==0]))
+        weight_1 = len(self.y_train[self.y_train==0]) / \
+            (self.parameters['overweight_min_class'] * len(self.y_train[self.y_train==1]) + len(self.y_train[self.y_train==0]))
+
+        class_weights = {0: weight_0, 1: weight_1}
+
+        model = RandomForestClassifier(
+            n_estimators=self.parameters['n_estimators'],
+            criterion=self.parameters['criterion'],
+            max_depth=self.parameters['max_depth'],
+            min_samples_split=self.parameters['min_samples_split'],
+            min_samples_leaf=self.parameters['min_samples_leaf'],
+            min_weight_fraction_leaf=self.parameters['min_weight_fraction_leaf'],
+            max_features=self.parameters['max_features'],
+            max_leaf_nodes=self.parameters['max_leaf_nodes'],
+            min_impurity_decrease=self.parameters['min_impurity_decrease'],
+            bootstrap=self.parameters['bootstrap'],
+            oob_score=self.parameters['oob_score'],
+            random_state = self.parameters['random_state'],
+            warm_start=self.parameters['warm_start'],
+            class_weight=class_weights,
+            ccp_alpha=self.parameters['ccp_alpha'],
+            max_samples=self.parameters['max_samples'],
+            n_jobs=None)
+
+        model.fit(self.X_train, self.y_train)
+
+        self.model = model
+
+    def save_auxiliary_files(self):
+
+        n_features = len(self.input_features)
+        destination = self.specs_dir / (f'{self.ticker}' + mlc.RANDOM_FOREST_FIG_SUFFIX)
+
+        if not self.specs_dir.exists():
+            self.specs_dir.mkdir(parents=True)
+
+        fig=plt.figure()
+        plt.barh(range(n_features), self.model.feature_importances_, align='center')
+        plt.yticks(np.arange(n_features), self.input_features)
+        plt.title(f"\'{self.ticker}\' Best Random Forest Model - Features Importance")
+        plt.xlabel("Feature importance")
+        plt.ylabel("Feature")
+        plt.savefig(destination, bbox_inches='tight')
+        plt.close(fig)
+
+
+class KNeighbors(Model):
+
+    def __init__(self, ticker, input_features, output_feature, X_train, y_train,
+        X_test, y_test, model_dir, parameters=None):
+
+        super().__init__('KNeighborsClassifier', ticker=ticker, input_features=input_features,
+            output_feature=output_feature, X_train=X_train, y_train=y_train, X_test=X_test,
+            y_test=y_test, model_dir=model_dir, parameters=parameters)
+
+    def create_model(self):
+
+        model = KNeighborsClassifier(
+            n_neighbors=self.parameters['n_neighbors'],
+            weights=self.parameters['weights'],
+            algorithm=self.parameters['algorithm'],
+            leaf_size=self.parameters['leaf_size'],
+            p=self.parameters['p'],
+            metric=self.parameters['metric'],
+            metric_params=self.parameters['metric_params'],
+            n_jobs=None)
+
+        model.fit(self.X_train, self.y_train)
+
+        self.model = model
+
+
+class MLP_scikit(Model):
+
+    def __init__(self, ticker, input_features, output_feature, X_train, y_train,
+        X_test, y_test, model_dir, parameters=None):
+
+        super().__init__('MLPClassifier', ticker=ticker, input_features=input_features,
+            output_feature=output_feature, X_train=X_train, y_train=y_train, X_test=X_test,
+            y_test=y_test, model_dir=model_dir, parameters=parameters)
+
+    def create_model(self):
+
+        hidden_layer_sizes = tuple([self.parameters['hidden_layers_neurons'] \
+            for _ in range(self.parameters['hidden_layers'])])
+
+        model = MLPClassifier(
+            hidden_layer_sizes=hidden_layer_sizes,
+            activation=self.parameters['activation'],
+            solver=self.parameters['solver'],
+            alpha=self.parameters['alpha'],
+            batch_size=self.parameters['batch_size'],
+            learning_rate=self.parameters['learning_rate'],
+            learning_rate_init=self.parameters['learning_rate_init'],
+            power_t=self.parameters['power_t'],
+            max_iter=self.parameters['max_iter'],
+            shuffle=self.parameters['shuffle'],
+            random_state=self.parameters['random_state'],
+            tol = self.parameters['tol'],
+            warm_start=self.parameters['warm_start'],
+            momentum=self.parameters['momentum'],
+            nesterovs_momentum=self.parameters['nesterovs_momentum'],
+            early_stopping=self.parameters['early_stopping'],
+            validation_fraction=self.parameters['validation_fraction'],
+            beta_1=self.parameters['beta_1'],
+            beta_2=self.parameters['beta_2'],
+            epsilon=self.parameters['epsilon'],
+            n_iter_no_change=self.parameters['n_iter_no_change'],
+            max_fun=self.parameters['max_fun'])
+
+        model.fit(self.X_train, self.y_train)
+
+        self.model = model
+
+
+class MLP_keras(Model):
+
+    def __init__(self, ticker, input_features, output_feature, X_train, y_train,
+        X_test, y_test, model_dir, parameters=None):
+
+        super().__init__('MLPKerasClassifier', ticker=ticker, input_features=input_features,
+            output_feature=output_feature, X_train=X_train, y_train=y_train, X_test=X_test,
+            y_test=y_test, model_dir=model_dir, parameters=parameters)
+
+        if parameters['activation'] not in ('relu', 'tanh', 'sigmoid', 'selu',
+            'softmax', 'softplus', 'softsign', 'elu', 'exponential'):
+            print(f"Activation function \'{parameters['activation']}\' not available.")
+            sys.exit()
+
+        # if parameters['solver'] not in ('adam', 'tanh', 'sigmoid', 'selu',
+        #     'softmax', 'softplus', 'softsign', 'elu', 'exponential'):
+        #     print(f"Activation function \'{parameters['activation']}\' not available.")
+        #     sys.exit()
+
+    def create_model(self):
+
+        model = Sequential()
+        for idx, _ in enumerate(range(self.parameters['hidden_layers'])):
+            if idx == 0:
+                model.add(Dense(self.parameters['hidden_layers_neurons'],
+                    input_dim=len(self.input_features),
+                    activation=self.parameters['activation'],
+                    kernel_initializer='he_uniform'))
+            else:
+                model.add(Dense(self.parameters['hidden_layers_neurons'],
+                    activation=self.parameters['activation'],
+                    kernel_initializer='he_uniform'))
+
+        model.add(Dense(1, activation='sigmoid'))
+
+        model.compile(loss=self.parameters['loss'], metrics=self.parameters['metrics'],
+            optimizer=self.parameters['optimizer'])
+
+        weight_0 = self.parameters['overweight_min_class'] * len(self.y_train[self.y_train==1]) / \
+            (self.parameters['overweight_min_class'] * len(self.y_train[self.y_train==1]) + len(self.y_train[self.y_train==0]))
+        weight_1 = len(self.y_train[self.y_train==0]) / \
+            (self.parameters['overweight_min_class'] * len(self.y_train[self.y_train==1]) + len(self.y_train[self.y_train==0]))
+
+        class_weights = {0: weight_0, 1: weight_1}
+
+        model.fit(self.X_train, self.y_train, epochs=self.parameters['epochs'],
+            class_weight=class_weights, verbose=0)
+
+        self.model = model
+
+    def get_accuracy(self, X_test, y_test):
+        yhat = self.model.predict(X_test)
+        yhat = yhat.squeeze()
+        yhat[yhat >= 0.5] = 1
+        yhat[yhat < 0.5] = 0
+
+        score = roc_auc_score(y_test, yhat)
+
+        return score
+
+    def save(self):
+        if not self.model_dir.exists():
+            self.model_dir.mkdir(parents=True)
+
+        self.model.save(self.model_dir / (f'{self.ticker}' + mlc.MODEL_FILE_SUFFIX))
