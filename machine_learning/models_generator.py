@@ -1,6 +1,4 @@
 import sys
-import logging
-from logging.handlers import RotatingFileHandler
 from pathlib import Path
 import pandas as pd
 from multiprocessing import Pool
@@ -23,16 +21,6 @@ import config_reader as cr
 from utils import my_dynamic_cast, my_to_list, remove_row_from_last_n_peaks
 import ml_constants as mlc
 from model import KNeighbors, RandomForest, MLP_scikit, MLP_keras
-
-# Configure Logging
-logger = logging.getLogger(__name__)
-log_path = Path(__file__).parent.parent / c.LOG_PATH / c.LOG_FILENAME
-file_handler = RotatingFileHandler(log_path, maxBytes=c.LOG_FILE_MAX_SIZE, backupCount=10)
-formatter = logging.Formatter(c.LOG_FORMATTER_STRING)
-file_handler.setFormatter(formatter)
-logger.addHandler(file_handler)
-file_handler.setLevel(logging.DEBUG)
-logger.setLevel(logging.DEBUG)
 
 pbar = None
 
@@ -244,10 +232,10 @@ def filter_dataset(training_df, test_df, input_features, output_feature,
         training_df_scaled = scaler.transform(X_train)
         test_df_scaled = scaler.transform(test_df.drop(output_feature, axis=1))
 
-        X_train_scaled = pd.concat([training_df_scaled, y_train], axis=1)
+        X_train_scaled = pd.concat([pd.DataFrame(training_df_scaled), y_train], axis=1)
         X_train_scaled.columns = columns
 
-        X_test_formated = pd.concat([test_df_scaled, y_test], axis=1)
+        X_test_formated = pd.concat([pd.DataFrame(test_df_scaled), test_df[output_feature]], axis=1)
         X_test_formated.columns = columns
 
         return X_train_scaled, X_test_formated
@@ -447,13 +435,13 @@ if __name__ == '__main__':
         'early_stopping': False, 'validation_fraction': 0.1, 'beta_1': 0.9,
         'beta_2': 0.999, 'epsilon': 1e-8, 'n_iter_no_change': 10, 'max_fun': 15000},
 
-        'MLPKerasClassifier': {'hidden_layers': [1, 2, 3, 4, 5],
+        'MLPKerasClassifier': {'hidden_layers': [1, 2, 3, 4, 5, 6],
         'hidden_layers_neurons': len(input_features), 'activation': 'relu',
         'optimizer': 'adam', 'loss': 'binary_crossentropy', 'metrics': 'accuracy',
-        'epochs': 4, 'overweight_min_class': [0.5, 0.8, 1.0, 1.2, 1.5]},
+        'epochs': 3, 'overweight_min_class': [3.0, 2.0, 1.0, 0.75, 0.5, 0.33]},
 
         'RandomForestClassifier': {'n_estimators': 50, 'criterion': 'gini',
-        'max_depth': [15, 16, 17, 18, 19, 20], 'min_samples_split': 2, 'min_samples_leaf': 1,
+        'max_depth': [14, 15, 16, 17, 18, 19, 20], 'min_samples_split': 2, 'min_samples_leaf': 1,
         'min_weight_fraction_leaf': 0.0, 'max_features': [6, 5, 4], 'max_leaf_nodes': None,
         'min_impurity_decrease': 0.0, 'bootstrap': True, 'oob_score': False,
         'random_state': 1, 'warm_start': False, 'class_weight': 'balanced_subsample',
@@ -536,8 +524,6 @@ if __name__ == '__main__':
 
     # Distribuir 'models_per_ticker' para pools
 
-    # total_runs = len(models_params_product) * len(tickers)
-
     pbar = tqdm(total=len(tickers))
     start = time.perf_counter()
 
@@ -567,8 +553,8 @@ if __name__ == '__main__':
 
 
 # Execute MLP (1 ticker)
-# python3 -Wi machine_learning/models_generator.py --start-on-ticker 1 --end-on-ticker 1 --model 'MLPClassifier'
-# python3 -Wi machine_learning/models_generator.py --start-on-ticker 1 --end-on-ticker 1 --model 'MLPKerasClassifier'
+# python3 -Wi machine_learning/models_generator.py --start-on-ticker 1 --end-on-ticker 1 --model 'MLPClassifier' --scaling-method 'standard'
+# python3 -Wi machine_learning/models_generator.py --start-on-ticker 1 --end-on-ticker 1 --model 'MLPKerasClassifier' --scaling-method 'standard'
 
 # Execute Random Forest (1 ticker)
 # python3 -Wi machine_learning/models_generator.py --start-on-ticker 1 --end-on-ticker 1 --model 'RandomForestClassifier'

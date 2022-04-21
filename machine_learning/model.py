@@ -1,6 +1,4 @@
 import sys
-import logging
-from logging.handlers import RotatingFileHandler
 from pathlib import Path
 from abc import ABC, abstractmethod
 from sklearn.neighbors import KNeighborsClassifier
@@ -18,20 +16,6 @@ import numpy as np
 sys.path.insert(1, str(Path(__file__).parent.parent/'src'))
 import constants as c
 import ml_constants as mlc
-
-# Configure Logging
-logger = logging.getLogger(__name__)
-
-log_path = Path(__file__).parent.parent / c.LOG_PATH / c.LOG_FILENAME
-
-file_handler = RotatingFileHandler(log_path, maxBytes=c.LOG_FILE_MAX_SIZE, backupCount=10)
-formatter = logging.Formatter(c.LOG_FORMATTER_STRING)
-file_handler.setFormatter(formatter)
-
-logger.addHandler(file_handler)
-
-file_handler.setLevel(logging.DEBUG)
-logger.setLevel(logging.DEBUG)
 
 class PseudoModel(ABC):
 

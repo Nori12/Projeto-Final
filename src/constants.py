@@ -5,7 +5,7 @@ ACCEPTABLE_TRUE_VALUES = ['true', 'yes', 'y', True]
 ACCEPTABLE_FALSE_VALUES = ['false', 'no', 'n', False]
 ACCEPTABLE_NONE_VALUES = ['none', 'null', None]
 MODELS_PATH = 'machine_learning/models/ticker_oriented_models/random_forest_classifier'
-MODEL_SUFFIX = '_rnd_fst_model.joblib'
+MODEL_SUFFIX = '_model.joblib'
 TICKERS_OPER_OPT_PATH = 'optimizers/stop_loss_optimizer/out_csv_files/tickers_oper_opt.csv'
 DATASETS_PATH = 'machine_learning/datasets/'
 
