@@ -152,10 +152,10 @@ if __name__ == '__main__':
             tickers[ticker] = dates.copy()
 
     if len(tickers) > 1:
-        print(f"Found {len(tickers)} tickers between \'{tickers[0]}\' " \
-            f"and \'{tickers[-1]}\' (inclusively).")
+        print(f"Found {len(tickers)} tickers between \'{list(tickers.keys())[0]}\' " \
+            f"and \'{list(tickers.keys())[-1]}\' (inclusively).")
     else:
-        print(f"Found {len(tickers)} ticker \'{tickers[0]}\'.")
+        print(f"Found {len(tickers)} ticker \'{list(tickers.keys())[0]}\'.")
     # **************************************************************************
 
     # *********************** Check 'buy_type' argument ************************
