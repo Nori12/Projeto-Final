@@ -371,6 +371,8 @@ if __name__ == '__main__':
         help="Input features name list (python compatible). Default is \"['risk', " \
             f"'peak_1', 'day_1', 'peak_2', 'day_2', 'peak_3', 'day_3', 'peak_4', " \
             f"'day_4', 'ema_17_day', 'ema_72_day', 'ema_72_week']\".")
+    parser.add_argument("-z", "--train-test-split", type=float, default=0.2,
+        help="Train test split. Default is \"0.2\".")
     parser.add_argument("-x", "--sampling-method", default='CSL',
         choices=['oversample', 'CSL'],
         help="Sampling method for handling imbalanced datasets. Default is \"CSL\", " \
@@ -477,6 +479,10 @@ if __name__ == '__main__':
         input_features = casted_value
 
     output_feature = args.output_feature
+    # **************************************************************************
+
+    # ******************* Check 'train_test_split' arguments *******************
+    test_set_ratio = args.train_test_split
     # **************************************************************************
 
     # ************************ Check 'params' argument *************************
@@ -593,7 +599,7 @@ if __name__ == '__main__':
             X_train, y_train, X_test, y_test, datasets_info = load_dataset(ticker,
                 start_date, end_date, datasets_dir, input_features, output_feature,
                 sampling_method=sampling_method, scaling_method=scaling_method,
-                test_set_ratio=0.2)
+                test_set_ratio=test_set_ratio)
 
             models_dir = Path(__file__).parent / mlc.MODELS_DIRECTORY / \
                 mlc.TICKER_ORIENTED_MODELS_DIRECTORY / mlc.MODEL_CONSTS[model_type]['MODEL_DIRECTORY']
@@ -617,7 +623,7 @@ if __name__ == '__main__':
 # python3 -Wi machine_learning/models_generator.py --start-on-ticker 1 --end-on-ticker 1 --model 'MLPKerasClassifier' --scaling-method 'standard'
 
 # Execute Random Forest (1 ticker)
-# python3 -Wi machine_learning/models_generator.py --start-on-ticker 1 --end-on-ticker 1 --model 'RandomForestClassifier'
+# python3 -Wi machine_learning/models_generator.py --start-on-ticker 1 --end-on-ticker 1 --model 'RandomForestClassifier' --train-test-split 0.15 --end-date "2019-12-31"
 
 # Execute k-NN (1 ticker)
 # python3 -Wi machine_learning/models_generator.py --start-on-ticker 1 --end-on-ticker 1 --model 'KNeighborsClassifier'
