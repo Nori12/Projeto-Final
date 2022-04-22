@@ -224,9 +224,6 @@ if __name__ == '__main__':
                 max_days_per_operation, spearman_correlations, datasets_dir, add_ref_price),
                 callback=lambda x: pbar.update())
 
-            # TODO: Remove mock
-            break
-
         pool.close()
         pool.join()
 
