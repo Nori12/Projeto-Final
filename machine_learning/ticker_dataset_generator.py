@@ -1,14 +1,12 @@
 import sys
-import logging
-from logging.handlers import RotatingFileHandler
 from pathlib import Path
 import pandas as pd
 import numpy as np
+from scipy import stats
+import math
 
 sys.path.insert(1, str(Path(__file__).parent.parent/'src'))
-import constants as c
 import ml_constants as mlc
-import config_reader as cr
 from db_model import DBStrategyAnalyzerModel
 
 class TickerDatasetGenerator:
@@ -16,7 +14,7 @@ class TickerDatasetGenerator:
     def __init__(self, ticker, start_date, end_date, buy_type='current_day_open_price',
         gain_loss_ratio=3, peaks_pairs_number=2, risk_option='range', fixed_risk=0.03,
         start_range_risk=0.01, step_range_risk=0.002, end_range_risk=0.12,
-        max_days_per_operation=45, dataset_dir=None):
+        max_days_per_operation=45, spearman_correlations=(3, 17, 72), dataset_dir=None):
 
         if buy_type not in ('current_day_open_price', 'last_day_close_price'):
             raise Exception("'buy_type' parameter options: 'current_day_open_price', 'last_day_close_price'.")
@@ -33,6 +31,7 @@ class TickerDatasetGenerator:
         self._risk_option = risk_option
         self._fixed_risk = fixed_risk
         self._max_days_per_operation = max_days_per_operation
+        self._spearman_correlations = spearman_correlations
 
         self._risks = []
         if self._risk_option == 'range':
@@ -53,6 +52,14 @@ class TickerDatasetGenerator:
             # Remove existing dataset file
             (self._dataset_dir / (ticker+mlc.DATASET_FILE_SUFFIX)).unlink(missing_ok=True)
 
+        # Spearman correlation derivate variable
+        self._spearman_corr_column_names = tuple(['spearman_corr_' + str(n) + '_day' \
+            for n in spearman_correlations])
+
+        self._last_n_close_prices = []
+        self._last_prices_max_length = max(spearman_correlations)
+
+        self._spearman_benchmark = tuple([i for i in range(self._last_prices_max_length)])
 
 
     @property
@@ -103,6 +110,30 @@ class TickerDatasetGenerator:
     def risks(self):
         return self._risks
 
+    @property
+    def spearman_correlations(self):
+        return self._spearman_correlations
+
+    @property
+    def spearman_corr_column_names(self):
+        return self._spearman_corr_column_names
+
+    @property
+    def last_n_close_prices(self):
+        return self._last_n_close_prices
+
+    @last_n_close_prices.setter
+    def last_n_close_prices(self, last_n_close_prices):
+        self._last_n_close_prices = last_n_close_prices
+
+    @property
+    def last_prices_max_length(self):
+        return self._last_prices_max_length
+
+    @property
+    def spearman_benchmark(self):
+        return self._spearman_benchmark
+
 
     def generate_dataset(self, add_ref_price=False):
 
@@ -129,14 +160,14 @@ class TickerDatasetGenerator:
                 purchase_price = row['close_price']
                 idx_delay = 1
 
-            data_row = TickerDatasetGenerator._init_data_row(self.ticker, row['day'], 0)
+            data_row = self._init_data_row(self.ticker, row['day'], risk=0)
 
             ref_price_col_name = 'open_price' \
                 if self.buy_type == 'current_day_open_price' \
                 else 'close_price' if self.buy_type == 'last_day_close_price' \
                 else ''
 
-            TickerDatasetGenerator._fill_data_row(data_row, row['ema_17'], row['ema_72'],
+            self._fill_partially_data_row(data_row, row['ema_17'], row['ema_72'],
                 TickerDatasetGenerator._get_ema_72_week(candles_df_day, idx, candles_df_wk),
                 row[ref_price_col_name])
 
@@ -144,11 +175,19 @@ class TickerDatasetGenerator:
             peaks_ready_flg = self._process_and_check_last_peaks(peaks_data,
                 row['peak'], row['max_price'], row['min_price'])
             if peaks_ready_flg is False:
+                self._update_last_n_prices(row['close_price'])
                 continue
 
             if not self._verify_business_data_integrity( (data_row['ema_17_day'],
                 data_row['ema_72_day'], data_row['ema_72_week']), peaks_data ):
+                self._update_last_n_prices(row['close_price'])
                 continue
+
+            if not self._verify_last_n_prices_threshold():
+                self._update_last_n_prices(row['close_price'])
+                continue
+
+            spearman_corrs = self._process_spearman_correlations()
 
             if self.risk_option == 'fixed':
 
@@ -159,7 +198,7 @@ class TickerDatasetGenerator:
                     purchase_price, self.fixed_risk, candles_df_day, idx, idx_delay)
 
                 self._fill_business_data(business_data, data_row, peaks_data,
-                        add_ref_price)
+                    spearman_corrs, add_ref_price)
 
             elif self.risk_option == 'range':
 
@@ -171,7 +210,9 @@ class TickerDatasetGenerator:
                         purchase_price, risk, candles_df_day, idx, idx_delay)
 
                     self._fill_business_data(business_data, data_row, peaks_data,
-                        add_ref_price)
+                        spearman_corrs, add_ref_price)
+
+            self._update_last_n_prices(row['close_price'])
 
             if first_write_on_file_flg is True:
                 pd.DataFrame(business_data).to_csv(
@@ -223,18 +264,25 @@ class TickerDatasetGenerator:
         business_data['ema_72_day'] = []
         business_data['ema_72_week'] = []
 
+        for col in (self.spearman_corr_column_names):
+            business_data[col] = []
+
         return business_data
 
-    @staticmethod
-    def _init_data_row(ticker, day, risk=0.0):
+    def _init_data_row(self, ticker, day, risk=0.0):
 
+        # Clearify what should be inside '_init_data_row' and '_fill_partially_data_row'
         data_row = {'ticker': ticker, 'day': day, 'risk': risk, 'ema_17_day': 0.0,
             'ema_72_day': 0.0, 'ema_72_week': 0.0}
 
+        for col in self.spearman_corr_column_names:
+            data_row[col] = 0.0
+
         return data_row
 
-    @staticmethod
-    def _fill_data_row(data_row, ema_17_day, ema_72_day, ema_72_week, ref_price):
+    def _fill_partially_data_row(self, data_row, ema_17_day, ema_72_day, ema_72_week,
+        ref_price):
+
         data_row['ema_17_day'] = ema_17_day
         data_row['ema_72_day'] = ema_72_day
         data_row['ema_72_week'] = ema_72_week
@@ -310,6 +358,12 @@ class TickerDatasetGenerator:
 
         return True
 
+    def _verify_last_n_prices_threshold(self):
+        if len(self.last_n_close_prices) < self.last_prices_max_length:
+            return False
+
+        return True
+
     @staticmethod
     def _update_peaks_days(peaks_data):
 
@@ -318,6 +372,13 @@ class TickerDatasetGenerator:
 
         for idx in range(len(peaks_data['last_min_peaks_days'])):
             peaks_data['last_min_peaks_days'][idx] -= 1
+
+    def _update_last_n_prices(self, price):
+
+        self.last_n_close_prices.append(price)
+
+        if len(self.last_n_close_prices) > self.last_prices_max_length:
+            self.last_n_close_prices.pop(0)
 
     def _process_and_check_last_peaks(self, peaks_data, peak_day, max_price_day,
         min_price_day):
@@ -412,7 +473,23 @@ class TickerDatasetGenerator:
 
         return op_result, timeout_flg, end_of_interval_flg
 
-    def _fill_business_data(self, business_data, data_row, peaks_data, add_ref_price):
+    def _process_spearman_correlations(self):
+
+        spearman_data = []
+
+        for idx in range(len(self.spearman_corr_column_names)):
+
+            spearman = stats.spearmanr(self.spearman_benchmark[:self.spearman_correlations[idx]],
+                self.last_n_close_prices[:self.spearman_correlations[idx]]).correlation
+
+            if math.isnan(spearman):
+                spearman = 0.0
+
+            spearman_data.append(spearman)
+
+        return spearman_data
+
+    def _fill_business_data(self, business_data, data_row, peaks_data, spearman_data, add_ref_price):
 
         business_data['ticker'].append(data_row['ticker'])
         business_data['day'].append(data_row['day'])
@@ -429,6 +506,9 @@ class TickerDatasetGenerator:
         business_data['ema_17_day'].append( round(data_row['ema_17_day'] / ref_price, 4))
         business_data['ema_72_day'].append( round(data_row['ema_72_day'] / ref_price, 4))
         business_data['ema_72_week'].append( round(data_row['ema_72_week'] / ref_price, 4))
+
+        for idx, col in enumerate(self.spearman_corr_column_names):
+            business_data[col].append(round(spearman_data[idx], 4))
 
         # More negative day number means older
         order = 'max_first' \

@@ -17,14 +17,16 @@ pbar = None
 def run_ticker_dataset(ticker, start_date, end_date, buy_type='current_day_open_price',
     gain_loss_ratio=3, peaks_pairs_number=2, risk_option='fixed', fixed_risk=0.03,
     start_range_risk=0.01, step_range_risk=0.002, end_range_risk=0.12,
-    max_days_per_operation=45, datasets_dir=None, add_ref_price=False):
+    max_days_per_operation=45, spearman_correlations=(3, 17, 72), datasets_dir=None,
+    add_ref_price=False):
 
     ticker_ds_gen = TickerDatasetGenerator(ticker=ticker, start_date=start_date,
         end_date=end_date, buy_type=buy_type, gain_loss_ratio=gain_loss_ratio,
         peaks_pairs_number=peaks_pairs_number, risk_option=risk_option,
         fixed_risk=fixed_risk, start_range_risk=start_range_risk,
         step_range_risk=step_range_risk, end_range_risk=end_range_risk,
-        max_days_per_operation=max_days_per_operation, dataset_dir=datasets_dir)
+        max_days_per_operation=max_days_per_operation,
+        spearman_correlations=spearman_correlations, dataset_dir=datasets_dir)
 
     ticker_ds_gen.generate_dataset(add_ref_price=add_ref_price)
 
@@ -75,6 +77,10 @@ if __name__ == '__main__':
     parser.add_argument("-d", "--datasets-dir", default=None,
         help="Datasets output file. " \
         "Default is 0.002.")
+    parser.add_argument("-c", "--spearman-correlations",
+        default="[3, 5, 10, 15, 17, 20, 30, 40, 50, 70, 72]",
+        help="List of last n prices to calculate spearman correlation. " \
+        "Default is '[3, 5, 10, 15, 17, 20, 30, 40, 50, 70, 72]'.")
     parser.add_argument("-a", "--add-ref-price", type=bool, default=True,
         help="Add reference price in each row of dataset. Default is 'True'.")
 
@@ -187,6 +193,21 @@ if __name__ == '__main__':
         datasets_dir = Path(args.datasets_dir)
     # **************************************************************************
 
+    # ***************** Check 'spearman_correlations' argument *****************
+
+    arg = args.spearman_correlations.replace('[', '')
+    arg = arg.replace(']', '')
+    arg = arg.strip()
+
+    raw_values = arg.split(',')
+    spearman_correlations = []
+
+    for raw_value in raw_values:
+        spearman_correlations.append(int(raw_value))
+
+    spearman_correlations = tuple(spearman_correlations)
+    # **************************************************************************
+
     # ********************* Check 'add_ref_price' argument *********************
     add_ref_price = args.add_ref_price
     # **************************************************************************
@@ -199,8 +220,8 @@ if __name__ == '__main__':
 
             pool.apply_async(run_ticker_dataset, (ticker, pd.Timestamp(dates['start_date']),
                 pd.Timestamp(dates['end_date']), buy_type, gain_loss_ratio, peaks_pairs_number,
-                risk_option, fixed_risk, start_range_risk, step_range_risk,
-                end_range_risk, max_days_per_operation, datasets_dir, add_ref_price),
+                risk_option, fixed_risk, start_range_risk, step_range_risk, end_range_risk,
+                max_days_per_operation, spearman_correlations, datasets_dir, add_ref_price),
                 callback=lambda x: pbar.update())
 
             # TODO: Remove mock

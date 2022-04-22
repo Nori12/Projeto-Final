@@ -11,12 +11,11 @@ import numpy as np
 import math
 import joblib
 from scipy.interpolate import interp1d
-import matplotlib.pyplot as plt
 from scipy import stats
 
 import constants as c
 from utils import RunTime, calculate_maximum_volume, calculate_yield_annualized, \
-    get_capital_per_risk, State, Trend, get_avg_index_of_first_burst_of_ones
+    get_capital_per_risk, State, Trend
 from db_model import DBStrategyModel, DBGenericModel
 from operation import Operation
 
