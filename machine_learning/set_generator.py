@@ -150,6 +150,12 @@ if __name__ == '__main__':
     for idx, (ticker, dates) in enumerate(tickers_and_dates.items()):
         if idx + 1 >= start_on_ticker and idx + 1 <= end_on_ticker:
             tickers[ticker] = dates.copy()
+
+    if len(tickers) > 1:
+        print(f"Found {len(tickers)} tickers between \'{tickers[0]}\' " \
+            f"and \'{tickers[-1]}\' (inclusively).")
+    else:
+        print(f"Found {len(tickers)} ticker \'{tickers[0]}\'.")
     # **************************************************************************
 
     # *********************** Check 'buy_type' argument ************************

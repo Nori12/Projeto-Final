@@ -1,5 +1,6 @@
 import sys
 from pathlib import Path
+from datetime import datetime
 import pandas as pd
 from multiprocessing import Pool
 import time
@@ -20,7 +21,7 @@ import constants as c
 import config_reader as cr
 from utils import my_dynamic_cast, my_to_list, remove_row_from_last_n_peaks
 import ml_constants as mlc
-from model import KNeighbors, RandomForest, MLP_scikit, MLP_keras
+from model import KNeighbors, RandomForest, MLPScikit, MLPKeras, RidgeScikit
 
 pbar = None
 
@@ -38,6 +39,7 @@ def manage_ticker_models(model_type, ticker, input_features, output_feature, X_t
     test_confusions = []
     test_profit_indexes = []
     test_profit_indexes_zeros = []
+    extra_data = []
 
     if models_params is None:
         models_params = {}
@@ -48,7 +50,7 @@ def manage_ticker_models(model_type, ticker, input_features, output_feature, X_t
     if model_type == 'MLPClassifier':
 
         for model_params in models_params:
-            my_model = MLP_scikit(ticker=ticker, input_features=input_features,
+            my_model = MLPScikit(ticker=ticker, input_features=input_features,
                 output_feature=output_feature, X_train=X_train, y_train=y_train,
                 X_test=X_test, y_test=y_test, model_dir=models_dir, parameters=model_params)
 
@@ -72,7 +74,7 @@ def manage_ticker_models(model_type, ticker, input_features, output_feature, X_t
         idx_of_best = test_profit_indexes.index(max(test_profit_indexes))
         models[idx_of_best].save()
 
-        MLP_scikit.save_results(model_type, ticker, models_params, variable_params,
+        MLPScikit.save_results(model_type, ticker, models_params, variable_params,
             y_train, y_test, datasets_info, training_accuracies, test_accuracies,
             training_confusions, test_confusions, models[idx_of_best].specs_dir,
             training_profit_indexes, training_profit_indexes_zeros, test_profit_indexes,
@@ -81,7 +83,7 @@ def manage_ticker_models(model_type, ticker, input_features, output_feature, X_t
     elif model_type == 'MLPKerasClassifier':
 
         for model_params in models_params:
-            my_model = MLP_keras(ticker=ticker, input_features=input_features,
+            my_model = MLPKeras(ticker=ticker, input_features=input_features,
                 output_feature=output_feature, X_train=X_train, y_train=y_train,
                 X_test=X_test, y_test=y_test, model_dir=models_dir, parameters=model_params)
 
@@ -105,7 +107,7 @@ def manage_ticker_models(model_type, ticker, input_features, output_feature, X_t
         idx_of_best = test_profit_indexes.index(max(test_profit_indexes))
         models[idx_of_best].save()
 
-        MLP_keras.save_results(model_type, ticker, models_params, variable_params,
+        MLPKeras.save_results(model_type, ticker, models_params, variable_params,
             y_train, y_test, datasets_info, training_accuracies, test_accuracies,
             training_confusions, test_confusions, models[idx_of_best].specs_dir,
             training_profit_indexes, training_profit_indexes_zeros, test_profit_indexes,
@@ -178,6 +180,40 @@ def manage_ticker_models(model_type, ticker, input_features, output_feature, X_t
             training_profit_indexes, training_profit_indexes_zeros, test_profit_indexes,
             test_profit_indexes_zeros)
 
+    elif model_type == 'RidgeClassifier':
+
+        for model_params in models_params:
+            my_model = RidgeScikit(ticker=ticker, input_features=input_features,
+                output_feature=output_feature, X_train=X_train, y_train=y_train,
+                X_test=X_test, y_test=y_test, model_dir=models_dir, parameters=model_params)
+
+            my_model.create_model()
+
+            models.append(my_model)
+            training_accuracies.append(my_model.get_accuracy(X_train, y_train))
+            test_accuracies.append(my_model.get_accuracy(X_test, y_test))
+
+            training_confusions.append(my_model.get_confusion(X_train, y_train))
+            test_confusions.append(my_model.get_confusion(X_test, y_test))
+
+            index, zero = my_model.get_profit_index(X_train, y_train)
+            training_profit_indexes.append(index)
+            training_profit_indexes_zeros.append(zero)
+
+            index, zero = my_model.get_profit_index(X_test, y_test)
+            test_profit_indexes.append(index)
+            test_profit_indexes_zeros.append(zero)
+
+            extra_data.append(my_model.model.coef_)
+
+        idx_of_best = test_profit_indexes.index(max(test_profit_indexes))
+        models[idx_of_best].save()
+
+        KNeighbors.save_results(model_type, ticker, models_params, variable_params,
+            y_train, y_test, datasets_info, training_accuracies, test_accuracies,
+            training_confusions, test_confusions, models[idx_of_best].specs_dir,
+            training_profit_indexes, training_profit_indexes_zeros, test_profit_indexes,
+            test_profit_indexes_zeros, coefs=extra_data)
 
 def filter_dataset(training_df, test_df, input_features, output_feature,
     filter_data_risk_margin=0.03, sampling_method='CSL', scaling_method=None):
@@ -271,7 +307,8 @@ def load_dataset(ticker, min_date_filter, max_date_filter, datasets_dir, input_f
     training_df.reset_index(drop=True, inplace=True)
     test_df.reset_index(drop=True, inplace=True)
 
-    training_df = remove_row_from_last_n_peaks(training_df)
+    if 'day_1' in input_features:
+        training_df = remove_row_from_last_n_peaks(training_df)
 
     datasets_info['ticker'] = ticker
     datasets_info['training_set_start_date'] = training_df['day'].head(1).squeeze()
@@ -317,8 +354,13 @@ if __name__ == '__main__':
         help="Maximum number of tickers to evaluate.")
     parser.add_argument("-e", "--end-on-ticker", type=int, default=None,
         help="Number of ticker to end.")
+    parser.add_argument("-d", "--start-date", default='2012-01-02',
+        help="Start date of training set. Format: '%Y-%m-%d'. Default is '2012-01-02'.")
+    parser.add_argument("-g", "--end-date", default='2018-06-30',
+        help="Number of ticker to end. Format: '%Y-%m-%d'. Default is '2018-06-30'.")
     parser.add_argument("-m", "--model", default='RandomForestClassifier',
-        choices=['MLPClassifier', 'MLPKerasClassifier', 'RandomForestClassifier', 'KNeighborsClassifier'],
+        choices=['MLPClassifier', 'MLPKerasClassifier', 'RandomForestClassifier',
+        'KNeighborsClassifier', 'RidgeClassifier'],
         help="Machine learning model to be created. Default is \"MLPClassifier\".")
     parser.add_argument("-a", "--params",
         help="Substitute default parameters. String of 'key=value' semicolon " \
@@ -329,11 +371,11 @@ if __name__ == '__main__':
         help="Input features name list (python compatible). Default is \"['risk', " \
             f"'peak_1', 'day_1', 'peak_2', 'day_2', 'peak_3', 'day_3', 'peak_4', " \
             f"'day_4', 'ema_17_day', 'ema_72_day', 'ema_72_week']\".")
-    parser.add_argument("-d", "--sampling-method", default='CSL',
+    parser.add_argument("-x", "--sampling-method", default='CSL',
         choices=['oversample', 'CSL'],
         help="Sampling method for handling imbalanced datasets. Default is \"CSL\", " \
             f"but if not possible it is \"oversample\".")
-    parser.add_argument("-c", "--scaling-method", default = None,
+    parser.add_argument("-y", "--scaling-method", default = None,
         choices=['standard', 'robust', 'min_max'],
         help="Method for dataset feature scaling, if necessary.")
 
@@ -346,6 +388,18 @@ if __name__ == '__main__':
         max_pools = args.pools
 
     print(f"Using maximum of {max_pools} worker processes.")
+    # **************************************************************************
+
+    # **************** Check 'start_date', 'end_date' arguments ****************
+    try:
+        _ = datetime.strptime(args.start_date, '%Y-%m-%d').date()
+        _ = datetime.strptime(args.end_date, '%Y-%m-%d').date()
+    except Exception:
+        print("'start_date' and 'end_date' must be in format '%Y-%m-%d'.")
+        sys.exit()
+
+    start_date = args.start_date
+    end_date = args.end_date
     # **************************************************************************
 
     # **** Check 'start_on_ticker', 'max_tickers', 'end_on_ticker' arguments ***
@@ -399,10 +453,10 @@ if __name__ == '__main__':
             end_on_ticker = args.end_on_ticker
 
     # Filter tickers_and_dates to only get tickers to evaluate
-    tickers = {}
+    tickers = []
     for idx, (ticker, dates) in enumerate(tickers_and_dates.items()):
         if idx + 1 >= start_on_ticker and idx + 1 <= end_on_ticker:
-            tickers[ticker] = dates.copy()
+            tickers.append(ticker)
     # **************************************************************************
 
     # ************************ Check 'model' argument **************************
@@ -448,7 +502,13 @@ if __name__ == '__main__':
         'ccp_alpha': 0.0, 'max_samples': None, 'overweight_min_class': [0.5, 0.8, 1.0, 1.2, 1.5]},
 
         'KNeighborsClassifier': {'n_neighbors': [1, 2, 3, 4, 5], 'weights': ['uniform', 'distance'],
-        'algorithm': 'auto', 'leaf_size': 30, 'p': 2, 'metric': 'minkowski', 'metric_params': None}}
+        'algorithm': 'auto', 'leaf_size': 30, 'p': 2, 'metric': 'minkowski', 'metric_params': None},
+
+        'RidgeClassifier': {'alpha': [1e-4, 1e-3, 1e-2, 1e-1, 1.0],
+        'fit_intercept': True, 'copy_X': True,
+        'max_iter': None, 'tol': 1e-3, 'class_weight': 'balanced', 'solver': 'auto',
+        'positive': False, 'random_state': 1}
+        }
 
     models_params = param_default_options[model_type].copy()
     model_variable_params = []
@@ -501,14 +561,14 @@ if __name__ == '__main__':
 
     models_params_product = [dict(zip(models_params_in_list.keys(), values)) \
         for values in itertools.product(*models_params_in_list.values())]
-    models_per_ticker = {ticker: models_params_product.copy() for ticker in list(tickers.keys())}
+    models_per_ticker = {ticker: models_params_product.copy() for ticker in tickers}
 
     if len(tickers) > 1:
-        print(f"Found {len(tickers)} tickers between \'{list(tickers.keys())[0]}\' " \
-            f"and \'{list(tickers.keys())[-1]}\' (inclusively) with " \
+        print(f"Found {len(tickers)} tickers between \'{tickers[0]}\' " \
+            f"and \'{tickers[-1]}\' (inclusively) with " \
             f"{len(models_params_product)} model executions each.")
     else:
-        print(f"Found {len(tickers)} ticker \'{list(tickers.keys())[0]}\' with " \
+        print(f"Found {len(tickers)} ticker \'{tickers[0]}\' with " \
             f"{len(models_params_product)} model executions.")
 
     # print(models_per_ticker)
@@ -528,12 +588,12 @@ if __name__ == '__main__':
     start = time.perf_counter()
 
     with Pool(max_pools) as pool:
-        for ticker, dates in tickers.items():
+        for ticker in tickers:
 
             X_train, y_train, X_test, y_test, datasets_info = load_dataset(ticker,
-                dates['start_date'].strftime('%Y-%m-%d'), dates['end_date'].strftime('%Y-%m-%d'),
-                datasets_dir, input_features, output_feature, sampling_method=sampling_method,
-                scaling_method=scaling_method, test_set_ratio=0.2)
+                start_date, end_date, datasets_dir, input_features, output_feature,
+                sampling_method=sampling_method, scaling_method=scaling_method,
+                test_set_ratio=0.2)
 
             models_dir = Path(__file__).parent / mlc.MODELS_DIRECTORY / \
                 mlc.TICKER_ORIENTED_MODELS_DIRECTORY / mlc.MODEL_CONSTS[model_type]['MODEL_DIRECTORY']

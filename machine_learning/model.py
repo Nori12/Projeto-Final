@@ -3,6 +3,7 @@ from pathlib import Path
 from abc import ABC, abstractmethod
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.linear_model import RidgeClassifier
 from sklearn.neural_network import MLPClassifier
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import roc_auc_score
@@ -246,16 +247,15 @@ class Model(PseudoModel):
             (f'{self.ticker}' + mlc.MODEL_FILE_SUFFIX))
 
     @staticmethod
-    def save_results(model_type, ticker, all_params, variable_params,
+    def create_results_message(model_type, ticker, all_params, variable_params,
         y_train, y_test, dataset_info, training_accuracies, test_accuracies,
-        training_confusions, test_confusions, specs_dir, training_profit_indexes,
-        training_profit_indexes_zeros, test_profit_indexes, test_profit_indexes_zeros):
+        training_confusions, test_confusions, training_profit_indexes,
+        training_profit_indexes_zeros, test_profit_indexes, test_profit_indexes_zeros,
+        coefs=None):
 
         common_cfg_ljust = 31
         dataset_ljust = 31
-        ds_count_rjust = 6
-        percent_rjust = 5
-        param_rjust = 4
+        param_rjust = 6
 
         # Write general configs
         message = f"{model_type} (\'{ticker}\')"
@@ -333,7 +333,11 @@ class Model(PseudoModel):
                 for i, param_name in enumerate(variable_params):
                     if i != 0:
                         model_msg_line += ","
-                    model_msg_line += f" {param_name}: {str(all_params[idx][param_name]).rjust(param_rjust)}"
+                    model_msg_line += f" {param_name}:{str(all_params[idx][param_name]).rjust(param_rjust)}"
+
+            if coefs is not None:
+                model_msg_line += " | "
+                model_msg_line += f"Coefficients: {str(coefs[idx])}"
 
             message += model_msg_line
             models_result.append(model_msg_line)
@@ -342,6 +346,23 @@ class Model(PseudoModel):
 
         idx_of_best = test_profit_indexes.index(max(test_profit_indexes))
         message += models_result[idx_of_best]
+
+        return message
+
+    @staticmethod
+    def save_results(model_type, ticker, all_params, variable_params,
+        y_train, y_test, dataset_info, training_accuracies, test_accuracies,
+        training_confusions, test_confusions, specs_dir, training_profit_indexes,
+        training_profit_indexes_zeros, test_profit_indexes, test_profit_indexes_zeros,
+        coefs=None):
+        """
+            'coefs': list of np.array to linear model coefficients.
+        """
+
+        message = Model.create_results_message(model_type, ticker, all_params,
+            variable_params, y_train, y_test, dataset_info, training_accuracies,
+            test_accuracies, training_confusions, test_confusions, training_profit_indexes,
+            training_profit_indexes_zeros, test_profit_indexes, test_profit_indexes_zeros, coefs=coefs)
 
         # Create folder and store model results in file
         if not specs_dir.exists():
@@ -467,7 +488,7 @@ class KNeighbors(Model):
         self.model = model
 
 
-class MLP_scikit(Model):
+class MLPScikit(Model):
 
     def __init__(self, ticker, input_features, output_feature, X_train, y_train,
         X_test, y_test, model_dir, parameters=None):
@@ -510,7 +531,7 @@ class MLP_scikit(Model):
         self.model = model
 
 
-class MLP_keras(Model):
+class MLPKeras(Model):
 
     def __init__(self, ticker, input_features, output_feature, X_train, y_train,
         X_test, y_test, model_dir, parameters=None):
@@ -575,3 +596,29 @@ class MLP_keras(Model):
             self.model_dir.mkdir(parents=True)
 
         self.model.save(self.model_dir / (f'{self.ticker}' + mlc.MODEL_FILE_SUFFIX))
+
+class RidgeScikit(Model):
+
+    def __init__(self, ticker, input_features, output_feature, X_train, y_train,
+        X_test, y_test, model_dir, parameters=None):
+
+        super().__init__('RidgeClassifier', ticker=ticker, input_features=input_features,
+            output_feature=output_feature, X_train=X_train, y_train=y_train, X_test=X_test,
+            y_test=y_test, model_dir=model_dir, parameters=parameters)
+
+    def create_model(self):
+
+        model = RidgeClassifier(
+            alpha=self.parameters['alpha'],
+            fit_intercept=self.parameters['fit_intercept'],
+            copy_X=self.parameters['copy_X'],
+            max_iter=self.parameters['max_iter'],
+            tol=self.parameters['tol'],
+            class_weight=self.parameters['class_weight'],
+            solver=self.parameters['solver'],
+            positive=self.parameters['positive'],
+            random_state=self.parameters['random_state'])
+
+        model.fit(self.X_train, self.y_train)
+
+        self.model = model

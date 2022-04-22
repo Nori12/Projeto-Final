@@ -480,7 +480,8 @@ class TickerDatasetGenerator:
         for idx in range(len(self.spearman_corr_column_names)):
 
             spearman = stats.spearmanr(self.spearman_benchmark[:self.spearman_correlations[idx]],
-                self.last_n_close_prices[:self.spearman_correlations[idx]]).correlation
+                self.last_n_close_prices[self.last_prices_max_length - \
+                self.spearman_correlations[idx]:self.last_prices_max_length]).correlation
 
             if math.isnan(spearman):
                 spearman = 0.0

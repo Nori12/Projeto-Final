@@ -10,7 +10,8 @@ DATASET_FILE_SUFFIX = '_dataset.csv'
 MODEL_CONSTS = {'MLPClassifier': {'MODEL_DIRECTORY': 'mlp_classifier'},
     'MLPKerasClassifier': {'MODEL_DIRECTORY': 'mlp_keras_classifier'},
     'RandomForestClassifier': {'MODEL_DIRECTORY': 'random_forest_classifier'},
-    'KNeighborsClassifier': {'MODEL_DIRECTORY': 'kneighbors_classifier'}}
+    'KNeighborsClassifier': {'MODEL_DIRECTORY': 'kneighbors_classifier'},
+    'RidgeClassifier': {'MODEL_DIRECTORY': 'ridge_classifier'}}
 
 # Random Forest
 RANDOM_FOREST_FIG_SUFFIX = '_rf_features_importance.png'
