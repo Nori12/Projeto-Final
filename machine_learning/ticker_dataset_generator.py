@@ -14,7 +14,8 @@ class TickerDatasetGenerator:
     def __init__(self, ticker, start_date, end_date, buy_type='current_day_open_price',
         gain_loss_ratio=3, peaks_pairs_number=2, risk_option='range', fixed_risk=0.03,
         start_range_risk=0.01, step_range_risk=0.002, end_range_risk=0.12,
-        max_days_per_operation=45, spearman_correlations=(3, 17, 72), dataset_dir=None):
+        max_days_per_operation=mlc.MAX_DAYS_PER_OPERATION, spearman_correlations=(3, 17, 72),
+        dataset_dir=None):
 
         if buy_type not in ('current_day_open_price', 'last_day_close_price'):
             raise Exception("'buy_type' parameter options: 'current_day_open_price', 'last_day_close_price'.")

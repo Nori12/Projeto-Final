@@ -2053,7 +2053,8 @@ class BaselineStrategy(AdaptedAndreMoraesStrategy):
         self._min_operation_decision_coefficient = min_operation_decision_coefficient
         self._db_strategy_model.min_baseline_coefficient = min_operation_decision_coefficient
         self._tickers_info = {}
-        self._last_n_close_prices = {ticker: {'3': [], '17': [], '72': []} for ticker in tickers}
+        self._last_n_close_prices = {ticker: [] for ticker in tickers}
+        self._last_prices_max_length = 72
 
         tickers_info_path = Path(__file__).parent / 'tickers_info.csv'
         ticker_datasets_path = Path(__file__).parent.parent / 'machine_learning' / 'datasets'
@@ -2076,6 +2077,14 @@ class BaselineStrategy(AdaptedAndreMoraesStrategy):
     @last_n_close_prices.setter
     def last_n_close_prices(self, last_n_close_prices):
         self._last_n_close_prices = last_n_close_prices
+
+    @property
+    def last_prices_max_length(self):
+        return self._last_prices_max_length
+
+    @last_prices_max_length.setter
+    def last_prices_max_length(self, last_prices_max_length):
+        self._last_prices_max_length = last_prices_max_length
 
     @property
     def min_operation_decision_coefficient(self):
@@ -2217,23 +2226,12 @@ class BaselineStrategy(AdaptedAndreMoraesStrategy):
         if not tcks_priority[tck_idx].last_business_data:
             return False
 
-        self.last_n_close_prices[tcks_priority[tck_idx].ticker]['3'].append(
+        self.last_n_close_prices[tcks_priority[tck_idx].ticker].append(
             tcks_priority[tck_idx].last_business_data['close_price_day'])
 
-        self.last_n_close_prices[tcks_priority[tck_idx].ticker]['17'].append(
-            tcks_priority[tck_idx].last_business_data['close_price_day'])
-
-        self.last_n_close_prices[tcks_priority[tck_idx].ticker]['72'].append(
-            tcks_priority[tck_idx].last_business_data['close_price_day'])
-
-        if len(self.last_n_close_prices[tcks_priority[tck_idx].ticker]['3']) > 3:
-            self.last_n_close_prices[tcks_priority[tck_idx].ticker]['3'].pop(0)
-
-        if len(self.last_n_close_prices[tcks_priority[tck_idx].ticker]['17']) > 17:
-            self.last_n_close_prices[tcks_priority[tck_idx].ticker]['17'].pop(0)
-
-        if len(self.last_n_close_prices[tcks_priority[tck_idx].ticker]['72']) > 72:
-            self.last_n_close_prices[tcks_priority[tck_idx].ticker]['72'].pop(0)
+        if len(self.last_n_close_prices[tcks_priority[tck_idx].ticker]) > \
+            self.last_prices_max_length:
+            self.last_n_close_prices[tcks_priority[tck_idx].ticker].pop(0)
 
     def _check_business_rules(self, business_data, tcks_priority, tck_idx,
         purchase_price):
@@ -2241,16 +2239,19 @@ class BaselineStrategy(AdaptedAndreMoraesStrategy):
         x = [i for i in range(72)]
 
         last_3_prices_corr = stats.spearmanr(x[:3],
-            self.last_n_close_prices[tcks_priority[tck_idx].ticker]['3']).correlation
+            self.last_n_close_prices[tcks_priority[tck_idx].ticker]\
+            [self.last_prices_max_length - 3:self.last_prices_max_length]).correlation
 
         if math.isnan(last_3_prices_corr):
             last_3_prices_corr = 0
 
         last_17_prices_corr = stats.spearmanr(x[:17],
-            self.last_n_close_prices[tcks_priority[tck_idx].ticker]['17']).correlation
+            self.last_n_close_prices[tcks_priority[tck_idx].ticker]\
+            [self.last_prices_max_length - 17:self.last_prices_max_length]).correlation
 
         last_72_prices_corr = stats.spearmanr(x[:72],
-            self.last_n_close_prices[tcks_priority[tck_idx].ticker]['72']).correlation
+            self.last_n_close_prices[tcks_priority[tck_idx].ticker]
+            [self.last_prices_max_length - 72:self.last_prices_max_length]).correlation
 
         last_3_corr_weight = 3
         last_17_corr_weight = 2

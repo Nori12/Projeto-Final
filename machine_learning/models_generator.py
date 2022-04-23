@@ -27,7 +27,7 @@ pbar = None
 
 def manage_ticker_models(model_type, ticker, input_features, output_feature, X_train,
     y_train, X_test, y_test, datasets_info, models_dir, models_params=None,
-    variable_params=None):
+    variable_params=None, model_tag=None):
 
     # Output store variables
     models = []
@@ -52,7 +52,8 @@ def manage_ticker_models(model_type, ticker, input_features, output_feature, X_t
         for model_params in models_params:
             my_model = MLPScikit(ticker=ticker, input_features=input_features,
                 output_feature=output_feature, X_train=X_train, y_train=y_train,
-                X_test=X_test, y_test=y_test, model_dir=models_dir, parameters=model_params)
+                X_test=X_test, y_test=y_test, model_dir=models_dir, parameters=model_params,
+                model_tag=model_tag)
 
             my_model.create_model()
 
@@ -78,14 +79,15 @@ def manage_ticker_models(model_type, ticker, input_features, output_feature, X_t
             y_train, y_test, datasets_info, training_accuracies, test_accuracies,
             training_confusions, test_confusions, models[idx_of_best].specs_dir,
             training_profit_indexes, training_profit_indexes_zeros, test_profit_indexes,
-            test_profit_indexes_zeros)
+            test_profit_indexes_zeros, model_tag=model_tag)
 
     elif model_type == 'MLPKerasClassifier':
 
         for model_params in models_params:
             my_model = MLPKeras(ticker=ticker, input_features=input_features,
                 output_feature=output_feature, X_train=X_train, y_train=y_train,
-                X_test=X_test, y_test=y_test, model_dir=models_dir, parameters=model_params)
+                X_test=X_test, y_test=y_test, model_dir=models_dir, parameters=model_params,
+                model_tag=model_tag)
 
             my_model.create_model()
 
@@ -111,14 +113,15 @@ def manage_ticker_models(model_type, ticker, input_features, output_feature, X_t
             y_train, y_test, datasets_info, training_accuracies, test_accuracies,
             training_confusions, test_confusions, models[idx_of_best].specs_dir,
             training_profit_indexes, training_profit_indexes_zeros, test_profit_indexes,
-            test_profit_indexes_zeros)
+            test_profit_indexes_zeros, model_tag=model_tag)
 
     elif model_type == 'RandomForestClassifier':
 
         for model_params in models_params:
             my_model = RandomForest(ticker=ticker, input_features=input_features,
                 output_feature=output_feature, X_train=X_train, y_train=y_train,
-                X_test=X_test, y_test=y_test, model_dir=models_dir, parameters=model_params)
+                X_test=X_test, y_test=y_test, model_dir=models_dir, parameters=model_params,
+                model_tag=model_tag)
 
             my_model.create_model()
 
@@ -145,14 +148,15 @@ def manage_ticker_models(model_type, ticker, input_features, output_feature, X_t
             y_train, y_test, datasets_info, training_accuracies, test_accuracies,
             training_confusions, test_confusions, models[idx_of_best].specs_dir,
             training_profit_indexes, training_profit_indexes_zeros, test_profit_indexes,
-            test_profit_indexes_zeros)
+            test_profit_indexes_zeros, model_tag=model_tag)
 
     elif model_type == 'KNeighborsClassifier':
 
         for model_params in models_params:
             my_model = KNeighbors(ticker=ticker, input_features=input_features,
                 output_feature=output_feature, X_train=X_train, y_train=y_train,
-                X_test=X_test, y_test=y_test, model_dir=models_dir, parameters=model_params)
+                X_test=X_test, y_test=y_test, model_dir=models_dir, parameters=model_params,
+                model_tag=model_tag)
 
             my_model.create_model()
 
@@ -178,14 +182,15 @@ def manage_ticker_models(model_type, ticker, input_features, output_feature, X_t
             y_train, y_test, datasets_info, training_accuracies, test_accuracies,
             training_confusions, test_confusions, models[idx_of_best].specs_dir,
             training_profit_indexes, training_profit_indexes_zeros, test_profit_indexes,
-            test_profit_indexes_zeros)
+            test_profit_indexes_zeros, model_tag=model_tag)
 
     elif model_type == 'RidgeClassifier':
 
         for model_params in models_params:
             my_model = RidgeScikit(ticker=ticker, input_features=input_features,
                 output_feature=output_feature, X_train=X_train, y_train=y_train,
-                X_test=X_test, y_test=y_test, model_dir=models_dir, parameters=model_params)
+                X_test=X_test, y_test=y_test, model_dir=models_dir, parameters=model_params,
+                model_tag=model_tag)
 
             my_model.create_model()
 
@@ -213,7 +218,7 @@ def manage_ticker_models(model_type, ticker, input_features, output_feature, X_t
             y_train, y_test, datasets_info, training_accuracies, test_accuracies,
             training_confusions, test_confusions, models[idx_of_best].specs_dir,
             training_profit_indexes, training_profit_indexes_zeros, test_profit_indexes,
-            test_profit_indexes_zeros, coefs=extra_data)
+            test_profit_indexes_zeros, coefs=extra_data, model_tag=model_tag)
 
 def filter_dataset(training_df, test_df, input_features, output_feature,
     filter_data_risk_margin=0.03, sampling_method='CSL', scaling_method=None):
@@ -283,7 +288,8 @@ def filter_dataset(training_df, test_df, input_features, output_feature,
     return X_train_scaled, test_df
 
 def load_dataset(ticker, min_date_filter, max_date_filter, datasets_dir, input_features,
-    output_feature, sampling_method='CSL', scaling_method=None, test_set_ratio=0.2):
+    output_feature, sampling_method='CSL', scaling_method=None, test_set_ratio=0.2,
+    remove_last_days=mlc.MAX_DAYS_PER_OPERATION):
 
     datasets_info = {}
     file_path = datasets_dir / (ticker + mlc.DATASET_FILE_SUFFIX)
@@ -298,6 +304,10 @@ def load_dataset(ticker, min_date_filter, max_date_filter, datasets_dir, input_f
         df = df[df['day'] >= min_date_filter]
     if max_date_filter is not None:
         df = df[df['day'] <= max_date_filter]
+
+    if remove_last_days > 0:
+        risks = tuple(np.sort(df['risk'].squeeze().unique()))
+        df.drop(df.tail((remove_last_days + 1) * len(risks)).index, inplace = True)
 
     # End of interval set rows may pollute the models
     df.drop(df[df['end_of_interval_flag'] == 1].index, inplace=True)
@@ -380,6 +390,8 @@ if __name__ == '__main__':
     parser.add_argument("-y", "--scaling-method", default = None,
         choices=['standard', 'robust', 'min_max'],
         help="Method for dataset feature scaling, if necessary.")
+    parser.add_argument("-q", "--model-tag", default = None,
+        help="Model tag to write on filename.")
 
     args = parser.parse_args()
 
@@ -501,10 +513,10 @@ if __name__ == '__main__':
         'epochs': 3, 'overweight_min_class': [3.0, 2.0, 1.0, 0.75, 0.5, 0.33]},
 
         'RandomForestClassifier': {'n_estimators': 50, 'criterion': 'gini',
-        'max_depth': [14, 15, 16, 17, 18, 19, 20], 'min_samples_split': 2, 'min_samples_leaf': 1,
+        'max_depth': [10, 11, 12, 13, 14, 15, 16, 17, 18], 'min_samples_split': 2, 'min_samples_leaf': 1,
         'min_weight_fraction_leaf': 0.0, 'max_features': [6, 5, 4], 'max_leaf_nodes': None,
         'min_impurity_decrease': 0.0, 'bootstrap': True, 'oob_score': False,
-        'random_state': 1, 'warm_start': False, 'class_weight': 'balanced_subsample',
+        'random_state': [1, 2], 'warm_start': False, 'class_weight': 'balanced_subsample',
         'ccp_alpha': 0.0, 'max_samples': None, 'overweight_min_class': [0.5, 0.8, 1.0, 1.2, 1.5]},
 
         'KNeighborsClassifier': {'n_neighbors': [1, 2, 3, 4, 5], 'weights': ['uniform', 'distance'],
@@ -588,6 +600,10 @@ if __name__ == '__main__':
     scaling_method = args.scaling_method
     # **************************************************************************
 
+    # ******************** Check 'model_tag' arguments *******************
+    model_tag = args.model_tag
+    # **************************************************************************
+
     # Distribuir 'models_per_ticker' para pools
 
     pbar = tqdm(total=len(tickers))
@@ -599,14 +615,15 @@ if __name__ == '__main__':
             X_train, y_train, X_test, y_test, datasets_info = load_dataset(ticker,
                 start_date, end_date, datasets_dir, input_features, output_feature,
                 sampling_method=sampling_method, scaling_method=scaling_method,
-                test_set_ratio=test_set_ratio)
+                test_set_ratio=test_set_ratio, remove_last_days=mlc.MAX_DAYS_PER_OPERATION)
 
             models_dir = Path(__file__).parent / mlc.MODELS_DIRECTORY / \
                 mlc.TICKER_ORIENTED_MODELS_DIRECTORY / mlc.MODEL_CONSTS[model_type]['MODEL_DIRECTORY']
 
             pool.apply_async(manage_ticker_models, (model_type, ticker, input_features,
                 output_feature, X_train, y_train, X_test, y_test, datasets_info, models_dir,
-                models_per_ticker[ticker], model_variable_params), callback=lambda x: pbar.update())
+                models_per_ticker[ticker], model_variable_params, model_tag),
+                callback=lambda x: pbar.update())
 
         pool.close()
         pool.join()
@@ -616,17 +633,3 @@ if __name__ == '__main__':
 
     print(f"Finished in {int((finish - start) // 60)}min " \
         f"{int((finish - start) % 60)}s.")
-
-
-# Execute MLP (1 ticker)
-# python3 -Wi machine_learning/models_generator.py --start-on-ticker 1 --end-on-ticker 1 --model 'MLPClassifier' --scaling-method 'standard'
-# python3 -Wi machine_learning/models_generator.py --start-on-ticker 1 --end-on-ticker 1 --model 'MLPKerasClassifier' --scaling-method 'standard'
-
-# Execute Random Forest (1 ticker)
-# python3 -Wi machine_learning/models_generator.py --start-on-ticker 1 --end-on-ticker 1 --model 'RandomForestClassifier' --train-test-split 0.15 --end-date "2019-12-31"
-
-# Execute k-NN (1 ticker)
-# python3 -Wi machine_learning/models_generator.py --start-on-ticker 1 --end-on-ticker 1 --model 'KNeighborsClassifier'
-
-# Test params
-# python3 -Wi machine_learning/models_generator.py -s 2 -e 5 -t 20 --model 'MLPClassifier' -a "hidden_layers=10; hidden_layers_neurons=12; activation='tanh';"

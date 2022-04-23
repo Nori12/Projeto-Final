@@ -17,8 +17,8 @@ pbar = None
 def run_ticker_dataset(ticker, start_date, end_date, buy_type='current_day_open_price',
     gain_loss_ratio=3, peaks_pairs_number=2, risk_option='fixed', fixed_risk=0.03,
     start_range_risk=0.01, step_range_risk=0.002, end_range_risk=0.12,
-    max_days_per_operation=45, spearman_correlations=(3, 17, 72), datasets_dir=None,
-    add_ref_price=False):
+    max_days_per_operation=mlc.MAX_DAYS_PER_OPERATION, spearman_correlations=(3, 17, 72),
+    datasets_dir=None, add_ref_price=False):
 
     ticker_ds_gen = TickerDatasetGenerator(ticker=ticker, start_date=start_date,
         end_date=end_date, buy_type=buy_type, gain_loss_ratio=gain_loss_ratio,
@@ -71,9 +71,9 @@ if __name__ == '__main__':
     parser.add_argument("-z", "--end-range-risk", type=float, default=0.12,
         help="Step range risk value. Only used if 'risk-option' is set to 'range'. " \
         "Default is 0.002.")
-    parser.add_argument("-m", "--max-op-days", type=int, default=45,
+    parser.add_argument("-m", "--max-op-days", type=int, default=mlc.MAX_DAYS_PER_OPERATION,
         help="Max days per operation. If the duration exceeds this value, it is " \
-        "considered a failure operation. Default is 45.")
+        f"considered a failure operation. Default is \'{mlc.MAX_DAYS_PER_OPERATION}\'.")
     parser.add_argument("-d", "--datasets-dir", default=None,
         help="Datasets output file. " \
         "Default is 0.002.")

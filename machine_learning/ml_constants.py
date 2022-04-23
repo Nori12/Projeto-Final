@@ -13,5 +13,7 @@ MODEL_CONSTS = {'MLPClassifier': {'MODEL_DIRECTORY': 'mlp_classifier'},
     'KNeighborsClassifier': {'MODEL_DIRECTORY': 'kneighbors_classifier'},
     'RidgeClassifier': {'MODEL_DIRECTORY': 'ridge_classifier'}}
 
+MAX_DAYS_PER_OPERATION = 45
+
 # Random Forest
-RANDOM_FOREST_FIG_SUFFIX = '_rf_features_importance.png'
+RANDOM_FOREST_FIG_SUFFIX = '_features_importance.png'

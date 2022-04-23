@@ -117,7 +117,7 @@ class PseudoModel(ABC):
 class Model(PseudoModel):
 
     def __init__(self, model_type, ticker, input_features, output_feature,
-        X_train, y_train, X_test, y_test, model_dir, parameters=None):
+        X_train, y_train, X_test, y_test, model_dir, parameters=None, model_tag=None):
 
         self._model_type = model_type
         self._ticker = ticker
@@ -136,6 +136,7 @@ class Model(PseudoModel):
             (f'{ticker}' + mlc.SPECS_DIRECTORY_SUFFIX)
 
         self._model = None
+        self._model_tag = model_tag
 
     @property
     def model_type(self):
@@ -229,6 +230,10 @@ class Model(PseudoModel):
     def model(self, model):
         self._model = model
 
+    @property
+    def model_tag(self):
+        return self._model_tag
+
 
     def create_model(self):
         pass
@@ -243,8 +248,13 @@ class Model(PseudoModel):
         if not self.model_dir.exists():
             self.model_dir.mkdir(parents=True)
 
-        joblib.dump(self.model, self.model_dir / \
-            (f'{self.ticker}' + mlc.MODEL_FILE_SUFFIX))
+        if self.model_tag is not None and self.model_tag != '':
+            target_dir = self.model_dir / (f'{self.ticker}' + '_' + self.model_tag + \
+                 mlc.MODEL_FILE_SUFFIX)
+        else:
+            target_dir = self.model_dir / (f'{self.ticker}' + mlc.MODEL_FILE_SUFFIX)
+
+        joblib.dump(self.model, target_dir)
 
     @staticmethod
     def create_results_message(model_type, ticker, all_params, variable_params,
@@ -354,7 +364,7 @@ class Model(PseudoModel):
         y_train, y_test, dataset_info, training_accuracies, test_accuracies,
         training_confusions, test_confusions, specs_dir, training_profit_indexes,
         training_profit_indexes_zeros, test_profit_indexes, test_profit_indexes_zeros,
-        coefs=None):
+        coefs=None, model_tag=None):
         """
             'coefs': list of np.array to linear model coefficients.
         """
@@ -368,7 +378,12 @@ class Model(PseudoModel):
         if not specs_dir.exists():
             specs_dir.mkdir(parents=True)
 
-        with open(specs_dir / (f'{ticker}' + mlc.SPECS_FILE_SUFFIX), 'w') as file:
+        if model_tag is not None and model_tag != '':
+            target_dir = specs_dir / (f'{ticker}' + '_' + model_tag + mlc.SPECS_FILE_SUFFIX)
+        else:
+            target_dir = specs_dir / (f'{ticker}' + mlc.SPECS_FILE_SUFFIX)
+
+        with open(target_dir, 'w') as file:
             file.write(message)
 
     def save_auxiliary_files(self, model):
@@ -406,11 +421,11 @@ class Model(PseudoModel):
 class RandomForest(Model):
 
     def __init__(self, ticker, input_features, output_feature, X_train, y_train,
-        X_test, y_test, model_dir, parameters=None):
+        X_test, y_test, model_dir, parameters=None, model_tag=None):
 
         super().__init__('RandomForestClassifier', ticker=ticker, input_features=input_features,
             output_feature=output_feature, X_train=X_train, y_train=y_train, X_test=X_test,
-            y_test=y_test, model_dir=model_dir, parameters=parameters)
+            y_test=y_test, model_dir=model_dir, parameters=parameters, model_tag=model_tag)
 
     def create_model(self):
 
@@ -447,7 +462,12 @@ class RandomForest(Model):
     def save_auxiliary_files(self):
 
         n_features = len(self.input_features)
-        destination = self.specs_dir / (f'{self.ticker}' + mlc.RANDOM_FOREST_FIG_SUFFIX)
+
+        if self.model_tag is not None and self.model_tag != '':
+            destination = self.specs_dir / (f'{self.ticker}' + '_' + self.model_tag + \
+                mlc.RANDOM_FOREST_FIG_SUFFIX)
+        else:
+            destination = self.specs_dir / (f'{self.ticker}' + mlc.RANDOM_FOREST_FIG_SUFFIX)
 
         if not self.specs_dir.exists():
             self.specs_dir.mkdir(parents=True)
@@ -465,11 +485,11 @@ class RandomForest(Model):
 class KNeighbors(Model):
 
     def __init__(self, ticker, input_features, output_feature, X_train, y_train,
-        X_test, y_test, model_dir, parameters=None):
+        X_test, y_test, model_dir, parameters=None, model_tag=None):
 
         super().__init__('KNeighborsClassifier', ticker=ticker, input_features=input_features,
             output_feature=output_feature, X_train=X_train, y_train=y_train, X_test=X_test,
-            y_test=y_test, model_dir=model_dir, parameters=parameters)
+            y_test=y_test, model_dir=model_dir, parameters=parameters, model_tag=model_tag)
 
     def create_model(self):
 
@@ -491,11 +511,11 @@ class KNeighbors(Model):
 class MLPScikit(Model):
 
     def __init__(self, ticker, input_features, output_feature, X_train, y_train,
-        X_test, y_test, model_dir, parameters=None):
+        X_test, y_test, model_dir, parameters=None, model_tag=None):
 
         super().__init__('MLPClassifier', ticker=ticker, input_features=input_features,
             output_feature=output_feature, X_train=X_train, y_train=y_train, X_test=X_test,
-            y_test=y_test, model_dir=model_dir, parameters=parameters)
+            y_test=y_test, model_dir=model_dir, parameters=parameters, model_tag=model_tag)
 
     def create_model(self):
 
@@ -534,21 +554,16 @@ class MLPScikit(Model):
 class MLPKeras(Model):
 
     def __init__(self, ticker, input_features, output_feature, X_train, y_train,
-        X_test, y_test, model_dir, parameters=None):
+        X_test, y_test, model_dir, parameters=None, model_tag=None):
 
         super().__init__('MLPKerasClassifier', ticker=ticker, input_features=input_features,
             output_feature=output_feature, X_train=X_train, y_train=y_train, X_test=X_test,
-            y_test=y_test, model_dir=model_dir, parameters=parameters)
+            y_test=y_test, model_dir=model_dir, parameters=parameters, model_tag=model_tag)
 
         if parameters['activation'] not in ('relu', 'tanh', 'sigmoid', 'selu',
             'softmax', 'softplus', 'softsign', 'elu', 'exponential'):
             print(f"Activation function \'{parameters['activation']}\' not available.")
             sys.exit()
-
-        # if parameters['solver'] not in ('adam', 'tanh', 'sigmoid', 'selu',
-        #     'softmax', 'softplus', 'softsign', 'elu', 'exponential'):
-        #     print(f"Activation function \'{parameters['activation']}\' not available.")
-        #     sys.exit()
 
     def create_model(self):
 
@@ -600,11 +615,11 @@ class MLPKeras(Model):
 class RidgeScikit(Model):
 
     def __init__(self, ticker, input_features, output_feature, X_train, y_train,
-        X_test, y_test, model_dir, parameters=None):
+        X_test, y_test, model_dir, parameters=None, model_tag=None):
 
         super().__init__('RidgeClassifier', ticker=ticker, input_features=input_features,
             output_feature=output_feature, X_train=X_train, y_train=y_train, X_test=X_test,
-            y_test=y_test, model_dir=model_dir, parameters=parameters)
+            y_test=y_test, model_dir=model_dir, parameters=parameters, model_tag=model_tag)
 
     def create_model(self):
 
