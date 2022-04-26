@@ -229,3 +229,23 @@ def remove_row_from_last_n_peaks(training_df, backward_peaks=4):
 
 
     return training_df[0:end_index+1]
+
+def take_best_n_indexes(series, n):
+
+    best_values = sorted(series, reverse=True)
+    best_indexes = []
+
+    for idx in range(len(best_values)):
+        new_value = series.index(best_values[idx])
+
+        if new_value not in best_indexes:
+            best_indexes.append(new_value)
+
+        if len(best_indexes) == min(n, len(series)):
+            break
+
+    return tuple(best_indexes)
+
+
+
+

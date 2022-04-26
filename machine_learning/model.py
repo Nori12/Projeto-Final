@@ -261,7 +261,7 @@ class Model(PseudoModel):
         y_train, y_test, dataset_info, training_accuracies, test_accuracies,
         training_confusions, test_confusions, training_profit_indexes,
         training_profit_indexes_zeros, test_profit_indexes, test_profit_indexes_zeros,
-        coefs=None):
+        idx_of_bests, coefs=None):
 
         common_cfg_ljust = 31
         dataset_ljust = 31
@@ -328,34 +328,34 @@ class Model(PseudoModel):
             true_negative_test = test_confusion[0,0]
 
             model_msg_line = \
-                f"\n   ({idx+1:02d}) " \
-                f"Acc(test):{round(100*test_acc, 2):6.2f}%, " \
-                f"Acc(train):{round(100*training_acc, 2):6.2f}% | " \
+                f"\n   ({idx+1:03d}) " \
                 f"Profit_index(test):{100 * test_profit_index:6.2f}% (zero:{100 * test_profit_indexes_zero:6.2f}%), " \
-                f"Profit_index(train):{100 * training_profit_index:6.2f}% (zero:{100 * training_profit_indexes_zero:6.2f}%) | " \
+                f"Profit_index(train):{100 * training_profit_index:6.2f}% (zero:{100 * training_profit_indexes_zero:6.2f}%) || " \
+                f"Acc(test):{round(100*test_acc, 2):6.2f}%, " \
+                f"Acc(train):{round(100*training_acc, 2):6.2f}% || " \
                 f"TP(test):{round(100 * true_positive_test/np.sum(test_confusion, axis=1)[1], 1):5.1f}%, " \
                 f"TN(test):{round(100 * true_negative_test/np.sum(test_confusion, axis=1)[0], 1):5.1f}%, " \
                 f"TP(train):{round(100 * true_positive_train/np.sum(train_confusion, axis=1)[1], 1):5.1f}%, " \
                 f"TN(train):{round(100 * true_negative_train/np.sum(train_confusion, axis=1)[0], 1):5.1f}%"
 
             if variable_params:
-                model_msg_line += " |"
+                model_msg_line += " ||"
                 for i, param_name in enumerate(variable_params):
                     if i != 0:
                         model_msg_line += ","
                     model_msg_line += f" {param_name}:{str(all_params[idx][param_name]).rjust(param_rjust)}"
 
             if coefs is not None:
-                model_msg_line += " | "
+                model_msg_line += " || "
                 model_msg_line += f"Coefficients: {str(coefs[idx])}"
 
             message += model_msg_line
             models_result.append(model_msg_line)
 
-        message += "\n\nBest model"
+        message += "\n\nBest models"
 
-        idx_of_best = test_profit_indexes.index(max(test_profit_indexes))
-        message += models_result[idx_of_best]
+        for idx in idx_of_bests:
+            message += models_result[idx]
 
         return message
 
@@ -364,7 +364,7 @@ class Model(PseudoModel):
         y_train, y_test, dataset_info, training_accuracies, test_accuracies,
         training_confusions, test_confusions, specs_dir, training_profit_indexes,
         training_profit_indexes_zeros, test_profit_indexes, test_profit_indexes_zeros,
-        coefs=None, model_tag=None):
+        idx_of_bests, coefs=None, model_tag=None):
         """
             'coefs': list of np.array to linear model coefficients.
         """
@@ -372,7 +372,8 @@ class Model(PseudoModel):
         message = Model.create_results_message(model_type, ticker, all_params,
             variable_params, y_train, y_test, dataset_info, training_accuracies,
             test_accuracies, training_confusions, test_confusions, training_profit_indexes,
-            training_profit_indexes_zeros, test_profit_indexes, test_profit_indexes_zeros, coefs=coefs)
+            training_profit_indexes_zeros, test_profit_indexes, test_profit_indexes_zeros,
+            idx_of_bests, coefs=coefs)
 
         # Create folder and store model results in file
         if not specs_dir.exists():
@@ -421,11 +422,13 @@ class Model(PseudoModel):
 class RandomForest(Model):
 
     def __init__(self, ticker, input_features, output_feature, X_train, y_train,
-        X_test, y_test, model_dir, parameters=None, model_tag=None):
+        X_test, y_test, model_dir, parameters=None, model_tag=None, random_state=1):
 
         super().__init__('RandomForestClassifier', ticker=ticker, input_features=input_features,
             output_feature=output_feature, X_train=X_train, y_train=y_train, X_test=X_test,
             y_test=y_test, model_dir=model_dir, parameters=parameters, model_tag=model_tag)
+
+        self.random_state = random_state
 
     def create_model(self):
 
@@ -448,7 +451,7 @@ class RandomForest(Model):
             min_impurity_decrease=self.parameters['min_impurity_decrease'],
             bootstrap=self.parameters['bootstrap'],
             oob_score=self.parameters['oob_score'],
-            random_state = self.parameters['random_state'],
+            random_state = self.random_state,
             warm_start=self.parameters['warm_start'],
             class_weight=class_weights,
             ccp_alpha=self.parameters['ccp_alpha'],

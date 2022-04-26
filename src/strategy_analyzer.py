@@ -24,7 +24,7 @@ logger.addHandler(file_handler)
 file_handler.setLevel(logging.DEBUG)
 logger.setLevel(logging.DEBUG)
 
-MAX_COMMENT_LENGTH = 55
+MAX_ALIAS_LENGTH = 55
 
 class StrategyAnalyzer:
 
@@ -68,11 +68,11 @@ class StrategyAnalyzer:
         strategy_raw = self._db_strategy_analyzer_model.get_strategy_ids(strategy_id)
         self._strategy_name = strategy_raw['name'][0]
 
-        strategy_raw.drop(['name', 'id', 'alias', 'purchase_margin', 'stop_margin'],
+        strategy_raw.drop(['name', 'id', 'comment', 'purchase_margin', 'stop_margin'],
             axis=1, inplace=True)
 
-        strategy_raw['comment'][0] = (strategy_raw['comment'][0][:MAX_COMMENT_LENGTH] + '...') \
-            if len(strategy_raw['comment'][0]) > MAX_COMMENT_LENGTH else strategy_raw['comment'][0]
+        strategy_raw['alias'][0] = (strategy_raw['alias'][0][:MAX_ALIAS_LENGTH] + '...') \
+            if len(strategy_raw['alias'][0]) > MAX_ALIAS_LENGTH else strategy_raw['alias'][0]
 
         if 1 >= strategy_raw['risk_capital_product'][0] >= 0:
             strategy_raw['risk_capital_product'][0] = \
@@ -91,14 +91,14 @@ class StrategyAnalyzer:
         strategy_raw['number_or_tickers'] = len(self._tickers_and_dates)
 
         # Names to be shown
-        strategy_parameters = ['Comment', 'Total Tickers', 'Start Date', 'End Date',
+        strategy_parameters = ['Alias', 'Total Tickers', 'Start Date', 'End Date',
             'Capital (R$)', 'Risk-Capital Coefficient (%)', 'Gain-Loss Ratio',
             'Minimum Order Volume', 'Minimum Operation Risk (%)', 'Maximum Operation Risk (%)',
             'Partial Sale', 'Stop Loss Type', 'Min Days after Successfull Operation (days)',
             'Min Days after Failure Operation (days)', 'Maximum Days per Operation (days)'
         ]
 
-        strategy_data = [strategy_raw['comment'][0], strategy_raw['number_or_tickers'][0],
+        strategy_data = [strategy_raw['alias'][0], strategy_raw['number_or_tickers'][0],
             min(self._tickers_and_dates['start_date']).strftime('%d/%m/%Y'),
             max(self._tickers_and_dates['end_date']).strftime('%d/%m/%Y'),
             strategy_raw['total_capital'][0], strategy_raw['risk_capital_product'][0],

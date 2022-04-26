@@ -538,6 +538,9 @@ class AdaptedAndreMoraesStrategy(PseudoStrategy):
                 try:
                     day_info, week_info = next(data_gen)
 
+                    if not day_info.empty:
+                        self._load_models(day_info.head(1)['day'].squeeze(), wfo=True)
+
                     for index in range(len(tcks_priority)):
 
                         ticker_name = tcks_priority[index].ticker
@@ -1300,6 +1303,9 @@ class AdaptedAndreMoraesStrategy(PseudoStrategy):
             sys.stdout.flush()
             self._next_update_percent += self._update_step
 
+    def _load_models(self, day, wfo=True):
+        pass
+
     def _check_operation_freezetime(self, tcks_priority, tck_idx):
         tcks_priority[tck_idx].days_after_suc_oper += 1
         tcks_priority[tck_idx].days_after_fail_oper += 1
@@ -1702,45 +1708,20 @@ class MLDerivationStrategy(AdaptedAndreMoraesStrategy):
         self._name = "ML Derivation"
         self._db_strategy_model.name = self._name
         self._models = {}
+        self._current_model_tag = None
 
-        self._step_range_risk = 0.002
-        self.risks = tuple(round(i, 3) for i in tuple(np.arange(self.min_risk,
-                self.max_risk + self._step_range_risk, self._step_range_risk)))
+        self.tickers_info_path = Path(__file__).parent / 'tickers_info.csv'
+        self.ticker_datasets_path = Path(__file__).parent.parent / c.DATASETS_PATH
+        self.risks = None
+        self.len_risks_in_datasets = None
 
-        tickers_info_path = Path(__file__).parent / 'tickers_info.csv'
-        ticker_datasets_path = Path(__file__).parent.parent / 'machine_learning' / 'datasets'
-        ticker_dataset_suffix = '_dataset.csv'
-
-        self._tickers_info = {}
-        self._load_most_effective_risk_per_ticker(tickers_info_path, ticker_datasets_path,
-                    ticker_dataset_suffix)
+        self._load_risks_file()
 
 
     @property
     def models(self):
         return self._models
 
-    @property
-    def min_risk(self):
-        return self._min_risk
-
-    @min_risk.setter
-    def min_risk(self, min_risk):
-        self._min_risk = min_risk
-        self._db_strategy_model.min_risk = min_risk
-        self.risks = tuple(round(i, 3) for i in tuple(np.arange(min_risk,
-            self.max_risk + self._step_range_risk, self._step_range_risk)))
-
-    @property
-    def max_risk(self):
-        return self._max_risk
-
-    @max_risk.setter
-    def max_risk(self, max_risk):
-        self._max_risk = max_risk
-        self._db_strategy_model.max_risk = max_risk
-        self.risks = tuple(round(i, 3) for i in tuple(np.arange(self.min_risk,
-            max_risk + self._step_range_risk, self._step_range_risk)))
 
     @property
     def tickers_info(self):
@@ -1750,73 +1731,71 @@ class MLDerivationStrategy(AdaptedAndreMoraesStrategy):
     def tickers_info(self, tickers_info):
         self._tickers_info = tickers_info
 
-    def load_models(self):
 
-        for _, (ticker, _) in enumerate(self.tickers_and_dates.items()):
-            self._models[ticker] = joblib.load(Path(__file__).parent.parent /
-                c.MODELS_PATH / (ticker + c.MODEL_SUFFIX)).set_params(n_jobs=1)
+    def _load_risks_file(self):
 
-    def _load_most_effective_risk_per_ticker(self, tickers_info_path, ticker_datasets_path,
-        ticker_dataset_suffix):
+        parsed_file_columns = ['ticker', 'day', 'risk']
+        dataset_columns = ['ticker', 'day', 'risk', 'success_oper_flag', 'timeout_flag',
+            'end_of_interval_flag']
 
-        columns = ['ticker', 'start_date', 'end_date', 'most_effective_risk']
-        non_counted_holidays_tolerance = 5
-        ticker_info_interval_days = 365 * 2
+        if self.tickers_info_path.exists():
+            columns = ['ticker', 'day', 'risk']
+            self.ticker_day_risks = pd.read_csv(self.tickers_info_path, sep=',',
+                usecols=parsed_file_columns)
+        else:
+            ticker_day_risk = {'ticker': [], 'day': [], 'risk': []}
+            first_write = True
 
-        update_file_data = {'ticker': [], 'start_date': [], 'end_date': [],
-            'most_effective_risk': []}
-        tck_info_df = None
-        most_effective_risk = None
+            for ticker, dates in self.tickers_and_dates.items():
 
-        if tickers_info_path.exists():
+                dataset_path = self.ticker_datasets_path / (ticker + c.DATASET_SUFFIX)
+                df_gen = pd.read_csv(dataset_path, sep=",", usecols=dataset_columns,
+                    chunksize=10000)
 
-            tck_info_df = pd.read_csv(tickers_info_path, sep=",", usecols=columns)
+                df = pd.concat((x.query(f"ticker == '{ticker}' and " \
+                    f"day >= '{(dates['start_date'] - pd.Timedelta(days=365)).strftime('%Y-%m-%d')}' and " \
+                    f"day <= '{(dates['end_date']).strftime('%Y-%m-%d')}'")
+                    for x in df_gen), ignore_index=True)
 
-            if tck_info_df.empty:
-                tck_info_df = None
+                for idx, row in df.loc[(df['day'] >= dates['start_date'].strftime('%Y-%m-%d')) & (df['risk'] == 0.04), ['day']].iterrows():
+                    risk = self._process_risk(pd.Timestamp(row['day']), df)
+                    day = row['day']
+                    ticker_day_risk['ticker'].append(ticker)
+                    ticker_day_risk['day'].append(day)
+                    ticker_day_risk['risk'].append(risk)
 
-        for ticker, dates in self.tickers_and_dates.items():
+                mode = 'w' if first_write == True else 'a'
+                header = True if first_write == True else False
+                df = pd.DataFrame(ticker_day_risk).to_csv(self.tickers_info_path,
+                        mode=mode, index=False, header=header)
+                ticker_day_risk = {'ticker': [], 'day': [], 'risk': []}
+                first_write = False
 
-            ticker_info_end_date = dates['end_date'] - BDay(
-                self.max_days_per_operation + non_counted_holidays_tolerance)
-            ticker_info_start_date = ticker_info_end_date - timedelta(
-                days=ticker_info_interval_days)
+            self.ticker_day_risks = pd.read_csv(self.tickers_info_path, sep=',',
+                usecols=parsed_file_columns)
 
-            if tck_info_df is not None:
-                most_effective_risk = tck_info_df.loc[(tck_info_df['ticker'] == ticker) & \
-                    (tck_info_df['start_date'] == ticker_info_start_date.strftime('%Y-%m-%d')) & \
-                    (tck_info_df['end_date'] == ticker_info_end_date.strftime('%Y-%m-%d')),
-                    ['most_effective_risk']]
+    def _process_risk(self, day, df):
+        end_date = day - pd.Timedelta(days=1)
+        start_date_365 = end_date - pd.Timedelta(days=365)
+        start_date_183 = end_date - pd.Timedelta(days=183)
+        start_date_120 = end_date - pd.Timedelta(days=120)
+        end_date = end_date - pd.Timedelta(days=self.max_days_per_operation)
 
-                if most_effective_risk.empty:
-                    most_effective_risk = None
-                else:
-                    most_effective_risk = most_effective_risk.squeeze()
+        risk_365_days = self._process_most_effective_risk_from_dataset(
+            start_date_365, end_date, df, kind='peak')
 
-            if most_effective_risk is None:
+        risk_183_days = self._process_most_effective_risk_from_dataset(
+            start_date_183, end_date, df, kind='peak')
 
-                most_effective_risk = self._get_most_effective_risk_from_dataset(
-                    ticker, ticker_info_start_date, ticker_info_end_date,
-                    ticker_datasets_path, ticker_dataset_suffix, kind='peak')
+        risk_120_days = self._process_most_effective_risk_from_dataset(
+            start_date_120, end_date, df, kind='peak')
 
-                update_file_data['ticker'].append(ticker)
-                update_file_data['start_date'].append(ticker_info_start_date.strftime('%Y-%m-%d'))
-                update_file_data['end_date'].append(ticker_info_end_date.strftime('%Y-%m-%d'))
-                update_file_data['most_effective_risk'].append(most_effective_risk)
+        risk = (risk_365_days * 1 + risk_183_days * 2 + risk_120_days * 3) / 6
 
-            self.tickers_info[ticker] = most_effective_risk
-            most_effective_risk = None
+        return round(risk, 3)
 
-        if update_file_data['ticker']:
-            update_df = pd.DataFrame(update_file_data)
-
-            if tck_info_df is not None:
-                update_df = pd.concat([tck_info_df, update_df])
-
-            update_df.to_csv(tickers_info_path, mode='w', index=False, header=True)
-
-    def _get_most_effective_risk_from_dataset(self, ticker, start_date, end_date,
-        ticker_datasets_path, ticker_dataset_suffix, kind='peak'):
+    def _process_most_effective_risk_from_dataset(self, start_date, end_date,
+        df, kind='peak'):
 
         if kind not in ['peak', 'average']:
             logger.error("\'kind\' parameter must be in ['peak', 'average']")
@@ -1826,31 +1805,22 @@ class MLDerivationStrategy(AdaptedAndreMoraesStrategy):
         if kind == 'average':
             risk_avg = 0.0
 
-        columns = ['ticker', 'day', 'risk', 'success_oper_flag', 'timeout_flag',
-            'end_of_interval_flag']
+        if self.len_risks_in_datasets is None or self.risks is None:
+            self.risks = list(np.sort(df['risk'].squeeze().unique()))
+            self.len_risks_in_datasets = len(self.risks)
 
-        # Open dataset file
-        dataset_path = ticker_datasets_path / (ticker+ticker_dataset_suffix)
-        dataset_df_gen = pd.read_csv(dataset_path, sep=",", usecols=columns, chunksize=10000)
-
-        dataset_df = pd.concat((x.query(f"ticker == '{ticker}' and " \
-            f"day >= '{start_date.strftime('%Y-%m-%d')}' and " \
-            f"day <= '{end_date.strftime('%Y-%m-%d')}'")
-            for x in dataset_df_gen), ignore_index=True)
-
-        # Create risk list from dataset
-        first_date = dataset_df['day'].head(1).squeeze()
-        risks = dataset_df.loc[dataset_df['day'] == first_date, ['risk']].squeeze().tolist()
-        risks.sort()
+        filtered_df = df.loc[\
+            (df['day'] >= f"{start_date.strftime('%Y-%m-%d')}") & \
+            (df['day'] <= f"{end_date.strftime('%Y-%m-%d')}")]
 
         # Create histogram of successful operations risks
-        risks_count = [] * len(risks)
+        risks_count = []
 
-        for risk in risks:
-            risks_count.append(len(dataset_df.loc[(dataset_df['risk'] == risk) & \
-                (dataset_df['success_oper_flag'] == 1) & \
-                (dataset_df['timeout_flag'] == 0) & \
-                (dataset_df['end_of_interval_flag'] == 0), ['risk']]))
+        for risk in self.risks:
+            risks_count.append(len(filtered_df.loc[(filtered_df['risk'] == risk) & \
+                (filtered_df['success_oper_flag'] == 1) & \
+                (filtered_df['timeout_flag'] == 0) & \
+                (filtered_df['end_of_interval_flag'] == 0), ['risk']]))
 
             if kind == 'average':
                 risk_avg += risk * risks_count[-1]
@@ -1859,19 +1829,64 @@ class MLDerivationStrategy(AdaptedAndreMoraesStrategy):
             risk_avg /= sum(risks_count)
 
         if kind == 'peak':
-            f = interp1d(risks, risks_count, kind='cubic')
-            x = np.linspace(risks[0], risks[-1], num=len(risks)*4)
+            f = interp1d(self.risks, risks_count, kind='cubic')
+            x = np.linspace(self.risks[0], self.risks[-1], num=len(self.risks)*4)
             risk_peak = x[np.argmax(f(x))]
 
             # Debug
             # if ticker == 'ALPA4':
             #     plt.subplot(1, 1, 1)
-            #     plt.plot(risks, risks_count, 'o', color='b')
+            #     plt.plot(self.risks, risks_count, 'o', color='b')
             #     plt.plot(x, f(x), color='r')
 
             return round(risk_peak, 4)
 
         return round(risk_avg, 4)
+
+    def _load_models(self, day=None, wfo=True):
+        """WFO = Walk Forward Optimization"""
+
+        path_prefix = Path(__file__).parent.parent / c.MODELS_PATH
+
+        if wfo == False and self._current_model_tag is None:
+            if day >= pd.Timestamp(c.WFO_START_DATE):
+                for key, value in c.WFO_MODEL_TAGS.items():
+                    if day <= pd.Timestamp(year=value['end_year'], month=value['end_month'], \
+                        day=value['end_day']):
+
+                        self._current_model_tag = key
+
+                        for _, (ticker, _) in enumerate(self.tickers_and_dates.items()):
+                            self._models[ticker] = joblib.load(path_prefix / \
+                            (ticker + '_' + self._current_model_tag + c.MODEL_SUFFIX))
+
+                        break
+
+        elif wfo == True:
+            if self._current_model_tag is not None:
+                if day > pd.Timestamp(year=c.WFO_MODEL_TAGS[self._current_model_tag]['end_year'],
+                    month=c.WFO_MODEL_TAGS[self._current_model_tag]['end_month'],
+                    day=c.WFO_MODEL_TAGS[self._current_model_tag]['end_day']):
+
+                    next_index = list(c.WFO_MODEL_TAGS.keys()).index(self._current_model_tag) + 1
+                    self._current_model_tag = list(c.WFO_MODEL_TAGS.keys())[next_index]
+
+                    for _, (ticker, _) in enumerate(self.tickers_and_dates.items()):
+                        self._models[ticker] = joblib.load(path_prefix / \
+                        (ticker + '_' + self._current_model_tag + c.MODEL_SUFFIX))
+            else:
+                if day >= pd.Timestamp(c.WFO_START_DATE):
+                    for key, value in c.WFO_MODEL_TAGS.items():
+                        if day <= pd.Timestamp(year=value['end_year'], month=value['end_month'], \
+                            day=value['end_day']):
+
+                            self._current_model_tag = key
+
+                            for _, (ticker, _) in enumerate(self.tickers_and_dates.items()):
+                                self._models[ticker] = joblib.load(path_prefix / \
+                                (ticker + '_' + self._current_model_tag + c.MODEL_SUFFIX))
+
+                            break
 
     def _initialize_tcks_priority(self, tcks_priority):
 
@@ -1905,9 +1920,9 @@ class MLDerivationStrategy(AdaptedAndreMoraesStrategy):
         if data_validation_flag is False:
             return False
 
+        # Peak analysis: Put first peaks in buffer
         MLDerivationStrategy._update_peaks_days(tcks_priority[tck_idx])
 
-        # Peak analysis: Put first peaks in buffer
         tcks_priority[tck_idx].extra_vars['current_max_delay'] += 1
         tcks_priority[tck_idx].extra_vars['current_min_delay'] += 1
 
@@ -2011,26 +2026,31 @@ class MLDerivationStrategy(AdaptedAndreMoraesStrategy):
         ema_72_day = round(tcks_priority[tck_idx].last_business_data['ema_72_day'] / ref_price, 4)
         ema_72_week = round(tcks_priority[tck_idx].last_business_data['ema_72_week'] / ref_price, 4)
 
-        # X_test = [[risk, peak_1, day_1, peak_2, day_2, peak_3, day_3, peak_4, day_4,
-        #     ema_17_day, ema_72_day, ema_72_week] for risk in self.risks]
-        # predictions = self.models[tcks_priority[tck_idx].ticker].predict(X_test)
-
-        risk = self.tickers_info[tcks_priority[tck_idx].ticker]
+        risk = self._get_risk(tcks_priority[tck_idx].ticker, business_data['day'])
+        if risk < self.min_risk:
+            return False
 
         X_test = [[risk, peak_1, day_1, peak_2, day_2, peak_3, day_3, peak_4, day_4,
             ema_17_day, ema_72_day, ema_72_week]]
 
         prediction = self.models[tcks_priority[tck_idx].ticker].predict(X_test)
 
-        if prediction == 1:
-            # risk = self.risks[get_avg_index_of_first_burst_of_ones(predictions)]
-            # business_data['stop_loss_day'] = round(purchase_price * (1 - risk), 2)
-
+        if prediction[0] == 1:
             business_data['stop_loss_day'] = round(purchase_price * (1 - risk), 2)
             return True
 
         return False
 
+    def _get_risk(self, ticker, day):
+
+        risk = self.ticker_day_risks.loc[
+            (self.ticker_day_risks['ticker'] == ticker) & \
+            (self.ticker_day_risks['day'] == day.strftime('%Y-%m-%d')), ['risk']].squeeze()
+
+        if isinstance(risk, pd.Series):
+            return 0.0
+
+        return round(risk, 3)
 
 class BaselineStrategy(AdaptedAndreMoraesStrategy):
 

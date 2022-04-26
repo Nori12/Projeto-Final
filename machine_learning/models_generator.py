@@ -19,7 +19,7 @@ import numpy as np
 sys.path.insert(1, str(Path(__file__).parent.parent/'src'))
 import constants as c
 import config_reader as cr
-from utils import my_dynamic_cast, my_to_list, remove_row_from_last_n_peaks
+from utils import my_dynamic_cast, my_to_list, remove_row_from_last_n_peaks, take_best_n_indexes
 import ml_constants as mlc
 from model import KNeighbors, RandomForest, MLPScikit, MLPKeras, RidgeScikit
 
@@ -41,15 +41,83 @@ def manage_ticker_models(model_type, ticker, input_features, output_feature, X_t
     test_profit_indexes_zeros = []
     extra_data = []
 
+    best_models_for_random_state = 10
+    best_models = 5
+    best_model_indexes = []
+    random_states = [2, 3, 4, 5, 6, 7, 8]
+
     if models_params is None:
         models_params = {}
 
     if variable_params is None:
         variable_params = []
 
-    if model_type == 'MLPClassifier':
+    if model_type == 'RandomForestClassifier':
 
         for model_params in models_params:
+            my_model = RandomForest(ticker=ticker, input_features=input_features,
+                output_feature=output_feature, X_train=X_train, y_train=y_train,
+                X_test=X_test, y_test=y_test, model_dir=models_dir, parameters=model_params,
+                model_tag=model_tag)
+
+            my_model.create_model()
+
+            models.append(my_model)
+            training_accuracies.append(my_model.get_accuracy(X_train, y_train))
+            test_accuracies.append(my_model.get_accuracy(X_test, y_test))
+
+            training_confusions.append(my_model.get_confusion(X_train, y_train))
+            test_confusions.append(my_model.get_confusion(X_test, y_test))
+
+            profit_index, zero = my_model.get_profit_index(X_train, y_train)
+            training_profit_indexes.append(profit_index)
+            training_profit_indexes_zeros.append(zero)
+
+            profit_index, zero = my_model.get_profit_index(X_test, y_test)
+            test_profit_indexes.append(profit_index)
+            test_profit_indexes_zeros.append(zero)
+
+        # Choose best model
+        best_model_indexes = take_best_n_indexes(test_profit_indexes, best_models_for_random_state)
+        best_model_avg_indexes = []
+        avg_profit_indexes = [[test_profit_indexes[n]] for n in best_model_indexes]
+
+        for idx_of_idx, model_idx in enumerate(best_model_indexes):
+            for rnd_st in random_states:
+
+                my_model = RandomForest(ticker=ticker, input_features=input_features,
+                    output_feature=output_feature, X_train=X_train, y_train=y_train,
+                    X_test=X_test, y_test=y_test, model_dir=models_dir,
+                    parameters=models_params[model_idx], model_tag=model_tag,
+                    random_state=rnd_st)
+
+                my_model.create_model()
+                profit_index, zero = my_model.get_profit_index(X_test, y_test)
+
+                avg_profit_indexes[idx_of_idx].append(profit_index)
+
+        for values in avg_profit_indexes:
+            avg = sum(values) / len(values)
+            best_model_avg_indexes.append(avg)
+
+        idx_of_bests = []
+        sorted_list = sorted(best_model_avg_indexes, reverse=True)
+        for i in range(best_models):
+            idx_of_bests.append( best_model_indexes[best_model_avg_indexes.index(sorted_list[i])] )
+        # idx_of_best.append( best_model_indexes[best_model_avg_indexes.index(max(best_model_avg_indexes))] )
+
+        models[idx_of_bests[0]].save()
+        models[idx_of_bests[0]].save_auxiliary_files()
+
+        RandomForest.save_results(model_type, ticker, models_params, variable_params,
+            y_train, y_test, datasets_info, training_accuracies, test_accuracies,
+            training_confusions, test_confusions, models[idx_of_bests[0]].specs_dir,
+            training_profit_indexes, training_profit_indexes_zeros, test_profit_indexes,
+            test_profit_indexes_zeros, idx_of_bests, coefs=None, model_tag=model_tag)
+
+    elif model_type == 'MLPClassifier':
+
+        for idx, model_params in enumerate(models_params):
             my_model = MLPScikit(ticker=ticker, input_features=input_features,
                 output_feature=output_feature, X_train=X_train, y_train=y_train,
                 X_test=X_test, y_test=y_test, model_dir=models_dir, parameters=model_params,
@@ -64,12 +132,12 @@ def manage_ticker_models(model_type, ticker, input_features, output_feature, X_t
             training_confusions.append(my_model.get_confusion(X_train, y_train))
             test_confusions.append(my_model.get_confusion(X_test, y_test))
 
-            index, zero = my_model.get_profit_index(X_train, y_train)
-            training_profit_indexes.append(index)
+            profit_index, zero = my_model.get_profit_index(X_train, y_train)
+            training_profit_indexes.append(profit_index)
             training_profit_indexes_zeros.append(zero)
 
-            index, zero = my_model.get_profit_index(X_test, y_test)
-            test_profit_indexes.append(index)
+            profit_index, zero = my_model.get_profit_index(X_test, y_test)
+            test_profit_indexes.append(profit_index)
             test_profit_indexes_zeros.append(zero)
 
         idx_of_best = test_profit_indexes.index(max(test_profit_indexes))
@@ -98,53 +166,18 @@ def manage_ticker_models(model_type, ticker, input_features, output_feature, X_t
             training_confusions.append(my_model.get_confusion(X_train, y_train))
             test_confusions.append(my_model.get_confusion(X_test, y_test))
 
-            index, zero = my_model.get_profit_index(X_train, y_train)
-            training_profit_indexes.append(index)
+            profit_index, zero = my_model.get_profit_index(X_train, y_train)
+            training_profit_indexes.append(profit_index)
             training_profit_indexes_zeros.append(zero)
 
-            index, zero = my_model.get_profit_index(X_test, y_test)
-            test_profit_indexes.append(index)
+            profit_index, zero = my_model.get_profit_index(X_test, y_test)
+            test_profit_indexes.append(profit_index)
             test_profit_indexes_zeros.append(zero)
 
         idx_of_best = test_profit_indexes.index(max(test_profit_indexes))
         models[idx_of_best].save()
 
         MLPKeras.save_results(model_type, ticker, models_params, variable_params,
-            y_train, y_test, datasets_info, training_accuracies, test_accuracies,
-            training_confusions, test_confusions, models[idx_of_best].specs_dir,
-            training_profit_indexes, training_profit_indexes_zeros, test_profit_indexes,
-            test_profit_indexes_zeros, model_tag=model_tag)
-
-    elif model_type == 'RandomForestClassifier':
-
-        for model_params in models_params:
-            my_model = RandomForest(ticker=ticker, input_features=input_features,
-                output_feature=output_feature, X_train=X_train, y_train=y_train,
-                X_test=X_test, y_test=y_test, model_dir=models_dir, parameters=model_params,
-                model_tag=model_tag)
-
-            my_model.create_model()
-
-            models.append(my_model)
-            training_accuracies.append(my_model.get_accuracy(X_train, y_train))
-            test_accuracies.append(my_model.get_accuracy(X_test, y_test))
-
-            training_confusions.append(my_model.get_confusion(X_train, y_train))
-            test_confusions.append(my_model.get_confusion(X_test, y_test))
-
-            index, zero = my_model.get_profit_index(X_train, y_train)
-            training_profit_indexes.append(index)
-            training_profit_indexes_zeros.append(zero)
-
-            index, zero = my_model.get_profit_index(X_test, y_test)
-            test_profit_indexes.append(index)
-            test_profit_indexes_zeros.append(zero)
-
-        idx_of_best = test_profit_indexes.index(max(test_profit_indexes))
-        models[idx_of_best].save()
-        models[idx_of_best].save_auxiliary_files()
-
-        RandomForest.save_results(model_type, ticker, models_params, variable_params,
             y_train, y_test, datasets_info, training_accuracies, test_accuracies,
             training_confusions, test_confusions, models[idx_of_best].specs_dir,
             training_profit_indexes, training_profit_indexes_zeros, test_profit_indexes,
@@ -168,11 +201,11 @@ def manage_ticker_models(model_type, ticker, input_features, output_feature, X_t
             test_confusions.append(my_model.get_confusion(X_test, y_test))
 
             index, zero = my_model.get_profit_index(X_train, y_train)
-            training_profit_indexes.append(index)
+            training_profit_indexes.append(profit_index)
             training_profit_indexes_zeros.append(zero)
 
-            index, zero = my_model.get_profit_index(X_test, y_test)
-            test_profit_indexes.append(index)
+            profit_index, zero = my_model.get_profit_index(X_test, y_test)
+            test_profit_indexes.append(profit_index)
             test_profit_indexes_zeros.append(zero)
 
         idx_of_best = test_profit_indexes.index(max(test_profit_indexes))
@@ -201,12 +234,12 @@ def manage_ticker_models(model_type, ticker, input_features, output_feature, X_t
             training_confusions.append(my_model.get_confusion(X_train, y_train))
             test_confusions.append(my_model.get_confusion(X_test, y_test))
 
-            index, zero = my_model.get_profit_index(X_train, y_train)
-            training_profit_indexes.append(index)
+            profit_index, zero = my_model.get_profit_index(X_train, y_train)
+            training_profit_indexes.append(profit_index)
             training_profit_indexes_zeros.append(zero)
 
-            index, zero = my_model.get_profit_index(X_test, y_test)
-            test_profit_indexes.append(index)
+            profit_index, zero = my_model.get_profit_index(X_test, y_test)
+            test_profit_indexes.append(profit_index)
             test_profit_indexes_zeros.append(zero)
 
             extra_data.append(my_model.model.coef_)
@@ -364,10 +397,10 @@ if __name__ == '__main__':
         help="Maximum number of tickers to evaluate.")
     parser.add_argument("-e", "--end-on-ticker", type=int, default=None,
         help="Number of ticker to end.")
-    parser.add_argument("-d", "--start-date", default='2012-01-02',
-        help="Start date of training set. Format: '%Y-%m-%d'. Default is '2012-01-02'.")
-    parser.add_argument("-g", "--end-date", default='2018-06-30',
-        help="Number of ticker to end. Format: '%Y-%m-%d'. Default is '2018-06-30'.")
+    parser.add_argument("-d", "--start-date", default='2013-01-01',
+        help="Start date of training set. Format: '%Y-%m-%d'. Default is '2013-01-01'.")
+    parser.add_argument("-g", "--end-date", default='2018-12-31',
+        help="Number of ticker to end. Format: '%Y-%m-%d'. Default is '2018-12-31'.")
     parser.add_argument("-m", "--model", default='RandomForestClassifier',
         choices=['MLPClassifier', 'MLPKerasClassifier', 'RandomForestClassifier',
         'KNeighborsClassifier', 'RidgeClassifier'],
@@ -381,8 +414,8 @@ if __name__ == '__main__':
         help="Input features name list (python compatible). Default is \"['risk', " \
             f"'peak_1', 'day_1', 'peak_2', 'day_2', 'peak_3', 'day_3', 'peak_4', " \
             f"'day_4', 'ema_17_day', 'ema_72_day', 'ema_72_week']\".")
-    parser.add_argument("-z", "--train-test-split", type=float, default=0.2,
-        help="Train test split. Default is \"0.2\".")
+    parser.add_argument("-z", "--train-test-split", type=float, default=0.12,
+        help="Train test split. Default is \"0.12\".")
     parser.add_argument("-x", "--sampling-method", default='CSL',
         choices=['oversample', 'CSL'],
         help="Sampling method for handling imbalanced datasets. Default is \"CSL\", " \
@@ -502,10 +535,11 @@ if __name__ == '__main__':
         'MLPClassifier': {'hidden_layers': [1, 2], 'hidden_layers_neurons': len(input_features),
         'activation': 'relu', 'solver': 'adam', 'alpha': [0.0001, 0.001, 0.01],
         'batch_size': 'auto', 'learning_rate': 'constant', 'learning_rate_init': 0.001,
-        'power_t': 0.5, 'max_iter': 200, 'shuffle': True, 'random_state': 1,
+        'power_t': 0.5, 'max_iter': 200, 'shuffle': True,
         'tol': 1e-4, 'warm_start': False, 'momentum': 0.9, 'nesterovs_momentum': True,
         'early_stopping': False, 'validation_fraction': 0.1, 'beta_1': 0.9,
-        'beta_2': 0.999, 'epsilon': 1e-8, 'n_iter_no_change': 10, 'max_fun': 15000},
+        'beta_2': 0.999, 'epsilon': 1e-8, 'n_iter_no_change': 10, 'max_fun': 15000,
+        'random_state': 1},
 
         'MLPKerasClassifier': {'hidden_layers': [1, 2, 3, 4, 5, 6],
         'hidden_layers_neurons': len(input_features), 'activation': 'relu',
@@ -513,11 +547,11 @@ if __name__ == '__main__':
         'epochs': 3, 'overweight_min_class': [3.0, 2.0, 1.0, 0.75, 0.5, 0.33]},
 
         'RandomForestClassifier': {'n_estimators': 50, 'criterion': 'gini',
-        'max_depth': [10, 11, 12, 13, 14, 15, 16, 17, 18], 'min_samples_split': 2, 'min_samples_leaf': 1,
-        'min_weight_fraction_leaf': 0.0, 'max_features': [6, 5, 4], 'max_leaf_nodes': None,
+        'max_depth': [1, 2, 3, 4, 5, 6, 7, 8, 9], 'min_samples_split': 2, 'min_samples_leaf': 1,
+        'min_weight_fraction_leaf': 0.0, 'max_features': [5, 4, 3], 'max_leaf_nodes': None,
         'min_impurity_decrease': 0.0, 'bootstrap': True, 'oob_score': False,
-        'random_state': [1, 2], 'warm_start': False, 'class_weight': 'balanced_subsample',
-        'ccp_alpha': 0.0, 'max_samples': None, 'overweight_min_class': [0.5, 0.8, 1.0, 1.2, 1.5]},
+        'warm_start': False, 'class_weight': 'balanced_subsample',
+        'ccp_alpha': 0.0, 'max_samples': None, 'overweight_min_class': [0.20, 0.25, 0.30, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6]},
 
         'KNeighborsClassifier': {'n_neighbors': [1, 2, 3, 4, 5], 'weights': ['uniform', 'distance'],
         'algorithm': 'auto', 'leaf_size': 30, 'p': 2, 'metric': 'minkowski', 'metric_params': None},

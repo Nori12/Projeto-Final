@@ -8,12 +8,30 @@ MODELS_PATH = 'machine_learning/models/ticker_oriented_models/random_forest_clas
 MODEL_SUFFIX = '_model.joblib'
 TICKERS_OPER_OPT_PATH = 'optimizers/stop_loss_optimizer/out_csv_files/tickers_oper_opt.csv'
 DATASETS_PATH = 'machine_learning/datasets/'
+DATASET_SUFFIX = '_dataset.csv'
 
 # Log
 LOG_FILENAME = 'app.log'
 LOG_PATH = 'logs/'
 LOG_FORMATTER_STRING = '%(asctime)s:%(levelname)s:%(name)s:%(message)s'
 LOG_FILE_MAX_SIZE = 3*1024*1024
+
+# Walk Forward Optimization
+WFO_START_DATE = '2019-01-01T00'
+WFO_MODEL_TAGS = {
+    '2019_1': {'end_year': 2019, 'end_month': 3,  'end_day': 31},
+    '2019_2': {'end_year': 2019, 'end_month': 6,  'end_day': 30},
+    '2019_3': {'end_year': 2019, 'end_month': 9,  'end_day': 30},
+    '2019_4': {'end_year': 2019, 'end_month': 12, 'end_day': 31},
+    '2020_1': {'end_year': 2020, 'end_month': 3,  'end_day': 31},
+    '2020_2': {'end_year': 2020, 'end_month': 6,  'end_day': 30},
+    '2020_3': {'end_year': 2020, 'end_month': 9,  'end_day': 30},
+    '2020_4': {'end_year': 2020, 'end_month': 12, 'end_day': 31},
+    '2021_1': {'end_year': 2021, 'end_month': 3,  'end_day': 31},
+    '2021_2': {'end_year': 2021, 'end_month': 6,  'end_day': 30},
+    '2021_3': {'end_year': 2021, 'end_month': 9,  'end_day': 30},
+    '2021_4': {'end_year': 2023, 'end_month': 12, 'end_day': 31}, # Proposital extended duration
+}
 
 # Exit error/warning codes
 CONFIG_FILE_ERR = 1

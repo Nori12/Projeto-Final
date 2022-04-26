@@ -118,7 +118,6 @@ def run_strategy(strategy, strategy_number, total_strategies, stdout_prints=Fals
                 stdout_prints=stdout_prints
             )
 
-            ml_strategy.load_models()
             ml_strategy.process_operations()
             ml_strategy.calculate_statistics()
             ml_strategy.save()
