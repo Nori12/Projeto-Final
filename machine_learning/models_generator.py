@@ -41,8 +41,8 @@ def manage_ticker_models(model_type, ticker, input_features, output_feature, X_t
     test_profit_indexes_zeros = []
     extra_data = []
 
-    best_models_for_random_state = 10
-    best_models = 5
+    best_models_for_random_state = 30
+    best_models = 10
     best_model_indexes = []
     random_states = [2, 3, 4, 5, 6, 7, 8]
 
@@ -547,11 +547,11 @@ if __name__ == '__main__':
         'epochs': 3, 'overweight_min_class': [3.0, 2.0, 1.0, 0.75, 0.5, 0.33]},
 
         'RandomForestClassifier': {'n_estimators': 50, 'criterion': 'gini',
-        'max_depth': [1, 2, 3, 4, 5, 6, 7, 8, 9], 'min_samples_split': 2, 'min_samples_leaf': 1,
+        'max_depth': [3, 4, 5, 6, 7, 8, 9, 10, 11, 12], 'min_samples_split': 2, 'min_samples_leaf': 1,
         'min_weight_fraction_leaf': 0.0, 'max_features': [5, 4, 3], 'max_leaf_nodes': None,
         'min_impurity_decrease': 0.0, 'bootstrap': True, 'oob_score': False,
         'warm_start': False, 'class_weight': 'balanced_subsample',
-        'ccp_alpha': 0.0, 'max_samples': None, 'overweight_min_class': [0.20, 0.25, 0.30, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6]},
+        'ccp_alpha': 0.0, 'max_samples': None, 'overweight_min_class': [0.20, 0.25, 0.30, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65]},
 
         'KNeighborsClassifier': {'n_neighbors': [1, 2, 3, 4, 5], 'weights': ['uniform', 'distance'],
         'algorithm': 'auto', 'leaf_size': 30, 'p': 2, 'metric': 'minkowski', 'metric_params': None},
