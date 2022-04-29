@@ -261,11 +261,12 @@ class Model(PseudoModel):
         y_train, y_test, dataset_info, training_accuracies, test_accuracies,
         training_confusions, test_confusions, training_profit_indexes,
         training_profit_indexes_zeros, test_profit_indexes, test_profit_indexes_zeros,
-        idx_of_bests, coefs=None):
+        idx_of_bests, avg_over_std_of_bests, best_overweights,
+        avg_over_std_of_best_ow, coefs=None):
 
         common_cfg_ljust = 31
         dataset_ljust = 31
-        param_rjust = 6
+        param_rjust = 3
 
         # Write general configs
         message = f"{model_type} (\'{ticker}\')"
@@ -331,8 +332,8 @@ class Model(PseudoModel):
                 f"\n   ({idx+1:03d}) " \
                 f"Profit_index(test):{100 * test_profit_index:6.2f}% (zero:{100 * test_profit_indexes_zero:6.2f}%), " \
                 f"Profit_index(train):{100 * training_profit_index:6.2f}% (zero:{100 * training_profit_indexes_zero:6.2f}%) || " \
-                f"Acc(test):{round(100*test_acc, 2):6.2f}%, " \
-                f"Acc(train):{round(100*training_acc, 2):6.2f}% || " \
+                f"Acc(test):{round(100 * test_acc, 2):6.2f}%, " \
+                f"Acc(train):{round(100 * training_acc, 2):6.2f}% || " \
                 f"TP(test):{round(100 * true_positive_test/np.sum(test_confusion, axis=1)[1], 1):5.1f}%, " \
                 f"TN(test):{round(100 * true_negative_test/np.sum(test_confusion, axis=1)[0], 1):5.1f}%, " \
                 f"TP(train):{round(100 * true_positive_train/np.sum(train_confusion, axis=1)[1], 1):5.1f}%, " \
@@ -354,8 +355,11 @@ class Model(PseudoModel):
 
         message += "\n\nBest models"
 
-        for idx in idx_of_bests:
-            message += models_result[idx]
+        for i, idx_of_best in enumerate(idx_of_bests):
+            message += models_result[idx_of_best][:10] + 'Avg/Std_Profit_index(test):' + f"{avg_over_std_of_bests[i]:4.0f} || " + models_result[idx_of_best][10:]
+            if i == 0:
+                for overweight, avg_over_std in zip(best_overweights, avg_over_std_of_best_ow):
+                    message += f"\n      Avg/Std_Profit_index(test):{avg_over_std:4.0f} || Overweight:{overweight:5.2f}"
 
         return message
 
@@ -364,7 +368,8 @@ class Model(PseudoModel):
         y_train, y_test, dataset_info, training_accuracies, test_accuracies,
         training_confusions, test_confusions, specs_dir, training_profit_indexes,
         training_profit_indexes_zeros, test_profit_indexes, test_profit_indexes_zeros,
-        idx_of_bests, coefs=None, model_tag=None):
+        idx_of_bests, avg_over_std_of_bests, best_overweights,
+        avg_over_std_of_best_ow, coefs=None, model_tag=None):
         """
             'coefs': list of np.array to linear model coefficients.
         """
@@ -373,7 +378,8 @@ class Model(PseudoModel):
             variable_params, y_train, y_test, dataset_info, training_accuracies,
             test_accuracies, training_confusions, test_confusions, training_profit_indexes,
             training_profit_indexes_zeros, test_profit_indexes, test_profit_indexes_zeros,
-            idx_of_bests, coefs=coefs)
+            idx_of_bests, avg_over_std_of_bests, best_overweights,
+            avg_over_std_of_best_ow, coefs=coefs)
 
         # Create folder and store model results in file
         if not specs_dir.exists():
@@ -403,7 +409,7 @@ class Model(PseudoModel):
 
     def get_profit_index(self, X_test, y_test):
 
-        min_possible_profit = -sum(X_test[:, self.input_features.index('risk')])
+        min_possible_profit = -sum(X_test[:, self.input_features.index('risk')][y_test==0])
         max_possible_profit = 3 * sum(X_test[:, self.input_features.index('risk')][y_test==1])
 
         prof_interp_test = interp1d([min_possible_profit, max_possible_profit], [0, 1])
@@ -422,20 +428,22 @@ class Model(PseudoModel):
 class RandomForest(Model):
 
     def __init__(self, ticker, input_features, output_feature, X_train, y_train,
-        X_test, y_test, model_dir, parameters=None, model_tag=None, random_state=1):
+        X_test, y_test, model_dir, parameters=None, model_tag=None, overweight=1.0,
+        random_state=1):
 
         super().__init__('RandomForestClassifier', ticker=ticker, input_features=input_features,
             output_feature=output_feature, X_train=X_train, y_train=y_train, X_test=X_test,
             y_test=y_test, model_dir=model_dir, parameters=parameters, model_tag=model_tag)
 
         self.random_state = random_state
+        self.overweight = overweight
 
     def create_model(self):
 
-        weight_0 = self.parameters['overweight_min_class'] * len(self.y_train[self.y_train==1]) / \
-            (self.parameters['overweight_min_class'] * len(self.y_train[self.y_train==1]) + len(self.y_train[self.y_train==0]))
+        weight_0 = self.overweight * len(self.y_train[self.y_train==1]) / \
+            (self.overweight * len(self.y_train[self.y_train==1]) + len(self.y_train[self.y_train==0]))
         weight_1 = len(self.y_train[self.y_train==0]) / \
-            (self.parameters['overweight_min_class'] * len(self.y_train[self.y_train==1]) + len(self.y_train[self.y_train==0]))
+            (self.overweight * len(self.y_train[self.y_train==1]) + len(self.y_train[self.y_train==0]))
 
         class_weights = {0: weight_0, 1: weight_1}
 
@@ -614,6 +622,7 @@ class MLPKeras(Model):
             self.model_dir.mkdir(parents=True)
 
         self.model.save(self.model_dir / (f'{self.ticker}' + mlc.MODEL_FILE_SUFFIX))
+
 
 class RidgeScikit(Model):
 

@@ -41,10 +41,13 @@ def manage_ticker_models(model_type, ticker, input_features, output_feature, X_t
     test_profit_indexes_zeros = []
     extra_data = []
 
-    best_models_for_random_state = 30
-    best_models = 10
+    best_models_for_random_state = 14
+    best_models = 14
     best_model_indexes = []
-    random_states = [2, 3, 4, 5, 6, 7, 8]
+    random_states = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+
+    overweights = [1.0, 0.95, 0.9, 0.85, 0.8, 0.75, 0.7, 0.65, 0.6, 0.55, 0.5, 0.45, 0.4, 0.35, 0.3, 0.25, 0.2, 0.15]
+    ow_random_states = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]
 
     if models_params is None:
         models_params = {}
@@ -58,7 +61,7 @@ def manage_ticker_models(model_type, ticker, input_features, output_feature, X_t
             my_model = RandomForest(ticker=ticker, input_features=input_features,
                 output_feature=output_feature, X_train=X_train, y_train=y_train,
                 X_test=X_test, y_test=y_test, model_dir=models_dir, parameters=model_params,
-                model_tag=model_tag)
+                model_tag=model_tag, overweight=1.0, random_state=1)
 
             my_model.create_model()
 
@@ -79,8 +82,11 @@ def manage_ticker_models(model_type, ticker, input_features, output_feature, X_t
 
         # Choose best model
         best_model_indexes = take_best_n_indexes(test_profit_indexes, best_models_for_random_state)
-        best_model_avg_indexes = []
+        best_avg_indexes = []
+        best_std_indexes = []
+        best_avg_over_std_indexes = []
         avg_profit_indexes = [[test_profit_indexes[n]] for n in best_model_indexes]
+        idx_of_bests = []
 
         for idx_of_idx, model_idx in enumerate(best_model_indexes):
             for rnd_st in random_states:
@@ -89,31 +95,67 @@ def manage_ticker_models(model_type, ticker, input_features, output_feature, X_t
                     output_feature=output_feature, X_train=X_train, y_train=y_train,
                     X_test=X_test, y_test=y_test, model_dir=models_dir,
                     parameters=models_params[model_idx], model_tag=model_tag,
-                    random_state=rnd_st)
+                    overweight=1.0, random_state=rnd_st)
 
                 my_model.create_model()
                 profit_index, zero = my_model.get_profit_index(X_test, y_test)
-
                 avg_profit_indexes[idx_of_idx].append(profit_index)
 
-        for values in avg_profit_indexes:
-            avg = sum(values) / len(values)
-            best_model_avg_indexes.append(avg)
+        best_avg_indexes = list( np.mean(avg_profit_indexes, axis=1) )
+        best_std_indexes = list( np.std(avg_profit_indexes, axis=1) )
+        best_avg_over_std_indexes = [avg/std for avg, std in zip(best_avg_indexes, best_std_indexes)]
 
-        idx_of_bests = []
-        sorted_list = sorted(best_model_avg_indexes, reverse=True)
-        for i in range(best_models):
-            idx_of_bests.append( best_model_indexes[best_model_avg_indexes.index(sorted_list[i])] )
-        # idx_of_best.append( best_model_indexes[best_model_avg_indexes.index(max(best_model_avg_indexes))] )
+        sorted_list = sorted(best_avg_over_std_indexes, reverse=True)
+        for i in range(min(len(best_model_indexes), best_models)):
+            idx_of_bests.append( best_model_indexes[best_avg_over_std_indexes.index(sorted_list[i])] )
+        sorted_list = [round(value, 0) for value in sorted_list]
 
-        models[idx_of_bests[0]].save()
-        models[idx_of_bests[0]].save_auxiliary_files()
+        # Choose Best Overweight
+        best_ow_avg_indexes = []
+        best_ow_std_indexes = []
+        best_ow_avg_over_std_indexes = []
+        avg_ow_profit_indexes = [[] for _ in overweights]
+
+        for ow_idx, overweight in enumerate(overweights):
+            for rnd_st in ow_random_states:
+                my_model = RandomForest(ticker=ticker, input_features=input_features,
+                    output_feature=output_feature, X_train=X_train, y_train=y_train,
+                    X_test=X_test, y_test=y_test, model_dir=models_dir,
+                    parameters=models_params[idx_of_bests[0]], model_tag=model_tag,
+                    overweight=overweight, random_state=rnd_st)
+
+                my_model.create_model()
+                profit_index, zero = my_model.get_profit_index(X_test, y_test)
+                avg_ow_profit_indexes[ow_idx].append(profit_index)
+            # models_with_ow.append(my_model)
+
+        best_ow_avg_indexes = list( np.mean(avg_ow_profit_indexes, axis=1) )
+        best_ow_std_indexes = list( np.std(avg_ow_profit_indexes, axis=1) )
+        best_ow_avg_over_std_indexes = [avg/std for avg, std in zip(best_ow_avg_indexes, best_ow_std_indexes)]
+
+        sorted_list_ow = sorted(best_ow_avg_over_std_indexes, reverse=True)
+        best_overweights = [overweights[best_ow_avg_over_std_indexes.index(value)] for value in sorted_list_ow]
+        sorted_list_ow = [round(value, 0) for value in sorted_list_ow]
+
+        # Create Final Best model
+        my_best_model = RandomForest(ticker=ticker, input_features=input_features,
+            output_feature=output_feature, X_train=X_train, y_train=y_train,
+            X_test=X_test, y_test=y_test, model_dir=models_dir,
+            parameters=models_params[idx_of_bests[0]], model_tag=model_tag,
+            overweight=best_overweights[0], random_state=1)
+        my_best_model.create_model()
+
+        my_best_model.save()
+        my_best_model.save_auxiliary_files()
+        # models_with_ow[overweights.index(best_overweights[0])].save()
+        # models_with_ow[overweights.index(best_overweights[0])].save_auxiliary_files()
 
         RandomForest.save_results(model_type, ticker, models_params, variable_params,
             y_train, y_test, datasets_info, training_accuracies, test_accuracies,
             training_confusions, test_confusions, models[idx_of_bests[0]].specs_dir,
             training_profit_indexes, training_profit_indexes_zeros, test_profit_indexes,
-            test_profit_indexes_zeros, idx_of_bests, coefs=None, model_tag=model_tag)
+            test_profit_indexes_zeros, idx_of_bests, sorted_list, best_overweights,
+            sorted_list_ow, coefs=None, model_tag=model_tag)
 
     elif model_type == 'MLPClassifier':
 
@@ -547,11 +589,11 @@ if __name__ == '__main__':
         'epochs': 3, 'overweight_min_class': [3.0, 2.0, 1.0, 0.75, 0.5, 0.33]},
 
         'RandomForestClassifier': {'n_estimators': 50, 'criterion': 'gini',
-        'max_depth': [3, 4, 5, 6, 7, 8, 9, 10, 11, 12], 'min_samples_split': 2, 'min_samples_leaf': 1,
-        'min_weight_fraction_leaf': 0.0, 'max_features': [5, 4, 3], 'max_leaf_nodes': None,
+        'max_depth': [2, 3, 4, 5, 6, 7, 8], 'min_samples_split': 2, 'min_samples_leaf': 1,
+        'min_weight_fraction_leaf': 0.0, 'max_features': [4, 3], 'max_leaf_nodes': None,
         'min_impurity_decrease': 0.0, 'bootstrap': True, 'oob_score': False,
         'warm_start': False, 'class_weight': 'balanced_subsample',
-        'ccp_alpha': 0.0, 'max_samples': None, 'overweight_min_class': [0.20, 0.25, 0.30, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65]},
+        'ccp_alpha': 0.0, 'max_samples': None},
 
         'KNeighborsClassifier': {'n_neighbors': [1, 2, 3, 4, 5], 'weights': ['uniform', 'distance'],
         'algorithm': 'auto', 'leaf_size': 30, 'p': 2, 'metric': 'minkowski', 'metric_params': None},
