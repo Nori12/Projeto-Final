@@ -9,6 +9,7 @@ MODEL_SUFFIX = '_model.joblib'
 TICKERS_OPER_OPT_PATH = 'optimizers/stop_loss_optimizer/out_csv_files/tickers_oper_opt.csv'
 DATASETS_PATH = 'machine_learning/datasets/'
 DATASET_SUFFIX = '_dataset.csv'
+TICKERS_INFO_PATH = 'src/tickers_info.csv'
 
 # Log
 LOG_FILENAME = 'app.log'

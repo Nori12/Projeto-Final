@@ -445,6 +445,24 @@ class ConfigReader:
                 max_days_per_operation = self.read_parameter('max_days_per_operation',
                     strategy_batch, can_be_list=True, can_be_missed=True,
                     if_missed_default_value=90)
+                enable_frequency_normalization = self.read_parameter('enable_frequency_normalization',
+                    strategy_batch, is_boolean=True, can_be_list=True, can_be_missed=True,
+                    if_missed_default_value=False)
+                enable_profit_compensation = self.read_parameter('enable_profit_compensation',
+                    strategy_batch, is_boolean=True, can_be_list=True, can_be_missed=True,
+                    if_missed_default_value=False)
+                enable_crisis_halt = self.read_parameter('enable_crisis_halt',
+                    strategy_batch, is_boolean=True, can_be_list=True, can_be_missed=True,
+                    if_missed_default_value=False)
+                enable_downtrend_halt = self.read_parameter('enable_downtrend_halt',
+                    strategy_batch, is_boolean=True, can_be_list=True, can_be_missed=True,
+                    if_missed_default_value=False)
+                enable_uptrend_compensation = self.read_parameter('enable_uptrend_compensation',
+                    strategy_batch, is_boolean=True, can_be_list=True, can_be_missed=True,
+                    if_missed_default_value=False)
+                dynamic_rcc = self.read_parameter('dynamic_rcc',
+                    strategy_batch, is_boolean=True, can_be_list=True, can_be_missed=True,
+                    if_missed_default_value=False)
                 tickers_bag = self.read_parameter('tickers_bag', strategy_batch,
                     can_be_list=True, can_be_missed=True, if_missed_default_value="normal")
                 tickers_number = self.read_parameter('tickers_number', strategy_batch,
@@ -483,6 +501,18 @@ class ConfigReader:
                     min_days_after_failure_operation, strategies)
                 ConfigReader.add_param_to_strategies('max_days_per_operation',
                     max_days_per_operation, strategies)
+                ConfigReader.add_param_to_strategies('enable_frequency_normalization',
+                    enable_frequency_normalization, strategies)
+                ConfigReader.add_param_to_strategies('enable_profit_compensation',
+                    enable_profit_compensation, strategies)
+                ConfigReader.add_param_to_strategies('enable_crisis_halt',
+                    enable_crisis_halt, strategies)
+                ConfigReader.add_param_to_strategies('enable_downtrend_halt',
+                    enable_downtrend_halt, strategies)
+                ConfigReader.add_param_to_strategies('enable_uptrend_compensation',
+                    enable_uptrend_compensation, strategies)
+                ConfigReader.add_param_to_strategies('dynamic_rcc',
+                    dynamic_rcc, strategies)
                 ConfigReader.add_param_to_strategies('tickers_bag',
                     tickers_bag, strategies)
                 ConfigReader.add_param_to_strategies('tickers_number',

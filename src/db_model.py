@@ -825,7 +825,7 @@ class DBStrategyModel:
 
         return id_of_new_row
 
-    def get_data_chunk(self, tickers, start_date, end_date, interval='1d'):
+    def get_data_chunk(self, tickers, start_date, end_date, interval='1d', volume=False):
 
         if interval not in ['1d', '1wk']:
             logger.error(f"Error argument \'interval\'=\'"
@@ -850,7 +850,8 @@ class DBStrategyModel:
             query += f"  cand.max_price,\n"
             query += f"  cand.min_price,\n"
             query += f"  cand.close_price,\n"
-            # query += f"  cand.volume, \n"
+            if volume:
+                query += f"  cand.volume, \n"
             query += f"  feat.ema_17,\n"
             query += f"  feat.ema_72,\n"
             query += f"  feat.target_buy_price,\n"

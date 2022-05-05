@@ -11,7 +11,7 @@ import traceback
 import constants as c
 import config_reader as cr
 from ticker_manager import TickerManager
-from strategy import AdaptedAndreMoraesStrategy, MLDerivationStrategy, BaselineStrategy
+from strategy import AdaptedAndreMoraesStrategy, MLDerivationStrategy
 
 # Configure Logging
 logger = logging.getLogger(__name__)
@@ -115,43 +115,18 @@ def run_strategy(strategy, strategy_number, total_strategies, stdout_prints=Fals
                 tickers_number=strategy['tickers_number'],
                 strategy_number=strategy_number,
                 total_strategies=total_strategies,
-                stdout_prints=stdout_prints
+                stdout_prints=stdout_prints,
+                enable_frequency_normalization=strategy['enable_frequency_normalization'],
+                enable_profit_compensation=strategy['enable_profit_compensation'],
+                enable_crisis_halt=strategy['enable_crisis_halt'],
+                enable_downtrend_halt=strategy['enable_downtrend_halt'],
+                enable_uptrend_compensation=strategy['enable_uptrend_compensation'],
+                dynamic_rcc=strategy['dynamic_rcc']
             )
 
             ml_strategy.process_operations()
             ml_strategy.calculate_statistics()
             ml_strategy.save()
-
-        elif strategy['name'] == 'Baseline':
-            baseline_strategy = BaselineStrategy(
-                strategy['tickers'],
-                alias=strategy['alias'],
-                comment = strategy['comment'],
-                risk_capital_product=strategy['risk_capital_coefficient'],
-                total_capital=strategy['capital'],
-                min_order_volume=strategy['min_order_volume'],
-                partial_sale=strategy['partial_sale'],
-                ema_tolerance=strategy['ema_tolerance'],
-                min_risk=strategy['min_risk'],
-                max_risk=strategy['max_risk'],
-                purchase_margin=strategy['purchase_margin'],
-                stop_margin=strategy['stop_margin'],
-                stop_type=strategy['stop_type'],
-                min_days_after_successful_operation=strategy['min_days_after_successful_operation'],
-                min_days_after_failure_operation=strategy['min_days_after_failure_operation'],
-                gain_loss_ratio=strategy['gain_loss_ratio'],
-                max_days_per_operation=strategy['max_days_per_operation'],
-                tickers_bag=strategy['tickers_bag'],
-                tickers_number=strategy['tickers_number'],
-                min_operation_decision_coefficient=strategy['min_operation_decision_coefficient'],
-                strategy_number=strategy_number,
-                total_strategies=total_strategies,
-                stdout_prints=stdout_prints
-            )
-
-            baseline_strategy.process_operations(days_before_start=90)
-            baseline_strategy.calculate_statistics()
-            baseline_strategy.save()
     except Exception as e:
         print('Caught exception in worker process')
         traceback.print_exc()

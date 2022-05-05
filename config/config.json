@@ -4,13 +4,13 @@
     "max_risk_features": 0.10,
     "strategies":[
         {
-            "name": "Adapted Andre Moraes",
-            "alias": "Test execution.",
+            "name": "Adapted Andre Moraes skip",
+            "alias": "Bull market. All tickers. Reasonable RCC for COVID period.",
             "comment": "",
             "capital": 100000,
-            "risk_capital_coefficient": 0.0085,
+            "risk_capital_coefficient": 0.03,
             "tickers_bag": "listed_first",
-            "tickers_number": 10,
+            "tickers_number": 0,
             "min_order_volume": 1,
             "gain_loss_ratio": 3,
             "partial_sale" : false,
@@ -26,373 +26,373 @@
             "stock_targets": [
                 {
                     "name": "ABEV3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "ALPA4",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "AMER3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "B3SA3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "BBAS3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "BBDC3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "BBDC4",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "BBSE3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "BEEF3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "BPAN4",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "BRAP4",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "BRFS3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "BRKM5",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "BRML3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "CCRO3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "CIEL3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "CMIG4",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "COGN3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "CPFE3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "CPLE6",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "CSAN3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "CSNA3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "CVCB3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "CYRE3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "DXCO3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "ECOR3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "EGIE3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "ELET3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "ELET6",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "EMBR3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "ENBR3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "ENEV3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "ENGI11",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "EQTL3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "EZTC3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "FLRY3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "GGBR4",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "GOAU4",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "GOLL4",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "HYPE3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "ITSA4",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "ITUB4",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "JBSS3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "JHSF3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "LAME4",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "LCAM3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "LREN3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "MGLU3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "MRFG3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "MRVE3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "MULT3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "PETR3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "PETR4",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "POSI3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "PRIO3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "QUAL3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "RADL3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "RENT3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "SANB11",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "SBSP3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "SULA11",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "TAEE11",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "TIMS3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "TOTS3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "UGPA3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "USIM5",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "VALE3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "VIIA3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "VIVT3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "WEGE3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "YDUQ3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 }
             ]
         },
         {
             "name": "ML Derivation",
-            "alias": "Test execution.",
+            "alias": "2019-1 to 2020-4. All tickers. Dynamic RCC.",
             "comment": "",
             "capital": 100000,
-            "risk_capital_coefficient": 0.0045,
+            "risk_capital_coefficient": 0.0015,
             "tickers_bag": "listed_first",
-            "tickers_number": 10,
+            "tickers_number": 0,
             "min_order_volume": 1,
             "gain_loss_ratio": 3,
             "partial_sale" : false,
-            "min_risk": 0.01,
+            "min_risk": 0.003,
             "max_risk": 0.10,
             "purchase_margin" : 0,
             "stop_margin" : 0,
@@ -400,373 +400,379 @@
             "min_days_after_successful_operation": 0,
             "min_days_after_failure_operation": 0,
             "max_days_per_operation": 45,
+            "enable_frequency_normalization": true,
+            "enable_profit_compensation": true,
+            "enable_crisis_halt": true,
+            "enable_downtrend_halt": true,
+            "enable_uptrend_compensation": false,
+            "dynamic_rcc": true,
             "stock_targets": [
                 {
                     "name": "ABEV3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "ALPA4",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "AMER3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "B3SA3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "BBAS3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "BBDC3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "BBDC4",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "BBSE3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "BEEF3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "BPAN4",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "BRAP4",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "BRFS3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "BRKM5",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "BRML3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "CCRO3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "CIEL3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "CMIG4",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "COGN3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "CPFE3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "CPLE6",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "CSAN3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "CSNA3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "CVCB3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "CYRE3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "DXCO3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "ECOR3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "EGIE3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "ELET3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "ELET6",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "EMBR3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "ENBR3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "ENEV3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "ENGI11",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "EQTL3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "EZTC3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "FLRY3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "GGBR4",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "GOAU4",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "GOLL4",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "HYPE3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "ITSA4",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "ITUB4",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "JBSS3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "JHSF3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "LAME4",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "LCAM3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "LREN3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "MGLU3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "MRFG3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "MRVE3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "MULT3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "PETR3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "PETR4",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "POSI3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "PRIO3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "QUAL3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "RADL3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "RENT3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "SANB11",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "SBSP3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "SULA11",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "TAEE11",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "TIMS3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "TOTS3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "UGPA3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "USIM5",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "VALE3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "VIIA3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "VIVT3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "WEGE3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "YDUQ3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 }
             ]
         },
         {
-            "name": "Baseline",
-            "alias": "Test execution.",
+            "name": "Baseline skip",
+            "alias": "Checking result with last execution.",
             "comment": "",
             "capital": 100000,
-            "risk_capital_coefficient": 0.0045,
+            "risk_capital_coefficient": 0.0055,
             "min_operation_decision_coefficient": 0,
             "tickers_bag": "listed_first",
-            "tickers_number": 10,
+            "tickers_number": 0,
             "min_order_volume": 1,
             "gain_loss_ratio": 3,
             "partial_sale" : false,
@@ -781,358 +787,358 @@
             "stock_targets": [
                 {
                     "name": "ABEV3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "ALPA4",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "AMER3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "B3SA3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "BBAS3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "BBDC3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "BBDC4",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "BBSE3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "BEEF3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "BPAN4",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "BRAP4",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "BRFS3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "BRKM5",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "BRML3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "CCRO3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "CIEL3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "CMIG4",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "COGN3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "CPFE3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "CPLE6",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "CSAN3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "CSNA3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "CVCB3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "CYRE3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "DXCO3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "ECOR3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "EGIE3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "ELET3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "ELET6",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "EMBR3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "ENBR3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "ENEV3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "ENGI11",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "EQTL3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "EZTC3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "FLRY3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "GGBR4",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "GOAU4",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "GOLL4",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "HYPE3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "ITSA4",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "ITUB4",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "JBSS3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "JHSF3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "LAME4",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "LCAM3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "LREN3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "MGLU3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "MRFG3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "MRVE3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "MULT3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "PETR3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "PETR4",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "POSI3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "PRIO3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "QUAL3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "RADL3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "RENT3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "SANB11",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "SBSP3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "SULA11",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "TAEE11",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "TIMS3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "TOTS3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "UGPA3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "USIM5",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "VALE3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "VIIA3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "VIVT3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "WEGE3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 },
                 {
                     "name": "YDUQ3",
-                    "start_date": "01/07/2018",
-                    "end_date": "01/02/2020"
+                    "start_date": "01/01/2019",
+                    "end_date": "31/12/2020"
                 }
             ]
         }

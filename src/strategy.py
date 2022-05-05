@@ -15,7 +15,7 @@ from scipy import stats
 
 import constants as c
 from utils import RunTime, calculate_maximum_volume, calculate_yield_annualized, \
-    get_capital_per_risk, State, Trend
+    get_capital_per_risk, State, Trend, find_candles_peaks
 from db_model import DBStrategyModel, DBGenericModel
 from operation import Operation
 
@@ -176,7 +176,7 @@ class PseudoStrategy(ABC):
         pass
 
     @abstractmethod
-    def _set_operation_purchase(self, ticker_name, available_capital,
+    def _set_operation_purchase(self, ticker_name, available_capital, rcc,
         tcks_priority, tck_idx, business_data):
         pass
 
@@ -266,7 +266,7 @@ class AdaptedAndreMoraesStrategy(PseudoStrategy):
         self._tickers_bag = tickers_bag
         self._tickers_number = tickers_number
 
-
+        self._available_capital = total_capital
         self._operations = []
         self._start_date = None
         self._end_date = None
@@ -303,10 +303,6 @@ class AdaptedAndreMoraesStrategy(PseudoStrategy):
 
         self._statistics_graph = None
         self._statistics_parameters = {}
-
-        # TODO: Rever RCC
-        # tickers_rcc_path = Path(__file__).parent.parent/c.TICKERS_OPER_OPT_PATH
-        # self._tickers_rcc_df = pd.read_csv(tickers_rcc_path, sep=',')
 
         AdaptedAndreMoraesStrategy.total_strategies = total_strategies
         self.strategy_number = 1
@@ -346,6 +342,14 @@ class AdaptedAndreMoraesStrategy(PseudoStrategy):
     @property
     def total_capital(self):
         return self._total_capital
+
+    @property
+    def available_capital(self):
+        return self._available_capital
+
+    @available_capital.setter
+    def available_capital(self, available_capital):
+        self._available_capital = available_capital
 
     @property
     def min_order_volume(self):
@@ -527,7 +531,7 @@ class AdaptedAndreMoraesStrategy(PseudoStrategy):
 
             data_gen = self.DataGen(self.tickers_and_dates, self._db_strategy_model,
                 days_batch=30, days_before_start=days_before_start)
-            available_capital = self.total_capital
+            self.available_capital = self.total_capital
 
             ref_data = self._get_empty_ref_data()
 
@@ -538,8 +542,14 @@ class AdaptedAndreMoraesStrategy(PseudoStrategy):
                 try:
                     day_info, week_info = next(data_gen)
 
-                    if not day_info.empty:
-                        self._load_models(day_info.head(1)['day'].squeeze(), wfo=True)
+                    if day_info.empty:
+                        continue
+
+                    self._load_models(day_info.head(1)['day'].squeeze(), wfo=True)
+
+                        # DEBUG
+                        # if day_info.head(1)['day'].squeeze() >= pd.Timestamp('2020-06-26'):
+                        #     print()
 
                     for index in range(len(tcks_priority)):
 
@@ -574,10 +584,6 @@ class AdaptedAndreMoraesStrategy(PseudoStrategy):
                             tcks_priority[index].last_business_data = business_data.copy()
                             continue
 
-                        # DEBUG
-                        # if business_data["day"].date() == pd.Timestamp('2019-05-31'):
-                        #     print()
-
                         if (tcks_priority[index].ongoing_operation_flag is False):
 
                             purchase_price = self._get_purchase_price(business_data)
@@ -589,10 +595,14 @@ class AdaptedAndreMoraesStrategy(PseudoStrategy):
                                 stop_price = self._get_stop_price(ticker_name, purchase_price,
                                     business_data)
 
-                                purchase_amount = self._set_operation_purchase(ticker_name,
-                                    purchase_price, stop_price, available_capital, tcks_priority,
+                                capital_multiplier = self._get_capital_multiplier(tcks_priority,
                                     index, business_data)
-                                available_capital = round(available_capital - purchase_amount, 2)
+
+                                purchase_amount = self._set_operation_purchase(ticker_name,
+                                    purchase_price, stop_price, self.available_capital,
+                                    self.risk_capital_product, tcks_priority, index,
+                                    business_data, capital_multiplier)
+                                self.available_capital = round(self.available_capital - purchase_amount, 2)
 
                                 if purchase_amount >= 0.01 and self.stop_type == "staircase":
                                     self._set_staircase_stop(tcks_priority, index)
@@ -602,22 +612,22 @@ class AdaptedAndreMoraesStrategy(PseudoStrategy):
                                 # If hits the stop loss, the operation is automatically closed
                                 sale_amount = self._sell_on_stop_hit(tcks_priority,
                                     index, business_data)
-                                available_capital = round(available_capital + sale_amount, 2)
+                                self.available_capital = round(self.available_capital + sale_amount, 2)
 
                                 if tcks_priority[index].operation.state == State.OPEN:
 
                                     if self.partial_sale is True:
                                         sale_amount = self._sell_on_partial_hit(tcks_priority,
                                             index, business_data)
-                                        available_capital = round(available_capital + sale_amount, 2)
+                                        self.available_capital = round(self.available_capital + sale_amount, 2)
 
                                     sale_amount = self._sell_on_target_hit(tcks_priority,
                                         index, business_data)
-                                    available_capital = round(available_capital + sale_amount, 2)
+                                    self.available_capital = round(self.available_capital + sale_amount, 2)
 
                                     sale_amount = self._sell_on_timeout_hit(tcks_priority,
                                         index, business_data)
-                                    available_capital = round(available_capital + sale_amount, 2)
+                                    self.available_capital = round(self.available_capital + sale_amount, 2)
 
                             # Update stop loss threshold
                             if tcks_priority[index].operation.state == State.OPEN \
@@ -629,7 +639,8 @@ class AdaptedAndreMoraesStrategy(PseudoStrategy):
 
                         tcks_priority[index].last_business_data = business_data.copy()
 
-                    tcks_priority = AdaptedAndreMoraesStrategy._order_by_priority(tcks_priority)
+                    tcks_priority = self._order_by_priority(tcks_priority, business_data['day'])
+                    self._update_global_stats(business_data['day'])
                 except StopIteration:
                     break
 
@@ -925,6 +936,9 @@ class AdaptedAndreMoraesStrategy(PseudoStrategy):
         # for day_index, day in statistics['day'].iteritems():
         for day_index, day in enumerate(dates):
 
+            # if day >= pd.Timestamp("2020-01-30T00"):
+            #     print()
+
             holding_papers_capital = 0.0
 
             for oper in self._operations:
@@ -961,12 +975,12 @@ class AdaptedAndreMoraesStrategy(PseudoStrategy):
                     holding_papers_capital += round(price * papers_in_hands, 2)
 
             capital[day_index] = round(current_capital + holding_papers_capital, 2)
-            capital_in_use[day_index] = round(current_capital_in_use / capital[day_index], 4)
+            capital_in_use[day_index] = \
+                round(current_capital_in_use / (current_capital + current_capital_in_use), 4)
 
         return capital, capital_in_use
 
-    @staticmethod
-    def _order_by_priority(tcks_priority):
+    def _order_by_priority(self, tcks_priority, day):
         """
         Order a `list` of `TickerState` by priority.
 
@@ -985,14 +999,19 @@ class AdaptedAndreMoraesStrategy(PseudoStrategy):
         `list` of `TickerState`.
             Ordered list.
         """
-        # TODO: Improve slightly performance by using list.sort()
-        new_list = sorted(tcks_priority, key=lambda ticker_state: \
-            str(int(ticker_state.operation.state == State.OPEN
-            if ticker_state.operation is not None else 0)) \
-            + str(int(ticker_state.operation.state == State.NOT_STARTED
-            if ticker_state.operation is not None else 0)), reverse=True)
+        if day.date() >= self.first_date:
+            new_list = sorted(tcks_priority, key=lambda ticker_state: \
+                str(int(ticker_state.operation.state == State.OPEN
+                if ticker_state.operation is not None else 0)) \
+                + str(int(ticker_state.operation.state == State.NOT_STARTED
+                if ticker_state.operation is not None else 0)), reverse=True)
 
-        return new_list
+            return new_list
+
+        return tcks_priority
+
+    def _update_global_stats(self, day):
+        pass
 
     # Assumption: all tickers have the same length of the first one.
     @staticmethod
@@ -1086,13 +1105,16 @@ class AdaptedAndreMoraesStrategy(PseudoStrategy):
         return capital
 
     class DataGen:
-        def __init__(self, tickers, db_connection, days_batch=30, days_before_start=120):
+        def __init__(self, tickers, db_connection, days_batch=30, days_before_start=120,
+            week=True, volume=False):
             self.tickers = tickers
             self.first_date = min(self.tickers.values(), key=lambda x: x['start_date'])['start_date']
             self.first_date = self.first_date - BDay(days_before_start)
             self.last_date = max(self.tickers.values(), key=lambda x: x['end_date'])['end_date']
             self.db_connection = db_connection
             self.days_batch = days_batch
+            self.week = week
+            self.volume = volume
 
             self._db_generic_model = DBGenericModel()
             holidays = self._db_generic_model.get_holidays(self.first_date, self.last_date).to_list()
@@ -1122,20 +1144,29 @@ class AdaptedAndreMoraesStrategy(PseudoStrategy):
 
                 self.daily_data = self.db_connection.get_data_chunk(self.tickers,
                     self.dates[self.current_date_index],
-                    self.dates[next_chunk_end_index], interval='1d')
-                self.weekly_data = self.db_connection.get_data_chunk(self.tickers,
-                    self.dates[self.current_date_index],
-                    self.dates[next_chunk_end_index], interval='1wk')
+                    self.dates[next_chunk_end_index], interval='1d', volume=self.volume)
+
+                if self.week is True:
+                    self.weekly_data = self.db_connection.get_data_chunk(self.tickers,
+                        self.dates[self.current_date_index],
+                        self.dates[next_chunk_end_index], interval='1wk', volume=self.volume)
 
             self.current_date_index += 1
 
-            year, week, _ = (self.dates[self.current_date_index-1] - pd.Timedelta(days=7)).isocalendar()
-            return \
-                self.daily_data[self.daily_data['day'] == self.dates[self.current_date_index-1]], \
-                self.weekly_data[(self.weekly_data['week'].dt.isocalendar().year == year) \
+            daily_data = self.daily_data[self.daily_data['day'] == self.dates[self.current_date_index-1]]
+
+            if self.week:
+                year, week, _ = (self.dates[self.current_date_index-1] \
+                    - pd.Timedelta(days=7)).isocalendar()
+                weekly_data = self.weekly_data[\
+                    (self.weekly_data['week'].dt.isocalendar().year == year) \
                     & (self.weekly_data['week'].dt.isocalendar().week == week)] \
                     if not self.weekly_data.empty \
                     else self.weekly_data
+
+                return daily_data, weekly_data
+
+            return daily_data
 
     class TickerState:
         def __init__(self, ticker, initial_date, final_date, ongoing_operation_flag=False,
@@ -1155,6 +1186,11 @@ class AdaptedAndreMoraesStrategy(PseudoStrategy):
             self._days_on_operation = 0
             self._days_after_suc_oper = min_days_after_suc_oper + 1
             self._days_after_fail_oper = min_days_after_fail_oper + 1
+
+            self._profit = 0.0
+            self._loaned = 0.0
+            self._op_count = 0
+            self._op_suc_count = 0
 
             # Must be dict if used
             self._last_business_data = {}
@@ -1277,6 +1313,38 @@ class AdaptedAndreMoraesStrategy(PseudoStrategy):
         @extra_vars.setter
         def extra_vars(self, extra_vars):
             self._extra_vars = extra_vars.copy()
+
+        @property
+        def profit(self):
+            return self._profit
+
+        @profit.setter
+        def profit(self, profit):
+            self._profit = profit
+
+        @property
+        def loaned(self):
+            return self._loaned
+
+        @loaned.setter
+        def loaned(self, loaned):
+            self._loaned = loaned
+
+        @property
+        def op_count(self):
+            return self._op_count
+
+        @op_count.setter
+        def op_count(self, op_count):
+            self._op_count = op_count
+
+        @property
+        def op_suc_count(self):
+            return self._op_suc_count
+
+        @op_suc_count.setter
+        def op_suc_count(self, op_suc_count):
+            self._op_suc_count = op_suc_count
 
     def _start_progress_bar(self, update_step=0.05):
         self._update_step = update_step
@@ -1452,18 +1520,27 @@ class AdaptedAndreMoraesStrategy(PseudoStrategy):
         return business_data["target_buy_price_day"]
 
     def _get_stop_price(self, ticker_name, purchase_price, business_data):
-        return business_data["stop_loss_day"]
+
+        stop_price = business_data["stop_loss_day"]
+        max_stop_price = round(purchase_price * (1 - self.min_risk), 2)
+
+        if stop_price > max_stop_price:
+            stop_price = max_stop_price
+
+        return stop_price
 
     def _set_operation_purchase(self, ticker_name, purchase_price, stop_price,
-        available_capital, tcks_priority, tck_idx, business_data):
+        available_capital, rcc, tcks_priority, tck_idx, business_data,
+        capital_multiplier=1.0):
 
         amount_withdrawn = 0.0
 
-        max_vol = calculate_maximum_volume(
-            purchase_price, get_capital_per_risk(
-            self.risk_capital_product, available_capital, \
+        max_capital = get_capital_per_risk(
+            rcc, available_capital, \
             (purchase_price - stop_price)/ \
-            (purchase_price)), minimum_volume=self.min_order_volume)
+            (purchase_price), capital_multiplier)
+        max_vol = calculate_maximum_volume(purchase_price, max_capital,
+            minimum_volume=self.min_order_volume)
 
         max_purchase_money = round(purchase_price * max_vol, 2)
 
@@ -1504,6 +1581,9 @@ class AdaptedAndreMoraesStrategy(PseudoStrategy):
                 tcks_priority[tck_idx].ongoing_operation_flag = True
 
         return amount_withdrawn
+
+    def _get_capital_multiplier(self, tcks_priority, index, business_data):
+        return 1.0
 
     def _check_business_rules(self, business_data, tcks_priority, tck_idx,
         purchase_price):
@@ -1696,7 +1776,9 @@ class MLDerivationStrategy(AdaptedAndreMoraesStrategy):
         stop_type='normal', min_days_after_successful_operation=0,
         min_days_after_failure_operation=0, gain_loss_ratio=3, max_days_per_operation=90,
         tickers_bag='listed_first', tickers_number=0, strategy_number=1, total_strategies=1,
-        stdout_prints=True):
+        stdout_prints=True, enable_frequency_normalization=False,
+        enable_profit_compensation=False, enable_crisis_halt=False,
+        enable_downtrend_halt=False, enable_uptrend_compensation=False, dynamic_rcc=False):
 
         super().__init__(tickers, alias, comment, risk_capital_product, total_capital,
             min_order_volume, partial_sale, ema_tolerance, min_risk, max_risk,
@@ -1709,19 +1791,41 @@ class MLDerivationStrategy(AdaptedAndreMoraesStrategy):
         self._db_strategy_model.name = self._name
         self._models = {}
         self._current_model_tag = None
+        self._max_capital = total_capital
 
-        self.tickers_info_path = Path(__file__).parent / 'tickers_info.csv'
+        self._enable_frequency_normalization = enable_frequency_normalization
+        self._enable_profit_compensation = enable_profit_compensation
+        self._enable_crisis_halt = enable_crisis_halt
+        self._enable_downtrend_halt = enable_downtrend_halt
+        self._enable_uptrend_compensation = enable_uptrend_compensation
+
+        self.tickers_info_path = Path(__file__).parent.parent / c.TICKERS_INFO_PATH
         self.ticker_datasets_path = Path(__file__).parent.parent / c.DATASETS_PATH
         self.risks = None
         self.len_risks_in_datasets = None
 
-        self._load_risks_file()
+        self._load_risks_and_trends_file()
 
+        self.total_op_count = 0
+        self.total_op_suc_count = 0
+        self.total_profit = 0
+
+        self.capital_in_use = 0.0
+        self.capital_in_use_last_values = []
+        self.der_lpf_alpha = 0.1
+        self.capital_in_use_mavg = 0.0
+        self.last_capital_in_use_mavg = 0.0
+        self.n_avg = 10
+        self.capital_in_use_dot = 0.0
+        self.first_update = True
+
+        self.dynamic_rcc = dynamic_rcc
+        self.dynamic_rcc_value = self.risk_capital_product
+        self.last_error = 0.0
 
     @property
     def models(self):
         return self._models
-
 
     @property
     def tickers_info(self):
@@ -1731,124 +1835,395 @@ class MLDerivationStrategy(AdaptedAndreMoraesStrategy):
     def tickers_info(self, tickers_info):
         self._tickers_info = tickers_info
 
+    @property
+    def max_capital(self):
+        return self._max_capital
 
-    def _load_risks_file(self):
+    @max_capital.setter
+    def max_capital(self, max_capital):
+        self._max_capital = max_capital
 
-        parsed_file_columns = ['ticker', 'day', 'risk']
-        dataset_columns = ['ticker', 'day', 'risk', 'success_oper_flag', 'timeout_flag',
-            'end_of_interval_flag']
+    @property
+    def enable_frequency_normalization(self):
+        return self._enable_frequency_normalization
+
+    @property
+    def enable_profit_compensation(self):
+        return self._enable_profit_compensation
+
+    @property
+    def enable_crisis_halt(self):
+        return self._enable_crisis_halt
+
+    @property
+    def enable_downtrend_halt(self):
+        return self._enable_downtrend_halt
+
+    @property
+    def enable_uptrend_compensation(self):
+        return self._enable_uptrend_compensation
+
+
+    def _load_risks_and_trends_file(self):
+
+        columns = ['ticker', 'day', 'uptrend', 'downtrend', 'crisis', 'min_risk', 'max_risk']
 
         if self.tickers_info_path.exists():
-            columns = ['ticker', 'day', 'risk']
             self.ticker_day_risks = pd.read_csv(self.tickers_info_path, sep=',',
-                usecols=parsed_file_columns)
+                usecols=columns)
         else:
-            ticker_day_risk = {'ticker': [], 'day': [], 'risk': []}
+            # Trend parameters
+            N_pri = 20
+            N_vol = 60
+            N_dot = 2
+            lpf_alpha = 0.1
+            spearman_up_threshold = 0.5
+            downtrend_inertia = 3
+            anomalies_inertia = 2
+            crisis_halt_inertia = 8
+            # Risk parameters
+            N_delta = 20
+            N_peak_window = 80
+            peaks_window_size = 5
+            min_peaks_for_analysis = 5
+            climbs_lpf_alpha = 0.5
+            gain_loss_ratio = 3
+            risk_lpf_alpha = 0.3
+            down_inertia_alpha = 0.10
+
+            days_before_start = int(max(N_pri, N_vol, N_dot) * 1.5)
+            data_gen = self.DataGen(self.tickers_and_dates, self._db_strategy_model,
+                days_batch=30, days_before_start=days_before_start, week=False, volume=True)
+
+            # General support variables
+            last_mid_prices = {ticker: [] for ticker in self.tickers_and_dates}
+            last_volumes = {ticker: [] for ticker in self.tickers_and_dates}
+            last_max_prices = {ticker: [] for ticker in self.tickers_and_dates}
+            last_min_prices = {ticker: [] for ticker in self.tickers_and_dates}
+            last_deltas = {ticker: [] for ticker in self.tickers_and_dates}
+            days = {ticker: [] for ticker in self.tickers_and_dates}
+            ref_spear = [i for i in range(max(N_pri, N_vol))]
+
+            # Variables of Trend identification
+            cum_spearman = {ticker: [] for ticker in self.tickers_and_dates}
+            cum_spearman = {ticker: [] for ticker in self.tickers_and_dates}
+            avg_price = {ticker: [] for ticker in self.tickers_and_dates}
+            std_price = {ticker: [] for ticker in self.tickers_and_dates}
+            avg_volume = {ticker: [] for ticker in self.tickers_and_dates}
+            std_volume = {ticker: [] for ticker in self.tickers_and_dates}
+            mid_prices_dot = {ticker: [] for ticker in self.tickers_and_dates}
+            volume_anomalies = {ticker: [] for ticker in self.tickers_and_dates}
+            price_down_anomalies = {ticker: [] for ticker in self.tickers_and_dates}
+
+            # Trend auxiliary variables
+            downtrend_inertia_counter = {ticker: downtrend_inertia for ticker in self.tickers_and_dates}
+            crisis_inertia_counter = {ticker: crisis_halt_inertia for ticker in self.tickers_and_dates}
+            anomalies_counter = {ticker: 0 for ticker in self.tickers_and_dates}
+            in_uptrend_flag = {ticker: False for ticker in self.tickers_and_dates}
+
+            # Risk auxiliary variables
+            mid_prices_dot_for_risk = {ticker: [] for ticker in self.tickers_and_dates}
+            std_price_deltas = {ticker: [] for ticker in self.tickers_and_dates}
+            avg_climbs = {ticker: [] for ticker in self.tickers_and_dates}
+            std_climbs = {ticker: [] for ticker in self.tickers_and_dates}
+            fixed_min_risk = {ticker: [] for ticker in self.tickers_and_dates}
+            variable_min_risk = {ticker: [] for ticker in self.tickers_and_dates}
+
+            # Trend Output Variables
+            uptrend = {ticker: [] for ticker in self.tickers_and_dates}
+            downtrend = {ticker: [] for ticker in self.tickers_and_dates}
+            crisis = {ticker: [] for ticker in self.tickers_and_dates}
+
+            # Risk Output Variables
+            max_risk = {ticker: [] for ticker in self.tickers_and_dates}
+            min_risk = {ticker: [] for ticker in self.tickers_and_dates}
+
+
+            first_iteration = True
+            start_date = pd.Timestamp( min([dates['start_date'] for _, dates in self.tickers_and_dates.items()]) )
+            start_date_flag = False
+            while True:
+                try:
+                    day_info = next(data_gen)
+
+                    if day_info.empty:
+                        continue
+
+                    if start_date_flag is False and day_info['day'].head(1).squeeze() >= start_date:
+                        start_date = day_info['day'].head(1).squeeze()
+                        start_date_flag = True
+
+                    for tck_idx, ticker in enumerate(self.tickers_and_dates):
+
+                        if day_info[day_info['ticker'] == ticker].empty:
+                            continue
+
+                        open = day_info[(day_info['ticker'] == ticker)]['open_price'].squeeze()
+                        close = day_info[(day_info['ticker'] == ticker)]['close_price'].squeeze()
+                        high = day_info[(day_info['ticker'] == ticker)]['max_price'].squeeze()
+                        low = day_info[(day_info['ticker'] == ticker)]['min_price'].squeeze()
+                        volume = day_info[(day_info['ticker'] == ticker)]['volume'].squeeze()
+                        day = day_info[(day_info['ticker'] == ticker)]['day'].squeeze()
+
+                        if isinstance(open, pd.Series) or \
+                            isinstance(close, pd.Series) or \
+                            isinstance(high, pd.Series) or \
+                            isinstance(low, pd.Series) or \
+                            isinstance(volume, pd.Series) or \
+                            isinstance(day, pd.Series):
+                            continue
+
+                        if first_iteration is True:
+                            days[ticker].append( day )
+
+                            # Support variables
+                            last_mid_prices[ticker].append( (open+close)/2 )
+                            last_max_prices[ticker].append( high )
+                            last_min_prices[ticker].append( low )
+                            last_deltas[ticker].append( high-low )
+                            last_volumes[ticker].append( volume )
+
+                            # Variables of trend identification
+                            cum_spearman[ticker].append( 0.0 )
+                            avg_price[ticker].append( 0.0 )
+                            std_price[ticker].append( 0.0 )
+                            avg_volume[ticker].append( 0.0 )
+                            std_volume[ticker].append( 0.0 )
+                            mid_prices_dot[ticker].append( 0.0 )
+                            volume_anomalies[ticker].append( False )
+                            price_down_anomalies[ticker].append( False )
+
+                            # Variables of Risk identification
+                            mid_prices_dot_for_risk[ticker].append( 0.0 )
+                            std_price_deltas[ticker].append( 0.0 )
+                            avg_climbs[ticker].append( 0.0 )
+                            std_climbs[ticker].append( 0.0 )
+                            variable_min_risk[ticker].append( 0.0 )
+                            fixed_min_risk[ticker].append( 0.0 )
+                            max_risk[ticker].append( 0.0 )
+                            min_risk[ticker].append( 0.0 )
+
+                            # Trend Output Variables
+                            uptrend[ticker].append( False )
+                            downtrend[ticker].append( True )
+                            crisis[ticker].append( False )
+
+                            if tck_idx == len(self.tickers_and_dates) - 1:
+                                first_iteration = False
+
+                        else:
+
+                            # Variables of trend identification Section
+                            if len(last_mid_prices[ticker]) >= N_pri:
+                                cum_spearman[ticker].append( stats.spearmanr(
+                                    ref_spear[0:N_pri],
+                                    last_mid_prices[ticker][len(last_mid_prices[ticker]) - N_pri : len(last_mid_prices[ticker])]).correlation )
+                                avg_price[ticker].append( np.mean(
+                                    last_mid_prices[ticker][len(last_mid_prices[ticker]) - N_pri : len(last_mid_prices[ticker])]) )
+                                std_price[ticker].append( np.std(
+                                    last_mid_prices[ticker][len(last_mid_prices[ticker]) - N_pri : len(last_mid_prices[ticker])]) )
+                            else:
+                                cum_spearman[ticker].append( 0.0 )
+                                avg_price[ticker].append( 0.0 )
+                                std_price[ticker].append( 0.0 )
+
+                            if len(last_volumes[ticker]) >= N_vol:
+                                avg_volume[ticker].append( np.mean(
+                                    last_volumes[ticker][len(last_volumes[ticker]) - N_vol : len(last_volumes[ticker])]) )
+                                std_volume[ticker].append( np.std(
+                                    last_volumes[ticker][len(last_volumes[ticker]) - N_vol : len(last_volumes[ticker])]) )
+                            else:
+                                avg_volume[ticker].append( 0.0 )
+                                std_volume[ticker].append( 0.0 )
+
+                            if len(last_mid_prices[ticker]) >= N_dot:
+                                # LPF for prices derivative ( y[i] := α * x[i] + (1-α) * y[i-1] )
+                                y0 = lpf_alpha * ( (last_mid_prices[ticker][-1] - last_mid_prices[ticker][-2])/ last_mid_prices[ticker][-2] ) \
+                                    + (1-lpf_alpha) * mid_prices_dot[ticker][-1]
+
+                                y1 = risk_lpf_alpha * ( (last_mid_prices[ticker][-1] - last_mid_prices[ticker][-2])\
+                                    / ((last_mid_prices[ticker][-2] + last_mid_prices[ticker][-1])/2) ) \
+                                    + (1-risk_lpf_alpha) * mid_prices_dot_for_risk[ticker][-1]
+
+                                mid_prices_dot[ticker].append( y0 )
+                                mid_prices_dot_for_risk[ticker].append( y1 )
+                            else:
+                                mid_prices_dot[ticker].append( 0.0 )
+                                mid_prices_dot_for_risk[ticker].append( 0.0 )
+
+                            # Volume and Price Down Anomalies Section
+                            if last_volumes[ticker][-1] > avg_volume[ticker][-1] + std_volume[ticker][-1]:
+                                volume_anomalies[ticker].append( True )
+                            else:
+                                volume_anomalies[ticker].append( False )
+
+                            if last_mid_prices[ticker][-1] < avg_price[ticker][-1] + std_price[ticker][-1]:
+                                price_down_anomalies[ticker].append( True )
+                            else:
+                                price_down_anomalies[ticker].append( False )
+
+                            # Standard Deviation of Price Deltas
+                            if len(last_deltas[ticker]) < N_delta:
+                                std_price_deltas[ticker].append( 0.0 )
+                            else:
+                                std_price_deltas[ticker].append( np.std( last_deltas[ticker][len(last_deltas[ticker]) - N_delta : len(last_deltas[ticker])] ) )
+
+                            # Peaks for Climbs Identification
+                            peaks = find_candles_peaks(
+                                last_max_prices[ticker][max(0, len(last_max_prices[ticker])-N_peak_window) : len(last_max_prices[ticker])],
+                                last_min_prices[ticker][max(0, len(last_min_prices[ticker])-N_peak_window) : len(last_min_prices[ticker])],
+                                window_size=peaks_window_size)
+
+                            if peaks is not None and len(peaks) >= min_peaks_for_analysis \
+                                and len(avg_climbs) >= N_peak_window*0.75:
+                                climbs = []
+                                for idx in range(len(peaks)):
+                                    if idx > 0:
+                                        if peaks[idx]['type'] == 'max' and peaks[idx-1]['type'] == 'min':
+                                            if peaks[idx]['magnitude'] > peaks[idx-1]['magnitude']:
+                                                climbs.append( round((peaks[idx]['magnitude'] - peaks[idx-1]['magnitude']) \
+                                                    / peaks[idx-1]['magnitude'], 4) )
+
+                                y_mean = climbs_lpf_alpha * np.mean(np.array(climbs)) \
+                                    + (1-climbs_lpf_alpha) * avg_climbs[ticker][-1]
+                                y_std = climbs_lpf_alpha * np.std(np.array(climbs)) + \
+                                    (1-climbs_lpf_alpha) * std_climbs[ticker][-1]
+
+                                avg_climbs[ticker].append( y_mean )
+                                std_climbs[ticker].append( y_std )
+                            else:
+                                avg_climbs[ticker].append( 0.0 )
+                                std_climbs[ticker].append( 0.0 )
+
+
+                            # Trend Analysis Section
+                            # Trend Analysis: Downtrend Analysis
+                            if len(mid_prices_dot[ticker]) <= N_dot:
+                                downtrend[ticker].append( True )
+                            else:
+                                if mid_prices_dot[ticker][-1] < 0:
+                                    downtrend[ticker].append( True )
+                                    downtrend_inertia_counter[ticker] = 0
+                                else:
+                                    if downtrend_inertia_counter[ticker] < downtrend_inertia:
+                                        downtrend[ticker].append( False )
+                                        downtrend_inertia_counter[ticker] += 1
+                                    else:
+                                        downtrend[ticker].append( False )
+
+                            # Trend Analysis: Crisis Analysis
+                            if len(volume_anomalies[ticker]) < N_vol:
+                                crisis[ticker].append( False )
+                            else:
+                                if volume_anomalies[ticker][-1] is True and price_down_anomalies[ticker][-1] is True:
+                                    anomalies_counter[ticker] += 1
+                                    if anomalies_counter[ticker] >= anomalies_inertia:
+                                        crisis[ticker].append( True )
+                                        crisis_inertia_counter[ticker] = 0
+                                    else:
+                                        if crisis_inertia_counter[ticker] < crisis_halt_inertia:
+                                            crisis[ticker].append( True )
+                                            crisis_inertia_counter[ticker] += 1
+                                        else:
+                                            crisis[ticker].append( False )
+                                else:
+                                    if crisis_inertia_counter[ticker] < crisis_halt_inertia:
+                                        crisis[ticker].append( True )
+                                        crisis_inertia_counter[ticker] += 1
+                                    else:
+                                        crisis[ticker].append( False )
+
+                                    if anomalies_counter[ticker] != 0:
+                                        anomalies_counter[ticker] = 0
+
+                            # Trend Analysis: Uptrend Analysis
+                            if len(cum_spearman[ticker]) < N_pri:
+                                uptrend[ticker].append( False )
+                            else:
+                                if in_uptrend_flag[ticker] is False:
+                                    if mid_prices_dot[ticker][-1] > 0 and cum_spearman[ticker][-1] >= spearman_up_threshold:
+                                        uptrend[ticker].append( True )
+                                        in_uptrend_flag[ticker] = True
+                                    else:
+                                        uptrend[ticker].append( False )
+                                else:
+                                    if mid_prices_dot[ticker][-1] > 0 and cum_spearman[ticker][-1] >= spearman_up_threshold:
+                                        uptrend[ticker].append( True )
+                                    else:
+                                        uptrend[ticker].append( False )
+                                        in_uptrend_flag[ticker] = False
+
+                            # Risk Analysis
+                            if len(last_mid_prices[ticker]) < N_delta:
+                                fixed_min_risk[ticker].append( 0.0 )
+                            else:
+                                # Two times half standard deviation = standard deviation
+                                fixed_min_risk[ticker].append(
+                                    std_price_deltas[ticker][-1] / last_mid_prices[ticker][-1] )
+
+                            if len(mid_prices_dot_for_risk[ticker]) <= N_dot:
+                                variable_min_risk[ticker].append( 0.0 )
+                            else:
+                                variable_min_risk[ticker].append(
+                                    max( -mid_prices_dot_for_risk[ticker][-1], 0) )
+
+                            if len(fixed_min_risk[ticker]) < max(N_delta, N_dot):
+                                min_risk[ticker].append( 0.0 )
+                            else:
+                                # down_inertia_alpha
+                                new_min_risk = fixed_min_risk[ticker][-1] + variable_min_risk[ticker][-1]
+
+                                if new_min_risk >= min_risk[ticker][-1]:
+                                    min_risk[ticker].append( new_min_risk )
+                                else:
+                                    # LPF for downward inertia only ( y[i] := α * x[i] + (1-α) * y[i-1] )
+                                    y = down_inertia_alpha * (new_min_risk) \
+                                        + (1-down_inertia_alpha) * min_risk[ticker][-1]
+
+                                    min_risk[ticker].append( y )
+
+                            if len(avg_climbs) < N_peak_window*0.75:
+                                max_risk[ticker].append( 0.0 )
+                            else:
+                                max_risk[ticker].append( round(
+                                    (avg_climbs[ticker][-1] - 0.5 * std_climbs[ticker][-1]) / gain_loss_ratio, 4))
+
+                            # Support variables must be the last to avoid non-causality
+                            last_mid_prices[ticker].append( (open+close)/2 )
+                            last_max_prices[ticker].append( high )
+                            last_min_prices[ticker].append( low )
+                            last_deltas[ticker].append( high-low )
+                            last_volumes[ticker].append( volume )
+                            days[ticker].append( day )
+                except StopIteration:
+                    break
+
             first_write = True
+            for idx, ticker in enumerate(self.tickers_and_dates):
+                start_idx = days[ticker].index(start_date)
 
-            for ticker, dates in self.tickers_and_dates.items():
+                pd.DataFrame({'ticker': ticker,
+                    'day': days[ticker][start_idx:],
+                    'uptrend': uptrend[ticker][start_idx:],
+                    'downtrend': downtrend[ticker][start_idx:],
+                    'crisis': crisis[ticker][start_idx:],
+                    'min_risk': [round(risk, 4) for risk in min_risk[ticker][start_idx:]],
+                    'max_risk': max_risk[ticker][start_idx:]}).\
+                    to_csv(self.tickers_info_path, mode='w' if first_write else 'a',
+                    index=False, header=True if first_write else False)
 
-                dataset_path = self.ticker_datasets_path / (ticker + c.DATASET_SUFFIX)
-                df_gen = pd.read_csv(dataset_path, sep=",", usecols=dataset_columns,
-                    chunksize=10000)
-
-                df = pd.concat((x.query(f"ticker == '{ticker}' and " \
-                    f"day >= '{(dates['start_date'] - pd.Timedelta(days=365)).strftime('%Y-%m-%d')}' and " \
-                    f"day <= '{(dates['end_date']).strftime('%Y-%m-%d')}'")
-                    for x in df_gen), ignore_index=True)
-
-                for idx, row in df.loc[(df['day'] >= dates['start_date'].strftime('%Y-%m-%d')) & (df['risk'] == 0.04), ['day']].iterrows():
-                    risk = self._process_risk(pd.Timestamp(row['day']), df)
-                    day = row['day']
-                    ticker_day_risk['ticker'].append(ticker)
-                    ticker_day_risk['day'].append(day)
-                    ticker_day_risk['risk'].append(risk)
-
-                mode = 'w' if first_write == True else 'a'
-                header = True if first_write == True else False
-                df = pd.DataFrame(ticker_day_risk).to_csv(self.tickers_info_path,
-                        mode=mode, index=False, header=header)
-                ticker_day_risk = {'ticker': [], 'day': [], 'risk': []}
-                first_write = False
+                if first_write:
+                    first_write = False
 
             self.ticker_day_risks = pd.read_csv(self.tickers_info_path, sep=',',
-                usecols=parsed_file_columns)
-
-    def _process_risk(self, day, df):
-        end_date = day - pd.Timedelta(days=1)
-        start_date_365 = end_date - pd.Timedelta(days=365)
-        start_date_183 = end_date - pd.Timedelta(days=183)
-        start_date_120 = end_date - pd.Timedelta(days=120)
-        end_date = end_date - pd.Timedelta(days=self.max_days_per_operation)
-
-        risk_365_days = self._process_most_effective_risk_from_dataset(
-            start_date_365, end_date, df, kind='peak')
-
-        risk_183_days = self._process_most_effective_risk_from_dataset(
-            start_date_183, end_date, df, kind='peak')
-
-        risk_120_days = self._process_most_effective_risk_from_dataset(
-            start_date_120, end_date, df, kind='peak')
-
-        risk = (risk_365_days * 1 + risk_183_days * 2 + risk_120_days * 3) / 6
-
-        return round(risk, 3)
-
-    def _process_most_effective_risk_from_dataset(self, start_date, end_date,
-        df, kind='peak'):
-
-        if kind not in ['peak', 'average']:
-            logger.error("\'kind\' parameter must be in ['peak', 'average']")
-            # sys.exit(c.INVALID_ARGUMENT_ERR)
-            raise Exception
-
-        if kind == 'average':
-            risk_avg = 0.0
-
-        if self.len_risks_in_datasets is None or self.risks is None:
-            self.risks = list(np.sort(df['risk'].squeeze().unique()))
-            self.len_risks_in_datasets = len(self.risks)
-
-        filtered_df = df.loc[\
-            (df['day'] >= f"{start_date.strftime('%Y-%m-%d')}") & \
-            (df['day'] <= f"{end_date.strftime('%Y-%m-%d')}")]
-
-        # Create histogram of successful operations risks
-        risks_count = []
-
-        for risk in self.risks:
-            risks_count.append(len(filtered_df.loc[(filtered_df['risk'] == risk) & \
-                (filtered_df['success_oper_flag'] == 1) & \
-                (filtered_df['timeout_flag'] == 0) & \
-                (filtered_df['end_of_interval_flag'] == 0), ['risk']]))
-
-            if kind == 'average':
-                risk_avg += risk * risks_count[-1]
-
-        if kind == 'average':
-            risk_avg /= sum(risks_count)
-
-        if kind == 'peak':
-            f = interp1d(self.risks, risks_count, kind='cubic')
-            x = np.linspace(self.risks[0], self.risks[-1], num=len(self.risks)*4)
-            risk_peak = x[np.argmax(f(x))]
-
-            # Debug
-            # if ticker == 'ALPA4':
-            #     plt.subplot(1, 1, 1)
-            #     plt.plot(self.risks, risks_count, 'o', color='b')
-            #     plt.plot(x, f(x), color='r')
-
-            return round(risk_peak, 4)
-
-        return round(risk_avg, 4)
+                usecols=columns)
 
     def _load_models(self, day=None, wfo=True):
         """WFO = Walk Forward Optimization"""
 
         path_prefix = Path(__file__).parent.parent / c.MODELS_PATH
 
-        if wfo == False and self._current_model_tag is None:
+        if wfo is False and self._current_model_tag is None:
             if day >= pd.Timestamp(c.WFO_START_DATE):
                 for key, value in c.WFO_MODEL_TAGS.items():
                     if day <= pd.Timestamp(year=value['end_year'], month=value['end_month'], \
@@ -1862,7 +2237,7 @@ class MLDerivationStrategy(AdaptedAndreMoraesStrategy):
 
                         break
 
-        elif wfo == True:
+        elif wfo is True:
             if self._current_model_tag is not None:
                 if day > pd.Timestamp(year=c.WFO_MODEL_TAGS[self._current_model_tag]['end_year'],
                     month=c.WFO_MODEL_TAGS[self._current_model_tag]['end_month'],
@@ -2026,8 +2401,26 @@ class MLDerivationStrategy(AdaptedAndreMoraesStrategy):
         ema_72_day = round(tcks_priority[tck_idx].last_business_data['ema_72_day'] / ref_price, 4)
         ema_72_week = round(tcks_priority[tck_idx].last_business_data['ema_72_week'] / ref_price, 4)
 
+        if self.enable_crisis_halt:
+            crisis_flag = self.ticker_day_risks.loc[
+                (self.ticker_day_risks['ticker'] == tcks_priority[tck_idx].ticker) & \
+                (self.ticker_day_risks['day'] == business_data['day'].strftime('%Y-%m-%d')), \
+                ['crisis']].squeeze()
+
+            if crisis_flag:
+                return False
+
+        if self.enable_downtrend_halt:
+            downtrend_flag = self.ticker_day_risks.loc[
+                (self.ticker_day_risks['ticker'] == tcks_priority[tck_idx].ticker) & \
+                (self.ticker_day_risks['day'] == business_data['day'].strftime('%Y-%m-%d')), \
+                ['downtrend']].squeeze()
+
+            if downtrend_flag:
+                return False
+
         risk = self._get_risk(tcks_priority[tck_idx].ticker, business_data['day'])
-        if risk < self.min_risk:
+        if risk is None:
             return False
 
         X_test = [[risk, peak_1, day_1, peak_2, day_2, peak_3, day_3, peak_4, day_4,
@@ -2043,249 +2436,256 @@ class MLDerivationStrategy(AdaptedAndreMoraesStrategy):
 
     def _get_risk(self, ticker, day):
 
-        risk = self.ticker_day_risks.loc[
+        min_risk = self.ticker_day_risks.loc[
             (self.ticker_day_risks['ticker'] == ticker) & \
-            (self.ticker_day_risks['day'] == day.strftime('%Y-%m-%d')), ['risk']].squeeze()
+            (self.ticker_day_risks['day'] == day.strftime('%Y-%m-%d')), ['min_risk']].squeeze()
 
-        if isinstance(risk, pd.Series):
-            return 0.0
+        max_risk = self.ticker_day_risks.loc[
+            (self.ticker_day_risks['ticker'] == ticker) & \
+            (self.ticker_day_risks['day'] == day.strftime('%Y-%m-%d')), ['max_risk']].squeeze()
+
+        if isinstance(min_risk, pd.Series) or isinstance(max_risk, pd.Series):
+            return None
+
+        if max_risk < min_risk:
+            return None
+
+        risk = (min_risk + max_risk) / 2
 
         return round(risk, 3)
 
-class BaselineStrategy(AdaptedAndreMoraesStrategy):
+    def _set_operation_purchase(self, ticker_name, purchase_price, stop_price,
+        available_capital, rcc, tcks_priority, tck_idx, business_data,
+        capital_multiplier=1.0):
 
-    def __init__(self, tickers, alias=None, comment=None, risk_capital_product=0.10,
-        total_capital=100000, min_order_volume=1, partial_sale=False, ema_tolerance=0.01,
-        min_risk=0.01, max_risk=0.15, purchase_margin=0.0, stop_margin=0.0,
-        stop_type='normal', min_days_after_successful_operation=0,
-        min_days_after_failure_operation=0, gain_loss_ratio=3, max_days_per_operation=90,
-        tickers_bag='listed_first', tickers_number=0, min_operation_decision_coefficient=0,
-        strategy_number=1, total_strategies=1, stdout_prints=True):
+        if self.dynamic_rcc:
+            rcc = self.dynamic_rcc_value
 
-        super().__init__(tickers, alias, comment, risk_capital_product, total_capital,
-            min_order_volume, partial_sale, ema_tolerance, min_risk, max_risk,
-            purchase_margin, stop_margin, stop_type, min_days_after_successful_operation,
-            min_days_after_failure_operation, gain_loss_ratio, max_days_per_operation,
-            tickers_bag, tickers_number, strategy_number, total_strategies, stdout_prints)
+        amount = super()._set_operation_purchase(ticker_name, purchase_price,
+            stop_price, available_capital, rcc, tcks_priority, tck_idx, business_data,
+            capital_multiplier)
+        tcks_priority[tck_idx].loaned = round(tcks_priority[tck_idx].loaned + amount, 2)
 
-        self._name = 'Baseline'
-        self._db_strategy_model.name = self._name
-        self._min_operation_decision_coefficient = min_operation_decision_coefficient
-        self._db_strategy_model.min_baseline_coefficient = min_operation_decision_coefficient
-        self._tickers_info = {}
-        self._last_n_close_prices = {ticker: [] for ticker in tickers}
-        self._last_prices_max_length = 72
+        return amount
 
-        tickers_info_path = Path(__file__).parent / 'tickers_info.csv'
-        ticker_datasets_path = Path(__file__).parent.parent / 'machine_learning' / 'datasets'
-        ticker_dataset_suffix = '_dataset.csv'
-        self._load_most_effective_risk_per_ticker(tickers_info_path, ticker_datasets_path,
-            ticker_dataset_suffix)
+    def _get_capital_multiplier(self, tcks_priority, tck_idx, business_data):
 
-    @property
-    def tickers_info(self):
-        return self._tickers_info
+        multiplier = 1.0
 
-    @tickers_info.setter
-    def tickers_info(self, tickers_info):
-        self._tickers_info = tickers_info
+        # Normalization due to operation frequency
+        if self.enable_frequency_normalization:
+            min_operations_for_freq_norm = 2 * len(self.tickers_and_dates)
+            ticker_op_count = tcks_priority[tck_idx].op_count
 
-    @property
-    def last_n_close_prices(self):
-        return self._last_n_close_prices
+            if ticker_op_count > 0 and self.total_op_count >= min_operations_for_freq_norm:
 
-    @last_n_close_prices.setter
-    def last_n_close_prices(self, last_n_close_prices):
-        self._last_n_close_prices = last_n_close_prices
+                ticker_freq = ticker_op_count / self.total_op_count
+                target_avg_freq = 1 / len(self.tickers_and_dates)
 
-    @property
-    def last_prices_max_length(self):
-        return self._last_prices_max_length
+                multiplier *= target_avg_freq / ticker_freq
 
-    @last_prices_max_length.setter
-    def last_prices_max_length(self, last_prices_max_length):
-        self._last_prices_max_length = last_prices_max_length
+        # Compensation due to relative individual profits
+        if self.enable_profit_compensation:
+            min_operations_for_profit_comp = 2 * min_operations_for_freq_norm
+            ticker_profit = tcks_priority[tck_idx].profit
 
-    @property
-    def min_operation_decision_coefficient(self):
-        return self._min_operation_decision_coefficient
+            if self.total_op_count >= min_operations_for_profit_comp and \
+                abs(ticker_profit) >= 1e-2:
 
-    @min_operation_decision_coefficient.setter
-    def min_operation_decision_coefficient(self, min_operation_decision_coefficient):
-        self._min_operation_decision_coefficient = min_operation_decision_coefficient
+                profit_mean, profit_std = self._get_profit_statistics(tcks_priority)
 
-    def _load_most_effective_risk_per_ticker(self, tickers_info_path, ticker_datasets_path,
-        ticker_dataset_suffix):
+                partial_multiplier = MLDerivationStrategy._calc_profit_compensation(
+                    ticker_profit, profit_mean, profit_std)
 
-        columns = ['ticker', 'start_date', 'end_date', 'most_effective_risk']
-        non_counted_holidays_tolerance = 5
-        ticker_info_interval_days = 365 * 2
+                multiplier *= partial_multiplier
 
-        update_file_data = {'ticker': [], 'start_date': [], 'end_date': [],
-            'most_effective_risk': []}
-        tck_info_df = None
-        most_effective_risk = None
+        # Compensation due to uptrend
+        if self.enable_uptrend_compensation:
+            uptrend_flag = self.ticker_day_risks.loc[
+                (self.ticker_day_risks['ticker'] == tcks_priority[tck_idx].ticker) & \
+                (self.ticker_day_risks['day'] == business_data['day'].strftime('%Y-%m-%d')), \
+                ['uptrend']].squeeze()
 
-        if tickers_info_path.exists():
+            if uptrend_flag:
+                multiplier *= 1.4
+            # else:
+            #     multiplier *= 0.8
 
-            tck_info_df = pd.read_csv(tickers_info_path, sep=",", usecols=columns)
+        return multiplier
 
-            if tck_info_df.empty:
-                tck_info_df = None
+    @staticmethod
+    def _calc_profit_compensation(target_profit, profit_mean, profit_std,
+        up_bonus=0.6, down_bonus=0.6, start_std=0.2, end_std=2):
 
-        for ticker, dates in self.tickers_and_dates.items():
+        multiplier = 1.0
+        add_multiplier = 0.0
+        target_std_equivalent = (target_profit - profit_mean) / profit_std
 
-            ticker_info_end_date = dates['end_date'] - BDay(
-                self.max_days_per_operation + non_counted_holidays_tolerance)
-            ticker_info_start_date = ticker_info_end_date - timedelta(
-                days=ticker_info_interval_days)
+        if abs(target_std_equivalent) > start_std:
+            if target_profit > profit_mean:
+                m = up_bonus / (end_std - start_std)
+                n = -start_std * m
+                add_multiplier = min(up_bonus,
+                    target_std_equivalent * m + n)
+            else:
+                m = down_bonus / (end_std - start_std)
+                n = start_std * m
 
-            if tck_info_df is not None:
-                most_effective_risk = tck_info_df.loc[(tck_info_df['ticker'] == ticker) & \
-                    (tck_info_df['start_date'] == ticker_info_start_date.strftime('%Y-%m-%d')) & \
-                    (tck_info_df['end_date'] == ticker_info_end_date.strftime('%Y-%m-%d')),
-                    ['most_effective_risk']]
+                add_multiplier = max(-down_bonus,
+                    target_std_equivalent * m + n)
 
-                if most_effective_risk.empty:
-                    most_effective_risk = None
-                else:
-                    most_effective_risk = most_effective_risk.squeeze()
+        return round(multiplier + add_multiplier, 5)
 
-            if most_effective_risk is None:
+    def _sell_on_stop_hit(self, tcks_priority, tck_idx, business_data):
 
-                most_effective_risk = self._get_most_effective_risk_from_dataset(
-                    ticker, ticker_info_start_date, ticker_info_end_date,
-                    ticker_datasets_path, ticker_dataset_suffix, kind='peak')
+        amount = super()._sell_on_stop_hit(tcks_priority, tck_idx, business_data)
 
-                update_file_data['ticker'].append(ticker)
-                update_file_data['start_date'].append(ticker_info_start_date.strftime('%Y-%m-%d'))
-                update_file_data['end_date'].append(ticker_info_end_date.strftime('%Y-%m-%d'))
-                update_file_data['most_effective_risk'].append(most_effective_risk)
+        if amount >= 1e-2:
+            profit = amount - tcks_priority[tck_idx].loaned
+            tcks_priority[tck_idx].profit = round(tcks_priority[tck_idx].profit + profit, 2)
+            self.total_profit = round(self.total_profit + profit, 2)
+            tcks_priority[tck_idx].loaned = 0.0
+            tcks_priority[tck_idx].op_count += 1
 
-            self.tickers_info[ticker] = most_effective_risk
-            most_effective_risk = None
+            self.total_op_count += 1
+            self.max_capital = round(self.max_capital + profit, 2)
 
-        if update_file_data['ticker']:
-            update_df = pd.DataFrame(update_file_data)
+        return amount
 
-            if tck_info_df is not None:
-                update_df = pd.concat([tck_info_df, update_df])
+    def _sell_on_partial_hit(self, tcks_priority, tck_idx, business_data):
 
-            update_df.to_csv(tickers_info_path, mode='w', index=False, header=True)
+        amount = super()._sell_on_partial_hit(tcks_priority, tck_idx, business_data)
 
-    def _get_most_effective_risk_from_dataset(self, ticker, start_date, end_date,
-        ticker_datasets_path, ticker_dataset_suffix, kind='peak'):
+        if amount >= 1e-2:
+            profit = amount - tcks_priority[tck_idx].loaned
+            tcks_priority[tck_idx].profit = round(tcks_priority[tck_idx].profit + profit, 2)
+            self.total_profit = round(self.total_profit + profit, 2)
+            tcks_priority[tck_idx].loaned = 0.0
 
-        if kind not in ['peak', 'average']:
-            logger.error("\'kind\' parameter must be in ['peak', 'average']")
-            # sys.exit(c.INVALID_ARGUMENT_ERR)
-            raise Exception
+            self.total_op_count += 1
+            self.max_capital = round(self.max_capital + profit, 2)
 
-        if kind == 'average':
-            risk_avg = 0.0
+        return amount
 
-        columns = ['ticker', 'day', 'risk', 'success_oper_flag', 'timeout_flag',
-            'end_of_interval_flag']
+    def _sell_on_target_hit(self, tcks_priority, tck_idx, business_data):
 
-        # Open dataset file
-        dataset_path = ticker_datasets_path / (ticker+ticker_dataset_suffix)
-        dataset_df_gen = pd.read_csv(dataset_path, sep=",", usecols=columns, chunksize=10000)
+        amount = super()._sell_on_target_hit(tcks_priority, tck_idx, business_data)
 
-        dataset_df = pd.concat((x.query(f"ticker == '{ticker}' and " \
-            f"day >= '{start_date.strftime('%Y-%m-%d')}' and " \
-            f"day <= '{end_date.strftime('%Y-%m-%d')}'")
-            for x in dataset_df_gen), ignore_index=True)
+        if amount >= 1e-2:
+            profit = amount - tcks_priority[tck_idx].loaned
+            tcks_priority[tck_idx].profit = round(tcks_priority[tck_idx].profit + profit, 2)
+            self.total_profit = round(self.total_profit + profit, 2)
+            tcks_priority[tck_idx].loaned = 0.0
+            tcks_priority[tck_idx].op_count += 1
+            tcks_priority[tck_idx].op_suc_count += 1
 
-        # Create risk list from dataset
-        first_date = dataset_df['day'].head(1).squeeze()
-        risks = dataset_df.loc[dataset_df['day'] == first_date, ['risk']].squeeze().tolist()
-        risks.sort()
+            self.total_op_count += 1
+            self.total_op_suc_count += 1
+            self.max_capital = round(self.max_capital + profit, 2)
 
-        # Create histogram of successful operations risks
-        risks_count = [] * len(risks)
+        return amount
 
-        for risk in risks:
-            risks_count.append(len(dataset_df.loc[(dataset_df['risk'] == risk) & \
-                (dataset_df['success_oper_flag'] == 1) & \
-                (dataset_df['timeout_flag'] == 0) & \
-                (dataset_df['end_of_interval_flag'] == 0), ['risk']]))
+    def _sell_on_timeout_hit(self, tcks_priority, tck_idx, business_data):
 
-            if kind == 'average':
-                risk_avg += risk * risks_count[-1]
+        amount = super()._sell_on_timeout_hit(tcks_priority, tck_idx, business_data)
 
-        if kind == 'average':
-            risk_avg /= sum(risks_count)
+        if amount >= 1e-2:
+            profit = amount - tcks_priority[tck_idx].loaned
+            tcks_priority[tck_idx].profit = round(tcks_priority[tck_idx].profit + profit, 2)
+            self.total_profit = round(self.total_profit + profit, 2)
+            tcks_priority[tck_idx].loaned = 0.0
+            tcks_priority[tck_idx].op_count += 1
 
-        if kind == 'peak':
-            f = interp1d(risks, risks_count, kind='cubic')
-            x = np.linspace(risks[0], risks[-1], num=len(risks)*4)
-            risk_peak = x[np.argmax(f(x))]
+            self.total_op_count += 1
+            self.max_capital = round(self.max_capital + profit, 2)
 
-            # Debug
-            # if ticker == 'ALPA4':
-            #     plt.subplot(1, 1, 1)
-            #     plt.plot(risks, risks_count, 'o', color='b')
-            #     plt.plot(x, f(x), color='r')
+        return amount
 
-            return round(risk_peak, 4)
+    def _get_profit_statistics(self, tcks_priority):
 
-        return round(risk_avg, 4)
+        profits = np.array([card.profit for card in tcks_priority])
+        mean = self.total_profit / len(self.tickers_and_dates)
+        std = np.std(profits)
 
-    def _get_purchase_price(self, business_data):
-        return business_data['open_price_day']
+        return mean, std
 
-    def _process_auxiliary_data(self, ticker_name, tcks_priority,
-        tck_idx, business_data, ref_data):
+    def _order_by_priority(self, tcks_priority, day):
 
-        data_validation_flag = super()._process_auxiliary_data(ticker_name,
-            tcks_priority, tck_idx, business_data, ref_data)
+        if day.date() >= self.first_date:
+            # Method 1
+            open_operation = 8
+            # uptrend= 4
+            # accuracy = 2
+            # profit = 1
 
-        if data_validation_flag is False:
-            return False
+            pontuation = [0] * len(tcks_priority)
 
-        if not tcks_priority[tck_idx].last_business_data:
-            return False
+            # avg_profit, _ = self._get_profit_statistics(tcks_priority)
+            # avg_acc = self.total_op_suc_count / self.total_op_count if self.total_op_count > 0 else 0
 
-        self.last_n_close_prices[tcks_priority[tck_idx].ticker].append(
-            tcks_priority[tck_idx].last_business_data['close_price_day'])
+            for idx, ticker_card in enumerate(tcks_priority):
+                if ticker_card.operation is not None and ticker_card.operation.state == State.OPEN:
+                    pontuation[idx] += open_operation
+                    continue
 
-        if len(self.last_n_close_prices[tcks_priority[tck_idx].ticker]) > \
-            self.last_prices_max_length:
-            self.last_n_close_prices[tcks_priority[tck_idx].ticker].pop(0)
+                # if isinstance(day, pd.Timestamp):
+                #     uptrend_flag = self.ticker_day_risks.loc[
+                #         (self.ticker_day_risks['ticker'] == ticker_card.ticker) & \
+                #         (self.ticker_day_risks['day'] == day.strftime('%Y-%m-%d')), \
+                #         ['uptrend']].squeeze()
+                #     if (not isinstance(uptrend_flag, pd.Series)) and uptrend_flag:
+                #         pontuation[idx] += uptrend
 
-    def _check_business_rules(self, business_data, tcks_priority, tck_idx,
-        purchase_price):
+                # if self.total_op_count > 2 * len(self.tickers_and_dates):
+                #     if ticker_card.op_count == 0 or \
+                #         (ticker_card.op_count > 0 and (ticker_card.op_suc_count / ticker_card.op_count) >= avg_acc):
+                #         pontuation[idx] += accuracy
 
-        x = [i for i in range(72)]
+                # if ticker_card.profit >= avg_profit:
+                #     pontuation[idx] += profit
+                # elif ticker_card.profit < 1e-2 and ticker_card.profit > (1 - 1e-2):
+                #     pontuation[idx] += profit
 
-        last_3_prices_corr = stats.spearmanr(x[:3],
-            self.last_n_close_prices[tcks_priority[tck_idx].ticker]\
-            [self.last_prices_max_length - 3:self.last_prices_max_length]).correlation
+            new_order = [tck for tck in sorted(tcks_priority,
+                key=lambda card: pontuation[tcks_priority.index(card)], reverse=True)]
 
-        if math.isnan(last_3_prices_corr):
-            last_3_prices_corr = 0
+            # Method 2
+            # new_order = sorted(tcks_priority, key=lambda ticker_state: \
+            #     str(int(ticker_state.operation.state == State.OPEN
+            #     if ticker_state.operation is not None else 0)) \
+            #     + str(int(ticker_state.operation.state == State.NOT_STARTED
+            #     if ticker_state.operation is not None else 0)), reverse=True)
 
-        last_17_prices_corr = stats.spearmanr(x[:17],
-            self.last_n_close_prices[tcks_priority[tck_idx].ticker]\
-            [self.last_prices_max_length - 17:self.last_prices_max_length]).correlation
+            return new_order
 
-        last_72_prices_corr = stats.spearmanr(x[:72],
-            self.last_n_close_prices[tcks_priority[tck_idx].ticker]
-            [self.last_prices_max_length - 72:self.last_prices_max_length]).correlation
+        return tcks_priority
 
-        last_3_corr_weight = 3
-        last_17_corr_weight = 2
-        last_72_corr_weight = 1
+    def _update_global_stats(self, day):
 
-        weights_sum = last_3_corr_weight + last_17_corr_weight + last_72_corr_weight
+        if day.date() >= self.first_date:
+            self.capital_in_use = (self.max_capital - self.available_capital) / self.max_capital
 
-        coef = (last_3_prices_corr * last_3_corr_weight + \
-            last_17_prices_corr * last_17_corr_weight + \
-            last_72_prices_corr * last_72_corr_weight) / weights_sum
+            self.capital_in_use_last_values.append( self.capital_in_use )
+            if len(self.capital_in_use_last_values) > self.n_avg:
+                self.capital_in_use_last_values.pop(0)
 
-        if coef >= self.min_operation_decision_coefficient:
-            risk = self.tickers_info[tcks_priority[tck_idx].ticker]
-            business_data['stop_loss_day'] = round(purchase_price * (1 - risk), 2)
-            return True
+            self.last_capital_in_use_mavg = self.capital_in_use_mavg
 
-        return False
+            if not self.first_update:
+
+                self.capital_in_use_mavg = np.mean( self.capital_in_use_last_values )
+
+                # self.capital_in_use_dot = self.der_lpf_alpha * (self.capital_in_use_mavg - self.last_capital_in_use_mavg) \
+                #     + (1 - self.der_lpf_alpha) * (self.capital_in_use_dot)
+
+                self._update_dynamic_rcc()
+            else:
+                self.capital_in_use_mavg = self.capital_in_use
+                # self.capital_in_use_dot = 0.0
+                self.first_update = False
+
+    def _update_dynamic_rcc(self, reference=0.8, k=3):
+
+        error = reference - self.capital_in_use_mavg
+        # error_dot = max(0, -self.capital_in_use_dot)
+        self.dynamic_rcc_value = self.risk_capital_product * (1 + k * error)

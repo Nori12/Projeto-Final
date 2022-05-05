@@ -129,8 +129,10 @@ def compare_peaks(peak_1, peak_2, tolerance=0.01):
     else:
         return PC.FIRST_IS_LESSER
 
-def get_capital_per_risk(risk_capital_coefficient, total_capital, operation_risk):
-    return round(total_capital * risk_capital_coefficient / operation_risk, 2)
+def get_capital_per_risk(risk_capital_coefficient, total_capital, operation_risk,
+    capital_multiplier):
+    return round(min(total_capital,
+        total_capital * (risk_capital_coefficient / operation_risk) * capital_multiplier), 2)
 
 def get_avg_index_of_first_burst_of_ones(some_list):
 
@@ -246,6 +248,135 @@ def take_best_n_indexes(series, n):
 
     return tuple(best_indexes)
 
+def analyze_peaks(max_peaks_index, min_peaks_index, max_peaks_values, min_peaks_values):
+
+    if (max_peaks_index is None or len(max_peaks_index) < 2) or \
+        (min_peaks_index is None or len(min_peaks_index) < 2):
+        return None
+
+    # ordered_peaks = sorted(max_peaks_index + min_peaks_index)
+    ordered_peaks = [{'type': 'max', 'index': p_index, 'value':
+        max_peaks_values[max_peaks_index.index(p_index)]}
+        if p_index in max_peaks_index
+        else {'type': 'min', 'index': p_index, 'value':
+        min_peaks_values[min_peaks_index.index(p_index)]}
+        for p_index in sorted(max_peaks_index + min_peaks_index)]
+    peaks_number = len(ordered_peaks)
+
+    # print('Ordered Peaks:')
+    # for peak in ordered_peaks:
+    #     print(peak)
+    # print()
+
+    # Create sequences of max and min peaks
+    first_peak = 'max' if max_peaks_index[0] < min_peaks_index[0] else 'min'
+    sequences = []
+    current_sequence = {'type': first_peak, 'index': [], 'magnitude': ordered_peaks[0]['value']}
+    current_type = first_peak
+
+    for i, peak in enumerate(ordered_peaks):
+        if peak['type'] == current_type:
+            current_sequence['index'].append(peak['index'])
+            current_sequence['magnitude'] = max(current_sequence['magnitude'], peak['value']) \
+                if current_type == 'max' else min(current_sequence['magnitude'], peak['value'])
+        else:
+            sequences.append(current_sequence.copy())
+            current_type = peak['type']
+            current_sequence['type'] = peak['type']
+            current_sequence['index'] = [peak['index']]
+            current_sequence['magnitude'] = peak['value']
+
+        if i == peaks_number - 1:
+            sequences.append(current_sequence.copy())
+
+    # print('Ordered Sequences:')
+    # for sequence in sequences:
+    #     print(sequence)
+    # print()
+
+    # Remove invalid peak sequences
+    ok = False
+    while not ok:
+        last_sequence = {}
+        for i, sequence in enumerate(sequences):
+            if i != 0:
+                if sequence['type'] == 'min' and last_sequence['type'] == 'max':
+                    if sequence['magnitude'] >= last_sequence['magnitude']:
+                        del sequences[i]
+                        break
+                elif sequence['type'] == 'max' and last_sequence['type'] == 'min':
+                    if sequence['magnitude'] <= last_sequence['magnitude']:
+                        del sequences[i]
+                        break
+                # Last and current of same type
+                else:
+                    sequences[i]['magnitude'] = max(sequence['magnitude'], last_sequence['magnitude']) \
+                        if sequence['type'] == 'max' else \
+                        min(sequence['magnitude'], last_sequence['magnitude'])
+                    sequences[i]['index'].extend(last_sequence['index'])
+                    del sequences[i-1]
+                    break
+            last_sequence = sequence
+            if i == len(sequences) - 1:
+                ok = True
+
+    # print('Filtered and Ordered Sequences:')
+    # for sequence in sequences:
+    #     print(sequence)
+    # print()
+
+    # Choose peak representative of each sequence
+    for i in range(len(sequences)):
+        if len(sequences[i]['index']) > 1:
+            if sequences[i]['type'] == 'max':
+                selected_index = max_peaks_index[max_peaks_values.index(sequences[i]['magnitude'])]
+            else:
+                selected_index = min_peaks_index[min_peaks_values.index(sequences[i]['magnitude'])]
+            sequences[i]['index'] = selected_index
+        else:
+            sequences[i]['index'] = sequences[i]['index'][0]
+
+    # print('Final Sequence:')
+    # for sequence in sequences:
+    #     print(sequence)
+    # print()
+
+    return sequences
 
 
+def find_candles_peaks(max_prices, min_prices, window_size=17):
 
+    if len(max_prices) != len(min_prices):
+        return None
+
+    votes = np.zeros_like(max_prices)
+    last_windows_index = window_size - 1
+
+    # Create moving windows and detect local minima and local maxima
+    if len(max_prices) > window_size:
+        for i in range(len(max_prices) - window_size):
+            max_subsequence = max_prices[i:i + window_size]
+            min_subsequence = min_prices[i:i + window_size]
+
+            # Vote only if value is not in the window border
+            argmax = np.argmax(max_subsequence)
+            if argmax not in [0, last_windows_index]:
+                votes[i + argmax] += 1
+
+            argmin = np.argmin(min_subsequence)
+            if argmin not in [0, last_windows_index]:
+                votes[i + argmin] -= 1
+
+        votes = [vote if abs(vote) >= window_size // 2 else 0 for vote in votes]
+
+        max_peaks_index = [index for index, vote in enumerate(votes) if vote > 0]
+        min_peaks_index = [index for index, vote in enumerate(votes) if vote < 0]
+
+        max_peaks_values = [max_prices[max_peak] for max_peak in max_peaks_index]
+        min_peaks_values = [min_prices[min_peak] for min_peak in min_peaks_index]
+
+    else:
+        return None
+
+    return analyze_peaks(max_peaks_index, min_peaks_index,
+        max_peaks_values, min_peaks_values)

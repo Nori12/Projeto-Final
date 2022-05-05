@@ -4,7 +4,6 @@ import numpy as np
 from datetime import timedelta
 import logging
 from logging.handlers import RotatingFileHandler
-import sys
 import yfinance as yf
 
 import constants as c
