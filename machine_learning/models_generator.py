@@ -453,9 +453,12 @@ if __name__ == '__main__':
     parser.add_argument("-o", "--output-feature", default='success_oper_flag',
         help="Dataset consumed output feature name. Default is \"success_oper_flag\".")
     parser.add_argument("-i", "--input-features", default=None,
-        help="Input features name list (python compatible). Default is \"['risk', " \
-            f"'peak_1', 'day_1', 'peak_2', 'day_2', 'peak_3', 'day_3', 'peak_4', " \
-            f"'day_4', 'ema_17_day', 'ema_72_day', 'ema_72_week']\".")
+        help="Input features name list (python compatible). Default is \"[" \
+            f"'risk', 'uptrend', 'downtrend', 'crisis', 'mid_prices_dot', " \
+            f"'spearman_corr_5_day', 'spearman_corr_10_day', 'spearman_corr_15_day', " \
+            f"'spearman_corr_20_day', 'spearman_corr_25_day', 'spearman_corr_30_day', " \
+            f"'spearman_corr_35_day', 'spearman_corr_40_day', 'spearman_corr_50_day', " \
+            f"'spearman_corr_60_day']\".")
     parser.add_argument("-z", "--train-test-split", type=float, default=0.12,
         help="Train test split. Default is \"0.12\".")
     parser.add_argument("-x", "--sampling-method", default='CSL',
@@ -553,8 +556,13 @@ if __name__ == '__main__':
     # **************************************************************************
 
     # ********** Check 'input_features' and 'output_feature' arguments *********
-    input_features = ['risk', 'peak_1', 'day_1', 'peak_2', 'day_2', 'peak_3',
-        'day_3', 'peak_4', 'day_4', 'ema_17_day', 'ema_72_day', 'ema_72_week']
+    # input_features = ['risk', 'peak_1', 'day_1', 'peak_2', 'day_2', 'peak_3',
+    #     'day_3', 'peak_4', 'day_4', 'ema_17_day', 'ema_72_day', 'ema_72_week']
+    input_features = ['risk', 'uptrend', 'downtrend', 'crisis', 'mid_prices_dot',
+        'spearman_corr_5_day', 'spearman_corr_10_day', 'spearman_corr_15_day',
+        'spearman_corr_20_day', 'spearman_corr_25_day', 'spearman_corr_30_day',
+        'spearman_corr_35_day', 'spearman_corr_40_day', 'spearman_corr_50_day',
+        'spearman_corr_60_day']
 
     if args.input_features is not None:
         casted_value, validation = my_dynamic_cast(args.input_features,

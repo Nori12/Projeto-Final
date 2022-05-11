@@ -11,3 +11,5 @@ tempCodeRunnerFile.python
 src/__pycache__/
 optimizers/stop_loss_optimizer/__pycache__/
 machine_learning/__pycache__/
+machine_learning/datasets/
+machine_learning/models/

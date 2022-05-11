@@ -1204,7 +1204,7 @@ class DBStrategyAnalyzerModel:
             query += f"ORDER BY wc.week ASC;"
         elif interval == '1d':
             query = f"SELECT dc.day, dc.open_price, dc.max_price, dc.min_price, " \
-                f"dc.close_price, df.ema_17, df.ema_72, df.up_down_trend_status, " \
+                f"dc.close_price, dc.volume, df.ema_17, df.ema_72, df.up_down_trend_status, " \
                 f"df.target_buy_price, df.stop_loss, df.peak\n"
             query += f"FROM daily_candles dc\n"
             query += f"INNER JOIN daily_features df ON df.ticker = dc.ticker AND df.day = dc.day\n"

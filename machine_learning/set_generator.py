@@ -10,7 +10,7 @@ import pandas as pd
 sys.path.insert(1, str(Path(__file__).parent.parent/'src'))
 import ml_constants as mlc
 import config_reader as cr
-from ticker_dataset_generator import TickerDatasetGenerator
+from ticker_dataset_generator import TickerDatasetGenerator2
 
 pbar = None
 
@@ -18,17 +18,28 @@ def run_ticker_dataset(ticker, start_date, end_date, buy_type='current_day_open_
     gain_loss_ratio=3, peaks_pairs_number=2, risk_option='fixed', fixed_risk=0.03,
     start_range_risk=0.01, step_range_risk=0.002, end_range_risk=0.12,
     max_days_per_operation=mlc.MAX_DAYS_PER_OPERATION, spearman_correlations=(3, 17, 72),
-    datasets_dir=None, add_ref_price=False):
+    lpf_alpha=0.2, datasets_dir=None, add_ref_price=False):
 
-    ticker_ds_gen = TickerDatasetGenerator(ticker=ticker, start_date=start_date,
-        end_date=end_date, buy_type=buy_type, gain_loss_ratio=gain_loss_ratio,
-        peaks_pairs_number=peaks_pairs_number, risk_option=risk_option,
-        fixed_risk=fixed_risk, start_range_risk=start_range_risk,
+    # ticker_ds_gen = TickerDatasetGenerator(ticker=ticker, start_date=start_date,
+    #     end_date=end_date, buy_type=buy_type, gain_loss_ratio=gain_loss_ratio,
+    #     peaks_pairs_number=peaks_pairs_number, risk_option=risk_option,
+    #     fixed_risk=fixed_risk, start_range_risk=start_range_risk,
+    #     step_range_risk=step_range_risk, end_range_risk=end_range_risk,
+    #     max_days_per_operation=max_days_per_operation,
+    #     spearman_correlations=spearman_correlations,
+    #     prices_derivative=prices_derivative, lpf_alpha=lpf_alpha,
+    #     dataset_dir=datasets_dir)
+
+    # ticker_ds_gen.generate_dataset(add_ref_price=add_ref_price)
+
+    ticker_ds_gen = TickerDatasetGenerator2(ticker=ticker, start_date=start_date,
+        end_date=end_date, start_range_risk=start_range_risk,
         step_range_risk=step_range_risk, end_range_risk=end_range_risk,
-        max_days_per_operation=max_days_per_operation,
-        spearman_correlations=spearman_correlations, dataset_dir=datasets_dir)
+        spearman_correlations=spearman_correlations, lpf_alpha=lpf_alpha,
+        dataset_dir=datasets_dir, max_days_per_operation=max_days_per_operation,
+        gain_loss_ratio=gain_loss_ratio)
 
-    ticker_ds_gen.generate_dataset(add_ref_price=add_ref_price)
+    ticker_ds_gen.generate_dataset()
 
 
 if __name__ == '__main__':
@@ -78,9 +89,11 @@ if __name__ == '__main__':
         help="Datasets output file. " \
         "Default is 0.002.")
     parser.add_argument("-c", "--spearman-correlations",
-        default="[3, 5, 10, 15, 17, 20, 30, 40, 50, 70, 72]",
+        default="[5, 10, 15, 20, 25, 30, 35, 40, 50, 60]",
         help="List of last n prices to calculate spearman correlation. " \
-        "Default is '[3, 5, 10, 15, 17, 20, 30, 40, 50, 70, 72]'.")
+        "Default is '[5, 10, 15, 20, 25, 30, 35, 40, 50, 60]'.")
+    parser.add_argument("-w", "--lpf-alpha", type=float, default=0.1,
+        help="Prices derivative low pass filter coefficient. Default is '0.2'.")
     parser.add_argument("-a", "--add-ref-price", type=bool, default=True,
         help="Add reference price in each row of dataset. Default is 'True'.")
 
@@ -218,6 +231,11 @@ if __name__ == '__main__':
     add_ref_price = args.add_ref_price
     # **************************************************************************
 
+    # *********************** Check 'lpf_alpha' argument ***********************
+    lpf_alpha = args.lpf_alpha
+    # **************************************************************************
+
+
     pbar = tqdm(total=len(tickers))
     start = time.perf_counter()
 
@@ -227,7 +245,8 @@ if __name__ == '__main__':
             pool.apply_async(run_ticker_dataset, (ticker, pd.Timestamp(dates['start_date']),
                 pd.Timestamp(dates['end_date']), buy_type, gain_loss_ratio, peaks_pairs_number,
                 risk_option, fixed_risk, start_range_risk, step_range_risk, end_range_risk,
-                max_days_per_operation, spearman_correlations, datasets_dir, add_ref_price),
+                max_days_per_operation, spearman_correlations, lpf_alpha, datasets_dir,
+                add_ref_price),
                 callback=lambda x: pbar.update())
 
         pool.close()
