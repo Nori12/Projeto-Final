@@ -621,7 +621,7 @@ class TickerDatasetGenerator2:
     def first_write_on_file(self, first_write_on_file):
         self._first_write_on_file = first_write_on_file
 
-
+    # TODO: Stop accumulating data non-stop through lists
     def generate_dataset(self):
         # Trend parameters
         N_pri = 20
@@ -823,7 +823,7 @@ class TickerDatasetGenerator2:
                 if row['day'] >= self.start_date:
 
                     for idx, spear_n in enumerate(self.spearman_correlations):
-                        if len(last_mid_prices) > spear_n:
+                        if len(last_mid_prices) >= spear_n:
                             corr = stats.spearmanr(self.spearman_reference[:spear_n],
                                 last_mid_prices[len(last_mid_prices) - spear_n : len(last_mid_prices)]).correlation
 
