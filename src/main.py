@@ -11,7 +11,7 @@ import traceback
 import constants as c
 import config_reader as cr
 from ticker_manager import TickerManager
-from strategy import AdaptedAndreMoraesStrategy, MLDerivationStrategy
+from strategy import MLDerivationStrategy
 
 # Configure Logging
 logger = logging.getLogger(__name__)
@@ -63,37 +63,7 @@ def update_tickers():
 def run_strategy(strategy, strategy_number, total_strategies, stdout_prints=False):
 
     try:
-        if strategy['name'] == 'Adapted Andre Moraes':
-            root_strategy = AdaptedAndreMoraesStrategy(
-                strategy['tickers'],
-                alias=strategy['alias'],
-                comment = strategy['comment'],
-                risk_capital_product=strategy['risk_capital_coefficient'],
-                total_capital=strategy['capital'],
-                min_order_volume=strategy['min_order_volume'],
-                partial_sale=strategy['partial_sale'],
-                ema_tolerance=strategy['ema_tolerance'],
-                min_risk=strategy['min_risk'],
-                max_risk=strategy['max_risk'],
-                purchase_margin=strategy['purchase_margin'],
-                stop_margin=strategy['stop_margin'],
-                stop_type=strategy['stop_type'],
-                min_days_after_successful_operation=strategy['min_days_after_successful_operation'],
-                min_days_after_failure_operation=strategy['min_days_after_failure_operation'],
-                gain_loss_ratio=strategy['gain_loss_ratio'],
-                max_days_per_operation=strategy['max_days_per_operation'],
-                tickers_bag=strategy['tickers_bag'],
-                tickers_number=strategy['tickers_number'],
-                strategy_number=strategy_number,
-                total_strategies=total_strategies,
-                stdout_prints=stdout_prints
-            )
-
-            root_strategy.process_operations()
-            root_strategy.calculate_statistics()
-            root_strategy.save()
-
-        elif strategy['name'] == 'ML Derivation':
+        if strategy['name'] == 'ML Derivation':
             ml_strategy = MLDerivationStrategy(
                 strategy['tickers'],
                 alias=strategy['alias'],

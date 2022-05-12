@@ -10,6 +10,8 @@ import numpy as np
 import math
 import joblib
 from scipy import stats
+import statsmodels.api as sm
+from statsmodels.tools.eval_measures import rmse
 
 import constants as c
 from utils import RunTime, calculate_maximum_volume, calculate_yield_annualized, \
@@ -1887,7 +1889,11 @@ class MLDerivationStrategy(AdaptedAndreMoraesStrategy):
         self.last_prices_max_length = max(self.spearman_correlations)
         self.spearman_reference = tuple([i for i in range(self.last_prices_max_length)])
 
-        self.last_prices = {ticker: {'last_open': 0.0, 'last_close': 0.0, 'mid': [], 'mid_dot': 0.0} for ticker in self.tickers_and_dates}
+        self.last_data = {ticker: \
+            {'open': 0.0, 'close': 0.0, 'mid': [], 'mid_dot': 0.0,
+            'ols_slope': 0.0, 'min_slope': float('inf'), 'max_slope': -float('inf'),
+            'ols_rmse': 0.0, 'min_rmse': float('inf'), 'max_rmse': -float('inf')} \
+            for ticker in self.tickers_and_dates}
         self.mid_prices_lpf_alpha = 0.1
 
     @property
@@ -2343,21 +2349,46 @@ class MLDerivationStrategy(AdaptedAndreMoraesStrategy):
             return False
 
         # Spearman corelations and mid prices derivative
-        new_mid = round((self.last_prices[ticker_name]['last_open'] + self.last_prices[ticker_name]['last_close'])/2, 6)
+        new_mid = round((self.last_data[ticker_name]['open'] + self.last_data[ticker_name]['close'])/2, 6)
 
         if new_mid >= 1e-2:
-            self.last_prices[ticker_name]['mid'].append( new_mid )
+            self.last_data[ticker_name]['mid'].append( new_mid )
 
-            if len(self.last_prices[ticker_name]['mid']) >= 2:
-                self.last_prices[ticker_name]['mid_dot'] = \
-                    self.mid_prices_lpf_alpha * ((self.last_prices[ticker_name]['mid'][-1] - self.last_prices[ticker_name]['mid'][-2]) / self.last_prices[ticker_name]['mid'][-2]) + \
-                    (1 - self.mid_prices_lpf_alpha) * self.last_prices[ticker_name]['mid_dot']
+            if len(self.last_data[ticker_name]['mid']) >= 2:
+                self.last_data[ticker_name]['mid_dot'] = \
+                    self.mid_prices_lpf_alpha * ((self.last_data[ticker_name]['mid'][-1] - self.last_data[ticker_name]['mid'][-2]) / self.last_data[ticker_name]['mid'][-2]) + \
+                    (1 - self.mid_prices_lpf_alpha) * self.last_data[ticker_name]['mid_dot']
 
-            if len(self.last_prices[ticker_name]['mid']) > self.last_prices_max_length:
-                self.last_prices[ticker_name]['mid'].pop(0)
+            if len(self.last_data[ticker_name]['mid']) > self.last_prices_max_length:
+                self.last_data[ticker_name]['mid'].pop(0)
 
-        self.last_prices[ticker_name]['last_open'] = business_data['open_price_day']
-        self.last_prices[ticker_name]['last_close'] = business_data['close_price_day']
+        self.last_data[ticker_name]['open'] = business_data['open_price_day']
+        self.last_data[ticker_name]['close'] = business_data['close_price_day']
+
+        # OLS
+        if len(self.last_data[ticker_name]['mid']) >= 60:
+            X = sm.add_constant(self.spearman_reference[0:60])
+            ols_model = sm.OLS(self.last_data[ticker_name]['mid'], X).fit()
+
+            slope = round(ols_model.params[1] / ols_model.params[0], 6)
+            self.last_data[ticker_name]['ols_slope'] = slope
+
+            if slope < self.last_data[ticker_name]['min_slope']:
+                self.last_data[ticker_name]['min_slope'] = slope
+
+            if slope > self.last_data[ticker_name]['max_slope']:
+                self.last_data[ticker_name]['max_slope'] = slope
+
+            ypred = ols_model.predict(X)
+            rms_error = round(rmse(self.last_data[ticker_name]['mid'], ypred), 6)
+
+            self.last_data[ticker_name]['ols_rmse'] = rms_error
+
+            if rms_error < self.last_data[ticker_name]['min_rmse']:
+                self.last_data[ticker_name]['min_rmse'] = rms_error
+
+            if rms_error > self.last_data[ticker_name]['max_rmse']:
+                self.last_data[ticker_name]['max_rmse'] = rms_error
 
         # Peak analysis: Put first peaks in buffer
         # MLDerivationStrategy._update_peaks_days(tcks_priority[tck_idx])
@@ -2475,6 +2506,17 @@ class MLDerivationStrategy(AdaptedAndreMoraesStrategy):
             if crisis_flag:
                 return False
 
+        golden_purchase = self._check_golden_purchase(tcks_priority, tck_idx, purchase_price, business_data)
+        if golden_purchase is True:
+            risk = self._get_risk(tcks_priority[tck_idx].ticker, business_data['day'], force=True)
+            risk = risk * 2.1
+            business_data['stop_loss_day'] = round(purchase_price * (1 - risk), 2)
+            return True
+
+        risk = self._get_risk(tcks_priority[tck_idx].ticker, business_data['day'])
+        if risk is None:
+            return False
+
         if self.enable_downtrend_halt:
             downtrend_flag = self.ticker_day_risks.loc[
                 (self.ticker_day_risks['ticker'] == tcks_priority[tck_idx].ticker) & \
@@ -2484,17 +2526,14 @@ class MLDerivationStrategy(AdaptedAndreMoraesStrategy):
             if downtrend_flag:
                 return False
 
-        risk = self._get_risk(tcks_priority[tck_idx].ticker, business_data['day'])
-        if risk is None:
-            return False
 
-        mid_prices_dot = self.last_prices[tcks_priority[tck_idx].ticker]['mid_dot']
+        mid_prices_dot = self.last_data[tcks_priority[tck_idx].ticker]['mid_dot']
         spearman_corrs = [0.0 for _ in self.spearman_correlations]
 
         for spear_idx, spear_n in enumerate(self.spearman_correlations):
-            if len(self.last_prices[tcks_priority[tck_idx].ticker]['mid']) >= spear_n:
+            if len(self.last_data[tcks_priority[tck_idx].ticker]['mid']) >= spear_n:
                 corr = stats.spearmanr(self.spearman_reference[:spear_n],
-                    self.last_prices[tcks_priority[tck_idx].ticker]['mid'][len(self.last_prices[tcks_priority[tck_idx].ticker]['mid']) - spear_n : len(self.last_prices[tcks_priority[tck_idx].ticker]['mid'])]).correlation
+                    self.last_data[tcks_priority[tck_idx].ticker]['mid'][len(self.last_data[tcks_priority[tck_idx].ticker]['mid']) - spear_n : len(self.last_data[tcks_priority[tck_idx].ticker]['mid'])]).correlation
 
                 if math.isnan(corr):
                     corr = 0.0
@@ -2514,7 +2553,16 @@ class MLDerivationStrategy(AdaptedAndreMoraesStrategy):
 
         return False
 
-    def _get_risk(self, ticker, day):
+    def _check_golden_purchase(self, tcks_priority, tck_idx, purchase_price, business_data):
+
+        if self.last_data[tcks_priority[tck_idx].ticker]['ols_rmse'] < 0.20:
+            if 0 < self.last_data[tcks_priority[tck_idx].ticker]['ols_slope'] < 0.003:
+                if purchase_price > 1.10 * np.mean(self.last_data[tcks_priority[tck_idx].ticker]['mid']):
+                    return True
+
+        return False
+
+    def _get_risk(self, ticker, day, force=False):
 
         min_risk = self.ticker_day_risks.loc[
             (self.ticker_day_risks['ticker'] == ticker) & \
@@ -2528,7 +2576,10 @@ class MLDerivationStrategy(AdaptedAndreMoraesStrategy):
             return None
 
         if max_risk < min_risk:
-            return None
+            if force:
+                return min_risk
+            else:
+                return None
 
         risk = (min_risk + max_risk) / 2
 
