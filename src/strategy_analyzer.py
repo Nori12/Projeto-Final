@@ -87,15 +87,23 @@ class StrategyAnalyzer:
         if 1 >= strategy_raw['max_risk'][0] >= 0:
             strategy_raw['max_risk'][0] = round(strategy_raw['max_risk'][0] * 100, 2)
 
+        if 1 >= strategy_raw['dynamic_rcc_reference'][0] >= 0:
+            strategy_raw['dynamic_rcc_reference'][0] = round(strategy_raw['dynamic_rcc_reference'][0] * 100, 2)
+
+        strategy_raw['dynamic_rcc_k'][0] = round(strategy_raw['dynamic_rcc_k'][0], 2)
+
         strategy_raw['total_capital'][0] = round(strategy_raw['total_capital'][0], 2)
         strategy_raw['number_or_tickers'] = len(self._tickers_and_dates)
 
         # Names to be shown
         strategy_parameters = ['Alias', 'Total Tickers', 'Start Date', 'End Date',
-            'Capital (R$)', 'Risk-Capital Coefficient (%)', 'Gain-Loss Ratio',
+            'Capital (R$)', 'Risk-Capital Coefficient - RCC (%)', 'Gain-Loss Ratio',
             'Minimum Order Volume', 'Minimum Operation Risk (%)', 'Maximum Operation Risk (%)',
             'Partial Sale', 'Stop Loss Type', 'Min Days after Successfull Operation (days)',
-            'Min Days after Failure Operation (days)', 'Maximum Days per Operation (days)'
+            'Min Days after Failure Operation (days)', 'Maximum Days per Operation (days)',
+            'Enable Frequency Normalization', 'Enable Profit Compensation', 'Enable Crisis Halt',
+            'Enable Downtrend Halt', 'Enable Dynamic RCC', 'Dynamic RCC Reference (%)',
+            'Dynamic RCC K'
         ]
 
         strategy_data = [strategy_raw['alias'][0], strategy_raw['number_or_tickers'][0],
@@ -107,7 +115,14 @@ class StrategyAnalyzer:
             str(strategy_raw['partial_sale'][0]).title(), strategy_raw['stop_type'][0].title(),
             strategy_raw['min_days_after_successful_operation'][0],
             strategy_raw['min_days_after_failure_operation'][0],
-            strategy_raw['max_days_per_operation'][0]
+            strategy_raw['max_days_per_operation'][0],
+            str(strategy_raw['enable_frequency_normalization'][0]).title(),
+            str(strategy_raw['enable_profit_compensation'][0]).title(),
+            str(strategy_raw['enable_crisis_halt'][0]).title(),
+            str(strategy_raw['enable_downtrend_halt'][0]).title(),
+            str(strategy_raw['enable_dynamic_rcc'][0]).title(),
+            strategy_raw['dynamic_rcc_reference'][0],
+            strategy_raw['dynamic_rcc_k'][0]
         ]
 
         self._strategy = pd.DataFrame(data={'parameter': strategy_parameters})
@@ -117,35 +132,45 @@ class StrategyAnalyzer:
 
         statistics_raw = self._db_strategy_analyzer_model.get_strategy_statistics(strategy_id)
 
-        statistics_raw['yield'][0] = round(statistics_raw['yield'][0] * 100, 2)
+        statistics_raw['total_yield'][0] = round(statistics_raw['total_yield'][0] * 100, 2)
 
-        statistics_raw['annualized_yield'][0] = \
-            round(statistics_raw['annualized_yield'][0] * 100, 2)
+        statistics_raw['total_yield_ann'][0] = \
+            round(statistics_raw['total_yield_ann'][0] * 100, 2)
 
-        statistics_raw['ibov_yield'][0] = round(statistics_raw['ibov_yield'][0] * 100, 2)
+        statistics_raw['total_ibov_yield'][0] = round(statistics_raw['total_ibov_yield'][0] * 100, 2)
 
-        statistics_raw['annualized_ibov_yield'][0] = \
-            round(statistics_raw['annualized_ibov_yield'][0] * 100, 2)
+        statistics_raw['total_ibov_yield_ann'][0] = \
+            round(statistics_raw['total_ibov_yield_ann'][0] * 100, 2)
 
-        statistics_raw['avr_tickers_yield'][0] = \
-            round(statistics_raw['avr_tickers_yield'][0] * 100, 2)
+        statistics_raw['total_baseline_yield'][0] = \
+            round(statistics_raw['total_baseline_yield'][0] * 100, 2)
 
-        statistics_raw['annualized_avr_tickers_yield'][0] = \
-            round(statistics_raw['annualized_avr_tickers_yield'][0] * 100, 2)
+        statistics_raw['total_baseline_yield_ann'][0] = \
+            round(statistics_raw['total_baseline_yield_ann'][0] * 100, 2)
 
-        statistics_raw['volatility'][0] = round(statistics_raw['volatility'][0] * 100, 2)
+        statistics_raw['total_volatility'][0] = round(statistics_raw['total_volatility'][0] * 100, 2)
+
+        statistics_raw['volatility_ann'][0] = round(statistics_raw['volatility_ann'][0] * 100, 2)
+
+        statistics_raw['baseline_total_volatility'][0] = round(statistics_raw['baseline_total_volatility'][0] * 100, 2)
+
+        statistics_raw['baseline_volatility_ann'][0] = round(statistics_raw['baseline_volatility_ann'][0] * 100, 2)
 
         statistics_raw['sharpe_ratio'][0] = round(statistics_raw['sharpe_ratio'][0], 2)
 
+        statistics_raw['baseline_sharpe_ratio'][0] = round(statistics_raw['baseline_sharpe_ratio'][0], 2)
+
         statistics_raw['sortino_ratio'][0] = round(statistics_raw['sortino_ratio'][0], 2)
+
+        statistics_raw['baseline_sortino_ratio'][0] = round(statistics_raw['baseline_sortino_ratio'][0], 2)
 
         statistics_raw['ibov_pearson_corr'][0] = round(statistics_raw['ibov_pearson_corr'][0], 2)
 
         statistics_raw['ibov_spearman_corr'][0] = round(statistics_raw['ibov_spearman_corr'][0], 2)
 
-        statistics_raw['tck_avg_pearson_corr'][0] = round(statistics_raw['tck_avg_pearson_corr'][0], 2)
+        statistics_raw['baseline_pearson_corr'][0] = round(statistics_raw['baseline_pearson_corr'][0], 2)
 
-        statistics_raw['tck_avg_spearman_corr'][0] = round(statistics_raw['tck_avg_spearman_corr'][0], 2)
+        statistics_raw['baseline_spearman_corr'][0] = round(statistics_raw['baseline_spearman_corr'][0], 2)
 
         statistics_raw['max_used_capital'][0] = \
             round(statistics_raw['max_used_capital'][0] * 100, 2)
@@ -187,7 +212,10 @@ class StrategyAnalyzer:
             # sys.exit(c.UNIDENTIFIED_OPERATION_STATUS_ERR)
             raise Exception
 
-        statistics_raw['volatility'][0] = round(statistics_raw['volatility'][0], 2)
+        statistics_raw['total_volatility'][0] = round(statistics_raw['total_volatility'][0], 2)
+        statistics_raw['volatility_ann'][0] = round(statistics_raw['volatility_ann'][0], 2)
+        statistics_raw['baseline_total_volatility'][0] = round(statistics_raw['baseline_total_volatility'][0], 2)
+        statistics_raw['baseline_volatility_ann'][0] = round(statistics_raw['baseline_volatility_ann'][0], 2)
 
         # CDI statistics
         cdi_df = self._db_strategy_analyzer_model.get_cdi_index(
@@ -210,24 +238,29 @@ class StrategyAnalyzer:
             active_operations.describe().loc[['std']].squeeze(), 2)
 
         # Names to be shown
-        statistics_parameters = ['Yield (%)', 'IBOVESPA Yield (%)',
-            'Tickers Average Yield (%)', 'CDI Yield (%)', 'Sharpe Ratio (-)',
-            'Sortino Ratio (-)', 'Volatility (%)','IBOV Spearman Correlation (-)',
-            'Tickers Average Spearman Correlation (-)', 'Maximum Used Capital (%)',
+        statistics_parameters = ['Strategy Total Yield (%)', 'Baseline Total Yield (%)',
+            'IBOVESPA Total Yield (%)', 'CDI Total Yield (%)',
+            'Strategy Total Volatility (%)', 'Baseline Total Volatility (%)',
+            'Strategy Sharpe Ratio (-)', 'Baseline Sharpe Ratio (-)',
+            'Strategy Sortino Ratio (-)', 'Baseline Sortino Ratio (-)',
+            'Strategy-Baseline Spearman Correlation (-)',
+            'Strategy-IBOV Spearman Correlation (-)', 'Maximum Used Capital (%)',
             'Average Used Capital (%)', 'Maximum Active Operations',
             'Average Active Operations', 'Active Operations Standard Deviation',
             'Profit (R$)', 'Total Operations', '---Successful Operations (hit 3:1 target)',
             '---Partial Sale Successfull Operations (hit 1:1 or 2:1 target)',
             '---Failed Operations', '---Timed Out Operations', '---Unfinished Operations',
-            'Yield (% ann)', 'IBOVESPA Yield (% ann)', 'Tickers Average Yield (% ann)',
-            'CDI Yield (% ann)'
+            'Strategy Yield (% ann)', 'Baseline Yield (% ann)', 'IBOVESPA Yield (% ann)',
+            'CDI Yield (% ann)', 'Strategy Volatility (%ann)', 'Baseline Volatility (%ann)'
         ]
 
-        statistics_data = [f"{statistics_raw['yield'][0]:.2f}", f"{statistics_raw['ibov_yield'][0]:.2f}",
-            f"{statistics_raw['avr_tickers_yield'][0]:.2f}", f"{statistics_raw['cdi_yield'][0]:.2f}",
-            statistics_raw['sharpe_ratio'][0], statistics_raw['sortino_ratio'][0],
-            f"{statistics_raw['volatility'][0]:.2f}", statistics_raw['ibov_spearman_corr'][0],
-            statistics_raw['tck_avg_spearman_corr'][0],
+        statistics_data = [f"{statistics_raw['total_yield'][0]:.2f}", f"{statistics_raw['total_baseline_yield'][0]:.2f}",
+            f"{statistics_raw['total_ibov_yield'][0]:.2f}", f"{statistics_raw['cdi_yield'][0]:.2f}",
+            f"{statistics_raw['total_volatility'][0]:.2f}", f"{statistics_raw['baseline_total_volatility'][0]:.2f}",
+            statistics_raw['sharpe_ratio'][0], statistics_raw['baseline_sharpe_ratio'][0],
+            statistics_raw['sortino_ratio'][0], statistics_raw['baseline_sortino_ratio'][0],
+            statistics_raw['baseline_spearman_corr'][0],
+            statistics_raw['ibov_spearman_corr'][0],
             f"{statistics_raw['max_used_capital'][0]:.2f}", f"{statistics_raw['avg_used_capital'][0]:.2f}",
             statistics_raw['max_active_operations'][0], f"{statistics_raw['avg_active_operations'][0]:.2f}",
             f"{statistics_raw['std_dev_active_operations'][0]:.2f}", statistics_raw['profit'][0],
@@ -236,10 +269,12 @@ class StrategyAnalyzer:
             f"{failed_operations} ({100 * failed_operations/total_operations:.1f}%)",
             f"{timeout_operations} ({100 * timeout_operations/total_operations:.1f}%)",
             f"{unfinished_operations} ({100 * unfinished_operations/total_operations:.1f}%)",
-            f"{statistics_raw['annualized_yield'][0]:.2f}",
-            f"{statistics_raw['annualized_ibov_yield'][0]:.2f}",
-            f"{statistics_raw['annualized_avr_tickers_yield'][0]:.2f}",
-            f"{statistics_raw['annualized_cdi_yield'][0]:.2f}"
+            f"{statistics_raw['total_yield_ann'][0]:.2f}",
+            f"{statistics_raw['total_baseline_yield_ann'][0]:.2f}",
+            f"{statistics_raw['total_ibov_yield_ann'][0]:.2f}",
+            f"{statistics_raw['annualized_cdi_yield'][0]:.2f}",
+            f"{statistics_raw['volatility_ann'][0]:.2f}",
+            f"{statistics_raw['baseline_volatility_ann'][0]:.2f}"
         ]
 
         self._statistics = pd.DataFrame(data={'parameter': statistics_parameters})
@@ -259,12 +294,12 @@ class StrategyAnalyzer:
 
         self._performance['capital_in_use'] = round(self._performance['capital_in_use'] * 100, 2)
 
-        if self._performance['tickers_average'][0] == 1.0:
-            self._performance['tickers_average'] = round(
-                (self._performance['tickers_average'] - 1) * 100, 2)
-        elif self._performance['tickers_average'][0] == 0.0:
-            self._performance['tickers_average'] = round(
-                (self._performance['tickers_average']) * 100, 2)
+        if self._performance['baseline'][0] == 1.0:
+            self._performance['baseline'] = round(
+                (self._performance['baseline'] - 1) * 100, 2)
+        elif self._performance['baseline'][0] == 0.0:
+            self._performance['baseline'] = round(
+                (self._performance['baseline']) * 100, 2)
 
         cdi_df = self._db_strategy_analyzer_model.get_cdi_index(
             min(self._tickers_and_dates['start_date']),
@@ -295,7 +330,7 @@ class StrategyAnalyzer:
                 html.Div(
                     children=[
                         html.H2(
-                            children="Strategy: "+self._strategy_name,
+                            children="Strategy: " + self._strategy_name,
                             className="strategy-name"
                         ),
                         html.Div(
@@ -306,7 +341,7 @@ class StrategyAnalyzer:
                                             dict(
                                                 x=self._performance['day'],
                                                 y=self._performance['capital'],
-                                                name='Strategy Yield',
+                                                name='Strategy',
                                                 marker=dict(
                                                     color='rgb(236, 187, 48)'
                                                 ),
@@ -314,10 +349,20 @@ class StrategyAnalyzer:
                                             ),
                                             dict(
                                                 x=self._performance['day'],
+                                                y=self._performance['baseline'],
+                                                name='Baseline',
+                                                marker=dict(
+                                                    color='rgb(110, 110, 110)'
+                                                ),
+                                                hovertemplate="%{y:.2f}%",
+                                                # visible="legendonly"
+                                            ),
+                                            dict(
+                                                x=self._performance['day'],
                                                 y=self._performance['ibov'],
                                                 name='IBOV',
                                                 marker=dict(
-                                                    color='rgb(90, 90, 90)'
+                                                    color='rgb(170, 170, 170)'
                                                 ),
                                                 hovertemplate="%{y:.2f}%"
                                             ),
@@ -326,19 +371,9 @@ class StrategyAnalyzer:
                                                 y=self._performance['cdi'],
                                                 name='CDI',
                                                 marker=dict(
-                                                    color='rgb(200, 191, 185)'
+                                                    color='rgb(210, 201, 195)'
                                                 ),
                                                 hovertemplate="%{y:.2f}%"
-                                            ),
-                                            dict(
-                                                x=self._performance['day'],
-                                                y=self._performance['tickers_average'],
-                                                name='Tickers Average',
-                                                marker=dict(
-                                                    color='rgb(144, 144, 144)'
-                                                ),
-                                                hovertemplate="%{y:.2f}%",
-                                                # visible="legendonly"
                                             ),
                                         ],
                                         layout=dict(
@@ -375,7 +410,7 @@ class StrategyAnalyzer:
                                     },
                                     style_cell={
                                         'fontFamily': 'Arial, Helvetica, sans-serif',
-                                        'fontSize': '12px',
+                                        'fontSize': '13px',
                                         'boxShadow': '0 0',
                                     },
                                     css=[{
@@ -415,7 +450,7 @@ class StrategyAnalyzer:
                                     },
                                     style_cell={
                                         'fontFamily': 'Arial, Helvetica, sans-serif',
-                                        'fontSize': '12px',
+                                        'fontSize': '13px',
                                         'boxShadow': '0 0',
                                     },
                                     css=[{
@@ -427,6 +462,36 @@ class StrategyAnalyzer:
                                         'backgroundColor': '#F5F5F5'
                                     }] + [{
                                         'if': {'column_id': 'parameter'},
+                                        'fontWeight': 'bold'
+                                    }] + [{
+                                        'if': {'row_index': 0},
+                                        'fontWeight': 'bold'
+                                    }] + [{
+                                        'if': {'row_index': 4},
+                                        'fontWeight': 'bold'
+                                    }] + [{
+                                        'if': {'row_index': 6},
+                                        'fontWeight': 'bold'
+                                    }] + [{
+                                        'if': {'row_index': 8},
+                                        'fontWeight': 'bold'
+                                    }] + [{
+                                        'if': {'row_index': 10},
+                                        'fontWeight': 'bold'
+                                    }] + [{
+                                        'if': {'row_index': 13},
+                                        'fontWeight': 'bold'
+                                    }] + [{
+                                        'if': {'row_index': 19},
+                                        'fontWeight': 'bold'
+                                    }] + [{
+                                        'if': {'row_index': 21},
+                                        'fontWeight': 'bold'
+                                    }] + [{
+                                        'if': {'row_index': 24},
+                                        'fontWeight': 'bold'
+                                    }] + [{
+                                        'if': {'row_index': 28},
                                         'fontWeight': 'bold'
                                     }],
                                     style_as_list_view=True,

@@ -168,7 +168,13 @@ CREATE TABLE strategy (
   ema_tolerance REAL,
   gain_loss_ratio SMALLINT NOT NULL,
   min_order_volume SMALLINT NOT NULL,
-  min_baseline_coefficient REAL
+  enable_frequency_normalization BOOLEAN NOT NULL,
+  enable_profit_compensation BOOLEAN NOT NULL,
+  enable_crisis_halt BOOLEAN NOT NULL,
+  enable_downtrend_halt BOOLEAN NOT NULL,
+  enable_dynamic_rcc BOOLEAN NOT NULL,
+  dynamic_rcc_reference REAL,
+  dynamic_rcc_k REAL
 );
 
 CREATE TABLE strategy_tickers (
@@ -221,22 +227,27 @@ CREATE TABLE negotiation (
 CREATE TABLE strategy_statistics (
   id SERIAL PRIMARY KEY,
   strategy_id INTEGER REFERENCES strategy(id),
-  volatility REAL NOT NULL,
+  total_volatility REAL NOT NULL,
+  volatility_ann REAL NOT NULL,
+  baseline_total_volatility REAL NOT NULL,
+  baseline_volatility_ann REAL NOT NULL,
   sharpe_ratio REAL NOT NULL,
+  baseline_sharpe_ratio REAL NOT NULL,
   sortino_ratio REAL NOT NULL,
+  baseline_sortino_ratio REAL NOT NULL,
   ibov_pearson_corr REAL NOT NULL,
   ibov_spearman_corr REAL NOT NULL,
-  tck_avg_pearson_corr REAL NOT NULL,
-  tck_avg_spearman_corr REAL NOT NULL,
+  baseline_pearson_corr REAL NOT NULL,
+  baseline_spearman_corr REAL NOT NULL,
   profit DECIMAL (8,2) NOT NULL,
   max_used_capital REAL NOT NULL,
   avg_used_capital REAL NOT NULL,
-  yield REAL NOT NULL,
-  annualized_yield REAL NOT NULL,
-  ibov_yield REAL NOT NULL,
-  annualized_ibov_yield REAL NOT NULL,
-  avr_tickers_yield REAL NOT NULL,
-  annualized_avr_tickers_yield REAL NOT NULL
+  total_yield REAL NOT NULL,
+  total_yield_ann REAL NOT NULL,
+  total_ibov_yield REAL NOT NULL,
+  total_ibov_yield_ann REAL NOT NULL,
+  total_baseline_yield REAL NOT NULL,
+  total_baseline_yield_ann REAL NOT NULL
 );
 
 CREATE TABLE strategy_performance (
@@ -246,7 +257,7 @@ CREATE TABLE strategy_performance (
   capital DECIMAL(8, 2) NOT NULL,
   capital_in_use REAL NOT NULL,
   active_operations SMALLINT,
-  tickers_average REAL,
+  baseline REAL,
   ibov DECIMAL(8, 2)
 );
 

@@ -583,7 +583,10 @@ class DBStrategyModel:
         comment=None, risk_capital_product=None, min_order_volume=1, min_risk= None, max_risk=None,
         max_days_per_operation=None, partial_sale=None, min_days_after_successful_operation=None,
         min_days_after_failure_operation=None, stop_type=None, purchase_margin=None,
-        stop_margin=None, ema_tolerance=None, gain_loss_ratio=None, min_baseline_coefficient=None):
+        stop_margin=None, ema_tolerance=None, gain_loss_ratio=None,
+        enable_frequency_normalization=None, enable_profit_compensation=None,
+        enable_crisis_halt=None, enable_downtrend_halt=None, enable_dynamic_rcc=None,
+        dynamic_rcc_reference=None, dynamic_rcc_k=None):
         try:
             connection = psycopg2.connect(f"dbname='{DB_NAME}' user={DB_USER} " \
                 f"host='{DB_HOST}' password={DB_PASS} port='{DB_PORT}'")
@@ -616,7 +619,13 @@ class DBStrategyModel:
         self._ema_tolerance = ema_tolerance
         self._gain_loss_ratio = gain_loss_ratio
         self._min_order_volume = min_order_volume
-        self._min_baseline_coefficient = min_baseline_coefficient
+        self._enable_frequency_normalization = enable_frequency_normalization
+        self._enable_profit_compensation = enable_profit_compensation
+        self._enable_crisis_halt = enable_crisis_halt
+        self._enable_downtrend_halt = enable_downtrend_halt
+        self._enable_dynamic_rcc = enable_dynamic_rcc
+        self._dynamic_rcc_reference = dynamic_rcc_reference
+        self._dynamic_rcc_k = dynamic_rcc_k
 
     @property
     def tickers(self):
@@ -636,151 +645,104 @@ class DBStrategyModel:
 
     @name.setter
     def name(self, name):
-        self._name = name
+        self._name= name
 
     @property
     def alias(self):
         return self._alias
 
-    @alias.setter
-    def alias(self, alias):
-        self._alias = alias
-
     @property
     def comment(self):
         return self._comment
-
-    @comment.setter
-    def comment(self, comment):
-        self._comment = comment
 
     @property
     def total_capital(self):
         return self._total_capital
 
-    @total_capital.setter
-    def total_capital(self, total_capital):
-        self._total_capital = total_capital
-
     @property
     def risk_capital_product(self):
         return self._risk_capital_product
-
-    @risk_capital_product.setter
-    def risk_capital_product(self, risk_capital_product):
-        self._risk_capital_product = risk_capital_product
 
     @property
     def min_risk(self):
         return self._min_risk
 
-    @min_risk.setter
-    def min_risk(self, min_risk):
-        self._min_risk = min_risk
-
     @property
     def max_risk(self):
         return self._max_risk
-
-    @max_risk.setter
-    def max_risk(self, max_risk):
-        self._max_risk = max_risk
 
     @property
     def max_days_per_operation(self):
         return self._max_days_per_operation
 
-    @max_days_per_operation.setter
-    def max_days_per_operation(self, max_days_per_operation):
-        self._max_days_per_operation = max_days_per_operation
-
     @property
     def partial_sale(self):
         return self._partial_sale
-
-    @partial_sale.setter
-    def partial_sale(self, partial_sale):
-        self._partial_sale = partial_sale
 
     @property
     def min_days_after_successful_operation(self):
         return self._min_days_after_successful_operation
 
-    @min_days_after_successful_operation.setter
-    def min_days_after_successful_operation(self, min_days_after_successful_operation):
-        self._min_days_after_successful_operation = min_days_after_successful_operation
-
     @property
     def min_days_after_failure_operation(self):
         return self._min_days_after_failure_operation
-
-    @min_days_after_failure_operation.setter
-    def min_days_after_failure_operation(self, min_days_after_failure_operation):
-        self._min_days_after_failure_operation = min_days_after_failure_operation
 
     @property
     def stop_type(self):
         return self._stop_type
 
-    @stop_type.setter
-    def stop_type(self, stop_type):
-        self._stop_type = stop_type
-
     @property
     def purchase_margin(self):
         return self._purchase_margin
-
-    @purchase_margin.setter
-    def purchase_margin(self, purchase_margin):
-        self._purchase_margin = purchase_margin
 
     @property
     def stop_margin(self):
         return self._stop_margin
 
-    @stop_margin.setter
-    def stop_margin(self, stop_margin):
-        self._stop_margin = stop_margin
-
     @property
     def ema_tolerance(self):
         return self._ema_tolerance
 
-    @ema_tolerance.setter
-    def ema_tolerance(self, ema_tolerance):
-        self._ema_tolerance = ema_tolerance
-
     @property
     def gain_loss_ratio(self):
         return self._gain_loss_ratio
 
-    @gain_loss_ratio.setter
-    def gain_loss_ratio(self, gain_loss_ratio):
-        self._gain_loss_ratio = gain_loss_ratio
-
     @property
     def gain_loss_ratio(self):
         return self._gain_loss_ratio
-
-    @gain_loss_ratio.setter
-    def gain_loss_ratio(self, gain_loss_ratio):
-        self._gain_loss_ratio = gain_loss_ratio
 
     @property
     def min_order_volume(self):
         return self._min_order_volume
 
-    @min_order_volume.setter
-    def min_order_volume(self, min_order_volume):
-        self._min_order_volume = min_order_volume
+    @property
+    def enable_frequency_normalization(self):
+        return self._enable_frequency_normalization
 
     @property
-    def min_baseline_coefficient(self):
-        return self._min_baseline_coefficient
+    def enable_profit_compensation(self):
+        return self._enable_profit_compensation
 
-    @min_baseline_coefficient.setter
-    def min_baseline_coefficient(self, min_baseline_coefficient):
-        self._min_baseline_coefficient = min_baseline_coefficient
+    @property
+    def enable_crisis_halt(self):
+        return self._enable_crisis_halt
+
+    @property
+    def enable_downtrend_halt(self):
+        return self._enable_downtrend_halt
+
+    @property
+    def enable_dynamic_rcc(self):
+        return self._enable_dynamic_rcc
+
+    @property
+    def dynamic_rcc_reference(self):
+        return self._dynamic_rcc_reference
+
+    @property
+    def dynamic_rcc_k(self):
+        return self._dynamic_rcc_k
+
 
     def __del__(self):
         self._connection.close()
@@ -923,10 +885,9 @@ class DBStrategyModel:
             "risk_capital_product, min_risk, max_risk, max_days_per_operation, " \
             "partial_sale, min_days_after_successful_operation, " \
             "min_days_after_failure_operation, stop_type, purchase_margin, stop_margin, " \
-            "ema_tolerance, gain_loss_ratio, min_order_volume"
-
-        if self.min_baseline_coefficient is not None:
-            query += ", min_baseline_coefficient"
+            "ema_tolerance, gain_loss_ratio, min_order_volume, enable_frequency_normalization, " \
+            "enable_profit_compensation, enable_crisis_halt, enable_downtrend_halt, " \
+            "enable_dynamic_rcc, dynamic_rcc_reference, dynamic_rcc_k"
 
         query += ")\nVALUES\n"
 
@@ -937,10 +898,10 @@ class DBStrategyModel:
             f"{self.min_days_after_successful_operation}, " \
             f"{self.min_days_after_failure_operation}, \'{self.stop_type}\', " \
             f"{self.purchase_margin}, {self.stop_margin}, {self.ema_tolerance}, " \
-            f"{self.gain_loss_ratio}, {self.min_order_volume}"
-
-        if self.min_baseline_coefficient is not None:
-            query += f", {self.min_baseline_coefficient}"
+            f"{self.gain_loss_ratio}, {self.min_order_volume}, " \
+            f"{self.enable_frequency_normalization}, {self.enable_profit_compensation}, " \
+            f"{self.enable_crisis_halt}, {self.enable_downtrend_halt}, " \
+            f"{self.enable_dynamic_rcc}, {self.dynamic_rcc_reference}, {self.dynamic_rcc_k}"
 
         query += f")\nRETURNING id;"
 
@@ -1030,34 +991,39 @@ class DBStrategyModel:
         self._insert_update(query)
 
     def _insert_strategy_statistics(self, strategy_id, result_parameters):
-        query = f"INSERT INTO strategy_statistics (strategy_id, volatility, sharpe_ratio, " \
-            f"sortino_ratio, ibov_pearson_corr, ibov_spearman_corr, tck_avg_pearson_corr, " \
-            f"tck_avg_spearman_corr, profit, max_used_capital, avg_used_capital, yield, " \
-            f"annualized_yield, ibov_yield, annualized_ibov_yield, avr_tickers_yield, " \
-            f"annualized_avr_tickers_yield)\nVALUES\n"
+        query = f"INSERT INTO strategy_statistics (strategy_id, total_volatility, " \
+            f"volatility_ann, baseline_total_volatility, baseline_volatility_ann, sharpe_ratio, " \
+            f"baseline_sharpe_ratio, sortino_ratio, baseline_sortino_ratio, ibov_pearson_corr, " \
+            f"ibov_spearman_corr, baseline_pearson_corr, " \
+            f"baseline_spearman_corr, profit, max_used_capital, avg_used_capital, total_yield, " \
+            f"total_yield_ann, total_ibov_yield, total_ibov_yield_ann, total_baseline_yield, " \
+            f"total_baseline_yield_ann)\nVALUES\n"
 
-        query += f"  ({strategy_id}, {result_parameters['volatility']}, " \
-            f"{result_parameters['sharpe_ratio']}, {result_parameters['sortino_ratio']}, " \
+        query += f"  ({strategy_id}, {result_parameters['total_volatility']}, " \
+            f"{result_parameters['volatility_ann']}, {result_parameters['baseline_total_volatility']}, " \
+            f"{result_parameters['baseline_volatility_ann']}, {result_parameters['sharpe_ratio']}, " \
+            f"{result_parameters['baseline_sharpe_ratio']}, {result_parameters['sortino_ratio']}, " \
+            f"{result_parameters['baseline_sortino_ratio']}, " \
             f"{result_parameters['ibov_pearson_corr']}, {result_parameters['ibov_spearman_corr']}, " \
-            f"{result_parameters['tck_avg_pearson_corr']}, {result_parameters['tck_avg_spearman_corr']}, " \
+            f"{result_parameters['baseline_pearson_corr']}, {result_parameters['baseline_spearman_corr']}, " \
             f"{result_parameters['profit']}, {result_parameters['max_used_capital']}, " \
-            f"{result_parameters['avg_used_capital']}, {result_parameters['yield']}, " \
-            f"{result_parameters['annualized_yield']}, {result_parameters['ibov_yield']}, " \
-            f"{result_parameters['annualized_ibov_yield']}, {result_parameters['avr_tickers_yield']}, " \
-            f"{result_parameters['annualized_avr_tickers_yield']});"
+            f"{result_parameters['avg_used_capital']}, {result_parameters['total_yield']}, " \
+            f"{result_parameters['total_yield_ann']}, {result_parameters['total_ibov_yield']}, " \
+            f"{result_parameters['total_ibov_yield_ann']}, {result_parameters['total_baseline_yield']}, " \
+            f"{result_parameters['total_baseline_yield_ann']});"
 
         self._insert_update(query)
 
     def _insert_strategy_performance(self, strategy_id, performance_dataframe):
         query = f"INSERT INTO strategy_performance (strategy_id, day, capital, " \
-            f"capital_in_use, active_operations, tickers_average, ibov)\nVALUES\n"
+            f"capital_in_use, active_operations, baseline, ibov)\nVALUES\n"
 
         number_of_rows = len(performance_dataframe)
 
         for n, (_, row) in enumerate(performance_dataframe.iterrows()):
             query += f"  ({strategy_id}, \'{row['day'].to_pydatetime().strftime('%Y-%m-%d')}\', " \
                 f"{row['capital']}, {row['capital_in_use']}, {row['active_operations']}, " \
-                f"{row['tickers_average']}, {row['ibov']})"
+                f"{row['baseline']}, {row['ibov']})"
 
             if n != number_of_rows - 1:
                 query += ',\n'
@@ -1128,7 +1094,9 @@ class DBStrategyAnalyzerModel:
         query = f"SELECT id, name, alias, comment, total_capital, risk_capital_product, " \
             f"min_order_volume, partial_sale, ema_tolerance, min_risk, max_risk, " \
             f"purchase_margin, stop_margin, stop_type, min_days_after_successful_operation, " \
-            f"min_days_after_failure_operation, gain_loss_ratio, max_days_per_operation\n"
+            f"min_days_after_failure_operation, gain_loss_ratio, max_days_per_operation, " \
+            f"enable_frequency_normalization, enable_profit_compensation, enable_crisis_halt, " \
+            f"enable_downtrend_halt, enable_dynamic_rcc, dynamic_rcc_reference, dynamic_rcc_k\n"
         query += f"FROM strategy\n"
 
         if strategy_id != None:
@@ -1142,7 +1110,7 @@ class DBStrategyAnalyzerModel:
 
     def get_strategy_performance(self, strategy_id):
         query = f"SELECT sp.day, sp.capital, sp.capital_in_use, " \
-            f"sp.tickers_average, sp.ibov\n"
+            f"sp.baseline, sp.ibov\n"
         query += f"FROM strategy_performance sp\n"
         query += f"INNER JOIN strategy s ON s.id = sp.strategy_id\n"
         query += f"WHERE s.id = {strategy_id}\n"
@@ -1164,11 +1132,13 @@ class DBStrategyAnalyzerModel:
         return df
 
     def get_strategy_statistics(self, strategy_id):
-        query = f"SELECT ss.volatility, ss.sharpe_ratio, ss.sortino_ratio, ss.ibov_pearson_corr, " \
-            f"ss.ibov_spearman_corr, ss.tck_avg_pearson_corr, ss.tck_avg_spearman_corr, " \
-            f"ss.profit, ss.max_used_capital, ss.avg_used_capital, ss.yield, ss.annualized_yield, " \
-            f"ss.ibov_yield, ss.annualized_ibov_yield, ss.avr_tickers_yield, " \
-            f"ss.annualized_avr_tickers_yield\n"
+        query = f"SELECT ss.total_volatility, ss.volatility_ann, ss.baseline_total_volatility, " \
+            f"ss.baseline_volatility_ann, ss.sharpe_ratio, ss.baseline_sharpe_ratio, ss.sortino_ratio, " \
+            f"ss.baseline_sortino_ratio, ss.ibov_pearson_corr, " \
+            f"ss.ibov_spearman_corr, ss.baseline_pearson_corr, ss.baseline_spearman_corr, " \
+            f"ss.profit, ss.max_used_capital, ss.avg_used_capital, ss.total_yield, ss.total_yield_ann, " \
+            f"ss.total_ibov_yield, ss.total_ibov_yield_ann, ss.total_baseline_yield, " \
+            f"ss.total_baseline_yield_ann\n"
         query += f"FROM strategy_statistics ss\n"
         query += f"INNER JOIN strategy s ON s.id = ss.strategy_id\n"
         query += f"WHERE s.id = {strategy_id};"

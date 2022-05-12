@@ -120,8 +120,9 @@ def run_strategy(strategy, strategy_number, total_strategies, stdout_prints=Fals
                 enable_profit_compensation=strategy['enable_profit_compensation'],
                 enable_crisis_halt=strategy['enable_crisis_halt'],
                 enable_downtrend_halt=strategy['enable_downtrend_halt'],
-                enable_uptrend_compensation=strategy['enable_uptrend_compensation'],
-                dynamic_rcc=strategy['dynamic_rcc']
+                enable_dynamic_rcc=strategy['enable_dynamic_rcc'],
+                dynamic_rcc_reference=strategy['dynamic_rcc_reference'],
+                dynamic_rcc_k=strategy['dynamic_rcc_k']
             )
 
             ml_strategy.process_operations()

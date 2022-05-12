@@ -414,8 +414,12 @@ class ConfigReader:
                 alias = self.read_parameter('alias', strategy_batch)
                 comment = self.read_parameter('comment', strategy_batch, can_be_missed=True)
                 capital = self.read_parameter('capital', strategy_batch, can_be_list=True)
-                rc_coef = self.read_parameter('risk_capital_coefficient', strategy_batch,
-                    can_be_list=True)
+                risk_capital_coefficient = self.read_parameter('risk_capital_coefficient',
+                    strategy_batch, can_be_list=True)
+                tickers_bag = self.read_parameter('tickers_bag', strategy_batch,
+                    can_be_list=True, can_be_missed=True, if_missed_default_value="normal")
+                tickers_number = self.read_parameter('tickers_number', strategy_batch,
+                    can_be_list=True, can_be_missed=True, if_missed_default_value=0)
                 min_order_volume = self.read_parameter('min_order_volume', strategy_batch,
                     can_be_list=True, can_be_missed=True, if_missed_default_value=1)
                 gain_loss_ratio = self.read_parameter('gain_loss_ratio',
@@ -457,26 +461,22 @@ class ConfigReader:
                 enable_downtrend_halt = self.read_parameter('enable_downtrend_halt',
                     strategy_batch, is_boolean=True, can_be_list=True, can_be_missed=True,
                     if_missed_default_value=False)
-                enable_uptrend_compensation = self.read_parameter('enable_uptrend_compensation',
+                enable_dynamic_rcc = self.read_parameter('enable_dynamic_rcc',
                     strategy_batch, is_boolean=True, can_be_list=True, can_be_missed=True,
                     if_missed_default_value=False)
-                dynamic_rcc = self.read_parameter('dynamic_rcc',
-                    strategy_batch, is_boolean=True, can_be_list=True, can_be_missed=True,
-                    if_missed_default_value=False)
-                tickers_bag = self.read_parameter('tickers_bag', strategy_batch,
-                    can_be_list=True, can_be_missed=True, if_missed_default_value="normal")
-                tickers_number = self.read_parameter('tickers_number', strategy_batch,
-                    can_be_list=True, can_be_missed=True, if_missed_default_value=0)
-                min_operation_decision_coefficient = self.read_parameter(
-                    'min_operation_decision_coefficient', strategy_batch, can_be_list=True,
-                    can_be_missed=True, if_missed_default_value=0)
+                dynamic_rcc_reference = self.read_parameter('dynamic_rcc_reference',
+                    strategy_batch, can_be_list=True, can_be_missed=True,
+                    if_missed_default_value=0.8)
+                dynamic_rcc_k = self.read_parameter('dynamic_rcc_k',
+                    strategy_batch, can_be_list=True, can_be_missed=True,
+                    if_missed_default_value=0.8)
 
                 ConfigReader.add_param_to_strategies('name', name, strategies)
                 ConfigReader.add_param_to_strategies('alias', alias, strategies)
                 ConfigReader.add_param_to_strategies('comment', comment, strategies)
                 ConfigReader.add_param_to_strategies('capital', capital, strategies)
                 ConfigReader.add_param_to_strategies('risk_capital_coefficient',
-                    rc_coef, strategies)
+                    risk_capital_coefficient, strategies)
                 ConfigReader.add_param_to_strategies('min_order_volume', min_order_volume,
                     strategies)
                 ConfigReader.add_param_to_strategies('gain_loss_ratio',
@@ -509,16 +509,16 @@ class ConfigReader:
                     enable_crisis_halt, strategies)
                 ConfigReader.add_param_to_strategies('enable_downtrend_halt',
                     enable_downtrend_halt, strategies)
-                ConfigReader.add_param_to_strategies('enable_uptrend_compensation',
-                    enable_uptrend_compensation, strategies)
-                ConfigReader.add_param_to_strategies('dynamic_rcc',
-                    dynamic_rcc, strategies)
+                ConfigReader.add_param_to_strategies('enable_dynamic_rcc',
+                    enable_dynamic_rcc, strategies)
+                ConfigReader.add_param_to_strategies('dynamic_rcc_reference',
+                    dynamic_rcc_reference, strategies)
+                ConfigReader.add_param_to_strategies('dynamic_rcc_k',
+                    dynamic_rcc_k, strategies)
                 ConfigReader.add_param_to_strategies('tickers_bag',
                     tickers_bag, strategies)
                 ConfigReader.add_param_to_strategies('tickers_number',
                     tickers_number, strategies)
-                ConfigReader.add_param_to_strategies('min_operation_decision_coefficient',
-                    min_operation_decision_coefficient, strategies)
 
                 individual_tickers = ConfigReader.read_individual_tickers('stock_targets',
                     origin=strategy_batch)
@@ -870,8 +870,6 @@ class ConfigReader:
                 replace('{risk_capital_coefficient}', str(strategy['risk_capital_coefficient']))
                 strategy[param_name] = strategy[param_name].\
                 replace('{min_order_volume}', str(strategy['min_order_volume']))
-                strategy[param_name] = strategy[param_name].\
-                replace('{min_operation_decision_coefficient}', str(strategy['min_operation_decision_coefficient']))
 
     @staticmethod
     def subtract_last_end_date(strategies):

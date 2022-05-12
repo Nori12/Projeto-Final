@@ -2,7 +2,6 @@ from pathlib import Path
 import pandas as pd
 import logging
 from logging.handlers import RotatingFileHandler
-from datetime import timedelta
 from pandas.tseries.offsets import BDay
 import random
 from abc import ABC, abstractmethod
@@ -10,7 +9,6 @@ import sys
 import numpy as np
 import math
 import joblib
-from scipy.interpolate import interp1d
 from scipy import stats
 
 import constants as c
@@ -229,7 +227,10 @@ class AdaptedAndreMoraesStrategy(PseudoStrategy):
         stop_type='normal', min_days_after_successful_operation=0,
         min_days_after_failure_operation=0, gain_loss_ratio=3, max_days_per_operation=90,
         tickers_bag='listed_first', tickers_number=0, strategy_number=1, total_strategies=1,
-        stdout_prints=True):
+        stdout_prints=True, enable_frequency_normalization=False,
+        enable_profit_compensation=False, enable_crisis_halt=False,
+        enable_downtrend_halt=False, enable_dynamic_rcc=False, dynamic_rcc_reference=0.80,
+        dynamic_rcc_k=3):
 
         if risk_capital_product < 1e-6 or risk_capital_product > 1.0:
             logger.error(f"Parameter \'risk_reference\' must be in the interval [1e-6, 1].")
@@ -266,6 +267,14 @@ class AdaptedAndreMoraesStrategy(PseudoStrategy):
         self._tickers_bag = tickers_bag
         self._tickers_number = tickers_number
 
+        self._enable_frequency_normalization = enable_frequency_normalization
+        self._enable_profit_compensation = enable_profit_compensation
+        self._enable_crisis_halt = enable_crisis_halt
+        self._enable_downtrend_halt = enable_downtrend_halt
+        self._enable_dynamic_rcc = enable_dynamic_rcc
+        self._dynamic_rcc_reference = dynamic_rcc_reference
+        self._dynamic_rcc_k = dynamic_rcc_k
+
         self._available_capital = total_capital
         self._operations = []
         self._start_date = None
@@ -294,7 +303,15 @@ class AdaptedAndreMoraesStrategy(PseudoStrategy):
             min_days_after_successful_operation=self._min_days_after_successful_operation,
             min_days_after_failure_operation=self._min_days_after_failure_operation,
             gain_loss_ratio=self._gain_loss_ratio,
-            max_days_per_operation=self._max_days_per_operation)
+            max_days_per_operation=self._max_days_per_operation,
+            enable_frequency_normalization=self._enable_frequency_normalization,
+            enable_profit_compensation=self._enable_profit_compensation,
+            enable_crisis_halt=self._enable_crisis_halt,
+            enable_downtrend_halt=self._enable_downtrend_halt,
+            enable_dynamic_rcc=self._enable_dynamic_rcc,
+            dynamic_rcc_reference=self._dynamic_rcc_reference,
+            dynamic_rcc_k=self._dynamic_rcc_k)
+
         self._db_generic_model = DBGenericModel()
 
         # For statistics calculations
@@ -499,6 +516,33 @@ class AdaptedAndreMoraesStrategy(PseudoStrategy):
     def tickers_number(self):
         return self._tickers_number
 
+    @property
+    def enable_frequency_normalization(self):
+        return self._enable_frequency_normalization
+
+    @property
+    def enable_profit_compensation(self):
+        return self._enable_profit_compensation
+
+    @property
+    def enable_crisis_halt(self):
+        return self._enable_crisis_halt
+
+    @property
+    def enable_downtrend_halt(self):
+        return self._enable_downtrend_halt
+
+    @property
+    def enable_dynamic_rcc(self):
+        return self._enable_dynamic_rcc
+
+    @property
+    def dynamic_rcc_reference(self):
+        return self._dynamic_rcc_reference
+
+    @property
+    def dynamic_rcc_k(self):
+        return self._dynamic_rcc_k
 
     @staticmethod
     def _filter_tickers(tickers_and_dates, tickers_bag, tickers_number):
@@ -695,7 +739,7 @@ class AdaptedAndreMoraesStrategy(PseudoStrategy):
         Capital, capital in use, tickers average, IBOV.
 
         Set _statistics_graph dataframe with columns 'day', 'capital', 'capital_in_use',
-        'tickers_average', 'ibov'.
+        'baseline', 'ibov'.
 
         Args
         ----------
@@ -703,7 +747,7 @@ class AdaptedAndreMoraesStrategy(PseudoStrategy):
             Data chunk size when requesting to database.
         """
         statistics = pd.DataFrame(columns=['day', 'capital', 'capital_in_use',
-            'tickers_average', 'ibov'])
+            'baseline', 'ibov'])
 
         data_gen = self.DataGen(self.tickers_and_dates, self._db_strategy_model,
             days_batch=days_batch, days_before_start=0)
@@ -743,7 +787,7 @@ class AdaptedAndreMoraesStrategy(PseudoStrategy):
 
         statistics['day'] = dates
         statistics['ibov'] = ibov_data['close_price']
-        statistics['tickers_average'] = AdaptedAndreMoraesStrategy.get_tickers_yield(
+        statistics['baseline'] = AdaptedAndreMoraesStrategy.get_tickers_yield(
             close_prices, precision=4)
         statistics['capital'], statistics['capital_in_use'] = self._calc_capital_usage(
             dates, close_prices)
@@ -772,44 +816,53 @@ class AdaptedAndreMoraesStrategy(PseudoStrategy):
             round(np.average(self._statistics_graph['capital_in_use']), real_precision)
 
         # Yield
-        self._statistics_parameters['yield'] = \
+        self._statistics_parameters['total_yield'] = \
             round(self._statistics_parameters['profit'] / self._total_capital,
                 real_precision)
 
         # Annualized Yield
         bus_day_count = len(self._statistics_graph)
 
-        self._statistics_parameters['annualized_yield'] = round(
-            calculate_yield_annualized(self._statistics_parameters['yield'],
+        self._statistics_parameters['total_yield_ann'] = round(
+            calculate_yield_annualized(self._statistics_parameters['total_yield'],
                 bus_day_count), real_precision)
 
         # IBOV Yield
         first_ibov_value = self._statistics_graph['ibov'].head(1).values[0]
         last_ibov_value = self._statistics_graph['ibov'].tail(1).values[0]
-        ibov_yield = (last_ibov_value / first_ibov_value) - 1
+        total_ibov_yield = (last_ibov_value / first_ibov_value) - 1
 
-        self._statistics_parameters['ibov_yield'] = round(ibov_yield, real_precision)
+        self._statistics_parameters['total_ibov_yield'] = round(total_ibov_yield, real_precision)
 
         # Annualized IBOV Yield
-        self._statistics_parameters['annualized_ibov_yield'] = round(
-            calculate_yield_annualized(self._statistics_parameters['ibov_yield'],
+        self._statistics_parameters['total_ibov_yield_ann'] = round(
+            calculate_yield_annualized(self._statistics_parameters['total_ibov_yield'],
                 bus_day_count), real_precision)
 
         # Average Tickers Yield
-        # first_avr_tickers_value = self._statistics_graph['tickers_average'].head(1).values[0]
-        last_avr_tickers_value = self._statistics_graph['tickers_average'].tail(1).squeeze()
-        avr_tickers_yield = last_avr_tickers_value
-        self._statistics_parameters['avr_tickers_yield'] = round(avr_tickers_yield,
+        total_baseline_yield = self._statistics_graph['baseline'].tail(1).squeeze() - 1
+        self._statistics_parameters['total_baseline_yield'] = round(total_baseline_yield,
             real_precision)
 
         # Annualized Average Tickers Yield
-        self._statistics_parameters['annualized_avr_tickers_yield'] = round(
-            calculate_yield_annualized(self._statistics_parameters['avr_tickers_yield'],
+        self._statistics_parameters['total_baseline_yield_ann'] = round(
+            calculate_yield_annualized(self._statistics_parameters['total_baseline_yield'],
                 bus_day_count), real_precision)
 
         # Volatility
-        norm_capital = self._statistics_graph['capital'] / self._statistics_graph['capital'][0] - 1
-        self._statistics_parameters['volatility'] = round(norm_capital.std(), real_precision)
+        # norm_capital = self._statistics_graph['capital'] / self._statistics_graph['capital'][0] - 1
+        norm_capital = self._statistics_graph['capital'].pct_change()
+        norm_baseline = self._statistics_graph['baseline'].pct_change()
+        norm_capital.fillna(value=0.0, inplace=True)
+
+        # TODO: Verify calculation
+        self._statistics_parameters['total_volatility'] = round(norm_capital.std() * math.sqrt(len(norm_capital)), real_precision)
+        self._statistics_parameters['baseline_total_volatility'] = round(norm_baseline.std() * math.sqrt(len(norm_baseline)), real_precision)
+
+        self._statistics_parameters['volatility_ann'] = round(norm_capital.std() * math.sqrt(252), real_precision)
+        self._statistics_parameters['baseline_volatility_ann'] = round(norm_baseline.std() * math.sqrt(252), real_precision)
+
+        # self._statistics_parameters['mean_yield_ann'] = round(((1 + norm_capital.mean()) ** 252) - 1, real_precision)
 
         # Sharpe and Sortino Ratio
         # Risk-free yield by CDI index
@@ -817,10 +870,16 @@ class AdaptedAndreMoraesStrategy(PseudoStrategy):
             max(self._final_dates))
 
         self._statistics_parameters['sharpe_ratio'] = AdaptedAndreMoraesStrategy.sharpe_ratio(
-            norm_capital, cdi_df['cumulative'], precision=real_precision)
+            norm_capital, cdi_df['value'], precision=real_precision)
+
+        self._statistics_parameters['baseline_sharpe_ratio'] = AdaptedAndreMoraesStrategy.sharpe_ratio(
+            norm_baseline, cdi_df['value'], precision=real_precision)
 
         self._statistics_parameters['sortino_ratio'] = AdaptedAndreMoraesStrategy.sortino_ratio(
-            norm_capital, cdi_df['cumulative'], precision=real_precision)
+            norm_capital, cdi_df['value'], precision=real_precision)
+
+        self._statistics_parameters['baseline_sortino_ratio'] = AdaptedAndreMoraesStrategy.sortino_ratio(
+            norm_baseline, cdi_df['value'], precision=real_precision)
 
         # Correlations
         self._statistics_parameters['ibov_pearson_corr'] = AdaptedAndreMoraesStrategy.\
@@ -831,33 +890,38 @@ class AdaptedAndreMoraesStrategy(PseudoStrategy):
             get_correlation(self._statistics_graph['capital'], self._statistics_graph['ibov'],
             method='spearman', precision=real_precision)
 
-        self._statistics_parameters['tck_avg_pearson_corr'] = AdaptedAndreMoraesStrategy.\
+        self._statistics_parameters['baseline_pearson_corr'] = AdaptedAndreMoraesStrategy.\
             get_correlation(self._statistics_graph['capital'],
-            self._statistics_graph['tickers_average'], method='pearson', precision=real_precision)
+            self._statistics_graph['baseline'], method='pearson', precision=real_precision)
 
-        self._statistics_parameters['tck_avg_spearman_corr'] = AdaptedAndreMoraesStrategy.\
+        self._statistics_parameters['baseline_spearman_corr'] = AdaptedAndreMoraesStrategy.\
             get_correlation(self._statistics_graph['capital'],
-            self._statistics_graph['tickers_average'], method='spearman', precision=real_precision)
+            self._statistics_graph['baseline'], method='spearman', precision=real_precision)
 
     @staticmethod
     def sharpe_ratio(target, rf, precision=4):
-        if target.std() <= 1e-2:
+        if target.std() <= 1e-5:
             return 0.0
 
-        mean = target.mean() - (rf.mean() - 1)
-        sigma = target.std()
+        # mean = target.mean() - (rf.mean() - 1)
+        mean_year = ((1 + target.mean() - (rf.mean() - 1)) ** 252) - 1
+        # sigma = target.std()
+        sigma_year = target.std() * math.sqrt(252)
 
-        return round(mean / sigma, precision)
+        return round(mean_year / sigma_year, precision)
 
     @staticmethod
     def sortino_ratio(target, rf, precision=4):
-        if target.std() <= 1e-2:
+        if target.std() <= 1e-5:
             return 0.0
 
-        mean = target.mean() - (rf.mean() - 1)
-        sigma_neg = target[target < target.mean()].std()
+        # mean = target.mean() - (rf.mean() - 1)
+        mean_year = ((1 + target.mean() - (rf.mean() - 1)) ** 252) - 1
 
-        return round(mean / sigma_neg, precision)
+        # sigma_neg = target[target < target.mean()].std()
+        sigma_neg_year = target[target < target.mean()].std() * math.sqrt(252)
+
+        return round(mean_year / sigma_neg_year, precision)
 
     @staticmethod
     def get_correlation(serie_1, serie_2, method='pearson', precision=4):
@@ -1098,9 +1162,9 @@ class AdaptedAndreMoraesStrategy(PseudoStrategy):
                     total_money += close_prices[ticker][day_index] * volumes[ticker][day_index]
             total_money += current_capital
             if day_index == 0:
-                capital.append(0.0)
+                capital.append(1.0)
             else:
-                capital.append(round(total_money/initial_capital - 1, precision))
+                capital.append(round(total_money/initial_capital, precision))
 
         return capital
 
@@ -1778,26 +1842,23 @@ class MLDerivationStrategy(AdaptedAndreMoraesStrategy):
         tickers_bag='listed_first', tickers_number=0, strategy_number=1, total_strategies=1,
         stdout_prints=True, enable_frequency_normalization=False,
         enable_profit_compensation=False, enable_crisis_halt=False,
-        enable_downtrend_halt=False, enable_uptrend_compensation=False, dynamic_rcc=False):
+        enable_downtrend_halt=False, enable_dynamic_rcc=False,
+        dynamic_rcc_reference=0.80, dynamic_rcc_k=3):
 
         super().__init__(tickers, alias, comment, risk_capital_product, total_capital,
             min_order_volume, partial_sale, ema_tolerance, min_risk, max_risk,
             purchase_margin, stop_margin, stop_type, min_days_after_successful_operation,
             min_days_after_failure_operation, gain_loss_ratio, max_days_per_operation,
             tickers_bag, tickers_number, strategy_number, total_strategies,
-            stdout_prints)
+            stdout_prints, enable_frequency_normalization, enable_profit_compensation,
+            enable_crisis_halt, enable_downtrend_halt, enable_dynamic_rcc,
+            dynamic_rcc_reference, dynamic_rcc_k)
 
         self._name = "ML Derivation"
         self._db_strategy_model.name = self._name
         self._models = {}
         self._current_model_tag = None
         self._max_capital = total_capital
-
-        self._enable_frequency_normalization = enable_frequency_normalization
-        self._enable_profit_compensation = enable_profit_compensation
-        self._enable_crisis_halt = enable_crisis_halt
-        self._enable_downtrend_halt = enable_downtrend_halt
-        self._enable_uptrend_compensation = enable_uptrend_compensation
 
         self.tickers_info_path = Path(__file__).parent.parent / c.TICKERS_INFO_PATH
         self.ticker_datasets_path = Path(__file__).parent.parent / c.DATASETS_PATH
@@ -1819,9 +1880,15 @@ class MLDerivationStrategy(AdaptedAndreMoraesStrategy):
         self.capital_in_use_dot = 0.0
         self.first_update = True
 
-        self.dynamic_rcc = dynamic_rcc
         self.dynamic_rcc_value = self.risk_capital_product
         self.last_error = 0.0
+
+        self.spearman_correlations= (5, 10, 15, 20, 25, 30, 35, 40, 50, 60)
+        self.last_prices_max_length = max(self.spearman_correlations)
+        self.spearman_reference = tuple([i for i in range(self.last_prices_max_length)])
+
+        self.last_prices = {ticker: {'last_open': 0.0, 'last_close': 0.0, 'mid': [], 'mid_dot': 0.0} for ticker in self.tickers_and_dates}
+        self.mid_prices_lpf_alpha = 0.1
 
     @property
     def models(self):
@@ -1842,26 +1909,6 @@ class MLDerivationStrategy(AdaptedAndreMoraesStrategy):
     @max_capital.setter
     def max_capital(self, max_capital):
         self._max_capital = max_capital
-
-    @property
-    def enable_frequency_normalization(self):
-        return self._enable_frequency_normalization
-
-    @property
-    def enable_profit_compensation(self):
-        return self._enable_profit_compensation
-
-    @property
-    def enable_crisis_halt(self):
-        return self._enable_crisis_halt
-
-    @property
-    def enable_downtrend_halt(self):
-        return self._enable_downtrend_halt
-
-    @property
-    def enable_uptrend_compensation(self):
-        return self._enable_uptrend_compensation
 
 
     def _load_risks_and_trends_file(self):
@@ -2295,71 +2342,89 @@ class MLDerivationStrategy(AdaptedAndreMoraesStrategy):
         if data_validation_flag is False:
             return False
 
+        # Spearman corelations and mid prices derivative
+        new_mid = round((self.last_prices[ticker_name]['last_open'] + self.last_prices[ticker_name]['last_close'])/2, 6)
+
+        if new_mid >= 1e-2:
+            self.last_prices[ticker_name]['mid'].append( new_mid )
+
+            if len(self.last_prices[ticker_name]['mid']) >= 2:
+                self.last_prices[ticker_name]['mid_dot'] = \
+                    self.mid_prices_lpf_alpha * ((self.last_prices[ticker_name]['mid'][-1] - self.last_prices[ticker_name]['mid'][-2]) / self.last_prices[ticker_name]['mid'][-2]) + \
+                    (1 - self.mid_prices_lpf_alpha) * self.last_prices[ticker_name]['mid_dot']
+
+            if len(self.last_prices[ticker_name]['mid']) > self.last_prices_max_length:
+                self.last_prices[ticker_name]['mid'].pop(0)
+
+        self.last_prices[ticker_name]['last_open'] = business_data['open_price_day']
+        self.last_prices[ticker_name]['last_close'] = business_data['close_price_day']
+
         # Peak analysis: Put first peaks in buffer
-        MLDerivationStrategy._update_peaks_days(tcks_priority[tck_idx])
+        # MLDerivationStrategy._update_peaks_days(tcks_priority[tck_idx])
 
-        tcks_priority[tck_idx].extra_vars['current_max_delay'] += 1
-        tcks_priority[tck_idx].extra_vars['current_min_delay'] += 1
+        # tcks_priority[tck_idx].extra_vars['current_max_delay'] += 1
+        # tcks_priority[tck_idx].extra_vars['current_min_delay'] += 1
 
-        if business_data['peak_day'] > 0.01:
-            # Bug treatment 'if' statement
-            if business_data['max_price_day'] == business_data['min_price_day']:
-                # Choose the an alternating peak type
-                # Lesser means most recent added, so now is the time for the other peak type
-                if tcks_priority[tck_idx].extra_vars['current_max_delay'] < \
-                    tcks_priority[tck_idx].extra_vars['current_min_delay']:
+        # if business_data['peak_day'] > 0.01:
+        #     # Bug treatment 'if' statement
+        #     if business_data['max_price_day'] == business_data['min_price_day']:
+        #         # Choose the an alternating peak type
+        #         # Lesser means most recent added, so now is the time for the other peak type
+        #         if tcks_priority[tck_idx].extra_vars['current_max_delay'] < \
+        #             tcks_priority[tck_idx].extra_vars['current_min_delay']:
 
-                    tcks_priority[tck_idx].extra_vars['upcoming_min_peak'] = business_data['peak_day']
-                    tcks_priority[tck_idx].extra_vars['current_min_delay'] = 0
-                else:
-                    tcks_priority[tck_idx].extra_vars['upcoming_max_peak'] = business_data['peak_day']
-                    tcks_priority[tck_idx].extra_vars['current_max_delay'] = 0
-            elif business_data['max_price_day'] != business_data['min_price_day']:
-                if business_data['peak_day'] == business_data['max_price_day']:
-                    tcks_priority[tck_idx].extra_vars['upcoming_max_peak'] = \
-                        business_data['peak_day']
-                    tcks_priority[tck_idx].extra_vars['current_max_delay'] = 0
-                else:
-                    tcks_priority[tck_idx].extra_vars['upcoming_min_peak'] = business_data['peak_day']
-                    tcks_priority[tck_idx].extra_vars['current_min_delay'] = 0
+        #             tcks_priority[tck_idx].extra_vars['upcoming_min_peak'] = business_data['peak_day']
+        #             tcks_priority[tck_idx].extra_vars['current_min_delay'] = 0
+        #         else:
+        #             tcks_priority[tck_idx].extra_vars['upcoming_max_peak'] = business_data['peak_day']
+        #             tcks_priority[tck_idx].extra_vars['current_max_delay'] = 0
+        #     elif business_data['max_price_day'] != business_data['min_price_day']:
+        #         if business_data['peak_day'] == business_data['max_price_day']:
+        #             tcks_priority[tck_idx].extra_vars['upcoming_max_peak'] = \
+        #                 business_data['peak_day']
+        #             tcks_priority[tck_idx].extra_vars['current_max_delay'] = 0
+        #         else:
+        #             tcks_priority[tck_idx].extra_vars['upcoming_min_peak'] = business_data['peak_day']
+        #             tcks_priority[tck_idx].extra_vars['current_min_delay'] = 0
 
-        if tcks_priority[tck_idx].extra_vars['current_max_delay'] >= \
-            ref_data['peak_delay'] and tcks_priority[tck_idx].extra_vars['upcoming_max_peak'] != 0.0:
+        # if tcks_priority[tck_idx].extra_vars['current_max_delay'] >= \
+        #     ref_data['peak_delay'] and tcks_priority[tck_idx].extra_vars['upcoming_max_peak'] != 0.0:
 
-            tcks_priority[tck_idx].extra_vars['last_max_peaks'].append(tcks_priority[tck_idx].extra_vars['upcoming_max_peak'])
-            tcks_priority[tck_idx].extra_vars['last_max_peaks_days'].append(-tcks_priority[tck_idx].extra_vars['current_max_delay'])
+        #     tcks_priority[tck_idx].extra_vars['last_max_peaks'].append(tcks_priority[tck_idx].extra_vars['upcoming_max_peak'])
+        #     tcks_priority[tck_idx].extra_vars['last_max_peaks_days'].append(-tcks_priority[tck_idx].extra_vars['current_max_delay'])
 
-            if len(tcks_priority[tck_idx].extra_vars['last_max_peaks']) > ref_data['peaks_number']:
-                tcks_priority[tck_idx].extra_vars['last_max_peaks'].pop(0)
-                tcks_priority[tck_idx].extra_vars['last_max_peaks_days'].pop(0)
+        #     if len(tcks_priority[tck_idx].extra_vars['last_max_peaks']) > ref_data['peaks_number']:
+        #         tcks_priority[tck_idx].extra_vars['last_max_peaks'].pop(0)
+        #         tcks_priority[tck_idx].extra_vars['last_max_peaks_days'].pop(0)
 
-            tcks_priority[tck_idx].extra_vars['upcoming_max_peak'] = 0.0
+        #     tcks_priority[tck_idx].extra_vars['upcoming_max_peak'] = 0.0
 
-        if tcks_priority[tck_idx].extra_vars['current_min_delay'] >= \
-            ref_data['peak_delay'] and tcks_priority[tck_idx].extra_vars['upcoming_min_peak'] != 0.0:
+        # if tcks_priority[tck_idx].extra_vars['current_min_delay'] >= \
+        #     ref_data['peak_delay'] and tcks_priority[tck_idx].extra_vars['upcoming_min_peak'] != 0.0:
 
-            tcks_priority[tck_idx].extra_vars['last_min_peaks'].append(tcks_priority[tck_idx].extra_vars['upcoming_min_peak'])
-            tcks_priority[tck_idx].extra_vars['last_min_peaks_days'].append(-tcks_priority[tck_idx].extra_vars['current_min_delay'])
+        #     tcks_priority[tck_idx].extra_vars['last_min_peaks'].append(tcks_priority[tck_idx].extra_vars['upcoming_min_peak'])
+        #     tcks_priority[tck_idx].extra_vars['last_min_peaks_days'].append(-tcks_priority[tck_idx].extra_vars['current_min_delay'])
 
-            if len(tcks_priority[tck_idx].extra_vars['last_min_peaks']) > ref_data['peaks_number']:
-                tcks_priority[tck_idx].extra_vars['last_min_peaks'].pop(0)
-                tcks_priority[tck_idx].extra_vars['last_min_peaks_days'].pop(0)
+        #     if len(tcks_priority[tck_idx].extra_vars['last_min_peaks']) > ref_data['peaks_number']:
+        #         tcks_priority[tck_idx].extra_vars['last_min_peaks'].pop(0)
+        #         tcks_priority[tck_idx].extra_vars['last_min_peaks_days'].pop(0)
 
-            tcks_priority[tck_idx].extra_vars['upcoming_min_peak'] = 0.0
-        # END-> Peak analysis: Put first peaks in buffer
+        #     tcks_priority[tck_idx].extra_vars['upcoming_min_peak'] = 0.0
+        # # END-> Peak analysis: Put first peaks in buffer
 
-        if len(tcks_priority[tck_idx].extra_vars['last_max_peaks']) < ref_data['peaks_number'] \
-            or len(tcks_priority[tck_idx].extra_vars['last_min_peaks']) < ref_data['peaks_number']:
-            return False
+        # if len(tcks_priority[tck_idx].extra_vars['last_max_peaks']) < ref_data['peaks_number'] \
+        #     or len(tcks_priority[tck_idx].extra_vars['last_min_peaks']) < ref_data['peaks_number']:
+        #     return False
 
     @staticmethod
     def _update_peaks_days(ticker_state):
 
-        for idx in range(len(ticker_state.extra_vars['last_max_peaks_days'])):
-            ticker_state.extra_vars['last_max_peaks_days'][idx] -= 1
+        # for idx in range(len(ticker_state.extra_vars['last_max_peaks_days'])):
+        #     ticker_state.extra_vars['last_max_peaks_days'][idx] -= 1
 
-        for idx in range(len(ticker_state.extra_vars['last_min_peaks_days'])):
-            ticker_state.extra_vars['last_min_peaks_days'][idx] -= 1
+        # for idx in range(len(ticker_state.extra_vars['last_min_peaks_days'])):
+        #     ticker_state.extra_vars['last_min_peaks_days'][idx] -= 1
+        pass
 
     def _get_purchase_price(self, business_data):
         return business_data['open_price_day']
@@ -2367,39 +2432,39 @@ class MLDerivationStrategy(AdaptedAndreMoraesStrategy):
     def _check_business_rules(self, business_data, tcks_priority, tck_idx,
         purchase_price):
 
-        if not tcks_priority[tck_idx].last_business_data:
-            return False
+        # if not tcks_priority[tck_idx].last_business_data:
+        #     return False
 
-        ref_price = purchase_price
+        # ref_price = purchase_price
 
-        # More negative day number means older
-        order = 'max_first' \
-            if tcks_priority[tck_idx].extra_vars['last_max_peaks_days'][0] < \
-                tcks_priority[tck_idx].extra_vars['last_min_peaks_days'][0] \
-            else 'min_first'
+        # # More negative day number means older
+        # order = 'max_first' \
+        #     if tcks_priority[tck_idx].extra_vars['last_max_peaks_days'][0] < \
+        #         tcks_priority[tck_idx].extra_vars['last_min_peaks_days'][0] \
+        #     else 'min_first'
 
-        if order == 'max_first':
-            peak_1 = round(tcks_priority[tck_idx].extra_vars['last_max_peaks'][0] / ref_price, 4)
-            day_1 = tcks_priority[tck_idx].extra_vars['last_max_peaks_days'][0]
-            peak_2 = round(tcks_priority[tck_idx].extra_vars['last_min_peaks'][0] / ref_price, 4)
-            day_2 = tcks_priority[tck_idx].extra_vars['last_min_peaks_days'][0]
-            peak_3 = round(tcks_priority[tck_idx].extra_vars['last_max_peaks'][1] / ref_price, 4)
-            day_3 = tcks_priority[tck_idx].extra_vars['last_max_peaks_days'][1]
-            peak_4 = round(tcks_priority[tck_idx].extra_vars['last_min_peaks'][1] / ref_price, 4)
-            day_4 = tcks_priority[tck_idx].extra_vars['last_min_peaks_days'][1]
-        elif order == 'min_first':
-            peak_1 = round(tcks_priority[tck_idx].extra_vars['last_min_peaks'][0] / ref_price, 4)
-            day_1 = tcks_priority[tck_idx].extra_vars['last_min_peaks_days'][0]
-            peak_2 = round(tcks_priority[tck_idx].extra_vars['last_max_peaks'][0] / ref_price, 4)
-            day_2 = tcks_priority[tck_idx].extra_vars['last_max_peaks_days'][0]
-            peak_3 = round(tcks_priority[tck_idx].extra_vars['last_min_peaks'][1] / ref_price, 4)
-            day_3 = tcks_priority[tck_idx].extra_vars['last_min_peaks_days'][1]
-            peak_4 = round(tcks_priority[tck_idx].extra_vars['last_max_peaks'][1] / ref_price, 4)
-            day_4 = tcks_priority[tck_idx].extra_vars['last_max_peaks_days'][1]
+        # if order == 'max_first':
+        #     peak_1 = round(tcks_priority[tck_idx].extra_vars['last_max_peaks'][0] / ref_price, 4)
+        #     day_1 = tcks_priority[tck_idx].extra_vars['last_max_peaks_days'][0]
+        #     peak_2 = round(tcks_priority[tck_idx].extra_vars['last_min_peaks'][0] / ref_price, 4)
+        #     day_2 = tcks_priority[tck_idx].extra_vars['last_min_peaks_days'][0]
+        #     peak_3 = round(tcks_priority[tck_idx].extra_vars['last_max_peaks'][1] / ref_price, 4)
+        #     day_3 = tcks_priority[tck_idx].extra_vars['last_max_peaks_days'][1]
+        #     peak_4 = round(tcks_priority[tck_idx].extra_vars['last_min_peaks'][1] / ref_price, 4)
+        #     day_4 = tcks_priority[tck_idx].extra_vars['last_min_peaks_days'][1]
+        # elif order == 'min_first':
+        #     peak_1 = round(tcks_priority[tck_idx].extra_vars['last_min_peaks'][0] / ref_price, 4)
+        #     day_1 = tcks_priority[tck_idx].extra_vars['last_min_peaks_days'][0]
+        #     peak_2 = round(tcks_priority[tck_idx].extra_vars['last_max_peaks'][0] / ref_price, 4)
+        #     day_2 = tcks_priority[tck_idx].extra_vars['last_max_peaks_days'][0]
+        #     peak_3 = round(tcks_priority[tck_idx].extra_vars['last_min_peaks'][1] / ref_price, 4)
+        #     day_3 = tcks_priority[tck_idx].extra_vars['last_min_peaks_days'][1]
+        #     peak_4 = round(tcks_priority[tck_idx].extra_vars['last_max_peaks'][1] / ref_price, 4)
+        #     day_4 = tcks_priority[tck_idx].extra_vars['last_max_peaks_days'][1]
 
-        ema_17_day = round(tcks_priority[tck_idx].last_business_data['ema_17_day'] / ref_price, 4)
-        ema_72_day = round(tcks_priority[tck_idx].last_business_data['ema_72_day'] / ref_price, 4)
-        ema_72_week = round(tcks_priority[tck_idx].last_business_data['ema_72_week'] / ref_price, 4)
+        # ema_17_day = round(tcks_priority[tck_idx].last_business_data['ema_17_day'] / ref_price, 4)
+        # ema_72_day = round(tcks_priority[tck_idx].last_business_data['ema_72_day'] / ref_price, 4)
+        # ema_72_week = round(tcks_priority[tck_idx].last_business_data['ema_72_week'] / ref_price, 4)
 
         if self.enable_crisis_halt:
             crisis_flag = self.ticker_day_risks.loc[
@@ -2423,8 +2488,23 @@ class MLDerivationStrategy(AdaptedAndreMoraesStrategy):
         if risk is None:
             return False
 
-        X_test = [[risk, peak_1, day_1, peak_2, day_2, peak_3, day_3, peak_4, day_4,
-            ema_17_day, ema_72_day, ema_72_week]]
+        mid_prices_dot = self.last_prices[tcks_priority[tck_idx].ticker]['mid_dot']
+        spearman_corrs = [0.0 for _ in self.spearman_correlations]
+
+        for spear_idx, spear_n in enumerate(self.spearman_correlations):
+            if len(self.last_prices[tcks_priority[tck_idx].ticker]['mid']) >= spear_n:
+                corr = stats.spearmanr(self.spearman_reference[:spear_n],
+                    self.last_prices[tcks_priority[tck_idx].ticker]['mid'][len(self.last_prices[tcks_priority[tck_idx].ticker]['mid']) - spear_n : len(self.last_prices[tcks_priority[tck_idx].ticker]['mid'])]).correlation
+
+                if math.isnan(corr):
+                    corr = 0.0
+
+                spearman_corrs[spear_idx] = round(corr, 4)
+
+        X_test = [[risk, mid_prices_dot, *spearman_corrs]]
+
+        # X_test = [[risk, peak_1, day_1, peak_2, day_2, peak_3, day_3, peak_4, day_4,
+        #     ema_17_day, ema_72_day, ema_72_week]]
 
         prediction = self.models[tcks_priority[tck_idx].ticker].predict(X_test)
 
@@ -2458,7 +2538,7 @@ class MLDerivationStrategy(AdaptedAndreMoraesStrategy):
         available_capital, rcc, tcks_priority, tck_idx, business_data,
         capital_multiplier=1.0):
 
-        if self.dynamic_rcc:
+        if self.enable_dynamic_rcc:
             rcc = self.dynamic_rcc_value
 
         amount = super()._set_operation_purchase(ticker_name, purchase_price,
@@ -2500,16 +2580,16 @@ class MLDerivationStrategy(AdaptedAndreMoraesStrategy):
                 multiplier *= partial_multiplier
 
         # Compensation due to uptrend
-        if self.enable_uptrend_compensation:
-            uptrend_flag = self.ticker_day_risks.loc[
-                (self.ticker_day_risks['ticker'] == tcks_priority[tck_idx].ticker) & \
-                (self.ticker_day_risks['day'] == business_data['day'].strftime('%Y-%m-%d')), \
-                ['uptrend']].squeeze()
+        # if self.enable_uptrend_compensation:
+        #     uptrend_flag = self.ticker_day_risks.loc[
+        #         (self.ticker_day_risks['ticker'] == tcks_priority[tck_idx].ticker) & \
+        #         (self.ticker_day_risks['day'] == business_data['day'].strftime('%Y-%m-%d')), \
+        #         ['uptrend']].squeeze()
 
-            if uptrend_flag:
-                multiplier *= 1.4
-            # else:
-            #     multiplier *= 0.8
+        #     if uptrend_flag:
+        #         multiplier *= 1.4
+        #     # else:
+        #     #     multiplier *= 0.8
 
         return multiplier
 
@@ -2519,20 +2599,22 @@ class MLDerivationStrategy(AdaptedAndreMoraesStrategy):
 
         multiplier = 1.0
         add_multiplier = 0.0
-        target_std_equivalent = (target_profit - profit_mean) / profit_std
 
-        if abs(target_std_equivalent) > start_std:
-            if target_profit > profit_mean:
-                m = up_bonus / (end_std - start_std)
-                n = -start_std * m
-                add_multiplier = min(up_bonus,
-                    target_std_equivalent * m + n)
-            else:
-                m = down_bonus / (end_std - start_std)
-                n = start_std * m
+        if profit_std != 0.0:
+            target_std_equivalent = (target_profit - profit_mean) / profit_std
 
-                add_multiplier = max(-down_bonus,
-                    target_std_equivalent * m + n)
+            if abs(target_std_equivalent) > start_std:
+                if target_profit > profit_mean:
+                    m = up_bonus / (end_std - start_std)
+                    n = -start_std * m
+                    add_multiplier = min(up_bonus,
+                        target_std_equivalent * m + n)
+                else:
+                    m = down_bonus / (end_std - start_std)
+                    n = start_std * m
+
+                    add_multiplier = max(-down_bonus,
+                        target_std_equivalent * m + n)
 
         return round(multiplier + add_multiplier, 5)
 
@@ -2684,8 +2766,8 @@ class MLDerivationStrategy(AdaptedAndreMoraesStrategy):
                 # self.capital_in_use_dot = 0.0
                 self.first_update = False
 
-    def _update_dynamic_rcc(self, reference=0.8, k=3):
+    def _update_dynamic_rcc(self):
 
-        error = reference - self.capital_in_use_mavg
+        error = self.dynamic_rcc_reference - self.capital_in_use_mavg
         # error_dot = max(0, -self.capital_in_use_dot)
-        self.dynamic_rcc_value = self.risk_capital_product * (1 + k * error)
+        self.dynamic_rcc_value = self.risk_capital_product * (1 + self.dynamic_rcc_k * error)
