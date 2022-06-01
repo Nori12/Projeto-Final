@@ -603,7 +603,7 @@ class StrategyAnalyzer:
 
         # Ticker prices
         operations_data = [{
-            "name": "Price",
+            "name": "Close Price",
             "x": ticker_prices['day'],
             "y": ticker_prices['close_price'],
             "mode": "lines",
@@ -668,27 +668,27 @@ class StrategyAnalyzer:
             "visible": "legendonly"
         })
 
-        # Ticker Target Purchase Price
-        operations_data.append({
-            "name": "Buy Price",
-            "x": ticker_prices['day'],
-            "y": ticker_prices['target_buy_price'],
-            "mode": "lines",
-            "line": {"color": "lightblue"},
-            "showlegend": True,
-            "visible": "legendonly"
-        })
+        # # Ticker Target Purchase Price
+        # operations_data.append({
+        #     "name": "Buy Price",
+        #     "x": ticker_prices['day'],
+        #     "y": ticker_prices['target_buy_price'],
+        #     "mode": "lines",
+        #     "line": {"color": "lightblue"},
+        #     "showlegend": True,
+        #     "visible": "legendonly"
+        # })
 
-        # Ticker Stop Loss
-        operations_data.append({
-            "name": "Stop Loss",
-            "x": ticker_prices['day'],
-            "y": ticker_prices['stop_loss'],
-            "mode": "lines",
-            "line": {"color": "darksalmon"},
-            "showlegend": True,
-            "visible": "legendonly"
-        })
+        # # Ticker Stop Loss
+        # operations_data.append({
+        #     "name": "Stop Loss",
+        #     "x": ticker_prices['day'],
+        #     "y": ticker_prices['stop_loss'],
+        #     "mode": "lines",
+        #     "line": {"color": "darksalmon"},
+        #     "showlegend": True,
+        #     "visible": "legendonly"
+        # })
 
         ticker_chart_figure = {
             "data": operations_data,
@@ -733,7 +733,7 @@ class StrategyAnalyzer:
 
         # Ticker prices
         operations_data = [{
-            "name": "Price",
+            "name": "Close Price",
             "x": ticker_prices['week'],
             "y": ticker_prices['close_price'],
             "mode": "lines",
