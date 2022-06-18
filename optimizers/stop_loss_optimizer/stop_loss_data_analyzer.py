@@ -73,6 +73,42 @@ class StopLossDataAnalyzer:
 
         plt.show()
 
+    def show_lowest_risk_graphs(self):
+        fig, ax = plt.subplots(1, 2)
+
+        fig.suptitle(f"{self.ticker} Stop Loss Optimization Analysis")
+
+        fig_width_in_cm = 40
+        fig.set_figwidth(fig_width_in_cm / 2.54)
+        fig.set_figheight(fig_width_in_cm / 2.54 / 1.78)
+
+        threshold_perc=[0.50, 0.60, 0.70, 0.80, 0.90]
+
+        days_thresholds = self.plot_min_risk_days_histogram(ax[0], threshold_perc)
+        self.plot_min_risk_values_per_range(ax[1], days_thresholds)
+
+        plt.subplots_adjust(hspace=0.45, wspace=0.3)
+
+        plt.show()
+
+    def show_optimal_risk_graphs(self):
+        fig, ax = plt.subplots(1, 2)
+
+        fig.suptitle(f"{self.ticker} Stop Loss Optimization Analysis")
+
+        fig_width_in_cm = 40
+        fig.set_figwidth(fig_width_in_cm / 2.54)
+        fig.set_figheight(fig_width_in_cm / 2.54 / 1.78)
+
+        threshold_perc=[0.50, 0.60, 0.70, 0.80, 0.90]
+
+        days_thresholds = self.plot_best_risk_days_histogram(ax[0], threshold_perc)
+        self.plot_best_risk_values_per_range(ax[1], days_thresholds)
+
+        plt.subplots_adjust(hspace=0.45, wspace=0.3)
+
+        plt.show()
+
     def show_risk_map(self):
         fig = plt.figure()
         ax = fig.add_subplot(projection='3d')
@@ -185,7 +221,7 @@ class StopLossDataAnalyzer:
                 label=f"{str(int(threshold_perc[idx] * 100))}%: {int(bins[bins_idx])} days")
             days_thresholds.append(int(bins[bins_idx]))
 
-        axis.set_title('Best Risk Days Histogram')
+        axis.set_title(self.ticker + ' Optimal Risk Days Histogram')
         axis.set_ylabel('Count')
         axis.set_xlabel('Days')
         axis.legend()
@@ -212,7 +248,7 @@ class StopLossDataAnalyzer:
         axis.errorbar(days_thresholds, avgs, std_dev, linestyle='dotted', marker='o',
             ecolor=random_colors[0:len(days_thresholds)], color='blue')
         axis.set_xticks(days_thresholds)
-        axis.set_title('Best Risk Mean and Std-dev per Range')
+        axis.set_title(self.ticker + ' Optimal Risk Mean and Std-dev per Range')
         axis.set_ylabel('Risk (%)')
         axis.set_xlabel('Days Threshold (days)')
 
@@ -241,7 +277,7 @@ class StopLossDataAnalyzer:
                 label=f"{str(int(threshold_perc[idx] * 100))}%: {int(bins[bins_idx])} days")
             days_thresholds.append(int(bins[bins_idx]))
 
-        axis.set_title('Min Risk Days Histogram')
+        axis.set_title(self.ticker + ' Lowest Risk Days Histogram')
         axis.set_ylabel('Count')
         axis.set_xlabel('Days')
         axis.legend()
@@ -268,7 +304,7 @@ class StopLossDataAnalyzer:
         axis.errorbar(days_thresholds, avgs, std_dev, linestyle='dotted', marker='o',
             ecolor=random_colors[0:len(days_thresholds)], color='blue')
         axis.set_xticks(days_thresholds)
-        axis.set_title('Min Risk Mean and Std-dev per Range')
+        axis.set_title(self.ticker + ' Lowest Risk Mean and Std-dev per Range')
         axis.set_ylabel('Risk (%)')
         axis.set_xlabel('Days Threshold (days)')
 
@@ -297,7 +333,7 @@ class StopLossDataAnalyzer:
                 label=f"{str(int(threshold_perc[idx] * 100))}%: {int(bins[bins_idx])} days")
             days_thresholds.append(int(bins[bins_idx]))
 
-        axis.set_title('Max Risk Days Histogram')
+        axis.set_title('Highest Risk Days Histogram')
         axis.set_ylabel('Count')
         axis.set_xlabel('Days')
         axis.legend()
@@ -324,11 +360,15 @@ class StopLossDataAnalyzer:
         axis.errorbar(days_thresholds, avgs, std_dev, linestyle='dotted', marker='o',
             ecolor=random_colors[0:len(days_thresholds)], color='blue')
         axis.set_xticks(days_thresholds)
-        axis.set_title('Max Risk Mean and Std-dev per Range')
+        axis.set_title('Highest Risk Mean and Std-dev per Range')
         axis.set_ylabel('Risk (%)')
         axis.set_xlabel('Days Threshold (days)')
 
 if __name__ == '__main__':
     sl_analyzer = StopLossDataAnalyzer(ticker='MGLU3')
-    sl_analyzer.show_all_graphs()
+    # sl_analyzer.show_all_graphs()
+
+    sl_analyzer.show_lowest_risk_graphs()
+    sl_analyzer.show_optimal_risk_graphs()
+
     sl_analyzer.show_risk_map()
