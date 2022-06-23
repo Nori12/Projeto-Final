@@ -2091,7 +2091,8 @@ class MLDerivationStrategy(AdaptedAndreMoraesStrategy):
 
                             if len(last_mid_prices[ticker]) >= N_dot:
                                 # LPF for prices derivative ( y[i] := α * x[i] + (1-α) * y[i-1] )
-                                y0 = lpf_alpha * ( (last_mid_prices[ticker][-1] - last_mid_prices[ticker][-2])/ last_mid_prices[ticker][-2] ) \
+                                y0 = lpf_alpha * ( (last_mid_prices[ticker][-1] - last_mid_prices[ticker][-2])\
+                                    / ((last_mid_prices[ticker][-2] + last_mid_prices[ticker][-1])/2) ) \
                                     + (1-lpf_alpha) * mid_prices_dot[ticker][-1]
 
                                 y1 = risk_lpf_alpha * ( (last_mid_prices[ticker][-1] - last_mid_prices[ticker][-2])\
@@ -2152,14 +2153,14 @@ class MLDerivationStrategy(AdaptedAndreMoraesStrategy):
                             # Trend Analysis Section
                             # Trend Analysis: Downtrend Analysis
                             if len(mid_prices_dot[ticker]) <= N_dot:
-                                downtrend[ticker].append( True )
+                                downtrend[ticker].append( False )
                             else:
                                 if mid_prices_dot[ticker][-1] < 0:
                                     downtrend[ticker].append( True )
                                     downtrend_inertia_counter[ticker] = 0
                                 else:
                                     if downtrend_inertia_counter[ticker] < downtrend_inertia:
-                                        downtrend[ticker].append( False )
+                                        downtrend[ticker].append( True )
                                         downtrend_inertia_counter[ticker] += 1
                                     else:
                                         downtrend[ticker].append( False )
@@ -2235,7 +2236,7 @@ class MLDerivationStrategy(AdaptedAndreMoraesStrategy):
 
                                     min_risk[ticker].append( y )
 
-                            if len(avg_climbs) < N_peak_window*0.75:
+                            if len(avg_climbs) < N_peak_window * 0.75:
                                 max_risk[ticker].append( 0.0 )
                             else:
                                 max_risk[ticker].append( round(
@@ -2365,30 +2366,31 @@ class MLDerivationStrategy(AdaptedAndreMoraesStrategy):
         self.last_data[ticker_name]['open'] = business_data['open_price_day']
         self.last_data[ticker_name]['close'] = business_data['close_price_day']
 
-        # OLS
-        if len(self.last_data[ticker_name]['mid']) >= 60:
-            X = sm.add_constant(self.spearman_reference[0:60])
-            ols_model = sm.OLS(self.last_data[ticker_name]['mid'], X).fit()
+        # # OLS
+        # if len(self.last_data[ticker_name]['mid']) >= 60:
+        #     X = sm.add_constant(self.spearman_reference[0:60])
+        #     ols_model = sm.OLS(self.last_data[ticker_name]['mid'], X).fit()
 
-            slope = round(ols_model.params[1] / ols_model.params[0], 6)
-            self.last_data[ticker_name]['ols_slope'] = slope
+        #     # slope = round(ols_model.params[1] / ols_model.params[0], 6)
+        #     slope = round(ols_model.params[1] / ypred[-1], 6)
+        #     self.last_data[ticker_name]['ols_slope'] = slope
 
-            if slope < self.last_data[ticker_name]['min_slope']:
-                self.last_data[ticker_name]['min_slope'] = slope
+        #     if slope < self.last_data[ticker_name]['min_slope']:
+        #         self.last_data[ticker_name]['min_slope'] = slope
 
-            if slope > self.last_data[ticker_name]['max_slope']:
-                self.last_data[ticker_name]['max_slope'] = slope
+        #     if slope > self.last_data[ticker_name]['max_slope']:
+        #         self.last_data[ticker_name]['max_slope'] = slope
 
-            ypred = ols_model.predict(X)
-            rms_error = round(rmse(self.last_data[ticker_name]['mid'], ypred), 6)
+        #     ypred = ols_model.predict(X)
+        #     rms_error = round(rmse(self.last_data[ticker_name]['mid'], ypred), 6)
 
-            self.last_data[ticker_name]['ols_rmse'] = rms_error
+        #     self.last_data[ticker_name]['ols_rmse'] = rms_error
 
-            if rms_error < self.last_data[ticker_name]['min_rmse']:
-                self.last_data[ticker_name]['min_rmse'] = rms_error
+        #     if rms_error < self.last_data[ticker_name]['min_rmse']:
+        #         self.last_data[ticker_name]['min_rmse'] = rms_error
 
-            if rms_error > self.last_data[ticker_name]['max_rmse']:
-                self.last_data[ticker_name]['max_rmse'] = rms_error
+        #     if rms_error > self.last_data[ticker_name]['max_rmse']:
+        #         self.last_data[ticker_name]['max_rmse'] = rms_error
 
         # Peak analysis: Put first peaks in buffer
         # MLDerivationStrategy._update_peaks_days(tcks_priority[tck_idx])
@@ -2506,12 +2508,15 @@ class MLDerivationStrategy(AdaptedAndreMoraesStrategy):
             if crisis_flag:
                 return False
 
-        golden_purchase = self._check_golden_purchase(tcks_priority, tck_idx, purchase_price, business_data)
-        if golden_purchase is True:
-            risk = self._get_risk(tcks_priority[tck_idx].ticker, business_data['day'], force=True)
-            risk = risk * 2.1
-            business_data['stop_loss_day'] = round(purchase_price * (1 - risk), 2)
-            return True
+        # golden_purchase = self._check_golden_purchase(tcks_priority, tck_idx, purchase_price, business_data)
+        # if golden_purchase:
+        #     risk = self._get_risk(tcks_priority[tck_idx].ticker, business_data['day'], force=True)
+        #     risk = risk * 2.1
+        #     business_data['stop_loss_day'] = round(purchase_price * (1 - risk), 2)
+        #     return True
+
+        # if business_data['day'] == pd.Timestamp('2019-12-16T00'):
+        #     print()
 
         risk = self._get_risk(tcks_priority[tck_idx].ticker, business_data['day'])
         if risk is None:
@@ -2548,19 +2553,22 @@ class MLDerivationStrategy(AdaptedAndreMoraesStrategy):
         prediction = self.models[tcks_priority[tck_idx].ticker].predict(X_test)
 
         if prediction[0] == 1:
+            # risk_boost = self._check_uptrend_risk_boost(tcks_priority, tck_idx, purchase_price, business_data)
+            # if risk_boost:
+            #     risk *= 1.1
             business_data['stop_loss_day'] = round(purchase_price * (1 - risk), 2)
             return True
 
         return False
 
-    def _check_golden_purchase(self, tcks_priority, tck_idx, purchase_price, business_data):
+    # def _check_golden_purchase(self, tcks_priority, tck_idx, purchase_price, business_data):
 
-        if self.last_data[tcks_priority[tck_idx].ticker]['ols_rmse'] < 0.20:
-            if 0 < self.last_data[tcks_priority[tck_idx].ticker]['ols_slope'] < 0.003:
-                if purchase_price > 1.10 * np.mean(self.last_data[tcks_priority[tck_idx].ticker]['mid']):
-                    return True
+    #     if self.last_data[tcks_priority[tck_idx].ticker]['ols_rmse'] < 0.20:
+    #         if 0 < self.last_data[tcks_priority[tck_idx].ticker]['ols_slope'] < 0.0027:
+    #             if purchase_price > 1.10 * np.mean(self.last_data[tcks_priority[tck_idx].ticker]['mid']):
+    #                 return True
 
-        return False
+    #     return False
 
     def _get_risk(self, ticker, day, force=False):
 
@@ -2617,7 +2625,7 @@ class MLDerivationStrategy(AdaptedAndreMoraesStrategy):
 
         # Compensation due to relative individual profits
         if self.enable_profit_compensation:
-            min_operations_for_profit_comp = 2 * min_operations_for_freq_norm
+            min_operations_for_profit_comp = 2 * len(self.tickers_and_dates)
             ticker_profit = tcks_priority[tck_idx].profit
 
             if self.total_op_count >= min_operations_for_profit_comp and \
@@ -2642,32 +2650,65 @@ class MLDerivationStrategy(AdaptedAndreMoraesStrategy):
         #     # else:
         #     #     multiplier *= 0.8
 
+        # if tcks_priority[tck_idx].ticker == 'ALPA4':
+        #     if business_data['day'] == pd.Timestamp('2019-04-30T00') \
+        #         or business_data['day'] == pd.Timestamp('2019-06-13T00') \
+        #         or business_data['day'] == pd.Timestamp('2019-09-27T00') \
+        #         or business_data['day'] == pd.Timestamp('2019-12-10T00'):
+        #         if self.last_data[tcks_priority[tck_idx].ticker]['ols_rmse'] < 0.25:
+        #             if self.last_data[tcks_priority[tck_idx].ticker]['ols_slope'] > 0.0045:
+        #                 # multiplier *= 1.1
+        #                 print()
+
         return multiplier
 
     @staticmethod
     def _calc_profit_compensation(target_profit, profit_mean, profit_std,
-        up_bonus=0.6, down_bonus=0.6, start_std=0.2, end_std=2):
+        max_bonus=0.6, start_std=0.2, end_std=2):
 
-        multiplier = 1.0
-        add_multiplier = 0.0
+        # multiplier = 1.0
+        # add_multiplier = 0.0
+
+        # if profit_std != 0.0:
+        #     target_std_equivalent = (target_profit - profit_mean) / profit_std
+
+        #     if abs(target_std_equivalent) >= start_std:
+        #         if target_profit > profit_mean:
+        #             m = max_bonus / (end_std - start_std)
+        #             n = -start_std * m
+
+        #             add_multiplier = min(max_bonus,
+        #                 target_std_equivalent * m + n)
+        #         else:
+        #             m = max_bonus / (end_std - start_std)
+        #             n = start_std * m
+
+        #             add_multiplier = max(-max_bonus,
+        #                 target_std_equivalent * m + n)
+
+        # return round(multiplier + add_multiplier, 5)
 
         if profit_std != 0.0:
-            target_std_equivalent = (target_profit - profit_mean) / profit_std
+            sigma_eq = (target_profit - profit_mean) / profit_std
 
-            if abs(target_std_equivalent) > start_std:
-                if target_profit > profit_mean:
-                    m = up_bonus / (end_std - start_std)
-                    n = -start_std * m
-                    add_multiplier = min(up_bonus,
-                        target_std_equivalent * m + n)
-                else:
-                    m = down_bonus / (end_std - start_std)
-                    n = start_std * m
+            if sigma_eq > end_std:
+                return 1.0 + max_bonus
 
-                    add_multiplier = max(-down_bonus,
-                        target_std_equivalent * m + n)
+            elif sigma_eq < -end_std:
+                return 1.0 - max_bonus
 
-        return round(multiplier + add_multiplier, 5)
+            elif sigma_eq >= start_std and sigma_eq <= end_std:
+                m1 = max_bonus / (end_std - start_std)
+                n1 = 1 - start_std * m1
+                return 1.0 + (m1 * sigma_eq + n1)
+
+            elif sigma_eq >= -end_std and sigma_eq <= -start_std:
+                m2 = max_bonus / (end_std - start_std)
+                n2 = 1 + start_std * m2
+                return 1.0 + (m2 * sigma_eq + n2)
+
+        # Default: profit_std == 0.0 or abs(sigma_eq) < start_std
+        return 1.0
 
     def _sell_on_stop_hit(self, tcks_priority, tck_idx, business_data):
 
