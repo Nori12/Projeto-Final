@@ -58,9 +58,9 @@ class ConfigReader:
         Minimum risk per operation.
     max_risk_features : float
         Maximum risk per operation.
-    pruchase_margin : float
+    (old) purchase_margin : float
         Percentage margin aplied on target purchase price.
-    stop_margin : float
+    (old) stop_margin : float
         Percentage margin aplied on stop loss price.
 
     Methods
@@ -76,11 +76,11 @@ class ConfigReader:
 
         self.load_file(config_file_path)
         self._show_results = self.read_parameter('show_results', origin='root',
-            is_boolean=True, can_be_missed=True, if_missed_default_value=True)
+            is_boolean=True, can_be_missed=True, if_missed_default_value=False)
         self._min_risk_features = self.read_parameter('min_risk', origin='root',
-            can_be_missed=True, can_be_none=False, if_missed_default_value=True)
+            can_be_missed=True, if_missed_default_value=0.003)
         self._max_risk_features = self.read_parameter('max_risk', origin='root',
-            can_be_missed=True, can_be_none=False, if_missed_default_value=True)
+            can_be_missed=True, if_missed_default_value=0.15)
 
         self._read_strategies()
 
@@ -413,9 +413,10 @@ class ConfigReader:
                 name = self.read_parameter('name', strategy_batch)
                 alias = self.read_parameter('alias', strategy_batch)
                 comment = self.read_parameter('comment', strategy_batch, can_be_missed=True)
-                capital = self.read_parameter('capital', strategy_batch, can_be_list=True)
+                capital = self.read_parameter('capital', strategy_batch, can_be_list=True,
+                    if_missed_default_value=100000)
                 risk_capital_coefficient = self.read_parameter('risk_capital_coefficient',
-                    strategy_batch, can_be_list=True)
+                    strategy_batch, can_be_list=True, if_missed_default_value=0.001)
                 tickers_bag = self.read_parameter('tickers_bag', strategy_batch,
                     can_be_list=True, can_be_missed=True, if_missed_default_value="normal")
                 tickers_number = self.read_parameter('tickers_number', strategy_batch,
@@ -431,9 +432,9 @@ class ConfigReader:
                 ema_tolerance = self.read_parameter('ema_tolerance', strategy_batch,
                     can_be_list=True, can_be_missed=True, if_missed_default_value=0.0)
                 min_risk = self.read_parameter('min_risk', strategy_batch, can_be_list=True,
-                    can_be_missed=True, if_missed_default_value=0.0)
+                    can_be_missed=True, if_missed_default_value=0.003)
                 max_risk = self.read_parameter('max_risk', strategy_batch, can_be_list=True,
-                    can_be_missed=True, if_missed_default_value=0.0)
+                    can_be_missed=True, if_missed_default_value=0.10)
                 purchase_margin = self.read_parameter('purchase_margin', strategy_batch,
                     can_be_list=True, can_be_missed=True, if_missed_default_value=0.0)
                 stop_margin = self.read_parameter('stop_margin', strategy_batch,
@@ -448,7 +449,7 @@ class ConfigReader:
                     can_be_list=True, can_be_missed=True, if_missed_default_value=0)
                 max_days_per_operation = self.read_parameter('max_days_per_operation',
                     strategy_batch, can_be_list=True, can_be_missed=True,
-                    if_missed_default_value=90)
+                    if_missed_default_value=45)
                 enable_frequency_normalization = self.read_parameter('enable_frequency_normalization',
                     strategy_batch, is_boolean=True, can_be_list=True, can_be_missed=True,
                     if_missed_default_value=False)
@@ -469,7 +470,7 @@ class ConfigReader:
                     if_missed_default_value=0.8)
                 dynamic_rcc_k = self.read_parameter('dynamic_rcc_k',
                     strategy_batch, can_be_list=True, can_be_missed=True,
-                    if_missed_default_value=0.8)
+                    if_missed_default_value=3)
 
                 ConfigReader.add_param_to_strategies('name', name, strategies)
                 ConfigReader.add_param_to_strategies('alias', alias, strategies)
