@@ -1120,6 +1120,17 @@ class DBStrategyAnalyzerModel:
 
         return df
 
+    def get_benchmark_performance(self, strategy_id):
+        query = f"SELECT sp.day, sp.capital\n"
+        query += f"FROM strategy_performance sp\n"
+        query += f"INNER JOIN strategy s ON s.id = sp.strategy_id\n"
+        query += f"WHERE s.id = {strategy_id}\n"
+        query += f"ORDER BY sp.day ASC;"
+
+        df = pd.read_sql_query(query, self._connection)
+
+        return df
+
     def get_strategy_active_operations(self, strategy_id):
         query = f"SELECT sp.active_operations\n"
         query += f"FROM strategy_performance sp\n"

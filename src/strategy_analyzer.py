@@ -8,7 +8,7 @@ import dash_table
 import pandas as pd
 import plotly.graph_objs as go
 import numpy as np
-import sys
+import argparse
 
 import constants as c
 from db_model import DBStrategyAnalyzerModel
@@ -28,7 +28,7 @@ MAX_ALIAS_LENGTH = 55
 
 class StrategyAnalyzer:
 
-    def __init__(self, strategy_id=None):
+    def __init__(self, strategy_id=None, benchmark_id=None):
         self._app = None
         self._db_strategy_analyzer_model = DBStrategyAnalyzerModel()
 
@@ -36,6 +36,7 @@ class StrategyAnalyzer:
         self._performance = None
         self._tickers_and_dates = None
         self._strategy_id = None
+        self._benchmark_id = benchmark_id
         self._strategy_name = None
 
         if strategy_id == None:
@@ -54,6 +55,11 @@ class StrategyAnalyzer:
         self._set_strategy_parameters(self._strategy_id)
         self._set_strategy_statistics(self._strategy_id)
         self._set_strategy_performance(self._strategy_id)
+
+        if self._benchmark_id:
+            self._set_benchmark_performance(self._benchmark_id)
+        else:
+            self._benchmark_performance = {'day': None, 'capital': None}
 
         self._prepare_app()
 
@@ -308,6 +314,14 @@ class StrategyAnalyzer:
 
         self._performance['cdi'] = round(cdi_df['cumulative'] * 100, 2)
 
+    def _set_benchmark_performance(self, benchmark_id):
+        self._benchmark_performance = \
+            self._db_strategy_analyzer_model.get_benchmark_performance(benchmark_id)
+
+        if self._benchmark_performance['capital'][0] != 1.0:
+            self._benchmark_performance['capital'] = round(
+                (self._benchmark_performance['capital'] / self._benchmark_performance['capital'][0] - 1) * 100, 2)
+
     def _prepare_app(self):
 
         self._app = dash.Dash(__name__)
@@ -374,6 +388,16 @@ class StrategyAnalyzer:
                                                     color='rgb(210, 201, 195)'
                                                 ),
                                                 hovertemplate="%{y:.2f}%"
+                                            ),
+                                            dict(
+                                                x=self._benchmark_performance['day'],
+                                                y=self._benchmark_performance['capital'],
+                                                name='Benchmark',
+                                                marker=dict(
+                                                    color='rgb(33, 123, 40)'
+                                                ),
+                                                hovertemplate="%{y:.2f}%",
+                                                visible=True if self._benchmark_id else False
                                             ),
                                         ],
                                         layout=dict(
@@ -849,10 +873,23 @@ class StrategyAnalyzer:
 
 if __name__ == "__main__":
 
-    if len(sys.argv) > 1:
-        if int(sys.argv[1]):
-            analyzer = StrategyAnalyzer(strategy_id=int(sys.argv[1]))
-    else:
-        analyzer = StrategyAnalyzer(strategy_id=None)
+    # Parse args
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument("-s", "--strategy-id", type=int,
+        help="Strategy ID number.")
+    parser.add_argument("-b", "--benchmark-id", type=int,
+        help="Benchmark strategy ID number for performance exibition.")
+
+    args = parser.parse_args()
+
+    # ********************** Check 'strategy_id' arguments *********************
+    strategy_id = args.strategy_id
+    # **************************************************************************
+    # ********************** Check 'benchmark_id' arguments ********************
+    benchmark_id = args.benchmark_id
+    # **************************************************************************
+
+    analyzer = StrategyAnalyzer(strategy_id=strategy_id, benchmark_id=benchmark_id)
 
     analyzer.run()
