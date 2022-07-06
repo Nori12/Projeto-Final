@@ -46,7 +46,7 @@ def manage_ticker_models(model_type, ticker, input_features, output_feature, X_t
     best_model_indexes = []
     random_states = [2, 3, 4, 5, 6, 7, 8]
 
-    overweights = [6.0, 5.0, 4.0, 3.0, 2.0, 1.0, 0.75, 0.5, 0.25]
+    overweights = [0.33, 0.25]
     ow_random_states = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
     if models_params is None:
@@ -598,7 +598,7 @@ if __name__ == '__main__':
         'epochs': 3, 'overweight_min_class': [3.0, 2.0, 1.0, 0.75, 0.5, 0.33]},
 
         'RandomForestClassifier': {'n_estimators': 200, 'criterion': 'gini',
-        'max_depth': [2, 3, 4, 5, 6], 'min_samples_split': 12, 'min_samples_leaf': 6,
+        'max_depth': [3, 4, 5, 6], 'min_samples_split': 12, 'min_samples_leaf': 6,
         'min_weight_fraction_leaf': 0.0, 'max_features': [4, 3], 'max_leaf_nodes': None,
         'min_impurity_decrease': 0.0, 'bootstrap': True, 'oob_score': False,
         'warm_start': False, 'class_weight': 'balanced_subsample',
