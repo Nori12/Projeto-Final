@@ -47,7 +47,7 @@ def manage_ticker_models(model_type, ticker, input_features, output_feature, X_t
     random_states = [2, 3, 4, 5, 6, 7, 8]
 
     overweights = [0.33, 0.25]
-    ow_random_states = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    ow_random_states = [1, 2, 3, 4, 5, 6, 7]
 
     if models_params is None:
         models_params = {}
