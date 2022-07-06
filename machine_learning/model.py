@@ -279,6 +279,11 @@ class Model(PseudoModel):
 
         message += "\n\nDataset"
 
+        message += f"\n   {'Train test split'.ljust(dataset_ljust)}: {dataset_info['test_set_ratio']:.2f}"
+        message += f"\n   {'Start date'.ljust(dataset_ljust)}: \'{dataset_info['start_date']}\'"
+        message += f"\n   {'End date'.ljust(dataset_ljust)}: \'{dataset_info['end_date']}\'"
+        message += "\n"
+
         message += f"\n   {'Training set samples'.ljust(dataset_ljust)}: {len(y_train)} " \
             f"({100 * len(y_train) / (len(y_train)+len(y_test)):.2f}%)"
         message += f"\n   {'Test set samples'.ljust(dataset_ljust)}: {len(y_test)} " \
@@ -359,7 +364,8 @@ class Model(PseudoModel):
             message += models_result[idx_of_best][:10] + 'Avg/Std_Profit_index(test):' + f"{avg_over_std_of_bests[i]:4.0f} || " + models_result[idx_of_best][10:]
             if i == 0:
                 for overweight, avg_over_std in zip(best_overweights, avg_over_std_of_best_ow):
-                    message += f"\n      Avg/Std_Profit_index(test):{avg_over_std:4.0f} || Overweight:{overweight:5.2f}"
+                    if avg_over_std >= 1:
+                        message += f"\n      Avg/Std_Profit_index(test):{avg_over_std:4.0f} || Overweight:{overweight:5.2f}"
 
         return message
 

@@ -46,8 +46,8 @@ def manage_ticker_models(model_type, ticker, input_features, output_feature, X_t
     best_model_indexes = []
     random_states = [2, 3, 4, 5, 6, 7, 8]
 
-    overweights = [1.0, 0.95, 0.9, 0.85, 0.8, 0.75, 0.7, 0.65, 0.6, 0.55, 0.5, 0.45, 0.4, 0.35, 0.3, 0.25, 0.2, 0.15]
-    ow_random_states = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]
+    overweights = [6.0, 5.0, 4.0, 3.0, 2.0, 1.0, 0.75, 0.5, 0.25]
+    ow_random_states = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
     if models_params is None:
         models_params = {}
@@ -103,7 +103,7 @@ def manage_ticker_models(model_type, ticker, input_features, output_feature, X_t
 
         best_avg_indexes = list( np.mean(avg_profit_indexes, axis=1) )
         best_std_indexes = list( np.std(avg_profit_indexes, axis=1) )
-        best_avg_over_std_indexes = [avg/std for avg, std in zip(best_avg_indexes, best_std_indexes)]
+        best_avg_over_std_indexes = [avg/std if std > 1e-4 else 0.0 for avg, std in zip(best_avg_indexes, best_std_indexes)]
 
         sorted_list = sorted(best_avg_over_std_indexes, reverse=True)
         for i in range(min(len(best_model_indexes), best_models)):
@@ -131,7 +131,7 @@ def manage_ticker_models(model_type, ticker, input_features, output_feature, X_t
 
         best_ow_avg_indexes = list( np.mean(avg_ow_profit_indexes, axis=1) )
         best_ow_std_indexes = list( np.std(avg_ow_profit_indexes, axis=1) )
-        best_ow_avg_over_std_indexes = [avg/std for avg, std in zip(best_ow_avg_indexes, best_ow_std_indexes)]
+        best_ow_avg_over_std_indexes = [avg/std if std > 1e-4 else 0.0 for avg, std in zip(best_ow_avg_indexes, best_ow_std_indexes)]
 
         sorted_list_ow = sorted(best_ow_avg_over_std_indexes, reverse=True)
         best_overweights = [overweights[best_ow_avg_over_std_indexes.index(value)] for value in sorted_list_ow]
@@ -400,6 +400,9 @@ def load_dataset(ticker, min_date_filter, max_date_filter, datasets_dir, input_f
     datasets_info['training_set_end_date'] = training_df['day'].tail(1).squeeze()
     datasets_info['test_set_start_date'] = test_df['day'].head(1).squeeze()
     datasets_info['test_set_end_date'] = test_df['day'].tail(1).squeeze()
+    datasets_info['test_set_ratio'] = test_set_ratio
+    datasets_info['start_date'] = start_date
+    datasets_info['end_date'] = end_date
 
     # Drop filter-only columns
     training_df.drop(filter_only_columns, axis=1, inplace=True)
