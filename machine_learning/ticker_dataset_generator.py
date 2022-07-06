@@ -745,10 +745,11 @@ class TickerDatasetGenerator2:
 
                 if len(last_mid_prices) >= N_dot:
                     # LPF for prices derivative ( y[i] := α * x[i] + (1-α) * y[i-1] )
-                    new_price = self.lpf_alpha * ( (last_mid_prices[-1] - last_mid_prices[-2])/ last_mid_prices[-2] ) \
+                    y0 = self.lpf_alpha * ( (last_mid_prices[-1] - last_mid_prices[-2])\
+                        / ((last_mid_prices[-2] + last_mid_prices[-1])/2) ) \
                         + (1-self.lpf_alpha) * mid_prices_dot
 
-                    mid_prices_dot = new_price
+                    mid_prices_dot = y0
                 else:
                     mid_prices_dot = 0.0
 
@@ -773,7 +774,7 @@ class TickerDatasetGenerator2:
                         downtrend_inertia_counter = 0
                     else:
                         if downtrend_inertia_counter < downtrend_inertia:
-                            downtrend = 0
+                            downtrend = 1
                             downtrend_inertia_counter += 1
                         else:
                             downtrend = 0
