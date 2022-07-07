@@ -44,10 +44,10 @@ def manage_ticker_models(model_type, ticker, input_features, output_feature, X_t
     best_models_for_random_state = 14
     best_models = 14
     best_model_indexes = []
-    random_states = [2, 3, 4, 5, 6, 7, 8]
+    random_states = [2, 3, 4, 5, 6, 7, 8, 9, 10]
 
-    overweights = [0.33, 0.25]
-    ow_random_states = [1, 2, 3, 4, 5, 6, 7]
+    overweights = [0.25]
+    ow_random_states = [1]
 
     if models_params is None:
         models_params = {}
@@ -61,7 +61,7 @@ def manage_ticker_models(model_type, ticker, input_features, output_feature, X_t
             my_model = RandomForest(ticker=ticker, input_features=input_features,
                 output_feature=output_feature, X_train=X_train, y_train=y_train,
                 X_test=X_test, y_test=y_test, model_dir=models_dir, parameters=model_params,
-                model_tag=model_tag, overweight=1.0, random_state=1)
+                model_tag=model_tag, overweight=overweights[0], random_state=1)
 
             my_model.create_model()
 
@@ -95,7 +95,7 @@ def manage_ticker_models(model_type, ticker, input_features, output_feature, X_t
                     output_feature=output_feature, X_train=X_train, y_train=y_train,
                     X_test=X_test, y_test=y_test, model_dir=models_dir,
                     parameters=models_params[model_idx], model_tag=model_tag,
-                    overweight=1.0, random_state=rnd_st)
+                    overweight=overweights[0], random_state=rnd_st)
 
                 my_model.create_model()
                 profit_index, zero = my_model.get_profit_index(X_test, y_test)
@@ -599,7 +599,7 @@ if __name__ == '__main__':
 
         'RandomForestClassifier': {'n_estimators': 200, 'criterion': 'gini',
         'max_depth': [3, 4, 5, 6], 'min_samples_split': 12, 'min_samples_leaf': 6,
-        'min_weight_fraction_leaf': 0.0, 'max_features': [4, 3], 'max_leaf_nodes': None,
+        'min_weight_fraction_leaf': 0.0, 'max_features': [3, 4], 'max_leaf_nodes': None,
         'min_impurity_decrease': 0.0, 'bootstrap': True, 'oob_score': False,
         'warm_start': False, 'class_weight': 'balanced_subsample',
         'ccp_alpha': 0.0, 'max_samples': None},
