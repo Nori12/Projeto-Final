@@ -73,9 +73,9 @@ if __name__ == '__main__':
     parser.add_argument("-f", "--fixed-risk", type=float, default=0.03,
         help="Fixed risk value. Only used if 'risk-option' is set to 'fixed'. " \
         "Default is 0.03.")
-    parser.add_argument("-x", "--start-range-risk", type=float, default=0.002,
+    parser.add_argument("-x", "--start-range-risk", type=float, default=0.001,
         help="Start range risk value. Only used if 'risk-option' is set to 'range'. " \
-        "Default is 0.002.")
+        "Default is 0.001.")
     parser.add_argument("-y", "--step-range-risk", type=float, default=0.002,
         help="Step range risk value. Only used if 'risk-option' is set to 'range'. " \
         "Default is 0.002.")
