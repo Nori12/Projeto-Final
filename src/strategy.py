@@ -1953,6 +1953,8 @@ class MLDerivationStrategy(AdaptedAndreMoraesStrategy):
             last_volumes = {ticker: [] for ticker in self.tickers_and_dates}
             last_max_prices = {ticker: [] for ticker in self.tickers_and_dates}
             last_min_prices = {ticker: [] for ticker in self.tickers_and_dates}
+            last_open_prices = {ticker: [] for ticker in self.tickers_and_dates}
+            last_close_prices = {ticker: [] for ticker in self.tickers_and_dates}
             last_deltas = {ticker: [] for ticker in self.tickers_and_dates}
             days = {ticker: [] for ticker in self.tickers_and_dates}
             ref_spear = [i for i in range(max(N_pri, N_vol))]
@@ -2033,6 +2035,8 @@ class MLDerivationStrategy(AdaptedAndreMoraesStrategy):
                             last_mid_prices[ticker].append( (open+close)/2 )
                             last_max_prices[ticker].append( high )
                             last_min_prices[ticker].append( low )
+                            last_open_prices[ticker].append( open )
+                            last_close_prices[ticker].append( close )
                             last_deltas[ticker].append( high-low )
                             last_volumes[ticker].append( volume )
 
@@ -2246,6 +2250,8 @@ class MLDerivationStrategy(AdaptedAndreMoraesStrategy):
                             last_mid_prices[ticker].append( (open+close)/2 )
                             last_max_prices[ticker].append( high )
                             last_min_prices[ticker].append( low )
+                            last_open_prices[ticker].append( open )
+                            last_close_prices[ticker].append( close )
                             last_deltas[ticker].append( high-low )
                             last_volumes[ticker].append( volume )
                             days[ticker].append( day )
@@ -2258,10 +2264,36 @@ class MLDerivationStrategy(AdaptedAndreMoraesStrategy):
 
                 pd.DataFrame({'ticker': ticker,
                     'day': days[ticker][start_idx:],
-                    'uptrend': uptrend[ticker][start_idx:],
-                    'downtrend': downtrend[ticker][start_idx:],
+                    'last_mid_prices': last_mid_prices[ticker][start_idx:],
+                    'last_deltas': last_deltas[ticker][start_idx:],
+                    'last_volumes': last_volumes[ticker][start_idx:],
+                    'last_max_prices': last_max_prices[ticker][start_idx:],
+                    'last_min_prices': last_min_prices[ticker][start_idx:],
+                    'last_open_prices': last_open_prices[ticker][start_idx:],
+                    'last_close_prices': last_close_prices[ticker][start_idx:],
+
+                    'avg_volume': avg_volume[ticker][start_idx:],
+                    'std_volume': std_volume[ticker][start_idx:],
+                    'mid_prices_dot': mid_prices_dot[ticker][start_idx:],
+                    'mid_prices_dot_for_risk': mid_prices_dot_for_risk[ticker][start_idx:],
+                    'avg_price': avg_price[ticker][start_idx:],
+                    'std_price': std_price[ticker][start_idx:],
+                    'std_price_deltas': std_price_deltas[ticker][start_idx:],
+
+                    'volume_anomalies': volume_anomalies[ticker][start_idx:],
+                    'price_down_anomalies': price_down_anomalies[ticker][start_idx:],
                     'crisis': crisis[ticker][start_idx:],
+
+                    'downtrend': downtrend[ticker][start_idx:],
+
+                    'uptrend': uptrend[ticker][start_idx:],
+
+                    'fixed_min_risk': [round(risk, 4) for risk in fixed_min_risk[ticker][start_idx:]],
+                    'variable_min_risk': [round(risk, 4) for risk in variable_min_risk[ticker][start_idx:]],
                     'min_risk': [round(risk, 4) for risk in min_risk[ticker][start_idx:]],
+
+                    'avg_climbs': avg_climbs[ticker][start_idx:],
+                    'std_climbs': std_climbs[ticker][start_idx:],
                     'max_risk': max_risk[ticker][start_idx:]}).\
                     to_csv(self.tickers_info_path, mode='w' if first_write else 'a',
                     index=False, header=True if first_write else False)
