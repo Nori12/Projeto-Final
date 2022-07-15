@@ -1919,7 +1919,8 @@ class MLDerivationStrategy(AdaptedAndreMoraesStrategy):
 
     def _load_risks_and_trends_file(self):
 
-        columns = ['ticker', 'day', 'uptrend', 'downtrend', 'crisis', 'min_risk', 'max_risk']
+        columns = ['ticker', 'day', 'uptrend', 'downtrend', 'crisis', 'min_risk',
+            'max_risk', 'avg_climbs']
 
         if self.tickers_info_path.exists():
             self.ticker_day_risks = pd.read_csv(self.tickers_info_path, sep=',',
@@ -1956,6 +1957,8 @@ class MLDerivationStrategy(AdaptedAndreMoraesStrategy):
             last_open_prices = {ticker: [] for ticker in self.tickers_and_dates}
             last_close_prices = {ticker: [] for ticker in self.tickers_and_dates}
             last_deltas = {ticker: [] for ticker in self.tickers_and_dates}
+            last_max_peaks = {ticker: [] for ticker in self.tickers_and_dates}
+            last_min_peaks = {ticker: [] for ticker in self.tickers_and_dates}
             days = {ticker: [] for ticker in self.tickers_and_dates}
             ref_spear = [i for i in range(max(N_pri, N_vol))]
 
@@ -2133,7 +2136,7 @@ class MLDerivationStrategy(AdaptedAndreMoraesStrategy):
                                 window_size=peaks_window_size)
 
                             if peaks is not None and len(peaks) >= min_peaks_for_analysis \
-                                and len(avg_climbs) >= N_peak_window*0.75:
+                                and len(avg_climbs[ticker]) >= N_peak_window*0.75:
                                 climbs = []
                                 for idx in range(len(peaks)):
                                     if idx > 0:
@@ -2258,6 +2261,19 @@ class MLDerivationStrategy(AdaptedAndreMoraesStrategy):
                 except StopIteration:
                     break
 
+            for tck_idx, ticker in enumerate(self.tickers_and_dates):
+                last_max_peaks[ticker] = [False] * len(last_max_prices[ticker])
+                last_min_peaks[ticker] = [False] * len(last_min_prices[ticker])
+
+                peaks = find_candles_peaks(
+                    last_max_prices[ticker], last_min_prices[ticker], window_size=peaks_window_size)
+
+                for peak in peaks:
+                    if peak['type'] == 'min':
+                        last_min_peaks[ticker][peak['index']] = True
+                    else:
+                        last_max_peaks[ticker][peak['index']] = True
+
             first_write = True
             for idx, ticker in enumerate(self.tickers_and_dates):
                 start_idx = days[ticker].index(start_date)
@@ -2271,6 +2287,8 @@ class MLDerivationStrategy(AdaptedAndreMoraesStrategy):
                     'last_min_prices': last_min_prices[ticker][start_idx:],
                     'last_open_prices': last_open_prices[ticker][start_idx:],
                     'last_close_prices': last_close_prices[ticker][start_idx:],
+                    'last_max_peaks': last_max_peaks[ticker][start_idx:],
+                    'last_min_peaks': last_min_peaks[ticker][start_idx:],
 
                     'avg_volume': avg_volume[ticker][start_idx:],
                     'std_volume': std_volume[ticker][start_idx:],
@@ -2610,7 +2628,7 @@ class MLDerivationStrategy(AdaptedAndreMoraesStrategy):
 
         max_risk = self.ticker_day_risks.loc[
             (self.ticker_day_risks['ticker'] == ticker) & \
-            (self.ticker_day_risks['day'] == day.strftime('%Y-%m-%d')), ['max_risk']].squeeze()
+            (self.ticker_day_risks['day'] == day.strftime('%Y-%m-%d')), ['avg_climbs']].squeeze()
 
         if isinstance(min_risk, pd.Series) or isinstance(max_risk, pd.Series):
             return None
