@@ -2243,7 +2243,7 @@ class MLDerivationStrategy(AdaptedAndreMoraesStrategy):
 
                                     min_risk[ticker].append( y )
 
-                            if len(avg_climbs) < N_peak_window * 0.75:
+                            if len(avg_climbs[ticker]) < N_peak_window * 0.75:
                                 max_risk[ticker].append( 0.0 )
                             else:
                                 max_risk[ticker].append( round(
