@@ -174,7 +174,8 @@ CREATE TABLE strategy (
   enable_downtrend_halt BOOLEAN NOT NULL,
   enable_dynamic_rcc BOOLEAN NOT NULL,
   dynamic_rcc_reference REAL,
-  dynamic_rcc_k REAL
+  dynamic_rcc_k REAL,
+  operation_risk REAL
 );
 
 CREATE TABLE strategy_tickers (

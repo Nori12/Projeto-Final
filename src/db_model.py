@@ -586,7 +586,7 @@ class DBStrategyModel:
         stop_margin=None, ema_tolerance=None, gain_loss_ratio=None,
         enable_frequency_normalization=None, enable_profit_compensation=None,
         enable_crisis_halt=None, enable_downtrend_halt=None, enable_dynamic_rcc=None,
-        dynamic_rcc_reference=None, dynamic_rcc_k=None):
+        dynamic_rcc_reference=None, dynamic_rcc_k=None, operation_risk=None):
         try:
             connection = psycopg2.connect(f"dbname='{DB_NAME}' user={DB_USER} " \
                 f"host='{DB_HOST}' password={DB_PASS} port='{DB_PORT}'")
@@ -626,6 +626,7 @@ class DBStrategyModel:
         self._enable_dynamic_rcc = enable_dynamic_rcc
         self._dynamic_rcc_reference = dynamic_rcc_reference
         self._dynamic_rcc_k = dynamic_rcc_k
+        self._operation_risk = operation_risk
 
     @property
     def tickers(self):
@@ -742,6 +743,10 @@ class DBStrategyModel:
     @property
     def dynamic_rcc_k(self):
         return self._dynamic_rcc_k
+
+    @property
+    def operation_risk(self):
+        return self._operation_risk
 
 
     def __del__(self):
@@ -887,7 +892,7 @@ class DBStrategyModel:
             "min_days_after_failure_operation, stop_type, purchase_margin, stop_margin, " \
             "ema_tolerance, gain_loss_ratio, min_order_volume, enable_frequency_normalization, " \
             "enable_profit_compensation, enable_crisis_halt, enable_downtrend_halt, " \
-            "enable_dynamic_rcc, dynamic_rcc_reference, dynamic_rcc_k"
+            "enable_dynamic_rcc, dynamic_rcc_reference, dynamic_rcc_k, operation_risk"
 
         query += ")\nVALUES\n"
 
@@ -901,7 +906,8 @@ class DBStrategyModel:
             f"{self.gain_loss_ratio}, {self.min_order_volume}, " \
             f"{self.enable_frequency_normalization}, {self.enable_profit_compensation}, " \
             f"{self.enable_crisis_halt}, {self.enable_downtrend_halt}, " \
-            f"{self.enable_dynamic_rcc}, {self.dynamic_rcc_reference}, {self.dynamic_rcc_k}"
+            f"{self.enable_dynamic_rcc}, {self.dynamic_rcc_reference}, {self.dynamic_rcc_k}, " \
+            f"{self.operation_risk}"
 
         query += f")\nRETURNING id;"
 

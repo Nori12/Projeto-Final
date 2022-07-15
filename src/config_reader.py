@@ -471,6 +471,9 @@ class ConfigReader:
                 dynamic_rcc_k = self.read_parameter('dynamic_rcc_k',
                     strategy_batch, can_be_list=True, can_be_missed=True,
                     if_missed_default_value=3)
+                operation_risk = self.read_parameter('operation_risk',
+                    strategy_batch, can_be_list=True, can_be_missed=True,
+                    if_missed_default_value=0.5)
 
                 ConfigReader.add_param_to_strategies('name', name, strategies)
                 ConfigReader.add_param_to_strategies('alias', alias, strategies)
@@ -516,6 +519,8 @@ class ConfigReader:
                     dynamic_rcc_reference, strategies)
                 ConfigReader.add_param_to_strategies('dynamic_rcc_k',
                     dynamic_rcc_k, strategies)
+                ConfigReader.add_param_to_strategies('operation_risk',
+                    operation_risk, strategies)
                 ConfigReader.add_param_to_strategies('tickers_bag',
                     tickers_bag, strategies)
                 ConfigReader.add_param_to_strategies('tickers_number',
