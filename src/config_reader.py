@@ -544,10 +544,10 @@ class ConfigReader:
                         # sys.exit(c.NO_TICKER_FOR_STRATEGY_ERR)
                         raise Exception
 
-                ConfigReader.replace_text('alias', strategies)
-                ConfigReader.replace_text('comment', strategies)
+                # ConfigReader.replace_text('alias', strategies)
+                # ConfigReader.replace_text('comment', strategies)
 
-                ConfigReader.subtract_last_end_date(strategies)
+                # ConfigReader.subtract_last_end_date(strategies)
 
                 self.strategies.extend(strategies)
 

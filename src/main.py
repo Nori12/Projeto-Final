@@ -26,7 +26,7 @@ logger.setLevel(logging.DEBUG)
 accepted_strategies = ('Adapted Andre Moraes', 'ML Derivation', 'Baseline')
 pbar = None
 
-def update_tickers():
+def update_tickers_and_get_strategies():
     logger.info('Program started.')
 
     # Read Config File
@@ -117,7 +117,7 @@ if __name__ == '__main__':
         max_pools = args.pools
 
     # Update tickers if candles and features not present in database
-    strategies = update_tickers()
+    strategies = update_tickers_and_get_strategies()
 
     # Filter valid strategy names
     strategies = [strategy for strategy in strategies if strategy['name'] in accepted_strategies]
