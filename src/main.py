@@ -63,7 +63,7 @@ def update_tickers_and_get_strategies():
 def run_strategy(strategy, strategy_number, total_strategies, stdout_prints=False):
 
     try:
-        if strategy['name'] == 'ML Derivation':
+        if strategy['name'] == 'ML':
             ml_strategy = MLDerivationStrategy(
                 strategy['tickers'],
                 alias=strategy['alias'],

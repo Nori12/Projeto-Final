@@ -418,7 +418,7 @@ class ConfigReader:
                 risk_capital_coefficient = self.read_parameter('risk_capital_coefficient',
                     strategy_batch, can_be_list=True, if_missed_default_value=0.001)
                 tickers_bag = self.read_parameter('tickers_bag', strategy_batch,
-                    can_be_list=True, can_be_missed=True, if_missed_default_value="normal")
+                    can_be_list=True, can_be_missed=True, if_missed_default_value="listed_first")
                 tickers_number = self.read_parameter('tickers_number', strategy_batch,
                     can_be_list=True, can_be_missed=True, if_missed_default_value=0)
                 min_order_volume = self.read_parameter('min_order_volume', strategy_batch,
@@ -467,10 +467,10 @@ class ConfigReader:
                     if_missed_default_value=False)
                 dynamic_rcc_reference = self.read_parameter('dynamic_rcc_reference',
                     strategy_batch, can_be_list=True, can_be_missed=True,
-                    if_missed_default_value=0.8)
+                    if_missed_default_value=1.0)
                 dynamic_rcc_k = self.read_parameter('dynamic_rcc_k',
                     strategy_batch, can_be_list=True, can_be_missed=True,
-                    if_missed_default_value=3)
+                    if_missed_default_value=10)
                 operation_risk = self.read_parameter('operation_risk',
                     strategy_batch, can_be_list=True, can_be_missed=True,
                     if_missed_default_value=0.5)

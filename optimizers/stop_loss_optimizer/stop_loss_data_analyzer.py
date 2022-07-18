@@ -368,7 +368,7 @@ if __name__ == '__main__':
     sl_analyzer = StopLossDataAnalyzer(ticker='MGLU3')
     # sl_analyzer.show_all_graphs()
 
-    sl_analyzer.show_lowest_risk_graphs()
-    sl_analyzer.show_optimal_risk_graphs()
+    # sl_analyzer.show_lowest_risk_graphs()
+    # sl_analyzer.show_optimal_risk_graphs()
 
     sl_analyzer.show_risk_map()
