@@ -23,7 +23,7 @@ logger.addHandler(file_handler)
 file_handler.setLevel(logging.DEBUG)
 logger.setLevel(logging.DEBUG)
 
-accepted_strategies = ('Adapted Andre Moraes', 'ML Derivation', 'Baseline')
+accepted_strategies = ('ML')
 pbar = None
 
 def update_tickers_and_get_strategies():
