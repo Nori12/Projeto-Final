@@ -2537,7 +2537,7 @@ class MLDerivationStrategy(AdaptedAndreMoraesStrategy):
 
         # Normalization due to operation frequency
         if self.enable_frequency_normalization:
-            min_operations_for_freq_norm = 2 * len(self.tickers_and_dates)
+            min_operations_for_freq_norm = len(self.tickers_and_dates)
             ticker_op_count = tcks_priority[tck_idx].op_count
 
             if ticker_op_count > 0 and self.total_op_count >= min_operations_for_freq_norm:
@@ -2709,7 +2709,7 @@ class MLDerivationStrategy(AdaptedAndreMoraesStrategy):
 
     def _order_by_priority(self, tcks_priority, day):
 
-        if day.date() >= self.first_date:
+        if day is not None and day.date() >= self.first_date:
             # Method 1
             open_operation = 8
             # uptrend= 4
@@ -2760,7 +2760,7 @@ class MLDerivationStrategy(AdaptedAndreMoraesStrategy):
 
     def _update_global_stats(self, day):
 
-        if day.date() >= self.first_date:
+        if day is not None and day.date() >= self.first_date:
             self.capital_in_use = (self.max_capital - self.available_capital) / self.max_capital
 
             self.capital_in_use_last_values.append( self.capital_in_use )
@@ -2776,7 +2776,8 @@ class MLDerivationStrategy(AdaptedAndreMoraesStrategy):
                 # self.capital_in_use_dot = self.der_lpf_alpha * (self.capital_in_use_mavg - self.last_capital_in_use_mavg) \
                 #     + (1 - self.der_lpf_alpha) * (self.capital_in_use_dot)
 
-                self._update_dynamic_rcc()
+                if self.enable_dynamic_rcc:
+                    self._update_dynamic_rcc()
             else:
                 self.capital_in_use_mavg = self.capital_in_use
                 # self.capital_in_use_dot = 0.0
