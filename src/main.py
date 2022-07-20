@@ -92,7 +92,8 @@ def run_strategy(strategy, strategy_number, total_strategies, stdout_prints=Fals
                 enable_downtrend_halt=strategy['enable_downtrend_halt'],
                 enable_dynamic_rcc=strategy['enable_dynamic_rcc'],
                 dynamic_rcc_reference=strategy['dynamic_rcc_reference'],
-                dynamic_rcc_k=strategy['dynamic_rcc_k']
+                dynamic_rcc_k=strategy['dynamic_rcc_k'],
+                operation_risk=strategy['operation_risk']
             )
 
             ml_strategy.process_operations()
