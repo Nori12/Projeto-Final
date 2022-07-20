@@ -1,7 +1,4 @@
 {
-    "show_results": false,
-    "min_risk_features": 0.003,
-    "max_risk_features": 0.15,
     "strategies":[
         {
             "name": "ML",
@@ -9,10 +6,8 @@
             "comment": "",
             "capital": 100000,
             "risk_capital_coefficient": 0.0022,
-            "tickers_bag": "listed_first",
             "tickers_number": 0,
             "min_order_volume": 1,
-            "gain_loss_ratio": 3,
             "partial_sale" : false,
             "min_risk": 0.003,
             "max_risk": 0.15,
@@ -22,14 +17,14 @@
             "min_days_after_successful_operation": 0,
             "min_days_after_failure_operation": 0,
             "max_days_per_operation": 45,
-            "enable_frequency_normalization": true,
+            "enable_frequency_normalization": false,
             "enable_profit_compensation": true,
             "enable_crisis_halt": true,
             "enable_downtrend_halt": true,
             "enable_dynamic_rcc": true,
             "dynamic_rcc_reference": 1.00,
-            "dynamic_rcc_k": 10,
-            "operation_risk": 0.5,
+            "dynamic_rcc_k": 14.5,
+            "operation_risk": 0.29,
             "stock_targets": [
                 {
                     "name": "ABEV3",

@@ -424,7 +424,7 @@ class ConfigReader:
                 min_order_volume = self.read_parameter('min_order_volume', strategy_batch,
                     can_be_list=True, can_be_missed=True, if_missed_default_value=1)
                 gain_loss_ratio = self.read_parameter('gain_loss_ratio',
-                    strategy_batch, can_be_list=False, can_be_missed=False,
+                    strategy_batch, can_be_list=False, can_be_missed=True,
                     if_missed_default_value=3)
                 partial_sale = self.read_parameter('partial_sale', strategy_batch,
                     is_boolean=True, can_be_list=True, can_be_missed=True,
