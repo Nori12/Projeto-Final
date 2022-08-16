@@ -474,6 +474,15 @@ class ConfigReader:
                 operation_risk = self.read_parameter('operation_risk',
                     strategy_batch, can_be_list=True, can_be_missed=True,
                     if_missed_default_value=0.5)
+                profit_comp_start_std = self.read_parameter('profit_comp_start_std',
+                    strategy_batch, can_be_list=True, can_be_missed=True,
+                    if_missed_default_value=0.2)
+                profit_comp_total_end_std = self.read_parameter('profit_comp_total_end_std',
+                    strategy_batch, can_be_list=True, can_be_missed=True,
+                    if_missed_default_value=2.0)
+                profit_comp_gain_loss = self.read_parameter('profit_comp_gain_loss',
+                    strategy_batch, can_be_list=True, can_be_missed=True,
+                    if_missed_default_value=0.60)
 
                 ConfigReader.add_param_to_strategies('name', name, strategies)
                 ConfigReader.add_param_to_strategies('alias', alias, strategies)
@@ -521,6 +530,12 @@ class ConfigReader:
                     dynamic_rcc_k, strategies)
                 ConfigReader.add_param_to_strategies('operation_risk',
                     operation_risk, strategies)
+                ConfigReader.add_param_to_strategies('profit_comp_start_std',
+                    profit_comp_start_std, strategies)
+                ConfigReader.add_param_to_strategies('profit_comp_total_end_std',
+                    profit_comp_total_end_std, strategies)
+                ConfigReader.add_param_to_strategies('profit_comp_gain_loss',
+                    profit_comp_gain_loss, strategies)
                 ConfigReader.add_param_to_strategies('tickers_bag',
                     tickers_bag, strategies)
                 ConfigReader.add_param_to_strategies('tickers_number',
