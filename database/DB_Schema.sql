@@ -175,7 +175,10 @@ CREATE TABLE strategy (
   enable_dynamic_rcc BOOLEAN NOT NULL,
   dynamic_rcc_reference REAL,
   dynamic_rcc_k REAL,
-  operation_risk REAL
+  operation_risk REAL,
+  profit_comp_start_std REAL,
+  profit_comp_end_std REAL,
+  profit_comp_gain_loss REAL
 );
 
 CREATE TABLE strategy_tickers (

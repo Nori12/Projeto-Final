@@ -586,7 +586,8 @@ class DBStrategyModel:
         stop_margin=None, ema_tolerance=None, gain_loss_ratio=None,
         enable_frequency_normalization=None, enable_profit_compensation=None,
         enable_crisis_halt=None, enable_downtrend_halt=None, enable_dynamic_rcc=None,
-        dynamic_rcc_reference=None, dynamic_rcc_k=None, operation_risk=None):
+        dynamic_rcc_reference=None, dynamic_rcc_k=None, operation_risk=None,
+        profit_comp_start_std=None, profit_comp_end_std=None, profit_comp_gain_loss=None):
         try:
             connection = psycopg2.connect(f"dbname='{DB_NAME}' user={DB_USER} " \
                 f"host='{DB_HOST}' password={DB_PASS} port='{DB_PORT}'")
@@ -627,6 +628,9 @@ class DBStrategyModel:
         self._dynamic_rcc_reference = dynamic_rcc_reference
         self._dynamic_rcc_k = dynamic_rcc_k
         self._operation_risk = operation_risk
+        self._profit_comp_start_std = profit_comp_start_std
+        self._profit_comp_end_std = profit_comp_end_std
+        self._profit_comp_gain_loss = profit_comp_gain_loss
 
     @property
     def tickers(self):
@@ -747,6 +751,18 @@ class DBStrategyModel:
     @property
     def operation_risk(self):
         return self._operation_risk
+
+    @property
+    def profit_comp_start_std(self):
+        return self._profit_comp_start_std
+
+    @property
+    def profit_comp_end_std(self):
+        return self._profit_comp_end_std
+
+    @property
+    def profit_comp_gain_loss(self):
+        return self._profit_comp_gain_loss
 
 
     def __del__(self):
@@ -892,7 +908,8 @@ class DBStrategyModel:
             "min_days_after_failure_operation, stop_type, purchase_margin, stop_margin, " \
             "ema_tolerance, gain_loss_ratio, min_order_volume, enable_frequency_normalization, " \
             "enable_profit_compensation, enable_crisis_halt, enable_downtrend_halt, " \
-            "enable_dynamic_rcc, dynamic_rcc_reference, dynamic_rcc_k, operation_risk"
+            "enable_dynamic_rcc, dynamic_rcc_reference, dynamic_rcc_k, operation_risk, " \
+            "profit_comp_start_std, profit_comp_end_std, profit_comp_gain_loss"
 
         query += ")\nVALUES\n"
 
@@ -907,7 +924,8 @@ class DBStrategyModel:
             f"{self.enable_frequency_normalization}, {self.enable_profit_compensation}, " \
             f"{self.enable_crisis_halt}, {self.enable_downtrend_halt}, " \
             f"{self.enable_dynamic_rcc}, {self.dynamic_rcc_reference}, {self.dynamic_rcc_k}, " \
-            f"{self.operation_risk}"
+            f"{self.operation_risk}, {self.profit_comp_start_std}, {self.profit_comp_end_std}, " \
+            f"{self.profit_comp_gain_loss}"
 
         query += f")\nRETURNING id;"
 

@@ -233,7 +233,7 @@ class AdaptedAndreMoraesStrategy(PseudoStrategy):
         enable_profit_compensation=False, enable_crisis_halt=False,
         enable_downtrend_halt=False, enable_dynamic_rcc=False, dynamic_rcc_reference=0.80,
         dynamic_rcc_k=3, operation_risk=0.5, profit_comp_start_std=0.2,
-        profit_comp_total_end_std=2.0, profit_comp_gain_loss=0.6):
+        profit_comp_end_std=2.0, profit_comp_gain_loss=0.6):
 
         if risk_capital_product < 1e-6 or risk_capital_product > 1.0:
             logger.error(f"Parameter \'risk_reference\' must be in the interval [1e-6, 1].")
@@ -286,7 +286,7 @@ class AdaptedAndreMoraesStrategy(PseudoStrategy):
         self._operation_risk = operation_risk
 
         self._profit_comp_start_std = profit_comp_start_std
-        self._profit_comp_total_end_std = profit_comp_total_end_std
+        self._profit_comp_end_std = profit_comp_end_std
         self._profit_comp_gain_loss = profit_comp_gain_loss
 
         self._available_capital = total_capital
@@ -324,7 +324,10 @@ class AdaptedAndreMoraesStrategy(PseudoStrategy):
             enable_downtrend_halt=self._enable_downtrend_halt,
             enable_dynamic_rcc=self._enable_dynamic_rcc,
             dynamic_rcc_reference=self._dynamic_rcc_reference,
-            dynamic_rcc_k=self._dynamic_rcc_k, operation_risk=self._operation_risk)
+            dynamic_rcc_k=self._dynamic_rcc_k, operation_risk=self._operation_risk,
+            profit_comp_start_std=self._profit_comp_start_std,
+            profit_comp_end_std=self._profit_comp_end_std,
+            profit_comp_gain_loss=self._profit_comp_gain_loss)
 
         self._db_generic_model = DBGenericModel()
 
@@ -567,8 +570,8 @@ class AdaptedAndreMoraesStrategy(PseudoStrategy):
         return self._profit_comp_start_std
 
     @property
-    def profit_comp_total_end_std(self):
-        return self._profit_comp_total_end_std
+    def profit_comp_end_std(self):
+        return self._profit_comp_end_std
 
     @property
     def profit_comp_gain_loss(self):
@@ -1874,7 +1877,7 @@ class MLDerivationStrategy(AdaptedAndreMoraesStrategy):
         enable_profit_compensation=False, enable_crisis_halt=False,
         enable_downtrend_halt=False, enable_dynamic_rcc=False,
         dynamic_rcc_reference=0.80, dynamic_rcc_k=3, operation_risk=0.5,
-        profit_comp_start_std=0.2, profit_comp_total_end_std=2.0, profit_comp_gain_loss=0.6):
+        profit_comp_start_std=0.2, profit_comp_end_std=2.0, profit_comp_gain_loss=0.6):
 
         super().__init__(tickers, alias, comment, risk_capital_product, total_capital,
             min_order_volume, partial_sale, ema_tolerance, min_risk, max_risk,
@@ -1884,7 +1887,7 @@ class MLDerivationStrategy(AdaptedAndreMoraesStrategy):
             stdout_prints, enable_frequency_normalization, enable_profit_compensation,
             enable_crisis_halt, enable_downtrend_halt, enable_dynamic_rcc,
             dynamic_rcc_reference, dynamic_rcc_k, operation_risk, profit_comp_start_std,
-            profit_comp_total_end_std, profit_comp_gain_loss)
+            profit_comp_end_std, profit_comp_gain_loss)
 
         self._name = "ML Derivation"
         self._db_strategy_model.name = self._name
@@ -2608,7 +2611,7 @@ class MLDerivationStrategy(AdaptedAndreMoraesStrategy):
     def _calc_profit_compensation(self, target_profit, profit_mean, profit_std):
 
         start_std = self.profit_comp_start_std
-        end_std = self.profit_comp_total_end_std
+        end_std = self.profit_comp_end_std
         max_bonus = self.profit_comp_gain_loss
 
         # multiplier = 1.0

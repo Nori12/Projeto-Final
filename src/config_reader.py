@@ -477,7 +477,7 @@ class ConfigReader:
                 profit_comp_start_std = self.read_parameter('profit_comp_start_std',
                     strategy_batch, can_be_list=True, can_be_missed=True,
                     if_missed_default_value=0.2)
-                profit_comp_total_end_std = self.read_parameter('profit_comp_total_end_std',
+                profit_comp_end_std = self.read_parameter('profit_comp_end_std',
                     strategy_batch, can_be_list=True, can_be_missed=True,
                     if_missed_default_value=2.0)
                 profit_comp_gain_loss = self.read_parameter('profit_comp_gain_loss',
@@ -532,8 +532,8 @@ class ConfigReader:
                     operation_risk, strategies)
                 ConfigReader.add_param_to_strategies('profit_comp_start_std',
                     profit_comp_start_std, strategies)
-                ConfigReader.add_param_to_strategies('profit_comp_total_end_std',
-                    profit_comp_total_end_std, strategies)
+                ConfigReader.add_param_to_strategies('profit_comp_end_std',
+                    profit_comp_end_std, strategies)
                 ConfigReader.add_param_to_strategies('profit_comp_gain_loss',
                     profit_comp_gain_loss, strategies)
                 ConfigReader.add_param_to_strategies('tickers_bag',
