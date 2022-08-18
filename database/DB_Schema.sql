@@ -155,7 +155,7 @@ CREATE TABLE strategy (
   alias VARCHAR(100),
   comment VARCHAR(100),
   total_capital DECIMAL(11, 2) NOT NULL,
-  risk_capital_product DECIMAL(5, 4) NOT NULL,
+  risk_capital_product REAL NOT NULL,
   min_risk REAL NOT NULL,
   max_risk REAL NOT NULL,
   max_days_per_operation SMALLINT,
