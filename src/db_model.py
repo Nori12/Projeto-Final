@@ -1121,7 +1121,7 @@ class DBStrategyAnalyzerModel:
             f"min_days_after_failure_operation, gain_loss_ratio, max_days_per_operation, " \
             f"enable_frequency_normalization, enable_profit_compensation, enable_crisis_halt, " \
             f"enable_downtrend_halt, enable_dynamic_rcc, dynamic_rcc_reference, dynamic_rcc_k, " \
-            f"operation_risk\n"
+            f"operation_risk, profit_comp_start_std, profit_comp_end_std, profit_comp_gain_loss\n"
         query += f"FROM strategy\n"
 
         if strategy_id != None:

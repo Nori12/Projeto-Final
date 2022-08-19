@@ -109,7 +109,8 @@ class StrategyAnalyzer:
             'Min Days after Failure Operation (days)', 'Maximum Days per Operation (days)',
             'Enable Frequency Normalization', 'Enable Profit Compensation', 'Enable Crisis Halt',
             'Enable Downtrend Halt', 'Enable Dynamic RCC', 'Dynamic RCC Reference (%)',
-            'Dynamic RCC K', 'Operation Risk'
+            'Dynamic RCC K', 'Operation Risk', 'Profit Compensation Std Dev Range',
+            'Profit Compensation Gain/Loss'
         ]
 
         strategy_data = [strategy_raw['alias'][0], strategy_raw['number_or_tickers'][0],
@@ -128,7 +129,10 @@ class StrategyAnalyzer:
             str(strategy_raw['enable_downtrend_halt'][0]).title(),
             str(strategy_raw['enable_dynamic_rcc'][0]).title(),
             strategy_raw['dynamic_rcc_reference'][0],
-            strategy_raw['dynamic_rcc_k'][0], strategy_raw['operation_risk'][0]
+            strategy_raw['dynamic_rcc_k'][0], strategy_raw['operation_risk'][0],
+            str('[' + str(strategy_raw['profit_comp_start_std'][0]) + ', ' + \
+                str(strategy_raw['profit_comp_end_std'][0])) + ']',
+            strategy_raw['profit_comp_gain_loss'][0]
         ]
 
         self._strategy = pd.DataFrame(data={'parameter': strategy_parameters})
