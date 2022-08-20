@@ -2,10 +2,10 @@
     "strategies":[
         {
             "name": "ML",
-            "alias": "2019-1 to 2021_4. All tickers.",
+            "alias": "2019-1 to 2021_4. All tickers. Profit compensation analysis.",
             "comment": "",
             "capital": 100000,
-            "risk_capital_coefficient": 0.0022,
+            "risk_capital_coefficient": 0.000025,
             "tickers_number": 0,
             "min_order_volume": 1,
             "partial_sale" : false,
@@ -21,10 +21,13 @@
             "enable_profit_compensation": false,
             "enable_crisis_halt": false,
             "enable_downtrend_halt": false,
-            "enable_dynamic_rcc": false,
+            "enable_dynamic_rcc": true,
             "dynamic_rcc_reference": 1.00,
-            "dynamic_rcc_k": 14.5,
+            "dynamic_rcc_k": 3000,
             "operation_risk": 0.29,
+            "profit_comp_start_std": 0.2,
+            "profit_comp_end_std": 2.0,
+            "profit_comp_gain_loss": 0.60,
             "stock_targets": [
                 {
                     "name": "ABEV3",
