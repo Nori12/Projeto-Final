@@ -936,25 +936,21 @@ class AdaptedAndreMoraesStrategy(PseudoStrategy):
         if target.std() <= 1e-5:
             return 0.0
 
-        # mean = target.mean() - (rf.mean() - 1)
-        mean_year = ((1 + target.mean() - (rf.mean() - 1)) ** 252) - 1
-        # sigma = target.std()
-        sigma_year = target.std() * math.sqrt(252)
+        sharpe_day = (target.mean() - (rf.mean() - 1)) / (target.std() - rf.std())
+        sharpe_year = sharpe_day * (252 ** 0.5)
 
-        return round(mean_year / sigma_year, precision)
+        return round(sharpe_year, precision)
 
     @staticmethod
     def sortino_ratio(target, rf, precision=4):
         if target.std() <= 1e-5:
             return 0.0
 
-        # mean = target.mean() - (rf.mean() - 1)
-        mean_year = ((1 + target.mean() - (rf.mean() - 1)) ** 252) - 1
+        sortino_day_numerator = target.mean() - (rf.mean() - 1)
+        sortino_day_denominator = target[target < target.mean()].std() - rf[rf < rf.mean()].std()
+        sortino_year = (sortino_day_numerator / sortino_day_denominator) * (252 ** 0.5)
 
-        # sigma_neg = target[target < target.mean()].std()
-        sigma_neg_year = target[target < target.mean()].std() * math.sqrt(252)
-
-        return round(mean_year / sigma_neg_year, precision)
+        return round(sortino_year, precision)
 
     @staticmethod
     def get_correlation(serie_1, serie_2, method='pearson', precision=4):
