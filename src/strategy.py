@@ -235,7 +235,7 @@ class AdaptedAndreMoraesStrategy(PseudoStrategy):
         dynamic_rcc_k=3, operation_risk=0.5, profit_comp_start_std=0.2,
         profit_comp_end_std=2.0, profit_comp_gain_loss=0.6):
 
-        if risk_capital_product < 1e-6 or risk_capital_product > 1.0:
+        if risk_capital_product < 1e-9 or risk_capital_product > 1.0:
             logger.error(f"Parameter \'risk_reference\' must be in the interval [1e-6, 1].")
             # sys.exit(c.INVALID_ARGUMENT_ERR)
             raise Exception
@@ -936,6 +936,9 @@ class AdaptedAndreMoraesStrategy(PseudoStrategy):
         if target.std() <= 1e-5:
             return 0.0
 
+        # mean_year = ((1 + target.mean() - (rf.mean() - 1)) ** 252) - 1
+        # sigma_year = target.std() * math.sqrt(252)
+
         sharpe_day = (target.mean() - (rf.mean() - 1)) / (target.std() - rf.std())
         sharpe_year = sharpe_day * (252 ** 0.5)
 
@@ -945,6 +948,9 @@ class AdaptedAndreMoraesStrategy(PseudoStrategy):
     def sortino_ratio(target, rf, precision=4):
         if target.std() <= 1e-5:
             return 0.0
+
+        # mean_year = ((1 + target.mean() - (rf.mean() - 1)) ** 252) - 1
+        # sigma_neg_year = target[target < target.mean()].std() * math.sqrt(252)
 
         sortino_day_numerator = target.mean() - (rf.mean() - 1)
         sortino_day_denominator = target[target < target.mean()].std() - rf[rf < rf.mean()].std()
