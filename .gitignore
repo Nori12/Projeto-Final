@@ -6,6 +6,7 @@ workspace/
 database/queries.sql
 database/delete_strategy.sql
 database/useful_queries.sql
+database/insert_columns.sql
 src/tempCodeRunnerFile.py
 tempCodeRunnerFile.python
 src/__pycache__/
